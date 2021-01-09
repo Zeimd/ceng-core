@@ -9,7 +9,7 @@
 #ifndef CENG_PLATFORM_H
 #define CENG_PLATFORM_H
 
-#include "liblog.h"
+#include "lib/liblog.h"
 
 #include "datatypes/cpu-info.h"
 
