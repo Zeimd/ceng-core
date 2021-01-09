@@ -1,0 +1,448 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\deps">
+      <UniqueIdentifier>{8555e9db-400e-4203-a185-6aeb409fa7ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ceng">
+      <UniqueIdentifier>{db6260e1-379c-441e-9f12-8b54e3d2eb74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ceng\datatypes">
+      <UniqueIdentifier>{b3f7c08e-0287-4d84-bd9b-088d00e77fe0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ceng\datatypes\platform">
+      <UniqueIdentifier>{a77cc44c-1ee4-47aa-a53f-d67e7d1fe674}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ceng\datatypes\strings">
+      <UniqueIdentifier>{0dac0abf-3be6-44dc-badd-c3ab06df635e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ceng\enums">
+      <UniqueIdentifier>{013ee42e-d618-4042-a1e6-e5bb230e9075}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ceng\interfaces">
+      <UniqueIdentifier>{e1235cb3-2b7a-4ad4-a7ae-7218299d00ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ceng\lib">
+      <UniqueIdentifier>{f1f1aedd-0fbf-4a83-b730-050382da77d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ceng\math">
+      <UniqueIdentifier>{f01509ee-9f3d-4bf4-911f-80e3bd7b0c35}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\inc\ceng.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\deps\MurmurHash3.h">
+      <Filter>Header Files\deps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes.h">
+      <Filter>Header Files\ceng</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\platform.h">
+      <Filter>Header Files\ceng</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\abstract-data.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\aligned-buffer.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\array-atomic.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\base-ptr.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\basic-types.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\blend-state-desc.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\boolean.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\bufferdata-2d.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\ce-string.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\color-format.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\condition-variable.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\cpu-info.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\critical-section.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\deleted-shared-ptr.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\fixedpoint32.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\float16.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\future.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\graphics-adapter-desc.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\keyboard.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\leaf-vector.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\local-ptr.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\managed-ptr.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\multisample-desc.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\mutex.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\promise.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\rectangle.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\release-deleter.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\render-target-view-desc.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\return-val.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\ring-buffer.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\sampler-state-desc.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\shader-res-array.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\shader-res-array-tex1d.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\shader-res-array-tex2d.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\shader-res-array-tex2d-multi.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\shader-res-buffer.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\shader-res-cubemap.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\shader-resource-view-desc.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\shader-res-tex1d.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\shader-res-tex2d.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\shader-res-tex2d-multi.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\shader-res-tex3d.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\sliding-window.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\string-manipulator.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\sub-resource-data.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\swap-chain-desc.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\system-info.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\temp-ptr.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\tex2d-desc.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\tex2d-desc-gl.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\thread.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\window.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\platform\vstudio-win32.h">
+      <Filter>Header Files\ceng\datatypes\platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\strings\buffer-ref.h">
+      <Filter>Header Files\ceng\datatypes\strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\strings\character.h">
+      <Filter>Header Files\ceng\datatypes\strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\strings\character-ref.h">
+      <Filter>Header Files\ceng\datatypes\strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\strings\iterator.h">
+      <Filter>Header Files\ceng\datatypes\strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\enums\buffer-binding.h">
+      <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\enums\buffer-cpu-access.h">
+      <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\enums\buffer-options.h">
+      <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\enums\buffer-type.h">
+      <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\enums\buffer-usage.h">
+      <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\enums\cpu-core-type.h">
+      <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\enums\cpu-feature-info.h">
+      <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\enums\cubemap-face.h">
+      <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\enums\culling-mode.h">
+      <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\enums\device-options.h">
+      <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\enums\graphics-adapter-state.h">
+      <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\enums\image-formats.h">
+      <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\enums\keyboard-key.h">
+      <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\enums\mode-scaling.h">
+      <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\enums\multisample-type.h">
+      <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\enums\present-options.h">
+      <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\enums\primitive-type.h">
+      <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\enums\renderer-type.h">
+      <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\enums\resource-type.h">
+      <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\enums\resource-usage.h">
+      <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\enums\scanline-order.h">
+      <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\enums\shader-datatype.h">
+      <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\enums\shader-semantic.h">
+      <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\enums\stencil-action.h">
+      <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\enums\swap-chain-usage.h">
+      <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\enums\swap-effect.h">
+      <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\enums\swap-options.h">
+      <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\enums\system-architecture.h">
+      <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\enums\test-type.h">
+      <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\enums\texture-address-mode.h">
+      <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\enums\texture-filter.h">
+      <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\enums\thread-priority.h">
+      <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\enums\window-options.h">
+      <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\enums\window-status.h">
+      <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\enums\vtx-datatype.h">
+      <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\allocator.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\base-interface.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\blend-state.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\cubemap.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\depth-stencil-desc.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\depth-stencil-state.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\display-mode.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\dynamic-library.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\graphics-2d.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\graphics-adapter.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\graphics-system.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\image-buffer.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\index-buffer.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\mouse-device.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\pixel-shader.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\rasterizer-state.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\render-context.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\render-device.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\render-enums.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\render-resource.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\render-target.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\render-target-view.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\rtarget-view.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\sampler-state.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\shader-const.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\shader-program.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\shader-resource-view.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\swap-chain.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\texture-2d.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\thread-task.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\vertex-buffer.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\vertex-decl.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\vertex-format.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\vertex-shader.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\math\ce-matrix.h">
+      <Filter>Header Files\ceng\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\math\ce-quaternion.h">
+      <Filter>Header Files\ceng\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\math\ce-vector.h">
+      <Filter>Header Files\ceng\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\lib\liblog.h">
+      <Filter>Header Files\ceng\lib</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
