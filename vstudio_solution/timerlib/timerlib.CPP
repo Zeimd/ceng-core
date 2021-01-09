@@ -1,7 +1,7 @@
 
 #include <windows.h>
 
-#include "timerlib.h"
+#include <ceng/lib/timerlib.h>
 
 double Timer()
 {
