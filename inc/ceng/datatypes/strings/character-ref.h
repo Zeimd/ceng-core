@@ -42,11 +42,13 @@ namespace Ceng
 
 		const Ceng::INT32 Bytes() const;
 
-		operator const CHAR32() const;
+		explicit operator const CHAR32() const;
+
+		explicit operator const char32_t() const;
 
 		const Ceng::INT32 ToChar(char *output) const;
 
-		const Ceng::INT32 ToWideChar(WCHAR_TYPE *output) const;
+		const Ceng::INT32 ToWideChar(wchar_t *output) const;
 
 		const Ceng::INT32 ToUTF16(char16_t *output) const;
 
@@ -112,6 +114,17 @@ namespace Ceng
 	}
 
 	template<class CHARACTER_TYPE, class DATA_ELEMENT, class BUFFER_REF>
+	CharacterRef<CHARACTER_TYPE, DATA_ELEMENT, BUFFER_REF>::operator const char32_t() const
+	{
+		if (stringBuffer == nullptr)
+		{
+			return '\0';
+		}
+
+		return (char32_t)typename CHARACTER_TYPE::ToUTF32(stringBuffer.GetPointer(rawPosition));
+	}
+
+	template<class CHARACTER_TYPE, class DATA_ELEMENT, class BUFFER_REF>
 	const bool CharacterRef<CHARACTER_TYPE, DATA_ELEMENT, BUFFER_REF>::operator == (const Ceng::INT8 ascii) const
 	{
 		CHAR32 value = CHAR32(*this);
@@ -132,7 +145,7 @@ namespace Ceng
 	}
 
 	template<class CHARACTER_TYPE,class DATA_ELEMENT,class BUFFER_REF>
-	const Ceng::INT32 CharacterRef<CHARACTER_TYPE,DATA_ELEMENT,BUFFER_REF>::ToWideChar(WCHAR_TYPE *output) const
+	const Ceng::INT32 CharacterRef<CHARACTER_TYPE,DATA_ELEMENT,BUFFER_REF>::ToWideChar(wchar_t *output) const
 	{
 		return typename CHARACTER_TYPE::ToWideChar(stringBuffer.GetPointer(rawPosition),output);
 	}
@@ -208,7 +221,7 @@ namespace std
 	template<class CHARACTER_TYPE,class DATA_ELEMENT,class BUFFER_REF>
 	wostream& operator << (wostream &stream,const Ceng::CharacterRef<CHARACTER_TYPE,DATA_ELEMENT,BUFFER_REF> &source)
 	{
-		Ceng::WCHAR_TYPE encoding[2];
+		wchar_t encoding[2];
 		Ceng::INT32 bytes=0;
 		
 		bytes = source.ToWideChar(encoding);

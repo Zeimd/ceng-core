@@ -33,18 +33,18 @@ namespace Ceng
 		typedef CHARACTER_TYPE CHARACTER_TYPE;
 
 		typedef typename CHARACTER_TYPE::DATA_ELEMENT DATA_ELEMENT;
+		typedef typename CHARACTER_TYPE::CONST_DATA_ELEMENT CONST_DATA_ELEMENT;
 
 		/**
 		 * Iterator for string objects.
 		 */
 		typedef VaryingIterator<CHARACTER_TYPE,DATA_ELEMENT> ITERATOR_BASE_TYPE;
 
-		typedef VaryingIterator<CHARACTER_TYPE,const DATA_ELEMENT> CONST_ITERATOR_BASE_TYPE;
+		typedef VaryingIterator<CHARACTER_TYPE, CONST_DATA_ELEMENT> CONST_ITERATOR_BASE_TYPE;
 
-		/**
-		 * Iterator for constant string literals. IE: const char *source.
-		 */
-		typedef VaryingIterator<CHARACTER_TYPE,DATA_ELEMENT> LITERAL_ITERATOR_BASE_TYPE;
+		typedef VaryingIterator<CHARACTER_TYPE, DATA_ELEMENT> LITERAL_ITERATOR_BASE_TYPE;
+
+		typedef VaryingIterator<CHARACTER_TYPE, CONST_DATA_ELEMENT> CONST_LITERAL_ITERATOR_BASE_TYPE;
 	};
 
 	template<>
@@ -55,18 +55,21 @@ namespace Ceng
 		typedef CharacterUtf32 CHARACTER_TYPE;
 
 		typedef CHARACTER_TYPE::DATA_ELEMENT DATA_ELEMENT;
+		typedef typename CHARACTER_TYPE::CONST_DATA_ELEMENT CONST_DATA_ELEMENT;
 
 		/**
 		 * Iterator for string objects.
 		 */
 		typedef FixedLengthIterator<CHARACTER_TYPE,DATA_ELEMENT> ITERATOR_BASE_TYPE;
 
-		typedef FixedLengthIterator<CHARACTER_TYPE,const DATA_ELEMENT> CONST_ITERATOR_BASE_TYPE;
+		typedef FixedLengthIterator<CHARACTER_TYPE, CONST_DATA_ELEMENT> CONST_ITERATOR_BASE_TYPE;
 
 		/**
 		 * Iterator for constant string literals. IE: const char *source.
 		 */
-		typedef VaryingIterator<CHARACTER_TYPE,DATA_ELEMENT> LITERAL_ITERATOR_BASE_TYPE;
+		typedef VaryingIterator<CHARACTER_TYPE, CONST_DATA_ELEMENT> CONST_LITERAL_ITERATOR_BASE_TYPE;
+
+		typedef VaryingIterator<CHARACTER_TYPE, DATA_ELEMENT> LITERAL_ITERATOR_BASE_TYPE;
 	};
 
 	/**
@@ -82,18 +85,19 @@ namespace Ceng
 		typedef typename STRING_CONFIG::CHARACTER_TYPE CHARACTER_TYPE;
 
 		typedef typename CHARACTER_TYPE::DATA_ELEMENT DATA_ELEMENT;
+		typedef typename CHARACTER_TYPE::CONST_DATA_ELEMENT CONST_DATA_ELEMENT;
 
 		typedef typename STRING_CONFIG::ITERATOR_BASE_TYPE ITERATOR_BASE_TYPE;
 		typedef typename STRING_CONFIG::CONST_ITERATOR_BASE_TYPE CONST_ITERATOR_BASE_TYPE;
 		typedef typename STRING_CONFIG::LITERAL_ITERATOR_BASE_TYPE LITERAL_ITERATOR_BASE_TYPE;
 
 		typedef CharacterRef<CHARACTER_TYPE,DATA_ELEMENT,VectorRef<DATA_ELEMENT>> REF_TYPE;
-		typedef CharacterRef<CHARACTER_TYPE,const DATA_ELEMENT,ConstVectorRef<DATA_ELEMENT>> CONST_REF_TYPE;
+		typedef CharacterRef<CHARACTER_TYPE, CONST_DATA_ELEMENT,ConstVectorRef<DATA_ELEMENT>> CONST_REF_TYPE;
 		
 		typedef StringIterator<CHARACTER_TYPE,DATA_ELEMENT,VectorRef<DATA_ELEMENT>,
 									ITERATOR_BASE_TYPE> ITERATOR_TYPE;
 		
-		typedef StringIterator<CHARACTER_TYPE,const DATA_ELEMENT,ConstVectorRef<DATA_ELEMENT>,
+		typedef StringIterator<CHARACTER_TYPE, CONST_DATA_ELEMENT,ConstVectorRef<DATA_ELEMENT>,
 									CONST_ITERATOR_BASE_TYPE> CONST_ITERATOR_TYPE;		
 
 		typedef ReverseIterator<ITERATOR_TYPE> REVERSE_ITERATOR_TYPE;
@@ -101,7 +105,7 @@ namespace Ceng
 
 	protected:
 
-		typedef StringIterator<CHARACTER_TYPE,const DATA_ELEMENT,PointerRef<const DATA_ELEMENT>,
+		typedef StringIterator<CHARACTER_TYPE, CONST_DATA_ELEMENT,PointerRef<CONST_DATA_ELEMENT>,
 									LITERAL_ITERATOR_BASE_TYPE> LITERAL_ITERATOR_TYPE;
 
 		typedef typename StringConfig<CharacterUtf8> CONFIG_UTF8;
@@ -109,17 +113,28 @@ namespace Ceng
 		typedef typename StringConfig<CharacterUtf32> CONFIG_UTF32;
 
 		typedef StringIterator<CharacterUtf8,const Ceng::UINT8,PointerRef<const Ceng::UINT8>,
-									typename CONFIG_UTF8::LITERAL_ITERATOR_BASE_TYPE> LITERAL_ITERATOR_UTF8;
+									typename CONFIG_UTF8::CONST_LITERAL_ITERATOR_BASE_TYPE> LITERAL_ITERATOR_UTF8;
 
 		typedef StringIterator<CharacterUtf16,const Ceng::UINT16,PointerRef<const Ceng::UINT16>,
-									typename CONFIG_UTF16::LITERAL_ITERATOR_BASE_TYPE> LITERAL_ITERATOR_UTF16;
+									typename CONFIG_UTF16::CONST_LITERAL_ITERATOR_BASE_TYPE> LITERAL_ITERATOR_UTF16;
 
 		typedef StringIterator<CharacterUtf32,const Ceng::UINT32,PointerRef<const Ceng::UINT32>,
+									typename CONFIG_UTF32::CONST_LITERAL_ITERATOR_BASE_TYPE> LITERAL_ITERATOR_UTF32;
+
+		/*
+		typedef StringIterator<CharacterUtf8, Ceng::UINT8, PointerRef<Ceng::UINT8>,
+									typename CONFIG_UTF8::LITERAL_ITERATOR_BASE_TYPE> LITERAL_ITERATOR_UTF8;
+
+		typedef StringIterator<CharacterUtf16, Ceng::UINT16, PointerRef<Ceng::UINT16>,
+									typename CONFIG_UTF16::LITERAL_ITERATOR_BASE_TYPE> LITERAL_ITERATOR_UTF16;
+
+		typedef StringIterator<CharacterUtf32, Ceng::UINT32, PointerRef<Ceng::UINT32>,
 									typename CONFIG_UTF32::LITERAL_ITERATOR_BASE_TYPE> LITERAL_ITERATOR_UTF32;
+		*/
 
-		typedef typename StringConfig<WIDE_CHARACTER> CONFIG_WIDE;
+		typedef typename StringConfig<CharacterWide> CONFIG_WIDE;
 
-		typedef StringIterator<WIDE_CHARACTER,const WCHAR_TYPE,PointerRef<const WCHAR_TYPE>,
+		typedef StringIterator<CharacterWide,const wchar_t,PointerRef<const wchar_t>,
 									typename CONFIG_WIDE::LITERAL_ITERATOR_BASE_TYPE> LITERAL_ITERATOR_WCHAR;
 
 	protected:
@@ -425,6 +440,8 @@ namespace Ceng
 		CONST_ITERATOR_TYPE FindFirstNotOf(const char *test,CONST_ITERATOR_TYPE seekIterator) const;
 
 		CONST_ITERATOR_TYPE FindFirstNotOf(const char16_t *test,CONST_ITERATOR_TYPE seekIterator) const;
+
+		CONST_ITERATOR_TYPE FindFirstNotOf(const char32_t *test, CONST_ITERATOR_TYPE seekIterator) const;
 
 		CONST_ITERATOR_TYPE FindFirstNotOf(const CHAR32 *test,CONST_ITERATOR_TYPE seekIterator) const;
 
@@ -1166,8 +1183,8 @@ namespace Ceng
 					return ConstEndIterator();
 				}
 
-				a = *workIter;
-				b = *seekIterator;
+				a = (CHAR32)*workIter;
+				b = (CHAR32)*seekIterator;
 
 				++workIter;
 				++seekIterator;
@@ -1203,7 +1220,7 @@ namespace Ceng
 				return endPoint;
 			}
 
-			temp = *seekIterator;
+			temp = (CHAR32)*seekIterator;
 
 			if (temp == unicode)
 			{
@@ -1295,7 +1312,7 @@ namespace Ceng
 	typename BaseString<STRING_CONFIG>::CONST_ITERATOR_TYPE BaseString<STRING_CONFIG>::
 		FindFirstOf(const wchar_t *test,CONST_ITERATOR_TYPE seekIterator) const
 	{
-		LITERAL_ITERATOR_WCHAR testIter(PointerRef<const Ceng::WCHAR_TYPE>(reinterpret_cast<const Ceng::WCHAR_TYPE*>(test)));
+		LITERAL_ITERATOR_WCHAR testIter(PointerRef<const wchar_t>(test));
 
 		return FindFirstOf(seekIterator,testIter);
 	}
@@ -1430,13 +1447,13 @@ namespace Ceng
 
 		do
 		{
-			temp = *seekIterator;
+			temp = (CHAR32)*seekIterator;
 
 			SOURCE_ITER_TYPE matchIter(testIter);
 
 			do
 			{
-				pattern = *matchIter;
+				pattern = (CHAR32)*matchIter;
 
 				if (pattern == '\0') break;
 
@@ -1493,6 +1510,15 @@ namespace Ceng
 
 	template<class STRING_CONFIG>
 	typename BaseString<STRING_CONFIG>::CONST_ITERATOR_TYPE BaseString<STRING_CONFIG>::
+		FindFirstNotOf(const char32_t *test, CONST_ITERATOR_TYPE seekIterator) const
+	{
+		LITERAL_ITERATOR_UTF32 testIter(PointerRef<const Ceng::UINT32>(reinterpret_cast<const Ceng::UINT32*>(test)));
+
+		return FindFirstNotOf(seekIterator, testIter);
+	}
+
+	template<class STRING_CONFIG>
+	typename BaseString<STRING_CONFIG>::CONST_ITERATOR_TYPE BaseString<STRING_CONFIG>::
 		FindFirstNotOf(const CHAR32 *test,CONST_ITERATOR_TYPE seekIterator) const
 	{
 		LITERAL_ITERATOR_UTF32 testIter(PointerRef<const Ceng::UINT32>(reinterpret_cast<const Ceng::UINT32*>(test)));
@@ -1504,7 +1530,7 @@ namespace Ceng
 	typename BaseString<STRING_CONFIG>::CONST_ITERATOR_TYPE BaseString<STRING_CONFIG>::
 		FindFirstNotOf(const wchar_t *test,CONST_ITERATOR_TYPE seekIterator) const
 	{
-		LITERAL_ITERATOR_WCHAR testIter(PointerRef<const Ceng::WCHAR_TYPE>(reinterpret_cast<const Ceng::WCHAR_TYPE*>(test)));
+		LITERAL_ITERATOR_WCHAR testIter(PointerRef<const wchar_t>(reinterpret_cast<const wchar_t*>(test)));
 
 		return FindFirstNotOf(seekIterator,testIter);
 	}
@@ -1533,13 +1559,13 @@ namespace Ceng
 
 		do
 		{
-			temp = *stringIterator;
+			temp = (CHAR32)*stringIterator;
 
 			SOURCE_ITER_TYPE matchIter(patternIterator);
 
 			do
 			{
-				pattern = *matchIter;
+				pattern = (CHAR32)*matchIter;
 
 				if (pattern == '\0')
 				{
@@ -1614,7 +1640,7 @@ namespace Ceng
 	typename BaseString<STRING_CONFIG>::CONST_REVERSE_ITERATOR_TYPE BaseString<STRING_CONFIG>::
 		FindLastNotOf(const wchar_t *test,CONST_REVERSE_ITERATOR_TYPE seekIterator) const
 	{
-		LITERAL_ITERATOR_WCHAR testIter(PointerRef<const Ceng::WCHAR_TYPE>(reinterpret_cast<const Ceng::WCHAR_TYPE*>(test)));
+		LITERAL_ITERATOR_WCHAR testIter(PointerRef<const wchar_t>(reinterpret_cast<const wchar_t*>(test)));
 
 		return FindLastNotOf(seekIterator,testIter);
 	}
@@ -1743,7 +1769,7 @@ namespace Ceng
 
 		do
 		{
-			temp = *sourceIter;
+			temp = (CHAR32)*sourceIter;
 
 			if (temp == '\0')
 			{
