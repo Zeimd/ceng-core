@@ -54,7 +54,7 @@ const Ceng::CRESULT GL32_Cubemap::GetInstance(const Texture2dDesc &desc,
 
 	if (desc.mipLevels != 0)
 	{
-		if (desc.mipLevels > mipLevels)
+		if (desc.mipLevels > Ceng::UINT32(mipLevels))
 		{
 			return CE_ERR_INVALID_PARAM;
 		}
@@ -160,7 +160,7 @@ const Ceng::CRESULT GL32_Cubemap::GenerateCubemap(const Texture2dDesc &desc, con
 		// Allocate texture space
 		for (Ceng::UINT32 face = 0; face < 6; ++face)
 		{
-			for (Ceng::UINT32 k = 0; k < mipLevels; ++k)
+			for (GLint k = 0; k < mipLevels; ++k)
 			{
 				Ceng::INT32 width = desc.width >> k;
 				if (width < 1) width = 1;
@@ -228,7 +228,7 @@ const Ceng::CRESULT GL32_Cubemap::GenerateCubemap(const Texture2dDesc &desc, con
 				}
 
 				// Allocate texture space
-				for (Ceng::UINT32 k = 1; k < mipLevels; ++k)
+				for (GLint k = 1; k < mipLevels; ++k)
 				{
 					Ceng::INT32 width = desc.width >> k;
 					if (width < 1) width = 1;
@@ -264,7 +264,7 @@ const Ceng::CRESULT GL32_Cubemap::GenerateCubemap(const Texture2dDesc &desc, con
 			// Allocate texture space and load initial data if available
 			for (Ceng::UINT32 face = 0; face < 6; ++face)
 			{
-				for (Ceng::UINT32 k = 0; k < mipLevels; ++k)
+				for (GLint k = 0; k < mipLevels; ++k)
 				{
 					Ceng::INT32 width = desc.width >> k;
 					if (width < 1) width = 1;
@@ -322,7 +322,7 @@ const CRESULT GL32_Cubemap::GetBufferData2D(Ceng::BufferData2D *dataPtr)
 const Ceng::CRESULT GL32_Cubemap::GetShaderViewCubemap(const Ceng::ShaderResourceViewDesc &desc,
 	Ceng::ShaderResourceView **resourceView)
 {
-	if (desc.cubeMap.baseMipLevel > mipLevels)
+	if (desc.cubeMap.baseMipLevel > Ceng::UINT32(mipLevels))
 	{
 		return CE_ERR_INVALID_PARAM;
 	}
@@ -333,7 +333,7 @@ const Ceng::CRESULT GL32_Cubemap::GetShaderViewCubemap(const Ceng::ShaderResourc
 	{
 		maxMipLevel = mipLevels;
 	}
-	else if (desc.cubeMap.maxMipLevel > mipLevels)
+	else if (desc.cubeMap.maxMipLevel > Ceng::UINT32(mipLevels))
 	{
 		return CE_ERR_INVALID_PARAM;
 	}
@@ -347,7 +347,7 @@ const Ceng::CRESULT GL32_Cubemap::GetShaderViewCubemap(const Ceng::ShaderResourc
 const Ceng::CRESULT GL32_Cubemap::GetSubResourceData(const Ceng::CubemapFace::value face,
 	const Ceng::UINT32 mipLevel, const Ceng::IMAGE_FORMAT::value destFormat,void *destPtr)
 {
-	if (mipLevel > mipLevels)
+	if (mipLevel > Ceng::UINT32(mipLevels))
 	{
 		return CE_ERR_INVALID_PARAM;
 	}
@@ -400,7 +400,7 @@ const Ceng::CRESULT GL32_Cubemap::GetSubResourceData(const Ceng::CubemapFace::va
 const Ceng::CRESULT GL32_Cubemap::SetSubResourceData(const Ceng::CubemapFace::value face,
 	const Ceng::UINT32 mipLevel, const Ceng::IMAGE_FORMAT::value sourceFormat,void *sourcePtr)
 {
-	if (mipLevel > mipLevels)
+	if (mipLevel > Ceng::UINT32(mipLevels))
 	{
 		return CE_ERR_INVALID_PARAM;
 	}

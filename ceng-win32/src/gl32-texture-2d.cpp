@@ -62,7 +62,7 @@ const Ceng::CRESULT GL32_Texture2D::GetInstance(const Texture2dDesc &desc, const
 	
 	if (desc.mipLevels != 0)
 	{
-		if (desc.mipLevels > mipLevels)
+		if (desc.mipLevels > Ceng::UINT32(mipLevels))
 		{
 			return CE_ERR_INVALID_PARAM;
 		}
@@ -171,7 +171,7 @@ const Ceng::CRESULT GL32_Texture2D::GenerateTexture(const Texture2dDesc &desc, c
 		}
 
 		// Allocate texture space
-		for (Ceng::UINT32 k = 0; k < mipLevels; ++k)
+		for (GLint k = 0; k < mipLevels; ++k)
 		{
 			Ceng::INT32 width = desc.width >> k;
 			if (width < 1) width = 1;
@@ -214,7 +214,7 @@ const Ceng::CRESULT GL32_Texture2D::GenerateTexture(const Texture2dDesc &desc, c
 		if (gl_format.compressed || (desc.optionFlags & BufferOptions::generate_mip_maps)==0)
 		{
 			// Allocate texture space and load initial data if available
-			for (Ceng::UINT32 k = 0; k < mipLevels; ++k)
+			for (GLint k = 0; k < mipLevels; ++k)
 			{
 				Ceng::INT32 width = desc.width >> k;
 				if (width < 1) width = 1;
@@ -277,7 +277,7 @@ const Ceng::CRESULT GL32_Texture2D::GenerateTexture(const Texture2dDesc &desc, c
 			}
 
 			// Allocate texture space
-			for (Ceng::UINT32 k = 1; k < mipLevels; ++k)
+			for (GLint k = 1; k < mipLevels; ++k)
 			{
 				Ceng::INT32 width = desc.width >> k;
 				if (width < 1) width = 1;
@@ -834,7 +834,7 @@ const Ceng::CRESULT GL32_Texture2D::GetShaderViewTex2D(const Ceng::ShaderResourc
 	}
 	*/
 
-	if (desc.tex2d.baseMipLevel > mipLevels)
+	if (desc.tex2d.baseMipLevel > Ceng::UINT32(mipLevels))
 	{
 		return CE_ERR_INVALID_PARAM;
 	}
@@ -845,7 +845,7 @@ const Ceng::CRESULT GL32_Texture2D::GetShaderViewTex2D(const Ceng::ShaderResourc
 	{
 		maxMipLevel = mipLevels;
 	}
-	else if (desc.tex2d.maxMipLevel > mipLevels)
+	else if (desc.tex2d.maxMipLevel > Ceng::UINT32(mipLevels))
 	{
 		return CE_ERR_INVALID_PARAM;
 	}
@@ -858,7 +858,7 @@ const Ceng::CRESULT GL32_Texture2D::GetShaderViewTex2D(const Ceng::ShaderResourc
 const Ceng::CRESULT GL32_Texture2D::GetRenderTargetView(const Ceng::RenderTargetViewDesc &desc,
 	Ceng::RenderTargetView **targetView)
 {
-	if (desc.tex2d.mipSlice >= mipLevels)
+	if (desc.tex2d.mipSlice >= Ceng::UINT32(mipLevels))
 	{
 		return CE_ERR_INVALID_PARAM;
 	}
