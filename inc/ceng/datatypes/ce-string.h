@@ -1803,7 +1803,7 @@ namespace Ceng
 
 		do
 		{
-			temp = *sourceIter;
+			temp = CHAR32(*sourceIter);
 
 			if (temp == '\0')
 			{
@@ -1860,7 +1860,7 @@ namespace Ceng
 	{
 		// NOTE: Windows only.
 
-		Append( reinterpret_cast<const WCHAR_TYPE*>(source) );
+		Append( reinterpret_cast<const char16_t*>(source) );
 	}
 
 	template<class STRING_CONFIG>
