@@ -1691,7 +1691,7 @@ namespace Ceng
 
 		while (iter != source.ConstEndIterator())
 		{
-			ChainedAppend(*iter);
+			ChainedAppend(CHAR32(*iter));
 
 			++iter;
 		}
