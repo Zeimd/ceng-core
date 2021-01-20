@@ -3,7 +3,7 @@
 
 #include <ceng/lib/timerlib.h>
 
-double Timer()
+double Ceng_HighPrecisionTimer()
 {
 	LARGE_INTEGER ticks_sec;
 	LARGE_INTEGER ticks;
@@ -20,15 +20,15 @@ double Timer()
 	return result;
 }
 	
-void Wait(double seconds)
+void Ceng_HighPrecisionWait(double seconds)
 {
 	double starttime;
 	double time;
 	
-	starttime = Timer();
+	starttime = Ceng_HighPrecisionTimer();
 	do
 	{
-		time = Timer();			
+		time = Ceng_HighPrecisionTimer();
 	}while(time <= starttime+seconds);
 }
 

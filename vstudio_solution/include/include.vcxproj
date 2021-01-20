@@ -244,6 +244,7 @@
     <ClInclude Include="..\..\inc\ceng\interfaces\vertex-format.h" />
     <ClInclude Include="..\..\inc\ceng\interfaces\vertex-shader.h" />
     <ClInclude Include="..\..\inc\ceng\lib\liblog.h" />
+    <ClInclude Include="..\..\inc\ceng\lib\timerlib.h" />
     <ClInclude Include="..\..\inc\ceng\math\ce-matrix.h" />
     <ClInclude Include="..\..\inc\ceng\math\ce-quaternion.h" />
     <ClInclude Include="..\..\inc\ceng\math\ce-vector.h" />

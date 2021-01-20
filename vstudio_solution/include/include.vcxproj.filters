@@ -444,5 +444,8 @@
     <ClInclude Include="..\..\inc\ceng\lib\liblog.h">
       <Filter>Header Files\ceng\lib</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\lib\timerlib.h">
+      <Filter>Header Files\ceng\lib</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

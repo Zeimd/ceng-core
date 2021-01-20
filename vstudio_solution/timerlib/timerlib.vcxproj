@@ -86,10 +86,10 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="timerlib.h" />
+    <ClCompile Include="timerlib.CPP" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="timerlib.CPP" />
+    <ClInclude Include="..\..\inc\ceng\lib\timerlib.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
