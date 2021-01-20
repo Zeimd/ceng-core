@@ -43,7 +43,7 @@ const CRESULT Direct3D9_SwapChain::Present()
 	}
 	else
 	{
-		HRESULT hr = parentDevice->Present(NULL, NULL, NULL, NULL);
+		parentDevice->Present(NULL, NULL, NULL, NULL);
 	}
 
 	return CE_OK;

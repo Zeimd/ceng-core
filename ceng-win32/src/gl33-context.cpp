@@ -317,7 +317,7 @@ GL33_RenderContext::GL33_RenderContext(PlatformWindow *window, ::HDC deviceHandl
 	samplerDesc.magFilter = TextureMagFilter::nearest;
 	samplerDesc.minFilter = TextureMinFilter::nearest;
 
-	samplerDesc.maxAnisotrophy = 0.0f;
+	samplerDesc.maxAnisotrophy = 0;
 	samplerDesc.minLod = 0;
 	samplerDesc.maxLod = 0;
 	samplerDesc.mipLodBias = 0;
@@ -948,7 +948,6 @@ const Ceng::CRESULT GL33_RenderContext::SetPixelShaderSamplerState(const Ceng::U
 
 const Ceng::CRESULT GL33_RenderContext::SetDepth(RenderTargetView *view)
 {
-	GLenum result;
 	if (depthTarget != nullptr)
 	{
 		depthTarget->GL_Unbind(GL_DEPTH_ATTACHMENT);
