@@ -63,7 +63,11 @@ extern "C" _declspec(dllexport) const Ceng::CRESULT Ceng_CreateWindow(Ceng::Stri
 
 	*className += instanceCounter;
 
+#ifdef UNICODE
 	windowClass.lpszClassName = className->ToWString(); // Name of the class
+#else
+	windowClass.lpszClassName = className->ToCString(); // Name of the class
+#endif
 
 	windowClass.hIconSm = NULL; // Small icon for the class
 
@@ -75,7 +79,11 @@ extern "C" _declspec(dllexport) const Ceng::CRESULT Ceng_CreateWindow(Ceng::Stri
 	windowClass.lpfnWndProc = thunk->GetCallback();
 
 	// Register class
+#ifdef UNICODE
 	if (!RegisterClassExW(&windowClass))
+#else
+	if (!RegisterClassEx(&windowClass))
+#endif
 	{
 		delete thunk;
 		return CE_ERR_INVALID_PARAM;

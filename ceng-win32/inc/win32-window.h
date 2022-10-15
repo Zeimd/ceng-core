@@ -9,13 +9,6 @@
 #ifndef _CONCEPT2_WIN32_WINDOW_H
 #define _CONCEPT2_WIN32_WINDOW_H
 
-#ifndef UNICODE
-#define UNICODE
-#endif
-
-#ifndef _UNICODE
-#define _UNICODE
-#endif
 
 #include <Windows.h>
 

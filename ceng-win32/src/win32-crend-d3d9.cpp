@@ -19,18 +19,26 @@
 
 #ifdef _MSC_VER
 	#ifdef UNICODE
-		#define DEBUG_DLL L"crender-mt-debug.dll"
-		#define RELEASE_DLL L"crender-mt.dll"
+		constexpr ::WCHAR* DEBUG_DLL = L"crender-mt-debug.dll";
+		constexpr ::WCHAR* RELEASE_DLL = L"crender-mt.dll";
 	#else
-		#define DEBUG_DLL "crender-mt-debug.dll"
-		#define RELEASE_DLL "crender-mt.dll"
+		constexpr ::TCHAR* DEBUG_DLL = "crender-mt-debug.dll";
+		constexpr ::TCHAR* RELEASE_DLL = "crender-mt.dll";
 	#endif
 
 	#ifdef _DEBUG
-		static const ::TCHAR *crender_mt_dll = DEBUG_DLL;
+		#define	DEPLOY_DLL DEBUG_DLL
 	#else
-		static const ::TCHAR *crender_mt_dll = RELEASE_DLL;
+		#define DEPLOY_DLL RELEASE_DLL
 	#endif
+
+	#ifdef UNICODE
+		static const ::WCHAR* crender_mt_dll = DEPLOY_DLL;
+	#else
+		static const ::TCHAR* crender_mt_dll = DEPLOY_DLL;
+	#endif
+
+
 #endif
 
 using namespace Ceng;

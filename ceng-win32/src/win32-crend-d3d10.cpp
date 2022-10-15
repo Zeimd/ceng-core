@@ -17,15 +17,15 @@
 #ifdef _MSC_VER
 	#ifdef _DEBUG
 		#ifdef UNICODE
-			#define CRENDER_DLL_FILE L"crender-debug.dll"
+			constexpr ::WCHAR* CRENDER_DLL_FILE = L"crender-debug.dll";
 		#else
-			#define CRENDER_DLL_FILE "crender-debug.dll"
+			constexpr ::TCHAR* CRENDER_DLL_FILE = "crender-debug.dll";
 		#endif
 	#else
 		#ifdef UNICODE
-			#define CRENDER_DLL_FILE L"crender.dll"
+			constexpr ::WCHAR* CRENDER_DLL_FILE = L"crender.dll";
 		#else
-			#define CRENDER_DLL_FILE "crender.dll"
+			constexpr ::TCHAR* CRENDER_DLL_FILE = "crender.dll";
 		#endif
 	#endif
 #endif

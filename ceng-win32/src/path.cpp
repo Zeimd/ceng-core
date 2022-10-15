@@ -175,7 +175,7 @@ extern "C" _declspec(dllexport) const Ceng::CRESULT Ceng_ExePath(Ceng::StringUtf
 {
 	::DWORD length;
 	
-	std::vector<::WCHAR> buffer(2048,0);
+	std::vector<::TCHAR> buffer(2048, 0);
 
 	do
 	{
@@ -197,7 +197,7 @@ extern "C" _declspec(dllexport) const Ceng::CRESULT Ceng_ExePath(Ceng::StringUtf
 			break;
 		}
 
-		buffer = std::vector<::WCHAR>(2 * buffer.size(), 0);
+		buffer = std::vector<::TCHAR>(2 * buffer.size(), 0);
 	} while (1);
 
 	Ceng::StringUtf8 temp = &buffer[0];
@@ -219,7 +219,7 @@ extern "C" _declspec(dllexport) const Ceng::CRESULT Ceng_CurrentPath(Ceng::Strin
 
 	length = ::GetCurrentDirectory(0, NULL);
 
-	std::vector<::WCHAR> buffer(length+1);
+	std::vector<::TCHAR> buffer(length+1);
 
 	length = ::GetCurrentDirectory(length + 1, &buffer[0]);
 
