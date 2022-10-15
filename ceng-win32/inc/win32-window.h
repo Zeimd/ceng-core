@@ -12,7 +12,7 @@
 
 #include <Windows.h>
 
-#include <SDL_video.h>
+//#include <SDL_video.h>
 
 #include <ceng/datatypes/window.h>
 
@@ -51,7 +51,7 @@ namespace Ceng
 
 	public:
 
-		SDL_Window *sdl_window;
+		//SDL_Window *sdl_window;
 
 		WinAPI_Window(Ceng::StringUtf16 *caption,Ceng::StringUtf16 *fullCaption,
 							 WNDCLASSEX *windowClass,Ceng::StringUtf16 *className,

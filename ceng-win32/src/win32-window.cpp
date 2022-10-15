@@ -284,7 +284,7 @@ void WinAPI_Window::Configure(Ceng::StringUtf16 *caption,Ceng::StringUtf16 *full
 
 	this->statusFlags = statusFlags | E_WindowStatus::active;
 
-	sdl_window = SDL_CreateWindowFrom(windowHandle);
+	//sdl_window = SDL_CreateWindowFrom(windowHandle);
 }
 
 WinAPI_Window::WinAPI_Window()
@@ -304,7 +304,7 @@ WinAPI_Window::~WinAPI_Window()
 {
 	if (windowHandle != NULL)
 	{
-		SDL_DestroyWindow(sdl_window);
+		//SDL_DestroyWindow(sdl_window);
 
 		::DestroyWindow(windowHandle);
 	}
