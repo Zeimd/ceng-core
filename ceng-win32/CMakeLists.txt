@@ -4,6 +4,7 @@ project ("ceng-win32")
 
 set (SRC_DIR "src")
 
+#[[
 set( INCLUDES
 
 		"inc/ceng-win32.h"
@@ -63,6 +64,9 @@ set( INCLUDES
 		"inc/win32-types.h"
 
    )
+]]
+
+
 
 set( SOURCES 
 		"src/cpu-x86.cpp"
@@ -122,8 +126,17 @@ set( SOURCES
 
 add_library("ceng-win32" SHARED  ${INCLUDES} ${SOURCES})
 
+target_include_directories("ceng-win32" 
+							PRIVATE "inc"
+							)
+
 target_link_libraries("ceng-win32"
 
 						"glew32.lib"
+						"Dinput8.lib"
+						"d3d9.lib"
+						"d3d10.lib"
+						"Dxguid.lib"
+						"opengl32.lib"
 
 					 )

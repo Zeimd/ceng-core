@@ -8,7 +8,7 @@ project ("ceng-core")
 include_directories("deps/inc")
 include_directories("inc")
 
-link_directories("deps/lib/win32")
+link_directories("deps/lib/win32/Debug")
 
 # Add source to this project's executable.
 
