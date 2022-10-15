@@ -206,7 +206,7 @@ namespace Ceng
 
 				output += source.SubString(spanStart,spanEnd+1);
 
-				currentList[0] = (char32_t)*spanEnd;
+				currentList[0] = (*spanEnd);
 
 				spanStart = source.FindFirstNotOf(currentList,spanEnd+1);
 

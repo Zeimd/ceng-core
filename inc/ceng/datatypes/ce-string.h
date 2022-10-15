@@ -42,9 +42,8 @@ namespace Ceng
 
 		typedef VaryingIterator<CHARACTER_TYPE, CONST_DATA_ELEMENT> CONST_ITERATOR_BASE_TYPE;
 
-		typedef VaryingIterator<CHARACTER_TYPE, DATA_ELEMENT> LITERAL_ITERATOR_BASE_TYPE;
+		typedef VaryingIterator<CHARACTER_TYPE, CONST_DATA_ELEMENT> LITERAL_ITERATOR_BASE_TYPE;
 
-		typedef VaryingIterator<CHARACTER_TYPE, CONST_DATA_ELEMENT> CONST_LITERAL_ITERATOR_BASE_TYPE;
 	};
 
 	template<>
@@ -64,12 +63,7 @@ namespace Ceng
 
 		typedef FixedLengthIterator<CHARACTER_TYPE, CONST_DATA_ELEMENT> CONST_ITERATOR_BASE_TYPE;
 
-		/**
-		 * Iterator for constant string literals. IE: const char *source.
-		 */
-		typedef VaryingIterator<CHARACTER_TYPE, CONST_DATA_ELEMENT> CONST_LITERAL_ITERATOR_BASE_TYPE;
-
-		typedef VaryingIterator<CHARACTER_TYPE, DATA_ELEMENT> LITERAL_ITERATOR_BASE_TYPE;
+		typedef VaryingIterator<CHARACTER_TYPE, CONST_DATA_ELEMENT> LITERAL_ITERATOR_BASE_TYPE;
 	};
 
 	/**
@@ -111,28 +105,16 @@ namespace Ceng
 		typedef typename StringConfig<CharacterUtf8> CONFIG_UTF8;
 		typedef typename StringConfig<CharacterUtf16> CONFIG_UTF16;
 		typedef typename StringConfig<CharacterUtf32> CONFIG_UTF32;
+		typedef typename StringConfig<CharacterWide> CONFIG_WIDE;
 
 		typedef StringIterator<CharacterUtf8,const Ceng::UINT8,PointerRef<const Ceng::UINT8>,
-									typename CONFIG_UTF8::CONST_LITERAL_ITERATOR_BASE_TYPE> LITERAL_ITERATOR_UTF8;
+									typename CONFIG_UTF8::LITERAL_ITERATOR_BASE_TYPE>  LITERAL_ITERATOR_UTF8;
 
 		typedef StringIterator<CharacterUtf16,const Ceng::UINT16,PointerRef<const Ceng::UINT16>,
-									typename CONFIG_UTF16::CONST_LITERAL_ITERATOR_BASE_TYPE> LITERAL_ITERATOR_UTF16;
+									typename CONFIG_UTF16::LITERAL_ITERATOR_BASE_TYPE>  LITERAL_ITERATOR_UTF16;
 
 		typedef StringIterator<CharacterUtf32,const Ceng::UINT32,PointerRef<const Ceng::UINT32>,
-									typename CONFIG_UTF32::CONST_LITERAL_ITERATOR_BASE_TYPE> LITERAL_ITERATOR_UTF32;
-
-		/*
-		typedef StringIterator<CharacterUtf8, Ceng::UINT8, PointerRef<Ceng::UINT8>,
-									typename CONFIG_UTF8::LITERAL_ITERATOR_BASE_TYPE> LITERAL_ITERATOR_UTF8;
-
-		typedef StringIterator<CharacterUtf16, Ceng::UINT16, PointerRef<Ceng::UINT16>,
-									typename CONFIG_UTF16::LITERAL_ITERATOR_BASE_TYPE> LITERAL_ITERATOR_UTF16;
-
-		typedef StringIterator<CharacterUtf32, Ceng::UINT32, PointerRef<Ceng::UINT32>,
 									typename CONFIG_UTF32::LITERAL_ITERATOR_BASE_TYPE> LITERAL_ITERATOR_UTF32;
-		*/
-
-		typedef typename StringConfig<CharacterWide> CONFIG_WIDE;
 
 		typedef StringIterator<CharacterWide,const wchar_t,PointerRef<const wchar_t>,
 									typename CONFIG_WIDE::LITERAL_ITERATOR_BASE_TYPE> LITERAL_ITERATOR_WCHAR;
