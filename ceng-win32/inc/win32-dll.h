@@ -9,6 +9,8 @@
 #ifndef CENG_WIN32_DLL_H
 #define CENG_WIN32_DLL_H
 
+#define WIN32_LEAN_AND_MEAN
+
 #include <Windows.h>
 
 #include <ceng/interfaces/dynamic-library.h>

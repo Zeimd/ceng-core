@@ -9,6 +9,7 @@
 #ifndef _CONCEPT2_WIN32_WINDOW_H
 #define _CONCEPT2_WIN32_WINDOW_H
 
+#define WIN32_LEAN_AND_MEAN
 
 #include <Windows.h>
 
