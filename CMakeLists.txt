@@ -12,6 +12,9 @@ link_directories("deps/lib/win32")
 
 # Add source to this project's executable.
 
-add_subdirectory("ceng-win32" "lib/win32")
+add_subdirectory("timerlib")
+add_subdirectory("liblog")
+
+add_subdirectory("ceng-win32")
 
 # TODO: Add tests and install targets if needed.
