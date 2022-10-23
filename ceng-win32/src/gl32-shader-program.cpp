@@ -171,7 +171,7 @@ const Ceng::CRESULT GL32_ShaderProgram::GetConstant(const char *variableName, Ce
 	{
 		*handle = new GL32_UniformEmpty();
 
-		return CE_ERR_NOT_SUPPORTED;
+		return CE_ERR_UNDEFINED_UNIFORM;
 	}
 
 	GLuint gl_index = uniforms[k].index;
