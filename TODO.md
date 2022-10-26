@@ -3,6 +3,12 @@ ceng-core
 TODO
 ------------------------------------------
 
+------------------------------------------
+Project structure
+
+- [ ] Rename solution to "ceng-core"
+
+------------------------------------------
 Bugs
 
 - [ ] cube map creation crashes if mipLevels=0 and generate_mip_maps is not set.
