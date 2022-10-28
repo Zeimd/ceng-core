@@ -18,4 +18,9 @@ Bugs
 Features
 
 - [ ] Gather data from shaders so that it's possible to tell if a uniform was optimized
-      away, instead of returning UNIFORM_UNDEFINED error.
+      away, instead of returning UNIFORM_UNDEFINED error
+
+------------------------------------------
+Filesystem
+
+- [ ] Integrate zip files so that they are seamlessly considered a folder
