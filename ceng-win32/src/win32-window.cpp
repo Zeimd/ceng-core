@@ -249,7 +249,14 @@ extern "C" const CRESULT Ceng_MessageWindow(Ceng::PlatformWindow *parent,const S
 	Ceng::StringUtf16 message_utf16 = message;
 	Ceng::StringUtf16 windowTitle_utf16 = windowTitle;
 
-	result = MessageBoxW(window->GetWindowHandle(), message_utf16.ToWString(), windowTitle_utf16.ToWString(), MB_OK);
+	HWND handle = NULL;
+
+	if (window != nullptr)
+	{
+		handle = window->GetWindowHandle();
+	}
+
+	result = MessageBoxW(handle, message_utf16.ToWString(), windowTitle_utf16.ToWString(), MB_OK);
 
 	return CE_OK;
 }
