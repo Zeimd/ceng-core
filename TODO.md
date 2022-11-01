@@ -6,8 +6,6 @@ TODO
 ------------------------------------------
 Project structure
 
-- [ ] Rename solution to "ceng-core"
-
 ------------------------------------------
 Bugs
 
