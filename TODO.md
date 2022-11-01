@@ -21,6 +21,13 @@ Features
       away, instead of returning UNIFORM_UNDEFINED error
 
 ------------------------------------------
+Logging
+
+- [ ] Add log levels (RELEASE, DEBUG, VERBOSE, etc..)
+
+- [ ] Add printf style function
+
+------------------------------------------
 Filesystem
 
 - [ ] Integrate zip files so that they are seamlessly considered a folder
