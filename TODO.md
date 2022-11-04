@@ -2,9 +2,22 @@ ceng-core
 
 TODO
 ------------------------------------------
+Project structure
 
 ------------------------------------------
-Project structure
+General
+
+- [ ] Remove C++ use from library API. C++ classes and name mangling can't pass DLL boundary
+      NOTE: So far it only works because Visual Studio has been used on both sides
+
+- [ ] Make sure DLL side catches all exceptions
+
+------------------------------------------
+x64 target
+
+- [ ] Make it possible to build for x64
+
+- [ ] Implement x64 version of WinProcThunk
 
 ------------------------------------------
 Bugs
@@ -17,6 +30,14 @@ Features
 
 - [ ] Gather data from shaders so that it's possible to tell if a uniform was optimized
       away, instead of returning UNIFORM_UNDEFINED error
+
+------------------------------------------
+OpenGL wrapper
+
+- [ ] Implement missing shader constant access types
+
+------------------------------------------
+Windows Layer
 
 ------------------------------------------
 Logging
