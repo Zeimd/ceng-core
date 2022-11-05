@@ -26,6 +26,11 @@ Bugs
       Shouldn't this just use the number of mip-map levels available in the file?
 
 ------------------------------------------
+Math
+
+- [ ] Add euler angle initialization to MatrixF4 and Quaternion
+
+------------------------------------------
 Features
 
 - [ ] Gather data from shaders so that it's possible to tell if a uniform was optimized
