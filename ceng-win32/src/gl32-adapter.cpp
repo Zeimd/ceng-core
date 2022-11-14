@@ -29,6 +29,8 @@ void GL32_GraphicsAdapter::Release()
 
 const CRESULT GL32_GraphicsAdapter::GetDesc(GraphicsAdapterDesc &desc)
 {
+	desc.deviceName = deviceData.DeviceName;
+
 	desc.description = deviceData.DeviceString;
 	
 	desc.stateFlags = 0;

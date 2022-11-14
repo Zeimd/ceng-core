@@ -23,6 +23,7 @@ namespace Ceng
 	class GraphicsAdapterDesc
 	{
 	public:
+		Ceng::String deviceName;
 		Ceng::String description;
 		
 		Ceng::UINT32 stateFlags;
