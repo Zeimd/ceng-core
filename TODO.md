@@ -41,8 +41,14 @@ OpenGL wrapper
 
 - [ ] Implement missing shader constant access types
 
+- [ ] Handle multiple GPUs, so that OpenGL context is created on the correct one
+      NOTE: maybe test with laptop?
+
 ------------------------------------------
 Windows Layer
+
+- [ ] Handle multiple displays, so that moving the window to different display doesn't crash the app
+      NOTE: maybe test with laptop?
 
 ------------------------------------------
 Logging
