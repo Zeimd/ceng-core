@@ -45,10 +45,12 @@ OpenGL wrapper
       NOTE: maybe test with laptop?
 
 ------------------------------------------
-Windows Layer
+Platform Layer
 
 - [ ] Handle multiple displays, so that moving the window to different display doesn't crash the app
       NOTE: maybe test with laptop?
+
+- [ ] Add window menus
 
 ------------------------------------------
 Logging
