@@ -44,6 +44,9 @@ OpenGL wrapper
 - [ ] Handle multiple GPUs, so that OpenGL context is created on the correct one
       NOTE: maybe test with laptop?
 
+- [ ] Relocate all generic OpenGL parts to different folder instead of having them in ceng-win32
+      project
+
 ------------------------------------------
 Platform Layer
 
