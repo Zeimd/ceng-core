@@ -9,6 +9,8 @@
 #ifndef CENG_ALIGNED_BUFFER_H
 #define CENG_ALIGNED_BUFFER_H
 
+#include <string.h>
+
 #include "basic-types.h"
 
 namespace Ceng
