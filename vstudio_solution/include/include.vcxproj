@@ -131,6 +131,7 @@
     <ClInclude Include="..\..\inc\ceng\datatypes\cpu-info.h" />
     <ClInclude Include="..\..\inc\ceng\datatypes\critical-section.h" />
     <ClInclude Include="..\..\inc\ceng\datatypes\deleted-shared-ptr.h" />
+    <ClInclude Include="..\..\inc\ceng\datatypes\enum-selection.h" />
     <ClInclude Include="..\..\inc\ceng\datatypes\fixedpoint32.h" />
     <ClInclude Include="..\..\inc\ceng\datatypes\float16.h" />
     <ClInclude Include="..\..\inc\ceng\datatypes\future.h" />

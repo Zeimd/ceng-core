@@ -447,5 +447,8 @@
     <ClInclude Include="..\..\inc\ceng\lib\timerlib.h">
       <Filter>Header Files\ceng\lib</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\enum-selection.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
