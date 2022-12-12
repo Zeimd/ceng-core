@@ -394,7 +394,7 @@ namespace Ceng
 	template<class RAW_TYPE32>
 	const Ceng::INT32 Character32<RAW_TYPE32>::ToWideChar(const DATA_ELEMENT *stringBuffer, wchar_t *output)
 	{
-		CHAR32 temp = ToUTF32(strinbuffer);
+		CHAR32 temp = ToUTF32(stringBuffer);
 
 		return CharacterWide::EncodeUTF32(stringBuffer, output);
 	}
