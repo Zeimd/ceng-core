@@ -659,8 +659,7 @@ namespace Ceng
 	template<class STRING_CONFIG>
 	const Ceng::UINT32 BaseString<STRING_CONFIG>::MaxSize() const
 	{
-		return rawData.max_size() / typename CHARACTER_TYPE::MAX_ENCODING_BYTES;
-		return 0;
+		return rawData.max_size() / CHARACTER_TYPE::MAX_ENCODING_BYTES;
 	}
 
 	template<class STRING_CONFIG>
@@ -672,13 +671,13 @@ namespace Ceng
 	template<class STRING_CONFIG>
 	const Ceng::UINT32 BaseString<STRING_CONFIG>::MinCapacity() const
 	{
-		return (rawData.capacity()-1) / typename CHARACTER_TYPE::MAX_ENCODING_BYTES;
+		return (rawData.capacity()-1) / CHARACTER_TYPE::MAX_ENCODING_BYTES;
 	}
 	
 	template<class STRING_CONFIG>
 	void BaseString<STRING_CONFIG>::Reserve(const Ceng::UINT32 codepoints)
 	{
-		Ceng::UINT32 newCapacity = codepoints * typename CHARACTER_TYPE::MAX_ENCODING_BYTES;
+		Ceng::UINT32 newCapacity = codepoints * CHARACTER_TYPE::MAX_ENCODING_BYTES;
 
 		if (newCapacity > rawData.capacity())
 		{
@@ -942,7 +941,7 @@ namespace Ceng
 	template<class STRING_CONFIG>
 	void BaseString<STRING_CONFIG>::Insert(const Ceng::INT32 index,const wchar_t *string)
 	{
-		LITERAL_ITERATOR_WCHAR sourceIter(reinterpret_cast<const Ceng::WCHAR_TYPE*>(string));
+		LITERAL_ITERATOR_WCHAR sourceIter(string);
 
 		return Insert(index,sourceIter);
 	}
@@ -980,7 +979,7 @@ namespace Ceng
 	template<class STRING_CONFIG>
 	void BaseString<STRING_CONFIG>::Insert(const Ceng::INT32 index,const CHAR32 unicode)
 	{
-		DATA_ELEMENT encoding[typename CHARACTER_TYPE::MAX_ENCODING_ELEMENTS];
+		DATA_ELEMENT encoding[CHARACTER_TYPE::MAX_ENCODING_ELEMENTS];
 		UINT32 bytes;
 
 		bytes = typename CHARACTER_TYPE::EncodeUTF32(unicode,encoding);
@@ -1399,7 +1398,7 @@ namespace Ceng
 		BaseString<STRING_CONFIG>::
 		FindLastOf(const wchar_t *test, CONST_ITERATOR_TYPE seekIterator) const
 	{
-		LITERAL_ITERATOR_WCHAR testIter(PointerRef<const Ceng::WCHAR_TYPE>(reinterpret_cast<const Ceng::WCHAR_TYPE*>(test)));
+		LITERAL_ITERATOR_WCHAR testIter(PointerRef<const wchar_t>(reinterpret_cast<const wchar_t*>(test)));
 
 		return FindLastOf(seekIterator, testIter);
 	}
@@ -1409,7 +1408,7 @@ namespace Ceng
 		BaseString<STRING_CONFIG>::
 		FindLastOf(const wchar_t *test,CONST_REVERSE_ITERATOR_TYPE seekIterator) const
 	{
-		LITERAL_ITERATOR_WCHAR testIter(PointerRef<const Ceng::WCHAR_TYPE>(reinterpret_cast<const Ceng::WCHAR_TYPE*>(test)));
+		LITERAL_ITERATOR_WCHAR testIter(PointerRef<const wchar_t>(reinterpret_cast<const wchar_t*>(test)));
 
 		return FindLastOf(seekIterator,testIter);
 	}
@@ -1684,7 +1683,7 @@ namespace Ceng
 	template<class STRING_CONFIG>
 	void BaseString<STRING_CONFIG>::Append(const Ceng::CHAR32 unicode)
 	{
-		DATA_ELEMENT encoding[typename CHARACTER_TYPE::MAX_ENCODING_ELEMENTS];
+		DATA_ELEMENT encoding[CHARACTER_TYPE::MAX_ENCODING_ELEMENTS];
 		INT32 bytes;
 
 		bytes = typename CHARACTER_TYPE::EncodeUTF32(unicode,encoding);
@@ -1888,7 +1887,7 @@ namespace Ceng
 	template<class STRING_CONFIG>
 	void BaseString<STRING_CONFIG>::ChainedAppend(const CHAR32 unicode)
 	{
-		DATA_ELEMENT encoding[typename CHARACTER_TYPE::MAX_ENCODING_ELEMENTS];
+		DATA_ELEMENT encoding[CHARACTER_TYPE::MAX_ENCODING_ELEMENTS];
 		UINT32 bytes;
 
 		bytes = CHARACTER_TYPE::EncodeUTF32(unicode,encoding);

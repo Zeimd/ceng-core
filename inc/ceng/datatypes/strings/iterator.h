@@ -59,7 +59,7 @@ namespace Ceng
 	// Class FixedLengthIterator
 
 	template<class CHARACTER_TYPE,class DATA_ELEMENT>
-	class FixedLengthIterator : public BaseIterator
+	class FixedLengthIterator
 	{
 	public:
 		typedef typename CHARACTER_TYPE CHARACTER_TYPE;
@@ -69,18 +69,18 @@ namespace Ceng
 		FixedLengthIterator();
 		~FixedLengthIterator();
 
-		const Ceng::INT32 StepForward(const DATA_ELEMENT *character,Ceng::INT32 *index,
-										const Ceng::INT32 maxIndex) const;
+		static Ceng::INT32 StepForward(const DATA_ELEMENT *character,Ceng::INT32 *index,
+										const Ceng::INT32 maxIndex);
 
-		const Ceng::INT32 StepForwardMultiple(const DATA_ELEMENT *characters,
+		static Ceng::INT32 StepForwardMultiple(const DATA_ELEMENT *characters,
 											Ceng::INT32 *index,const Ceng::INT32 maxIndex,
-											const Ceng::INT32 delta) const;
+											const Ceng::INT32 delta);
 
-		const Ceng::INT32 StepBackward(const DATA_ELEMENT *characters,
-											Ceng::INT32 *index,const Ceng::INT32 startPos) const;
+		static Ceng::INT32 StepBackward(const DATA_ELEMENT *characters,
+											Ceng::INT32 *index,const Ceng::INT32 startPos);
 
-		const Ceng::INT32 StepBackwardMultiple(const DATA_ELEMENT *characters,Ceng::INT32 *index,
-											const Ceng::INT32 startPos,const Ceng::INT32 delta) const;
+		static Ceng::INT32 StepBackwardMultiple(const DATA_ELEMENT *characters,Ceng::INT32 *index,
+											const Ceng::INT32 startPos,const Ceng::INT32 delta);
 
 	};
 
@@ -95,8 +95,8 @@ namespace Ceng
 	}
 
 	template<class CHARACTER_TYPE,class DATA_ELEMENT>
-	const Ceng::INT32 FixedLengthIterator<CHARACTER_TYPE,DATA_ELEMENT>::
-		StepForward(const DATA_ELEMENT *character,Ceng::INT32 *index,const Ceng::INT32 maxIndex) const
+	Ceng::INT32 FixedLengthIterator<CHARACTER_TYPE,DATA_ELEMENT>::
+		StepForward(const DATA_ELEMENT *character,Ceng::INT32 *index,const Ceng::INT32 maxIndex)
 	{
 		Ceng::INT32 step = 0;
 
@@ -110,10 +110,10 @@ namespace Ceng
 	}
 
 	template<class CHARACTER_TYPE,class DATA_ELEMENT>
-	const Ceng::INT32 FixedLengthIterator<CHARACTER_TYPE,DATA_ELEMENT>::
+	Ceng::INT32 FixedLengthIterator<CHARACTER_TYPE,DATA_ELEMENT>::
 		StepForwardMultiple(const DATA_ELEMENT *characters,
 							Ceng::INT32 *index,const Ceng::INT32 maxIndex,
-							const Ceng::INT32 delta) const
+							const Ceng::INT32 delta)
 	{
 		Ceng::INT32 newIndex = *index + delta;
 
@@ -130,9 +130,9 @@ namespace Ceng
 	}
 
 	template<class CHARACTER_TYPE,class DATA_ELEMENT>
-	const Ceng::INT32 FixedLengthIterator<CHARACTER_TYPE,DATA_ELEMENT>::
+	Ceng::INT32 FixedLengthIterator<CHARACTER_TYPE,DATA_ELEMENT>::
 		StepBackward(const DATA_ELEMENT *characters,
-						Ceng::INT32 *index,const Ceng::INT32 startPos) const
+						Ceng::INT32 *index,const Ceng::INT32 startPos)
 	{
 		Ceng::INT32 step = 0;
 
@@ -146,9 +146,9 @@ namespace Ceng
 	}
 
 	template<class CHARACTER_TYPE,class DATA_ELEMENT>
-	const Ceng::INT32 FixedLengthIterator<CHARACTER_TYPE,DATA_ELEMENT>::
+	Ceng::INT32 FixedLengthIterator<CHARACTER_TYPE,DATA_ELEMENT>::
 		StepBackwardMultiple(const DATA_ELEMENT *characters,Ceng::INT32 *index,
-								const Ceng::INT32 startPos,const Ceng::INT32 delta) const
+								const Ceng::INT32 startPos,const Ceng::INT32 delta)
 	{
 		Ceng::INT32 newIndex = *index - delta;
 
@@ -168,7 +168,7 @@ namespace Ceng
 	// Class VaryingIterator
 
 	template<class CHARACTER_TYPE,class DATA_ELEMENT>
-	class VaryingIterator : public BaseIterator
+	class VaryingIterator
 	{	
 	public:
 
@@ -179,18 +179,18 @@ namespace Ceng
 		VaryingIterator();
 		~VaryingIterator();
 
-		const Ceng::INT32 StepForward(const DATA_ELEMENT *character,Ceng::INT32 *index,
-										const Ceng::INT32 maxIndex) const;
+		static Ceng::INT32 StepForward(const DATA_ELEMENT *character,Ceng::INT32 *index,
+										const Ceng::INT32 maxIndex) ;
 
-		const Ceng::INT32 StepForwardMultiple(const DATA_ELEMENT *characters,
+		static Ceng::INT32 StepForwardMultiple(const DATA_ELEMENT *characters,
 											Ceng::INT32 *index,const Ceng::INT32 maxIndex,
-											const Ceng::INT32 delta) const;
+											const Ceng::INT32 delta) ;
 
-		const Ceng::INT32 StepBackward(const DATA_ELEMENT *characters,
-											Ceng::INT32 *index,const Ceng::INT32 startPos) const;
+		static Ceng::INT32 StepBackward(const DATA_ELEMENT *characters,
+											Ceng::INT32 *index,const Ceng::INT32 startPos) ;
 
-		const Ceng::INT32 StepBackwardMultiple(const DATA_ELEMENT *characters,Ceng::INT32 *index,
-											const Ceng::INT32 startPos,const Ceng::INT32 delta) const;
+		static Ceng::INT32 StepBackwardMultiple(const DATA_ELEMENT *characters,Ceng::INT32 *index,
+											const Ceng::INT32 startPos,const Ceng::INT32 delta) ;
 	};
 
 	template<class CHARACTER_TYPE,class DATA_ELEMENT>
@@ -204,8 +204,8 @@ namespace Ceng
 	}
 
 	template<class CHARACTER_TYPE,class DATA_ELEMENT>
-	const Ceng::INT32 VaryingIterator<CHARACTER_TYPE,DATA_ELEMENT>::
-		StepForward(const DATA_ELEMENT *character,Ceng::INT32 *p_index,const Ceng::INT32 maxIndex) const
+	Ceng::INT32 VaryingIterator<CHARACTER_TYPE,DATA_ELEMENT>::
+		StepForward(const DATA_ELEMENT *character,Ceng::INT32 *p_index,const Ceng::INT32 maxIndex) 
 	{
 		if (*p_index == -1)
 		{
@@ -224,10 +224,10 @@ namespace Ceng
 	}
 
 	template<class CHARACTER_TYPE,class DATA_ELEMENT>
-	const Ceng::INT32 VaryingIterator<CHARACTER_TYPE,DATA_ELEMENT>::
+	Ceng::INT32 VaryingIterator<CHARACTER_TYPE,DATA_ELEMENT>::
 		StepForwardMultiple(const DATA_ELEMENT *characters,
 								Ceng::INT32 *index,const Ceng::INT32 maxIndex,
-								const Ceng::INT32 delta) const
+								const Ceng::INT32 delta) 
 	{
 		if (delta <= 0)
 		{
@@ -259,9 +259,9 @@ namespace Ceng
 	}
 
 	template<class CHARACTER_TYPE,class DATA_ELEMENT>
-	const Ceng::INT32 VaryingIterator<CHARACTER_TYPE,DATA_ELEMENT>::
+	Ceng::INT32 VaryingIterator<CHARACTER_TYPE,DATA_ELEMENT>::
 		StepBackward(const DATA_ELEMENT *characters,
-						Ceng::INT32 *index,const Ceng::INT32 startPos) const
+						Ceng::INT32 *index,const Ceng::INT32 startPos) 
 	{
 		if (startPos <= 0)
 		{
@@ -291,9 +291,9 @@ namespace Ceng
 	}
 
 	template<class CHARACTER_TYPE,class DATA_ELEMENT>
-	const Ceng::INT32 VaryingIterator<CHARACTER_TYPE,DATA_ELEMENT>::
+	Ceng::INT32 VaryingIterator<CHARACTER_TYPE,DATA_ELEMENT>::
 		StepBackwardMultiple(const DATA_ELEMENT *characters,Ceng::INT32 *index,
-								const Ceng::INT32 startPos,const Ceng::INT32 delta) const
+								const Ceng::INT32 startPos,const Ceng::INT32 delta) 
 	{
 		if (delta <= 0)
 		{
@@ -325,7 +325,7 @@ namespace Ceng
 	// Class StringIterator
 
 	template<class CHARACTER_TYPE,class DATA_ELEMENT,class BUFFER_REF,class ITERATOR_TYPE>
-	class StringIterator : public ITERATOR_TYPE
+	class StringIterator : public BaseIterator
 	{
 	protected:
 
@@ -454,7 +454,7 @@ namespace Ceng
 		StringIterator<CHARACTER_TYPE,DATA_ELEMENT,BUFFER_REF,ITERATOR_TYPE>::
 		operator ++ ()
 	{
-		rawPosition += StepForward(buffer.GetPointer(rawPosition),&index,buffer.MaxIndex());
+		rawPosition += ITERATOR_TYPE::StepForward(buffer.GetPointer(rawPosition),&index,buffer.MaxIndex());
 
 		return *this;
 	}
@@ -478,12 +478,12 @@ namespace Ceng
 	{
 		if (delta < 0)
 		{
-			rawPosition = StepBackwardMultiple(buffer.GetPointer(0),&index,
+			rawPosition = ITERATOR_TYPE::StepBackwardMultiple(buffer.GetPointer(0),&index,
 									rawPosition,-delta);
 		}
 		else
 		{
-			rawPosition += StepForwardMultiple(buffer.GetPointer(rawPosition),&index,
+			rawPosition += ITERATOR_TYPE::StepForwardMultiple(buffer.GetPointer(rawPosition),&index,
 									buffer.MaxIndex(),delta);
 		}
 
@@ -507,7 +507,7 @@ namespace Ceng
 		StringIterator<CHARACTER_TYPE,DATA_ELEMENT,BUFFER_REF,ITERATOR_TYPE>::
 		operator -- ()
 	{
-		rawPosition = StepBackward(buffer.GetPointer(0),&index,rawPosition);
+		rawPosition = ITERATOR_TYPE::StepBackward(buffer.GetPointer(0),&index,rawPosition);
 
 		return *this;
 	}
