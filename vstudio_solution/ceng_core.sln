@@ -12,6 +12,11 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "liblog", "liblog\liblog.vcxproj", "{7249839D-57C5-48D2-BBE3-CBA9035A7FF3}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sw_renderer", "sw_renderer\sw_renderer.vcxproj", "{6EA7D3B4-5461-4F7E-BB1D-8761DFF3EB6C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CBDA0568-0482-42B1-B0A9-B1E7525C0093} = {CBDA0568-0482-42B1-B0A9-B1E7525C0093}
+		{7249839D-57C5-48D2-BBE3-CBA9035A7FF3} = {7249839D-57C5-48D2-BBE3-CBA9035A7FF3}
+		{79952CFB-F168-4AAC-8385-0329BFDC7935} = {79952CFB-F168-4AAC-8385-0329BFDC7935}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

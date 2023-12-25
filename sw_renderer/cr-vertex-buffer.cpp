@@ -90,12 +90,12 @@ const CRESULT CR_VertexBuffer::BufferPtr(Ceng::UINT8 **bufferPtr)
 	return CE_OK;
 }
 
-const Ceng::CRESULT LoadData(void* dataPtr)
+const Ceng::CRESULT CR_VertexBuffer::LoadData(void* dataPtr)
 {
-	return CE_ERR_FAIL;
+	return CE_ERR_UNIMPLEMENTED;
 }
 
-const Ceng::CRESULT LoadPartialData(const Ceng::UINT32 startOffset, const Ceng::UINT32 size, void* dataPtr)
+const Ceng::CRESULT CR_VertexBuffer::LoadPartialData(const Ceng::UINT32 startOffset, const Ceng::UINT32 size, void* dataPtr)
 {
-	return CE_ERR_FAIL;
+	return CE_ERR_UNIMPLEMENTED;
 }
