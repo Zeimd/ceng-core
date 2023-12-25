@@ -18,7 +18,7 @@ namespace Ceng
 	class VertexBuffer : public RenderResource
 	{
 	protected:
-		virtual ~VertexBuffer()
+		~VertexBuffer() override
 		{
 		}
 	

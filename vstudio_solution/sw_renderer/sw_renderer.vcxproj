@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{6ea7d3b4-5461-4f7e-bb1d-8761dff3eb6c}</ProjectGuid>
+    <RootNamespace>swrenderer</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)\..\lib\win32\Debug\</OutDir>
+    <TargetName>ceng-swr-debug</TargetName>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\..\inc\</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)\..\lib\win32\Release\</OutDir>
+    <TargetName>ceng-swr</TargetName>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\..\inc\</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;SWRENDERER_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableUAC>false</EnableUAC>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;SWRENDERER_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableUAC>false</EnableUAC>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;SWRENDERER_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableUAC>false</EnableUAC>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;SWRENDERER_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableUAC>false</EnableUAC>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\sw_renderer\api-command.h" />
+    <ClInclude Include="..\..\sw_renderer\buffer-channel.h" />
+    <ClInclude Include="..\..\sw_renderer\buffer-clear.h" />
+    <ClInclude Include="..\..\sw_renderer\buffer-factory.h" />
+    <ClInclude Include="..\..\sw_renderer\buffer-layout.h" />
+    <ClInclude Include="..\..\sw_renderer\buffer-tiling.h" />
+    <ClInclude Include="..\..\sw_renderer\cache-tag.h" />
+    <ClInclude Include="..\..\sw_renderer\clipper-batch.h" />
+    <ClInclude Include="..\..\sw_renderer\clipper-state.h" />
+    <ClInclude Include="..\..\sw_renderer\clipper.h" />
+    <ClInclude Include="..\..\sw_renderer\command-thread.h" />
+    <ClInclude Include="..\..\sw_renderer\cr-image-buffer.h" />
+    <ClInclude Include="..\..\sw_renderer\cr-memory-pool.h" />
+    <ClInclude Include="..\..\sw_renderer\cr-pixel-shader.h" />
+    <ClInclude Include="..\..\sw_renderer\cr-pool-block.h" />
+    <ClInclude Include="..\..\sw_renderer\cr-resource.h" />
+    <ClInclude Include="..\..\sw_renderer\cr-sampler-state.h" />
+    <ClInclude Include="..\..\sw_renderer\cr-shader-const.h" />
+    <ClInclude Include="..\..\sw_renderer\cr-shader-view-tex2d.h" />
+    <ClInclude Include="..\..\sw_renderer\cr-shader-view.h" />
+    <ClInclude Include="..\..\sw_renderer\cr-swap-chain.h" />
+    <ClInclude Include="..\..\sw_renderer\cr-texture-2d.h" />
+    <ClInclude Include="..\..\sw_renderer\cr-vertex-buffer.h" />
+    <ClInclude Include="..\..\sw_renderer\cr-vertex-format.h" />
+    <ClInclude Include="..\..\sw_renderer\cr-vertex-shader.h" />
+    <ClInclude Include="..\..\sw_renderer\crender-base.h" />
+    <ClInclude Include="..\..\sw_renderer\crender-context.h" />
+    <ClInclude Include="..\..\sw_renderer\crender.h" />
+    <ClInclude Include="..\..\sw_renderer\draw-batch.h" />
+    <ClInclude Include="..\..\sw_renderer\draw-call.h" />
+    <ClInclude Include="..\..\sw_renderer\fragment-format.h" />
+    <ClInclude Include="..\..\sw_renderer\fragment-var.h" />
+    <ClInclude Include="..\..\sw_renderer\locking-queue.h" />
+    <ClInclude Include="..\..\sw_renderer\locking-stage.h" />
+    <ClInclude Include="..\..\sw_renderer\locking-task.h" />
+    <ClInclude Include="..\..\sw_renderer\pipeline-batch.h" />
+    <ClInclude Include="..\..\sw_renderer\pipeline-stage.h" />
+    <ClInclude Include="..\..\sw_renderer\pipeline.h" />
+    <ClInclude Include="..\..\sw_renderer\primitive-data.h" />
+    <ClInclude Include="..\..\sw_renderer\pshader-input-semantic.h" />
+    <ClInclude Include="..\..\sw_renderer\pshader-input.h" />
+    <ClInclude Include="..\..\sw_renderer\pshader-instance.h" />
+    <ClInclude Include="..\..\sw_renderer\pshader-output-semantic.h" />
+    <ClInclude Include="..\..\sw_renderer\pshader-output.h" />
+    <ClInclude Include="..\..\sw_renderer\pshader-texture.h" />
+    <ClInclude Include="..\..\sw_renderer\pshader-wrapper.h" />
+    <ClInclude Include="..\..\sw_renderer\quad-format.h" />
+    <ClInclude Include="..\..\sw_renderer\rasterizer-batch.h" />
+    <ClInclude Include="..\..\sw_renderer\rasterizer-cr.h" />
+    <ClInclude Include="..\..\sw_renderer\render-state.h" />
+    <ClInclude Include="..\..\sw_renderer\render-task.h" />
+    <ClInclude Include="..\..\sw_renderer\render-thread.h" />
+    <ClInclude Include="..\..\sw_renderer\rendertarget-cr.h" />
+    <ClInclude Include="..\..\sw_renderer\rtarget-data.h" />
+    <ClInclude Include="..\..\sw_renderer\shader-common.h" />
+    <ClInclude Include="..\..\sw_renderer\shader-const-data.h" />
+    <ClInclude Include="..\..\sw_renderer\shader-datatype.h" />
+    <ClInclude Include="..\..\sw_renderer\shader-link.h" />
+    <ClInclude Include="..\..\sw_renderer\shader-manager.h" />
+    <ClInclude Include="..\..\sw_renderer\shader-wrapper.h" />
+    <ClInclude Include="..\..\sw_renderer\targetver.h" />
+    <ClInclude Include="..\..\sw_renderer\task-clipper.h" />
+    <ClInclude Include="..\..\sw_renderer\task-pshader.h" />
+    <ClInclude Include="..\..\sw_renderer\task-rasterizer.h" />
+    <ClInclude Include="..\..\sw_renderer\task-triangle-setup.h" />
+    <ClInclude Include="..\..\sw_renderer\texture-unit.h" />
+    <ClInclude Include="..\..\sw_renderer\triangle-batch.h" />
+    <ClInclude Include="..\..\sw_renderer\triangle-data.h" />
+    <ClInclude Include="..\..\sw_renderer\vertex-stream.h" />
+    <ClInclude Include="..\..\sw_renderer\vertex-variable.h" />
+    <ClInclude Include="..\..\sw_renderer\viewport-state.h" />
+    <ClInclude Include="..\..\sw_renderer\vshader-input-semantic.h" />
+    <ClInclude Include="..\..\sw_renderer\vshader-input.h" />
+    <ClInclude Include="..\..\sw_renderer\vshader-instance.h" />
+    <ClInclude Include="..\..\sw_renderer\vshader-output.h" />
+    <ClInclude Include="..\..\sw_renderer\vshader-wrapper.h" />
+    <ClInclude Include="framework.h" />
+    <ClInclude Include="pch.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\sw_renderer\api-command.cpp" />
+    <ClCompile Include="..\..\sw_renderer\buffer-clear.cpp" />
+    <ClCompile Include="..\..\sw_renderer\buffer-factory.cpp" />
+    <ClCompile Include="..\..\sw_renderer\clipper-batch.cpp" />
+    <ClCompile Include="..\..\sw_renderer\clipper.cpp" />
+    <ClCompile Include="..\..\sw_renderer\cmd-clear-depth.cpp" />
+    <ClCompile Include="..\..\sw_renderer\cmd-clear-target.cpp" />
+    <ClCompile Include="..\..\sw_renderer\cmd-draw.cpp" />
+    <ClCompile Include="..\..\sw_renderer\cmd-flip-buffers.cpp" />
+    <ClCompile Include="..\..\sw_renderer\command-thread.cpp" />
+    <ClCompile Include="..\..\sw_renderer\cr-image-buffer.cpp" />
+    <ClCompile Include="..\..\sw_renderer\cr-pixel-shader.cpp" />
+    <ClCompile Include="..\..\sw_renderer\cr-resource.cpp" />
+    <ClCompile Include="..\..\sw_renderer\cr-sampler-state.cpp" />
+    <ClCompile Include="..\..\sw_renderer\cr-scene.cpp" />
+    <ClCompile Include="..\..\sw_renderer\cr-setup.cpp" />
+    <ClCompile Include="..\..\sw_renderer\cr-shader-const.cpp" />
+    <ClCompile Include="..\..\sw_renderer\cr-shader-view-tex2d.cpp" />
+    <ClCompile Include="..\..\sw_renderer\cr-swap-chain.cpp" />
+    <ClCompile Include="..\..\sw_renderer\cr-texture-2d.cpp" />
+    <ClCompile Include="..\..\sw_renderer\cr-vertex-buffer.cpp" />
+    <ClCompile Include="..\..\sw_renderer\cr-vertex-format.cpp" />
+    <ClCompile Include="..\..\sw_renderer\cr-vertex-shader.cpp" />
+    <ClCompile Include="..\..\sw_renderer\crender-context.cpp" />
+    <ClCompile Include="..\..\sw_renderer\crender-mt.cpp" />
+    <ClCompile Include="..\..\sw_renderer\crender-pshader.cpp" />
+    <ClCompile Include="..\..\sw_renderer\depth-test-port.cpp" />
+    <ClCompile Include="..\..\sw_renderer\draw-batch.cpp" />
+    <ClCompile Include="..\..\sw_renderer\fragment-format.cpp" />
+    <ClCompile Include="..\..\sw_renderer\locking-queue.cpp" />
+    <ClCompile Include="..\..\sw_renderer\locking-stage.cpp" />
+    <ClCompile Include="..\..\sw_renderer\locking-task.cpp" />
+    <ClCompile Include="..\..\sw_renderer\pipeline-batch.cpp" />
+    <ClCompile Include="..\..\sw_renderer\pipeline-stage.cpp" />
+    <ClCompile Include="..\..\sw_renderer\pipeline.cpp" />
+    <ClCompile Include="..\..\sw_renderer\pshader-input.cpp" />
+    <ClCompile Include="..\..\sw_renderer\pshader-instance.cpp" />
+    <ClCompile Include="..\..\sw_renderer\pshader-output.cpp" />
+    <ClCompile Include="..\..\sw_renderer\pshader-wrapper.cpp" />
+    <ClCompile Include="..\..\sw_renderer\quad-format.cpp" />
+    <ClCompile Include="..\..\sw_renderer\ras-coverage-test.cpp" />
+    <ClCompile Include="..\..\sw_renderer\rasterizer-batch.cpp" />
+    <ClCompile Include="..\..\sw_renderer\rasterizer-setup.cpp" />
+    <ClCompile Include="..\..\sw_renderer\rasterizer-work.cpp" />
+    <ClCompile Include="..\..\sw_renderer\render-state.cpp" />
+    <ClCompile Include="..\..\sw_renderer\render-thread.cpp" />
+    <ClCompile Include="..\..\sw_renderer\rendertarget-cr.cpp" />
+    <ClCompile Include="..\..\sw_renderer\rtarget-buffer-swap.cpp" />
+    <ClCompile Include="..\..\sw_renderer\rtarget-clear.cpp" />
+    <ClCompile Include="..\..\sw_renderer\rtarget-data.cpp" />
+    <ClCompile Include="..\..\sw_renderer\rtarget-depth-test.cpp" />
+    <ClCompile Include="..\..\sw_renderer\setup-vertex.cpp" />
+    <ClCompile Include="..\..\sw_renderer\shader-float4.cpp" />
+    <ClCompile Include="..\..\sw_renderer\shader-link.cpp" />
+    <ClCompile Include="..\..\sw_renderer\task-clipper.cpp" />
+    <ClCompile Include="..\..\sw_renderer\task-pshader.cpp" />
+    <ClCompile Include="..\..\sw_renderer\task-rasterizer.cpp" />
+    <ClCompile Include="..\..\sw_renderer\task-triangle-setup.cpp" />
+    <ClCompile Include="..\..\sw_renderer\texture-unit.cpp" />
+    <ClCompile Include="..\..\sw_renderer\triangle-batch.cpp" />
+    <ClCompile Include="..\..\sw_renderer\vshader-input.cpp" />
+    <ClCompile Include="..\..\sw_renderer\vshader-instance.cpp" />
+    <ClCompile Include="..\..\sw_renderer\vshader-output.cpp" />
+    <ClCompile Include="..\..\sw_renderer\vshader-wrapper.cpp" />
+    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

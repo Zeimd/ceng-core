@@ -1,0 +1,459 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\sw_renderer">
+      <UniqueIdentifier>{e75378d6-bddb-4342-9b79-82bbbaf74240}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\sw_renderer">
+      <UniqueIdentifier>{dd27c135-45da-4902-8ea4-5102d9a30aa1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="framework.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\api-command.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\buffer-channel.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\buffer-clear.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\buffer-factory.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\buffer-layout.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\buffer-tiling.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\cache-tag.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\clipper.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\clipper-batch.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\clipper-state.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\command-thread.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\crender.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\crender-base.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\crender-context.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\cr-image-buffer.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\cr-memory-pool.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\cr-pixel-shader.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\cr-pool-block.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\cr-resource.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\cr-sampler-state.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\cr-shader-const.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\cr-shader-view.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\cr-shader-view-tex2d.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\cr-swap-chain.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\cr-texture-2d.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\cr-vertex-buffer.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\cr-vertex-format.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\cr-vertex-shader.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\draw-batch.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\draw-call.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\fragment-format.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\fragment-var.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\locking-queue.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\locking-stage.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\locking-task.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\pipeline.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\pipeline-batch.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\pipeline-stage.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\primitive-data.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\pshader-input.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\pshader-input-semantic.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\pshader-instance.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\pshader-output.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\pshader-output-semantic.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\pshader-texture.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\pshader-wrapper.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\quad-format.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\rasterizer-batch.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\rasterizer-cr.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\render-state.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\rendertarget-cr.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\render-task.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\render-thread.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\rtarget-data.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\shader-common.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\shader-const-data.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\shader-datatype.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\shader-link.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\shader-manager.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\shader-wrapper.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\targetver.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\task-clipper.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\task-pshader.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\task-rasterizer.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\task-triangle-setup.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\texture-unit.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\triangle-batch.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\triangle-data.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\vertex-stream.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\vertex-variable.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\viewport-state.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\vshader-input.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\vshader-input-semantic.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\vshader-instance.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\vshader-output.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\vshader-wrapper.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\vshader-wrapper.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\vshader-output.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\vshader-instance.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\vshader-input.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\triangle-batch.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\texture-unit.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\task-triangle-setup.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\task-rasterizer.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\task-pshader.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\task-clipper.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\shader-link.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\shader-float4.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\setup-vertex.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\rtarget-depth-test.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\rtarget-data.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\rtarget-clear.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\rtarget-buffer-swap.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\render-thread.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\rendertarget-cr.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\render-state.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\rasterizer-work.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\rasterizer-setup.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\rasterizer-batch.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\ras-coverage-test.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\quad-format.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\pshader-wrapper.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\pshader-output.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\pshader-instance.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\pshader-input.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\pipeline-stage.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\pipeline-batch.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\pipeline.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\locking-task.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\locking-stage.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\locking-queue.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\fragment-format.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\draw-batch.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\depth-test-port.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\cr-vertex-shader.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\cr-vertex-format.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\cr-vertex-buffer.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\cr-texture-2d.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\cr-swap-chain.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\cr-shader-view-tex2d.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\cr-shader-const.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\cr-setup.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\cr-scene.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\cr-sampler-state.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\cr-resource.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\cr-pixel-shader.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\cr-image-buffer.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\crender-pshader.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\crender-mt.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\crender-context.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\command-thread.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\cmd-flip-buffers.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\cmd-draw.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\cmd-clear-target.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\cmd-clear-depth.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\clipper-batch.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\clipper.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\buffer-factory.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\buffer-clear.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\api-command.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

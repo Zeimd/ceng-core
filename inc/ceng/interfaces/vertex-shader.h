@@ -11,6 +11,7 @@
 
 #include "base-interface.h"
 #include "shader-const.h"
+#include "../datatypes/ce-string.h"
 
 namespace Ceng
 {

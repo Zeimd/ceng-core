@@ -372,9 +372,6 @@
     <ClInclude Include="..\..\inc\ceng\interfaces\mouse-device.h">
       <Filter>Header Files\ceng\interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\inc\ceng\interfaces\pixel-shader.h">
-      <Filter>Header Files\ceng\interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\inc\ceng\interfaces\rasterizer-state.h">
       <Filter>Header Files\ceng\interfaces</Filter>
     </ClInclude>
@@ -449,6 +446,9 @@
     </ClInclude>
     <ClInclude Include="..\..\inc\ceng\datatypes\enum-selection.h">
       <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\pixel-shader.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

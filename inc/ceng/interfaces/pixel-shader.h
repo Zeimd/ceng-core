@@ -9,6 +9,8 @@
 #ifndef _CENG_PIXEL_SHADER_H
 #define _CENG_PIXEL_SHADER_H
 
+#include "../datatypes/ce-string.h"
+
 #include "base-interface.h"
 #include "shader-const.h"
 
