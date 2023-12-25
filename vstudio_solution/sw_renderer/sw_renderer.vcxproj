@@ -251,7 +251,6 @@
     <ClCompile Include="..\..\sw_renderer\cr-pixel-shader.cpp" />
     <ClCompile Include="..\..\sw_renderer\cr-resource.cpp" />
     <ClCompile Include="..\..\sw_renderer\cr-sampler-state.cpp" />
-    <ClCompile Include="..\..\sw_renderer\cr-scene.cpp" />
     <ClCompile Include="..\..\sw_renderer\cr-setup.cpp" />
     <ClCompile Include="..\..\sw_renderer\cr-shader-const.cpp" />
     <ClCompile Include="..\..\sw_renderer\cr-shader-view-tex2d.cpp" />
@@ -262,7 +261,6 @@
     <ClCompile Include="..\..\sw_renderer\cr-vertex-shader.cpp" />
     <ClCompile Include="..\..\sw_renderer\crender-context.cpp" />
     <ClCompile Include="..\..\sw_renderer\crender-mt.cpp" />
-    <ClCompile Include="..\..\sw_renderer\crender-pshader.cpp" />
     <ClCompile Include="..\..\sw_renderer\depth-test-port.cpp" />
     <ClCompile Include="..\..\sw_renderer\draw-batch.cpp" />
     <ClCompile Include="..\..\sw_renderer\fragment-format.cpp" />
