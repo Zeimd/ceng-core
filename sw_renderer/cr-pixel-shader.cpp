@@ -26,6 +26,8 @@ using namespace Ceng;
 
 CR_PixelShader::CR_PixelShader()
 {
+	compiled = false;
+
 	cacheLine = 64;
 
 	wrapper.shader = this;

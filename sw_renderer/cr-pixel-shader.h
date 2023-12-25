@@ -78,7 +78,7 @@ namespace Ceng
 
 	protected:
 
-	
+		BOOL compiled;
 
 	public:
 		CR_PixelShader();
