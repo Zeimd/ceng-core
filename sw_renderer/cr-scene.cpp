@@ -546,8 +546,11 @@ const CRESULT CR_RenderContext::SetRasterizerState(const Ceng::RasterizerState *
 	return CE_OK;
 }
 
-const CRESULT CR_RenderContext::SetDepthStencilState(const Ceng::DepthStencilDesc *state)
+const CRESULT CR_RenderContext::SetDepthStencilState(Ceng::DepthStencilState* state)
 {
+	return CE_ERR_FAIL;
+
+	/*
 	if (state == nullptr)
 	{
 		return CE_ERR_NULL_PTR;
@@ -556,11 +559,13 @@ const CRESULT CR_RenderContext::SetDepthStencilState(const Ceng::DepthStencilDes
 	nextRenderState->depthStencilState = *state;
 
 	return CE_OK;
+	*/
 }
 
-const CRESULT CR_RenderContext::SetRenderTarget(const Ceng::UINT32 targetNum,Ceng::RenderTarget *renderTarget)
+const CRESULT CR_RenderContext::SetRenderTarget(const Ceng::UINT32 index, RenderTargetView* view)
 {
-	if (targetNum >= CRENDER_MAX_COLOR_TARGETS)
+	/*
+	if (index >= CRENDER_MAX_COLOR_TARGETS)
 	{
 		return CE_ERR_NOT_SUPPORTED;
 	}
@@ -569,9 +574,9 @@ const CRESULT CR_RenderContext::SetRenderTarget(const Ceng::UINT32 targetNum,Cen
 
 	if (renderTarget == nullptr)
 	{
-		nextRenderState->renderTargets[2+targetNum] = nullptr;
+		nextRenderState->renderTargets[2+ index] = nullptr;
 	}
-	else if (targetPtr->GetBufferObject() == nextRenderState->renderTargets[2+targetNum])
+	else if (targetPtr->GetBufferObject() == nextRenderState->renderTargets[2+ index])
 	{
 		return CE_OK;
 	}
@@ -580,7 +585,7 @@ const CRESULT CR_RenderContext::SetRenderTarget(const Ceng::UINT32 targetNum,Cen
 		// NOTE: targetHandles[0] = depthBuffer ,
 		//       targetHandles[1] = stencilBuffer
 
-		nextRenderState->renderTargets[2+targetNum] = targetPtr->GetBufferObject();
+		nextRenderState->renderTargets[2+ index] = targetPtr->GetBufferObject();
 	}
 
 	// Assign render targets to internal buffer so that color targets
@@ -598,6 +603,7 @@ const CRESULT CR_RenderContext::SetRenderTarget(const Ceng::UINT32 targetNum,Cen
 			nextRenderState->activeTargets++;
 		}
 	}
+	*/
 
 	return CE_OK;
 }

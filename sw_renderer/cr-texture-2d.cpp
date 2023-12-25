@@ -84,11 +84,25 @@ const CRESULT CR_Texture2D::GetBufferData2D(Ceng::BufferData2D *dataPtr)
 {
 	return CE_OK;
 }
-		
+
+/*
 const CRESULT CR_Texture2D::GetRenderTarget(Ceng::RenderTarget **targetPtr)
 {
 	return CE_OK;
 }
+*/
+
+const Ceng::CRESULT CR_Texture2D::GetRenderTargetView(const Ceng::RenderTargetViewDesc& desc,
+	Ceng::RenderTargetView** targetView)
+{
+	return CE_ERR_FAIL;
+}
+
+const Ceng::CRESULT CR_Texture2D::GetSubResourceData(const Ceng::UINT32 mipLevel, void* destPtr)
+{
+	return CE_ERR_FAIL;
+}
+
 
 const CRESULT CR_Texture2D::GenerateMipMaps(const Ceng::UINT32 baseLevel)
 {

@@ -12,8 +12,11 @@
 
 using namespace Ceng;
 
-CRESULT ConceptRenderer::CreatePixelShader(Ceng::PixelShader **shaderPtr)
+const CRESULT ConceptRenderer::CreatePixelShader(const Ceng::StringUtf8& shaderText, Ceng::PixelShader** shaderPtr)
 {
+	return CE_ERR_FAIL;
+
+	/*
 	Ceng::CR_PixelShader *pixelShader;
 
 	*shaderPtr = nullptr;
@@ -38,15 +41,19 @@ CRESULT ConceptRenderer::CreatePixelShader(Ceng::PixelShader **shaderPtr)
 	psTempRegister.semantic = Ceng::SHADER_SEMANTIC::COLOR_0;
 	pixelShader->inputSemantics.push_back(psTempRegister);
 	*/
-	psTempRegister.semantic = Ceng::SHADER_SEMANTIC::TEXCOORD_0;
-	pixelShader->inputSemantics.push_back(psTempRegister);
 	
-	psTempRegister.semantic = Ceng::SHADER_SEMANTIC::TEXCOORD_1;
-	pixelShader->inputSemantics.push_back(psTempRegister);
+	//psTempRegister.semantic = Ceng::SHADER_SEMANTIC::TEXCOORD_0;
+	//pixelShader->inputSemantics.push_back(psTempRegister);
+	
+	//psTempRegister.semantic = Ceng::SHADER_SEMANTIC::TEXCOORD_1;
+	//pixelShader->inputSemantics.push_back(psTempRegister);
+
 	/*
 	psTempRegister.semantic = Ceng::SHADER_SEMANTIC::TEXCOORD_2;
 	pixelShader->inputSemantics.push_back(psTempRegister);
 	*/
+
+	/*
 	Ceng::CR_ShaderConstant tempConst;
 
 	tempConst.dataType = SHADER_DATATYPE::UINT;
@@ -62,6 +69,7 @@ CRESULT ConceptRenderer::CreatePixelShader(Ceng::PixelShader **shaderPtr)
 	pixelShader->renderTargets.push_back(psTempTarget);
 
 	*shaderPtr = (Ceng::PixelShader*)pixelShader;
+	*/
 
 	return CE_OK;
 }

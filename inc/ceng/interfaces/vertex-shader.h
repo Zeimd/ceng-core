@@ -18,7 +18,7 @@ namespace Ceng
 	class VertexShader : public BASE_INTERFACE
 	{
 	protected:
-		virtual ~VertexShader()
+		~VertexShader() override
 		{
 		}
 	

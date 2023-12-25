@@ -260,3 +260,18 @@ const Ceng::CRESULT CR_RenderContext::GetFrontBufferTarget(RenderTargetView** fr
 {
 
 }
+
+const Ceng::CRESULT CR_RenderContext::SetIndexBuffer(Ceng::IndexBuffer* indexBuffer)
+{
+
+}
+
+const Ceng::CRESULT CR_RenderContext::DrawIndexed(const Ceng::PRIMITIVE_TYPE::value type, const Ceng::UINT32 firstVertex, const Ceng::UINT32 primitives)
+{
+
+}
+
+const Ceng::CRESULT CR_RenderContext::SetDepthStencilState(Ceng::DepthStencilState* state)
+{
+
+}

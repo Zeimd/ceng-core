@@ -54,12 +54,10 @@ void CR_VertexBuffer::Release()
 	delete this;
 }
 
-/*
 const BufferType::value CR_VertexBuffer::GetResourceType()
 {
 	return BufferType::buffer;
 }
-*/
 
 const CRESULT CR_VertexBuffer::ElementSize(Ceng::UINT32 *size)
 {

@@ -102,9 +102,68 @@ namespace Ceng
 	
 	public:
 		ConceptRenderer();
-		virtual ~ConceptRenderer();
+		~ConceptRenderer() override;
 		
-		virtual void Release() override;
+		void Release() override;
+
+		const Ceng::CRESULT CreateVertexShader(const Ceng::StringUtf8& shaderText, Ceng::VertexShader** shaderPtr) override;
+
+		CRESULT CreateVertexFormat(const std::vector<Ceng::VertexDeclData>
+			& vertexDecl,
+			Ceng::VertexFormat** format) override;
+
+		CRESULT CreateVertexBuffer(UINT32 vertexSizeBytes,
+			UINT32 vertexNum,
+			UINT32 usage,
+			Ceng::VertexBuffer** destPtr) override;
+
+		const Ceng::CRESULT CreateIndexBuffer(const Ceng::UINT32 elementSize, const Ceng::UINT32 elements,
+			const Ceng::UINT32 usage, void* initialData, Ceng::IndexBuffer** destPtr) override;
+
+		/**
+		 * Returns recommended maximum number of vertices in a vertex buffer.
+		 */
+		const Ceng::UINT32 GetOptimalVertexElements() override;
+
+		/**
+		* Returns recommended maximum number of indices in an index buffer.
+		*/
+		const Ceng::UINT32 GetOptimalIndexElements() override;
+
+		const Ceng::CRESULT CreatePixelShader(const Ceng::StringUtf8& shaderText, Ceng::PixelShader** shaderPtr) override;
+
+		const Ceng::CRESULT CreateShaderProgram(Ceng::VertexShader* vertexShader, Ceng::PixelShader* pixelShader, Ceng::ShaderProgram** program) override;
+
+		const CRESULT CreateSamplerState(const SamplerStateDesc& desc,
+			Ceng::SamplerState** out_state) override;
+
+		const CRESULT CreateShaderResourceView(RenderResource* resource,
+			ShaderResourceViewDesc& desc,
+			ShaderResourceView** out_resourceView) override;
+
+		const CRESULT CreateBlendState(BlendStateDesc* desc, BlendState** statePtr) override;
+
+		const Ceng::CRESULT CreateDepthStencilState(const DepthStencilDesc& desc, DepthStencilState** statePtr) override;
+
+		const CRESULT CreateTexture2D(const Texture2dDesc& desc,
+			const SubResourceData* initialData,
+			Ceng::Texture2D** texturePtr) override;
+
+		const CRESULT CreateTexture2D(const GL_Texture2dDesc& desc,
+			const SubResourceData* initialData,
+			Ceng::Texture2D** texturePtr) override;
+
+		const CRESULT CreateCubemap(const Texture2dDesc& desc,
+			const SubResourceData* initialData,
+			Ceng::Cubemap** texturePtr) override;
+
+		const CRESULT CreateProjectionMatrix(const Ceng::INT32 displayWidth, const Ceng::INT32 displayHeight,
+			const Ceng::FLOAT32 horizontalField,
+			const Ceng::FLOAT32 zNear,
+			const Ceng::FLOAT32 zFar,
+			Ceng::Matrix4* dest) override;
+
+	public:
 
 		CRESULT Configure(CPU_Info *cpuInfo,Graphics2D *devicePtr,DisplayMode *desktopMode,
 							SwapChainDesc &swapChainDesc);
@@ -116,56 +175,19 @@ namespace Ceng
 
 		const CRESULT CreateSwapChain(SwapChainDesc &swapChainDesc, SwapChain **out_swapChain);
 		
+		/*
 		CRESULT CreateFrameBuffer(SwapChainDesc *parameters,
 									UINT32 desktopWidth,
 									UINT32 desktopHeight);
+									*/
 
 		//**************************
 		// Vertex format methods
 
 		virtual CRESULT CreateVertexShader(Ceng::VertexShader **shaderPtr);
 		
-		virtual CRESULT CreateVertexFormat(const std::vector<Ceng::VertexDeclData> &vertexDecl,
-											Ceng::VertexFormat **format);
-
 		UINT32 VertexVariableSize(Ceng::VTX_DATATYPE::value dataType);		
 		
-		CRESULT CreateVertexShader(void *symbolTable,void *shaderFunction,Ceng::VertexShader **shaderPtr);
-
-		
-		//*********************************
-		// Pixel shader methods
-
-		virtual CRESULT CreatePixelShader(Ceng::PixelShader **shaderPtr);
-
-		//***************************
-		// Vertex buffer methods
-		
-		virtual CRESULT CreateVertexBuffer(UINT32 vertexSizeBytes,
-											UINT32 vertexNum,
-											UINT32 usage,
-											Ceng::VertexBuffer **destPtr);
-		
-		//********************************
-		// Texture methods
-
-		virtual const CRESULT CreateSamplerState(const SamplerStateDesc &desc,
-			Ceng::SamplerState **out_state) override;
-
-		virtual const CRESULT CreateShaderResourceView(RenderResource *resource,
-			ShaderResourceViewDesc &desc,
-			ShaderResourceView **out_resourceView) override;
-		
-		virtual const CRESULT CreateTexture2D(const Texture2dDesc &desc,
-			const SubResourceData *initialData,Ceng::Texture2D **texturePtr) override;
-
-		virtual CRESULT CreateProjectionMatrix(UINT32 displayWidth,
-												UINT32 displayHeight,
-												FLOAT32 horizontalField,
-												FLOAT32 zNear,
-												FLOAT32 zFar,
-												Matrix4 *dest);
-
 	protected:
 
 		const CRESULT CopyTextureData(CR_NewTargetData *texture, const SubResourceData *sourceData,

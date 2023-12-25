@@ -40,6 +40,8 @@ namespace Ceng
 
 		// Loads partial buffer's worth of data
 		const Ceng::CRESULT LoadPartialData(const Ceng::UINT32 startOffset, const Ceng::UINT32 size, void* dataPtr) override;
+
+		const BufferType::value GetResourceType() override;
 	};
 };
 

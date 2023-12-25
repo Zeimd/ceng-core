@@ -64,6 +64,16 @@ void CR_VertexShader::Release()
 	delete this;
 }
 
+const Ceng::CRESULT CR_VertexShader::GetLog(Ceng::StringUtf8** log)
+{
+	return CE_ERR_FAIL;
+}
+
+const Ceng::BOOL CR_VertexShader::Compiled()
+{
+	return compiled;
+}
+
 CRESULT CR_VertexShader::GetConstant(const char *variableName,
 									 Ceng::ShaderConstant **handle)
 {

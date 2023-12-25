@@ -58,6 +58,8 @@ namespace Ceng
 	{
 	public:
 
+		Ceng::BOOL compiled;
+
 		VertexShaderWrapper wrapper;
 
 		std::vector<CR_ShaderConstant> uniformList;
@@ -102,12 +104,18 @@ namespace Ceng
 	public:
 	
 		CR_VertexShader();
-		virtual ~CR_VertexShader();
+		~CR_VertexShader() override;
 
-		virtual void Release() override;
+		void Release() override;
 
-		virtual CRESULT GetConstant(const char *variableName,
-										Ceng::ShaderConstant **handle);
+		CRESULT GetConstant(const char* variableName,
+			Ceng::ShaderConstant** handle) override;
+
+		const Ceng::CRESULT GetLog(Ceng::StringUtf8** log) override;
+
+		const Ceng::BOOL Compiled() override;
+
+	public:
 
 		const CRESULT ReadUniform(const Ceng::UINT32 index,void *destBuffer);
 

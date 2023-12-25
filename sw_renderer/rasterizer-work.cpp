@@ -42,7 +42,9 @@ const CRESULT CR_Rasterizer::Rasterize(std::shared_ptr<RasterizerBatch> &batch,
 	{
 		if (outputs[k]->quadCount > 0)
 		{
-			outputStage.AddTask(3*batch->bucketId+k, std::shared_ptr<LockingTask>(outputs[k]));
+			auto task = std::make_shared<LockingTask>(outputs[k]);
+
+			outputStage.AddTask(3*batch->bucketId+k, task);
 		}
 		else
 		{
@@ -321,6 +323,8 @@ const Ceng::INT32 CR_Rasterizer::RasterizeTriangle(std::vector<Task_PixelShader*
 
 		for(Ceng::INT32 j=xMin;j<xMax;j+=8)
 		{
+			INT32 scissorIndex = 4; // Fully inside (always -1)
+
 			// Trivial reject test
 
 			// NOTE: Means that the triangle isn't over this tile,
@@ -348,8 +352,6 @@ const Ceng::INT32 CR_Rasterizer::RasterizeTriangle(std::vector<Task_PixelShader*
 			}
 
 			// Scissor mask selection
-
-			INT32 scissorIndex = 4; // Fully inside (always -1)
 
 			if (k <= scissorRect->top)
 			{

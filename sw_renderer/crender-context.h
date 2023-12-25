@@ -117,10 +117,13 @@ namespace Ceng
 
 		const Ceng::CRESULT StartScene() override;
 		const Ceng::CRESULT EndScene() override;
+
+		const Ceng::CRESULT SetIndexBuffer(Ceng::IndexBuffer* indexBuffer) override;
 	
 		const Ceng::CRESULT DrawPrimitive(const Ceng::PRIMITIVE_TYPE::value type,
 			const Ceng::UINT32 firstVertex, const Ceng::UINT32 primitives) override;
 
+		const Ceng::CRESULT DrawIndexed(const Ceng::PRIMITIVE_TYPE::value type, const Ceng::UINT32 firstVertex, const Ceng::UINT32 primitives) override;
 
 		const Ceng::CRESULT SetRasterizerState(const Ceng::RasterizerState *state) override;
 
@@ -137,6 +140,8 @@ namespace Ceng
 		const Ceng::CRESULT SetBlendState(BlendState* state, Ceng::FLOAT32* blendFactor) override;
 
 		const Ceng::CRESULT SetDepth(RenderTargetView* view) override;
+
+		const Ceng::CRESULT SetDepthStencilState(Ceng::DepthStencilState* state) override;
 
 		const Ceng::CRESULT SetDepthStencil(RenderTargetView* view) override;
 

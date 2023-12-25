@@ -201,66 +201,6 @@ const CRESULT ConceptRenderer::CreateSwapChain(SwapChainDesc &swapChainDesc, Swa
 	return CE_OK;
 }
 
-//*************************************************************************
-// Matrix methods
-
-CRESULT ConceptRenderer::CreateProjectionMatrix(Ceng::UINT32 projDisplayWidth,
-												Ceng::UINT32 projDisplayHeight,
-												FLOAT32 horizontalField,
-												FLOAT32 zNear,FLOAT32 zFar,
-												Matrix4 *dest)
-{
-	if (dest == nullptr)
-	{
-		return CE_ERR_FAIL;
-	}
-
-	// Determine dilation
-
-	if (horizontalField >= FLOAT32(180.0f) 
-		|| horizontalField <= FLOAT32(0.0f))
-	{
-		horizontalField = FLOAT32(90.0f);
-	}
-
-	FLOAT32 dilation;
-	FLOAT32 aspectRatio;
-
-	dilation = FLOAT32(1.0f) / 
-		tan(FLOAT32(0.5f)*horizontalField*degrees_to_radians);
-
-	aspectRatio = (FLOAT32(projDisplayWidth) / FLOAT32(projDisplayHeight));
-
-	FLOAT32 depth0,depth1;
-
-	depth0 = zFar / (zFar - zNear);
-	depth1 = -(zNear*zFar) / (zFar - zNear);
-
-	// Fill the projection matrix
-
-	dest->data[0][0] = FLOAT32(1.0f) * dilation;
-	dest->data[0][1] = FLOAT32(0.0f);
-	dest->data[0][2] = FLOAT32(0.0f); //-centerX / dilation;
-	dest->data[0][3] = FLOAT32(0.0f);
-
-	dest->data[1][0] = FLOAT32(0.0f);
-	dest->data[1][1] = aspectRatio * dilation;
-	dest->data[1][2] = FLOAT32(0.0f);//-centerY / dilation;
-	dest->data[1][3] = FLOAT32(0.0f);
-
-	dest->data[2][0] = FLOAT32(0.0f);
-	dest->data[2][1] = FLOAT32(0.0f);
-	dest->data[2][2] = -depth0;
-	dest->data[2][3] = depth1;
-
-	dest->data[3][0] = FLOAT32(0.0f);
-	dest->data[3][1] = FLOAT32(0.0f);
-	dest->data[3][2] = FLOAT32(-1.0f);
-	dest->data[3][3] = FLOAT32(0.0f);
-
-	return CE_OK;
-}
-
 const CRESULT ConceptRenderer::CreateSamplerState(const SamplerStateDesc &desc,
 	Ceng::SamplerState **out_state)
 {
@@ -281,7 +221,7 @@ const CRESULT ConceptRenderer::CreateShaderResourceView(RenderResource *resource
 
 		CR_Texture2D *temp = (CR_Texture2D*)resource;
 
-		return temp->GetShaderView(desc, out_resourceView);
+		return temp->GetShaderViewTex2D(desc, out_resourceView);
 	}
 
 
@@ -347,7 +287,7 @@ const CRESULT ConceptRenderer::CreateTexture2D(const Texture2dDesc &desc,
 
 			cresult = bufferFactory.GetTexture2D(localDesc, &tempTexture);
 
-			if (j == 0 || !(desc.miscFlags & BufferOptions::generate_mip_maps))
+			if (j == 0 || !(desc.optionFlags & BufferOptions::generate_mip_maps))
 			{
 				const SubResourceData *data = &initialData[k*localDesc.mipLevels + j];
 
@@ -373,7 +313,7 @@ const CRESULT ConceptRenderer::CreateTexture2D(const Texture2dDesc &desc,
 
 	CR_Texture2D *tempTex = new CR_Texture2D(localDesc, std::move(textures));
 
-	if (desc.miscFlags & BufferOptions::generate_mip_maps)
+	if (desc.optionFlags & BufferOptions::generate_mip_maps)
 	{
 		tempTex->GenerateMipMaps(0);
 	}
@@ -526,6 +466,116 @@ const CRESULT ConceptRenderer::CopyTextureData(CR_NewTargetData *texture, const 
 			sourceAddress += rowBytes;
 		}
 	}
+
+	return CE_OK;
+}
+
+const Ceng::CRESULT ConceptRenderer::CreateVertexShader(const Ceng::StringUtf8& shaderText, Ceng::VertexShader** shaderPtr)
+{
+
+}
+
+const Ceng::CRESULT ConceptRenderer::CreateIndexBuffer(const Ceng::UINT32 elementSize, const Ceng::UINT32 elements,
+	const Ceng::UINT32 usage, void* initialData, Ceng::IndexBuffer** destPtr)
+{
+
+}
+
+const Ceng::UINT32 ConceptRenderer::GetOptimalVertexElements()
+{
+
+}
+
+const Ceng::UINT32 ConceptRenderer::GetOptimalIndexElements()
+{
+
+}
+
+const Ceng::CRESULT ConceptRenderer::CreatePixelShader(const Ceng::StringUtf8& shaderText, Ceng::PixelShader** shaderPtr)
+{
+
+}
+
+const Ceng::CRESULT ConceptRenderer::CreateShaderProgram(Ceng::VertexShader* vertexShader, Ceng::PixelShader* pixelShader, Ceng::ShaderProgram** program)
+{
+
+}
+
+const CRESULT ConceptRenderer::CreateBlendState(BlendStateDesc* desc, BlendState** statePtr)
+{
+
+}
+
+const Ceng::CRESULT ConceptRenderer::CreateDepthStencilState(const DepthStencilDesc& desc, DepthStencilState** statePtr)
+{
+
+}
+
+const CRESULT ConceptRenderer::CreateTexture2D(const GL_Texture2dDesc& desc,	const SubResourceData* initialData,
+	Ceng::Texture2D** texturePtr)
+{
+
+}
+
+const CRESULT ConceptRenderer::CreateCubemap(const Texture2dDesc& desc, const SubResourceData* initialData,
+	Ceng::Cubemap** texturePtr)
+{
+
+}
+
+const CRESULT ConceptRenderer::CreateProjectionMatrix(const Ceng::INT32 displayWidth, const Ceng::INT32 displayHeight,
+	const Ceng::FLOAT32 horizontalField, const Ceng::FLOAT32 zNear, const Ceng::FLOAT32 zFar,
+	Ceng::Matrix4* dest)
+{
+	if (dest == nullptr)
+	{
+		return CE_ERR_FAIL;
+	}
+
+	// Determine dilation
+
+	Ceng::FLOAT32 horizField = horizontalField;
+
+	if (horizontalField >= FLOAT32(180.0f)
+		|| horizontalField <= FLOAT32(0.0f))
+	{
+		horizField = FLOAT32(90.0f);
+	}
+
+	FLOAT32 dilation;
+	FLOAT32 aspectRatio;
+
+	dilation = FLOAT32(1.0f) /
+		tan(FLOAT32(0.5f) * horizField * degrees_to_radians);
+
+	aspectRatio = (FLOAT32(displayWidth) / FLOAT32(displayHeight));
+
+	FLOAT32 depth0, depth1;
+
+	depth0 = zFar / (zFar - zNear);
+	depth1 = -(zNear * zFar) / (zFar - zNear);
+
+	// Fill the projection matrix
+
+	dest->data[0][0] = FLOAT32(1.0f) * dilation;
+	dest->data[0][1] = FLOAT32(0.0f);
+	dest->data[0][2] = FLOAT32(0.0f); //-centerX / dilation;
+	dest->data[0][3] = FLOAT32(0.0f);
+
+	dest->data[1][0] = FLOAT32(0.0f);
+	dest->data[1][1] = aspectRatio * dilation;
+	dest->data[1][2] = FLOAT32(0.0f);//-centerY / dilation;
+	dest->data[1][3] = FLOAT32(0.0f);
+
+	dest->data[2][0] = FLOAT32(0.0f);
+	dest->data[2][1] = FLOAT32(0.0f);
+	dest->data[2][2] = -depth0;
+	dest->data[2][3] = depth1;
+
+	dest->data[3][0] = FLOAT32(0.0f);
+	dest->data[3][1] = FLOAT32(0.0f);
+	dest->data[3][2] = FLOAT32(-1.0f);
+	dest->data[3][3] = FLOAT32(0.0f);
 
 	return CE_OK;
 }
