@@ -58,7 +58,7 @@ const CRESULT CR_Rasterizer::TriangleSetup(std::shared_ptr<TriangleBatch> &batch
 		{
 			if (outputBatch[j] != nullptr)
 			{
-				auto task = std::make_shared<LockingTask>(new Task_Rasterizer(outputBatch[j]));
+				std::shared_ptr<LockingTask> task = std::make_shared<Task_Rasterizer>(outputBatch[j]);
 
 				outputStage.AddTask(j,task);
 			}

@@ -324,21 +324,21 @@ namespace Ceng
 
 
 		template<class STRING_TYPE,class STRIP_TYPE>
-		static const STRING_TYPE LeftStrip(const STRING_TYPE &source,const STRIP_TYPE *stripList)
+		static const STRING_TYPE LeftStrip(const typename STRING_TYPE &source,const STRIP_TYPE *stripList)
 		{
 			typename STRING_TYPE::CONST_ITERATOR_TYPE start;
 
-			start = typename source.FindFirstNotOf(stripList,source.ConstBeginIterator());
+			start = source.FindFirstNotOf(stripList,source.ConstBeginIterator());
 
 			return source.SubString(start,source.ConstEndIterator());
 		}
 
 		template<class STRING_TYPE,class STRIP_TYPE>
-		static const STRING_TYPE RightStrip(const STRING_TYPE &source,const STRIP_TYPE *stripList)
+		static const STRING_TYPE RightStrip(const typename STRING_TYPE &source,const STRIP_TYPE *stripList)
 		{
 			typename STRING_TYPE::CONST_REVERSE_ITERATOR_TYPE end;
 
-			end = typename source.FindLastNotOf(stripList,source.ConstReverseBeginIterator());
+			end = source.FindLastNotOf(stripList,source.ConstReverseBeginIterator());
 
 			return source.SubString(source.ConstBeginIterator(),end.Iterator()+1);
 		}

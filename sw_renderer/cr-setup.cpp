@@ -472,55 +472,55 @@ const CRESULT ConceptRenderer::CopyTextureData(CR_NewTargetData *texture, const 
 
 const Ceng::CRESULT ConceptRenderer::CreateVertexShader(const Ceng::StringUtf8& shaderText, Ceng::VertexShader** shaderPtr)
 {
-
+	return CE_ERR_UNIMPLEMENTED;
 }
 
 const Ceng::CRESULT ConceptRenderer::CreateIndexBuffer(const Ceng::UINT32 elementSize, const Ceng::UINT32 elements,
 	const Ceng::UINT32 usage, void* initialData, Ceng::IndexBuffer** destPtr)
 {
-
+	return CE_ERR_UNIMPLEMENTED;
 }
 
 const Ceng::UINT32 ConceptRenderer::GetOptimalVertexElements()
 {
-
+	return CE_ERR_UNIMPLEMENTED;
 }
 
 const Ceng::UINT32 ConceptRenderer::GetOptimalIndexElements()
 {
-
+	return CE_ERR_UNIMPLEMENTED;
 }
 
 const Ceng::CRESULT ConceptRenderer::CreatePixelShader(const Ceng::StringUtf8& shaderText, Ceng::PixelShader** shaderPtr)
 {
-
+	return CE_ERR_UNIMPLEMENTED;
 }
 
 const Ceng::CRESULT ConceptRenderer::CreateShaderProgram(Ceng::VertexShader* vertexShader, Ceng::PixelShader* pixelShader, Ceng::ShaderProgram** program)
 {
-
+	return CE_ERR_UNIMPLEMENTED;
 }
 
 const CRESULT ConceptRenderer::CreateBlendState(BlendStateDesc* desc, BlendState** statePtr)
 {
-
+	return CE_ERR_UNIMPLEMENTED;
 }
 
 const Ceng::CRESULT ConceptRenderer::CreateDepthStencilState(const DepthStencilDesc& desc, DepthStencilState** statePtr)
 {
-
+	return CE_ERR_UNIMPLEMENTED;
 }
 
 const CRESULT ConceptRenderer::CreateTexture2D(const GL_Texture2dDesc& desc,	const SubResourceData* initialData,
 	Ceng::Texture2D** texturePtr)
 {
-
+	return CE_ERR_UNIMPLEMENTED;
 }
 
 const CRESULT ConceptRenderer::CreateCubemap(const Texture2dDesc& desc, const SubResourceData* initialData,
 	Ceng::Cubemap** texturePtr)
 {
-
+	return CE_ERR_UNIMPLEMENTED;
 }
 
 const CRESULT ConceptRenderer::CreateProjectionMatrix(const Ceng::INT32 displayWidth, const Ceng::INT32 displayHeight,

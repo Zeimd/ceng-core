@@ -77,7 +77,7 @@ const CRESULT CR_Clipper::ClipPrimitives(std::shared_ptr<ClipperBatch> &batch,
 		}
 	}
 
-	auto task = std::make_shared<LockingTask>(new Task_TriangleSetup(outputBatch));
+	std::shared_ptr<LockingTask> task = std::make_shared<Task_TriangleSetup>(outputBatch);
 
 	outputQueue.AddTask(0,task);
 

@@ -218,60 +218,60 @@ const Ceng::CRESULT CR_RenderContext::SetVertexStream(const Ceng::UINT32 index, 
 
 const Ceng::CRESULT CR_RenderContext::SetShaderProgram(Ceng::ShaderProgram* program)
 {
-
+	return CE_ERR_UNIMPLEMENTED;
 }
 
 const Ceng::CRESULT CR_RenderContext::SetViewport(const Ceng::INT32 x, const Ceng::INT32 y, const Ceng::INT32 width, const Ceng::INT32 height)
 {
-
+	return CE_ERR_UNIMPLEMENTED;
 }
 
 const Ceng::CRESULT CR_RenderContext::SetPixelShaderResource(const Ceng::UINT32 index, ShaderResourceView* resource)
 {
-
+	return CE_ERR_UNIMPLEMENTED;
 }
 
 const Ceng::CRESULT CR_RenderContext::SetPixelShaderSamplerState(const Ceng::UINT32 index, SamplerState* sampler)
 {
-
+	return CE_ERR_UNIMPLEMENTED;
 }
 
 const Ceng::CRESULT CR_RenderContext::SetRenderTarget(const Ceng::UINT32 index, RenderTargetView* view)
 {
-
+	return CE_ERR_UNIMPLEMENTED;
 }
 
 const Ceng::CRESULT CR_RenderContext::SetBlendState(BlendState* state, Ceng::FLOAT32* blendFactor)
 {
-
+	return CE_ERR_UNIMPLEMENTED;
 }
 
 const Ceng::CRESULT CR_RenderContext::SetDepth(RenderTargetView* view)
 {
-
+	return CE_ERR_UNIMPLEMENTED;
 }
 
 const Ceng::CRESULT CR_RenderContext::SetDepthStencil(RenderTargetView* view)
 {
-
+	return CE_ERR_UNIMPLEMENTED;
 }
 
 const Ceng::CRESULT CR_RenderContext::GetFrontBufferTarget(RenderTargetView** frontBuffer)
 {
-
+	return CE_ERR_UNIMPLEMENTED;
 }
 
 const Ceng::CRESULT CR_RenderContext::SetIndexBuffer(Ceng::IndexBuffer* indexBuffer)
 {
-
+	return CE_ERR_UNIMPLEMENTED;
 }
 
 const Ceng::CRESULT CR_RenderContext::DrawIndexed(const Ceng::PRIMITIVE_TYPE::value type, const Ceng::UINT32 firstVertex, const Ceng::UINT32 primitives)
 {
-
+	return CE_ERR_UNIMPLEMENTED;
 }
 
 const Ceng::CRESULT CR_RenderContext::SetDepthStencilState(Ceng::DepthStencilState* state)
 {
-
+	return CE_ERR_UNIMPLEMENTED;
 }

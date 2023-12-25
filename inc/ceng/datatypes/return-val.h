@@ -48,6 +48,8 @@ namespace Ceng
 		CE_ERR_OUT_OF_VIDEO_MEMORY = 22 ,
 
 		CE_ERR_UNDEFINED_UNIFORM = 23 ,
+
+		CE_ERR_UNIMPLEMENTED = (1 << 29) , 
 		
 		CRESULT_FORCE_32BIT = (1 << 30) ,
 	};

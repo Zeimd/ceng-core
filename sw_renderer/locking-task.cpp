@@ -23,3 +23,13 @@ LockingTask::~LockingTask()
 		lock->Unlock();
 	}
 }
+
+const CRESULT LockingTask::Prepare(const Ceng::UINT32 threadId, Pipeline* pipeline)
+{
+	return CE_ERR_FAIL;
+}
+
+const CRESULT LockingTask::Execute(const Ceng::UINT32 threadId, Pipeline* pipeline)
+{
+	return CE_ERR_FAIL;
+}

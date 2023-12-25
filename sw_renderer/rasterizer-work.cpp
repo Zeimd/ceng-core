@@ -42,7 +42,7 @@ const CRESULT CR_Rasterizer::Rasterize(std::shared_ptr<RasterizerBatch> &batch,
 	{
 		if (outputs[k]->quadCount > 0)
 		{
-			auto task = std::make_shared<LockingTask>(outputs[k]);
+			std::shared_ptr<LockingTask> task = std::shared_ptr<Task_PixelShader>(outputs[k]);
 
 			outputStage.AddTask(3*batch->bucketId+k, task);
 		}

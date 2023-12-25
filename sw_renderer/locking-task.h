@@ -25,7 +25,11 @@ namespace Ceng
 
 	public:
 
-		virtual ~LockingTask();
+		~LockingTask() override;
+
+		const CRESULT Prepare(const Ceng::UINT32 threadId, Pipeline* pipeline) override;
+
+		const CRESULT Execute(const Ceng::UINT32 threadId, Pipeline* pipeline) override;
 	};
 }
 
