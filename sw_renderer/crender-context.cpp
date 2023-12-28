@@ -20,7 +20,7 @@
 #include "command-thread.h"
 
 #include "rasterizer-cr.h"
-#include "crender.h"
+#include "software-renderer.h"
 
 #include "clipper.h"
 
@@ -76,7 +76,7 @@ void CR_RenderContext::Release()
 	delete this;
 }
 
-const Ceng::CRESULT CR_RenderContext::Configure(ConceptRenderer *parentDevice)
+const Ceng::CRESULT CR_RenderContext::Configure(SoftwareRenderer* parentDevice)
 {
 	this->parentDevice = parentDevice;
 
@@ -306,6 +306,8 @@ const Ceng::CRESULT CR_RenderContext::SetDepthStencil(RenderTargetView* view)
 
 const Ceng::CRESULT CR_RenderContext::GetFrontBufferTarget(RenderTargetView** frontBuffer)
 {
+
+
 	return CE_ERR_UNIMPLEMENTED;
 }
 

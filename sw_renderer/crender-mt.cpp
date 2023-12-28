@@ -6,7 +6,7 @@
 #include <ceng/datatypes/swap-chain-desc.h>
 #include <ceng/interfaces/swap-chain.h>
 
-#include "crender.h"
+#include "software-renderer.h"
 
 #include "crender-context.h"
 
@@ -20,13 +20,13 @@ extern "C" __declspec(dllexport) int GetRenderDevice(Ceng::CPU_Info *cpuInfo,
 	Ceng::RenderDevice **renderer,
 	Ceng::RenderContext **context)
 {
-	Ceng::ConceptRenderer *temp;
+	Ceng::SoftwareRenderer *temp;
 
 	*renderer = NULL;
 
 	try
 	{
-		temp = new Ceng::ConceptRenderer();
+		temp = new Ceng::SoftwareRenderer();
 	}
 	catch (std::bad_alloc&)
 	{

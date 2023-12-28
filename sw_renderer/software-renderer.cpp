@@ -1,10 +1,10 @@
 /*****************************************************************************
 *
-* cr-setup.cpp
+* software-renderer.cpp
 *
 * By Jari Korkala 30/6/2011
 *
-* Core methods for software Concept Renderer.
+* Core methods for software renderer.
 *
 *****************************************************************************/
 
@@ -14,7 +14,7 @@
 
 #include <ceng/datatypes/release-deleter.h>
 
-#include "crender.h"
+#include "software-renderer.h"
 
 #include "rasterizer-cr.h"
 
@@ -36,7 +36,7 @@ using namespace Ceng;
 //***************************************************************************
 // Concept Renderer methods
 
-ConceptRenderer::ConceptRenderer()
+SoftwareRenderer::SoftwareRenderer()
 {
 	outputDevice = nullptr;
 	deviceWindow = nullptr;
@@ -55,7 +55,7 @@ ConceptRenderer::ConceptRenderer()
 	Log::Print("ConceptRenderer : constructor");
 }
 
-ConceptRenderer::~ConceptRenderer()
+SoftwareRenderer::~SoftwareRenderer()
 {
 	if (outputDevice != nullptr)
 	{
@@ -65,12 +65,12 @@ ConceptRenderer::~ConceptRenderer()
 	Log::Print("ConceptRenderer : destuctor");
 }
 
-void ConceptRenderer::Release()
+void SoftwareRenderer::Release()
 {
 	delete this;
 }
 
-CRESULT ConceptRenderer::Configure(CPU_Info *cpuInfo,Graphics2D *devicePtr,
+CRESULT SoftwareRenderer::Configure(CPU_Info *cpuInfo,Graphics2D *devicePtr,
 									DisplayMode *desktopMode,
 									SwapChainDesc &swapChainDesc)
 {
@@ -122,14 +122,14 @@ CRESULT ConceptRenderer::Configure(CPU_Info *cpuInfo,Graphics2D *devicePtr,
 	return CE_OK;
 }
 
-const Ceng::CRESULT ConceptRenderer::GetContext(RenderContext **contextPtr)
+const Ceng::CRESULT SoftwareRenderer::GetContext(RenderContext **contextPtr)
 {
 	*contextPtr = (Ceng::RenderContext*)renderContext;
 
 	return CE_OK;
 }
 
-const CRESULT ConceptRenderer::AutoCreateDepthStencil(SwapChainDesc &swapChainDesc,
+const CRESULT SoftwareRenderer::AutoCreateDepthStencil(SwapChainDesc &swapChainDesc,
 	DisplayMode *desktopMode)
 {
 	Ceng::UINT32 bufferWidth = swapChainDesc.displayMode.width;
@@ -166,7 +166,7 @@ const CRESULT ConceptRenderer::AutoCreateDepthStencil(SwapChainDesc &swapChainDe
 	return CE_OK;
 }
 						
-const CRESULT ConceptRenderer::CreateSwapChain(SwapChainDesc &swapChainDesc, SwapChain **out_swapChain)
+const CRESULT SoftwareRenderer::CreateSwapChain(SwapChainDesc &swapChainDesc, SwapChain **out_swapChain)
 {
 	CRESULT cresult;
 
@@ -208,7 +208,7 @@ const CRESULT ConceptRenderer::CreateSwapChain(SwapChainDesc &swapChainDesc, Swa
 	return CE_OK;
 }
 
-const CRESULT ConceptRenderer::CreateSamplerState(const SamplerStateDesc &desc,
+const CRESULT SoftwareRenderer::CreateSamplerState(const SamplerStateDesc &desc,
 	Ceng::SamplerState **out_state)
 {
 	CR_SamplerState *temp = new CR_SamplerState(desc);
@@ -218,7 +218,7 @@ const CRESULT ConceptRenderer::CreateSamplerState(const SamplerStateDesc &desc,
 	return CE_OK;
 }
 
-const CRESULT ConceptRenderer::CreateShaderResourceView(RenderResource *resource,
+const CRESULT SoftwareRenderer::CreateShaderResourceView(RenderResource *resource,
 	ShaderResourceViewDesc &desc,
 	ShaderResourceView **out_resourceView)
 {
@@ -236,7 +236,7 @@ const CRESULT ConceptRenderer::CreateShaderResourceView(RenderResource *resource
 }
 
 
-const CRESULT ConceptRenderer::CreateTexture2D(const Texture2dDesc &desc,
+const CRESULT SoftwareRenderer::CreateTexture2D(const Texture2dDesc &desc,
 	const SubResourceData *initialData, Ceng::Texture2D **texturePtr)
 {
 	TextureArrayVector textures(desc.arraySize);
@@ -368,7 +368,7 @@ const CRESULT ConceptRenderer::CreateTexture2D(const Texture2dDesc &desc,
 	return CE_OK;
 }
 
-const CRESULT ConceptRenderer::CopyToTiled(CR_NewTargetData *tiledTex, CR_NewTargetData *sourceTex)
+const CRESULT SoftwareRenderer::CopyToTiled(CR_NewTargetData *tiledTex, CR_NewTargetData *sourceTex)
 {
 	Ceng::UINT8 *sourceAddress = (Ceng::UINT8*)sourceTex->baseAddress;
 
@@ -391,7 +391,7 @@ const CRESULT ConceptRenderer::CopyToTiled(CR_NewTargetData *tiledTex, CR_NewTar
 	return CE_OK;
 }
 
-const Ceng::UINT8* ConceptRenderer::GetTiledAddress(CR_NewTargetData *tiledTex,
+const Ceng::UINT8* SoftwareRenderer::GetTiledAddress(CR_NewTargetData *tiledTex,
 	const Ceng::UINT32 u, const Ceng::UINT32 v) const
 {
 	
@@ -427,7 +427,7 @@ const Ceng::UINT8* ConceptRenderer::GetTiledAddress(CR_NewTargetData *tiledTex,
 	return texelPtr;
 }
 
-const CRESULT ConceptRenderer::CopyTextureData(CR_NewTargetData *texture, const SubResourceData *sourceData,
+const CRESULT SoftwareRenderer::CopyTextureData(CR_NewTargetData *texture, const SubResourceData *sourceData,
 	const Ceng::IMAGE_FORMAT::value sourceFormat)
 {
 	Ceng::UINT8 *destAddress = (Ceng::UINT8*)texture->baseAddress;
@@ -477,28 +477,28 @@ const CRESULT ConceptRenderer::CopyTextureData(CR_NewTargetData *texture, const 
 	return CE_OK;
 }
 
-const Ceng::CRESULT ConceptRenderer::CreateVertexShader(const Ceng::StringUtf8& shaderText, Ceng::VertexShader** shaderPtr)
+const Ceng::CRESULT SoftwareRenderer::CreateVertexShader(const Ceng::StringUtf8& shaderText, Ceng::VertexShader** shaderPtr)
 {
 	return CE_ERR_UNIMPLEMENTED;
 }
 
-const Ceng::CRESULT ConceptRenderer::CreateIndexBuffer(const Ceng::UINT32 elementSize, const Ceng::UINT32 elements,
+const Ceng::CRESULT SoftwareRenderer::CreateIndexBuffer(const Ceng::UINT32 elementSize, const Ceng::UINT32 elements,
 	const Ceng::UINT32 usage, void* initialData, Ceng::IndexBuffer** destPtr)
 {
 	return CE_ERR_UNIMPLEMENTED;
 }
 
-const Ceng::UINT32 ConceptRenderer::GetOptimalVertexElements()
+const Ceng::UINT32 SoftwareRenderer::GetOptimalVertexElements()
 {
 	return CE_ERR_UNIMPLEMENTED;
 }
 
-const Ceng::UINT32 ConceptRenderer::GetOptimalIndexElements()
+const Ceng::UINT32 SoftwareRenderer::GetOptimalIndexElements()
 {
 	return CE_ERR_UNIMPLEMENTED;
 }
 
-const Ceng::CRESULT ConceptRenderer::CreatePixelShader(const Ceng::StringUtf8& shaderText, Ceng::PixelShader** shaderPtr)
+const Ceng::CRESULT SoftwareRenderer::CreatePixelShader(const Ceng::StringUtf8& shaderText, Ceng::PixelShader** shaderPtr)
 {
 	return CE_ERR_UNIMPLEMENTED;
 
@@ -558,34 +558,34 @@ const Ceng::CRESULT ConceptRenderer::CreatePixelShader(const Ceng::StringUtf8& s
 	*/
 }
 
-const Ceng::CRESULT ConceptRenderer::CreateShaderProgram(Ceng::VertexShader* vertexShader, Ceng::PixelShader* pixelShader, Ceng::ShaderProgram** program)
+const Ceng::CRESULT SoftwareRenderer::CreateShaderProgram(Ceng::VertexShader* vertexShader, Ceng::PixelShader* pixelShader, Ceng::ShaderProgram** program)
 {
 	return CE_ERR_UNIMPLEMENTED;
 }
 
-const CRESULT ConceptRenderer::CreateBlendState(BlendStateDesc* desc, BlendState** statePtr)
+const CRESULT SoftwareRenderer::CreateBlendState(BlendStateDesc* desc, BlendState** statePtr)
 {
 	return CE_ERR_UNIMPLEMENTED;
 }
 
-const Ceng::CRESULT ConceptRenderer::CreateDepthStencilState(const DepthStencilDesc& desc, DepthStencilState** statePtr)
+const Ceng::CRESULT SoftwareRenderer::CreateDepthStencilState(const DepthStencilDesc& desc, DepthStencilState** statePtr)
 {
 	return CE_ERR_UNIMPLEMENTED;
 }
 
-const CRESULT ConceptRenderer::CreateTexture2D(const GL_Texture2dDesc& desc,	const SubResourceData* initialData,
+const CRESULT SoftwareRenderer::CreateTexture2D(const GL_Texture2dDesc& desc,	const SubResourceData* initialData,
 	Ceng::Texture2D** texturePtr)
 {
 	return CE_ERR_UNIMPLEMENTED;
 }
 
-const CRESULT ConceptRenderer::CreateCubemap(const Texture2dDesc& desc, const SubResourceData* initialData,
+const CRESULT SoftwareRenderer::CreateCubemap(const Texture2dDesc& desc, const SubResourceData* initialData,
 	Ceng::Cubemap** texturePtr)
 {
 	return CE_ERR_UNIMPLEMENTED;
 }
 
-const CRESULT ConceptRenderer::CreateProjectionMatrix(const Ceng::INT32 displayWidth, const Ceng::INT32 displayHeight,
+const CRESULT SoftwareRenderer::CreateProjectionMatrix(const Ceng::INT32 displayWidth, const Ceng::INT32 displayHeight,
 	const Ceng::FLOAT32 horizontalField, const Ceng::FLOAT32 zNear, const Ceng::FLOAT32 zFar,
 	Ceng::Matrix4* dest)
 {

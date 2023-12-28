@@ -28,7 +28,7 @@ namespace Ceng
 	class Thread;
 	class DrawBatch;
 
-	class ConceptRenderer;
+	class SoftwareRenderer;
 
 	class CR_Clipper;
 	class CR_Rasterizer;
@@ -37,7 +37,7 @@ namespace Ceng
 	{
 	public:
 
-		ConceptRenderer *parentDevice;
+		SoftwareRenderer *parentDevice;
 
 		/**
 		* Render state that will be enabled by the next draw call.
@@ -101,7 +101,7 @@ namespace Ceng
 
 		void Release() override;
 
-		const Ceng::CRESULT Configure(ConceptRenderer *parentDevice);
+		const Ceng::CRESULT Configure(SoftwareRenderer* parentDevice);
 
 		const Ceng::CRESULT ClearTarget(Ceng::RenderTarget *renderTarget, const CE_Color &color) override;
 

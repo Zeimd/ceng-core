@@ -186,7 +186,7 @@
     <ClInclude Include="..\..\sw_renderer\cr-vertex-shader.h" />
     <ClInclude Include="..\..\sw_renderer\crender-base.h" />
     <ClInclude Include="..\..\sw_renderer\crender-context.h" />
-    <ClInclude Include="..\..\sw_renderer\crender.h" />
+    <ClInclude Include="..\..\sw_renderer\software-renderer.h" />
     <ClInclude Include="..\..\sw_renderer\draw-batch.h" />
     <ClInclude Include="..\..\sw_renderer\draw-call.h" />
     <ClInclude Include="..\..\sw_renderer\fragment-format.h" />
@@ -253,7 +253,7 @@
     <ClCompile Include="..\..\sw_renderer\cr-pixel-shader.cpp" />
     <ClCompile Include="..\..\sw_renderer\cr-resource.cpp" />
     <ClCompile Include="..\..\sw_renderer\cr-sampler-state.cpp" />
-    <ClCompile Include="..\..\sw_renderer\cr-setup.cpp" />
+    <ClCompile Include="..\..\sw_renderer\software-renderer.cpp" />
     <ClCompile Include="..\..\sw_renderer\cr-shader-const.cpp" />
     <ClCompile Include="..\..\sw_renderer\cr-shader-view-tex2d.cpp" />
     <ClCompile Include="..\..\sw_renderer\cr-swap-chain.cpp" />

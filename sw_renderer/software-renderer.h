@@ -1,10 +1,10 @@
 /*****************************************************************************
 *
-* crender.h
+* software-renderer.h
 *
 * By Jari Korkala 30/6/2011
 *
-* Class ConceptRenderer : Implements a software renderer.
+* Class SoftwareRenderer : Implements a software renderer.
 *
 *****************************************************************************/
 
@@ -61,7 +61,7 @@ namespace Ceng
 	class CR_RenderContext;
 	class SwapChain;
 
-	class ConceptRenderer : public RenderDevice
+	class SoftwareRenderer : public RenderDevice
 	{
 	public:
 
@@ -101,8 +101,8 @@ namespace Ceng
 	
 	
 	public:
-		ConceptRenderer();
-		~ConceptRenderer() override;
+		SoftwareRenderer();
+		~SoftwareRenderer() override;
 		
 		void Release() override;
 

@@ -6,7 +6,7 @@
 *
 *****************************************************************************/
 
-#include "crender.h"
+#include "software-renderer.h"
 
 #include "cr-vertex-format.h"
 
@@ -16,7 +16,7 @@
 
 using namespace Ceng;
 
-CRESULT ConceptRenderer::CreateVertexFormat(const std::vector<Ceng::VertexDeclData> &vertexDecl,
+CRESULT SoftwareRenderer::CreateVertexFormat(const std::vector<Ceng::VertexDeclData> &vertexDecl,
 												Ceng::VertexFormat **vertexFormat)
 {	
 	*vertexFormat = nullptr;
@@ -225,7 +225,7 @@ CRESULT ConceptRenderer::CreateVertexFormat(const std::vector<Ceng::VertexDeclDa
 	return CE_OK;
 }
 
-Ceng::UINT32 ConceptRenderer::VertexVariableSize(Ceng::VTX_DATATYPE::value dataType)
+Ceng::UINT32 SoftwareRenderer::VertexVariableSize(Ceng::VTX_DATATYPE::value dataType)
 {
 	switch(dataType)
 	{
@@ -242,7 +242,7 @@ Ceng::UINT32 ConceptRenderer::VertexVariableSize(Ceng::VTX_DATATYPE::value dataT
 	};
 }
 
-CRESULT ConceptRenderer::CreateVertexBuffer(Ceng::UINT32 vertexSizeBytes,
+CRESULT SoftwareRenderer::CreateVertexBuffer(Ceng::UINT32 vertexSizeBytes,
 											Ceng::UINT32 vertexNum,
 											Ceng::UINT32 usage,
 											Ceng::VertexBuffer **destPtr)
@@ -301,7 +301,7 @@ CRESULT ConceptRenderer::CreateVertexBuffer(Ceng::UINT32 vertexSizeBytes,
 	return CE_OK;
 }
 
-CRESULT ConceptRenderer::CreateVertexShader(Ceng::VertexShader **shaderPtr)
+CRESULT SoftwareRenderer::CreateVertexShader(Ceng::VertexShader **shaderPtr)
 {
 	Log::Print("CreateVertexShader : method start");
 
