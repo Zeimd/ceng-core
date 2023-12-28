@@ -261,6 +261,9 @@
     <ClInclude Include="..\..\sw_renderer\cr-depthstencil-state.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\cr-shader-program.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -456,6 +459,9 @@
       <Filter>Source Files\sw_renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\..\sw_renderer\cr-depthstencil-state.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\cr-shader-program.cpp">
       <Filter>Source Files\sw_renderer</Filter>
     </ClCompile>
   </ItemGroup>
