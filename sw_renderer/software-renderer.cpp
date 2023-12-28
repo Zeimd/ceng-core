@@ -37,6 +37,7 @@
 
 #include "cr-vertex-shader.h"
 
+#include "cr-depthstencil-state.h"
 
 using namespace Ceng;
 
@@ -261,8 +262,10 @@ const CRESULT SoftwareRenderer::CreateTexture2D(const Texture2dDesc &desc,
 	case IMAGE_FORMAT::C24_RGB:
 		internalFormat = IMAGE_FORMAT::C32_ARGB;
 		break;
+	case IMAGE_FORMAT::C24_BGR:
+		internalFormat = IMAGE_FORMAT::C32_ABGR;
+		break;
 	default:
-		return Ceng::CE_ERR_NOT_SUPPORTED;
 		break;
 	}
 
@@ -578,7 +581,9 @@ const CRESULT SoftwareRenderer::CreateBlendState(BlendStateDesc* desc, BlendStat
 
 const Ceng::CRESULT SoftwareRenderer::CreateDepthStencilState(const DepthStencilDesc& desc, DepthStencilState** statePtr)
 {
-	return CE_ERR_UNIMPLEMENTED;
+	*statePtr = new CR_DepthStencilState(desc);
+
+	return CE_OK;
 }
 
 const CRESULT SoftwareRenderer::CreateTexture2D(const GL_Texture2dDesc& desc,	const SubResourceData* initialData,

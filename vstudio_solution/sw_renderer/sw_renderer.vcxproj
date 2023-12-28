@@ -170,6 +170,7 @@
     <ClInclude Include="..\..\sw_renderer\clipper-state.h" />
     <ClInclude Include="..\..\sw_renderer\clipper.h" />
     <ClInclude Include="..\..\sw_renderer\command-thread.h" />
+    <ClInclude Include="..\..\sw_renderer\cr-depthstencil-state.h" />
     <ClInclude Include="..\..\sw_renderer\cr-image-buffer.h" />
     <ClInclude Include="..\..\sw_renderer\cr-memory-pool.h" />
     <ClInclude Include="..\..\sw_renderer\cr-pixel-shader.h" />
@@ -250,6 +251,7 @@
     <ClCompile Include="..\..\sw_renderer\cmd-draw.cpp" />
     <ClCompile Include="..\..\sw_renderer\cmd-flip-buffers.cpp" />
     <ClCompile Include="..\..\sw_renderer\command-thread.cpp" />
+    <ClCompile Include="..\..\sw_renderer\cr-depthstencil-state.cpp" />
     <ClCompile Include="..\..\sw_renderer\cr-image-buffer.cpp" />
     <ClCompile Include="..\..\sw_renderer\cr-pixel-shader.cpp" />
     <ClCompile Include="..\..\sw_renderer\cr-rendertargetview.cpp" />
