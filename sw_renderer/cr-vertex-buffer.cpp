@@ -20,6 +20,8 @@
 *
 *****************************************************************************/
 
+#include <string.h>
+
 #include "cr-vertex-buffer.h"
 
 using namespace Ceng;
@@ -92,7 +94,14 @@ const CRESULT CR_VertexBuffer::BufferPtr(Ceng::UINT8 **bufferPtr)
 
 const Ceng::CRESULT CR_VertexBuffer::LoadData(void* dataPtr)
 {
-	return CE_ERR_UNIMPLEMENTED;
+	if (dataPtr == nullptr)
+	{
+		return CE_ERR_INVALID_PARAM;
+	}
+
+	memcpy(vertexBuffer, dataPtr, elementSizeBytes * elementCount);
+
+	return CE_OK;
 }
 
 const Ceng::CRESULT CR_VertexBuffer::LoadPartialData(const Ceng::UINT32 startOffset, const Ceng::UINT32 size, void* dataPtr)
