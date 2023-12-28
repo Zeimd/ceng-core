@@ -67,7 +67,7 @@ namespace Ceng
 				
 		virtual void Release() override;
 
-		static ConceptRenderer_D3D9* GetInstance(CPU_Info *cpuData);
+		static Ceng::CRESULT GetInstance(CPU_Info *cpuData, ConceptRenderer_D3D9** out_renderer);
 
 		const CRESULT Initialize();
 

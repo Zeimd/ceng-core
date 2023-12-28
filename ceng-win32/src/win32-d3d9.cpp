@@ -87,6 +87,7 @@ const CRESULT Direct3D_Core::GetRenderDevice(GraphicsAdapter *adapter,
 											 RenderDevice **devicePtr,
 											 RenderContext **contextPtr)
 {
+	/*
 	if (adapter == nullptr)
 	{
 		return CE_ERR_INVALID_PARAM;
@@ -99,7 +100,7 @@ const CRESULT Direct3D_Core::GetRenderDevice(GraphicsAdapter *adapter,
 
 	D3DPRESENT_PARAMETERS d3d_params;
 
-	CRESULT cresult = Direct3D_Core::TranslateSwapChainDesc(*swapChainDesc, d3d_params);
+	CRESULT cresult = Direct3D_Core::TranslateSwapChainDesc(*swapChainDesc, adapter, d3d_params);
 
 	if (cresult != CE_OK) return cresult;
 
@@ -131,6 +132,9 @@ const CRESULT Direct3D_Core::GetRenderDevice(GraphicsAdapter *adapter,
 
 
 	return CE_OK;
+	*/
+
+	return CE_ERR_UNIMPLEMENTED;
 }
 
 LPDIRECT3D9 Direct3D_Core::GetCore()
@@ -343,6 +347,7 @@ const Ceng::CRESULT Direct3D_Core::CheckBufferSupport(GraphicsAdapter *adapter,
 const CRESULT Direct3D_Core::CreateSwapChain(RenderDevice *device, SwapChainDesc &swapChainDesc,
 	SwapChain **chainPtr)
 {
+	/*
 	if (device == nullptr) return CE_ERR_INVALID_PARAM;
 
 	D3DPRESENT_PARAMETERS params;
@@ -366,25 +371,106 @@ const CRESULT Direct3D_Core::CreateSwapChain(RenderDevice *device, SwapChainDesc
 	{
 		return CE_ERR_INVALID_PARAM;
 	}
+	*/
 
-	return CE_OK;
+	return CE_ERR_UNIMPLEMENTED;
 }
 
 
-const Ceng::CRESULT Direct3D_Core::TranslateSwapChainDesc(Ceng::SwapChainDesc &swapChainDesc,
+const Ceng::CRESULT Direct3D_Core::TranslateSwapChainDesc(Ceng::SwapChainDesc &swapChainDesc, Ceng::GraphicsAdapter* adapter,
 	D3DPRESENT_PARAMETERS &out_params)
 {
+	memset(&out_params,0,sizeof(D3DPRESENT_PARAMETERS));
+	
 	D3DFORMAT format = MapFormat(swapChainDesc.displayMode.format);
 
 	if (format == D3DFMT_UNKNOWN) return CE_ERR_NOT_SUPPORTED;
 
 	out_params.BackBufferWidth = swapChainDesc.displayMode.width;
 	out_params.BackBufferHeight = swapChainDesc.displayMode.height;
-	out_params.BackBufferFormat = format;
-	out_params.FullScreen_RefreshRateInHz = swapChainDesc.displayMode.refreshHz;
-	out_params.BackBufferCount = swapChainDesc.bufferCount;
 
-	out_params.MultiSampleType = MultisampleType(swapChainDesc.multisampleDesc.count);
+	if (swapChainDesc.windowed)
+	{
+		D3DDISPLAYMODE desktopMode;
+
+		Direct3D9_Adapter* d3d_adapter = (Direct3D9_Adapter*)adapter;
+
+		HRESULT hr = d3d_core->GetAdapterDisplayMode(d3d_adapter->index, &desktopMode);
+		if (hr == D3DERR_INVALIDCALL)
+		{
+			return CE_ERR_FAIL;
+		}
+
+		out_params.BackBufferFormat = desktopMode.Format;
+
+		out_params.Flags |= D3DPRESENTFLAG_DEVICECLIP;
+
+		// Copy specified back buffer area without stretching to
+		// target window
+
+		out_params.SwapEffect = D3DSWAPEFFECT_COPY;
+
+		// Swap effect "copy" required exactly 1 back buffer
+		out_params.BackBufferCount = 1;
+
+		// Required when not using swap effect "discard"
+		out_params.MultiSampleType = D3DMULTISAMPLE_NONE;
+		out_params.MultiSampleQuality = 0;
+
+		// Must be zero for windowed mode
+		out_params.FullScreen_RefreshRateInHz = 0;
+	}
+	else
+	{
+		switch (swapChainDesc.displayMode.format)
+		{
+		case Ceng::IMAGE_FORMAT::C16:
+			out_params.BackBufferFormat = D3DFMT_R5G6B5;
+			break;
+		case Ceng::IMAGE_FORMAT::C16_A1:
+			out_params.BackBufferFormat = D3DFMT_A1R5G5B5;
+			break;
+		case Ceng::IMAGE_FORMAT::C32_ARGB:
+			out_params.BackBufferFormat = D3DFMT_A8R8G8B8;
+			break;
+		case Ceng::IMAGE_FORMAT::C32_A2_RGB:
+			out_params.BackBufferFormat = D3DFMT_A2R10G10B10;
+			break;
+		default:
+			//Ceng::Log::Print("Error: display format not supported");
+			return CE_ERR_NOT_SUPPORTED;
+			break;
+		}
+
+		out_params.BackBufferCount = swapChainDesc.bufferCount;
+
+		out_params.MultiSampleQuality = swapChainDesc.multisampleDesc.quality;
+
+		out_params.MultiSampleType = MultisampleType(swapChainDesc.multisampleDesc.count);
+
+		if (out_params.MultiSampleType == D3DMULTISAMPLE_FORCE_DWORD)
+		{
+			return CE_ERR_NOT_SUPPORTED;
+		}
+
+		out_params.FullScreen_RefreshRateInHz = swapChainDesc.displayMode.refreshHz;
+
+		switch (swapChainDesc.swapEffect)
+		{
+		case Ceng::SwapEffect::discard:
+			out_params.SwapEffect = D3DSWAPEFFECT_DISCARD;
+			break;
+		case Ceng::SwapEffect::flip:
+			out_params.SwapEffect = D3DSWAPEFFECT_FLIP;
+			break;
+		case Ceng::SwapEffect::copy:
+			out_params.SwapEffect = D3DSWAPEFFECT_COPY;
+			break;
+		default:
+			return CE_ERR_NOT_SUPPORTED;
+		}
+
+	}
 
 	out_params.EnableAutoDepthStencil = swapChainDesc.autoDepthStencil;
 	out_params.AutoDepthStencilFormat = MapFormat(swapChainDesc.autoDepthStencilFormat);
@@ -396,29 +482,6 @@ const Ceng::CRESULT Direct3D_Core::TranslateSwapChainDesc(Ceng::SwapChainDesc &s
 			return CE_ERR_INVALID_PARAM;
 		}
 	}
-
-	if (out_params.MultiSampleType == D3DMULTISAMPLE_FORCE_DWORD)
-	{
-		return CE_ERR_NOT_SUPPORTED;
-	}
-
-	out_params.MultiSampleQuality = swapChainDesc.multisampleDesc.quality;
-
-	switch (swapChainDesc.swapEffect)
-	{
-	case Ceng::SwapEffect::discard:
-		out_params.SwapEffect = D3DSWAPEFFECT_DISCARD;
-		break;
-	case Ceng::SwapEffect::flip:
-		out_params.SwapEffect = D3DSWAPEFFECT_FLIP;
-		break;
-	case Ceng::SwapEffect::copy:
-		out_params.SwapEffect = D3DSWAPEFFECT_COPY;
-		break;
-	default:
-		return CE_ERR_NOT_SUPPORTED;
-	}
-
 
 	switch (swapChainDesc.presentInterval)
 	{
@@ -441,7 +504,6 @@ const Ceng::CRESULT Direct3D_Core::TranslateSwapChainDesc(Ceng::SwapChainDesc &s
 		return CE_ERR_NOT_SUPPORTED;
 	}
 	
-
 	::DWORD flags = 0;
 
 	if (swapChainDesc.swapOptions & Ceng::SwapOptions::not_prerotated)

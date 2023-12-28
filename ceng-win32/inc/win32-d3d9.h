@@ -93,7 +93,7 @@ namespace Ceng
 
 		static const D3DMULTISAMPLE_TYPE MultisampleType(const Ceng::UINT32 sampleCount);
 
-		static const Ceng::CRESULT TranslateSwapChainDesc(Ceng::SwapChainDesc &swapChainDesc,
+		const Ceng::CRESULT TranslateSwapChainDesc(Ceng::SwapChainDesc &swapChainDesc, Ceng::GraphicsAdapter* adapter,
 			D3DPRESENT_PARAMETERS &out_params);
 	};
 

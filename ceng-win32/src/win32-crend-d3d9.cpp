@@ -16,14 +16,16 @@
 #include "../inc/win32-crend-d3d9.h"
 
 #include "../inc/win32-window.h"
+#include "../inc/d3d9-adapter.h"
+
 
 #ifdef _MSC_VER
 	#ifdef UNICODE
-		constexpr ::WCHAR* DEBUG_DLL = L"crender-mt-debug.dll";
-		constexpr ::WCHAR* RELEASE_DLL = L"crender-mt.dll";
+		constexpr ::WCHAR* DEBUG_DLL = L"ceng-swr-debug.dll";
+		constexpr ::WCHAR* RELEASE_DLL = L"ceng-swr.dll";
 	#else
-		constexpr ::TCHAR* DEBUG_DLL = "crender-mt-debug.dll";
-		constexpr ::TCHAR* RELEASE_DLL = "crender-mt.dll";
+		constexpr ::TCHAR* DEBUG_DLL = "ceng-swr-debug.dll";
+		constexpr ::TCHAR* RELEASE_DLL = "ceng-swr.dll";
 	#endif
 
 	#ifdef _DEBUG
@@ -43,7 +45,7 @@
 
 using namespace Ceng;
 
-ConceptRenderer_D3D9* ConceptRenderer_D3D9::GetInstance(CPU_Info *cpuData)
+Ceng::CRESULT ConceptRenderer_D3D9::GetInstance(CPU_Info* cpuData, ConceptRenderer_D3D9** out_renderer)
 {
 	CRESULT cresult;
 
@@ -53,7 +55,7 @@ ConceptRenderer_D3D9* ConceptRenderer_D3D9::GetInstance(CPU_Info *cpuData)
 
 	if (cresult != CE_OK)
 	{
-		return nullptr;
+		return CE_ERR_FAIL;
 	}
 
 	CriticalSection *crit_crenderMT;
@@ -63,7 +65,7 @@ ConceptRenderer_D3D9* ConceptRenderer_D3D9::GetInstance(CPU_Info *cpuData)
 	if (cresult != CE_OK)
 	{
 		crit_crender->Release();
-		return nullptr;
+		return CE_ERR_FAIL;
 	}
 
 	Direct3D_Core *core = Direct3D_Core::GetInstance();
@@ -72,14 +74,16 @@ ConceptRenderer_D3D9* ConceptRenderer_D3D9::GetInstance(CPU_Info *cpuData)
 	{
 		crit_crender->Release();
 		crit_crenderMT->Release();
-		return nullptr;
+		return CE_ERR_FAIL;
 	}
 
 	ConceptRenderer_D3D9 *temp = new ConceptRenderer_D3D9(core,cpuData,
 															crit_crender,
 															crit_crenderMT);
 
-	return temp;
+	*out_renderer = temp;
+
+	return CE_OK;
 }
 
 ConceptRenderer_D3D9::ConceptRenderer_D3D9(Direct3D_Core *core,CPU_Info *cpuData,
@@ -151,50 +155,59 @@ const CRESULT ConceptRenderer_D3D9::GetRenderDevice(GraphicsAdapter *adapter,
 													RenderDevice **devicePtr,
 													RenderContext **contextPtr)
 {
+	CRESULT cresult;
+
 	//Ceng::Log::Print("call : ConceptRenderer_Core::GetRenderDevice\n");
 
 	if (parameters == nullptr)
 	{
 		//Ceng::Log::Print("\tError : parameters = nullptr\n");
-		return CE_ERR_INVALID_PARAM;
+		//return CE_ERR_INVALID_PARAM;
+		return CE_ERR_DEBUG_0;
 	}
 
 	if (parameters->outputWindow == nullptr)
 	{
 		//Ceng::Log::Print("\tError : parameters->displayWindow = nullptr\n");
-		return CE_ERR_INVALID_PARAM;
+		//return CE_ERR_INVALID_PARAM;
+		return CE_ERR_DEBUG_1;
 	}
 
 	if (devicePtr == nullptr)
 	{
 		//Ceng::Log::Print("\tError : devicePtr = nullptr\n");
-		return CE_ERR_NULL_PTR;
+		//return CE_ERR_NULL_PTR;
+		return CE_ERR_DEBUG_2;
 	}
 
 	// Convert API parameters to Direct3D 9 format
 
 	D3DFORMAT depthFormat;
-	D3DFORMAT outputFormat;
 
 	// Find desktop mode
 
+	LPDIRECT3D9 corePtr = d3d_core->GetCore();
+	
 	HRESULT hr;
-	D3DDISPLAYMODE desktopMode;
+
 
 	DisplayMode crender_desktopMode;
 
 	d3d_core->CurrentDisplayMode(adapter,crender_desktopMode);
 
-	LPDIRECT3D9 corePtr = d3d_core->GetCore();
+	/*
+	D3DDISPLAYMODE desktopMode;
 
-	hr = corePtr->GetAdapterDisplayMode(D3DADAPTER_DEFAULT,&desktopMode);
+	hr = corePtr->GetAdapterDisplayMode(d3d_adapter->index,&desktopMode);
 	if (hr == D3DERR_INVALIDCALL)
 	{
 		//Ceng::Log::Print("\tError : Failed to get desktop mode\n");
-		return CE_ERR_FAIL;
+		//return CE_ERR_FAIL;
+		return CE_ERR_DEBUG_3;
 	}
+	*/
 
-	std::stringstream writer;
+	//std::stringstream writer;
 
 	/*
 	Ceng::Log::Print("\tDesktop mode:\n");
@@ -208,10 +221,26 @@ const CRESULT ConceptRenderer_D3D9::GetRenderDevice(GraphicsAdapter *adapter,
 	*/
 
 	D3DPRESENT_PARAMETERS d3d_Params;
-	memset(&d3d_Params,0,sizeof(D3DPRESENT_PARAMETERS));
+	//memset(&d3d_Params,0,sizeof(D3DPRESENT_PARAMETERS));
 
+	cresult = d3d_core->TranslateSwapChainDesc(*parameters, adapter, d3d_Params);
+
+	if (cresult != Ceng::CE_OK)
+	{
+		return cresult;
+	}
+
+	if (parameters->windowed)
+	{
+
+	}
+
+
+	/*
 	if (!parameters->windowed)
 	{
+		//Ceng::Log::Print("Full screen mode");
+
 		switch(parameters->displayMode.format)
 		{
 		case Ceng::IMAGE_FORMAT::C16:
@@ -231,6 +260,7 @@ const CRESULT ConceptRenderer_D3D9::GetRenderDevice(GraphicsAdapter *adapter,
 			d3d_Params.BackBufferFormat = D3DFMT_A2R10G10B10;
 			break;
 		default:
+			//Ceng::Log::Print("Error: display format not supported");
 			return CE_ERR_NOT_SUPPORTED;
 			break;
 		}
@@ -238,10 +268,12 @@ const CRESULT ConceptRenderer_D3D9::GetRenderDevice(GraphicsAdapter *adapter,
 	else
 	{
 		// Windowed mode
+		//Ceng::Log::Print("Windowed mode");
 
 		outputFormat = desktopMode.Format;
 		d3d_Params.BackBufferFormat = desktopMode.Format;
 	}
+	*/
 
 	// Since we use Direct3D only to display the output of a 
 	// software renderer, find any depth format compatible with
@@ -256,7 +288,7 @@ const CRESULT ConceptRenderer_D3D9::GetRenderDevice(GraphicsAdapter *adapter,
 	for(formatIndex=0;formatIndex<6;formatIndex++)
 	{
 		hr = corePtr->CheckDeviceFormat(D3DADAPTER_DEFAULT,
-											D3DDEVTYPE_HAL,outputFormat,
+											D3DDEVTYPE_HAL, d3d_Params.BackBufferFormat,
 											D3DUSAGE_DEPTHSTENCIL,
 											D3DRTYPE_SURFACE,
 											depthTest[formatIndex]);
@@ -272,7 +304,8 @@ const CRESULT ConceptRenderer_D3D9::GetRenderDevice(GraphicsAdapter *adapter,
 	if (foundDepthFormat == false)
 	{
 		//Ceng::Log::Print("\tError : Couldn't find compatible depth format\n");
-		return CE_ERR_NOT_SUPPORTED;
+		//return CE_ERR_NOT_SUPPORTED;
+		return CE_ERR_DEBUG_4;
 	}
 
 	// Set up parameters
@@ -290,8 +323,6 @@ const CRESULT ConceptRenderer_D3D9::GetRenderDevice(GraphicsAdapter *adapter,
 		parameters->autoDepthStencilFormat = Direct3D_Core::ReverseMapFormat(depthFormat);
 	}
 
-	Direct3D_Core::TranslateSwapChainDesc(*parameters,d3d_Params);
-
 	d3d_Params.EnableAutoDepthStencil = TRUE;
 	d3d_Params.AutoDepthStencilFormat = depthFormat;
 
@@ -300,31 +331,10 @@ const CRESULT ConceptRenderer_D3D9::GetRenderDevice(GraphicsAdapter *adapter,
 
 	if (parameters->windowed)
 	{
-		// Windowed mode
+		// Override normal window size
 
-		//Ceng::Log::Print("\tSetting up windowed mode:\n");
-
-		// Clip back buffer to window client area
-		d3d_Params.Flags |= D3DPRESENTFLAG_DEVICECLIP; 
-
-		d3d_Params.BackBufferWidth = desktopMode.Width;
-		d3d_Params.BackBufferHeight = desktopMode.Height;
-
-		// Copy specified back buffer area without stretching to
-		// target window
-		
-		d3d_Params.SwapEffect = D3DSWAPEFFECT_COPY;
-	
-
-		// Swap effect "copy" required exactly 1 back buffer
-		d3d_Params.BackBufferCount = 1;
-
-		// Required when not using swap effect "discard"
-		d3d_Params.MultiSampleType = D3DMULTISAMPLE_NONE;
-		d3d_Params.MultiSampleQuality = 0;
-
-		// Must be zero for windowed mode
-		d3d_Params.FullScreen_RefreshRateInHz = 0; 
+		d3d_Params.BackBufferWidth = crender_desktopMode.width;
+		d3d_Params.BackBufferHeight = crender_desktopMode.height;
 	}
 
 	DWORD d3d_DeviceFlags = D3DCREATE_HARDWARE_VERTEXPROCESSING;
@@ -356,16 +366,36 @@ const CRESULT ConceptRenderer_D3D9::GetRenderDevice(GraphicsAdapter *adapter,
 
 	// Create Direct3D 9 device
 
-	IDirect3DDevice9 *d3d_Device;
+	Direct3D9_Adapter* d3d_adapter = (Direct3D9_Adapter*)adapter;
 
-	hr = corePtr->CreateDevice(D3DADAPTER_DEFAULT,
-								D3DDEVTYPE_HAL,d3d_Params.hDeviceWindow,
+	IDirect3DDevice9 *d3d_Device = nullptr;
+
+	HWND focusWindow = d3d_Params.hDeviceWindow;
+
+	hr = corePtr->CreateDevice(d3d_adapter->index,
+								D3DDEVTYPE_HAL, focusWindow,
 								d3d_DeviceFlags,&d3d_Params,&d3d_Device);
 								
 	if (hr != D3D_OK)
 	{
 		//Ceng::Log::Print("\tError : Failed to create device\n");
-		return CE_ERR_FAIL;
+		//return CE_ERR_FAIL;
+
+		parameters->bufferCount = d3d_Params.BackBufferCount;
+
+		switch (hr)
+		{
+		case D3DERR_DEVICELOST:
+			return CE_ERR_DEBUG_5;
+		case D3DERR_INVALIDCALL:
+			return CE_ERR_DEBUG_6;
+		case D3DERR_NOTAVAILABLE:
+			return CE_ERR_NOT_SUPPORTED;
+		case D3DERR_OUTOFVIDEOMEMORY:
+			return CE_ERR_OUT_OF_VIDEO_MEMORY;
+		default:
+			return CE_ERR_FAIL;
+		}
 	}
 
 	// Create concept engine output interface
@@ -381,10 +411,9 @@ const CRESULT ConceptRenderer_D3D9::GetRenderDevice(GraphicsAdapter *adapter,
 		//Ceng::Log::Print("\tError : Failed to create output object\n");
 
 		d3d_Device->Release();
-		return CE_ERR_OUT_OF_MEMORY;
+		//return CE_ERR_OUT_OF_MEMORY;
+		return CE_ERR_DEBUG_6;
 	}
-
-	CRESULT cresult;
 
 	// NOTE: control of d3d_Device is transfered to outputDevice
 
@@ -395,7 +424,8 @@ const CRESULT ConceptRenderer_D3D9::GetRenderDevice(GraphicsAdapter *adapter,
 		//Ceng::Log::Print("\tError : d3d_Output configure failed\n");
 
 		graphics2D->Release();
-		return cresult;
+		//return cresult;
+		return CE_ERR_DEBUG_7;
 	}
 
 	// Load crender library
@@ -404,8 +434,8 @@ const CRESULT ConceptRenderer_D3D9::GetRenderDevice(GraphicsAdapter *adapter,
 	RenderDeviceCall local_GetRenderDevice;
 
 
-	if (deviceOptions & E_DeviceOption::multi_threaded)
-	{
+	//if (deviceOptions & E_DeviceOption::multi_threaded)
+	//{
 		crit_crenderMT->Lock();
 
 		if (crenderMT == nullptr)
@@ -415,25 +445,29 @@ const CRESULT ConceptRenderer_D3D9::GetRenderDevice(GraphicsAdapter *adapter,
 
 			if (crenderMT == nullptr)
 			{
+				//Ceng::Log::Print("Error: Failed to load SW renderer DLL");
 				graphics2D->Release();
-				return CE_ERR_FAIL;
+				//return CE_ERR_FAIL;
+				return CE_ERR_DEBUG_8;
 			}
 
 			call_GetRenderDeviceMT = crenderMT->GetFunction("GetRenderDevice");
 
 			if (call_GetRenderDeviceMT == nullptr)
 			{
+				//Ceng::Log::Print("Error: SW renderer DLL does not have function GetRenderDevice");
 				graphics2D->Release();
-				return CE_ERR_FAIL;
+				//return CE_ERR_FAIL;
+				return CE_ERR_DEBUG_9;
 			}
 		}
 
 		crit_crenderMT->Unlock();
 
 		local_GetRenderDevice = (RenderDeviceCall)call_GetRenderDeviceMT;
-	}
-	else
-	{
+	//}
+	//else
+	//{
 		/*
 		crit_crender->Lock();
 
@@ -460,7 +494,7 @@ const CRESULT ConceptRenderer_D3D9::GetRenderDevice(GraphicsAdapter *adapter,
 
 		local_GetRenderDevice = (RenderDeviceCall)call_GetRenderDevice;
 		*/
-	}
+	//}
 
 	// Create renderer object
 
@@ -476,8 +510,10 @@ const CRESULT ConceptRenderer_D3D9::GetRenderDevice(GraphicsAdapter *adapter,
 
 	if (result != 0)
 	{
+		//Ceng::Log::Print("Error: Failed to get SW render device");
 		graphics2D->Release();
-		return CE_ERR_FAIL;
+		//return CE_ERR_FAIL;
+		return CE_ERR_DEBUG_10;
 	}
 	
 	// Write output pointer

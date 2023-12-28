@@ -49,6 +49,20 @@ namespace Ceng
 
 		CE_ERR_UNDEFINED_UNIFORM = 23 ,
 
+		CE_ERR_DEBUG_0 = 1 << 16 ,
+		CE_ERR_DEBUG_1 = (1 << 16) + 1,
+		CE_ERR_DEBUG_2 = (1 << 16) + 2,
+		CE_ERR_DEBUG_3 = (1 << 16) + 3,
+		CE_ERR_DEBUG_4 = (1 << 16) + 4,
+		CE_ERR_DEBUG_5 = (1 << 16) + 5,
+		CE_ERR_DEBUG_6 = (1 << 16) + 6,
+		CE_ERR_DEBUG_7 = (1 << 16) + 7,
+		CE_ERR_DEBUG_8 = (1 << 16) + 8,
+		CE_ERR_DEBUG_9 = (1 << 16) + 9,
+		CE_ERR_DEBUG_10 = (1 << 16) + 10,
+		CE_ERR_DEBUG_11 = (1 << 16) + 11,
+		CE_ERR_DEBUG_12 = (1 << 16) + 12,
+
 		CE_ERR_UNIMPLEMENTED = (1 << 29) , 
 		
 		CRESULT_FORCE_32BIT = (1 << 30) ,

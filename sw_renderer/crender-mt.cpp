@@ -71,13 +71,25 @@ extern "C" __declspec(dllexport) int GetRenderDevice(Ceng::CPU_Info *cpuInfo,
 
 	Ceng::RenderContext *tempContext;
 
-	temp->GetContext(&tempContext);
+	cresult = temp->GetContext(&tempContext);
+
+	if (cresult != Ceng::CE_OK)
+	{
+		temp->Release();
+		return -1;
+	}
 
 	*context = tempContext;
 
 	Ceng::SwapChain *tempChain;
 
-	temp->CreateSwapChain(*swapChainDesc, &tempChain);
+	cresult = temp->CreateSwapChain(*swapChainDesc, &tempChain);
+
+	if (cresult != Ceng::CE_OK)
+	{
+		temp->Release();
+		return -1;
+	}
 
 	*swapChain = (Ceng::SwapChain*)tempChain;
 

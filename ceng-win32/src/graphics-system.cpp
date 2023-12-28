@@ -66,18 +66,18 @@ extern "C" _declspec(dllexport) const Ceng::CRESULT Ceng_CreateGraphics3D(Ceng::
 		*renderer = (PlatformRenderer*)outD3D10;
 
 		return CE_OK;
-		*/	
+		*/
 		
 		
 		//*****************************************************'
 		// Create Direct3D 9 output
-		/*
+		
 		ConceptRenderer_D3D9 *tempCore;
 
-		tempCore = ConceptRenderer_D3D9::GetInstance(tempCPU);
+		cresult = ConceptRenderer_D3D9::GetInstance(tempCPU, &tempCore);
 
 		*out_renderer = (Ceng::GraphicsSystem*)tempCore;
-		*/
+		
 		break;
 	case Ceng::RENDERER_TYPE::D3D_9:
 		/*

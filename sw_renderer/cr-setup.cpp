@@ -194,6 +194,11 @@ const CRESULT ConceptRenderer::CreateSwapChain(SwapChainDesc &swapChainDesc, Swa
 		bufferOptions,
 		&targetData);
 
+	if (cresult != Ceng::CE_OK)
+	{
+		return cresult;
+	}
+
 	targetData->dataLayout = Ceng::BUFFER_LAYOUT::SOA;
 
 	if (cresult != CE_OK) return cresult;
