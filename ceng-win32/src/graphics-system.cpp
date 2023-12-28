@@ -91,7 +91,12 @@ extern "C" _declspec(dllexport) const Ceng::CRESULT Ceng_CreateGraphics3D(Ceng::
 
 	case Ceng::RENDERER_TYPE::opengl_32:
 
+
 		cresult = GL32_GraphicsSystem::GetInstance(tempCPU,out_renderer,log);
+
+		// Not used by opengl version
+		tempCPU->Release();
+
 		break;
 
 	default:
@@ -99,6 +104,5 @@ extern "C" _declspec(dllexport) const Ceng::CRESULT Ceng_CreateGraphics3D(Ceng::
 		return CE_ERR_INVALID_PARAM;
 	}
 
-	tempCPU->Release();
 	return CE_OK;
 }
