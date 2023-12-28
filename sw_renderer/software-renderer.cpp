@@ -490,7 +490,114 @@ const CRESULT SoftwareRenderer::CopyTextureData(CR_NewTargetData *texture, const
 
 const Ceng::CRESULT SoftwareRenderer::CreateVertexShader(const Ceng::StringUtf8& shaderText, Ceng::VertexShader** shaderPtr)
 {
-	return CE_ERR_UNIMPLEMENTED;
+	CRESULT cresult;
+
+	Log::Print("CreateVertexShader : method start");
+
+	//************************************************************
+	// Old creation
+
+	Ceng::CR_VertexShader* vertexShader;
+
+	*shaderPtr = NULL;
+
+	try
+	{
+		vertexShader = new CR_VertexShader();
+	}
+	catch (std::bad_alloc&)
+	{
+		return CE_ERR_OUT_OF_MEMORY;
+	}
+
+	Ceng::CR_vsInputSemantic vsTempInput;
+
+	// Set inputs registers
+
+	vsTempInput.semantic = Ceng::SHADER_SEMANTIC::POSITION;
+	vsTempInput.options = 0;
+
+	vertexShader->inputSemantics.push_back(vsTempInput);
+
+	vsTempInput.semantic = Ceng::SHADER_SEMANTIC::NORMAL;
+	vsTempInput.options = 0;
+
+	vertexShader->inputSemantics.push_back(vsTempInput);
+
+	vsTempInput.semantic = Ceng::SHADER_SEMANTIC::TANGENT;
+	vsTempInput.options = 0;
+
+	vertexShader->inputSemantics.push_back(vsTempInput);
+
+	vsTempInput.semantic = Ceng::SHADER_SEMANTIC::TEXCOORD_0;
+	vsTempInput.options = 0;
+
+	vertexShader->inputSemantics.push_back(vsTempInput);
+
+	vsTempInput.semantic = Ceng::SHADER_SEMANTIC::TEXCOORD_1;
+	vsTempInput.options = 0;
+
+	vertexShader->inputSemantics.push_back(vsTempInput);
+
+	cresult = vertexShader->ConfigureInput();
+	if (cresult != CE_OK)
+	{
+		return cresult;
+	}
+
+	// Set output registers
+
+	Ceng::CR_vsOutputSemantic vShaderOutput;
+
+	vShaderOutput.semantic = Ceng::SHADER_SEMANTIC::POSITION;
+	vShaderOutput.dataType = Ceng::SHADER_DATATYPE::FLOAT4;
+	vShaderOutput.options = 0;
+
+	vertexShader->outputSemantics.push_back(vShaderOutput);
+
+	vShaderOutput.semantic = Ceng::SHADER_SEMANTIC::NORMAL;
+	vShaderOutput.dataType = Ceng::SHADER_DATATYPE::FLOAT4;
+	vShaderOutput.options = 0;
+
+	vertexShader->outputSemantics.push_back(vShaderOutput);
+
+	vShaderOutput.semantic = Ceng::SHADER_SEMANTIC::TANGENT;
+	vShaderOutput.dataType = Ceng::SHADER_DATATYPE::FLOAT4;
+	vShaderOutput.options = 0;
+
+	vertexShader->outputSemantics.push_back(vShaderOutput);
+
+	vShaderOutput.semantic = Ceng::SHADER_SEMANTIC::TEXCOORD_0;
+	vShaderOutput.dataType = Ceng::SHADER_DATATYPE::FLOAT2;
+	vShaderOutput.options = 0;
+
+	vertexShader->outputSemantics.push_back(vShaderOutput);
+
+	vShaderOutput.semantic = Ceng::SHADER_SEMANTIC::TEXCOORD_1;
+	vShaderOutput.dataType = Ceng::SHADER_DATATYPE::FLOAT2;
+	vShaderOutput.options = 0;
+
+	vertexShader->outputSemantics.push_back(vShaderOutput);
+
+	// Set constants
+
+	Ceng::CR_ShaderConstant tempShaderConst;
+
+	tempShaderConst.name = "fullVertexTransform";
+	tempShaderConst.dataType = Ceng::SHADER_DATATYPE::FLOAT4x4;
+
+	vertexShader->uniformList.push_back(tempShaderConst);
+
+	cresult = vertexShader->ConfigureConstants();
+	if (cresult != CE_OK)
+	{
+		return cresult;
+	}
+
+	*shaderPtr = (Ceng::VertexShader*)vertexShader;
+
+	return CE_OK;
+
 }
 
 const Ceng::CRESULT SoftwareRenderer::CreateIndexBuffer(const Ceng::UINT32 elementSize, const Ceng::UINT32 elements,
@@ -511,9 +618,6 @@ const Ceng::UINT32 SoftwareRenderer::GetOptimalIndexElements()
 
 const Ceng::CRESULT SoftwareRenderer::CreatePixelShader(const Ceng::StringUtf8& shaderText, Ceng::PixelShader** shaderPtr)
 {
-	return CE_ERR_UNIMPLEMENTED;
-
-	/*
 	Ceng::CR_PixelShader *pixelShader;
 
 	*shaderPtr = nullptr;
@@ -529,28 +633,19 @@ const Ceng::CRESULT SoftwareRenderer::CreatePixelShader(const Ceng::StringUtf8& 
 
 	Ceng::CR_PixelShaderSemantic psTempRegister;
 
-	/*
+	
 	psTempRegister.semantic = Ceng::SHADER_SEMANTIC::NORMAL;
 	pixelShader->inputSemantics.push_back(psTempRegister);
-	*/
-
-	/*
-	psTempRegister.semantic = Ceng::SHADER_SEMANTIC::COLOR_0;
+	
+	psTempRegister.semantic = Ceng::SHADER_SEMANTIC::TANGENT;
 	pixelShader->inputSemantics.push_back(psTempRegister);
-	*/
 
-	//psTempRegister.semantic = Ceng::SHADER_SEMANTIC::TEXCOORD_0;
-	//pixelShader->inputSemantics.push_back(psTempRegister);
-
-	//psTempRegister.semantic = Ceng::SHADER_SEMANTIC::TEXCOORD_1;
-	//pixelShader->inputSemantics.push_back(psTempRegister);
-
-	/*
-	psTempRegister.semantic = Ceng::SHADER_SEMANTIC::TEXCOORD_2;
+	psTempRegister.semantic = Ceng::SHADER_SEMANTIC::TEXCOORD_0;
 	pixelShader->inputSemantics.push_back(psTempRegister);
-	*/
 
-	/*
+	psTempRegister.semantic = Ceng::SHADER_SEMANTIC::TEXCOORD_1;
+	pixelShader->inputSemantics.push_back(psTempRegister);
+	
 	Ceng::CR_ShaderConstant tempConst;
 
 	tempConst.dataType = SHADER_DATATYPE::UINT;
@@ -566,7 +661,8 @@ const Ceng::CRESULT SoftwareRenderer::CreatePixelShader(const Ceng::StringUtf8& 
 	pixelShader->renderTargets.push_back(psTempTarget);
 
 	*shaderPtr = (Ceng::PixelShader*)pixelShader;
-	*/
+	 
+	return Ceng::CE_OK;
 }
 
 const Ceng::CRESULT SoftwareRenderer::CreateShaderProgram(Ceng::VertexShader* vertexShader, Ceng::PixelShader* pixelShader, Ceng::ShaderProgram** program)
@@ -683,25 +779,18 @@ CRESULT SoftwareRenderer::CreateVertexFormat(const std::vector<Ceng::VertexDeclD
 	size_t k;
 
 	for (k = 0; k < vertexDecl.size(); k++)
-	{
-		if (vertexDecl[k].semantic == Ceng::SHADER_SEMANTIC::FORMAT_END)
-		{
-			break;
-		}
-
+	{	
 		if (vertexDecl[k].format == Ceng::VTX_DATATYPE::FORMAT_END)
 		{
 			break;
 		}
 
-		// Check for illegal enumeration values
-
-		if (vertexDecl[k].semantic == Ceng::SHADER_SEMANTIC::FORCE_32B)
+		if (vertexDecl[k].format == Ceng::SHADER_SEMANTIC::FORMAT_END)
 		{
-			return CE_ERR_INVALID_PARAM;
+			break;
 		}
 
-		if (vertexDecl[k].streamSource > CRENDER_MAX_VERTEX_STREAMS)
+		if (vertexDecl[k].streamSource >= CRENDER_MAX_VERTEX_STREAMS)
 		{
 			return CE_ERR_INVALID_PARAM;
 		}
@@ -940,217 +1029,6 @@ CRESULT SoftwareRenderer::CreateVertexBuffer(Ceng::UINT32 vertexSizeBytes,
 	return CE_OK;
 }
 
-CRESULT SoftwareRenderer::CreateVertexShader(Ceng::VertexShader** shaderPtr)
-{
-	Log::Print("CreateVertexShader : method start");
 
-
-
-	//************************************************************
-	// Assembler test
-
-	/*
-	AssemblyWriter assembler;
-
-	Program *program = assembler.CreateProgram(PROGRAM_TYPE::VERTEX_SHADER);
-
-	// Input attributes
-
-	program->DeclareVariable(VARIABLE_FLAG::ATTRIBUTE,"float4","vPosition",NULL);
-
-	program->DeclareVariable(VARIABLE_FLAG::ATTRIBUTE,"float4","vNormal",NULL);
-	program->DeclareVariable(VARIABLE_FLAG::ATTRIBUTE,"float4","vColor",NULL);
-
-	program->DeclareVariable(VARIABLE_FLAG::ATTRIBUTE,"float2","vTexCoord",NULL);
-	program->DeclareVariable(VARIABLE_FLAG::ATTRIBUTE,"float","vTest1",NULL);
-	program->DeclareVariable(VARIABLE_FLAG::ATTRIBUTE,"float","vTest2",NULL);
-
-	// Output varyings
-
-	program->DeclareVariable(VARIABLE_FLAG::VARYING,"float4","fNormal",NULL);
-	program->DeclareVariable(VARIABLE_FLAG::VARYING,"float4","fColor",NULL);
-
-	program->DeclareVariable(VARIABLE_FLAG::VARYING,"float2","fTexCoord",NULL);
-	program->DeclareVariable(VARIABLE_FLAG::VARYING,"float","fTest1",NULL);
-	program->DeclareVariable(VARIABLE_FLAG::VARYING,"float","fTest2",NULL);
-
-	// Uniforms
-
-	program->DeclareVariable(VARIABLE_FLAG::UNIFORM,"float4x4","fullVertexTransform",NULL);
-
-	// Struct test
-
-	Struct *lightSource = program->CreateStruct("LightSource");
-
-	lightSource->members.DeclareVariable(0,"float3","position",NULL);
-	lightSource->members.DeclareVariable(0,"float3","normal",NULL);
-
-	program->DeclareType(lightSource);
-
-	Struct *testStruct = lightSource->members.CreateStruct("IndentTest");
-
-	testStruct->members.DeclareVariable(0,"float4","testing",NULL);
-
-	lightSource->members.DeclareType(testStruct);
-
-	std::vector<UINT32> arraySizes;
-
-	arraySizes.push_back(2);
-
-	program->DeclareVariable(VARIABLE_FLAG::UNIFORM,"LightSource","lights",&arraySizes);
-
-	// Constants
-
-	arraySizes.clear();
-	arraySizes.push_back(4);
-
-	// Initializer list
-
-	InitializerList *initializer = new InitializerList();
-
-	initializer->AddItem(new InitFloat4(1.0,1.0,1.0,1.0));
-
-	program->DeclareConstant(0,"float","constTest",&arraySizes,initializer);
-
-	// Shader function
-
-	Function *vertexMain = program->CreateFunction("VertexMain");
-
-	SharedPtr<CodeBlock> body = vertexMain->GetBody();
-
-	body->DeclareVariable(0,"float4","temp",NULL);
-
-	body->AddInstruction("gl_Position",assembler.GetOperator(OPCODE::MULTIPLY),
-								"fullVertexTransform","vPosition");
-
-	body->AddInstruction("temp",assembler.GetOperator(OPCODE::ADD),"vPosition");
-
-	program->AddFunction(vertexMain);
-
-
-	assembler.GenerateCode(program,"asm-out.txt");
-
-	delete program;
-	*/
-
-	//************************************************************
-	// Old creation
-
-	Ceng::CR_VertexShader* vertexShader;
-
-	*shaderPtr = NULL;
-
-	try
-	{
-		vertexShader = new CR_VertexShader();
-	}
-	catch (std::bad_alloc&)
-	{
-		return CE_ERR_OUT_OF_MEMORY;
-	}
-
-	Ceng::CR_vsInputSemantic vsTempInput;
-
-	// Set inputs registers
-
-	vsTempInput.semantic = Ceng::SHADER_SEMANTIC::POSITION;
-	vsTempInput.options = 0;
-
-	vertexShader->inputSemantics.push_back(vsTempInput);
-
-	/*
-	vsTempInput.semantic = Ceng::SHADER_SEMANTIC::NORMAL;
-	vsTempInput.options = 0;
-	vertexShader->inputSemantics.push_back(vsTempInput);
-	*/
-
-	/*
-	vsTempInput.semantic = Ceng::SHADER_SEMANTIC::COLOR_0;
-	vsTempInput.options = 0;
-
-	vertexShader->inputSemantics.push_back(vsTempInput);
-	*/
-
-	vsTempInput.semantic = Ceng::SHADER_SEMANTIC::TEXCOORD_0;
-	vsTempInput.options = 0;
-
-	vertexShader->inputSemantics.push_back(vsTempInput);
-
-	vsTempInput.semantic = Ceng::SHADER_SEMANTIC::TEXCOORD_1;
-	vsTempInput.options = 0;
-
-	vertexShader->inputSemantics.push_back(vsTempInput);
-
-	/*
-	vsTempInput.semantic = Ceng::SHADER_SEMANTIC::TEXCOORD_2;
-	vsTempInput.options = 0;
-
-	vertexShader->inputSemantics.push_back(vsTempInput);
-	*/
-
-	vertexShader->ConfigureInput();
-
-	// Set output registers
-
-	Ceng::CR_vsOutputSemantic vShaderOutput;
-
-	vShaderOutput.semantic = Ceng::SHADER_SEMANTIC::POSITION;
-	vShaderOutput.dataType = Ceng::SHADER_DATATYPE::FLOAT4;
-	vShaderOutput.options = 0;
-
-	vertexShader->outputSemantics.push_back(vShaderOutput);
-
-	/*
-	vShaderOutput.semantic = Ceng::SHADER_SEMANTIC::NORMAL;
-	vShaderOutput.dataType = Ceng::SHADER_DATATYPE::FLOAT4;
-	vShaderOutput.options = 0;
-
-	vertexShader->outputSemantics.push_back(vShaderOutput);
-	*/
-
-	/*
-	vShaderOutput.semantic = Ceng::SHADER_SEMANTIC::COLOR_0;
-	vShaderOutput.dataType = Ceng::SHADER_DATATYPE::FLOAT4;
-	vShaderOutput.options = 0;
-
-	vertexShader->outputSemantics.push_back(vShaderOutput);
-	*/
-
-	vShaderOutput.semantic = Ceng::SHADER_SEMANTIC::TEXCOORD_0;
-	vShaderOutput.dataType = Ceng::SHADER_DATATYPE::FLOAT2;
-	vShaderOutput.options = 0;
-
-	vertexShader->outputSemantics.push_back(vShaderOutput);
-
-	vShaderOutput.semantic = Ceng::SHADER_SEMANTIC::TEXCOORD_1;
-	vShaderOutput.dataType = Ceng::SHADER_DATATYPE::FLOAT2;
-	vShaderOutput.options = 0;
-
-	vertexShader->outputSemantics.push_back(vShaderOutput);
-
-	/*
-
-	vShaderOutput.semantic = Ceng::SHADER_SEMANTIC::TEXCOORD_2;
-	vShaderOutput.dataType = Ceng::SHADER_DATATYPE::FLOAT;
-	vShaderOutput.options = 0;
-
-	vertexShader->outputSemantics.push_back(vShaderOutput);
-	*/
-
-	// Set constants
-
-	Ceng::CR_ShaderConstant tempShaderConst;
-
-	tempShaderConst.name = "fullVertexTransform";
-	tempShaderConst.dataType = Ceng::SHADER_DATATYPE::FLOAT4x4;
-
-	vertexShader->uniformList.push_back(tempShaderConst);
-
-	vertexShader->ConfigureConstants();
-
-	*shaderPtr = (Ceng::VertexShader*)vertexShader;
-
-	return CE_OK;
-}
 
 

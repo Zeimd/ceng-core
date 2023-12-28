@@ -34,14 +34,13 @@ namespace Ceng
 		Ceng::VTX_DATATYPE::value format;
 
 		Ceng::UINT32 stride;
-
-
 		
 		Ceng::SHADER_SEMANTIC::value semantic; 
 		Ceng::UINT32 semanticIndex;
 	public:
 		VertexDeclData() {}
 
+		
 		VertexDeclData(Ceng::UINT32 stream, Ceng::UINT32 offset, Ceng::VTX_DATATYPE::value format, Ceng::UINT32 stride,
 			Ceng::StringUtf8 &name)
 			: streamSource(stream), offset(offset),stride(stride),format(format), name(name)
@@ -54,16 +53,18 @@ namespace Ceng
 		{
 		}
 		
+		
 		VertexDeclData(UINT32 stream, UINT32 offset, Ceng::VTX_DATATYPE::value format, Ceng::UINT32 stride,
-							Ceng::SHADER_SEMANTIC::value semantic)
+							Ceng::SHADER_SEMANTIC::value semantic, const char* name)
 							: streamSource(stream) , offset(offset) , stride(stride),
-							format(format) , semantic(semantic)
+							format(format) , semantic(semantic), name(name)
 		{
 		} 
 	};
 
 	const VertexDeclData VTX_DECL_END = VertexDeclData(255,255,Ceng::VTX_DATATYPE::FORMAT_END,0,
-																	Ceng::SHADER_SEMANTIC::FORMAT_END);
+																	Ceng::SHADER_SEMANTIC::FORMAT_END,
+																	"!#$___end___");
 	
 };
 

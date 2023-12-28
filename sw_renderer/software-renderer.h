@@ -183,9 +183,7 @@ namespace Ceng
 
 		//**************************
 		// Vertex format methods
-
-		virtual CRESULT CreateVertexShader(Ceng::VertexShader **shaderPtr);
-		
+	
 		UINT32 VertexVariableSize(Ceng::VTX_DATATYPE::value dataType);		
 		
 	protected:
