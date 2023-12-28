@@ -36,6 +36,7 @@
 
 #include "cr-rendertargetview.h"
 
+#include "cr-depthstencil-state.h"
 
 using namespace Ceng;
 
@@ -323,18 +324,16 @@ const Ceng::CRESULT CR_RenderContext::DrawIndexed(const Ceng::PRIMITIVE_TYPE::va
 
 const Ceng::CRESULT CR_RenderContext::SetDepthStencilState(Ceng::DepthStencilState* state)
 {
-	return CE_ERR_UNIMPLEMENTED;
-
-	/*
 	if (state == nullptr)
 	{
 		return CE_ERR_NULL_PTR;
 	}
 
-	nextRenderState->depthStencilState = *state;
+	CR_DepthStencilState* cr_state = (CR_DepthStencilState*)state;
+
+	nextRenderState->depthStencilState = cr_state->desc;
 
 	return CE_OK;
-	*/
 }
 
 const CRESULT CR_RenderContext::StartScene()
