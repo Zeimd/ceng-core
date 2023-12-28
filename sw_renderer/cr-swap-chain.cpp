@@ -17,7 +17,7 @@
 
 #include "rtarget-data.h"
 
-#include "rendertarget-cr.h"
+#include "cr-target-tex2d.h"
 
 using namespace Ceng;
 
@@ -85,20 +85,18 @@ const CRESULT CR_SwapChain::Present(const Ceng::UINT32 syncInterval, const Ceng:
 
 const Ceng::CRESULT CR_SwapChain::GetFrameBufferTarget(Ceng::RenderTargetView** out_view)
 {
-	/*
-	CR_RenderTarget *newTarget;
+	CR_TargetTexture2D* newView;
 
 	try
 	{
-		newTarget = new CR_RenderTarget(backBuffer);
+		newView = new CR_TargetTexture2D(backBuffer);
 	}
 	catch (std::bad_alloc&)
 	{
 		return CE_ERR_OUT_OF_MEMORY;
 	}
 
-	*renderTarget = (Ceng::RenderTarget*)newTarget;
-	*/
+	*out_view = (Ceng::RenderTargetView*)newView;
 
 	return CE_OK;
 }

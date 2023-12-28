@@ -34,8 +34,6 @@ namespace Ceng
 		{
 		}
 
-		virtual void Release() = 0;
-
 		// Default present according to device config
 		virtual const CRESULT Present() = 0;
 

@@ -4,7 +4,8 @@
 
 using namespace Ceng;
 
-CR_TargetTexture2D::CR_TargetTexture2D()
+CR_TargetTexture2D::CR_TargetTexture2D(std::shared_ptr<CR_NewTargetData> &data)
+	: bufferObject(data)
 {
 }
 

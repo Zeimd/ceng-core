@@ -262,6 +262,7 @@ const CRESULT SoftwareRenderer::CreateTexture2D(const Texture2dDesc &desc,
 		internalFormat = IMAGE_FORMAT::C32_ARGB;
 		break;
 	default:
+		return Ceng::CE_ERR_NOT_SUPPORTED;
 		break;
 	}
 

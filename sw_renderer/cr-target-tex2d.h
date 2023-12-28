@@ -13,12 +13,17 @@ namespace Ceng
 
 	class CR_TargetTexture2D : public CR_RenderTargetView
 	{
+	protected:
+		CR_TargetTexture2D()
+		{
+
+		}
 	public:
 
 		std::shared_ptr<CR_NewTargetData> bufferObject;
 
 	public:
-		CR_TargetTexture2D();
+		CR_TargetTexture2D(std::shared_ptr<CR_NewTargetData> &data);
 
 		~CR_TargetTexture2D() override;
 
