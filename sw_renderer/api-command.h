@@ -72,13 +72,13 @@ namespace Ceng
 		virtual const CRESULT Execute(CR_RenderContext *renderer) override;
 	};
 
-	class RenderTarget;
+	class RenderTargetView;
 
 	class Cmd_ClearTarget : public ApiCommand
 	{
 	protected:
 
-		RenderTarget *renderTarget;
+		RenderTargetView *targetView;
 		CE_Color color;
 
 		Cmd_ClearTarget();
@@ -86,7 +86,7 @@ namespace Ceng
 	public:
 		
 
-		Cmd_ClearTarget(const Ceng::UINT32 id,Ceng::RenderTarget *renderTarget,
+		Cmd_ClearTarget(const Ceng::UINT32 id,Ceng::RenderTargetView *renderTarget,
 									 const CE_Color &color,
 									 std::shared_ptr<RenderState> &renderState);
 

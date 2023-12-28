@@ -603,7 +603,7 @@ const Ceng::CRESULT GL33_RenderContext::GetFrontBufferTarget(RenderTargetView **
 	return this->frontBuffer->GetRenderTargetView(desc, frontBuffer);
 }
 
-const Ceng::CRESULT GL33_RenderContext::ClearTarget(Ceng::RenderTarget *renderTarget, const CE_Color &color)
+const Ceng::CRESULT GL33_RenderContext::ClearTarget(Ceng::RenderTargetView *targetView, const CE_Color &color)
 {
 	ApplyStateChanges();
 	//UpdateRenderTargets();

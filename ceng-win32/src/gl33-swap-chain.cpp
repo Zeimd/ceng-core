@@ -53,7 +53,7 @@ const CRESULT GL33_SwapChain::Present(const Ceng::UINT32 syncInterval, const Cen
 	return CE_OK;
 }
 
-const Ceng::CRESULT GL33_SwapChain::GetFrameBufferTarget(Ceng::RenderTarget **renderTarget)
+const Ceng::CRESULT GL33_SwapChain::GetFrameBufferTarget(Ceng::RenderTargetView **renderTarget)
 {
 	return CE_OK;
 }

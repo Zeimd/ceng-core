@@ -232,7 +232,7 @@ namespace Ceng
 
 		virtual void Release() override;
 
-		virtual const Ceng::CRESULT ClearTarget(Ceng::RenderTarget *renderTarget, const CE_Color &color) override;
+		virtual const Ceng::CRESULT ClearTarget(Ceng::RenderTargetView *targetView, const CE_Color &color) override;
 
 		virtual const Ceng::CRESULT ClearDepth(const FLOAT32 depth) override;
 

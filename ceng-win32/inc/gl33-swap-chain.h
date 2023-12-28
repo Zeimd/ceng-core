@@ -51,7 +51,7 @@ namespace Ceng
 			const Ceng::UINT32 scrollOffsetX,
 			const Ceng::UINT32 scrollOffsetY) override;
 
-		virtual const Ceng::CRESULT GetFrameBufferTarget(Ceng::RenderTarget **renderTarget) override;
+		virtual const Ceng::CRESULT GetFrameBufferTarget(Ceng::RenderTargetView **renderTarget) override;
 	};
 }
 

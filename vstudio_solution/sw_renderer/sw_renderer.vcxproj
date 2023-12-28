@@ -174,12 +174,14 @@
     <ClInclude Include="..\..\sw_renderer\cr-memory-pool.h" />
     <ClInclude Include="..\..\sw_renderer\cr-pixel-shader.h" />
     <ClInclude Include="..\..\sw_renderer\cr-pool-block.h" />
+    <ClInclude Include="..\..\sw_renderer\cr-rendertargetview.h" />
     <ClInclude Include="..\..\sw_renderer\cr-resource.h" />
     <ClInclude Include="..\..\sw_renderer\cr-sampler-state.h" />
     <ClInclude Include="..\..\sw_renderer\cr-shader-const.h" />
     <ClInclude Include="..\..\sw_renderer\cr-shader-view-tex2d.h" />
     <ClInclude Include="..\..\sw_renderer\cr-shader-view.h" />
     <ClInclude Include="..\..\sw_renderer\cr-swap-chain.h" />
+    <ClInclude Include="..\..\sw_renderer\cr-target-tex2d.h" />
     <ClInclude Include="..\..\sw_renderer\cr-texture-2d.h" />
     <ClInclude Include="..\..\sw_renderer\cr-vertex-buffer.h" />
     <ClInclude Include="..\..\sw_renderer\cr-vertex-format.h" />
@@ -211,7 +213,6 @@
     <ClInclude Include="..\..\sw_renderer\render-state.h" />
     <ClInclude Include="..\..\sw_renderer\render-task.h" />
     <ClInclude Include="..\..\sw_renderer\render-thread.h" />
-    <ClInclude Include="..\..\sw_renderer\rendertarget-cr.h" />
     <ClInclude Include="..\..\sw_renderer\rtarget-data.h" />
     <ClInclude Include="..\..\sw_renderer\shader-common.h" />
     <ClInclude Include="..\..\sw_renderer\shader-const-data.h" />
@@ -251,8 +252,10 @@
     <ClCompile Include="..\..\sw_renderer\command-thread.cpp" />
     <ClCompile Include="..\..\sw_renderer\cr-image-buffer.cpp" />
     <ClCompile Include="..\..\sw_renderer\cr-pixel-shader.cpp" />
+    <ClCompile Include="..\..\sw_renderer\cr-rendertargetview.cpp" />
     <ClCompile Include="..\..\sw_renderer\cr-resource.cpp" />
     <ClCompile Include="..\..\sw_renderer\cr-sampler-state.cpp" />
+    <ClCompile Include="..\..\sw_renderer\cr-target-tex2d.cpp" />
     <ClCompile Include="..\..\sw_renderer\software-renderer.cpp" />
     <ClCompile Include="..\..\sw_renderer\cr-shader-const.cpp" />
     <ClCompile Include="..\..\sw_renderer\cr-shader-view-tex2d.cpp" />
@@ -283,7 +286,6 @@
     <ClCompile Include="..\..\sw_renderer\rasterizer-work.cpp" />
     <ClCompile Include="..\..\sw_renderer\render-state.cpp" />
     <ClCompile Include="..\..\sw_renderer\render-thread.cpp" />
-    <ClCompile Include="..\..\sw_renderer\rendertarget-cr.cpp" />
     <ClCompile Include="..\..\sw_renderer\rtarget-buffer-swap.cpp" />
     <ClCompile Include="..\..\sw_renderer\rtarget-clear.cpp" />
     <ClCompile Include="..\..\sw_renderer\rtarget-data.cpp" />

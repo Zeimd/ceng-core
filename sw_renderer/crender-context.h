@@ -103,7 +103,7 @@ namespace Ceng
 
 		const Ceng::CRESULT Configure(SoftwareRenderer* parentDevice);
 
-		const Ceng::CRESULT ClearTarget(Ceng::RenderTarget *renderTarget, const CE_Color &color) override;
+		const Ceng::CRESULT ClearTarget(Ceng::RenderTargetView *targetView, const CE_Color &color) override;
 
 		const Ceng::CRESULT ClearDepth(const FLOAT32 depth) override;
 
@@ -152,7 +152,7 @@ namespace Ceng
 		const CRESULT Execute_DrawPrimitive(const Ceng::UINT32 apiCallId, Ceng::PRIMITIVE_TYPE::value type,
 			UINT32 firstVertex,UINT32 primitives,std::shared_ptr<RenderState> &renderState);
 
-		const CRESULT Execute_ClearTarget(Ceng::RenderTarget *renderTarget,
+		const CRESULT Execute_ClearTarget(Ceng::RenderTargetView *targetView,
 			const CE_Color &color,
 			std::shared_ptr<RenderState> &renderState);
 

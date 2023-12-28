@@ -18,7 +18,7 @@
 namespace Ceng
 {
 	struct Rectangle;
-	class RenderTarget;
+	class RenderTargetView;
 
 	class SwapChain : public BASE_INTERFACE
 	{
@@ -46,7 +46,7 @@ namespace Ceng
 			const Ceng::UINT32 scrollOffsetX,
 			const Ceng::UINT32 scrollOffsetY) = 0;
 
-		virtual const Ceng::CRESULT GetFrameBufferTarget(Ceng::RenderTarget **renderTarget) = 0;
+		virtual const Ceng::CRESULT GetFrameBufferTarget(Ceng::RenderTargetView **out_view) = 0;
 
 
 	};

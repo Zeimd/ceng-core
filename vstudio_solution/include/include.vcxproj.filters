@@ -387,9 +387,6 @@
     <ClInclude Include="..\..\inc\ceng\interfaces\render-resource.h">
       <Filter>Header Files\ceng\interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\inc\ceng\interfaces\render-target.h">
-      <Filter>Header Files\ceng\interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\inc\ceng\interfaces\render-target-view.h">
       <Filter>Header Files\ceng\interfaces</Filter>
     </ClInclude>

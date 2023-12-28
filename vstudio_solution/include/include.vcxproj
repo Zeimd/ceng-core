@@ -231,7 +231,6 @@
     <ClInclude Include="..\..\inc\ceng\interfaces\render-enums.h" />
     <ClInclude Include="..\..\inc\ceng\interfaces\render-resource.h" />
     <ClInclude Include="..\..\inc\ceng\interfaces\render-target-view.h" />
-    <ClInclude Include="..\..\inc\ceng\interfaces\render-target.h" />
     <ClInclude Include="..\..\inc\ceng\interfaces\rtarget-view.h" />
     <ClInclude Include="..\..\inc\ceng\interfaces\sampler-state.h" />
     <ClInclude Include="..\..\inc\ceng\interfaces\shader-const.h" />

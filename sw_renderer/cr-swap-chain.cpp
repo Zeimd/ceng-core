@@ -83,7 +83,7 @@ const CRESULT CR_SwapChain::Present(const Ceng::UINT32 syncInterval, const Ceng:
 
 
 
-const Ceng::CRESULT CR_SwapChain::GetFrameBufferTarget(Ceng::RenderTarget **renderTarget)
+const Ceng::CRESULT CR_SwapChain::GetFrameBufferTarget(Ceng::RenderTargetView** out_view)
 {
 	/*
 	CR_RenderTarget *newTarget;

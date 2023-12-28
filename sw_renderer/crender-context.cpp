@@ -34,6 +34,8 @@
 
 #include "draw-batch.h"
 
+#include "cr-rendertargetview.h"
+
 
 using namespace Ceng;
 
@@ -245,19 +247,18 @@ const Ceng::CRESULT CR_RenderContext::SetPixelShaderSamplerState(const Ceng::UIN
 
 const Ceng::CRESULT CR_RenderContext::SetRenderTarget(const Ceng::UINT32 index, RenderTargetView* view)
 {
-	/*
 	if (index >= CRENDER_MAX_COLOR_TARGETS)
 	{
 		return CE_ERR_NOT_SUPPORTED;
 	}
 
-	CR_RenderTarget *targetPtr = (CR_RenderTarget*)renderTarget;
+	CR_RenderTargetView *targetView = (CR_RenderTargetView*)view;
 
-	if (renderTarget == nullptr)
+	if (targetView == nullptr)
 	{
-		nextRenderState->renderTargets[2+ index] = nullptr;
+		nextRenderState->renderTargets[2 + index] = nullptr;
 	}
-	else if (targetPtr->GetBufferObject() == nextRenderState->renderTargets[2+ index])
+	else if (targetView->GetTargetData() == nextRenderState->renderTargets[2 + index])
 	{
 		return CE_OK;
 	}
@@ -266,7 +267,7 @@ const Ceng::CRESULT CR_RenderContext::SetRenderTarget(const Ceng::UINT32 index, 
 		// NOTE: targetHandles[0] = depthBuffer ,
 		//       targetHandles[1] = stencilBuffer
 
-		nextRenderState->renderTargets[2+ index] = targetPtr->GetBufferObject();
+		nextRenderState->renderTargets[2+ index] = targetView->GetTargetData();
 	}
 
 	// Assign render targets to internal buffer so that color targets
@@ -284,9 +285,8 @@ const Ceng::CRESULT CR_RenderContext::SetRenderTarget(const Ceng::UINT32 index, 
 			nextRenderState->activeTargets++;
 		}
 	}
-	*/
-
-	return CE_ERR_UNIMPLEMENTED;
+	
+	return CE_OK;
 }
 
 const Ceng::CRESULT CR_RenderContext::SetBlendState(BlendState* state, Ceng::FLOAT32* blendFactor)
@@ -458,7 +458,7 @@ const CRESULT CR_RenderContext::EndScene()
 	return CE_OK;
 }
 
-const CRESULT CR_RenderContext::ClearTarget(Ceng::RenderTarget* renderTarget, const CE_Color& color)
+const CRESULT CR_RenderContext::ClearTarget(Ceng::RenderTargetView* targetView, const CE_Color& color)
 {
 	while (commandQueue.IsFull())
 	{
@@ -473,7 +473,7 @@ const CRESULT CR_RenderContext::ClearTarget(Ceng::RenderTarget* renderTarget, co
 	}
 
 	commandQueue.PushBack(std::shared_ptr<ApiCommand>(
-		new Cmd_ClearTarget(apiCallCounter, renderTarget, color, currentRenderState)));
+		new Cmd_ClearTarget(apiCallCounter, targetView, color, currentRenderState)));
 
 	++apiCallCounter;
 
@@ -736,18 +736,18 @@ const CRESULT CR_RenderContext::Execute_DrawPrimitive(const Ceng::UINT32 apiCall
 
 }
 
-const CRESULT CR_RenderContext::Execute_ClearTarget(Ceng::RenderTarget* renderTarget,
+const CRESULT CR_RenderContext::Execute_ClearTarget(Ceng::RenderTargetView* targetView,
 	const CE_Color& color,
 	std::shared_ptr<RenderState>& renderState)
 {
-	if (renderTarget == nullptr)
+	if (targetView == nullptr)
 	{
 		return CE_ERR_NULL_PTR;
 	}
 
-	CR_RenderTarget* accessPtr = (CR_RenderTarget*)renderTarget;
+	CR_RenderTargetView* accessPtr = (CR_RenderTargetView*)targetView;
 
-	CR_NewTargetData* target = accessPtr->GetBufferPtr();
+	CR_NewTargetData* target = accessPtr->GetDataPtr();
 
 	/*
 	Rectangle scissor;

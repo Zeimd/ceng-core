@@ -177,9 +177,6 @@
     <ClInclude Include="..\..\sw_renderer\render-state.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sw_renderer\rendertarget-cr.h">
-      <Filter>Header Files\sw_renderer</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\sw_renderer\render-task.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
@@ -255,6 +252,12 @@
     <ClInclude Include="..\..\sw_renderer\vshader-wrapper.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\cr-rendertargetview.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\cr-target-tex2d.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -312,9 +315,6 @@
       <Filter>Source Files\sw_renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\..\sw_renderer\render-thread.cpp">
-      <Filter>Source Files\sw_renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\sw_renderer\rendertarget-cr.cpp">
       <Filter>Source Files\sw_renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\..\sw_renderer\render-state.cpp">
@@ -444,6 +444,12 @@
       <Filter>Source Files\sw_renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\..\sw_renderer\api-command.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\cr-rendertargetview.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\cr-target-tex2d.cpp">
       <Filter>Source Files\sw_renderer</Filter>
     </ClCompile>
   </ItemGroup>

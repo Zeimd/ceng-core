@@ -20,7 +20,6 @@
 
 namespace Ceng
 {
-	class RenderTarget;
 	class VertexShader;
 	class PixelShader;
 
@@ -56,9 +55,7 @@ namespace Ceng
 		{
 		}
 
-		virtual void Release() = 0;
-
-		virtual const Ceng::CRESULT ClearTarget(Ceng::RenderTarget *renderTarget, const CE_Color &color) = 0;
+		virtual const Ceng::CRESULT ClearTarget(Ceng::RenderTargetView *targetView, const CE_Color &color) = 0;
 
 		virtual const Ceng::CRESULT ClearDepth(const FLOAT32 depth) = 0;
 
