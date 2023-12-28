@@ -288,7 +288,6 @@
     <ClCompile Include="..\..\sw_renderer\rtarget-clear.cpp" />
     <ClCompile Include="..\..\sw_renderer\rtarget-data.cpp" />
     <ClCompile Include="..\..\sw_renderer\rtarget-depth-test.cpp" />
-    <ClCompile Include="..\..\sw_renderer\setup-vertex.cpp" />
     <ClCompile Include="..\..\sw_renderer\shader-float4.cpp" />
     <ClCompile Include="..\..\sw_renderer\shader-link.cpp" />
     <ClCompile Include="..\..\sw_renderer\task-clipper.cpp" />
