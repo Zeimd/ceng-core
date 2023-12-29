@@ -25,9 +25,9 @@ namespace Ceng
 
 		Ceng::BOOL dirty;
 
-		Ceng::ShaderWrapper* wrapper;
-
 	protected:
+
+		Ceng::ShaderWrapper* wrapper;
 
 		Ceng::UINT32 index;
 

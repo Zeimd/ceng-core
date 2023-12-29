@@ -124,6 +124,7 @@ const CRESULT CR_UniformMat4::SetMatrix_4x4(const Ceng::FLOAT32* source, const C
 {
 	memcpy(values, source, 16 * sizeof(Ceng::FLOAT32));
 	MarkDirty();
+	wrapper->WriteUniform(index, values);
 	return CE_OK;
 }
 
