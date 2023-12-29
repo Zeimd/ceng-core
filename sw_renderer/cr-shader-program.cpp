@@ -5,6 +5,7 @@
 #include "cr-pixel-shader.h"
 
 #include "cr-uniform-mat4.h"
+#include "cr-uniform-uint.h"
 
 using namespace Ceng;
 
@@ -66,6 +67,18 @@ const Ceng::CRESULT CR_ShaderProgram::GetConstant(const char* variableName, Ceng
 
 	switch (type)
 	{
+	case Ceng::SHADER_DATATYPE::UINT:
+
+		try
+		{
+			uniform = new CR_UniformUint(index, wrapper);
+		}
+		catch (std::bad_alloc& ba)
+		{
+			return CE_ERR_OUT_OF_MEMORY;
+		}
+		break;
+
 	case Ceng::SHADER_DATATYPE::FLOAT4x4:
 
 		try

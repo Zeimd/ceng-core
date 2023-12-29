@@ -243,7 +243,9 @@ const Ceng::CRESULT CR_RenderContext::SetPixelShaderResource(const Ceng::UINT32 
 
 const Ceng::CRESULT CR_RenderContext::SetPixelShaderSamplerState(const Ceng::UINT32 index, SamplerState* sampler)
 {
-	return CE_ERR_UNIMPLEMENTED;
+	nextRenderState->textureUnits[index].sampler = (CR_SamplerState*)sampler;
+
+	return CE_OK;
 }
 
 const Ceng::CRESULT CR_RenderContext::SetRenderTarget(const Ceng::UINT32 index, RenderTargetView* view)

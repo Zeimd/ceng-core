@@ -93,6 +93,7 @@ CRESULT CR_PixelShader::GetConstant(const char *variableName,
 		{
 			out_index = k;
 			out_type = uniformList[k].dataType;
+			return CE_OK;
 		}
 	}
 
