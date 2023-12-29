@@ -185,6 +185,7 @@
     <ClInclude Include="..\..\sw_renderer\cr-swap-chain.h" />
     <ClInclude Include="..\..\sw_renderer\cr-target-tex2d.h" />
     <ClInclude Include="..\..\sw_renderer\cr-texture-2d.h" />
+    <ClInclude Include="..\..\sw_renderer\cr-uniform-mat4.h" />
     <ClInclude Include="..\..\sw_renderer\cr-vertex-buffer.h" />
     <ClInclude Include="..\..\sw_renderer\cr-vertex-format.h" />
     <ClInclude Include="..\..\sw_renderer\cr-vertex-shader.h" />
@@ -260,6 +261,7 @@
     <ClCompile Include="..\..\sw_renderer\cr-sampler-state.cpp" />
     <ClCompile Include="..\..\sw_renderer\cr-shader-program.cpp" />
     <ClCompile Include="..\..\sw_renderer\cr-target-tex2d.cpp" />
+    <ClCompile Include="..\..\sw_renderer\cr-uniform-mat4.cpp" />
     <ClCompile Include="..\..\sw_renderer\software-renderer.cpp" />
     <ClCompile Include="..\..\sw_renderer\cr-shader-const.cpp" />
     <ClCompile Include="..\..\sw_renderer\cr-shader-view-tex2d.cpp" />
