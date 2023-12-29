@@ -48,6 +48,8 @@ const CRESULT CR_UniformUint::SetInt(const Ceng::INT32 value)
 
 	MarkDirty();
 
+	wrapper->WriteUniform(index, (void*)&value);
+
 	return CE_OK;
 }
 
