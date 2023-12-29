@@ -39,8 +39,8 @@ namespace Ceng
 			stencilWrite = 0;
 		}
 		
-		virtual CRESULT GetConstant(const char *variableName,
-									Ceng::ShaderConstant **handle)=0;
+		//virtual CRESULT GetConstant(const char *variableName,
+			//						Ceng::ShaderConstant **handle)=0;
 
 		virtual const Ceng::CRESULT GetLog(Ceng::StringUtf8 **log) = 0;
 

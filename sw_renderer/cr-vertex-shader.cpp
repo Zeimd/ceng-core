@@ -75,7 +75,7 @@ const Ceng::BOOL CR_VertexShader::Compiled()
 }
 
 CRESULT CR_VertexShader::GetConstant(const char *variableName,
-									 Ceng::ShaderConstant **handle)
+									 Ceng::CR_ShaderConstant **handle)
 {
 	return CE_ERR_UNIMPLEMENTED;
 

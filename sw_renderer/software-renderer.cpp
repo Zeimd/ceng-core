@@ -583,7 +583,7 @@ const Ceng::CRESULT SoftwareRenderer::CreateVertexShader(const Ceng::StringUtf8&
 
 	// Set constants
 
-	Ceng::CR_ShaderConstant tempShaderConst;
+	Ceng::CR_ShaderConstantData tempShaderConst;
 
 	tempShaderConst.name = "fullVertexTransform";
 	tempShaderConst.dataType = Ceng::SHADER_DATATYPE::FLOAT4x4;
@@ -648,7 +648,7 @@ const Ceng::CRESULT SoftwareRenderer::CreatePixelShader(const Ceng::StringUtf8& 
 	psTempRegister.semantic = Ceng::SHADER_SEMANTIC::TEXCOORD_1;
 	pixelShader->inputSemantics.push_back(psTempRegister);
 	
-	Ceng::CR_ShaderConstant tempConst;
+	Ceng::CR_ShaderConstantData tempConst;
 
 	tempConst.dataType = SHADER_DATATYPE::UINT;
 	tempConst.name = "diffuseTexture";

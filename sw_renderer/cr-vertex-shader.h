@@ -54,6 +54,8 @@ namespace Ceng
 
 	class ShaderConstant;
 
+	class CR_ShaderConstant;
+
 	class CR_VertexShader : public Ceng::VertexShader
 	{
 	public:
@@ -109,7 +111,7 @@ namespace Ceng
 		void Release() override;
 
 		CRESULT GetConstant(const char* variableName,
-			Ceng::ShaderConstant** handle) override;
+			Ceng::CR_ShaderConstant** handle);
 
 		const Ceng::CRESULT GetLog(Ceng::StringUtf8** log) override;
 

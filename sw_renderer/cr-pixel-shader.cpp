@@ -83,7 +83,7 @@ CRESULT CR_PixelShader::ConfigureConstants()
 }
 
 CRESULT CR_PixelShader::GetConstant(const char *variableName,
-									Ceng::ShaderConstant **handle)
+									Ceng::CR_ShaderConstant **handle)
 {
 	return CE_ERR_UNIMPLEMENTED;
 

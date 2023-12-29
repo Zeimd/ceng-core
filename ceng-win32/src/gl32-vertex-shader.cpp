@@ -89,6 +89,7 @@ const Ceng::CRESULT GL32_VertexShader::GetInstance(const Ceng::StringUtf8 &shade
 	return CE_OK;
 }
 
+/*
 CRESULT GL32_VertexShader::GetConstant(const char *variableName, Ceng::ShaderConstant **handle)
 {
 	glGetUniformLocation(shaderID, variableName);
@@ -104,6 +105,7 @@ CRESULT GL32_VertexShader::GetConstant(const char *variableName, Ceng::ShaderCon
 
 	return CE_OK;
 }
+*/
 
 const Ceng::CRESULT GL32_VertexShader::GetLog(Ceng::StringUtf8 **log)
 {

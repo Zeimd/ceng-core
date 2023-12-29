@@ -37,8 +37,8 @@ namespace Ceng
 
 		static const Ceng::CRESULT GetInstance(const Ceng::StringUtf8 &shaderText,GL32_VertexShader **output);
 
-		virtual CRESULT GetConstant(const char *variableName,
-			Ceng::ShaderConstant **handle) override;
+		//virtual CRESULT GetConstant(const char *variableName,
+			//Ceng::ShaderConstant **handle) override;
 
 		virtual const Ceng::CRESULT GetLog(Ceng::StringUtf8 **log) override;
 

@@ -88,10 +88,12 @@ const Ceng::CRESULT GL32_PixelShader::GetInstance(const Ceng::StringUtf8 &shader
 	return CE_OK;
 }
 
+/*
 CRESULT GL32_PixelShader::GetConstant(const char *variableName, Ceng::ShaderConstant **handle)
 {
 	return CE_OK;
 }
+*/
 
 const Ceng::CRESULT GL32_PixelShader::GetLog(Ceng::StringUtf8 **log)
 {
