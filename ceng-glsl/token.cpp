@@ -357,6 +357,10 @@ Ceng::StringUtf8 Token::ToString()
 
 			return *floatValue;
 		}
+	case TokenType::meta_end_of_line:
+		return '\n';
+	case TokenType::meta_end_of_file:
+		return "\n";
 	default:
 		return "unhandled token type";
 	};
