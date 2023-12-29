@@ -7,6 +7,9 @@ namespace Ceng
 	{
 		enum value
 		{
+			meta_end_of_line,
+			meta_end_of_file,
+
 			keyword_attribute,
 			keyword_const,
 
