@@ -39,6 +39,8 @@
 
 #include "cr-depthstencil-state.h"
 
+#include "cr-shader-program.h"
+
 using namespace Ceng;
 
 //***************************************************************************
@@ -667,7 +669,18 @@ const Ceng::CRESULT SoftwareRenderer::CreatePixelShader(const Ceng::StringUtf8& 
 
 const Ceng::CRESULT SoftwareRenderer::CreateShaderProgram(Ceng::VertexShader* vertexShader, Ceng::PixelShader* pixelShader, Ceng::ShaderProgram** program)
 {
-	return CE_ERR_UNIMPLEMENTED;
+	CR_ShaderProgram* prog;
+
+	CRESULT cresult = CR_ShaderProgram::GetInstance((CR_VertexShader*)vertexShader, (CR_PixelShader*)pixelShader, &prog);
+
+	if (cresult != Ceng::CE_OK)
+	{
+		return cresult;
+	}
+
+	*program = prog;
+
+	return CE_OK;
 }
 
 const CRESULT SoftwareRenderer::CreateBlendState(BlendStateDesc* desc, BlendState** statePtr)
