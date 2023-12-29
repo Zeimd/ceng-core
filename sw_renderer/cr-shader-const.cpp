@@ -14,8 +14,8 @@
 
 using namespace Ceng;
 
-CR_ShaderConstant::CR_ShaderConstant(Ceng::UINT32 index, Ceng::CR_ShaderProgram* program)
-	: index(index),program(program)
+CR_ShaderConstant::CR_ShaderConstant(Ceng::UINT32 index, Ceng::ShaderWrapper* wrapper)
+	: index(index),wrapper(wrapper)
 {
 
 }

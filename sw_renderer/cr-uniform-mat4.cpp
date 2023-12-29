@@ -25,7 +25,7 @@ CR_UniformMat4::CR_UniformMat4() : CR_ShaderConstant()
 	values[15] = 1.0f;
 }
 
-CR_UniformMat4::CR_UniformMat4(Ceng::UINT32 index, Ceng::CR_ShaderProgram* program) : CR_ShaderConstant(index, program)
+CR_UniformMat4::CR_UniformMat4(Ceng::UINT32 index, Ceng::ShaderWrapper* wrapper) : CR_ShaderConstant(index, wrapper)
 {
 	values[0] = 1.0f;
 	values[1] = 0.0f;

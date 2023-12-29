@@ -25,7 +25,7 @@ namespace Ceng
 
 		Ceng::BOOL dirty;
 
-		Ceng::CR_ShaderProgram* program;
+		Ceng::ShaderWrapper* wrapper;
 
 	protected:
 
@@ -43,7 +43,7 @@ namespace Ceng
 
 	public:
 
-		CR_ShaderConstant(Ceng::UINT32 index, Ceng::CR_ShaderProgram* program);
+		CR_ShaderConstant(Ceng::UINT32 index, Ceng::ShaderWrapper* wrapper);
 
 		void MarkDirty();
 

@@ -4,6 +4,8 @@
 #include "cr-vertex-shader.h"
 #include "cr-pixel-shader.h"
 
+#include "cr-uniform-mat4.h"
+
 using namespace Ceng;
 
 Ceng::CRESULT CR_ShaderProgram::GetInstance(CR_VertexShader* vShader, CR_PixelShader* pShader, CR_ShaderProgram** out_program)
@@ -37,23 +39,51 @@ const Ceng::CRESULT CR_ShaderProgram::GetConstant(const char* variableName, Ceng
 {
 	CRESULT cresult;
 
+	Ceng::SHADER_DATATYPE::value type;
+	Ceng::UINT32 index;
+
+	ShaderWrapper* wrapper;
+
+	cresult = vShader->GetConstant(variableName, index, type);
+	if (cresult == Ceng::CE_OK)
+	{
+		wrapper = &vShader->wrapper;
+	}
+	else
+	{
+		cresult = pShader->GetConstant(variableName, index, type);
+		if (cresult == Ceng::CE_OK)
+		{
+			wrapper = &pShader->wrapper;
+		}
+		else
+		{
+			return CE_ERR_FAIL;
+		}
+	}
+
 	CR_ShaderConstant* uniform;
 
-	cresult = vShader->GetConstant(variableName, &uniform);
-	if (cresult == Ceng::CE_OK)
+	switch (type)
 	{
-		*handle = uniform;
-		return CE_OK;
+	case Ceng::SHADER_DATATYPE::FLOAT4x4:
+
+		try
+		{
+			uniform = new CR_UniformMat4(index, wrapper);
+		}
+		catch (std::bad_alloc& ba)
+		{
+			return CE_ERR_OUT_OF_MEMORY;
+		}
+		break;
+	default:
+		return CE_ERR_UNIMPLEMENTED;
 	}
 
-	cresult = pShader->GetConstant(variableName, &uniform);
-	if (cresult == Ceng::CE_OK)
-	{
-		*handle = uniform;
-		return CE_OK;
-	}
+	*handle = uniform;
 
-	return CE_ERR_UNIMPLEMENTED;
+	return CE_OK;
 }
 
 const Ceng::CRESULT CR_ShaderProgram::GetLog(Ceng::StringUtf8** log)

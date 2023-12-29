@@ -83,38 +83,20 @@ CRESULT CR_PixelShader::ConfigureConstants()
 }
 
 CRESULT CR_PixelShader::GetConstant(const char *variableName,
-									Ceng::CR_ShaderConstant **handle)
+	Ceng::UINT32& out_index, Ceng::SHADER_DATATYPE::value& out_type)
 {
-	return CE_ERR_UNIMPLEMENTED;
-
-	/*
 	UINT32 k;
 
 	for(k=0;k<uniformList.size();k++)
 	{
 		if (uniformList[k].name == variableName)
 		{
-			try
-			{
-				*handle = (Ceng::ShaderConstant*)
-							new CR_ShaderConstant(k,&wrapper);
-			}
-			catch(std::bad_alloc&)
-			{
-				return CE_ERR_OUT_OF_MEMORY;
-			}
-
-			return CE_OK;
+			out_index = k;
+			out_type = uniformList[k].dataType;
 		}
 	}
 
-	if (k == uniformList.size())
-	{
-		return CE_ERR_FAIL;
-	}
-
-	return CE_OK;
-	*/
+	return CE_ERR_FAIL;
 }
 
 const CRESULT CR_PixelShader::ReadUniform(const Ceng::UINT32 index,void *destBuffer)

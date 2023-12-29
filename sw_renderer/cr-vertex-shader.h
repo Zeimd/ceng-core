@@ -111,7 +111,7 @@ namespace Ceng
 		void Release() override;
 
 		CRESULT GetConstant(const char* variableName,
-			Ceng::CR_ShaderConstant** handle);
+			Ceng::UINT32& out_index, Ceng::SHADER_DATATYPE::value& out_type);
 
 		const Ceng::CRESULT GetLog(Ceng::StringUtf8** log) override;
 

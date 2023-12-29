@@ -75,37 +75,21 @@ const Ceng::BOOL CR_VertexShader::Compiled()
 }
 
 CRESULT CR_VertexShader::GetConstant(const char *variableName,
-									 Ceng::CR_ShaderConstant **handle)
+	Ceng::UINT32 &out_index, Ceng::SHADER_DATATYPE::value &out_type)
 {
-	return CE_ERR_UNIMPLEMENTED;
-
-	/*
 	size_t k;
 	for(k=0;k<uniformList.size();k++)
 	{
 		if (uniformList[k].name == variableName)
 		{
-			try
-			{
-				*handle = (Ceng::ShaderConstant*)
-							new CR_ShaderConstant(k,&wrapper);
-			}
-			catch(std::bad_alloc&)
-			{
-				return CE_ERR_OUT_OF_MEMORY;
-			}
+			out_index = k;
+			out_type = uniformList[k].dataType;
 
 			return CE_OK;
 		}
 	}
 
-	if (k == uniformList.size())
-	{
-		return CE_ERR_FAIL;
-	}
-
-	return CE_OK;
-	*/
+	return CE_ERR_FAIL;
 }
 
 Ceng::UINT32 CR_VertexShader::GetDataSize(const Ceng::SHADER_DATATYPE::value datatype)

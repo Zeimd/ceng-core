@@ -16,7 +16,7 @@ namespace Ceng
 
 	public:
 		CR_UniformMat4();
-		CR_UniformMat4(Ceng::UINT32 index, Ceng::CR_ShaderProgram* program);
+		CR_UniformMat4(Ceng::UINT32 index, Ceng::ShaderWrapper* wrapper);
 
 
 		void Release() override;
