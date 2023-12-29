@@ -38,6 +38,8 @@
 
 #include "cr-depthstencil-state.h"
 
+#include "cr-shader-program.h"
+
 using namespace Ceng;
 
 CR_RenderContext::CR_RenderContext()
@@ -126,20 +128,6 @@ const Ceng::CRESULT CR_RenderContext::Configure(SoftwareRenderer* parentDevice)
 	return CE_OK;
 }
 
-/*
-const CRESULT CR_RenderContext::SetPixelShader(Ceng::PixelShader *shaderPtr)
-{
-	if (shaderPtr == nullptr)
-	{
-		return CE_ERR_NULL_PTR;
-	}
-
-	nextRenderState->pixelShader = (CR_PixelShader*)shaderPtr;
-
-	return CE_OK;
-}
-*/
-
 const CRESULT CR_RenderContext::SetVertexFormat(Ceng::VertexFormat *formatPtr)
 {
 	if (formatPtr == nullptr)
@@ -153,40 +141,6 @@ const CRESULT CR_RenderContext::SetVertexFormat(Ceng::VertexFormat *formatPtr)
 	return CE_OK;
 }
 
-/*
-const CRESULT CR_RenderContext::SetVertexShader(Ceng::VertexShader *shaderPtr)
-{
-	if (shaderPtr == NULL)
-	{
-		Ceng::Log::Print("Error : shaderPtr = NULL");
-		return CE_ERR_NULL_PTR;
-	}
-
-	CR_VertexShader *accessPtr = (CR_VertexShader*)shaderPtr;
-
-	nextRenderState->vertexShader = accessPtr;
-
-	return CE_OK;
-}
-*/
-
-/*
-const Ceng::CRESULT CR_RenderContext::SetShaderResource(const Ceng::UINT32 index,
-	ShaderResourceView *resource)
-{
-	nextRenderState->textureUnits[index].view = (CR_ShaderResourceView*)resource;
-
-	return CE_OK;
-}
-
-const Ceng::CRESULT CR_RenderContext::SetSamplerState(const Ceng::UINT32 index,
-	SamplerState *sampler)
-{
-	nextRenderState->textureUnits[index].sampler = (CR_SamplerState*)sampler;
-
-	return CE_OK;
-}
-*/
 
 const Ceng::CRESULT CR_RenderContext::SetVertexStream(const Ceng::UINT32 index, Ceng::VertexBuffer* source, const Ceng::UINT32 stride, const Ceng::UINT32 offset)
 {
@@ -228,7 +182,19 @@ const Ceng::CRESULT CR_RenderContext::SetVertexStream(const Ceng::UINT32 index, 
 
 const Ceng::CRESULT CR_RenderContext::SetShaderProgram(Ceng::ShaderProgram* program)
 {
-	return CE_ERR_UNIMPLEMENTED;
+	if (program == NULL)
+	{
+		Ceng::Log::Print("Error : shaderPtr = NULL");
+		return CE_ERR_NULL_PTR;
+	}
+
+	CR_ShaderProgram* cr_program = (CR_ShaderProgram*)program;
+
+	nextRenderState->vertexShader = cr_program->vShader;
+
+	nextRenderState->pixelShader = cr_program->pShader;
+
+	return CE_OK;
 }
 
 const Ceng::CRESULT CR_RenderContext::SetViewport(const Ceng::INT32 x, const Ceng::INT32 y, const Ceng::INT32 width, const Ceng::INT32 height)
@@ -238,7 +204,9 @@ const Ceng::CRESULT CR_RenderContext::SetViewport(const Ceng::INT32 x, const Cen
 
 const Ceng::CRESULT CR_RenderContext::SetPixelShaderResource(const Ceng::UINT32 index, ShaderResourceView* resource)
 {
-	return CE_ERR_UNIMPLEMENTED;
+	nextRenderState->textureUnits[index].view = (CR_ShaderResourceView*)resource;
+
+	return CE_OK;
 }
 
 const Ceng::CRESULT CR_RenderContext::SetPixelShaderSamplerState(const Ceng::UINT32 index, SamplerState* sampler)
