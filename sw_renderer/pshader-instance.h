@@ -22,6 +22,8 @@
 
 #include "texture-unit.h"
 
+#include "shader-const-data.h"
+
 namespace Ceng
 {
 	class Task_PixelShader;
@@ -146,7 +148,7 @@ namespace Ceng
 
 		const CRESULT ConfigureOutput(std::vector<CR_PixelShaderTarget> &renderTargets);
 
-		const CRESULT ConfigureUniforms(const std::vector<CR_ShaderConstant> &uniformList,
+		const CRESULT ConfigureUniforms(const std::vector<CR_ShaderConstantData> &uniformList,
 										const Ceng::UINT32 bufferSize);
 
 		const CRESULT ConfigureLocals();

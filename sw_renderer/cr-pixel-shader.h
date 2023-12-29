@@ -64,7 +64,7 @@ namespace Ceng
 
 		CR_NewTargetData *targetHandle[2+8];
 
-		std::vector<CR_ShaderConstant> uniformList;
+		std::vector<CR_ShaderConstantData> uniformList;
 
 		Ceng::UINT32 uniformBufferSize;
 

@@ -20,7 +20,7 @@ namespace Ceng
 	/**
 	 * Shader constant information.
 	 */
-	class CR_ShaderConstant
+	class CR_ShaderConstantData
 	{
 	public:
 		/**

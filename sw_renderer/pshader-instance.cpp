@@ -284,7 +284,7 @@ const CRESULT PixelShaderInstance::ConfigureOutput(std::vector<CR_PixelShaderTar
 	return CE_OK;
 }
 
-const CRESULT PixelShaderInstance::ConfigureUniforms(const std::vector<CR_ShaderConstant> &uniformList,
+const CRESULT PixelShaderInstance::ConfigureUniforms(const std::vector<CR_ShaderConstantData> &uniformList,
 													 const Ceng::UINT32 bufferSize)
 {
 

@@ -62,7 +62,7 @@ namespace Ceng
 
 		VertexShaderWrapper wrapper;
 
-		std::vector<CR_ShaderConstant> uniformList;
+		std::vector<CR_ShaderConstantData> uniformList;
 
 		Ceng::UINT32 uniformBufferSize;
 

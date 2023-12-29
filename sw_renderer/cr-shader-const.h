@@ -17,40 +17,40 @@
 
 namespace Ceng
 {
-	class CR_ShaderConstHandle : public Ceng::ShaderConstant
+	class CR_ShaderProgram;
+
+	class CR_ShaderConstant : public Ceng::ShaderConstant
 	{
+	private:
+
+		Ceng::BOOL dirty;
+
+		Ceng::CR_ShaderProgram* program;
+
 	protected:
 
 		Ceng::UINT32 index;
 
-		ShaderWrapper *shader;
+		~CR_ShaderConstant() override
+		{
+
+		}
+
+		CR_ShaderConstant()
+		{
+
+		}
 
 	public:
 
-		CR_ShaderConstHandle();
+		CR_ShaderConstant(Ceng::UINT32 index, Ceng::CR_ShaderProgram* program);
 
-		CR_ShaderConstHandle(const Ceng::UINT32 index,ShaderWrapper *shader);
+		void MarkDirty();
 
-		~CR_ShaderConstHandle() override;
+		void Update();
+		void ForceUpdate();
 
-		void Release() override;
-
-		const CRESULT SetFloat(const Ceng::FLOAT32 value) override;
-		const CRESULT SetFloat2(const Ceng::FLOAT32* values) override;
-		const CRESULT SetFloat3(const Ceng::FLOAT32* values) override;
-		const CRESULT SetFloat4(const Ceng::FLOAT32* values) override;
-
-		const CRESULT SetInt(const Ceng::INT32 value) override;
-		const CRESULT SetInt2(const Ceng::INT32* values) override;
-		const CRESULT SetInt3(const Ceng::INT32* values) override;
-		const CRESULT SetInt4(const Ceng::INT32* values) override;
-
-		const CRESULT SetBool(const Ceng::BOOL value) override;
-		const CRESULT SetBool2(const Ceng::BOOL* values) override;
-		const CRESULT SetBool3(const Ceng::BOOL* values) override;
-		const CRESULT SetBool4(const Ceng::BOOL* values) override;
-
-		const CRESULT SetMatrix_4x4(const Ceng::FLOAT32* values, const Ceng::BOOL transpose) override;
+		virtual void UpdateThis() = 0;
 		
 	};
 };

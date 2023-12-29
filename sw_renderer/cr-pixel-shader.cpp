@@ -85,6 +85,9 @@ CRESULT CR_PixelShader::ConfigureConstants()
 CRESULT CR_PixelShader::GetConstant(const char *variableName,
 									Ceng::ShaderConstant **handle)
 {
+	return CE_ERR_UNIMPLEMENTED;
+
+	/*
 	UINT32 k;
 
 	for(k=0;k<uniformList.size();k++)
@@ -94,7 +97,7 @@ CRESULT CR_PixelShader::GetConstant(const char *variableName,
 			try
 			{
 				*handle = (Ceng::ShaderConstant*)
-							new CR_ShaderConstHandle(k,&wrapper);
+							new CR_ShaderConstant(k,&wrapper);
 			}
 			catch(std::bad_alloc&)
 			{
@@ -111,6 +114,7 @@ CRESULT CR_PixelShader::GetConstant(const char *variableName,
 	}
 
 	return CE_OK;
+	*/
 }
 
 const CRESULT CR_PixelShader::ReadUniform(const Ceng::UINT32 index,void *destBuffer)

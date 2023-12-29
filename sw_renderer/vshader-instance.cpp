@@ -353,7 +353,7 @@ const CRESULT CR_VertexShaderInstance::SetVertexStreams()
 	return CE_OK;
 }
 
-const CRESULT CR_VertexShaderInstance::ConfigureUniforms(const std::vector<CR_ShaderConstant> &uniformList,
+const CRESULT CR_VertexShaderInstance::ConfigureUniforms(const std::vector<CR_ShaderConstantData> &uniformList,
 														 const Ceng::UINT32 bufferSize)
 {
 

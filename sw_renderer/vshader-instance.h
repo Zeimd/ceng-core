@@ -161,7 +161,7 @@ namespace Ceng
 
 		const CRESULT SetVertexStreams();
 
-		const CRESULT ConfigureUniforms(const std::vector<CR_ShaderConstant> &uniformList,
+		const CRESULT ConfigureUniforms(const std::vector<CR_ShaderConstantData> &uniformList,
 										const Ceng::UINT32 bufferSize);
 
 		virtual const CRESULT ProcessVertexBatch(std::shared_ptr<DrawBatch> batch,
