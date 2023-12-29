@@ -19,7 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\ceng-glsl\inc\ceng-glsl.h" />
+    <ClCompile Include="..\..\ceng-glsl\token.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\tokenizer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\ceng-glsl.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\token-type.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\token.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\tokenizer.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -77,10 +84,12 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)\..\lib\$(Platform)\$(Configuration)\</OutDir>
     <TargetName>$(ProjectName)-debug</TargetName>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\..\inc\;$(SolutionDir)\..\ceng-glsl\inc\</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)\..\lib\$(Platform)\$(Configuration)\</OutDir>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\..\ceng-glsl\inc\;$(SolutionDir)\..\inc\</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
