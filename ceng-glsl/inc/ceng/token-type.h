@@ -11,6 +11,10 @@ namespace Ceng
 			meta_end_of_file,
 			meta_uninitialized,
 
+			preprocess_comment,
+			preprocess_comment_start,
+			preprocess_comment_end,
+
 			keyword_attribute,
 			keyword_const,
 
