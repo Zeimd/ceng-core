@@ -45,6 +45,7 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 	// Does operator detected appear in a combined operator, such as "<" in "<<".
 	bool trailingOperator = false;
 
+	Ceng::UINT32 sectionStartPos = 0;
 	bool flushSection = false;
 
 	SectionType::value sectionType = SectionType::unused;
@@ -429,6 +430,9 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 
 				cresult = TokenizeString(sectionType, sectionStart, sectionEnd, token);
 
+				token.file = sourceFile;
+				token.position = sectionStartPos;
+				token.line = line;
 				token.leftSpace = leftSpace;
 				token.rightSpace = rightSpace;
 				token.startLine = localStart;
@@ -483,6 +487,7 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 					leftSpace = false;
 					startLine = false;
 					sectionStart = iter;
+					sectionStartPos = position;
 
 					switch (currentChar)
 					{
