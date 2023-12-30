@@ -388,9 +388,11 @@ Ceng::StringUtf8 Token::ToString()
 	case TokenType::meta_end_of_file:
 		return "\n";
 	case TokenType::preprocess_comment:
+		return "//";
 	case TokenType::preprocess_comment_start:
+		return "/*";
 	case TokenType::preprocess_comment_end:
-		return "";
+		return "*/";
 	case TokenType::meta_uninitialized:
 		return "<< token type uninitialized >>";
 	default:
