@@ -36,9 +36,7 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 	}
 
 	bool leftSpace = false;
-	bool rightSpace = false;
-
-	bool startLine = false;
+	bool startLine = true;
 	bool endLine = false;
 
 	bool prevIsOperator = false;
@@ -65,6 +63,14 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 		currentIsOperator = false;
 		trailingOperator = false;
 
+		if (endLine)
+		{
+			startLine = true;
+			position = 0;
+			++line;
+			endLine = false;
+		}
+
 		++position;
 
 		char currentChar;
@@ -77,32 +83,16 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 		{
 		case ' ':
 		case '\t':
-			if (tokens.size() > 0)
-			{
-				tokens.back().rightSpace = true;
-			}
-
 			flushSection = true;
+			leftSpace = true;
 
 			currentToken = TokenType::meta_whitespace;
-			leftSpace = true;
+			
 			break;
 		case '\n':
-			if (tokens.size() > 0)
-			{
-				tokens.back().endLine = true;
-			}
-
 			flushSection = true;
 
-			currentToken = TokenType::meta_whitespace;
-
-			position = 0;
-			++line;
-			leftSpace = false;
-			startLine = false;
-			endLine = false;
-			rightSpace = false;
+			currentToken = TokenType::meta_end_of_line;
 			break;
 		case '#':
 			currentIsOperator = true;
@@ -114,7 +104,15 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 				break;
 			}
 
-			currentToken = TokenType::preprocess_hash;
+			if (startLine)
+			{
+				currentToken = TokenType::preprocess_hash;
+			}
+			else
+			{
+				currentToken = TokenType::preprocess_stringize;
+			}
+
 			flushSection = true;
 			trailingOperator = true;
 			break;
@@ -409,19 +407,32 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 			break;
 		};
 
+		bool rightSpace = currentToken == TokenType::meta_whitespace;
+		endLine = currentToken == TokenType::meta_end_of_line;
+
+		printf("DEBUG: rightSpace=%i, endLine=%i\n", rightSpace, endLine);
+		printf("DEBUG: currentIsOperator=%i, prevIsOperator=%i\n", currentIsOperator, prevIsOperator);
+
+		bool localStart = startLine;
+		if (endLine)
+		{
+			localStart = false;
+		}
+
 		if (flushSection)
 		{			
 			if (sectionType != SectionType::unused)
 			{
-				//printf("Debug: Flush section, sectionType = %i\n", sectionType);
-				
 				sectionEnd = iter;
 				
-				//printf("Debug: sectionStart = %i, sectionEnd = %i\n", sectionStart.Index(), sectionEnd.Index());
-
 				Token token;
 
 				cresult = TokenizeString(sectionType, sectionStart, sectionEnd, token);
+
+				token.leftSpace = leftSpace;
+				token.rightSpace = rightSpace;
+				token.startLine = localStart;
+				token.endLine = endLine;
 
 				if (cresult == CE_OK)
 				{
@@ -431,6 +442,8 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 			
 			sectionType = SectionType::unused;
 			flushSection = false;
+			leftSpace = false;
+			startLine = false;
 		}
 
 		if (trailingOperator)
@@ -442,20 +455,33 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 		{
 			if (currentIsOperator)
 			{
-				tokens.emplace_back(sourceFile, line, position, leftSpace, rightSpace, startLine, endLine, currentToken);
+				tokens.emplace_back(sourceFile, line, position, leftSpace, rightSpace, localStart, endLine, currentToken);
 				currentToken = TokenType::meta_uninitialized;
 				currentIsOperator = false;
+				leftSpace = false;
+				startLine = false;
 				continue;
 			}
 			else if (prevIsOperator)
 			{
-				tokens.emplace_back(sourceFile, line, position, leftSpace, rightSpace, startLine, endLine, prevToken);
+				tokens.emplace_back(sourceFile, line, position, leftSpace, rightSpace, localStart, endLine, prevToken);
+				leftSpace = false;
+				startLine = false;
+			}
+			else if (currentToken == TokenType::meta_end_of_line)
+			{
+				if (tokens.size() > 0)
+				{
+					tokens.back().endLine = true;
+				}
 			}
 			
 			if (currentToken == TokenType::meta_uninitialized)
 			{
 				if (sectionType == SectionType::unused)
 				{
+					leftSpace = false;
+					startLine = false;
 					sectionStart = iter;
 
 					switch (currentChar)
