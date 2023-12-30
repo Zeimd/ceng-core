@@ -489,9 +489,21 @@ Ceng::CRESULT Tokenizer::TokenizeString(SectionType::value type,Ceng::StringUtf8
 			return CE_OK;
 		}
 
+		if (text == "true")
+		{
+			out_token.type = TokenType::bool_constant;
+			out_token.SetBool(true);
+			return CE_OK;
+		}
+		else if (text == "false")
+		{
+			out_token.type = TokenType::bool_constant;
+			out_token.SetBool(false);
+			return CE_OK;
+		}
+
 		out_token.type = TokenType::identifier;
-		out_token.name = text;
-		
+		out_token.name = text;		
 	}
 
 	return CE_OK;
