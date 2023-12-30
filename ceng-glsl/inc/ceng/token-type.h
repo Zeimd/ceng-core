@@ -52,19 +52,40 @@ namespace Ceng
 			uint_constant,
 			bool_constant,
 
+			// ?:
 			field_selection,
+
+			// Left shift <<
 			left_op,
+
+			// Right shift >>
 			right_op,
+
+			// Increment ++
 			inc_op,
+
+			// Decrement --
 			dec_op,
 			
+			// <=
 			le_op,
+
+			// >=
 			ge_op,
+
+			// ==
 			eq_op,
+
+			// !=
 			ne_op,
 
+			// &&
 			and_op,
+
+			// ||
 			or_op,
+
+			// ^^
 			xor_op,
 			
 			// *=
@@ -79,10 +100,10 @@ namespace Ceng
 			// %=
 			mod_assign,
 
-			// TBC
+			// <<=
 			left_assign,
 
-			// TBC
+			// >>=
 			right_assign,
 
 			// &=
@@ -97,10 +118,10 @@ namespace Ceng
 			// -=
 			sub_assign,
 
-			// Char: (
+			// (
 			left_paren,
 
-			// Char: )
+			// )
 			right_paren,
 
 			// [

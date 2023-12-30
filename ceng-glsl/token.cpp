@@ -189,6 +189,24 @@ Ceng::StringUtf8 Token::ToString()
 		return ",";
 	case TokenType::vertical_bar:
 		return "|";
+	case TokenType::left_op:
+		return "<<";
+	case TokenType::right_op:
+		return ">>";
+	case TokenType::le_op:
+		return "<=";
+	case TokenType::ge_op:
+		return ">=";
+	case TokenType::eq_op:
+		return "==";
+	case TokenType::ne_op:
+		return "!=";
+	case TokenType::and_op:
+		return "&&";
+	case TokenType::or_op:
+		return "||";
+	case TokenType::xor_op:
+		return "^^";
 	case TokenType::plus:
 		return "+";
 	case TokenType::slash:
@@ -200,8 +218,7 @@ Ceng::StringUtf8 Token::ToString()
 	case TokenType::tilde:
 		return "~";
 	case TokenType::field_selection:
-		// TBC if this is struct member select
-		return ".";
+		return "?:";
 	case TokenType::add_assign:
 		return "+=";
 	case TokenType::sub_assign:
@@ -218,6 +235,10 @@ Ceng::StringUtf8 Token::ToString()
 		return "^=";
 	case TokenType::mul_assign:
 		return "*=";
+	case TokenType::left_assign:
+		return "<<=";
+	case TokenType::right_assign:
+		return ">>=";
 	case TokenType::percent:
 		return "%";
 	case TokenType::question:
