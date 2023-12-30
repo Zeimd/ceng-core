@@ -9,6 +9,7 @@ namespace Ceng
 		{
 			meta_end_of_line,
 			meta_end_of_file,
+			meta_uninitialized,
 
 			keyword_attribute,
 			keyword_const,

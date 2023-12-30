@@ -361,7 +361,9 @@ Ceng::StringUtf8 Token::ToString()
 		return '\n';
 	case TokenType::meta_end_of_file:
 		return "\n";
+	case TokenType::meta_uninitialized:
+		return "<< token type uninitialized >>";
 	default:
-		return "unhandled token type";
+		return "<< unhandled token type >>";
 	};
 }
