@@ -185,6 +185,11 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 			currentToken = TokenType::slash;
 			break;
 		case '-':
+			if (sectionType == SectionType::number)
+			{
+				break;
+			}
+			
 			currentIsOperator = true;
 
 			if (prevToken == TokenType::dash)
@@ -339,12 +344,17 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 			currentToken = TokenType::comma;
 			break;
 		case '.':
-			currentIsOperator = true;
-
 			if (sectionType == SectionType::text)
 			{
 				flushSection = true;
 			}
+
+			if (sectionType == SectionType::number)
+			{
+				break;
+			}
+
+			currentIsOperator = true;
 			currentToken = TokenType::dot;
 			break;
 		case '~':
@@ -492,18 +502,34 @@ Ceng::CRESULT Tokenizer::TokenizeString(SectionType::value type,Ceng::StringUtf8
 		if (text == "true")
 		{
 			out_token.type = TokenType::bool_constant;
-			out_token.SetBool(true);
+			out_token.value.boolVal = true;
 			return CE_OK;
 		}
 		else if (text == "false")
 		{
 			out_token.type = TokenType::bool_constant;
-			out_token.SetBool(false);
+			out_token.value.boolVal = false;
 			return CE_OK;
 		}
 
 		out_token.type = TokenType::identifier;
 		out_token.name = text;		
+	}
+	else if (type == SectionType::number)
+	{
+		auto iter = text.FindFirstOf(".e", text.ConstBeginIterator());
+
+		if (iter == text.ConstEndIterator())
+		{
+			out_token.type = TokenType::int_constant;
+			out_token.value.intVal = atoi(text.ToCString());
+		}
+		else
+		{
+			out_token.type = TokenType::float_constant;
+			out_token.value.floatVal = atof(text.ToCString());
+		}
+
 	}
 
 	return CE_OK;
