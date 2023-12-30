@@ -156,10 +156,22 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 			currentToken = TokenType::slash;
 			continue;
 		case '-':
+			if (prevToken == TokenType::dash)
+			{
+				prevIsOperator = false;
+				currentToken = TokenType::dec_op;
+				break;
+			}
 			prevIsOperator = true;
 			currentToken = TokenType::dash;
 			continue;
 		case '+':
+			if (prevToken == TokenType::plus)
+			{
+				prevIsOperator = false;
+				currentToken = TokenType::inc_op;
+				break;
+			}
 			prevIsOperator = true;
 			currentToken = TokenType::plus;
 			continue;
