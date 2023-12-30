@@ -39,6 +39,8 @@ namespace Ceng
 
 	public:
 
+		Token();
+
 		Token(const std::shared_ptr<const Ceng::StringUtf8>& file, const Ceng::UINT32 line, const Ceng::UINT32 position,
 			bool leftSpace, bool rightSpace, bool startLine, bool endLine, Ceng::TokenType::value type);
 

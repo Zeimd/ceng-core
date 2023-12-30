@@ -2,6 +2,11 @@
 
 using namespace Ceng;
 
+Token::Token() : type(TokenType::meta_uninitialized)
+{
+
+}
+
 Token::Token(const std::shared_ptr<const Ceng::StringUtf8>& file, const Ceng::UINT32 line, const Ceng::UINT32 position,
 	bool leftSpace, bool rightSpace, bool startLine, bool endLine, Ceng::TokenType::value type)
 	: file(file),line(line),position(position),leftSpace(leftSpace),rightSpace(rightSpace),startLine(startLine),endLine(endLine),

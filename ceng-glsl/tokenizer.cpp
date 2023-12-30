@@ -16,8 +16,12 @@ Tokenizer::~Tokenizer()
 
 }
 
+
+
 Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::StringUtf8& source, std::vector<Token>& out_tokens)
 {
+	CRESULT cresult;
+
 	std::vector<Token> tokens;
 
 	auto sourceFile = std::make_shared<const Ceng::StringUtf8>(fileName);
@@ -38,7 +42,16 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 	bool endLine = false;
 
 	bool prevIsOperator = false;
+	bool currentIsOperator = false;
 
+	// Does operator detected appear in a combined operator, such as "<" in "<<".
+	bool trailingOperator = false;
+
+	bool flushSection = false;
+
+	SectionType::value sectionType = SectionType::unused;
+	Ceng::StringUtf8::CONST_ITERATOR_TYPE sectionStart,sectionEnd;
+	
 	 
 	TokenType::value prevToken = TokenType::meta_uninitialized;;
 	TokenType::value currentToken = TokenType::meta_uninitialized;;
@@ -46,14 +59,19 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 	for (auto iter = source.ConstBeginIterator(); iter != source.ConstEndIterator(); iter++)
 	{
 		prevToken = currentToken;
-
 		currentToken = TokenType::meta_uninitialized;
+
+		prevIsOperator = currentIsOperator;
+		currentIsOperator = false;
+		trailingOperator = false;
 
 		++position;
 
 		char currentChar;
 		
 		(*iter).ToChar(&currentChar);
+
+		printf("DEBUG: currentChar = %c\n", currentChar);
 
 		switch (currentChar)
 		{
@@ -64,28 +82,20 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 				tokens.back().rightSpace = true;
 			}
 
-			if (prevIsOperator && prevToken != TokenType::meta_uninitialized)
-			{
-				tokens.emplace_back(sourceFile, line, position, leftSpace, rightSpace, startLine, endLine, prevToken);
-				prevIsOperator = false;
-			}
+			flushSection = true;
 
-			currentToken = TokenType::meta_uninitialized;
+			currentToken = TokenType::meta_whitespace;
 			leftSpace = true;
-			continue;
+			break;
 		case '\n':
 			if (tokens.size() > 0)
 			{
 				tokens.back().endLine = true;
 			}
 
-			if (prevIsOperator && prevToken != TokenType::meta_uninitialized)
-			{
-				tokens.emplace_back(sourceFile, line, position, leftSpace, rightSpace, startLine, endLine, prevToken);
-				prevIsOperator = false;
-			}
+			flushSection = true;
 
-			currentToken = TokenType::meta_uninitialized;
+			currentToken = TokenType::meta_whitespace;
 
 			position = 0;
 			++line;
@@ -93,52 +103,70 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 			startLine = false;
 			endLine = false;
 			rightSpace = false;
-			continue;
+			break;
 		case '!':
-			prevIsOperator = true;
+			flushSection = true;
+			currentIsOperator = true;
+			trailingOperator = true;
 			currentToken = TokenType::bang;
-			continue;
+			break;
 		case '&':
+			currentIsOperator = true;
+
 			if (prevToken == TokenType::ampersand)
 			{
 				prevIsOperator = false;
 				currentToken = TokenType::and_op;
 				break;
 			}
-			prevIsOperator = true;
+			trailingOperator = true;
+			flushSection = true;
+			
 			currentToken = TokenType::ampersand;
-			continue;
+			break;
 		case '|':
+			currentIsOperator = true;
+
 			if (prevToken == TokenType::vertical_bar)
 			{
 				prevIsOperator = false;
 				currentToken = TokenType::or_op;
 				break;
 			}
-			prevIsOperator = true;
+			trailingOperator = true;
+			flushSection = true;			
 			currentToken = TokenType::vertical_bar;
-			continue;
+			break;
 		case '^':
+			currentIsOperator = true;
+
 			if (prevToken == TokenType::caret)
 			{
 				prevIsOperator = false;
 				currentToken = TokenType::xor_op;
 				break;
 			}
+			trailingOperator = true;
+			flushSection = true;
 			prevIsOperator = true;
 			currentToken = TokenType::caret;
-			continue;
+			break;
 		case '*':
+			currentIsOperator = true;
+
 			if (prevToken == TokenType::slash)
 			{
 				prevIsOperator = false;
 				currentToken = TokenType::preprocess_comment_start;
 				break;
 			}
-			prevIsOperator = true;
+			trailingOperator = true;
+			flushSection = true;			
 			currentToken = TokenType::star;
-			continue;
+			break;
 		case '/':
+			currentIsOperator = true;
+
 			if (prevToken == TokenType::slash)
 			{
 				prevIsOperator = false;
@@ -152,67 +180,89 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 				currentToken = TokenType::preprocess_comment_end;
 				break;
 			}
-			prevIsOperator = true;
+			trailingOperator = true;
+			flushSection = true;			
 			currentToken = TokenType::slash;
-			continue;
+			break;
 		case '-':
+			currentIsOperator = true;
+
 			if (prevToken == TokenType::dash)
 			{
 				prevIsOperator = false;
 				currentToken = TokenType::dec_op;
 				break;
 			}
-			prevIsOperator = true;
+			trailingOperator = true;
+			flushSection = true;			
 			currentToken = TokenType::dash;
-			continue;
+			break;
 		case '+':
+			currentIsOperator = true;
+
 			if (prevToken == TokenType::plus)
 			{
 				prevIsOperator = false;
 				currentToken = TokenType::inc_op;
 				break;
 			}
-			prevIsOperator = true;
+			trailingOperator = true;
+			flushSection = true;			
 			currentToken = TokenType::plus;
-			continue;
+			break;
 		case '%':
-			prevIsOperator = true;
+			currentIsOperator = true;
+			trailingOperator = true;
+			flushSection = true;			
 			currentToken = TokenType::percent;
-			continue;
+			break;
 		case '?':
-			currentToken = TokenType::question;
-			prevIsOperator = true;
-			continue;
+			currentIsOperator = true;
+			trailingOperator = true;
+			flushSection = true;
+			currentToken = TokenType::question;			
+			break;
 		case ':':
+			currentIsOperator = true;
+
 			if (prevToken == TokenType::question)
 			{
 				prevIsOperator = false;
 				currentToken = TokenType::field_selection;
 				break;
 			}
+			flushSection = true;
 			currentToken = TokenType::colon;
 			break;
 		case '<':
+			currentIsOperator = true;
+
 			if (prevToken == TokenType::left_angle)
 			{
 				prevIsOperator = false;
 				currentToken = TokenType::left_op;
 				break;
 			}
-			prevIsOperator = true;
+			trailingOperator = true;
+			flushSection = true;			
 			currentToken = TokenType::left_angle;
-			continue;
+			break;
 		case '>':
+			currentIsOperator = true;
+
 			if (prevToken == TokenType::right_angle)
 			{
 				prevIsOperator = false;
 				currentToken = TokenType::right_op;
 				break;
 			}
-			prevIsOperator = true;
+			trailingOperator = true;
+			flushSection = true;			
 			currentToken = TokenType::right_angle;
-			continue;
+			break;
 		case '=':
+			currentIsOperator = true;
+
 			switch (prevToken)
 			{
 			case TokenType::plus:
@@ -272,59 +322,170 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 				currentToken = TokenType::ne_op;
 				break;
 			default:
-				prevIsOperator = true;
+				trailingOperator = true;
+				flushSection = true;				
 				currentToken = TokenType::equal;
-				continue;
+				break;
 			}
 			break;
 		case ';':
+			currentIsOperator = true;
+			flushSection = true;
 			currentToken = TokenType::semicolon;
 			break;
 		case ',':
+			currentIsOperator = true;
+			flushSection = true;
 			currentToken = TokenType::comma;
 			break;
 		case '.':
+			currentIsOperator = true;
+
+			if (sectionType == SectionType::text)
+			{
+				flushSection = true;
+			}
 			currentToken = TokenType::dot;
 			break;
 		case '~':
+			currentIsOperator = true;
+			flushSection = true;
 			currentToken = TokenType::tilde;
 			break;
 		case '(':
+			currentIsOperator = true;
+			flushSection = true;
 			currentToken = TokenType::left_paren;
 			break;
 		case ')':
+			currentIsOperator = true;
+			flushSection = true;
 			currentToken = TokenType::right_paren;
 			break;
 		case '[':
+			currentIsOperator = true;
+			flushSection = true;
 			currentToken = TokenType::left_bracket;
 			break;
 		case ']':
+			currentIsOperator = true;
+			flushSection = true;
 			currentToken = TokenType::right_bracket;
 			break;
 		case '{':
+			currentIsOperator = true;
+			flushSection = true;
 			currentToken = TokenType::left_brace;
 			break;
 		case '}':
+			currentIsOperator = true;
+			flushSection = true;
 			currentToken = TokenType::right_brace;
 			break;
 		};
 
-		if (prevIsOperator && prevToken != TokenType::meta_uninitialized)
-		{
-			tokens.emplace_back(sourceFile, line, position, leftSpace, rightSpace, startLine, endLine, prevToken);
+		if (flushSection)
+		{			
+			if (sectionType != SectionType::unused)
+			{
+				printf("Debug: Flush section, sectionType = %i\n", sectionType);
+				sectionEnd = iter;
+				--sectionEnd;
+
+				Token token;
+
+				cresult = TokenizeString(sectionType, sectionStart, sectionEnd, token);
+
+				if (cresult == CE_OK)
+				{
+					tokens.push_back(token);
+				}
+			}
+			
+			sectionType = SectionType::unused;
+			flushSection = false;
 		}
 
-		prevIsOperator = false;
-
-		if (currentToken != TokenType::meta_uninitialized)
+		if (trailingOperator)
 		{
-			tokens.emplace_back(sourceFile, line, position, leftSpace, rightSpace, startLine, endLine, currentToken);
+			trailingOperator = false;
 			continue;
 		}
+		else
+		{
+			if (currentIsOperator)
+			{
+				tokens.emplace_back(sourceFile, line, position, leftSpace, rightSpace, startLine, endLine, currentToken);
+				currentToken = TokenType::meta_uninitialized;
+				currentIsOperator = false;
+				continue;
+			}
+			else if (prevIsOperator)
+			{
+				tokens.emplace_back(sourceFile, line, position, leftSpace, rightSpace, startLine, endLine, prevToken);
+			}
+			
+			if (currentToken == TokenType::meta_uninitialized)
+			{
+				sectionStart = iter;
 
+				if (sectionType == SectionType::unused)
+				{
+					switch (currentChar)
+					{
+					case '0':
+					case '1':
+					case '2':
+					case '3':
+					case '4':
+					case '5':
+					case '6':
+					case '7':
+					case '8':
+					case '9':
+					case '.':
+						sectionType = SectionType::number;
+						break;
+					default:
+						sectionType = SectionType::text;
+						break;
+					}
+				}
+			}
+		}
 	}
 
 	out_tokens = std::move(tokens);
+
+	return CE_OK;
+}
+
+Ceng::CRESULT Tokenizer::TokenizeString(SectionType::value type,Ceng::StringUtf8::CONST_ITERATOR_TYPE start, 
+	Ceng::StringUtf8::CONST_ITERATOR_TYPE& end, Token& out_token)
+{
+	Ceng::StringUtf8 text;
+
+	while (start < end)
+	{
+		char temp;
+
+		(*start).ToChar(&temp);
+
+		text += temp; 
+		++start;
+	};
+
+	printf("DEBUG: string to parse = \"%s\"\n", text.ToCString());
+
+	/*
+	if (type == SectionType::text)
+	{
+		
+
+		auto iter = keywords.find()
+		
+	}
+	*/
 
 	return CE_OK;
 }

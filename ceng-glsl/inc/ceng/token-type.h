@@ -10,6 +10,7 @@ namespace Ceng
 			meta_end_of_line,
 			meta_end_of_file,
 			meta_uninitialized,
+			meta_whitespace,
 
 			preprocess_comment,
 			preprocess_comment_start,

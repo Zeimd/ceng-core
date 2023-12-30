@@ -9,6 +9,16 @@
 
 namespace Ceng
 {
+	namespace SectionType
+	{
+		enum value
+		{
+			text,
+			number,
+			unused,
+		};
+	};
+
 	class Tokenizer
 	{
 	protected:
@@ -18,6 +28,8 @@ namespace Ceng
 		~Tokenizer();
 
 		Ceng::CRESULT Tokenize(const Ceng::StringUtf8& fileName, const Ceng::StringUtf8& source, std::vector<Token>& out_tokens);
+
+		static Ceng::CRESULT TokenizeString(SectionType::value type, Ceng::StringUtf8::CONST_ITERATOR_TYPE start, Ceng::StringUtf8::CONST_ITERATOR_TYPE& end, Token& out_token);
 	};
 }
 
