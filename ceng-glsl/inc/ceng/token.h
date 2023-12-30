@@ -87,6 +87,8 @@ namespace Ceng
 
 		Ceng::StringUtf8 ToString();
 
+		Ceng::StringUtf8 ToDiagnosticString();
+
 		//static const char* TokenTypeText(TokenType::value type);
 	};
 }

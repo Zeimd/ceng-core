@@ -380,3 +380,469 @@ Ceng::StringUtf8 Token::ToString()
 		return "<< unhandled token type >>";
 	};
 }
+
+Ceng::StringUtf8 Token::ToDiagnosticString()
+{
+	Ceng::StringUtf8 text;
+
+	text += '@';
+	text += position;
+	text += ':';
+	text += line;
+	text += '@';
+
+	if (leftSpace)
+	{
+		text += '\\';
+	}
+	if (startLine)
+	{
+		text += '$';
+	}
+
+	switch (type)
+	{
+	case TokenType::keyword_attribute:
+		text += "attribute";
+		break;
+	case TokenType::keyword_const:
+		text += "const";
+		break;
+	case TokenType::keyword_break:
+		text += "break";
+		break;
+	case TokenType::keyword_continue:
+		text += "continue";
+		break;
+	case TokenType::keyword_do:
+		text += "do";
+		break;
+	case TokenType::keyword_centroid:
+		text += "centroid";
+		break;
+	case TokenType::keyword_case:
+		text += "case";
+		break;
+	case TokenType::keyword_default:
+		text += "default";
+		break;
+	case TokenType::keyword_discard:
+		text += "discard";
+		break;
+	case TokenType::keyword_else:
+		text += "else";
+		break;
+	case TokenType::keyword_flat:
+		text += "flat";
+		break;
+	case TokenType::keyword_for:
+		text += "for";
+		break;
+	case TokenType::keyword_high_precision:
+		text += "highp";
+		break;
+	case TokenType::keyword_medium_precision:
+		text += "mediump";
+		break;
+	case TokenType::keyword_low_precision:
+		text += "lowp";
+		break;
+	case TokenType::keyword_if:
+		text += "if";
+		break;
+	case TokenType::keyword_in:
+		text += "in"; 
+		break;
+	case TokenType::keyword_inout:
+		text += "inout";
+		break;
+	case TokenType::keyword_invariant:
+		text += "invariant";
+		break;
+	case TokenType::keyword_layout:
+		text += "layout";
+		break;
+	case TokenType::keyword_noperspective:
+		text += "noperspective";
+		break;
+	case TokenType::keyword_out:
+		text += "out";
+		break;
+	case TokenType::keyword_precision:
+		text += "precision";
+		break;
+	case TokenType::keyword_return:
+		text += "return";
+		break;
+	case TokenType::keyword_smooth:
+		text += "smooth";
+		break;
+	case TokenType::keyword_struct:
+		text += "struct";
+		break;
+	case TokenType::keyword_switch:
+		text += "switch";
+		break;
+	case TokenType::keyword_uniform:
+		text += "uniform";
+		break;
+	case TokenType::keyword_varying:
+		text += "varying";
+		break;
+	case TokenType::keyword_void:
+		text += "void";
+		break;
+	case TokenType::keyword_while:
+		text += "while";
+		break;
+	case TokenType::ampersand:
+		text += "&";
+		break;
+	case TokenType::equal:
+		text += "=";
+		break;
+	case TokenType::left_angle:
+		text += "<";
+		break;
+	case TokenType::right_angle:
+		text += ">";
+		break;
+	case TokenType::left_paren:
+		text += "(";
+		break;
+	case TokenType::right_paren:
+		text += ")";
+		break;
+	case TokenType::left_brace:
+		text += "{";
+		break;
+	case TokenType::right_brace:
+		text += "}";
+		break;
+	case TokenType::left_bracket:
+		text += "[";
+		break;
+	case TokenType::right_bracket:
+		text += "]";
+		break;
+	case TokenType::bang:
+		text += "!";
+		break;
+	case TokenType::caret:
+		text += "^";
+		break;
+	case TokenType::colon:
+		text += ":";
+		break;
+	case TokenType::semicolon:
+		text += ";";
+		break;
+	case TokenType::dot:
+		text += ".";
+		break;
+	case TokenType::comma:
+		text += ",";
+		break;
+	case TokenType::vertical_bar:
+		text += "|";
+		break;
+	case TokenType::left_op:
+		text += "<<";
+		break;
+	case TokenType::right_op:
+		text += ">>";
+		break;
+	case TokenType::le_op:
+		text += "<=";
+		break;
+	case TokenType::ge_op:
+		text += ">=";
+		break;
+	case TokenType::eq_op:
+		text += "==";
+		break;
+	case TokenType::ne_op:
+		text += "!=";
+		break;
+	case TokenType::and_op:
+		text += "&&";
+		break;
+	case TokenType::or_op:
+		text += "||";
+		break;
+	case TokenType::xor_op:
+		text += "^^";
+		break;
+	case TokenType::plus:
+		text += "+";
+		break;
+	case TokenType::slash:
+		text += "/";
+		break;
+	case TokenType::star:
+		text += "*";
+		break;
+	case TokenType::dash:
+		text += "-";
+		break;
+	case TokenType::tilde:
+		text += "~";
+		break;
+	case TokenType::field_selection:
+		text += "?:";
+		break;
+	case TokenType::add_assign:
+		text += "+=";
+		break;
+	case TokenType::sub_assign:
+		text += "-=";
+		break;
+	case TokenType::div_assign:
+		text += "/=";
+		break;
+	case TokenType::mod_assign:
+		text += "%=";
+		break;
+	case TokenType::and_assign:
+		text += "&=";
+		break;
+	case TokenType::or_assign:
+		text += "|=";
+		break;
+	case TokenType::xor_assign:
+		text += "^=";
+		break;
+	case TokenType::mul_assign:
+		text += "*=";
+		break;
+	case TokenType::left_assign:
+		text += "<<=";
+		break;
+	case TokenType::right_assign:
+		text += ">>=";
+		break;
+	case TokenType::percent:
+		text += "%";
+		break;
+	case TokenType::question:
+		text += "?";
+		break;
+	case TokenType::type_bool:
+		text += "bool";
+		break;
+	case TokenType::type_bvec2:
+		text += "bvec2";
+		break;
+	case TokenType::type_bvec3:
+		text += "bvec3";
+		break;
+	case TokenType::type_bvec4:
+		text += "bvec4";
+		break;
+	case TokenType::type_int:
+		text += "int";
+		break;
+	case TokenType::type_ivec2:
+		text += "ivec2";
+		break;
+	case TokenType::type_ivec3:
+		text += "ivec3";
+		break;
+	case TokenType::type_ivec4:
+		text += "ivec4";
+		break;
+	case TokenType::type_uint:
+		text += "uint";
+		break;
+	case TokenType::type_uvec2:
+		text += "uvec2";
+		break;
+	case TokenType::type_uvec3:
+		text += "uvec3";
+		break;
+	case TokenType::type_uvec4:
+		text += "uvec4";
+		break;
+	case TokenType::type_float:
+		text += "float";
+		break;
+	case TokenType::type_vec2:
+		text += "vec2";
+		break;
+	case TokenType::type_vec3:
+		text += "vec3";
+		break;
+	case TokenType::type_vec4:
+		text += "vec4";
+		break;
+	case TokenType::type_isampler1d:
+		text += "isampler1D";
+		break;
+	case TokenType::type_isampler1d_array:
+		text += "isampler1DArray";
+		break;
+	case TokenType::type_isampler2d:
+		text += "isampler2D";
+		break;
+	case TokenType::type_isampler2d_array:
+		text += "isampler2DArray";
+		break;
+	case TokenType::type_isampler2d_ms:
+		text += "isampler2DMS";
+		break;
+	case TokenType::type_isampler2d_ms_array:
+		text += "isampler2DMSArray";
+		break;
+	case TokenType::type_isampler2d_rect:
+		text += "isampler2DRect";
+		break;
+	case TokenType::type_isampler3d:
+		text += "isampler3D";
+		break;
+	case TokenType::type_isamplercube:
+		text += "isamplerCube";
+		break;
+	case TokenType::type_isampler_buffer:
+		text += "isamplerBuffer";
+		break;
+	case TokenType::type_sampler1d:
+		text += "sampler1D";
+		break;
+	case TokenType::type_sampler1d_array:
+		text += "sampler1Darray";
+		break;
+	case TokenType::type_sampler1d_array_shadow:
+		text += "sampler1DArrayShadow";
+		break;
+	case TokenType::type_sampler1d_shadow:
+		text += "sampler1DShadow";
+		break;
+	case TokenType::type_sampler2d:
+		text += "sampler2D";
+		break;
+	case TokenType::type_sampler2d_array:
+		text += "sampler2DArray";
+		break;
+	case TokenType::type_sampler2d_array_shadow:
+		text += "sampler2DArrayShadow";
+		break;
+	case TokenType::type_sampler2d_ms:
+		text += "sampler2DMS";
+		break;
+	case TokenType::type_sampler2d_ms_array:
+		text += "sampler2DMSArray";
+		break;
+	case TokenType::type_sampler2d_rect:
+		text += "sampler2DRect";
+		break;
+	case TokenType::type_sampler2d_rect_shadow:
+		text += "sampler2DRectShadow";
+		break;
+	case TokenType::type_sampler2d_shadow:
+		text += "sampler2DShadow";
+		break;
+	case TokenType::type_sampler3d:
+		text += "sampler3D";
+		break;
+	case TokenType::type_samplercube:
+		text += "samplerCube";
+		break;
+	case TokenType::type_samplercube_shadow:
+		text += "samplerCubeShadow";
+		break;
+	case TokenType::type_sampler_buffer:
+		text += "samplerBuffer";
+		break;
+	case TokenType::type_usampler1d:
+		text += "usampler1D";
+		break;
+	case TokenType::type_usampler1d_array:
+		text += "usampler1DArray";
+		break;
+	case TokenType::type_usampler2d:
+		text += "usampler2D";
+		break;
+	case TokenType::type_usampler2d_array:
+		text += "usampler2DArray";
+		break;
+	case TokenType::type_usampler2d_ms:
+		text += "usampler2DMS";
+		break;
+	case TokenType::type_usampler2d_ms_array:
+		text += "usampler2DMSArray";
+		break;
+	case TokenType::type_usampler2d_rect:
+		text += "usampler2DRect";
+		break;
+	case TokenType::type_usampler3d:
+		text += "usampler3D";
+		break;
+	case TokenType::type_usamplercube:
+		text += "usamplerCube";
+		break;
+	case TokenType::type_usampler_buffer:
+		text += "usamplerBuffer";
+		break;
+	case TokenType::type_name:
+		text += name;
+		break;
+	case TokenType::identifier:
+		text += name;
+		break;
+	case TokenType::bool_constant:
+		if (value.boolVal)
+		{
+			text += "true";
+		}
+		else
+		{
+			text += "false";
+		}
+		break;
+	case TokenType::int_constant:
+		text += value.intVal;
+		break;
+	case TokenType::float_constant:
+		text += value.floatVal;
+		break;
+	case TokenType::meta_end_of_line:
+		text += '\\n';
+		break;
+	case TokenType::meta_end_of_file:
+		text += "<EOF>";
+		break;
+	case TokenType::preprocess_comment:
+		text += "//";
+		break;
+	case TokenType::preprocess_comment_start:
+		text += "/*";
+		break;
+	case TokenType::preprocess_comment_end:
+		text += "*/";
+		break;
+	case TokenType::preprocess_hash:
+	case TokenType::preprocess_stringize:
+		text += "#";
+		break;
+	case TokenType::preprocess_concatenate_op:
+		text += "##";
+		break;
+	case TokenType::meta_uninitialized:
+		text += "<< token type uninitialized >>";
+		break;
+	default:
+		text += "<< unhandled token type >>";
+		break;
+	};
+
+	if (rightSpace)
+	{
+		text += '\\';
+	}
+	if (endLine)
+	{
+		text += '$';
+	}
+
+	return text;
+}
