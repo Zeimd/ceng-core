@@ -34,8 +34,8 @@ namespace Ceng
 		// Name of identifier or user-defined type
 		Ceng::StringUtf8 name;
 
-		// Value of literal
-		std::vector<Ceng::UINT8> literalData;
+		// Value of literal. Space reserved up to double precision.
+		Ceng::UINT8 literalData[8];
 
 	public:
 
@@ -77,6 +77,14 @@ namespace Ceng
 			const char* name, Ceng::FLOAT32 value);
 
 		Ceng::StringUtf8 ToString();
+
+		void SetBool(bool value);
+
+		void SetInt(Ceng::INT32 value);
+		
+		void SetFloat(Ceng::FLOAT32 value);
+
+		
 
 		//static const char* TokenTypeText(TokenType::value type);
 	};

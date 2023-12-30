@@ -28,7 +28,7 @@ Token::Token(const std::shared_ptr<const Ceng::StringUtf8>& file, const Ceng::UI
 	bool leftSpace, bool rightSpace, bool startLine, bool endLine, Ceng::TokenType::value type,
 	const Ceng::StringUtf8& name, bool value)
 	: file(file), line(line), position(position), leftSpace(leftSpace), rightSpace(rightSpace), startLine(startLine), endLine(endLine),
-	type(type), name(name),literalData(0,4)
+	type(type), name(name)
 {
 	Ceng::UINT32* x = (Ceng::UINT32*)&literalData[0];
 
@@ -44,22 +44,18 @@ Token::Token(const std::shared_ptr<const Ceng::StringUtf8>& file, const Ceng::UI
 	bool leftSpace, bool rightSpace, bool startLine, bool endLine, Ceng::TokenType::value type,
 	const Ceng::StringUtf8& name, Ceng::UINT32 value)
 	: file(file), line(line), position(position), leftSpace(leftSpace), rightSpace(rightSpace), startLine(startLine), endLine(endLine),
-	type(type), name(name), literalData(0, 4)
+	type(type), name(name)
 {
-	Ceng::UINT32* x = (Ceng::UINT32*)&literalData[0];
-
-	*x = value;
+	
 }
 
 Token::Token(const std::shared_ptr<const Ceng::StringUtf8>& file, const Ceng::UINT32 line, const Ceng::UINT32 position,
 	bool leftSpace, bool rightSpace, bool startLine, bool endLine, Ceng::TokenType::value type,
 	const Ceng::StringUtf8& name, Ceng::FLOAT32 value)
 	: file(file), line(line), position(position), leftSpace(leftSpace), rightSpace(rightSpace), startLine(startLine), endLine(endLine),
-	type(type), name(name), literalData(0, 4)
+	type(type), name(name)
 {
-	Ceng::FLOAT32* x = (Ceng::FLOAT32*)&literalData[0];
 
-	*x = value;
 }
 
 Token::Token(const std::shared_ptr<const Ceng::StringUtf8>& file, const Ceng::UINT32 line, const Ceng::UINT32 position,
@@ -75,7 +71,7 @@ Token::Token(const std::shared_ptr<const Ceng::StringUtf8>& file, const Ceng::UI
 	const char* name, bool value)
 	: Token(file, line, position, leftSpace, rightSpace, startLine, endLine, type, Ceng::StringUtf8(name), value)
 {
-
+	SetBool(value);
 }
 
 Token::Token(const std::shared_ptr<const Ceng::StringUtf8>& file, const Ceng::UINT32 line, const Ceng::UINT32 position,
@@ -83,7 +79,7 @@ Token::Token(const std::shared_ptr<const Ceng::StringUtf8>& file, const Ceng::UI
 	const char* name, Ceng::UINT32 value)
 	: Token(file, line, position, leftSpace, rightSpace, startLine, endLine, type, Ceng::StringUtf8(name), value)
 {
-
+	SetInt(value);
 }
 
 Token::Token(const std::shared_ptr<const Ceng::StringUtf8>& file, const Ceng::UINT32 line, const Ceng::UINT32 position,
@@ -91,8 +87,35 @@ Token::Token(const std::shared_ptr<const Ceng::StringUtf8>& file, const Ceng::UI
 	const char* name, Ceng::FLOAT32 value)
 	: Token(file,line,position,leftSpace,rightSpace,startLine,endLine,type,Ceng::StringUtf8(name),value)
 {
-
+	SetFloat(value);
 }
+
+void Token::SetBool(bool value)
+{
+	Ceng::UINT32* x = (Ceng::UINT32*)&literalData[0];
+
+	*x = 0;
+
+	if (value)
+	{
+		*x = 1;
+	}
+}
+
+void Token::SetInt(Ceng::INT32 value)
+{
+	Ceng::UINT32* x = (Ceng::UINT32*)&literalData[0];
+
+	*x = value;
+}
+
+void Token::SetFloat(Ceng::FLOAT32 value)
+{
+	Ceng::FLOAT32* x = (Ceng::FLOAT32*)&literalData[0];
+
+	*x = value;
+}
+
 
 Ceng::StringUtf8 Token::ToString()
 {
