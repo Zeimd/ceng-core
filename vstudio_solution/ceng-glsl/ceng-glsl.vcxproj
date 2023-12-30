@@ -27,6 +27,7 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\token-type.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\token.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\tokenizer.h" />
+    <ClInclude Include="..\..\ceng-glsl\keyword_db.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

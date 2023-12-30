@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\src">
+      <UniqueIdentifier>{e1e02053-6ed0-4812-a6be-f01188c19384}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\ceng-glsl\tokenizer.cpp">
@@ -34,6 +37,9 @@
     </ClInclude>
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\token-type.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ceng-glsl\keyword_db.h">
+      <Filter>Header Files\src</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
