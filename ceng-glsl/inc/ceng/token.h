@@ -10,6 +10,15 @@
 
 namespace Ceng
 {
+	union LiteralValue
+	{
+		Ceng::FLOAT64 doubleVal;
+		Ceng::UINT64 longVal;
+		Ceng::UINT32 intVal;
+		Ceng::FLOAT32 floatVal;
+		bool boolVal;
+	};
+
 	class Token
 	{
 	public:
@@ -35,7 +44,7 @@ namespace Ceng
 		Ceng::StringUtf8 name;
 
 		// Value of literal. Space reserved up to double precision.
-		Ceng::UINT8 literalData[8];
+		LiteralValue value;
 
 	public:
 
@@ -77,14 +86,6 @@ namespace Ceng
 			const char* name, Ceng::FLOAT32 value);
 
 		Ceng::StringUtf8 ToString();
-
-		void SetBool(bool value);
-
-		void SetInt(Ceng::INT32 value);
-		
-		void SetFloat(Ceng::FLOAT32 value);
-
-		
 
 		//static const char* TokenTypeText(TokenType::value type);
 	};
