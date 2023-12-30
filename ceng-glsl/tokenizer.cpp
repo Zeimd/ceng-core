@@ -388,9 +388,11 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 		{			
 			if (sectionType != SectionType::unused)
 			{
-				printf("Debug: Flush section, sectionType = %i\n", sectionType);
+				//printf("Debug: Flush section, sectionType = %i\n", sectionType);
+				
 				sectionEnd = iter;
-				--sectionEnd;
+				
+				//printf("Debug: sectionStart = %i, sectionEnd = %i\n", sectionStart.Index(), sectionEnd.Index());
 
 				Token token;
 
@@ -427,10 +429,10 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 			
 			if (currentToken == TokenType::meta_uninitialized)
 			{
-				sectionStart = iter;
-
 				if (sectionType == SectionType::unused)
 				{
+					sectionStart = iter;
+
 					switch (currentChar)
 					{
 					case '0':
@@ -470,22 +472,27 @@ Ceng::CRESULT Tokenizer::TokenizeString(SectionType::value type,Ceng::StringUtf8
 		char temp;
 
 		(*start).ToChar(&temp);
-
+	
 		text += temp; 
 		++start;
 	};
 
 	printf("DEBUG: string to parse = \"%s\"\n", text.ToCString());
 
-	/*
 	if (type == SectionType::text)
 	{
-		
+		auto iter = keywords.find(text.ToCString());
 
-		auto iter = keywords.find()
+		if (iter != keywords.end())
+		{
+			out_token.type = iter->second;
+			return CE_OK;
+		}
+
+		out_token.type = TokenType::identifier;
+		out_token.name = text;
 		
 	}
-	*/
 
 	return CE_OK;
 }
