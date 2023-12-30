@@ -104,6 +104,21 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 			endLine = false;
 			rightSpace = false;
 			break;
+		case '#':
+			currentIsOperator = true;
+
+			if (prevToken == TokenType::preprocess_hash)
+			{
+				prevIsOperator = false;
+				currentToken = TokenType::preprocess_concatenate_op;
+				break;
+			}
+
+			currentToken = TokenType::preprocess_hash;
+			flushSection = true;
+			trailingOperator = true;
+			break;
+
 		case '!':
 			flushSection = true;
 			currentIsOperator = true;

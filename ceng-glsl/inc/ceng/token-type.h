@@ -12,6 +12,9 @@ namespace Ceng
 			meta_uninitialized,
 			meta_whitespace,
 
+			preprocess_hash,
+			preprocess_stringize,
+			preprocess_concatenate_op,
 			preprocess_comment,
 			preprocess_comment_start,
 			preprocess_comment_end,

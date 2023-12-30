@@ -369,6 +369,11 @@ Ceng::StringUtf8 Token::ToString()
 		return "/*";
 	case TokenType::preprocess_comment_end:
 		return "*/";
+	case TokenType::preprocess_hash:
+	case TokenType::preprocess_stringize:
+		return "#";
+	case TokenType::preprocess_concatenate_op:
+		return "##";
 	case TokenType::meta_uninitialized:
 		return "<< token type uninitialized >>";
 	default:
