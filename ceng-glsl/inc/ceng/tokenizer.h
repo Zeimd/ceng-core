@@ -3,6 +3,8 @@
 
 #include <vector>
 
+#include <ceng/datatypes/return-val.h>
+
 #include "token.h"
 
 namespace Ceng
@@ -15,7 +17,7 @@ namespace Ceng
 		Tokenizer();
 		~Tokenizer();
 
-		std::vector<Token> Tokenize(Ceng::StringUtf8& source);
+		Ceng::CRESULT Tokenize(const Ceng::StringUtf8& fileName, const Ceng::StringUtf8& source, std::vector<Token>& out_tokens);
 	};
 }
 

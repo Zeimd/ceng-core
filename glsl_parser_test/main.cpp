@@ -52,11 +52,11 @@ int main()
 
 	Ceng::StringUtf8 text = builder.str();
 
-	auto tokens = tokenizer.Tokenize(text);
+	std::vector<Ceng::Token> tokens;
 
-	printf("**********************************************************\n");
+	Ceng::CRESULT cresult = tokenizer.Tokenize("forward.vs",text, tokens);
 
-	
+	printf("**********************************************************\n");	
 
 	printf("Tokenized output:\n");
 	for (auto& x : tokens)
