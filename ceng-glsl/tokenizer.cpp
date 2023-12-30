@@ -64,6 +64,13 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 				tokens.back().rightSpace = true;
 			}
 
+			if (prevIsOperator && prevToken != TokenType::meta_uninitialized)
+			{
+				tokens.emplace_back(sourceFile, line, position, leftSpace, rightSpace, startLine, endLine, prevToken);
+				prevIsOperator = false;
+			}
+
+			currentToken = TokenType::meta_uninitialized;
 			leftSpace = true;
 			continue;
 		case '\n':
@@ -71,6 +78,14 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 			{
 				tokens.back().endLine = true;
 			}
+
+			if (prevIsOperator && prevToken != TokenType::meta_uninitialized)
+			{
+				tokens.emplace_back(sourceFile, line, position, leftSpace, rightSpace, startLine, endLine, prevToken);
+				prevIsOperator = false;
+			}
+
+			currentToken = TokenType::meta_uninitialized;
 
 			position = 0;
 			++line;
