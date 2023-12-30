@@ -255,77 +255,77 @@ Ceng::StringUtf8 Token::ToString()
 	case TokenType::type_vec4:
 		return "vec4";
 	case TokenType::type_isampler1d:
-		return "isampler1d";
+		return "isampler1D";
 	case TokenType::type_isampler1d_array:
-		return "isampler1darray";
+		return "isampler1DArray";
 	case TokenType::type_isampler2d:
-		return "isampler2d";
+		return "isampler2D";
 	case TokenType::type_isampler2d_array:
-		return "isampler2darray";
+		return "isampler2DArray";
 	case TokenType::type_isampler2d_ms:
-		return "isampler2dms";
+		return "isampler2DMS";
 	case TokenType::type_isampler2d_ms_array:
-		return "isampler2dmsarray";
+		return "isampler2DMSArray";
 	case TokenType::type_isampler2d_rect:
-		return "isampler2drect";
+		return "isampler2DRect";
 	case TokenType::type_isampler3d:
-		return "isampler3d";
+		return "isampler3D";
 	case TokenType::type_isamplercube:
-		return "isamplercube";
+		return "isamplerCube";
 	case TokenType::type_isampler_buffer:
-		return "isamplerbuffer";
+		return "isamplerBuffer";
 	case TokenType::type_sampler1d:
-		return "sampler1d";
+		return "sampler1D";
 	case TokenType::type_sampler1d_array:
-		return "sampler1darray";
+		return "sampler1Darray";
 	case TokenType::type_sampler1d_array_shadow:
-		return "sampler1darrayshadow";
+		return "sampler1DArrayShadow";
 	case TokenType::type_sampler1d_shadow:
-		return "sampler1dshadow";
+		return "sampler1DShadow";
 	case TokenType::type_sampler2d:
-		return "sampler2d";
+		return "sampler2D";
 	case TokenType::type_sampler2d_array:
-		return "sampler2darray";
+		return "sampler2DArray";
 	case TokenType::type_sampler2d_array_shadow:
-		return "sampler2darrayshadow";
+		return "sampler2DArrayShadow";
 	case TokenType::type_sampler2d_ms:
-		return "sampler2dms";
+		return "sampler2DMS";
 	case TokenType::type_sampler2d_ms_array:
-		return "sampler2dmsarray";
+		return "sampler2DMSArray";
 	case TokenType::type_sampler2d_rect:
-		return "sampler2drect";
+		return "sampler2DRect";
 	case TokenType::type_sampler2d_rect_shadow:
-		return "sampler2drectshadow";
+		return "sampler2DRectShadow";
 	case TokenType::type_sampler2d_shadow:
-		return "sampler2dshadow";
+		return "sampler2DShadow";
 	case TokenType::type_sampler3d:
-		return "sampler3d";
+		return "sampler3D";
 	case TokenType::type_samplercube:
-		return "samplercube";
+		return "samplerCube";
 	case TokenType::type_samplercube_shadow:
-		return "samplercubeshadow";
+		return "samplerCubeShadow";
 	case TokenType::type_sampler_buffer:
-		return "samplerbuffer";
+		return "samplerBuffer";
 	case TokenType::type_usampler1d:
-		return "usampler1d";
+		return "usampler1D";
 	case TokenType::type_usampler1d_array:
-		return "usampler1darray";
+		return "usampler1DArray";
 	case TokenType::type_usampler2d:
-		return "usampler2d";
+		return "usampler2D";
 	case TokenType::type_usampler2d_array:
-		return "usampler2darray";
+		return "usampler2DArray";
 	case TokenType::type_usampler2d_ms:
-		return "usampler2dms";
+		return "usampler2DMS";
 	case TokenType::type_usampler2d_ms_array:
-		return "usampler2dmsarray";
+		return "usampler2DMSArray";
 	case TokenType::type_usampler2d_rect:
-		return "usampler2drect";
+		return "usampler2DRect";
 	case TokenType::type_usampler3d:
-		return "usampler3d";
+		return "usampler3D";
 	case TokenType::type_usamplercube:
-		return "usamplercube";
+		return "usamplerCube";
 	case TokenType::type_usampler_buffer:
-		return "usamplerbuffer";
+		return "usamplerBuffer";
 	case TokenType::type_name:
 		return name;
 	case TokenType::identifier:
