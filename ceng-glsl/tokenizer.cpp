@@ -39,6 +39,7 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 	bool startLine = true;
 	bool endLine = false;
 
+	bool prevIsStart = false;
 	bool prevIsOperator = false;
 	bool currentIsOperator = false;
 
@@ -48,6 +49,8 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 	Ceng::UINT32 sectionStartPos = 0;
 	bool flushSection = false;
 
+	bool sectionLeftSpace = false;
+	bool sectionStartLine = false;
 	SectionType::value sectionType = SectionType::unused;
 	Ceng::StringUtf8::CONST_ITERATOR_TYPE sectionStart,sectionEnd;
 	
@@ -100,7 +103,6 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 
 			if (prevToken == TokenType::preprocess_hash)
 			{
-				prevIsOperator = false;
 				currentToken = TokenType::preprocess_concatenate_op;
 				break;
 			}
@@ -129,7 +131,6 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 
 			if (prevToken == TokenType::ampersand)
 			{
-				prevIsOperator = false;
 				currentToken = TokenType::and_op;
 				break;
 			}
@@ -143,7 +144,6 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 
 			if (prevToken == TokenType::vertical_bar)
 			{
-				prevIsOperator = false;
 				currentToken = TokenType::or_op;
 				break;
 			}
@@ -156,13 +156,11 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 
 			if (prevToken == TokenType::caret)
 			{
-				prevIsOperator = false;
 				currentToken = TokenType::xor_op;
 				break;
 			}
 			trailingOperator = true;
 			flushSection = true;
-			prevIsOperator = true;
 			currentToken = TokenType::caret;
 			break;
 		case '*':
@@ -170,7 +168,6 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 
 			if (prevToken == TokenType::slash)
 			{
-				prevIsOperator = false;
 				currentToken = TokenType::preprocess_comment_start;
 				break;
 			}
@@ -183,14 +180,11 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 
 			if (prevToken == TokenType::slash)
 			{
-				prevIsOperator = false;
 				currentToken = TokenType::preprocess_comment;
 				break;
 			}
-			else if 
-			(prevToken == TokenType::star)
+			else if (prevToken == TokenType::star)
 			{
-				prevIsOperator = false;
 				currentToken = TokenType::preprocess_comment_end;
 				break;
 			}
@@ -208,7 +202,6 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 
 			if (prevToken == TokenType::dash)
 			{
-				prevIsOperator = false;
 				currentToken = TokenType::dec_op;
 				break;
 			}
@@ -221,7 +214,6 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 
 			if (prevToken == TokenType::plus)
 			{
-				prevIsOperator = false;
 				currentToken = TokenType::inc_op;
 				break;
 			}
@@ -246,7 +238,6 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 
 			if (prevToken == TokenType::question)
 			{
-				prevIsOperator = false;
 				currentToken = TokenType::field_selection;
 				break;
 			}
@@ -258,7 +249,6 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 
 			if (prevToken == TokenType::left_angle)
 			{
-				prevIsOperator = false;
 				currentToken = TokenType::left_op;
 				break;
 			}
@@ -271,7 +261,6 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 
 			if (prevToken == TokenType::right_angle)
 			{
-				prevIsOperator = false;
 				currentToken = TokenType::right_op;
 				break;
 			}
@@ -285,59 +274,45 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 			switch (prevToken)
 			{
 			case TokenType::plus:
-				prevIsOperator = false;
 				currentToken = TokenType::add_assign;
 				break;
 			case TokenType::dash:
-				prevIsOperator = false;
 				currentToken = TokenType::sub_assign;
 				break;
 			case TokenType::star:
-				prevIsOperator = false;
 				currentToken = TokenType::mul_assign;
 				break;
 			case TokenType::slash:
-				prevIsOperator = false;
 				currentToken = TokenType::div_assign;
 				break;
 			case TokenType::percent:
-				prevIsOperator = false;
 				currentToken = TokenType::mod_assign;
 				break;
 			case TokenType::ampersand:
-				prevIsOperator = false;
 				currentToken = TokenType::and_assign;
 				break;
 			case TokenType::vertical_bar:
-				prevIsOperator = false;
 				currentToken = TokenType::or_assign;
 				break;
 			case TokenType::caret:
-				prevIsOperator = false;
 				currentToken = TokenType::xor_assign;
 				break;
 			case TokenType::equal:
-				prevIsOperator = false;
 				currentToken = TokenType::eq_op;
 				break;
 			case TokenType::left_angle:
-				prevIsOperator = false;
 				currentToken = TokenType::le_op;
 				break;
 			case TokenType::right_angle:
-				prevIsOperator = false;
 				currentToken = TokenType::ge_op;
 				break;
 			case TokenType::left_op:
-				prevIsOperator = false;
 				currentToken = TokenType::left_assign;
 				break;
 			case TokenType::right_op:
-				prevIsOperator = false;
 				currentToken = TokenType::right_assign;
 				break;
 			case TokenType::bang:
-				prevIsOperator = false;
 				currentToken = TokenType::ne_op;
 				break;
 			default:
@@ -433,9 +408,9 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 				token.file = sourceFile;
 				token.position = sectionStartPos;
 				token.line = line;
-				token.leftSpace = leftSpace;
+				token.leftSpace = sectionLeftSpace;
 				token.rightSpace = rightSpace;
-				token.startLine = localStart;
+				token.startLine = sectionStartLine;
 				token.endLine = endLine;
 
 				if (cresult == CE_OK)
@@ -448,10 +423,13 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 			flushSection = false;
 			leftSpace = false;
 			startLine = false;
+			sectionStartLine = false;
+			sectionLeftSpace = false;
 		}
 
 		if (trailingOperator)
 		{
+			prevIsStart = startLine;
 			trailingOperator = false;
 			continue;
 		}
@@ -459,7 +437,13 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 		{
 			if (currentIsOperator)
 			{
-				tokens.emplace_back(sourceFile, line, position, leftSpace, rightSpace, localStart, endLine, currentToken);
+				Ceng::UINT32 startPos = position;
+				if (prevIsOperator)
+				{
+					--startPos;
+				}
+
+				tokens.emplace_back(sourceFile, line, startPos, leftSpace, rightSpace, startLine, endLine, currentToken);
 				currentToken = TokenType::meta_uninitialized;
 				currentIsOperator = false;
 				leftSpace = false;
@@ -468,12 +452,15 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 			}
 			else if (prevIsOperator)
 			{
-				tokens.emplace_back(sourceFile, line, position, leftSpace, rightSpace, localStart, endLine, prevToken);
+				tokens.emplace_back(sourceFile, line, position-1, leftSpace, rightSpace, prevIsStart, endLine, prevToken);
+				prevIsStart = false;
 				leftSpace = false;
 				startLine = false;
 			}
 			else if (currentToken == TokenType::meta_end_of_line)
 			{
+				leftSpace = false;
+
 				if (tokens.size() > 0)
 				{
 					tokens.back().endLine = true;
@@ -484,7 +471,9 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 			{
 				if (sectionType == SectionType::unused)
 				{
+					sectionLeftSpace = leftSpace;
 					leftSpace = false;
+					sectionStartLine = startLine;
 					startLine = false;
 					sectionStart = iter;
 					sectionStartPos = position;
