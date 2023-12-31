@@ -1,0 +1,117 @@
+single_declaration:
+    fully_specified_type
+        type_specifier
+            type_specifier_no_prec
+                type_specifier_non_array
+                    VOID
+                    FLOAT
+                    VOID
+                    INT
+                    UINT
+                    BOOL
+                    VEC2
+                    VEC3
+                    VEC4
+                    BVEC2
+                    BVEC3
+                    BVEC4
+                    IVEC2
+                    IVEC3
+                    IVEC4
+                    UVEC2
+                    UVEC3
+                    UVEC4
+                    MAT2
+                    MAT3
+                    MAT4
+                    MAT2X2
+                    MAT2X3
+                    MAT2X4
+                    MAT3X2
+                    MAT3X3
+                    MAT3X4
+                    MAT4X2
+                    MAT4X3
+                    MAT4X4
+                    SAMPLER1D
+                    SAMPLER2D
+                    SAMPLER3D
+                    SAMPLERCUBE
+                    SAMPLER1DSHADOW
+                    SAMPLER2DSHADOW
+                    SAMPLERCUBESHADOW
+                    SAMPLER1DARRAY
+                    SAMPLER2DARRAY
+                    SAMPLER1DARRAYSHADOW
+                    SAMPLER2DARRAYSHADOW
+                    ISAMPLER1D
+                    ISAMPLER2D
+                    ISAMPLER3D
+                    ISAMPLERCUBE
+                    ISAMPLER1DARRAY
+                    ISAMPLER2DARRAY
+                    USAMPLER1D
+                    USAMPLER2D
+                    USAMPLER3D
+                    USAMPLERCUBE
+                    USAMPLER1DARRAY
+                    USAMPLER2DARRAY
+                    SAMPLER2DRECT
+                    SAMPLER2DRECTSHADOW
+                    ISAMPLER2DRECT
+                    USAMPLER2DRECT
+                    SAMPLERBUFFER
+                    ISAMPLERBUFFER
+                    USAMPLERBUFFER
+                    SAMPLER2DMS
+                    ISAMPLER2DMS
+                    USAMPLER2DMS
+                    SAMPLER2DMSArray
+                    ISAMPLER2DMSArray
+                    USAMPLER2DMSArray
+                    struct_specifier
+                        STRUCT IDENTIFIER LEFT_BRACE struct_declaration_list RIGHT_BRACE // named struct, IDENTIFIER -> TYPE_NAME
+                            struct_declaration_list
+                                struct_declaration
+                                    type_specifier struct_declarator_list SEMICOLON
+                                        struct declarator_list
+                                            struct_declarator
+                                                IDENTIFIER
+                                                IDENTIFIER LEFT_BRACKET RIGHT_BRACKET
+                                                IDENTIFIER LEFT_BRACKET constant_expression RIGHT_BRACKET
+                                            struct_declarator_list struct_declarator
+                                    type_qualifier type_specifier struct_declarator_list SEMICOLON
+                                struct_declaration_list struct_declaration
+                        STRUCT LEFT_BRACE struct_declaration_list RIGHT_BRACE // anonymous struct
+                    TYPE_NAME
+                type_specifier_non_array LEFT_BRACKET RIGHT_BRACKET
+                type_specifier_non_array LEFT_BRACKET constant_expression RIGHT_BRACKET
+            precision_qualifier type_specifier_no_prec
+        type_qualifier type_specifier
+            storage_qualifier
+                CONST
+                ATTRIBUTE // vertex only
+                VARYING   // deprecated
+                CENTROID VARYING // deprecated
+                IN
+                OUT
+                CENTROID IN
+                CENTROID OUT
+                UNIFORM
+            layout_qualifier
+                LAYOUT LEFT_PAREN layout_qualifier_id_list RIGHT_PAREN
+                    layout_qualifier_id_list
+                        layout_qualifier_id
+                            IDENTIFIER
+                            IDENTIFIER EQUAL INTCONSTANT
+                        layout_qualifier_id_list COMMA layout_qualifier_id
+            layout_qualifier storage_qualifier
+            interpolation_qualifier storage_qualifier
+            interpolation_qualifier
+                SMOOTH
+                FLAT
+                NOPERSPECTIVE
+            invariant_qualifier storage_qualifier
+            invariant_qualifier interpolation_qualifier storage_qualifier
+            invariant_qualifier
+                INVARIANT
