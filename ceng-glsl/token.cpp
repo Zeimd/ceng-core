@@ -386,9 +386,9 @@ Ceng::StringUtf8 Token::ToDiagnosticString()
 	Ceng::StringUtf8 text;
 
 	text += '@';
-	text += position;
-	text += ':';
 	text += line;
+	text += ':';
+	text += position;
 	text += '@';
 
 	if (leftSpace)
@@ -397,7 +397,7 @@ Ceng::StringUtf8 Token::ToDiagnosticString()
 	}
 	if (startLine)
 	{
-		text += '$';
+		text += '\"';
 	}
 
 	switch (type)
