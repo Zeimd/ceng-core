@@ -1,117 +1,209 @@
-single_declaration:
-    fully_specified_type
-        type_specifier
-            type_specifier_no_prec
-                type_specifier_non_array
-                    VOID
-                    FLOAT
-                    VOID
-                    INT
-                    UINT
-                    BOOL
-                    VEC2
-                    VEC3
-                    VEC4
-                    BVEC2
-                    BVEC3
-                    BVEC4
-                    IVEC2
-                    IVEC3
-                    IVEC4
-                    UVEC2
-                    UVEC3
-                    UVEC4
-                    MAT2
-                    MAT3
-                    MAT4
-                    MAT2X2
-                    MAT2X3
-                    MAT2X4
-                    MAT3X2
-                    MAT3X3
-                    MAT3X4
-                    MAT4X2
-                    MAT4X3
-                    MAT4X4
-                    SAMPLER1D
-                    SAMPLER2D
-                    SAMPLER3D
-                    SAMPLERCUBE
-                    SAMPLER1DSHADOW
-                    SAMPLER2DSHADOW
-                    SAMPLERCUBESHADOW
-                    SAMPLER1DARRAY
-                    SAMPLER2DARRAY
-                    SAMPLER1DARRAYSHADOW
-                    SAMPLER2DARRAYSHADOW
-                    ISAMPLER1D
-                    ISAMPLER2D
-                    ISAMPLER3D
-                    ISAMPLERCUBE
-                    ISAMPLER1DARRAY
-                    ISAMPLER2DARRAY
-                    USAMPLER1D
-                    USAMPLER2D
-                    USAMPLER3D
-                    USAMPLERCUBE
-                    USAMPLER1DARRAY
-                    USAMPLER2DARRAY
-                    SAMPLER2DRECT
-                    SAMPLER2DRECTSHADOW
-                    ISAMPLER2DRECT
-                    USAMPLER2DRECT
-                    SAMPLERBUFFER
-                    ISAMPLERBUFFER
-                    USAMPLERBUFFER
-                    SAMPLER2DMS
-                    ISAMPLER2DMS
-                    USAMPLER2DMS
-                    SAMPLER2DMSArray
-                    ISAMPLER2DMSArray
-                    USAMPLER2DMSArray
-                    struct_specifier
-                        STRUCT IDENTIFIER LEFT_BRACE struct_declaration_list RIGHT_BRACE // named struct, IDENTIFIER -> TYPE_NAME
-                            struct_declaration_list
-                                struct_declaration
-                                    type_specifier struct_declarator_list SEMICOLON
-                                        struct declarator_list
-                                            struct_declarator
+primary_expression
+    variable_identifier
+        IDENTIFIER
+    INTCONSTANT
+    UINTCONSTANT
+    FLOATCONSTANT
+    BOOLCONSTANT
+    LEFT_PAREN expression RIGHT_PAREN
+        expression
+            assignment_expression
+            expression COMMA assignment_expression
+                assignment_expression
+                    conditional_expression
+                        logical_or_expression
+                            logical_xor_expression
+                                logical_and_expression
+                                    inclusive_or_expression
+                                        exclusive_or_expression
+                                            and_expression
+                                                equality_expression
+                                                    relational_expression
+                                                        shift_expression
+                                                            additive_expression
+                                                                multiplicative_expression
+                                                                    unary_expression
+                                                                        postfix_expression
+                                                                        INC_OP unary_expression
+                                                                        DEC_OP unary_expression
+                                                                        unary_operator unary_expression
+                                                                            unary_operator
+                                                                                PLUS
+                                                                                DASH
+                                                                                BANG
+                                                                                TILDE
+                                                                    multiplicative_expression STAR unary_expression
+                                                                    multiplicative_expression SLASH unary_expression
+                                                                    multiplicative_expression PERCENT unary_expression
+                                                                additive_expression PLUS multiplicative_expression
+                                                                additive_expression DASH multiplicative_expression
+                                                            shift_expression LEFT_OP additive_expression
+                                                            shift_expression RIGHT_OP additive_expression
+                                                        relational_expression LEFT_ANGLE shift_expression
+                                                        relational_expression RIGHT_ANGLE shift_expression
+                                                        relational_expression LE_OP shift_expression
+                                                        relational_expression GE_OP shift_expression
+                                                    equality_expression EQ_OP relational_expression
+                                                    equality_expression NE_OP relational_expression
+                                                and_expression AMPERSAND equality_expression
+                                            exclusive_or_expression CARET and_expression
+                                        inclusive_or_expression VERTICAL_BAR exclusive_or_expression
+                                    logical_and_expression AND_OP inclusive_or_expression
+                                logical_xor_expression XOR_OP logical_and_expression
+                            logical_or_expression OR_OP logical_xor_expression
+
+                    unary_expression assignment_operator assignment_expression
+                        unary_expression
+                        assignment_operator
+                            EQUAL
+                            MUL_ASSIGN
+                            DIV_ASSIGN
+                            MOD_ASSIGN
+                            ADD_ASSIGN
+                            SUB_ASSIGN
+                            LEFT_ASSIGN
+                            RIGHT_ASSIGN
+                            AND_ASSIGN
+                            XOR_ASSIGN
+                            OR_ASSIGN
+
+
+
+
+statement
+    compound_statement
+        LEFT_BRACE RIGHT_BRACE
+        LEFT_BRACE statement_list RIGHT_BRACE
+            statement_list
+                statement
+                statement_list statement
+    simple_statement
+        declaration_statement
+            declaration
+                function_prototype SEMICOLON
+                init_declarator_list SEMICOLON
+                    single_declaration
+                        fully_specified_type
+                            type_specifier
+                                type_specifier_no_prec
+                                    type_specifier_non_array
+                                        VOID
+                                        FLOAT
+                                        VOID
+                                        INT
+                                        UINT
+                                        BOOL
+                                        VEC2
+                                        VEC3
+                                        VEC4
+                                        BVEC2
+                                        BVEC3
+                                        BVEC4
+                                        IVEC2
+                                        IVEC3
+                                        IVEC4
+                                        UVEC2
+                                        UVEC3
+                                        UVEC4
+                                        MAT2
+                                        MAT3
+                                        MAT4
+                                        MAT2X2
+                                        MAT2X3
+                                        MAT2X4
+                                        MAT3X2
+                                        MAT3X3
+                                        MAT3X4
+                                        MAT4X2
+                                        MAT4X3
+                                        MAT4X4
+                                        SAMPLER1D
+                                        SAMPLER2D
+                                        SAMPLER3D
+                                        SAMPLERCUBE
+                                        SAMPLER1DSHADOW
+                                        SAMPLER2DSHADOW
+                                        SAMPLERCUBESHADOW
+                                        SAMPLER1DARRAY
+                                        SAMPLER2DARRAY
+                                        SAMPLER1DARRAYSHADOW
+                                        SAMPLER2DARRAYSHADOW
+                                        ISAMPLER1D
+                                        ISAMPLER2D
+                                        ISAMPLER3D
+                                        ISAMPLERCUBE
+                                        ISAMPLER1DARRAY
+                                        ISAMPLER2DARRAY
+                                        USAMPLER1D
+                                        USAMPLER2D
+                                        USAMPLER3D
+                                        USAMPLERCUBE
+                                        USAMPLER1DARRAY
+                                        USAMPLER2DARRAY
+                                        SAMPLER2DRECT
+                                        SAMPLER2DRECTSHADOW
+                                        ISAMPLER2DRECT
+                                        USAMPLER2DRECT
+                                        SAMPLERBUFFER
+                                        ISAMPLERBUFFER
+                                        USAMPLERBUFFER
+                                        SAMPLER2DMS
+                                        ISAMPLER2DMS
+                                        USAMPLER2DMS
+                                        SAMPLER2DMSArray
+                                        ISAMPLER2DMSArray
+                                        USAMPLER2DMSArray
+                                        struct_specifier
+                                            STRUCT IDENTIFIER LEFT_BRACE struct_declaration_list RIGHT_BRACE // named struct, IDENTIFIER -> TYPE_NAME
+                                                struct_declaration_list
+                                                    struct_declaration
+                                                        type_specifier struct_declarator_list SEMICOLON
+                                                            struct declarator_list
+                                                                struct_declarator
+                                                                    IDENTIFIER
+                                                                    IDENTIFIER LEFT_BRACKET RIGHT_BRACKET
+                                                                    IDENTIFIER LEFT_BRACKET constant_expression RIGHT_BRACKET
+                                                                struct_declarator_list struct_declarator
+                                                        type_qualifier type_specifier struct_declarator_list SEMICOLON
+                                                    struct_declaration_list struct_declaration
+                                            STRUCT LEFT_BRACE struct_declaration_list RIGHT_BRACE // anonymous struct
+                                        TYPE_NAME
+                                    type_specifier_non_array LEFT_BRACKET RIGHT_BRACKET
+                                    type_specifier_non_array LEFT_BRACKET constant_expression RIGHT_BRACKET
+                                precision_qualifier type_specifier_no_prec
+                            type_qualifier type_specifier
+                                storage_qualifier
+                                    CONST
+                                    ATTRIBUTE // vertex only
+                                    VARYING   // deprecated
+                                    CENTROID VARYING // deprecated
+                                    IN
+                                    OUT
+                                    CENTROID IN
+                                    CENTROID OUT
+                                    UNIFORM
+                                layout_qualifier
+                                    LAYOUT LEFT_PAREN layout_qualifier_id_list RIGHT_PAREN
+                                        layout_qualifier_id_list
+                                            layout_qualifier_id
                                                 IDENTIFIER
-                                                IDENTIFIER LEFT_BRACKET RIGHT_BRACKET
-                                                IDENTIFIER LEFT_BRACKET constant_expression RIGHT_BRACKET
-                                            struct_declarator_list struct_declarator
-                                    type_qualifier type_specifier struct_declarator_list SEMICOLON
-                                struct_declaration_list struct_declaration
-                        STRUCT LEFT_BRACE struct_declaration_list RIGHT_BRACE // anonymous struct
-                    TYPE_NAME
-                type_specifier_non_array LEFT_BRACKET RIGHT_BRACKET
-                type_specifier_non_array LEFT_BRACKET constant_expression RIGHT_BRACKET
-            precision_qualifier type_specifier_no_prec
-        type_qualifier type_specifier
-            storage_qualifier
-                CONST
-                ATTRIBUTE // vertex only
-                VARYING   // deprecated
-                CENTROID VARYING // deprecated
-                IN
-                OUT
-                CENTROID IN
-                CENTROID OUT
-                UNIFORM
-            layout_qualifier
-                LAYOUT LEFT_PAREN layout_qualifier_id_list RIGHT_PAREN
-                    layout_qualifier_id_list
-                        layout_qualifier_id
-                            IDENTIFIER
-                            IDENTIFIER EQUAL INTCONSTANT
-                        layout_qualifier_id_list COMMA layout_qualifier_id
-            layout_qualifier storage_qualifier
-            interpolation_qualifier storage_qualifier
-            interpolation_qualifier
-                SMOOTH
-                FLAT
-                NOPERSPECTIVE
-            invariant_qualifier storage_qualifier
-            invariant_qualifier interpolation_qualifier storage_qualifier
-            invariant_qualifier
-                INVARIANT
+                                                IDENTIFIER EQUAL INTCONSTANT
+                                            layout_qualifier_id_list COMMA layout_qualifier_id
+                                layout_qualifier storage_qualifier
+                                interpolation_qualifier storage_qualifier
+                                interpolation_qualifier
+                                    SMOOTH
+                                    FLAT
+                                    NOPERSPECTIVE
+                                invariant_qualifier storage_qualifier
+                                invariant_qualifier interpolation_qualifier storage_qualifier
+                                invariant_qualifier
+                                    INVARIANT
+                        fully_specified_type IDENTIFIER
+                        fully_specified_type IDENTIFIER LEFT_BRACKET RIGHT_BRACKET
+                        fully_specified_type IDENTIFIER LEFT_BRACKET constant_expression RIGHT_BRACKET
+                        fully_specified_type IDENTIFIER LEFT_BRACKET RIGHT_BRACKET EQUAL initializer
+                        fully_specified_type IDENTIFIER LEFT_BRACKET constant_expression RIGHT_BRACKET EQUAL initializer
+                        fully_specified_type IDENTIFIER EQUAL initializer
+                        INVARIANT IDENTIFIER
+
