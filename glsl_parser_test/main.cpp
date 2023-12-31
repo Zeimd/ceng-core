@@ -4,6 +4,7 @@
 #include <sstream>
 
 #include <ceng/tokenizer.h>
+#include <ceng/glsl-parser.h>
 
 int main()
 {
@@ -70,6 +71,13 @@ int main()
 			printf("\n");
 		}
 	}
-	
+
+	printf("**********************************************************\n");
+	printf("Parser output:\n");
+
+	Ceng::GLSL_Parser parser;
+
+	cresult = parser.Parse(tokens);
+
 	return 0;
 }
