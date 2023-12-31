@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "token-type.h"
+#include "token-category.h"
 
 namespace Ceng
 {
@@ -40,6 +41,8 @@ namespace Ceng
 
 		Ceng::TokenType::value type;
 
+		Ceng::TokenCategory::value category;
+
 		// Name of identifier or user-defined type
 		Ceng::StringUtf8 name;
 
@@ -51,38 +54,38 @@ namespace Ceng
 		Token();
 
 		Token(const std::shared_ptr<const Ceng::StringUtf8>& file, const Ceng::UINT32 line, const Ceng::UINT32 position,
-			bool leftSpace, bool rightSpace, bool startLine, bool endLine, Ceng::TokenType::value type);
+			bool leftSpace, bool rightSpace, bool startLine, bool endLine, Ceng::TokenType::value type, Ceng::TokenCategory::value category);
 
 		Token(const std::shared_ptr<const Ceng::StringUtf8>& file, const Ceng::UINT32 line, const Ceng::UINT32 position,
-			bool leftSpace, bool rightSpace, bool startLine, bool endLine, Ceng::TokenType::value type,
+			bool leftSpace, bool rightSpace, bool startLine, bool endLine, Ceng::TokenType::value type, Ceng::TokenCategory::value category,
 			const Ceng::StringUtf8& name);
 
 		Token(const std::shared_ptr<const Ceng::StringUtf8>& file, const Ceng::UINT32 line, const Ceng::UINT32 position,
-			bool leftSpace, bool rightSpace, bool startLine, bool endLine, Ceng::TokenType::value type,
+			bool leftSpace, bool rightSpace, bool startLine, bool endLine, Ceng::TokenType::value type, Ceng::TokenCategory::value category,
 			const char* name);
 
 		Token(const std::shared_ptr<const Ceng::StringUtf8>& file, const Ceng::UINT32 line, const Ceng::UINT32 position,
-			bool leftSpace, bool rightSpace, bool startLine, bool endLine, Ceng::TokenType::value type,
+			bool leftSpace, bool rightSpace, bool startLine, bool endLine, Ceng::TokenType::value type, Ceng::TokenCategory::value category,
 			const Ceng::StringUtf8& name, bool value);
 
 		Token(const std::shared_ptr<const Ceng::StringUtf8>& file, const Ceng::UINT32 line, const Ceng::UINT32 position,
-			bool leftSpace, bool rightSpace, bool startLine, bool endLine, Ceng::TokenType::value type,
+			bool leftSpace, bool rightSpace, bool startLine, bool endLine, Ceng::TokenType::value type, Ceng::TokenCategory::value category,
 			const Ceng::StringUtf8& name, Ceng::UINT32 value);
 
 		Token(const std::shared_ptr<const Ceng::StringUtf8>& file, const Ceng::UINT32 line, const Ceng::UINT32 position,
-			bool leftSpace, bool rightSpace, bool startLine, bool endLine, Ceng::TokenType::value type,
+			bool leftSpace, bool rightSpace, bool startLine, bool endLine, Ceng::TokenType::value type, Ceng::TokenCategory::value category,
 			const Ceng::StringUtf8& name, Ceng::FLOAT32 value);
 
 		Token(const std::shared_ptr<const Ceng::StringUtf8>& file, const Ceng::UINT32 line, const Ceng::UINT32 position,
-			bool leftSpace, bool rightSpace, bool startLine, bool endLine, Ceng::TokenType::value type,
+			bool leftSpace, bool rightSpace, bool startLine, bool endLine, Ceng::TokenType::value type, Ceng::TokenCategory::value category,
 			const char* name, bool value);
 
 		Token(const std::shared_ptr<const Ceng::StringUtf8>& file, const Ceng::UINT32 line, const Ceng::UINT32 position,
-			bool leftSpace, bool rightSpace, bool startLine, bool endLine, Ceng::TokenType::value type,
+			bool leftSpace, bool rightSpace, bool startLine, bool endLine, Ceng::TokenType::value type, Ceng::TokenCategory::value category,
 			const char* name, Ceng::UINT32 value);
 
 		Token(const std::shared_ptr<const Ceng::StringUtf8>& file, const Ceng::UINT32 line, const Ceng::UINT32 position,
-			bool leftSpace, bool rightSpace, bool startLine, bool endLine, Ceng::TokenType::value type,
+			bool leftSpace, bool rightSpace, bool startLine, bool endLine, Ceng::TokenType::value type, Ceng::TokenCategory::value category,
 			const char* name, Ceng::FLOAT32 value);
 
 		Ceng::StringUtf8 ToString();

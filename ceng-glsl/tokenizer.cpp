@@ -443,7 +443,7 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 					--startPos;
 				}
 
-				tokens.emplace_back(sourceFile, line, startPos, leftSpace, rightSpace, startLine, endLine, currentToken);
+				tokens.emplace_back(sourceFile, line, startPos, leftSpace, rightSpace, startLine, endLine, currentToken,TokenCategory::op);
 				currentToken = TokenType::meta_uninitialized;
 				currentIsOperator = false;
 				leftSpace = false;
@@ -452,7 +452,7 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 			}
 			else if (prevIsOperator)
 			{
-				tokens.emplace_back(sourceFile, line, position-1, leftSpace, rightSpace, prevIsStart, endLine, prevToken);
+				tokens.emplace_back(sourceFile, line, position-1, leftSpace, rightSpace, prevIsStart, endLine, prevToken, TokenCategory::op);
 				prevIsStart = false;
 				leftSpace = false;
 				startLine = false;
@@ -502,7 +502,7 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 		}
 	}
 
-	tokens.emplace_back(sourceFile, line, 1, false, false, false, true, TokenType::meta_end_of_file);
+	tokens.emplace_back(sourceFile, line, 1, false, false, false, true, TokenType::meta_end_of_file,TokenCategory::meta);
 
 	out_tokens = std::move(tokens);
 
@@ -532,24 +532,28 @@ Ceng::CRESULT Tokenizer::TokenizeString(SectionType::value type,Ceng::StringUtf8
 
 		if (iter != keywords.end())
 		{
-			out_token.type = iter->second;
+			out_token.type = iter->second.type;
+			out_token.category = iter->second.category;
 			return CE_OK;
 		}
 
 		if (text == "true")
 		{
 			out_token.type = TokenType::bool_constant;
+			out_token.category = TokenCategory::literal_val;
 			out_token.value.boolVal = true;
 			return CE_OK;
 		}
 		else if (text == "false")
 		{
 			out_token.type = TokenType::bool_constant;
+			out_token.category = TokenCategory::literal_val;
 			out_token.value.boolVal = false;
 			return CE_OK;
 		}
 
 		out_token.type = TokenType::identifier;
+		out_token.category = TokenCategory::identifier;
 		out_token.name = text;		
 	}
 	else if (type == SectionType::number)

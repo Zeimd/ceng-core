@@ -4,10 +4,18 @@
 #include <unordered_map>
 
 #include <ceng/token-type.h>
+#include <ceng/token-category.h>
 
 namespace Ceng
 {
-	std::unordered_map<const char*, Ceng::TokenType::value> keywords;
+	struct TokenInfo
+	{
+		TokenType::value type;
+		TokenCategory::value category;
+
+	};
+
+	std::unordered_map<const char*, TokenInfo> keywords;
 }
 
 #endif

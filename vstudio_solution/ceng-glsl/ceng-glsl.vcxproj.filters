@@ -47,5 +47,8 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\glsl-parser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\token-category.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
