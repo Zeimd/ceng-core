@@ -24,6 +24,9 @@
     <ClCompile Include="..\..\ceng-glsl\token.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\ceng-glsl\glsl-parser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\ceng-glsl.h">
@@ -40,6 +43,9 @@
     </ClInclude>
     <ClInclude Include="..\..\ceng-glsl\keyword_db.h">
       <Filter>Header Files\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\glsl-parser.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -19,11 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\ceng-glsl\glsl-parser.cpp" />
     <ClCompile Include="..\..\ceng-glsl\token.cpp" />
     <ClCompile Include="..\..\ceng-glsl\tokenizer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\ceng-glsl.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\glsl-parser.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\token-type.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\token.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\tokenizer.h" />
