@@ -86,6 +86,10 @@ primary_expression
                             AND_ASSIGN
                             XOR_ASSIGN
                             OR_ASSIGN
+
+initializer
+    assignment_expression
+
 integer_expression
     expression // that has integer value (either literals or only int/uint variables)
 
@@ -308,6 +312,8 @@ statement
                     conditionopt SEMICOLON
                         conditionopt
                             condition
+                                expression
+                                fully_specified_type IDENTIFIER EQUAL initializer
                             // empty
                     conditionopt SEMICOLON expression
         jump_statement
