@@ -29,6 +29,8 @@ namespace Ceng
 
 		Ceng::CRESULT Tokenize(const Ceng::StringUtf8& fileName, const Ceng::StringUtf8& source, std::vector<Token>& out_tokens);
 
+		Ceng::CRESULT RemoveComments(const std::vector<Token>& in_tokens, std::vector<Token>& out_tokens);
+
 		static Ceng::CRESULT TokenizeString(SectionType::value type, Ceng::StringUtf8::CONST_ITERATOR_TYPE start, Ceng::StringUtf8::CONST_ITERATOR_TYPE& end, Token& out_token);
 	};
 }

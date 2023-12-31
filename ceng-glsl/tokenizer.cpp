@@ -569,3 +569,59 @@ Ceng::CRESULT Tokenizer::TokenizeString(SectionType::value type,Ceng::StringUtf8
 
 	return CE_OK;
 }
+
+Ceng::CRESULT Tokenizer::RemoveComments(const std::vector<Token>& in_tokens, std::vector<Token>& out_tokens)
+{
+	std::vector<Token> tokens;
+
+	//auto iter = in_tokens.cbegin();
+
+	bool singleLine = false;
+	bool comment = false;
+
+	for(auto&x : in_tokens)
+	{
+		if (x.type == TokenType::preprocess_comment)
+		{
+			singleLine = true;
+			comment = true;
+			continue;
+		}
+		else if (x.type == TokenType::preprocess_comment_start)
+		{
+			singleLine = false;
+			comment = true;
+			continue;
+		}
+		else if (x.type == TokenType::preprocess_comment_end)
+		{
+			singleLine = false;
+			comment = false;
+			continue;
+		}
+
+		if (!comment)
+		{
+			tokens.push_back(x);
+		}
+		else
+		{
+			if (singleLine)
+			{
+				if (x.endLine)
+				{
+					singleLine = false;
+					comment = false;
+
+					if (tokens.size() > 0)
+					{
+						tokens.back().endLine = true;
+					}					
+				}
+			}
+		}
+	}
+
+	out_tokens = std::move(tokens);
+	return Ceng::CE_OK;
+}
