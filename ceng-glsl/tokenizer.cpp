@@ -502,6 +502,8 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 		}
 	}
 
+	tokens.emplace_back(sourceFile, line, 1, false, false, false, true, TokenType::meta_end_of_file);
+
 	out_tokens = std::move(tokens);
 
 	return CE_OK;
