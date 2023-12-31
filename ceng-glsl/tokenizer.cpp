@@ -81,7 +81,7 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 		
 		(*iter).ToChar(&currentChar);
 
-		printf("DEBUG: currentChar = %c\n", currentChar);
+		//printf("DEBUG: currentChar = %c\n", currentChar);
 
 		switch (currentChar)
 		{
@@ -386,8 +386,8 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 		bool rightSpace = currentToken == TokenType::meta_whitespace;
 		endLine = currentToken == TokenType::meta_end_of_line;
 
-		printf("DEBUG: rightSpace=%i, endLine=%i\n", rightSpace, endLine);
-		printf("DEBUG: currentIsOperator=%i, prevIsOperator=%i\n", currentIsOperator, prevIsOperator);
+		//printf("DEBUG: rightSpace=%i, endLine=%i\n", rightSpace, endLine);
+		//printf("DEBUG: currentIsOperator=%i, prevIsOperator=%i\n", currentIsOperator, prevIsOperator);
 
 		bool localStart = startLine;
 		if (endLine)
@@ -522,7 +522,7 @@ Ceng::CRESULT Tokenizer::TokenizeString(SectionType::value type,Ceng::StringUtf8
 		++start;
 	};
 
-	printf("DEBUG: string to parse = \"%s\"\n", text.ToCString());
+	//printf("DEBUG: string to parse = \"%s\"\n", text.ToCString());
 
 	if (type == SectionType::text)
 	{
