@@ -8,6 +8,7 @@
 
 #include "storage-qualifier.h"
 #include "type-spec-no-arr.h"
+#include "type-qualifier.h"
 
 namespace Ceng
 {
@@ -60,6 +61,9 @@ namespace Ceng
 
 		void S_TU_TypeSpecNoPrec(const TypeSpecifierNoArray& typeSpec);
 		void S_TU_StorageQ(StorageQualifier::value sq);
+		void S_TU_StorageQ_TypeSpecNoArr(StorageQualifier::value sq, const TypeSpecifierNoArray& typeSpec);
+
+		void S_TU_TypeQ(const TypeQualifier& typeQualifier);
 	};
 }
 

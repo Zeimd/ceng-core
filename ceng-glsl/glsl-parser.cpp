@@ -4,13 +4,15 @@ using namespace Ceng;
 
 CRESULT GLSL_Parser::Parse(const std::vector<Token>& in_tokens)
 {
+	log = "";
+
 	tokens = in_tokens;
 
 	tokenIter = tokens.begin();
 
 	Log("Parsing start");
 
-	void State_Translation_Unit();
+	S_Translation_Unit();
 
 	Log("Parsing end");
 
@@ -95,6 +97,9 @@ void GLSL_Parser::LogDebug(const Ceng::StringUtf8& text)
 
 void GLSL_Parser::S_Translation_Unit()
 {
+	Log("testing");
+	LogDebug("S_Translation_Unit");
+
 	Token next = NextToken();
 
 	if (next.type == TokenType::meta_end_of_file)
@@ -117,11 +122,6 @@ void GLSL_Parser::S_Translation_Unit()
 	}
 	else
 	{
-		Ceng::StringUtf8 text;
-		text = "no grammar for token: ";
-		text += next.ToString();
-		LogError(text);
-		/*
 		switch (next.type)
 		{
 		case TokenType::keyword_const:
@@ -162,13 +162,64 @@ void GLSL_Parser::S_Translation_Unit()
 				break;
 			}
 			break;
+		default:
+			Ceng::StringUtf8 text;
+			text = "no parsing rule for: ";
+			text += next.ToString();			
+			LogError(text);
+			break;
 		}
-		*/
 	}
+}
+
+void GLSL_Parser::S_TU_StorageQ(StorageQualifier::value sq)
+{
+	LogDebug("S_TU_StorageQ");
+
+	if (PeekToken().category != TokenCategory::qualifier)
+	{
+		S_TU_TypeQ(TypeQualifier(sq));
+	}
+
+	//Token next = NextToken();
+
+	/*
+	if (next.category == TokenCategory::data_type)
+	{
+		switch (next.type)
+		{
+		case TokenType::type_name:
+			S_TU_StorageQ_TypeSpecNoArr(sq, TypeSpecifierNoArray(next.name));
+			break;
+		default:
+			S_TU_StorageQ_TypeSpecNoArr(sq, TypeSpecifierNoArray(next.type));
+			break;
+		}
+	}
+	else
+	{
+		Ceng::StringUtf8 text;
+		text += "no parsing rule for: ";
+		text += next.ToString();
+		LogError(text);
+	}
+	*/
+}
+
+void GLSL_Parser::S_TU_TypeQ(const TypeQualifier& typeQualifier)
+{
+	LogDebug("S_TU_TypeQ");
+}
+
+void GLSL_Parser::S_TU_StorageQ_TypeSpecNoArr(StorageQualifier::value sq, const TypeSpecifierNoArray& typeSpec)
+{
+	LogDebug("S_TU_StorageQ_TypeSpecNoArr");
 }
 
 void GLSL_Parser::S_TU_TypeSpecNoArr(const TypeSpecifierNoArray& typeSpec)
 {
+	LogDebug("S_TU_TypeSpecNoArr");
+
 	Token next = NextToken();
 
 	if (next.type == TokenType::left_bracket)
@@ -199,8 +250,4 @@ void GLSL_Parser::S_TU_TypeSpecNoPrec(const TypeSpecifierNoArray& typeSpec)
 
 }
 
-void GLSL_Parser::S_TU_StorageQ(StorageQualifier::value sq)
-{
-
-}
 
