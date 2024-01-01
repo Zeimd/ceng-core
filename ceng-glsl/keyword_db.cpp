@@ -1,11 +1,12 @@
 
 #include <unordered_map>
+#include <ceng/datatypes/ce-string.h>
 
 #include "token-info.h"
 
 namespace Ceng
 {
-	std::unordered_map<const char*, TokenInfo> keywords =
+	std::unordered_map<Ceng::StringUtf8, TokenInfo> keywords =
 	{
 		{"break",{TokenType::keyword_break,TokenCategory::undefined}},
 		{"continue",{TokenType::keyword_continue,TokenCategory::undefined}},

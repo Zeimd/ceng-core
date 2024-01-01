@@ -2,12 +2,13 @@
 #define CENG_GLSL_KEYWORD_DB_H
 
 #include <unordered_map>
+#include <ceng/datatypes/ce-string.h>
 
 #include "token-info.h"
 
 namespace Ceng
 {
-	extern std::unordered_map<const char*, TokenInfo> keywords;
+	extern std::unordered_map<Ceng::StringUtf8, TokenInfo> keywords;
 }
 
 #endif
