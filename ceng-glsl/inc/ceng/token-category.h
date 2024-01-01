@@ -12,6 +12,7 @@ namespace Ceng
 			literal_val,
 			identifier,
 			meta,
+			qualifier,
 			undefined,
 		};
 	}
