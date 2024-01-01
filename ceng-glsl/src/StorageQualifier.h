@@ -1,25 +1,27 @@
 #ifndef CENG_GLSL_STORAGE_QUALIFIER_H 
 #define CENG_GLSL_STORAGE_QUALIFIER_H 
 
+#include "INonTerminal.h"
+
+#include "StorageQualifierType.h"
+
 namespace Ceng
 {
-	namespace StorageQualifier
+	class StorageQualifier : public INonTerminal
 	{
-		enum value
-		{
-			sq_const,
-			sq_attribute,
-			sq_varying,
-			sq_centroid_varying,
-			sq_in,
-			sq_out,
-			sq_centroid_in,
-			sq_centroid_out,
-			sq_uniform,
+	public:
 
-			unused,
-		};
-	}
+		StorageQualifierType::value qualifier;
+
+	protected:
+
+	public:
+
+		void Release() override;
+
+		StorageQualifier();
+		StorageQualifier(StorageQualifierType::value qualifier);
+	};
 }
 
 #endif // !CENG_GLSL_STORAGE_QUALIFIER_H 

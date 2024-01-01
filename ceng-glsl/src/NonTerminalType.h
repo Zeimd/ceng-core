@@ -7,8 +7,6 @@ namespace Ceng
 	{
 		enum value
 		{
-			type_specifier,
-
 			variable_identifier,
 			primary_expression,
 			postfix_expression,
@@ -72,7 +70,6 @@ namespace Ceng
 			parameter_declarator,
 			parameter_type_specifier,
 
-			init_declarator_list,
 			single_declaration,			
 			initializer,
 			
@@ -83,7 +80,6 @@ namespace Ceng
 			struct_declarator,
 
 			declaration_statement,
-			declaration,
 
 			statement,
 			compound_statement,

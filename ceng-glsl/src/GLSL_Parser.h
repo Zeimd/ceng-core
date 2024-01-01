@@ -16,6 +16,7 @@
 #include "SingleDeclaration.h"
 #include "InitDeclaratorList.h"
 #include "Declaration.h"
+#include "StorageQualifierType.h"
 
 namespace Ceng
 {
@@ -76,7 +77,8 @@ namespace Ceng
 		//void S_TU_TypeSpecNoArr_LB(const TypeSpecifierNoArray& typeSpec);
 
 		//void S_TU_TypeSpecNoPrec(const TypeSpecifierNoArray& typeSpec);
-		void S_TU_StorageQ(StorageQualifier::value sq);
+
+		void S_TU_StorageQ(const StorageQualifierType::value sq);
 		void S_TU_TypeQ(const TypeQualifier& typeQualifier);
 
 		void S_TU_TypeQ_TypeSpecNoArr(const TypeQualifier& typeQualifier, const TypeSpecifierNoArray& typeSpecNoArr);

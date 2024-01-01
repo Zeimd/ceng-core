@@ -11,7 +11,7 @@ namespace Ceng
 	{
 	public:
 		
-		StorageQualifier::value storage;
+		StorageQualifier storage;
 		InterpolationQualifier::value interpolation;
 		bool invariant;
 
@@ -20,14 +20,14 @@ namespace Ceng
 
 		TypeQualifier();
 
-		TypeQualifier(StorageQualifier::value sq);
+		TypeQualifier(const StorageQualifier& sq);
 		TypeQualifier(const LayoutQualifier& layout);
 		TypeQualifier(InterpolationQualifier::value interpolation);
 		TypeQualifier(bool invariant);
 
-		TypeQualifier(bool invariant, StorageQualifier::value sq);
-		TypeQualifier(InterpolationQualifier::value interpolation, StorageQualifier::value sq);
-		TypeQualifier(bool invariant, InterpolationQualifier::value interpolation, StorageQualifier::value sq);
+		TypeQualifier(bool invariant, const StorageQualifier& sq);
+		TypeQualifier(InterpolationQualifier::value interpolation, const StorageQualifier& sq);
+		TypeQualifier(bool invariant, InterpolationQualifier::value interpolation, const StorageQualifier& sq);
 		
 	};
 }

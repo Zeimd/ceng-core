@@ -154,37 +154,37 @@ void GLSL_Parser::S_Translation_Unit()
 		switch (next.type)
 		{
 		case TokenType::keyword_const:
-			S_TU_StorageQ(StorageQualifier::sq_const);
+			S_TU_StorageQ(StorageQualifierType::sq_const);
 			break;
 		case TokenType::keyword_attribute:
-			S_TU_StorageQ(StorageQualifier::sq_attribute);
+			S_TU_StorageQ(StorageQualifierType::sq_attribute);
 			break;
 		case TokenType::keyword_varying:
-			S_TU_StorageQ(StorageQualifier::sq_varying);
+			S_TU_StorageQ(StorageQualifierType::sq_varying);
 			break;
 		case TokenType::keyword_uniform:
-			S_TU_StorageQ(StorageQualifier::sq_uniform);
+			S_TU_StorageQ(StorageQualifierType::sq_uniform);
 			break;
 		case TokenType::keyword_in:
-			S_TU_StorageQ(StorageQualifier::sq_in);
+			S_TU_StorageQ(StorageQualifierType::sq_in);
 			break;
 		case TokenType::keyword_out:
-			S_TU_StorageQ(StorageQualifier::sq_out);
+			S_TU_StorageQ(StorageQualifierType::sq_out);
 			break;
 		case TokenType::keyword_centroid:
 			switch (PeekToken().type)
 			{
 			case TokenType::keyword_in:
 				DiscardNext();
-				S_TU_StorageQ(StorageQualifier::sq_centroid_in);
+				S_TU_StorageQ(StorageQualifierType::sq_centroid_in);
 				break;
 			case TokenType::keyword_out:
 				DiscardNext();
-				S_TU_StorageQ(StorageQualifier::sq_centroid_out);
+				S_TU_StorageQ(StorageQualifierType::sq_centroid_out);
 				break;
 			case TokenType::keyword_varying:
 				DiscardNext();
-				S_TU_StorageQ(StorageQualifier::sq_centroid_varying);
+				S_TU_StorageQ(StorageQualifierType::sq_centroid_varying);
 				break;
 			default:
 				Ceng::StringUtf8 text;
@@ -206,7 +206,7 @@ void GLSL_Parser::S_Translation_Unit()
 	S_Translation_Unit();
 }
 
-void GLSL_Parser::S_TU_StorageQ(StorageQualifier::value sq)
+void GLSL_Parser::S_TU_StorageQ(StorageQualifierType::value sq)
 {
 	LogDebug("S_TU_StorageQ");
 

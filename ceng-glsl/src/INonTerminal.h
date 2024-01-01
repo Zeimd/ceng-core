@@ -23,6 +23,12 @@ namespace Ceng
 		}
 	public:
 
+		INonTerminal(NonTerminalType::value type)
+			: type(type)
+		{
+
+		}
+
 		virtual void Release() = 0;
 	};
 }

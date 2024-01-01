@@ -43,6 +43,7 @@
     <ClInclude Include="..\..\ceng-glsl\src\PrecisionQualifier.h" />
     <ClInclude Include="..\..\ceng-glsl\src\SingleDeclaration.h" />
     <ClInclude Include="..\..\ceng-glsl\src\StorageQualifier.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\StorageQualifierType.h" />
     <ClInclude Include="..\..\ceng-glsl\src\StructSpecifier.h" />
     <ClInclude Include="..\..\ceng-glsl\src\TokenInfo.h" />
     <ClInclude Include="..\..\ceng-glsl\src\TypeQualifier.h" />
@@ -59,6 +60,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\Initializer.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\keyword_db.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\SingleDeclaration.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\StorageQualifier.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\Token.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\Tokenizer.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\TypeQualifier.cpp" />
