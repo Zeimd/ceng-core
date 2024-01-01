@@ -188,6 +188,8 @@ void GLSL_Parser::S_Translation_Unit()
 			break;
 		}
 	}
+
+	S_Translation_Unit();
 }
 
 void GLSL_Parser::S_TU_StorageQ(StorageQualifier::value sq)
