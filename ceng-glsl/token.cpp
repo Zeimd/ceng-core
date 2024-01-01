@@ -362,7 +362,7 @@ Ceng::StringUtf8 Token::ToString() const
 	case TokenType::meta_end_of_line:
 		return '\n';
 	case TokenType::meta_end_of_file:
-		return "\n";
+		return "<EOF>";
 	case TokenType::preprocess_comment:
 		return "//";
 	case TokenType::preprocess_comment_start:
