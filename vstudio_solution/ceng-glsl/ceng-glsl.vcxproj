@@ -19,8 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\ceng-glsl\declaration.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\FullySpecifiedType.cpp" />
     <ClCompile Include="..\..\ceng-glsl\glsl-parser.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\init-decl-list.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\initializer.cpp" />
     <ClCompile Include="..\..\ceng-glsl\keyword_db.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\single-declaration.cpp" />
     <ClCompile Include="..\..\ceng-glsl\token.cpp" />
     <ClCompile Include="..\..\ceng-glsl\tokenizer.cpp" />
     <ClCompile Include="..\..\ceng-glsl\type-qualifier.cpp" />
@@ -31,8 +36,12 @@
   <ItemGroup>
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\ceng-glsl.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\constant_expression.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\declaration.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\FullySpecifiedType.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\glsl-parser.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\IASTNode.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\init-decl-list.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\initializer.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\interpolation-qualifier.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\layout-qualifier-id-list.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\layout-qualifier-id.h" />
@@ -49,6 +58,7 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\type-spec-no-prec.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\type-specifier.h" />
     <ClInclude Include="..\..\ceng-glsl\keyword_db.h" />
+    <ClInclude Include="..\..\ceng-glsl\ParserReturnValue.h" />
     <ClInclude Include="..\..\ceng-glsl\token-info.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
