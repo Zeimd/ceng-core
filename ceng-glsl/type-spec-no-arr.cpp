@@ -2,8 +2,33 @@
 
 using namespace Ceng;
 
+/*
+TypeSpecifierNoArray::TypeSpecifierNoArray(const TypeSpecifierNoArray& other)
+	: type(other.type),structSpec(other.structSpec),name(other.name)
+{
+
+}
+*/
+
 TypeSpecifierNoArray::TypeSpecifierNoArray(TypeSpecifierNoArray::TypeSelector type)
 	:type(type)
+{
+
+}
+
+TypeSpecifierNoArray::TypeSpecifierNoArray(TokenType::value tokenType)
+{
+	type = FromTokenType(tokenType);
+}
+
+TypeSpecifierNoArray::TypeSpecifierNoArray(const Ceng::StringUtf8& name)
+	:type(TypeSelector::typeName), name(name)
+{
+
+}
+
+TypeSpecifierNoArray::TypeSpecifierNoArray(const StructSpecifier& structSpec)
+	: type(TypeSelector::struct_specifier), structSpec(std::move(structSpec))
 {
 
 }
@@ -121,19 +146,3 @@ TypeSpecifierNoArray::TypeSelector TypeSpecifierNoArray::FromTokenType(TokenType
 	return TypeSelector::invalid;
 }
 
-TypeSpecifierNoArray::TypeSpecifierNoArray(TokenType::value tokenType)
-{
-	type = FromTokenType(tokenType);
-}
-
-TypeSpecifierNoArray::TypeSpecifierNoArray(const Ceng::StringUtf8& name)
-	:type(TypeSelector::typeName),name(name)
-{
-
-}
-
-TypeSpecifierNoArray::TypeSpecifierNoArray(std::unique_ptr<StructSpecifier>&& structSpec)
-	:type(TypeSelector::struct_specifier),structSpec(std::move(structSpec))
-{
-
-}

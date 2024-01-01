@@ -25,15 +25,19 @@
     <ClCompile Include="..\..\ceng-glsl\tokenizer.cpp" />
     <ClCompile Include="..\..\ceng-glsl\type-qualifier.cpp" />
     <ClCompile Include="..\..\ceng-glsl\type-spec-no-arr.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\type-spec-no-prec.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\type-specifier.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\ceng-glsl.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\constant_expression.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\glsl-parser.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\IASTNode.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\interpolation-qualifier.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\layout-qualifier-id-list.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\layout-qualifier-id.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\layout-qualifier.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\precision-qualifier.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\storage-qualifier.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\struct-specifier.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\token-category.h" />
@@ -42,6 +46,8 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\tokenizer.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\type-qualifier.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\type-spec-no-arr.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\type-spec-no-prec.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\type-specifier.h" />
     <ClInclude Include="..\..\ceng-glsl\keyword_db.h" />
     <ClInclude Include="..\..\ceng-glsl\token-info.h" />
   </ItemGroup>
