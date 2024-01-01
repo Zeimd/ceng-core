@@ -83,7 +83,7 @@ Token::Token(const std::shared_ptr<const Ceng::StringUtf8>& file, const Ceng::UI
 	
 }
 
-Ceng::StringUtf8 Token::ToString()
+Ceng::StringUtf8 Token::ToString() const
 {
 	switch (type)
 	{
@@ -381,7 +381,7 @@ Ceng::StringUtf8 Token::ToString()
 	};
 }
 
-Ceng::StringUtf8 Token::ToDiagnosticString()
+Ceng::StringUtf8 Token::ToDiagnosticString() const
 {
 	Ceng::StringUtf8 text;
 

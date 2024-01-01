@@ -88,9 +88,9 @@ namespace Ceng
 			bool leftSpace, bool rightSpace, bool startLine, bool endLine, Ceng::TokenType::value type, Ceng::TokenCategory::value category,
 			const char* name, Ceng::FLOAT32 value);
 
-		Ceng::StringUtf8 ToString();
+		Ceng::StringUtf8 ToString() const;
 
-		Ceng::StringUtf8 ToDiagnosticString();
+		Ceng::StringUtf8 ToDiagnosticString() const;
 
 		//static const char* TokenTypeText(TokenType::value type);
 	};
