@@ -1,0 +1,12 @@
+state 0
+    goal -> translation_unit * eof
+state 1
+    storage_qualifier -> token:qualifier *
+state 2
+    storage_qualifier * 
+state 3
+    type_qualifier *
+state 4
+    type_specifier_non_array -> token:data_type *
+
+
