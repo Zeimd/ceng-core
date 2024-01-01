@@ -59,13 +59,13 @@ int main()
 
 	printf("**********************************************************\n");	
 
-	cresult = tokenizer.RemoveComments(tokens,tokens);
+	cresult = tokenizer.RemoveComments(tokens, tokens);
 
 	printf("Tokenized output:\n");
 	for (auto& x : tokens)
 	{
-		printf("%s ", x.ToString().ToCString());
-		//printf("%s ", x.ToDiagnosticString().ToCString());
+		//printf("%s ", x.ToString().ToCString());
+		printf("%s ", x.ToDiagnosticString().ToCString());
 		if (x.endLine)
 		{
 			printf("\n");
@@ -78,6 +78,8 @@ int main()
 	Ceng::GLSL_Parser parser;
 
 	cresult = parser.Parse(tokens);
+
+	printf("%s\n", parser.log.ToCString());
 
 	return 0;
 }
