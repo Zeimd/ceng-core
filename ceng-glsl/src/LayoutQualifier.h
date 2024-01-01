@@ -1,7 +1,7 @@
 #ifndef CENG_GLSL_LAYOUT_QUALIFIER_H
 #define CENG_GLSL_LAYOUT_QUALIFIER_H
 
-#include "layout-qualifier-id-list.h"
+#include "LayoutQualifierIdList.h"
 
 namespace Ceng
 {

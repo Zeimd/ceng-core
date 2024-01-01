@@ -1,4 +1,4 @@
-#include <ceng/token.h>
+#include <ceng/GLSL/Token.h>
 
 using namespace Ceng;
 

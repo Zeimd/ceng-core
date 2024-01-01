@@ -1,8 +1,8 @@
 #ifndef CENG_GLSL_TYPE_SPECIFIER_H
 #define CENG_GLSL_TYPE_SPECIFIER_H
 
-#include "type-spec-no-prec.h"
-#include "precision-qualifier.h"
+#include "TypeSpecifierNoPrecision.h"
+#include "PrecisionQualifier.h"
 
 namespace Ceng
 {

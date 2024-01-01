@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "layout-qualifier-id.h"
+#include "LayoutQualifierId.h"
 
 namespace Ceng
 {

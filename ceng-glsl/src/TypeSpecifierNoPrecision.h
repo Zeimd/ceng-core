@@ -1,8 +1,8 @@
 #ifndef CENG_GLSL_TYPE_SPEC_NO_PREC_H
 #define CENG_GLSL_TYPE_SPEC_NO_PREC_H
 
-#include "type-spec-no-arr.h"
-#include "constant_expression.h"
+#include "TypeSpecifierNoArray.h"
+#include "ConstantExpression.h"
 
 namespace Ceng
 {

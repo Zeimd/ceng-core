@@ -1,8 +1,8 @@
 #ifndef CENG_GLSL_TOKEN_INFO_H
 #define CENG_GLSL_TOKEN_INFO_H
 
-#include <ceng/token-type.h>
-#include <ceng/token-category.h>
+#include <ceng/GLSL/TokenType.h>
+#include <ceng/GLSL/TokenCategory.h>
 
 namespace Ceng
 {

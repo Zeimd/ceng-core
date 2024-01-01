@@ -1,8 +1,22 @@
-#include "inc/ceng/glsl-parser.h"
+#include "GLSL_Parser.h"
 
 using namespace Ceng;
 
-CRESULT GLSL_Parser::Parse(const std::vector<Token>& in_tokens)
+GLSL_Parser::GLSL_Parser()
+{
+}
+
+void GLSL_Parser::Release()
+{
+	delete this;
+}
+
+const Ceng::StringUtf8 GLSL_Parser::GetLog() const
+{
+	return log;
+}
+
+CRESULT GLSL_Parser::Parse(const std::vector<Token>& in_tokens, GLSL::AbstractSyntaxTree& output)
 {
 	log = "";
 

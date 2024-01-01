@@ -1,4 +1,4 @@
-#include <ceng/type-specifier.h>
+#include "TypeSpecifier.h"
 
 using namespace Ceng;
 

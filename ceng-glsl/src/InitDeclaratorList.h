@@ -2,7 +2,7 @@
 #define CENG_GLSL_INIT_DECL_LIST_H
 
 #include <vector>
-#include "single-declaration.h"
+#include "SingleDeclaration.h"
 
 namespace Ceng
 {

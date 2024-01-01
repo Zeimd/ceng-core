@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <ceng/datatypes/ce-string.h>
 
-#include "token-info.h"
+#include "TokenInfo.h"
 
 namespace Ceng
 {

@@ -1,4 +1,4 @@
-#include <ceng/single-declaration.h>
+#include "SingleDeclaration.h"
 
 using namespace Ceng;
 

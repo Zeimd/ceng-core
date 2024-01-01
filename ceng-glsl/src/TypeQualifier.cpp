@@ -1,4 +1,4 @@
-#include <ceng/type-qualifier.h>
+#include "TypeQualifier.h"
 
 using namespace Ceng;
 

@@ -3,8 +3,8 @@
 #include <fstream>
 #include <sstream>
 
-#include <ceng/tokenizer.h>
-#include <ceng/glsl-parser.h>
+#include <ceng/GLSL/Tokenizer.h>
+#include <ceng/GLSL/ceng_GLSL.h>
 
 int main()
 {
@@ -75,11 +75,21 @@ int main()
 	printf("**********************************************************\n");
 	printf("Parser output:\n");
 
-	Ceng::GLSL_Parser parser;
+	Ceng::GLSL::IParser* parser;
 
-	cresult = parser.Parse(tokens);
+	cresult = Ceng::GLSL::GetParser(&parser);
 
-	printf("%s\n", parser.log.ToCString());
+	if (cresult != Ceng::CE_OK)
+	{
+		printf("Failed to get parser: %i\n", cresult);
+		return 0;
+	}
+
+	Ceng::GLSL::AbstractSyntaxTree programTree;
+
+	cresult = parser->Parse(tokens, programTree);
+
+	printf("%s\n", parser->GetLog().ToCString());
 
 	return 0;
 }

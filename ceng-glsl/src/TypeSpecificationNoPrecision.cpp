@@ -1,4 +1,4 @@
-#include <ceng/type-spec-no-prec.h>
+#include "TypeSpecifierNoPrecision.h"
 
 using namespace Ceng;
 

@@ -1,8 +1,8 @@
 #ifndef CENG_GLSL_DECLARATION_H
 #define CENG_GLSL_DECLARATION_H
 
-#include "init-decl-list.h"
-#include "type-qualifier.h"
+#include "InitDeclaratorList.h"
+#include "TypeQualifier.h"
 
 namespace Ceng
 {

@@ -4,21 +4,22 @@
 #include <ceng/datatypes/return-val.h>
 
 #include <vector>
-#include "token.h"
+#include <ceng/GLSL/Token.h>
+#include <ceng/GLSL/IParser.h>
 
-#include "storage-qualifier.h"
-#include "type-spec-no-arr.h"
-#include "type-qualifier.h"
-#include "type-spec-no-prec.h"
-#include "type-specifier.h"
+#include "StorageQualifier.h"
+#include "TypeSpecifierNoArray.h"
+#include "TypeQualifier.h"
+#include "TypeSpecifierNoPrecision.h"
+#include "TypeSpecifier.h"
 #include "FullySpecifiedType.h"
-#include "single-declaration.h"
-#include "init-decl-list.h"
-#include "declaration.h"
+#include "SingleDeclaration.h"
+#include "InitDeclaratorList.h"
+#include "Declaration.h"
 
 namespace Ceng
 {
-	class GLSL_Parser
+	class GLSL_Parser : public GLSL::IParser
 	{
 	public:
 
@@ -35,9 +36,18 @@ namespace Ceng
 			log_debug,
 		};
 
+	protected:
+		~GLSL_Parser() override
+		{
+		}
 	public:
+		GLSL_Parser();
+
+		void Release() override;
+
+		const Ceng::StringUtf8 GetLog() const override;
 		
-		CRESULT Parse(const std::vector<Token>& in_tokens);
+		CRESULT Parse(const std::vector<Token>& in_tokens, GLSL::AbstractSyntaxTree& output) override;
 
 		const Token& PeekToken();
 

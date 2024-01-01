@@ -1,9 +1,9 @@
 #ifndef CENG_GLSL_TYPE_QUALIFIER_H
 #define CENG_GLSL_TYPE_QUALIFIER_H
 
-#include "storage-qualifier.h"
-#include "interpolation-qualifier.h"
-#include "layout-qualifier.h"
+#include "StorageQualifier.h"
+#include "InterpolationQualifier.h"
+#include "LayoutQualifier.h"
 
 namespace Ceng
 {

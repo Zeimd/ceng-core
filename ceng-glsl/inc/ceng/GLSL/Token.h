@@ -6,8 +6,8 @@
 #include <memory>
 #include <vector>
 
-#include "token-type.h"
-#include "token-category.h"
+#include "TokenType.h"
+#include "TokenCategory.h"
 
 namespace Ceng
 {

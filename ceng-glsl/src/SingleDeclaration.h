@@ -2,8 +2,8 @@
 #define CENG_GLSL_SINGLE_DECLARATION_H
 
 #include "FullySpecifiedType.h"
-#include "constant_expression.h"
-#include "initializer.h"
+#include "ConstantExpression.h"
+#include "Initializer.h"
 
 namespace Ceng
 {

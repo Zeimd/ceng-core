@@ -1,4 +1,4 @@
-#include <ceng/type-spec-no-arr.h>
+#include "TypeSpecifierNoArray.h"
 
 using namespace Ceng;
 

@@ -5,7 +5,7 @@
 
 #include <ceng/datatypes/return-val.h>
 
-#include "token.h"
+#include <ceng/GLSL/Token.h>
 
 namespace Ceng
 {

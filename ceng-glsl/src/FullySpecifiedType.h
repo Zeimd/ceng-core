@@ -1,8 +1,8 @@
 #ifndef CENG_GLSL_FULLY_SPECIFIED_TYPE_H
 #define CENG_GLSL_FULLY_SPECIFIED_TYPE_H
 
-#include "type-qualifier.h"
-#include "type-specifier.h"
+#include "TypeQualifier.h"
+#include "TypeSpecifier.h"
 
 namespace Ceng
 {

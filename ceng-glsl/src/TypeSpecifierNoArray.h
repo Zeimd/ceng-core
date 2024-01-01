@@ -3,8 +3,8 @@
 
 #include <ceng/datatypes/ce-string.h>
 
-#include "struct-specifier.h"
-#include "token-type.h"
+#include "StructSpecifier.h"
+#include <ceng/GLSL/TokenType.h>
 
 namespace Ceng
 {
