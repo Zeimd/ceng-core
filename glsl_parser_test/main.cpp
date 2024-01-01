@@ -1,4 +1,17 @@
 
+// Debug information
+#ifdef _MSC_VER
+
+#ifdef _DEBUG
+
+#define _CRTDBG_MAP_ALLOC
+#define _CRT_SECURE_NO_WARNINGS
+#include <crtdbg.h>
+
+#endif
+
+#endif
+
 #include <stdio.h>
 #include <fstream>
 #include <sstream>
