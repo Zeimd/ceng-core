@@ -18,6 +18,8 @@
 #include "Declaration.h"
 #include "StorageQualifierType.h"
 
+#include "ParserReturnValue.h"
+
 namespace Ceng
 {
 	class GLSL_Parser : public GLSL::IParser
@@ -29,6 +31,9 @@ namespace Ceng
 		std::vector<Token>::const_iterator tokenIter;
 
 		Ceng::StringUtf8 log;
+
+		// Number of shifts since last reduction
+		Ceng::UINT32 shiftCount;
 
 		enum LogPrefix
 		{
@@ -61,7 +66,7 @@ namespace Ceng
 		void Log(const Ceng::StringUtf8& text, LogPrefix prefix = log_nominal);
 
 		void LogError(const char* error);
-		void LogError(const char* fmt_str,...);
+		//void LogError(const char* fmt_str,...);
 		void LogError(const Ceng::StringUtf8& error);
 
 		void LogDebug(const char* error);
@@ -71,16 +76,19 @@ namespace Ceng
 
 	protected:
 
-		void S_Translation_Unit();
+		ParserReturnValue S_Translation_Unit();
+		ParserReturnValue S_StorageQ(StorageQualifier* sq);
+
+
 		//void S_TU_TypeSpecNoArr(const TypeSpecifierNoArray& typeSpec);
 
 		//void S_TU_TypeSpecNoArr_LB(const TypeSpecifierNoArray& typeSpec);
 
 		//void S_TU_TypeSpecNoPrec(const TypeSpecifierNoArray& typeSpec);
 
-		void S_TU_StorageQ(const StorageQualifierType::value sq);
-		void S_TU_TypeQ(const TypeQualifier& typeQualifier);
+		//void S_TU_TypeQ(const TypeQualifier& typeQualifier);
 
+		/*
 		void S_TU_TypeQ_TypeSpecNoArr(const TypeQualifier& typeQualifier, const TypeSpecifierNoArray& typeSpecNoArr);
 		void S_TU_TypeQ_TypeSpecNoPrec(const TypeQualifier& typeQualifier, const TypeSpecifierNoPrec& typeSpecNoPrec);
 		void S_TU_TypeQ_TypeSpecifier(const TypeQualifier& typeQualifier, const TypeSpecifier& typeSpec);
@@ -88,6 +96,7 @@ namespace Ceng
 		void S_TU_FullSpecType_identifier(const FullySpecifiedType& typeSpec, const Ceng::StringUtf8& name);
 		void S_TU_SingleDeclaration(const SingleDeclaration& singleDecl);
 		void S_TU_InitDeclList(const InitDeclaratorList& initDeclList);
+		*/
 		
 
 		

@@ -7,11 +7,17 @@
 
 namespace Ceng
 {
-	struct ParserReturnValue
+	class ParserReturnValue
 	{
+	public:
 		INonTerminal* nonTerminal;
 
-		Ceng::UINT32 backtrackCounter;
+		//Ceng::UINT32 backtrackCounter;
+
+	public:
+		ParserReturnValue();
+
+		ParserReturnValue(INonTerminal* nonTerminal);
 	};
 }
 

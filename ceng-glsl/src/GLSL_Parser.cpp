@@ -119,103 +119,100 @@ void GLSL_Parser::LogDebug(const Ceng::StringUtf8& text)
 	Log(text, log_debug);
 }
 
-void GLSL_Parser::S_Translation_Unit()
+ParserReturnValue GLSL_Parser::S_Translation_Unit()
 {
 	LogDebug("S_Translation_Unit");
 
-	Token next = NextToken();
-
-	if (next.type == TokenType::meta_end_of_file)
+	do
 	{
-		LogDebug("end of file reached");
-		return;
-	}
+		ParserReturnValue retVal;
 
-	if (next.category == TokenCategory::data_type)
-	{
-		/*
-		switch (next.type)
+		Token next = NextToken();
+
+		if (next.type == TokenType::meta_end_of_file)
 		{
-		case TokenType::type_name:
-			S_TU_TypeSpecNoArr(TypeSpecifierNoArray(next.name));
-			break;
-		default:
-			S_TU_TypeSpecNoArr(TypeSpecifierNoArray(next.type));
-			break;
+			LogDebug("end of file reached");
+			return ParserReturnValue();
 		}
-		*/
-		Ceng::StringUtf8 text;
-		text = "no parsing rule for: ";
-		text += next.ToString();
-		LogError(text);
-	}
-	else
-	{
-		switch (next.type)
+
+		if (next.category == TokenCategory::data_type)
 		{
-		case TokenType::keyword_const:
-			S_TU_StorageQ(StorageQualifierType::sq_const);
-			break;
-		case TokenType::keyword_attribute:
-			S_TU_StorageQ(StorageQualifierType::sq_attribute);
-			break;
-		case TokenType::keyword_varying:
-			S_TU_StorageQ(StorageQualifierType::sq_varying);
-			break;
-		case TokenType::keyword_uniform:
-			S_TU_StorageQ(StorageQualifierType::sq_uniform);
-			break;
-		case TokenType::keyword_in:
-			S_TU_StorageQ(StorageQualifierType::sq_in);
-			break;
-		case TokenType::keyword_out:
-			S_TU_StorageQ(StorageQualifierType::sq_out);
-			break;
-		case TokenType::keyword_centroid:
-			switch (PeekToken().type)
+			Ceng::StringUtf8 text;
+			text = "no parsing rule for: ";
+			text += next.ToString();
+			LogError(text);
+		}
+		else
+		{
+			switch (next.type)
 			{
-			case TokenType::keyword_in:
-				DiscardNext();
-				S_TU_StorageQ(StorageQualifierType::sq_centroid_in);
-				break;
-			case TokenType::keyword_out:
-				DiscardNext();
-				S_TU_StorageQ(StorageQualifierType::sq_centroid_out);
-				break;
+			case TokenType::keyword_const:
+			case TokenType::keyword_attribute:
 			case TokenType::keyword_varying:
-				DiscardNext();
-				S_TU_StorageQ(StorageQualifierType::sq_centroid_varying);
+			case TokenType::keyword_uniform:
+			case TokenType::keyword_in:
+			case TokenType::keyword_out:
+				retVal = ParserReturnValue(new StorageQualifier(next.type));
 				break;
 			default:
 				Ceng::StringUtf8 text;
-				text = next.ToString();
-				text += " not allowed after centroid";
+				text = "no parsing rule for: ";
+				text += next.ToString();
 				LogError(text);
 				break;
 			}
-			break;
-		default:
-			Ceng::StringUtf8 text;
-			text = "no parsing rule for: ";
-			text += next.ToString();			
-			LogError(text);
-			break;
 		}
-	}
 
-	S_Translation_Unit();
+		shiftCount--;
+
+		if (shiftCount > 0)
+		{
+			return retVal;
+		}
+
+		if (retVal.nonTerminal != nullptr)
+		{
+			switch (retVal.nonTerminal->type)
+			{
+			case NonTerminalType::storage_qualifier:
+				retVal = S_StorageQ((StorageQualifier*)retVal.nonTerminal);
+
+			default:
+				Ceng::StringUtf8 text;
+				text = "no parsing rule for: ";
+				text += next.ToString();
+				LogError(text);
+				break;
+			}
+		}
+
+	} while (1);
 }
 
-void GLSL_Parser::S_TU_StorageQ(StorageQualifierType::value sq)
+ParserReturnValue GLSL_Parser::S_StorageQ(StorageQualifier* sq)
 {
 	LogDebug("S_TU_StorageQ");
 
-	if (PeekToken().category != TokenCategory::qualifier)
+	shiftCount++;
+
+	ParserReturnValue retVal;
+
+	Token next = NextToken();
+
+
+
+	if (retVal.nonTerminal != nullptr)
 	{
-		S_TU_TypeQ(TypeQualifier(sq));
+		switch (retVal.nonTerminal->type)
+		{
+		default:
+			break;
+		}
 	}
+	
 }
 
+/*
 void GLSL_Parser::S_TU_TypeQ(const TypeQualifier& typeQualifier)
 {
 	LogDebug("S_TU_TypeQ");
@@ -356,3 +353,4 @@ void GLSL_Parser::S_TU_InitDeclList(const InitDeclaratorList& initDeclList)
 		return;
 	}
 }
+*/
