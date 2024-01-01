@@ -784,9 +784,11 @@ Ceng::StringUtf8 Token::ToDiagnosticString()
 		text += "usamplerBuffer";
 		break;
 	case TokenType::type_name:
+		text += "typename:";
 		text += name;
 		break;
 	case TokenType::identifier:
+		text += "id:";
 		text += name;
 		break;
 	case TokenType::bool_constant:
