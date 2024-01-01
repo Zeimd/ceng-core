@@ -11,6 +11,8 @@ namespace Ceng
 
 	public:
 
+		Initializer();
+		
 		void Release() override;
 	};
 }

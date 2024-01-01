@@ -3,13 +3,13 @@
 using namespace Ceng;
 
 FullySpecifiedType::FullySpecifiedType(const TypeSpecifier& typeSpec)
-	: typeSpec(typeSpec), qualifier(TypeQualifier())
+	: INonTerminal(NonTerminalType::fully_specified_type), typeSpec(typeSpec), qualifier(TypeQualifier())
 {
 
 }
 
 FullySpecifiedType::FullySpecifiedType(const TypeQualifier& qualifier, const TypeSpecifier& typeSpec)
-	: typeSpec(typeSpec), qualifier(qualifier)
+	: INonTerminal(NonTerminalType::fully_specified_type), typeSpec(typeSpec), qualifier(qualifier)
 {
 
 }

@@ -2,15 +2,19 @@
 
 using namespace Ceng;
 
+void TypeSpecifier::Release()
+{
+	delete this;
+}
 
 TypeSpecifier::TypeSpecifier(const TypeSpecifierNoPrec& typeSpec)
-	: typeSpec(typeSpec),precision(PrecisionQualifier::unassigned)
+	: INonTerminal(NonTerminalType::type_specifier), typeSpec(typeSpec),precision()
 {
 
 }
 
-TypeSpecifier::TypeSpecifier(PrecisionQualifier::value precision, const TypeSpecifierNoPrec& typeSpec)
-	:typeSpec(typeSpec),precision(precision)
+TypeSpecifier::TypeSpecifier(const PrecisionQualifier& precision, const TypeSpecifierNoPrec& typeSpec)
+	: INonTerminal(NonTerminalType::type_specifier), typeSpec(typeSpec),precision(precision)
 {
 
 }

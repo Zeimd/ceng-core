@@ -8,14 +8,9 @@ namespace Ceng
 	class INonTerminal
 	{
 	public:
-		NonTerminalType::value type;
+		const NonTerminalType::value type;
 
 	protected:
-
-		INonTerminal() : type(NonTerminalType::unused)
-		{
-
-		}
 
 		virtual ~INonTerminal()
 		{

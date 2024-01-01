@@ -1,23 +1,26 @@
 #ifndef CENG_GLSL_TYPE_SPECIFIER_H
 #define CENG_GLSL_TYPE_SPECIFIER_H
 
+#include "INonTerminal.h"
 #include "TypeSpecifierNoPrecision.h"
 #include "PrecisionQualifier.h"
 
 namespace Ceng
 {
-	class TypeSpecifier
+	class TypeSpecifier : public INonTerminal
 	{
 	public:
 
-		PrecisionQualifier::value precision;
+		PrecisionQualifier precision;
 
 		TypeSpecifierNoPrec typeSpec;
 
 	public:
 
+		void Release() override;
+
 		TypeSpecifier(const TypeSpecifierNoPrec& typeSpec);
-		TypeSpecifier(PrecisionQualifier::value precision, const TypeSpecifierNoPrec& typeSpec);
+		TypeSpecifier(const PrecisionQualifier& precision, const TypeSpecifierNoPrec& typeSpec);
 
 	};
 }

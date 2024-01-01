@@ -42,6 +42,7 @@
     <ClInclude Include="..\..\ceng-glsl\src\NonTerminalType.h" />
     <ClInclude Include="..\..\ceng-glsl\src\ParserReturnValue.h" />
     <ClInclude Include="..\..\ceng-glsl\src\PrecisionQualifier.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\PrecisionQualifierType.h" />
     <ClInclude Include="..\..\ceng-glsl\src\SingleDeclaration.h" />
     <ClInclude Include="..\..\ceng-glsl\src\StorageQualifier.h" />
     <ClInclude Include="..\..\ceng-glsl\src\StorageQualifierType.h" />
@@ -61,6 +62,10 @@
     <ClCompile Include="..\..\ceng-glsl\src\Initializer.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\InterpolationQualifier.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\keyword_db.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\LayoutQualifier.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\LayoutQualifierId.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\LayoutQualifierIdList.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\PrecisionQualifier.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\SingleDeclaration.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\StorageQualifier.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\Token.cpp" />

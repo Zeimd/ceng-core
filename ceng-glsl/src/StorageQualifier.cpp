@@ -14,7 +14,7 @@ StorageQualifier::StorageQualifier()
 }
 
 StorageQualifier::StorageQualifier(StorageQualifierType::value qualifier)
-	: qualifier(qualifier)
+	: INonTerminal(NonTerminalType::storage_qualifier), qualifier(qualifier)
 {
 
 }

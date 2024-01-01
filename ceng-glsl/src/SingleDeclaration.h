@@ -1,13 +1,14 @@
 #ifndef CENG_GLSL_SINGLE_DECLARATION_H
 #define CENG_GLSL_SINGLE_DECLARATION_H
 
+#include "INonTerminal.h"
 #include "FullySpecifiedType.h"
 #include "ConstantExpression.h"
 #include "Initializer.h"
 
 namespace Ceng
 {
-	class SingleDeclaration
+	class SingleDeclaration : public INonTerminal
 	{
 	public:
 		FullySpecifiedType fullType;
@@ -22,6 +23,8 @@ namespace Ceng
 		Initializer initializer;
 
 	public:
+
+		void Release() override;
 
 		SingleDeclaration(const FullySpecifiedType& fullType, const Ceng::StringUtf8& name);
 	};

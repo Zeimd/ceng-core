@@ -3,7 +3,12 @@
 using namespace Ceng;
 
 SingleDeclaration::SingleDeclaration(const FullySpecifiedType& fullType, const Ceng::StringUtf8& name)
-	: fullType(fullType), name(name)
+	: INonTerminal(NonTerminalType::single_declaration), fullType(fullType), name(name), initializer()
 {
 
+}
+
+void SingleDeclaration::Release()
+{
+	delete this;
 }

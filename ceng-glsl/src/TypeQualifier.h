@@ -1,13 +1,14 @@
 #ifndef CENG_GLSL_TYPE_QUALIFIER_H
 #define CENG_GLSL_TYPE_QUALIFIER_H
 
+#include "INonTerminal.h"
 #include "StorageQualifier.h"
 #include "InterpolationQualifier.h"
 #include "LayoutQualifier.h"
 
 namespace Ceng
 {
-	class TypeQualifier
+	class TypeQualifier : public INonTerminal
 	{
 	public:
 		
@@ -17,6 +18,8 @@ namespace Ceng
 
 		LayoutQualifier layout;
 	public:
+
+		void Release() override;
 
 		TypeQualifier();
 
