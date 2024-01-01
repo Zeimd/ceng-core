@@ -2,14 +2,19 @@
 
 using namespace Ceng;
 
+void TypeSpecifierNoPrec::Release()
+{
+	delete this;
+}
+
 TypeSpecifierNoPrec::TypeSpecifierNoPrec(const TypeSpecifierNoArray& typeSpec)
-	: typeSpec(typeSpec),isArray(false)
+	: INonTerminal(NonTerminalType::type_specifier_no_prec), typeSpec(typeSpec),isArray(false)
 {
 
 }
 
 TypeSpecifierNoPrec::TypeSpecifierNoPrec(const TypeSpecifierNoArray& typeSpec, const ConstantExpression& elementExpression)
-	: typeSpec(typeSpec), isArray(true), elementExpression(elementExpression)
+	: INonTerminal(NonTerminalType::type_specifier_no_prec), typeSpec(typeSpec), isArray(true), elementExpression(elementExpression)
 {
 
 }

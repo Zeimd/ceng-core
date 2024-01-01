@@ -3,12 +3,13 @@
 
 #include <ceng/datatypes/ce-string.h>
 
+#include "INonTerminal.h"
 #include "StructSpecifier.h"
 #include <ceng/GLSL/TokenType.h>
 
 namespace Ceng
 {
-	class TypeSpecifierNoArray
+	class TypeSpecifierNoArray : public INonTerminal
 	{
 	public:
 		enum TypeSelector
@@ -89,7 +90,8 @@ namespace Ceng
 
 		Ceng::StringUtf8 name;
 	public:
-		//TypeSpecifierNoArray(const TypeSpecifierNoArray& other);
+		
+		void Release() override;
 
 		TypeSpecifierNoArray(TypeSpecifierNoArray::TypeSelector type);
 		TypeSpecifierNoArray(TokenType::value tokenType);

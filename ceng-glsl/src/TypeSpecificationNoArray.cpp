@@ -2,33 +2,31 @@
 
 using namespace Ceng;
 
-/*
-TypeSpecifierNoArray::TypeSpecifierNoArray(const TypeSpecifierNoArray& other)
-	: type(other.type),structSpec(other.structSpec),name(other.name)
+void TypeSpecifierNoArray::Release()
 {
-
+	delete this;
 }
-*/
 
 TypeSpecifierNoArray::TypeSpecifierNoArray(TypeSpecifierNoArray::TypeSelector type)
-	:type(type)
+	: INonTerminal(NonTerminalType::type_specifier_nonarray), type(type)
 {
 
 }
 
 TypeSpecifierNoArray::TypeSpecifierNoArray(TokenType::value tokenType)
+	: INonTerminal(NonTerminalType::type_specifier_nonarray)
 {
 	type = FromTokenType(tokenType);
 }
 
 TypeSpecifierNoArray::TypeSpecifierNoArray(const Ceng::StringUtf8& name)
-	:type(TypeSelector::typeName), name(name)
+	: INonTerminal(NonTerminalType::type_specifier_nonarray), type(TypeSelector::typeName), name(name)
 {
 
 }
 
 TypeSpecifierNoArray::TypeSpecifierNoArray(const StructSpecifier& structSpec)
-	: type(TypeSelector::struct_specifier), structSpec(std::move(structSpec))
+	: INonTerminal(NonTerminalType::type_specifier_nonarray), type(TypeSelector::struct_specifier), structSpec(std::move(structSpec))
 {
 
 }
