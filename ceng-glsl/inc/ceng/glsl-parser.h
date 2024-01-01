@@ -9,6 +9,12 @@
 #include "storage-qualifier.h"
 #include "type-spec-no-arr.h"
 #include "type-qualifier.h"
+#include "type-spec-no-prec.h"
+#include "type-specifier.h"
+#include "FullySpecifiedType.h"
+#include "single-declaration.h"
+#include "init-decl-list.h"
+#include "declaration.h"
 
 namespace Ceng
 {
@@ -55,15 +61,24 @@ namespace Ceng
 	protected:
 
 		void S_Translation_Unit();
-		void S_TU_TypeSpecNoArr(const TypeSpecifierNoArray& typeSpec);
+		//void S_TU_TypeSpecNoArr(const TypeSpecifierNoArray& typeSpec);
 
-		void S_TU_TypeSpecNoArr_LB(const TypeSpecifierNoArray& typeSpec);
+		//void S_TU_TypeSpecNoArr_LB(const TypeSpecifierNoArray& typeSpec);
 
-		void S_TU_TypeSpecNoPrec(const TypeSpecifierNoArray& typeSpec);
+		//void S_TU_TypeSpecNoPrec(const TypeSpecifierNoArray& typeSpec);
 		void S_TU_StorageQ(StorageQualifier::value sq);
-		void S_TU_StorageQ_TypeSpecNoArr(StorageQualifier::value sq, const TypeSpecifierNoArray& typeSpec);
-
 		void S_TU_TypeQ(const TypeQualifier& typeQualifier);
+
+		void S_TU_TypeQ_TypeSpecNoArr(const TypeQualifier& typeQualifier, const TypeSpecifierNoArray& typeSpecNoArr);
+		void S_TU_TypeQ_TypeSpecNoPrec(const TypeQualifier& typeQualifier, const TypeSpecifierNoPrec& typeSpecNoPrec);
+		void S_TU_TypeQ_TypeSpecifier(const TypeQualifier& typeQualifier, const TypeSpecifier& typeSpec);
+		void S_TU_FullSpecType(const FullySpecifiedType& typeSpec);
+		void S_TU_FullSpecType_identifier(const FullySpecifiedType& typeSpec, const Ceng::StringUtf8& name);
+		void S_TU_SingleDeclaration(const SingleDeclaration& singleDecl);
+		void S_TU_InitDeclList(const InitDeclaratorList& initDeclList);
+		
+
+		
 	};
 }
 

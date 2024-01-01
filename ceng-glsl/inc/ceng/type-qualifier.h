@@ -18,6 +18,8 @@ namespace Ceng
 		LayoutQualifier layout;
 	public:
 
+		TypeQualifier();
+
 		TypeQualifier(StorageQualifier::value sq);
 		TypeQualifier(const LayoutQualifier& layout);
 		TypeQualifier(InterpolationQualifier::value interpolation);

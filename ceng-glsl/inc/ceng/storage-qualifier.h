@@ -16,6 +16,8 @@ namespace Ceng
 			sq_centroid_in,
 			sq_centroid_out,
 			sq_uniform,
+
+			unused,
 		};
 	}
 }

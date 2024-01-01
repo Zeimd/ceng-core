@@ -21,11 +21,21 @@ CRESULT GLSL_Parser::Parse(const std::vector<Token>& in_tokens)
 
 const Token& GLSL_Parser::PeekToken()
 {
+	Ceng::StringUtf8 text;
+	text = "PeekToken = ";
+	text += tokenIter->ToString();
+	LogDebug(text);
+
 	return *tokenIter;
 }
 
 const Token GLSL_Parser::NextToken()
 {
+	Ceng::StringUtf8 text;
+	text = "NextToken = ";
+	text += tokenIter->ToString();
+	LogDebug(text);
+
 	return (*tokenIter++);
 }
 
@@ -97,7 +107,6 @@ void GLSL_Parser::LogDebug(const Ceng::StringUtf8& text)
 
 void GLSL_Parser::S_Translation_Unit()
 {
-	Log("testing");
 	LogDebug("S_Translation_Unit");
 
 	Token next = NextToken();
@@ -110,6 +119,7 @@ void GLSL_Parser::S_Translation_Unit()
 
 	if (next.category == TokenCategory::data_type)
 	{
+		/*
 		switch (next.type)
 		{
 		case TokenType::type_name:
@@ -119,6 +129,11 @@ void GLSL_Parser::S_Translation_Unit()
 			S_TU_TypeSpecNoArr(TypeSpecifierNoArray(next.type));
 			break;
 		}
+		*/
+		Ceng::StringUtf8 text;
+		text = "no parsing rule for: ";
+		text += next.ToString();
+		LogError(text);
 	}
 	else
 	{
@@ -146,12 +161,15 @@ void GLSL_Parser::S_Translation_Unit()
 			switch (PeekToken().type)
 			{
 			case TokenType::keyword_in:
+				DiscardNext();
 				S_TU_StorageQ(StorageQualifier::sq_centroid_in);
 				break;
 			case TokenType::keyword_out:
+				DiscardNext();
 				S_TU_StorageQ(StorageQualifier::sq_centroid_out);
 				break;
 			case TokenType::keyword_varying:
+				DiscardNext();
 				S_TU_StorageQ(StorageQualifier::sq_centroid_varying);
 				break;
 			default:
@@ -180,55 +198,58 @@ void GLSL_Parser::S_TU_StorageQ(StorageQualifier::value sq)
 	{
 		S_TU_TypeQ(TypeQualifier(sq));
 	}
+}
 
-	//Token next = NextToken();
+void GLSL_Parser::S_TU_TypeQ(const TypeQualifier& typeQualifier)
+{
+	LogDebug("S_TU_TypeQ");
 
-	/*
-	if (next.category == TokenCategory::data_type)
+	if (PeekToken().category == TokenCategory::data_type)
 	{
-		switch (next.type)
+		switch (PeekToken().type)
 		{
 		case TokenType::type_name:
-			S_TU_StorageQ_TypeSpecNoArr(sq, TypeSpecifierNoArray(next.name));
+			S_TU_TypeQ_TypeSpecNoArr(typeQualifier, TypeSpecifierNoArray(PeekToken().name));
 			break;
 		default:
-			S_TU_StorageQ_TypeSpecNoArr(sq, TypeSpecifierNoArray(next.type));
+			S_TU_TypeQ_TypeSpecNoArr(typeQualifier, TypeSpecifierNoArray(PeekToken().type));
 			break;
 		}
 	}
 	else
+	{
+		switch (PeekToken().type)
+		{
+		case TokenType::keyword_high_precision:
+		case TokenType::keyword_medium_precision:
+		case TokenType::keyword_low_precision:
+			break;
+		default:
+			Ceng::StringUtf8 text;
+			text += "no parsing rule for: ";
+			text += PeekToken().ToString();
+			LogError(text);
+			break;
+		}
+	}
+}
+
+void GLSL_Parser::S_TU_TypeQ_TypeSpecNoArr(const TypeQualifier& typeQualifier, const TypeSpecifierNoArray& typeSpec)
+{
+	LogDebug("S_TU_TypeQ_TypeSpecNoArr");
+
+	Token next = NextToken();
+
+	if (next.type == TokenType::left_bracket)
 	{
 		Ceng::StringUtf8 text;
 		text += "no parsing rule for: ";
 		text += next.ToString();
 		LogError(text);
 	}
-	*/
-}
-
-void GLSL_Parser::S_TU_TypeQ(const TypeQualifier& typeQualifier)
-{
-	LogDebug("S_TU_TypeQ");
-}
-
-void GLSL_Parser::S_TU_StorageQ_TypeSpecNoArr(StorageQualifier::value sq, const TypeSpecifierNoArray& typeSpec)
-{
-	LogDebug("S_TU_StorageQ_TypeSpecNoArr");
-}
-
-void GLSL_Parser::S_TU_TypeSpecNoArr(const TypeSpecifierNoArray& typeSpec)
-{
-	LogDebug("S_TU_TypeSpecNoArr");
-
-	Token next = NextToken();
-
-	if (next.type == TokenType::left_bracket)
-	{
-		S_TU_TypeSpecNoArr_LB(typeSpec);
-	}
 	else if (next.type != TokenType::left_bracket)
 	{
-		S_TU_TypeSpecNoPrec(typeSpec);
+		S_TU_TypeQ_TypeSpecNoPrec(typeQualifier, TypeSpecifierNoPrec(typeSpec));
 	}
 	else
 	{
@@ -240,14 +261,82 @@ void GLSL_Parser::S_TU_TypeSpecNoArr(const TypeSpecifierNoArray& typeSpec)
 	}
 }
 
-void GLSL_Parser::S_TU_TypeSpecNoArr_LB(const TypeSpecifierNoArray& typeSpec)
+void GLSL_Parser::S_TU_TypeQ_TypeSpecNoPrec(const TypeQualifier& typeQualifier, const TypeSpecifierNoPrec& typeSpec)
 {
+	LogDebug("S_TU_TypeQ_TypeSpecNoPrec");
 
+	S_TU_TypeQ_TypeSpecifier(typeQualifier, TypeSpecifier(typeSpec));
 }
 
-void GLSL_Parser::S_TU_TypeSpecNoPrec(const TypeSpecifierNoArray& typeSpec)
+void GLSL_Parser::S_TU_TypeQ_TypeSpecifier(const TypeQualifier& typeQualifier, const TypeSpecifier& typeSpec)
 {
+	LogDebug("S_TU_TypeQ_TypeSpecifier");
 
+	S_TU_FullSpecType(FullySpecifiedType(typeQualifier, typeSpec));
 }
 
+void GLSL_Parser::S_TU_FullSpecType(const FullySpecifiedType& typeSpec)
+{
+	LogDebug("S_TU_FullSpecType");
 
+	Token next = NextToken();
+
+	if (next.type == TokenType::identifier)
+	{
+		S_TU_FullSpecType_identifier(typeSpec, next.name);
+	}
+	else
+	{
+		Ceng::StringUtf8 text;
+		text += "no parsing rule for: ";
+		text += next.ToString();
+		LogError(text);
+	}
+}
+
+void GLSL_Parser::S_TU_FullSpecType_identifier(const FullySpecifiedType& typeSpec, const Ceng::StringUtf8& name)
+{
+	LogDebug("S_TU_FullSpecType_identifier");
+
+	if (PeekToken().type != TokenType::left_bracket)
+	{
+		S_TU_SingleDeclaration(SingleDeclaration(typeSpec,name));
+	}
+	else
+	{
+		Ceng::StringUtf8 text;
+		text += "no parsing rule for: ";
+		text += PeekToken().ToString();
+		LogError(text);
+	}
+}
+
+void GLSL_Parser::S_TU_SingleDeclaration(const SingleDeclaration& singleDecl)
+{
+	LogDebug("S_TU_SingleDeclaration");
+
+	if (PeekToken().type != TokenType::comma)
+	{
+		S_TU_InitDeclList(InitDeclaratorList(singleDecl));
+	}
+	else
+	{
+		Ceng::StringUtf8 text;
+		text += "no parsing rule for: ";
+		text += PeekToken().ToString();
+		LogError(text);
+	}
+}
+
+void GLSL_Parser::S_TU_InitDeclList(const InitDeclaratorList& initDeclList)
+{
+	LogDebug("S_TU_InitDeclList");
+
+	Token next = NextToken();
+
+	if (next.type == TokenType::semicolon)
+	{
+		auto output = Declaration(initDeclList);
+		return;
+	}
+}

@@ -9,7 +9,8 @@ namespace Ceng
 		{
 			smooth,
 			flat,
-			noperspective
+			noperspective,
+			unused,
 		};
 	}
 }

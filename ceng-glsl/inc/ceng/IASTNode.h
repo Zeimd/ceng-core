@@ -5,6 +5,7 @@ namespace Ceng
 {
 	class IASTNode
 	{
+	public:
 
 	};
 }
