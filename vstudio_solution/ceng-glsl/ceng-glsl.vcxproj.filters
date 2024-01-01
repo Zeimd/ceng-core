@@ -33,6 +33,9 @@
     <ClCompile Include="..\..\ceng-glsl\type-qualifier.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\ceng-glsl\keyword_db.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\ceng-glsl.h">
@@ -82,6 +85,9 @@
     </ClInclude>
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\layout-qualifier-id-list.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ceng-glsl\token-info.h">
+      <Filter>Header Files\src</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

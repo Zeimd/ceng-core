@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\ceng-glsl\glsl-parser.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\keyword_db.cpp" />
     <ClCompile Include="..\..\ceng-glsl\token.cpp" />
     <ClCompile Include="..\..\ceng-glsl\tokenizer.cpp" />
     <ClCompile Include="..\..\ceng-glsl\type-qualifier.cpp" />
@@ -42,6 +43,7 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\type-qualifier.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\type-spec-no-arr.h" />
     <ClInclude Include="..\..\ceng-glsl\keyword_db.h" />
+    <ClInclude Include="..\..\ceng-glsl\token-info.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
