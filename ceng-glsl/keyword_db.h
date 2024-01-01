@@ -3,19 +3,11 @@
 
 #include <unordered_map>
 
-#include <ceng/token-type.h>
-#include <ceng/token-category.h>
+#include "token-info.h"
 
 namespace Ceng
 {
-	struct TokenInfo
-	{
-		TokenType::value type;
-		TokenCategory::value category;
-
-	};
-
-	std::unordered_map<const char*, TokenInfo> keywords;
+	extern std::unordered_map<const char*, TokenInfo> keywords;
 }
 
 #endif
