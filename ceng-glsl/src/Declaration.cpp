@@ -3,7 +3,12 @@
 using namespace Ceng;
 
 Declaration::Declaration(const InitDeclaratorList& declList)
-	: declList(declList)
+	: INonTerminal(NonTerminalType::declaration), declList(declList)
 {
 
+}
+
+void Declaration::Release()
+{
+	delete this;
 }

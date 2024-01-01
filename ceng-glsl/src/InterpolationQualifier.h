@@ -1,18 +1,25 @@
 #ifndef CENG_GLSL_INTERPOLATION_QUALIFIER_H
 #define CENG_GLSL_INTERPOLATION_QUALIFIER_H
 
+#include "INonTerminal.h"
+#include "InterpolationQualifierType.h"
+
 namespace Ceng
 {
-	namespace InterpolationQualifier
+	class InterpolationQualifier : public INonTerminal
 	{
-		enum value
-		{
-			smooth,
-			flat,
-			noperspective,
-			unused,
-		};
-	}
+	public:
+
+		InterpolationQualifierType::value interpolation;
+
+	public:
+
+		void Release() override;
+
+		InterpolationQualifier();
+	
+		InterpolationQualifier(InterpolationQualifierType::value interpolation);
+	};
 }
 
 #endif

@@ -13,3 +13,8 @@ FullySpecifiedType::FullySpecifiedType(const TypeQualifier& qualifier, const Typ
 {
 
 }
+
+void FullySpecifiedType::Release()
+{
+	delete this;
+}

@@ -6,3 +6,8 @@ InitDeclaratorList::InitDeclaratorList(const SingleDeclaration& decl)
 {
 	list.push_back(decl);
 }
+
+void InitDeclaratorList::Release()
+{
+	delete this;
+}

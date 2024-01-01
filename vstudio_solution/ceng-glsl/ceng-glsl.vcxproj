@@ -34,6 +34,7 @@
     <ClInclude Include="..\..\ceng-glsl\src\Initializer.h" />
     <ClInclude Include="..\..\ceng-glsl\src\INonTerminal.h" />
     <ClInclude Include="..\..\ceng-glsl\src\InterpolationQualifier.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\InterpolationQualifierType.h" />
     <ClInclude Include="..\..\ceng-glsl\src\keyword_db.h" />
     <ClInclude Include="..\..\ceng-glsl\src\LayoutQualifier.h" />
     <ClInclude Include="..\..\ceng-glsl\src\LayoutQualifierId.h" />
@@ -58,6 +59,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\GLSL_Parser.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\InitDeclaratorList.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\Initializer.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\InterpolationQualifier.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\keyword_db.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\SingleDeclaration.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\StorageQualifier.cpp" />

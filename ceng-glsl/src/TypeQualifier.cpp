@@ -3,7 +3,7 @@
 using namespace Ceng;
 
 TypeQualifier::TypeQualifier()
-	: storage(StorageQualifier()),interpolation(InterpolationQualifier::unused),
+	: storage(StorageQualifier()),interpolation(),
 	invariant(false)
 {
 
@@ -14,7 +14,7 @@ TypeQualifier::TypeQualifier(const LayoutQualifier& layout)
 
 }
 
-TypeQualifier::TypeQualifier(InterpolationQualifier::value interpolation)
+TypeQualifier::TypeQualifier(const InterpolationQualifier& interpolation)
 {
 
 }
@@ -26,7 +26,7 @@ TypeQualifier::TypeQualifier(const StorageQualifier& sq)
 }
 
 TypeQualifier::TypeQualifier(bool invariant)
-	: storage(StorageQualifier()), interpolation(InterpolationQualifier::unused),
+	: storage(StorageQualifier()), interpolation(),
 	invariant(invariant)
 {
 
@@ -37,12 +37,12 @@ TypeQualifier::TypeQualifier(bool invariant, const StorageQualifier& sq)
 
 }
 
-TypeQualifier::TypeQualifier(InterpolationQualifier::value interpolation, const StorageQualifier& sq)
+TypeQualifier::TypeQualifier(const InterpolationQualifier& interpolation, const StorageQualifier& sq)
 {
 
 }
 
-TypeQualifier::TypeQualifier(bool invariant, InterpolationQualifier::value interpolation, const StorageQualifier& sq)
+TypeQualifier::TypeQualifier(bool invariant, const InterpolationQualifier& interpolation, const StorageQualifier& sq)
 {
 
 }
