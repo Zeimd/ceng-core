@@ -587,7 +587,7 @@ Ceng::CRESULT Tokenizer::RemoveComments(const std::vector<Token>& in_tokens, std
 
 	for(auto&x : in_tokens)
 	{
-		if (x.type == TokenType::preprocess_comment)
+		if (!comment && x.type == TokenType::preprocess_comment)
 		{
 			singleLine = true;
 			comment = true;
@@ -606,13 +606,13 @@ Ceng::CRESULT Tokenizer::RemoveComments(const std::vector<Token>& in_tokens, std
 			continue;
 		}
 
-		if (!comment)
+		if (comment == false)
 		{
 			tokens.push_back(x);
 		}
 		else
 		{
-			if (singleLine)
+			if (comment && singleLine)
 			{
 				if (x.endLine)
 				{
@@ -622,7 +622,7 @@ Ceng::CRESULT Tokenizer::RemoveComments(const std::vector<Token>& in_tokens, std
 					if (tokens.size() > 0)
 					{
 						tokens.back().endLine = true;
-					}					
+					}
 				}
 			}
 		}
