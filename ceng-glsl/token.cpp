@@ -269,77 +269,77 @@ Ceng::StringUtf8 Token::ToString()
 		return "vec3";
 	case TokenType::type_vec4:
 		return "vec4";
-	case TokenType::type_isampler1d:
+	case TokenType::type_isampler1D:
 		return "isampler1D";
-	case TokenType::type_isampler1d_array:
+	case TokenType::type_isampler1DArray:
 		return "isampler1DArray";
-	case TokenType::type_isampler2d:
+	case TokenType::type_isampler2D:
 		return "isampler2D";
-	case TokenType::type_isampler2d_array:
+	case TokenType::type_isampler2DArray:
 		return "isampler2DArray";
-	case TokenType::type_isampler2d_ms:
+	case TokenType::type_isampler2DMS:
 		return "isampler2DMS";
-	case TokenType::type_isampler2d_ms_array:
+	case TokenType::type_isampler2DMSArray:
 		return "isampler2DMSArray";
-	case TokenType::type_isampler2d_rect:
+	case TokenType::type_isampler2DRect:
 		return "isampler2DRect";
-	case TokenType::type_isampler3d:
+	case TokenType::type_isampler3D:
 		return "isampler3D";
-	case TokenType::type_isamplercube:
+	case TokenType::type_isamplerCube:
 		return "isamplerCube";
-	case TokenType::type_isampler_buffer:
+	case TokenType::type_isamplerBuffer:
 		return "isamplerBuffer";
-	case TokenType::type_sampler1d:
+	case TokenType::type_sampler1D:
 		return "sampler1D";
-	case TokenType::type_sampler1d_array:
+	case TokenType::type_sampler1DArray:
 		return "sampler1Darray";
-	case TokenType::type_sampler1d_array_shadow:
+	case TokenType::type_sampler1DArrayShadow:
 		return "sampler1DArrayShadow";
-	case TokenType::type_sampler1d_shadow:
+	case TokenType::type_sampler1DShadow:
 		return "sampler1DShadow";
-	case TokenType::type_sampler2d:
+	case TokenType::type_sampler2D:
 		return "sampler2D";
-	case TokenType::type_sampler2d_array:
+	case TokenType::type_sampler2DArray:
 		return "sampler2DArray";
-	case TokenType::type_sampler2d_array_shadow:
+	case TokenType::type_sampler2DArrayShadow:
 		return "sampler2DArrayShadow";
-	case TokenType::type_sampler2d_ms:
+	case TokenType::type_sampler2DMS:
 		return "sampler2DMS";
-	case TokenType::type_sampler2d_ms_array:
+	case TokenType::type_sampler2DMSArray:
 		return "sampler2DMSArray";
-	case TokenType::type_sampler2d_rect:
+	case TokenType::type_sampler2DRect:
 		return "sampler2DRect";
-	case TokenType::type_sampler2d_rect_shadow:
+	case TokenType::type_sampler2DRectShadow:
 		return "sampler2DRectShadow";
-	case TokenType::type_sampler2d_shadow:
+	case TokenType::type_sampler2DShadow:
 		return "sampler2DShadow";
-	case TokenType::type_sampler3d:
+	case TokenType::type_sampler3D:
 		return "sampler3D";
-	case TokenType::type_samplercube:
+	case TokenType::type_samplerCube:
 		return "samplerCube";
-	case TokenType::type_samplercube_shadow:
+	case TokenType::type_samplerCubeShadow:
 		return "samplerCubeShadow";
-	case TokenType::type_sampler_buffer:
+	case TokenType::type_samplerBuffer:
 		return "samplerBuffer";
-	case TokenType::type_usampler1d:
+	case TokenType::type_usampler1D:
 		return "usampler1D";
-	case TokenType::type_usampler1d_array:
+	case TokenType::type_usampler1DArray:
 		return "usampler1DArray";
-	case TokenType::type_usampler2d:
+	case TokenType::type_usampler2D:
 		return "usampler2D";
-	case TokenType::type_usampler2d_array:
+	case TokenType::type_usampler2DArray:
 		return "usampler2DArray";
-	case TokenType::type_usampler2d_ms:
+	case TokenType::type_usampler2DMS :
 		return "usampler2DMS";
-	case TokenType::type_usampler2d_ms_array:
+	case TokenType::type_usampler2DMSArray:
 		return "usampler2DMSArray";
-	case TokenType::type_usampler2d_rect:
+	case TokenType::type_usampler2DRect:
 		return "usampler2DRect";
-	case TokenType::type_usampler3d:
+	case TokenType::type_usampler3D:
 		return "usampler3D";
-	case TokenType::type_usamplercube:
+	case TokenType::type_usamplerCube:
 		return "usamplerCube";
-	case TokenType::type_usampler_buffer:
+	case TokenType::type_usamplerBuffer:
 		return "usamplerBuffer";
 	case TokenType::type_name:
 		return name;
@@ -675,112 +675,109 @@ Ceng::StringUtf8 Token::ToDiagnosticString()
 	case TokenType::type_vec4:
 		text += "vec4";
 		break;
-	case TokenType::type_isampler1d:
+	case TokenType::type_isampler1D:
 		text += "isampler1D";
 		break;
-	case TokenType::type_isampler1d_array:
+	case TokenType::type_isampler1DArray:
 		text += "isampler1DArray";
 		break;
-	case TokenType::type_isampler2d:
+	case TokenType::type_isampler2D:
 		text += "isampler2D";
 		break;
-	case TokenType::type_isampler2d_array:
+	case TokenType::type_isampler2DArray:
 		text += "isampler2DArray";
 		break;
-	case TokenType::type_isampler2d_ms:
+	case TokenType::type_isampler2DMS:
 		text += "isampler2DMS";
 		break;
-	case TokenType::type_isampler2d_ms_array:
+	case TokenType::type_isampler2DMSArray:
 		text += "isampler2DMSArray";
 		break;
-	case TokenType::type_isampler2d_rect:
+	case TokenType::type_isampler2DRect:
 		text += "isampler2DRect";
 		break;
-	case TokenType::type_isampler3d:
+	case TokenType::type_isampler3D:
 		text += "isampler3D";
 		break;
-	case TokenType::type_isamplercube:
+	case TokenType::type_isamplerCube:
 		text += "isamplerCube";
 		break;
-	case TokenType::type_isampler_buffer:
+	case TokenType::type_isamplerBuffer:
 		text += "isamplerBuffer";
 		break;
-	case TokenType::type_sampler1d:
+	case TokenType::type_sampler1D:
 		text += "sampler1D";
 		break;
-	case TokenType::type_sampler1d_array:
+	case TokenType::type_sampler1DArray:
 		text += "sampler1Darray";
 		break;
-	case TokenType::type_sampler1d_array_shadow:
+	case TokenType::type_sampler1DArrayShadow:
 		text += "sampler1DArrayShadow";
 		break;
-	case TokenType::type_sampler1d_shadow:
+	case TokenType::type_sampler1DShadow:
 		text += "sampler1DShadow";
 		break;
-	case TokenType::type_sampler2d:
+	case TokenType::type_sampler2D:
 		text += "sampler2D";
 		break;
-	case TokenType::type_sampler2d_array:
+	case TokenType::type_sampler2DArray:
 		text += "sampler2DArray";
 		break;
-	case TokenType::type_sampler2d_array_shadow:
+	case TokenType::type_sampler2DArrayShadow:
 		text += "sampler2DArrayShadow";
 		break;
-	case TokenType::type_sampler2d_ms:
+	case TokenType::type_sampler2DMS:
 		text += "sampler2DMS";
 		break;
-	case TokenType::type_sampler2d_ms_array:
+	case TokenType::type_sampler2DMSArray:
 		text += "sampler2DMSArray";
 		break;
-	case TokenType::type_sampler2d_rect:
+	case TokenType::type_sampler2DRect:
 		text += "sampler2DRect";
 		break;
-	case TokenType::type_sampler2d_rect_shadow:
+	case TokenType::type_sampler2DRectShadow:
 		text += "sampler2DRectShadow";
 		break;
-	case TokenType::type_sampler2d_shadow:
+	case TokenType::type_sampler2DShadow:
 		text += "sampler2DShadow";
 		break;
-	case TokenType::type_sampler3d:
+	case TokenType::type_sampler3D:
 		text += "sampler3D";
 		break;
-	case TokenType::type_samplercube:
+	case TokenType::type_samplerCube:
 		text += "samplerCube";
 		break;
-	case TokenType::type_samplercube_shadow:
+	case TokenType::type_samplerCubeShadow:
 		text += "samplerCubeShadow";
 		break;
-	case TokenType::type_sampler_buffer:
+	case TokenType::type_samplerBuffer:
 		text += "samplerBuffer";
 		break;
-	case TokenType::type_usampler1d:
+	case TokenType::type_usampler1D:
 		text += "usampler1D";
 		break;
-	case TokenType::type_usampler1d_array:
+	case TokenType::type_usampler1DArray:
 		text += "usampler1DArray";
 		break;
-	case TokenType::type_usampler2d:
+	case TokenType::type_usampler2D:
 		text += "usampler2D";
 		break;
-	case TokenType::type_usampler2d_array:
+	case TokenType::type_usampler2DArray:
 		text += "usampler2DArray";
 		break;
-	case TokenType::type_usampler2d_ms:
+	case TokenType::type_usampler2DMS:
 		text += "usampler2DMS";
 		break;
-	case TokenType::type_usampler2d_ms_array:
-		text += "usampler2DMSArray";
-		break;
-	case TokenType::type_usampler2d_rect:
+	case TokenType::type_usampler2DRect:
 		text += "usampler2DRect";
 		break;
-	case TokenType::type_usampler3d:
+	case TokenType::type_usampler3D:
 		text += "usampler3D";
 		break;
-	case TokenType::type_usamplercube:
+	case TokenType::type_usamplerCube:
 		text += "usamplerCube";
 		break;
-	case TokenType::type_usampler_buffer:
+	case TokenType::type_usamplerBuffer:
 		text += "usamplerBuffer";
 		break;
 	case TokenType::type_name:

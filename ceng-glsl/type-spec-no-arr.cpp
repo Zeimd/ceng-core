@@ -44,77 +44,77 @@ TypeSpecifierNoArray::TypeSelector TypeSpecifierNoArray::FromTokenType(TokenType
 		return TypeSelector::vec3;
 	case TokenType::type_vec4:
 		return TypeSelector::vec4;
-	case TokenType::type_isampler1d:
+	case TokenType::type_isampler1D:
 		return TypeSelector::isampler1D;
-	case TokenType::type_isampler1d_array:
+	case TokenType::type_isampler1DArray:
 		return TypeSelector::isampler1DArray;
-	case TokenType::type_isampler2d:
+	case TokenType::type_isampler2D:
 		return TypeSelector::isampler2D;
-	case TokenType::type_isampler2d_array:
+	case TokenType::type_isampler2DArray:
 		return TypeSelector::isampler2DArray;
-	case TokenType::type_isampler2d_ms:
+	case TokenType::type_isampler2DMS:
 		return TypeSelector::isampler2DMS;
-	case TokenType::type_isampler2d_ms_array:
+	case TokenType::type_isampler2DMSArray:
 		return TypeSelector::isampler2DMSArray;
-	case TokenType::type_isampler2d_rect:
+	case TokenType::type_isampler2DRect:
 		return TypeSelector::isampler2DRect;
-	case TokenType::type_isampler3d:
+	case TokenType::type_isampler3D:
 		return TypeSelector::isampler3D;
-	case TokenType::type_isamplercube:
+	case TokenType::type_isamplerCube:
 		return TypeSelector::isamplerCube;
-	case TokenType::type_isampler_buffer:
+	case TokenType::type_isamplerBuffer:
 		return TypeSelector::isamplerBuffer;
-	case TokenType::type_sampler1d:
+	case TokenType::type_sampler1D:
 		return TypeSelector::sampler1D;
-	case TokenType::type_sampler1d_array:
+	case TokenType::type_sampler1DArray:
 		return TypeSelector::sampler1DArray;
-	case TokenType::type_sampler1d_array_shadow:
+	case TokenType::type_sampler1DArrayShadow:
 		return TypeSelector::sampler1DArrayShadow;
-	case TokenType::type_sampler1d_shadow:
+	case TokenType::type_sampler1DShadow:
 		return TypeSelector::sampler1DShadow;
-	case TokenType::type_sampler2d:
+	case TokenType::type_sampler2D:
 		return TypeSelector::sampler2D;
-	case TokenType::type_sampler2d_array:
+	case TokenType::type_sampler2DArray:
 		return TypeSelector::sampler2DArray;
-	case TokenType::type_sampler2d_array_shadow:
+	case TokenType::type_sampler2DArrayShadow:
 		return TypeSelector::sampler2DArrayShadow;
-	case TokenType::type_sampler2d_ms:
+	case TokenType::type_sampler2DMS:
 		return TypeSelector::sampler2DMS;
-	case TokenType::type_sampler2d_ms_array:
+	case TokenType::type_sampler2DMSArray:
 		return TypeSelector::sampler2DMSArray;
-	case TokenType::type_sampler2d_rect:
+	case TokenType::type_sampler2DRect:
 		return TypeSelector::sampler2DRect;
-	case TokenType::type_sampler2d_rect_shadow:
+	case TokenType::type_sampler2DRectShadow:
 		return TypeSelector::sampler2DRectShadow;
-	case TokenType::type_sampler2d_shadow:
+	case TokenType::type_sampler2DShadow:
 		return TypeSelector::sampler2DShadow;
-	case TokenType::type_sampler3d:
+	case TokenType::type_sampler3D:
 		return TypeSelector::sampler3D;
-	case TokenType::type_samplercube:
+	case TokenType::type_samplerCube:
 		return TypeSelector::samplerCube;
-	case TokenType::type_samplercube_shadow:
+	case TokenType::type_samplerCubeShadow:
 		return TypeSelector::samplerCubeShadow;
-	case TokenType::type_sampler_buffer:
+	case TokenType::type_samplerBuffer:
 		return TypeSelector::samplerBuffer;
-	case TokenType::type_usampler1d:
+	case TokenType::type_usampler1D:
 		return TypeSelector::usampler1D;
-	case TokenType::type_usampler1d_array:
+	case TokenType::type_usampler1DArray:
 		return TypeSelector::usampler1DArray;
-	case TokenType::type_usampler2d:
+	case TokenType::type_usampler2D:
 		return TypeSelector::usampler2D;
-	case TokenType::type_usampler2d_array:
+	case TokenType::type_usampler2DArray:
 		return TypeSelector::usampler2DArray;
-	case TokenType::type_usampler2d_ms:
+	case TokenType::type_usampler2DMS:
 		return TypeSelector::usampler2DMS;
-	case TokenType::type_usampler2d_ms_array:
+	case TokenType::type_usampler2DMSArray:
 		return TypeSelector::usampler2DMSArray;
-	case TokenType::type_usampler2d_rect:
+	case TokenType::type_usampler2DRect:
 		return TypeSelector::usampler2DRect;
-	case TokenType::type_usampler3d:
+	case TokenType::type_usampler3D:
 		return TypeSelector::usampler3D;
-	case TokenType::type_usamplercube:
+	case TokenType::type_usamplerCube:
 		return TypeSelector::usamplerCube;
-	case TokenType::type_usampler_buffer:
+	case TokenType::type_usamplerBuffer:
 		return TypeSelector::usamplerBuffer;
 	};
 
