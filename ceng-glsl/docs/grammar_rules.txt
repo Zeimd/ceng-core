@@ -1,12 +1,141 @@
+syntax
+
+    * = current parsing position
+
+    state
+        <current_stack> *
+
+    rule
+        non_terminal -> <current_stack> * {peek_symbol}, stack action (N), goto action (N)
+
+    shift
+        {next token} -> state
+
+    stack action = how many stack entries to pop from current state before pushing reduction result
+
+    goto action = next state after inserting reduction result to stack top
+
+------------------------------------------------------------
+Root state
+
 state 0
-    goal -> translation_unit * eof
+    translation_unit *
+
+    rules:
+        done -> translation_unit * EOF
+
+    shift
+        LAYOUT -> 1
+        [CONST | ATTRIBUTE | VARYING | IN | OUT | UNIFORM] -> 14
+        CENTROID -> 15
+
+------------------------------------------------------------
+Layout qualifier
+
 state 1
-    storage_qualifier -> token:qualifier *
+    LAYOUT *
+
+    shift
+        LEFT_PAREN -> 2
+
 state 2
-    storage_qualifier * 
+    LAYOUT LEFT_PAREN *
+
+    shift
+        IDENTIFIER -> 3
+
 state 3
-    type_qualifier *
+    LAYOUT LEFT_PAREN IDENTIFIER *
+
+    rules
+        layout_qualifier_id -> IDENTIFIER * COMMA, pop 1, goto 6
+        layout_qualifier_id -> IDENTIFIER * RIGHT_PAREN, pop 1,goto 6
+
+    shift
+        EQUAL -> 4
+
 state 4
-    type_specifier_non_array -> token:data_type *
+    LAYOUT LEFT_PAREN IDENTIFIER EQUAL *
+
+    shift
+        INTCONSTANT -> 5
+
+state 5
+    LAYOUT LEFT_PAREN IDENTIFIER EQUAL INTCONSTANT *
+
+    rules
+        layout_qualifier_id -> IDENTIFIER EQUAL INTCONSTANT, goto 6
+
+state 6
+    LAYOUT LEFT_PAREN layout_qualifier_id *
+
+    rules
+        layout_qualifier_id_list -> layout_qualifier_id, goto 7
+
+state 7
+    
+    LAYOUT LEFT_PAREN layout_qualifier_id_list *
+
+    shift
+        COMMA -> 11
+        RIGHT_PAREN -> 9
+
+state 9
+    LAYOUT LEFT_PAREN layout_qualifier_id_list RIGHT_PAREN
+
+    rules
+        layout_qualifier -> LAYOUT LEFT_PAREN layout_qualifier_id_list RIGHT_PAREN, goto 10
+
+state 10
+    layout_qualifier *
+
+state 11
+    
+    LAYOUT LEFT_PAREN layout_qualifier_id_list COMMA *
+
+    shift
+        IDENTIFIER -> 12
+
+state 12
+
+    LAYOUT LEFT_PAREN layout_qualifier_id_list COMMA IDENTIFIER *
+
+    rules
+        layout_qualifier_id -> IDENTIFIER * COMMA, goto 13
+        layout_qualifier_id -> IDENTIFIER * RIGHT_PAREN, goto 13
+
+state 13
+
+    LAYOUT LEFT_PAREN layout_qualifier_id_list COMMA layout_qualifier_id
+
+    rules
+        layout_qualifier_id_list -> layout_qualifier_id_list COMMA layout_qualifier_id, goto 7
+
+------------------------------------------------------------
+Storage qualifier
+
+
+state 14
+    translation_unit [CONST | ATTRIBUTE | VARYING | IN | OUT | UNIFORM] *
+
+    rules:
+        storage_qualifier -> [CONST | ATTRIBUTE | VARYING | IN | OUT | UNIFORM] *, pop 1, goto 17
+
+state 15
+    translation_unit CENTROID *
+
+    shift
+        [IN | OUT | VARYING] -> 16
+
+state 16
+    translation_unit CENTROID [IN | OUT | VARYING] *
+
+    rules:
+        storage_qualifier -> CENTROID [IN | OUT | VARYING] *, pop 2, goto 17
+
+state 17
+    translation_unit storage_qualifier *
+
+---------------------------------------------------------------
 
 
