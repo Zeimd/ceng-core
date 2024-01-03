@@ -116,26 +116,110 @@ Storage qualifier
 
 
 state 14
-    translation_unit [CONST | ATTRIBUTE | VARYING | IN | OUT | UNIFORM] *
+    <> [CONST | ATTRIBUTE | VARYING | IN | OUT | UNIFORM] *
 
     rules:
         storage_qualifier -> [CONST | ATTRIBUTE | VARYING | IN | OUT | UNIFORM] *, pop 1, goto 17
 
 state 15
-    translation_unit CENTROID *
+    <> CENTROID *
 
     shift
         [IN | OUT | VARYING] -> 16
 
 state 16
-    translation_unit CENTROID [IN | OUT | VARYING] *
+    <> CENTROID [IN | OUT | VARYING] *
 
     rules:
         storage_qualifier -> CENTROID [IN | OUT | VARYING] *, pop 2, goto 17
 
 state 17
-    translation_unit storage_qualifier *
+    <> storage_qualifier *
 
 ---------------------------------------------------------------
+Interpolation qualifier
 
+state 18
+    <> [SMOOTH | FLAT | NOPERSPECTIVE] *
+
+    rules:
+        interpolation_qualifier -> [SMOOTH | FLAT | NOPERSPECTIVE] *, pop 1, goto 19
+
+state 19
+    <> interpolation_qualifier *
+
+---------------------------------------------------------------
+Precision qualifier
+
+state 20
+    <> [LOWP | MEDIUMP | HIGHP] *
+
+    rules:
+        precision_qualifier -> [LOWP | MEDIUMP | HIGHP] *, pop 1, goto 21
+
+state 21
+    <> precision_qualifier *
+---------------------------------------------------------------
+Type qualifier
+
+state 22
+    <> storage_qualifier *
+
+    rules:
+        type_qualifier -> storage_qualifier *, pop 1, goto 23
+
+state 23
+    <> type_qualifier *
+
+state 24
+    <> layout_qualifier *
+
+    rules
+        type_qualifier -> layout_qualifier * NOT(storage_qualifier), pop 1, goto 23
+
+    shift
+        storage_qualifier -> 25
+
+state 25
+    <> layout_qualifier storage_qualifier *
+
+    rules:
+        type_qualifier -> layout_qualifier storage_qualifier *, pop 2, goto 23
+
+state 26
+    <> interpolation_qualifier *
+
+    rules
+        type_qualifier -> interpolation_qualifier * NOT(storage_qualifier), pop 1, goto 23
+
+    shift
+        storage_qualifier -> 27
+
+state 27
+    <> interpolation_qualifier storage_qualifier *
+
+    rules:
+        type_qualifier -> interpolation_qualifier storage_qualifier *, pop 2, goto 23
+    
+state 28
+    <> INVARIANT *
+
+    rules 
+        type_qualifier -> INVARIANT * NOT(storage_qualifier | interpolation_qualifier), pop 1, goto 23
+
+    shift
+        storage_qualifier -> 29
+        interpolation_qualifier -> 30
+
+state 29
+    <> INVARIANT storage_qualifier *
+
+    rules
+        type_qualifier -> INVARIANT storage_qualifier *, pop 2, goto 23
+
+state 30
+    <> INVARIANT interpolation_qualifier storage_qualifier *
+
+    rules
+        type_qualifier -> INVARIANT interpolation_qualifier storage_qualifier *, pop 3, goto 23
 
