@@ -399,6 +399,235 @@ state 52
 
     TODO: requires parsing initializer non-terminal
 
+-------------------------------------------------------------------------------------------
+Expressions
+
+state 53
+    <> IDENTIFIER *
+
+    rules:
+
+        variable_identifier -> IDENTIFIER *, pop 1, goto 54
+
+state 54
+    <> variable_identifier *
+
+    rules:
+
+        primary_expression -> variable_identifier *, pop 1, goto 55
+
+state 55
+    <> primary_expression *
+
+    rules
+
+        postfix_expression -> primary_expression *, pop 1, goto 58
+
+state 56
+    <> [INTCONSTANT | UINTCONSTANT | FLOATCONSTANT | BOOLCONSTANT] *
+
+    rules
+
+        primary_expression -> [INTCONSTANT | UINTCONSTANT | FLOATCONSTANT | BOOLCONSTANT] *, pop 1, goto 55
+
+state 57
+    <> LEFT_PAREN expression RIGHT_PAREN
+
+    rules
+
+        primary_expression -> LEFT_PAREN expression RIGHT_PAREN, pop 3, goto 55
+
+state 58
+
+    <> postfix_expression *
+
+    rules
+
+        unary_expression -> postfix_expression * NOT(INC_OP | DEC_OP | LEFT_BRACKET | DOT), pop 1, goto 67
+
+    shift
+
+        INC_OP -> 59
+        DEC_OP -> 60
+        LEFT_BRACKET -> 61
+        DOT -> 64
+
+state 59
+
+    <> postfix_expression INC_OP *
+
+    rules
+        postfix_expression -> postfix_expression INC_OP *, pop 2, goto 58
+
+state 60
+
+    <> postfix_expression DEC_OP *
+
+    rules
+        postfix_expression -> postfix_expression DEC_OP *, pop 2, goto 58
+
+state 61
+
+    <> postfix_expression LEFT_BRACKET *
+
+    shift
+        TODO: requires parsing integer_expression
+
+state 62
+
+    <> postfix_expression LEFT_BRACKET integer_expression *
+
+    shift
+        RIGHT_BRACKET -> 63
+
+state 63
+
+    <> postfix_expression LEFT_BRACKET integer_expression RIGHT_BRACKET *
+
+    rules
+
+        postfix_expression -> postfix_expression LEFT_BRACKET integer_expression RIGHT_BRACKET *, pop 4, goto 58
+
+state 64
+
+    <> postfix_expression DOT *
+
+    shift
+        FIELD_SELECTION -> 65
+
+state 65
+
+    <> postfix_expression DOT FIELD_SELECTION *
+
+    rules
+
+        postfix_expression -> postfix_expression DOT FIELD_SELECTION *, pop 3, goto 58
+
+state 66
+
+    <> function_call *
+
+    rules
+
+        postfix_expression -> function_call *, pop 1, goto 58
+
+state 67
+
+    <> unary_expression *
+
+    rules
+
+        multiplicative_expression -> unary_expression * [STAR | SLASH | PERCENT], pop 1, goto 75
+
+state 68
+
+    <> INC_OP *
+
+    shift
+
+        unary_expression -> 69
+
+state 69
+
+    <> INC_OP unary_expression *
+
+    rules
+
+        unary_expression -> INC_OP unary_expression *, pop 2, goto 67
+
+state 70
+
+    <> DEC_OP *
+
+    shift
+
+        unary_expression -> 71
+
+state 71
+
+    <> DEC_OP unary_expression *
+
+    rules
+
+        unary_expression -> DEC_OP unary_expression *, pop 2, goto 67
+
+state 72
+
+    <> [PLUS | DASH | BANG | TILDE] *
+
+    rules
+
+        unary_operator -> [PLUS | DASH | BANG | TILDE] *
+
+state 73
+
+    <> unary_operator *
+
+    shift
+
+        unary_expression -> 74
+
+state 74
+
+    <> unary_operator unary_expression *
+
+    rules
+
+        unary_expression -> unary_operator unary_expression *
+
+state 75
+
+    <> multiplicative_expression *
+
+    rules
+        additive_expression -> multiplicative_expression * [PLUS | DASH], pop 1, goto 78
+
+    shift
+
+        [STAR | SLASH | PERCENT] -> 76
+
+state 76
+
+    <> multiplicative_expression [STAR | SLASH | PERCENT] *
+
+    shift
+
+        unary_expression -> 77
+
+state 77
+
+    <> multiplicative_expression [STAR | SLASH | PERCENT] unary_expression *
+
+    rules
+
+        multiplicative_expression -> multiplicative_expression [STAR | SLASH | PERCENT] unary_expression *, pop 3, goto 75
+
+state 78
+
+    <> additive_expression *
+
+    rules
+
+        shift_expression -> additive_expression * [LEFT_OP | RIGHT_OP], pop 1, goto TBA
+
+    shift
+
+        [PLUS | DASH] -> 79
+
+state 79
+
+    <> additive_expression [PLUS | DASH] *
+
+    shift
+        multiplicative_expression -> 80
+
+state 80
+    <> additive_expression [PLUS | DASH] multiplicative_expression *
+
+    rules
+        additive_expression -> multiplicative_expression [PLUS | DASH] *
+
+
 
 
 
