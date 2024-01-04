@@ -159,6 +159,11 @@ state 20
 
 state 21
     <> precision_qualifier *
+
+    shift
+
+        type_specifier_no_prec -> 38
+
 ---------------------------------------------------------------
 Type qualifier
 
@@ -170,6 +175,10 @@ state 22
 
 state 23
     <> type_qualifier *
+
+    shift:
+
+        type_specifier -> 40
 
 state 24
     <> layout_qualifier *
@@ -222,4 +231,181 @@ state 30
 
     rules
         type_qualifier -> INVARIANT interpolation_qualifier storage_qualifier *, pop 3, goto 23
+
+---------------------------------------------------------------
+Type specifier, Fully qualified type
+
+state 31
+    <> TOKEN:DATA_TYPE *
+
+    rules
+
+        type_specifier_non_array -> TOKEN:DATA_TYPE *, pop 1, goto 32
+
+state 32
+    <> type_specifier_non_array *
+
+    rules
+        type_specifier_no_prec -> type_specifier_non_array * NOT(LEFT_BRACKET), pop 1, goto 33
+
+    shift
+
+        LEFT_BRACKET -> 34
+
+state 33
+    <> type_specifier_no_prec *
+
+    rules
+
+        type_specifier -> type_specifier_no_prec *, pop 1, goto 37
+
+state 34
+    <> type_specifier_non_array LEFT_BRACKET *
+
+    shift
+
+        RIGHT_BRACKET -> 35
+        else -> 
+
+state 35
+    <> type_specifier_non_array LEFT_BRACKET RIGHT_BRACKET
+
+    rules
+        type_specifier_no_prec -> type_specifier_non_array LEFT_BRACKET RIGHT_BRACKET *, pop 3, goto 33
+
+state 37
+    <> type_specifier *
+
+    rules
+
+        fully_qualified_type -> type_specifier *, pop 1, goto 39
+
+state 39
+    <> fully_qualified_type *
+
+    shift
+
+        IDENTIFIER -> 41
+
+state 38
+
+    <> precision_qualifier type_specifier_no_prec *
+
+    rules
+
+        type_specifier -> precision_qualifier type_specifier_no_prec *, pop 2, goto 37
+
+state 40
+    <> type_qualifier type_specifier *
+
+    rules
+        fully_qualified_type -> type_qualifier type_specifier *, pop 2, goto 39
+
+-------------------------------------------------------------------
+Single declaration
+
+state 41
+    <> fully_qualified_type IDENTIFIER *
+
+    rules
+
+        single_declaration -> fully_qualified_type IDENTIFIER * NOT(LEFT_BRACKET | EQUAL), pop 2, goto 42
+
+    shift
+
+        LEFT_BRACKET -> 43
+        EQUAL -> 45
+
+state 42
+    <> single_declaration *
+
+    rules
+
+        init_declarator_list -> single_declaration * NOT(COMMA), pop 1, goto 46
+
+state 43
+    <> fully_qualified_type IDENTIFIER LEFT_BRACKET *
+
+    shift
+        RIGHT_BRACKET -> 44
+        else -> 
+
+state 44
+    <> fully_qualified_type IDENTIFIER LEFT_BRACKET RIGHT_BRACKET *
+
+    rules
+        single_declaration -> fully_qualified_type IDENTIFIER LEFT_BRACKET RIGHT_BRACKET *, pop 3, goto 42
+
+state 45
+
+    <> fully_qualified_type IDENTIFIER EQUAL *
+
+    TODO: requires parsing initializer non-terminal
+
+--------------------------------------------------------------------------
+Init declarator list
+
+state 46
+    <> init_declarator_list *
+
+    shift
+
+        COMMA -> 47
+
+state 47
+    <> init_declarator_list COMMA *
+
+    shift
+
+        IDENTIFIER -> 48
+
+state 48
+    <> init_declarator_list COMMA IDENTIFIER *
+
+    rules
+
+        init_declarator_list -> init_declarator_list COMMA IDENTIFIER * NOT(LEFT_BRACKET | EQUAL), pop 2, goto 46
+
+    shift
+
+        LEFT_BRACKET -> 49
+        EQUAL -> 51
+
+state 49
+    <> init_declarator_list COMMA IDENTIFIER LEFT_BRACKET *
+
+    shift
+
+        RIGHT_BRACKET -> 50
+        else -> TODO: requires parsing constant_expression non-terminal
+
+state 50
+    <> init_declarator_list COMMA IDENTIFIER LEFT_BRACKET RIGHT_BRACKET *
+
+    rules
+        init_declarator_list -> init_declarator_list COMMA IDENTIFIER LEFT_BRACKET RIGHT_BRACKET * NOT(EQUAL), pop 5, goto 46
+
+    shift
+        EQUAL -> 52
+        else -> TODO: requires parsing constant_expression non-terminal
+
+state 51
+    <> init_declarator_list COMMA IDENTIFIER EQUAL *
+
+    TODO: requires parsing initializer non-terminal
+
+state 52
+    <> init_declarator_list COMMA IDENTIFIER LEFT_BRACKET RIGHT_BRACKET EQUAL *
+
+    TODO: requires parsing initializer non-terminal
+
+
+
+
+
+
+
+
+
+
 
