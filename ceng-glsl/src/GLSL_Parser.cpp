@@ -337,16 +337,18 @@ GLSL_Parser::ShiftHandlerReturn GLSL_Parser::Shift_S_TranslationUnit(const Token
 
 GLSL_Parser::ShiftHandlerReturn GLSL_Parser::Goto_S_TranslationUnit(INonTerminal* nonTerminal)
 {
+	LogDebug(__FUNCTION__);
+
 	ParserReturnValue retVal;
 	bool valid = true;
 
 	switch (nonTerminal->type)
 	{
 	case NonTerminalType::storage_qualifier:
-		retVal = S_StorageQualifier((StorageQualifier*)retVal.nonTerminal);
+		retVal = S_StorageQualifier((StorageQualifier*)nonTerminal);
 		break;
 	case NonTerminalType::type_qualifier:
-		retVal = S_TypeQualifier((TypeQualifier*)retVal.nonTerminal);
+		retVal = S_TypeQualifier((TypeQualifier*)nonTerminal);
 		break;
 
 	default:
