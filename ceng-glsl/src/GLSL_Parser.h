@@ -42,12 +42,22 @@ namespace Ceng
 		struct ShiftHandlerReturn
 		{
 			ParserReturnValue retVal;
-			bool invalid;
+			bool valid;
 		};
 
-		typedef ShiftHandlerReturn (GLSL_Parser::* ReductionHandler)(const Token& token);
-		typedef ShiftHandlerReturn (GLSL_Parser::* ShiftHandler)(const Token& token);
+		typedef ShiftHandlerReturn (GLSL_Parser::* ReductionHandler)(const Token& next);
+		typedef ShiftHandlerReturn (GLSL_Parser::* ShiftHandler)(const Token& next);
 		typedef ShiftHandlerReturn (GLSL_Parser::* GotoHandler)(INonTerminal* nonTerminal);
+
+		class IStateHandler
+		{
+		public:
+			virtual ShiftHandlerReturn Reduction(GLSL_Parser* parser) = 0;
+
+			virtual ShiftHandlerReturn Shift(GLSL_Parser* parser, const Token& token) = 0;
+
+			virtual ShiftHandlerReturn Goto(GLSL_Parser* parser, INonTerminal* nonTerminal) = 0;
+		};
 
 	protected:
 		~GLSL_Parser() override
@@ -81,9 +91,10 @@ namespace Ceng
 
 		static const char* GetPrefixText(LogPrefix prefix);
 
-	protected:
+	public:
 
 		ParserReturnValue StateFuncSkeleton(const char* callerName,ShiftHandler shiftHandler, GotoHandler gotoHandler);
+		ParserReturnValue StateFuncSkeleton(const char* callerName, IStateHandler& handler);
 
 		ParserReturnValue S_TranslationUnit();
 
@@ -95,10 +106,9 @@ namespace Ceng
 		
 		ParserReturnValue S_TypeQualifier(TypeQualifier* sq);
 
-		ShiftHandlerReturn Shift_S_TypeQualifier(const Token& token);
-		ShiftHandlerReturn Goto_S_TypeQualifier(INonTerminal* nonTerminal);
-
 		ParserReturnValue S_DatatypeToken(TokenType::value value);
+
+		ParserReturnValue S_TypeQualifier_TypeSpecifierNonArray(TypeQualifier* sq, TypeSpecifierNoArray* ts);
 
 
 		

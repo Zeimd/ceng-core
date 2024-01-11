@@ -119,6 +119,101 @@ void GLSL_Parser::LogDebug(const Ceng::StringUtf8& text)
 	Log(text, log_debug);
 }
 
+ParserReturnValue GLSL_Parser::StateFuncSkeleton(const char* callerName, IStateHandler& handler)
+{
+	ShiftHandlerReturn reductionVal = handler.Reduction(this);
+
+	if (reductionVal.valid)
+	{
+		Ceng::StringUtf8 text;
+		text = "reduction return: ";
+		text += callerName;
+		text += " , remaining count = ";
+		text += reductionVal.retVal.backtrackCounter;
+		LogDebug(text);
+		return reductionVal.retVal;
+	}
+
+	do
+	{
+		bool earlyContinue = false;
+
+		ParserReturnValue retVal;
+
+		// TODO: reduction handler
+
+		Token next = NextToken();
+
+		if (next.type == TokenType::meta_end_of_file)
+		{
+			LogDebug("end of file reached");
+			return ParserReturnValue();
+		}
+
+		auto shiftReturn = handler.Shift(this, next);
+
+		if (!shiftReturn.valid)
+		{
+			LogDebug("No shift rule for returned non-terminal");
+			continue;
+		}
+
+		retVal = shiftReturn.retVal;
+
+		// Loop goto action until there is an action that must be handled
+		// further down the call stack
+
+		bool exit;
+
+		do
+		{
+			exit = false;
+
+			retVal.backtrackCounter--;
+
+			if (retVal.backtrackCounter > 0)
+			{
+				// Reduction is handled further back in the state stack
+
+				Ceng::StringUtf8 text;
+				text = "backtrack pass: ";
+				text += callerName;
+				text += " , remaining count = ";
+				text += retVal.backtrackCounter;
+				LogDebug(text);
+
+				return retVal;
+			}
+
+			Ceng::StringUtf8 text;
+			text = "goto action: ";
+			text += callerName;
+			LogDebug(text);
+
+			if (retVal.nonTerminal == nullptr)
+			{
+				// Received invalid nonterminal
+
+				LogDebug("Received empty non-terminal");
+
+				return retVal;
+			}
+
+			auto gotoRet = handler.Goto(this, retVal.nonTerminal);
+
+			if (!gotoRet.valid)
+			{
+				LogDebug("No goto rule for returned non-terminal");
+				return gotoRet.retVal;
+			}
+
+			retVal = gotoRet.retVal;
+
+		} while (exit == false);
+
+	} while (1);
+}
+
 ParserReturnValue GLSL_Parser::StateFuncSkeleton(const char* callerName,ShiftHandler shiftHandler, GotoHandler gotoHandler)
 {
 	do
@@ -139,7 +234,7 @@ ParserReturnValue GLSL_Parser::StateFuncSkeleton(const char* callerName,ShiftHan
 
 		auto shiftReturn = (this->*shiftHandler)(next);
 
-		if (shiftReturn.invalid)
+		if (!shiftReturn.valid)
 		{
 			LogDebug("No shift rule for returned non-terminal");
 			continue;
@@ -188,7 +283,7 @@ ParserReturnValue GLSL_Parser::StateFuncSkeleton(const char* callerName,ShiftHan
 
 			auto gotoRet = (this->*gotoHandler)(retVal.nonTerminal);
 
-			if (gotoRet.invalid)
+			if (!gotoRet.valid)
 			{
 				LogDebug("No goto rule for returned non-terminal");
 				return gotoRet.retVal;
@@ -204,7 +299,7 @@ ParserReturnValue GLSL_Parser::StateFuncSkeleton(const char* callerName,ShiftHan
 GLSL_Parser::ShiftHandlerReturn GLSL_Parser::Shift_S_TranslationUnit(const Token& next)
 {
 	ParserReturnValue retVal;
-	bool invalid = false;
+	bool valid = true;
 
 	if (next.category == TokenCategory::data_type)
 	{
@@ -212,7 +307,7 @@ GLSL_Parser::ShiftHandlerReturn GLSL_Parser::Shift_S_TranslationUnit(const Token
 		text = "no parsing rule for: ";
 		text += next.ToString();
 		LogError(text);
-		invalid = true;
+		valid = false;
 	}
 	else
 	{
@@ -232,18 +327,18 @@ GLSL_Parser::ShiftHandlerReturn GLSL_Parser::Shift_S_TranslationUnit(const Token
 			text += next.ToString();
 			LogError(text);
 
-			invalid = true;
+			valid = false;
 			break;
 		}
 	}
 
-	return { retVal,invalid };
+	return { retVal, valid };
 }
 
 GLSL_Parser::ShiftHandlerReturn GLSL_Parser::Goto_S_TranslationUnit(INonTerminal* nonTerminal)
 {
 	ParserReturnValue retVal;
-	bool invalid = false;
+	bool valid = true;
 
 	switch (nonTerminal->type)
 	{
@@ -255,11 +350,11 @@ GLSL_Parser::ShiftHandlerReturn GLSL_Parser::Goto_S_TranslationUnit(INonTerminal
 		break;
 
 	default:
-		invalid = true;
+		valid = false;
 		break;
 	}
 
-	return { retVal,invalid };
+	return { retVal, valid };
 }
 
 ParserReturnValue GLSL_Parser::S_TranslationUnit()
@@ -283,59 +378,78 @@ ParserReturnValue GLSL_Parser::S_StorageQualifier(StorageQualifier* sq)
 	return ParserReturnValue(new TypeQualifier(sq), 1);
 }
 
-GLSL_Parser::ShiftHandlerReturn GLSL_Parser::Shift_S_TypeQualifier(const Token& next)
+class Handler_S_TypeQualifier : public GLSL_Parser::IStateHandler
 {
-	ParserReturnValue retVal;
-	bool invalid = false;
+public:
+	TypeQualifier* sq;
 
-	if (next.category == TokenCategory::data_type)
-	{
-		retVal = S_DatatypeToken(next.type);
-	}
-	else
-	{
-		/*
-		Ceng::StringUtf8 text;
-		text = "no parsing rule for: ";
-		text += next.ToString();
-		LogError(text);
-		*/
-		invalid = true;
-	}
-	return { retVal,invalid };
-}
+public:
 
-GLSL_Parser::ShiftHandlerReturn GLSL_Parser::Goto_S_TypeQualifier(INonTerminal* nonTerminal)
-{
-	ParserReturnValue retVal;
-	bool invalid = false;
-
-	switch (nonTerminal->type)
+	Handler_S_TypeQualifier(TypeQualifier* sq)
+		: sq(sq)
 	{
-	case NonTerminalType::type_specifier_nonarray:
-		//retVal = S_TypeQualifier_TypeSpecifierNonArray();
-		break;
-	default:
-		invalid = true;
+
 	}
 
-	return { retVal,invalid };
-}
+	GLSL_Parser::ShiftHandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->LogDebug(__FUNCTION__);
+		return {ParserReturnValue(),false};
+	}
 
+	GLSL_Parser::ShiftHandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->LogDebug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		if (next.category == TokenCategory::data_type)
+		{
+			retVal = parser->S_DatatypeToken(next.type);
+		}
+		else
+		{
+			/*
+			Ceng::StringUtf8 text;
+			text = "no parsing rule for: ";
+			text += next.ToString();
+			LogError(text);
+			*/
+			valid = false;
+		}
+		return { retVal, valid };
+	}
+
+	GLSL_Parser::ShiftHandlerReturn Goto(GLSL_Parser* parser, INonTerminal* nonTerminal) override
+	{
+		parser->LogDebug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::type_specifier_nonarray:
+			retVal = parser->S_TypeQualifier_TypeSpecifierNonArray(sq, (TypeSpecifierNoArray*)nonTerminal);
+			break;
+		default:
+			valid = false;
+			break;
+		}
+
+		return { retVal,valid };
+	}
+
+};
 
 ParserReturnValue GLSL_Parser::S_TypeQualifier(TypeQualifier* sq)
 {
 	LogDebug(__func__);
 
-	return StateFuncSkeleton(__func__,&GLSL_Parser::Shift_S_TypeQualifier, &GLSL_Parser::Goto_S_TypeQualifier);
+	Handler_S_TypeQualifier temp{ sq };
 
-	ParserReturnValue retVal;
-
-	Token next = NextToken();
-
-	
-
-	return retVal;
+	return StateFuncSkeleton(__func__, temp);
 }
 
 ParserReturnValue GLSL_Parser::S_DatatypeToken(TokenType::value value)
@@ -343,4 +457,11 @@ ParserReturnValue GLSL_Parser::S_DatatypeToken(TokenType::value value)
 	LogDebug(__func__);
 
 	return ParserReturnValue(new TypeSpecifierNoArray(value), 1);
+}
+
+ParserReturnValue GLSL_Parser::S_TypeQualifier_TypeSpecifierNonArray(TypeQualifier* sq, TypeSpecifierNoArray* ts)
+{
+	LogDebug(__func__);
+
+	return ParserReturnValue();
 }
