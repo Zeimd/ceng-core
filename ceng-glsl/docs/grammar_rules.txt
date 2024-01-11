@@ -519,6 +519,10 @@ state 67
 
         multiplicative_expression -> unary_expression * [STAR | SLASH | PERCENT], pop 1, goto 75
 
+    shift
+
+        assignment_operator -> 113
+
 state 68
 
     <> INC_OP *
@@ -608,7 +612,7 @@ state 78
 
     rules
 
-        shift_expression -> additive_expression * [LEFT_OP | RIGHT_OP], pop 1, goto TBA
+        shift_expression -> additive_expression * [LEFT_OP | RIGHT_OP], pop 1, goto 81
 
     shift
 
@@ -625,7 +629,374 @@ state 80
     <> additive_expression [PLUS | DASH] multiplicative_expression *
 
     rules
-        additive_expression -> multiplicative_expression [PLUS | DASH] *
+        additive_expression -> multiplicative_expression [PLUS | DASH] multiplicative_expression *, pop 3, goto 78
+
+state 81
+    <> shift_expression *
+
+    rules
+
+        relational_expression -> shift_expression * [LEFT_ANGLE | RIGHT_ANGLE | LE_OP | GE_OP], pop 1, goto 84
+
+    shift
+
+        [LEFT_OP | RIGHT_OP] -> 82
+
+state 82
+
+    <> shift_expression [LEFT_OP | RIGHT_OP] *
+
+    shift
+
+        additive_expression -> 83
+
+state 83
+
+    <> shift_expression [LEFT_OP | RIGHT_OP] additive_expression *
+
+    rules
+
+        shift_expression -> shift_expression [LEFT_OP | RIGHT_OP] additive_expression *, pop 3, goto 82
+
+state 84
+
+    <> relational_expression *
+
+    rules
+
+        equality_expression -> relational_expression * [EQ_OP | NE_OP], pop 1, goto 87
+
+    shift
+
+        [LEFT_ANGLE | RIGHT_ANGLE | LE_OP | GE_OP] -> 85
+
+state 85
+
+    <> relational_expression [LEFT_ANGLE | RIGHT_ANGLE | LE_OP | GE_OP] *
+
+    shift
+
+        shift_expression -> 86
+
+state 86
+
+    <> relational_expression [LEFT_ANGLE | RIGHT_ANGLE | LE_OP | GE_OP] shift_expression *
+
+    rules
+
+        relational_expression -> relational_expression [LEFT_ANGLE | RIGHT_ANGLE | LE_OP | GE_OP] shift_expression *, pop 3, goto 84
+
+state 87
+
+    <> equality_expression *
+
+    rules
+
+        and_expression -> equality_expression * [AMPERSAND], pop 1, goto 90
+
+    shift
+
+        [EQ_OP | NE_OP] -> 88
+
+state 88
+
+    <> equality_expression [EQ_OP | NE_OP] *
+
+    shift
+
+        relational_expression -> 89
+
+state 89
+
+    <> equality_expression [EQ_OP | NE_OP] relational_expression *
+
+    rules
+
+        equality_expression -> equality_expression [EQ_OP | NE_OP] relational_expression *, pop 3, goto 87
+
+state 90
+
+    <> and_expression *
+
+    rules
+
+        xor_expression -> and_expression * CARET, pop 1, goto 93
+
+    shift
+
+        AMPERSAND -> 91
+
+state 91
+
+    <> and_expression AMPERSAND * 
+
+    shift
+
+        equality_expression -> 92
+
+state 92
+
+    <> and_expression AMPERSAND equality_expression * 
+
+    rules
+
+        and_expression -> and_expression AMPERSAND equality_expression *, pop 3, goto 90
+
+state 93
+
+    <> xor_expression *
+
+    rules
+
+        or_expression -> xor_expression * VERTICAL_BAR, pop 1, goto 96
+
+    shift
+
+        CARET -> 94
+
+state 94
+
+    <> xor_expression CARET *
+
+    shift
+
+        and_expression -> 95
+
+state 95
+
+    <> xor_expression CARET and_expression *
+
+    rules
+
+        xor_expression -> xor_expression CARET and_expression *, pop 3, goto 93
+
+state 96
+
+    <> or_expression *
+
+    rules
+
+        logical_and_expression -> or_expression * AND_OP, pop 1, goto 99
+
+    shift
+
+        VERTICAL_BAR -> 97
+
+state 97
+
+    <> or_expression VERTICAL_BAR *
+
+    shift
+
+        xor_expression -> 98
+
+state 98
+
+    <> or_expression VERTICAL_BAR xor_expression *
+
+    rules
+
+        or_expression -> or_expression VERTICAL_BAR xor_expression *, pop 3, goto 96
+
+state 99
+
+    <> logical_and_expression *
+
+    rules
+
+        logical_xor_expression -> logical_and_expression XOR_OP, pop 1, goto 102
+
+    shift
+
+        AND_OP -> 100
+
+state 100
+
+    <> logical_and_expression AND_OP *
+
+    shift
+
+        or_expression -> 101
+
+state 101
+
+    <> logical_and_expression AND_OP or_expression *
+
+    rules
+
+        logical_and_expression -> logical_and_expression AND_OP or_expression *, pop 3, goto 99
+
+state 102
+
+    <> logical_xor_expression *
+
+    rules
+
+        logical_or_expression -> logical_xor_expression * OR_OP, pop 1, goto 105
+
+    shift
+
+        XOR_OP -> 103
+
+state 103
+
+    <> logical_xor_expression XOR_OP *
+
+    shift
+
+        logical_and_expression -> 104
+
+state 104
+
+    <> logical_xor_expression XOR_OP logical_and_expression *
+
+    rules
+
+        logical_xor_expression -> logical_xor_expression XOR_OP logical_and_expression *, pop 3, goto 102
+
+state 105
+
+    <> logical_or_expression *
+
+    rules
+
+        conditional_expression -> logical_or_expression * NOT(QUESTION), pop 1, goto 108
+
+    shift
+
+        OR_OP -> 106
+        QUESTION -> 109
+
+state 106
+
+    <> logical_or_expression OR_OP *
+
+    shift
+
+        logical_xor_expression -> 107
+
+state 107
+
+    <> logical_or_expression OR_OP logical_xor_expression *
+
+    rules
+
+        logical_or_expression ->  logical_or_expression OR_OP logical_xor_expression *, pop 3, goto 105
+
+state 108
+
+    <> conditional_expression *
+
+    special rule
+
+        if all terms in conditional_expression are const or literal, then
+
+            constant_expression -> conditional_expression *, pop 1, goto 119
+
+    rules
+
+        assingment_expression -> conditional_expression * NOT(assignment_operator), pop 1, goto 115
+
+state 109
+
+    <> logical_or_expression QUESTION *
+
+    shift
+
+        expression -> state 110
+
+state 110
+
+    <> logical_or_expression QUESTION expression *
+
+    shift
+
+        COLON -> 111
+
+state 111
+
+    <> logical_or_expression QUESTION expression COLON *   
+
+    shift
+
+        assignment_expression -> 112
+
+state 112
+
+    <> logical_or_expression QUESTION expression COLON assignment_expression *   
+
+    rules
+
+        conditional_expression -> logical_or_expression QUESTION expression COLON assignment_expression *, pop 5, goto 108
+
+state 113
+
+    <> unary_expression assignment_operator *
+
+    shift
+
+        assignment_expression -> 114
+
+state 114
+
+    <> unary_expression assignment_operator assignment_expression *
+
+    rules
+
+        assignment_expression -> unary_expression assignment_operator assignment_expression *, pop 3, goto 115
+
+state 115
+
+    <> assignment_expression *
+
+state 116
+
+    <> expression *
+
+    special rules
+
+        if all variables and literals in expression are integers, then
+
+            integer_expression -> expression, pop 1, goto 120
+
+    shift
+
+        COMMA -> 117
+
+state 117
+
+    <> expression COMMA *
+
+    shift
+
+        assignment_expression -> 118
+
+state 118
+
+    <> expression COMMA assignment_expression *
+
+    rules
+
+        expression -> expression COMMA assignment_expression *, pop 3, goto 116
+
+state 119
+
+    <> constant_expression *
+
+state 120
+
+    <> integer_expression *
+
+
+
+
+
+
+
+
+
+
+
 
 
 
