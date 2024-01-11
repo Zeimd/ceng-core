@@ -3,13 +3,13 @@
 using namespace Ceng;
 
 ParserReturnValue::ParserReturnValue()
-	: nonTerminal(nullptr)
+	: nonTerminal(nullptr), backtrackCounter(0)
 {
 
 }
 
-ParserReturnValue::ParserReturnValue(INonTerminal* nonTerminal)
-	: nonTerminal(nonTerminal)
+ParserReturnValue::ParserReturnValue(INonTerminal* nonTerminal, Ceng::UINT32 backtrackCounter)
+	: nonTerminal(nonTerminal), backtrackCounter(backtrackCounter)
 {
 
 }

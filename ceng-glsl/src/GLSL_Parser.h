@@ -32,9 +32,6 @@ namespace Ceng
 
 		Ceng::StringUtf8 log;
 
-		// Number of shifts since last reduction
-		Ceng::UINT32 shiftCount;
-
 		enum LogPrefix
 		{
 			log_nominal,
@@ -77,27 +74,11 @@ namespace Ceng
 	protected:
 
 		ParserReturnValue S_Translation_Unit();
-		ParserReturnValue S_StorageQ(StorageQualifier* sq);
-
-
-		//void S_TU_TypeSpecNoArr(const TypeSpecifierNoArray& typeSpec);
-
-		//void S_TU_TypeSpecNoArr_LB(const TypeSpecifierNoArray& typeSpec);
-
-		//void S_TU_TypeSpecNoPrec(const TypeSpecifierNoArray& typeSpec);
-
-		//void S_TU_TypeQ(const TypeQualifier& typeQualifier);
-
-		/*
-		void S_TU_TypeQ_TypeSpecNoArr(const TypeQualifier& typeQualifier, const TypeSpecifierNoArray& typeSpecNoArr);
-		void S_TU_TypeQ_TypeSpecNoPrec(const TypeQualifier& typeQualifier, const TypeSpecifierNoPrec& typeSpecNoPrec);
-		void S_TU_TypeQ_TypeSpecifier(const TypeQualifier& typeQualifier, const TypeSpecifier& typeSpec);
-		void S_TU_FullSpecType(const FullySpecifiedType& typeSpec);
-		void S_TU_FullSpecType_identifier(const FullySpecifiedType& typeSpec, const Ceng::StringUtf8& name);
-		void S_TU_SingleDeclaration(const SingleDeclaration& singleDecl);
-		void S_TU_InitDeclList(const InitDeclaratorList& initDeclList);
-		*/
 		
+		ParserReturnValue S_StorageQualifierToken(TokenType::value value);
+		ParserReturnValue S_StorageQualifier(StorageQualifier* sq);
+		ParserReturnValue S_TypeQualifier(TypeQualifier* sq);
+
 
 		
 	};

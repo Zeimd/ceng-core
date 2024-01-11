@@ -121,10 +121,12 @@ void GLSL_Parser::LogDebug(const Ceng::StringUtf8& text)
 
 ParserReturnValue GLSL_Parser::S_Translation_Unit()
 {
-	LogDebug("S_Translation_Unit");
+	LogDebug(__func__);
 
 	do
 	{
+		bool earlyContinue = false;
+
 		ParserReturnValue retVal;
 
 		Token next = NextToken();
@@ -152,205 +154,92 @@ ParserReturnValue GLSL_Parser::S_Translation_Unit()
 			case TokenType::keyword_uniform:
 			case TokenType::keyword_in:
 			case TokenType::keyword_out:
-				retVal = ParserReturnValue(new StorageQualifier(next.type));
+				retVal = S_StorageQualifierToken(next.type);
 				break;
 			default:
 				Ceng::StringUtf8 text;
 				text = "no parsing rule for: ";
 				text += next.ToString();
 				LogError(text);
+
+				earlyContinue = true;
 				break;
 			}
 		}
 
-		shiftCount--;
-
-		if (shiftCount > 0)
+		if (earlyContinue)
 		{
-			return retVal;
+			continue;
 		}
 
-		if (retVal.nonTerminal != nullptr)
+		// Loop goto action until something's returned for which there isn't a goto rule
+
+		bool exit;
+
+		do
 		{
+			LogDebug("goto loop start");
+
+			exit = false;
+
+			retVal.backtrackCounter--;
+
+			if (retVal.backtrackCounter > 0)
+			{
+				LogDebug("Received non-zero backtrack counter");
+
+				// TODO: Got declaration or function body
+				exit = true;
+				break;
+			}
+
+			if (retVal.nonTerminal == nullptr)
+			{
+				// Received invalid nonterminal
+
+				LogDebug("Received empty non-terminal");
+
+				exit = true;
+				break;
+			}
+
 			switch (retVal.nonTerminal->type)
 			{
 			case NonTerminalType::storage_qualifier:
-				retVal = S_StorageQ((StorageQualifier*)retVal.nonTerminal);
+				retVal = S_StorageQualifier((StorageQualifier*)retVal.nonTerminal);
+				break;
+			case NonTerminalType::type_qualifier:
+				retVal = S_TypeQualifier((TypeQualifier*)retVal.nonTerminal);
+				break;
 
 			default:
-				Ceng::StringUtf8 text;
-				text = "no parsing rule for: ";
-				text += next.ToString();
-				LogError(text);
+				LogDebug("No shift rule for returned non-terminal");
+				exit = true;
 				break;
 			}
-		}
 
-	} while (1);
+		} while (exit == false);
+
+	} while (1);	
 }
 
-ParserReturnValue GLSL_Parser::S_StorageQ(StorageQualifier* sq)
+ParserReturnValue GLSL_Parser::S_StorageQualifierToken(TokenType::value value)
 {
-	LogDebug("S_TU_StorageQ");
+	LogDebug(__func__);
 
-	shiftCount++;
-
-	ParserReturnValue retVal;
-
-	Token next = NextToken();
-
-
-
-	if (retVal.nonTerminal != nullptr)
-	{
-		switch (retVal.nonTerminal->type)
-		{
-		default:
-			break;
-		}
-	}
-	
+	return ParserReturnValue(new StorageQualifier(value), 1);
 }
 
-/*
-void GLSL_Parser::S_TU_TypeQ(const TypeQualifier& typeQualifier)
+ParserReturnValue GLSL_Parser::S_StorageQualifier(StorageQualifier* sq)
 {
-	LogDebug("S_TU_TypeQ");
+	LogDebug(__func__);
 
-	if (PeekToken().category == TokenCategory::data_type)
-	{
-		switch (PeekToken().type)
-		{
-		case TokenType::type_name:
-			S_TU_TypeQ_TypeSpecNoArr(typeQualifier, TypeSpecifierNoArray(PeekToken().name));
-			break;
-		default:
-			S_TU_TypeQ_TypeSpecNoArr(typeQualifier, TypeSpecifierNoArray(PeekToken().type));
-			break;
-		}
-	}
-	else
-	{
-		switch (PeekToken().type)
-		{
-		case TokenType::keyword_high_precision:
-		case TokenType::keyword_medium_precision:
-		case TokenType::keyword_low_precision:
-			break;
-		default:
-			Ceng::StringUtf8 text;
-			text += "no parsing rule for: ";
-			text += PeekToken().ToString();
-			LogError(text);
-			break;
-		}
-	}
+	return ParserReturnValue(new TypeQualifier(sq), 1);
 }
 
-void GLSL_Parser::S_TU_TypeQ_TypeSpecNoArr(const TypeQualifier& typeQualifier, const TypeSpecifierNoArray& typeSpec)
+ParserReturnValue GLSL_Parser::S_TypeQualifier(TypeQualifier* sq)
 {
-	LogDebug("S_TU_TypeQ_TypeSpecNoArr");
+	LogDebug(__func__);
 
-	Token next = NextToken();
-
-	if (next.type == TokenType::left_bracket)
-	{
-		Ceng::StringUtf8 text;
-		text += "no parsing rule for: ";
-		text += next.ToString();
-		LogError(text);
-	}
-	else if (next.type != TokenType::left_bracket)
-	{
-		S_TU_TypeQ_TypeSpecNoPrec(typeQualifier, TypeSpecifierNoPrec(typeSpec));
-	}
-	else
-	{
-		Ceng::StringUtf8 text;
-		text += next.ToString();
-		text += " not allowed after typename";
-
-		LogError(text);
-	}
+	return ParserReturnValue(nullptr, 1);
 }
-
-void GLSL_Parser::S_TU_TypeQ_TypeSpecNoPrec(const TypeQualifier& typeQualifier, const TypeSpecifierNoPrec& typeSpec)
-{
-	LogDebug("S_TU_TypeQ_TypeSpecNoPrec");
-
-	S_TU_TypeQ_TypeSpecifier(typeQualifier, TypeSpecifier(typeSpec));
-}
-
-void GLSL_Parser::S_TU_TypeQ_TypeSpecifier(const TypeQualifier& typeQualifier, const TypeSpecifier& typeSpec)
-{
-	LogDebug("S_TU_TypeQ_TypeSpecifier");
-
-	S_TU_FullSpecType(FullySpecifiedType(typeQualifier, typeSpec));
-}
-
-void GLSL_Parser::S_TU_FullSpecType(const FullySpecifiedType& typeSpec)
-{
-	LogDebug("S_TU_FullSpecType");
-
-	Token next = NextToken();
-
-	if (next.type == TokenType::identifier)
-	{
-		S_TU_FullSpecType_identifier(typeSpec, next.name);
-	}
-	else
-	{
-		Ceng::StringUtf8 text;
-		text += "no parsing rule for: ";
-		text += next.ToString();
-		LogError(text);
-	}
-}
-
-void GLSL_Parser::S_TU_FullSpecType_identifier(const FullySpecifiedType& typeSpec, const Ceng::StringUtf8& name)
-{
-	LogDebug("S_TU_FullSpecType_identifier");
-
-	if (PeekToken().type != TokenType::left_bracket)
-	{
-		S_TU_SingleDeclaration(SingleDeclaration(typeSpec,name));
-	}
-	else
-	{
-		Ceng::StringUtf8 text;
-		text += "no parsing rule for: ";
-		text += PeekToken().ToString();
-		LogError(text);
-	}
-}
-
-void GLSL_Parser::S_TU_SingleDeclaration(const SingleDeclaration& singleDecl)
-{
-	LogDebug("S_TU_SingleDeclaration");
-
-	if (PeekToken().type != TokenType::comma)
-	{
-		S_TU_InitDeclList(InitDeclaratorList(singleDecl));
-	}
-	else
-	{
-		Ceng::StringUtf8 text;
-		text += "no parsing rule for: ";
-		text += PeekToken().ToString();
-		LogError(text);
-	}
-}
-
-void GLSL_Parser::S_TU_InitDeclList(const InitDeclaratorList& initDeclList)
-{
-	LogDebug("S_TU_InitDeclList");
-
-	Token next = NextToken();
-
-	if (next.type == TokenType::semicolon)
-	{
-		auto output = Declaration(initDeclList);
-		return;
-	}
-}
-*/
