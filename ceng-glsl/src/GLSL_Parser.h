@@ -39,6 +39,16 @@ namespace Ceng
 			log_debug,
 		};
 
+		struct ShiftHandlerReturn
+		{
+			ParserReturnValue retVal;
+			bool invalid;
+		};
+
+		typedef ShiftHandlerReturn (GLSL_Parser::* ReductionHandler)(const Token& token);
+		typedef ShiftHandlerReturn (GLSL_Parser::* ShiftHandler)(const Token& token);
+		typedef ShiftHandlerReturn (GLSL_Parser::* GotoHandler)(INonTerminal* nonTerminal);
+
 	protected:
 		~GLSL_Parser() override
 		{
@@ -73,11 +83,22 @@ namespace Ceng
 
 	protected:
 
-		ParserReturnValue S_Translation_Unit();
+		ParserReturnValue StateFuncSkeleton(const char* callerName,ShiftHandler shiftHandler, GotoHandler gotoHandler);
+
+		ParserReturnValue S_TranslationUnit();
+
+		ShiftHandlerReturn Shift_S_TranslationUnit(const Token& token);
+		ShiftHandlerReturn Goto_S_TranslationUnit(INonTerminal* nonTerminal);
 		
 		ParserReturnValue S_StorageQualifierToken(TokenType::value value);
 		ParserReturnValue S_StorageQualifier(StorageQualifier* sq);
+		
 		ParserReturnValue S_TypeQualifier(TypeQualifier* sq);
+
+		ShiftHandlerReturn Shift_S_TypeQualifier(const Token& token);
+		ShiftHandlerReturn Goto_S_TypeQualifier(INonTerminal* nonTerminal);
+
+		ParserReturnValue S_DatatypeToken(TokenType::value value);
 
 
 		
