@@ -16,7 +16,7 @@ StorageQualifier::StorageQualifier()
 StorageQualifier::StorageQualifier(TokenType::value type)
 	: INonTerminal(NonTerminalType::storage_qualifier)
 {	
-
+	qualifier = FromTokenType(type);
 }
 
 StorageQualifier::StorageQualifier(StorageQualifierType::value qualifier)
