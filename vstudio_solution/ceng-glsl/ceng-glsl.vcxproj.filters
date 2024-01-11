@@ -182,5 +182,8 @@
     <ClCompile Include="..\..\ceng-glsl\src\ParserReturnValue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\ceng-glsl\src\NonTerminalType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

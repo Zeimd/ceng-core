@@ -203,7 +203,10 @@ ParserReturnValue GLSL_Parser::StateFuncSkeleton(const char* callerName, IStateH
 
 			if (!gotoRet.valid)
 			{
-				LogDebug("No goto rule for returned non-terminal");
+				Ceng::StringUtf8 text;
+				text = "No goto rule for non-terminal: ";
+				text += NonTerminalType::ToString(retVal.nonTerminal->type);
+				LogDebug(text);
 				return gotoRet.retVal;
 			}
 
@@ -283,7 +286,10 @@ ParserReturnValue GLSL_Parser::StateFuncSkeleton(const char* callerName,ShiftHan
 
 			if (!gotoRet.valid)
 			{
-				LogDebug("No goto rule for returned non-terminal");
+				Ceng::StringUtf8 text;
+				text = "No goto rule for non-terminal: ";
+				text += NonTerminalType::ToString(retVal.nonTerminal->type);
+				LogDebug(text);
 				return gotoRet.retVal;
 			}
 

@@ -113,6 +113,8 @@ namespace Ceng
 
 			unused,
 		};
+
+		extern const char* ToString(NonTerminalType::value type);
 	}
 }
 
