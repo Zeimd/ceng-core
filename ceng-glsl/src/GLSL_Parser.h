@@ -109,6 +109,8 @@ namespace Ceng
 		ParserReturnValue S_DatatypeToken(TokenType::value value);
 
 		ParserReturnValue S_TypeQualifier_TypeSpecifierNonArray(TypeQualifier* sq, TypeSpecifierNoArray* ts);
+		ParserReturnValue S_TypeQualifier_TypeSpecifierNoPrec(TypeQualifier* tq, TypeSpecifierNoPrec* ts);
+		ParserReturnValue S_TypeQualifier_TypeSpecifier(TypeQualifier* tq, TypeSpecifier* ts);
 
 
 		

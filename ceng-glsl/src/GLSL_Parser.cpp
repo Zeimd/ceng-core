@@ -222,8 +222,6 @@ ParserReturnValue GLSL_Parser::StateFuncSkeleton(const char* callerName,ShiftHan
 
 		ParserReturnValue retVal;
 
-		// TODO: reduction handler
-
 		Token next = NextToken();
 
 		if (next.type == TokenType::meta_end_of_file)
@@ -298,6 +296,8 @@ ParserReturnValue GLSL_Parser::StateFuncSkeleton(const char* callerName,ShiftHan
 
 GLSL_Parser::ShiftHandlerReturn GLSL_Parser::Shift_S_TranslationUnit(const Token& next)
 {
+	LogDebug(__FUNCTION__);
+
 	ParserReturnValue retVal;
 	bool valid = true;
 
@@ -435,6 +435,12 @@ public:
 		case NonTerminalType::type_specifier_nonarray:
 			retVal = parser->S_TypeQualifier_TypeSpecifierNonArray(sq, (TypeSpecifierNoArray*)nonTerminal);
 			break;
+		case NonTerminalType::type_specifier_no_prec:
+			retVal = parser->S_TypeQualifier_TypeSpecifierNoPrec(sq, (TypeSpecifierNoPrec*)nonTerminal);
+			break;
+		case NonTerminalType::type_specifier:
+			retVal = parser->S_TypeQualifier_TypeSpecifier(sq, (TypeSpecifier*)nonTerminal);
+			break;
 		default:
 			valid = false;
 			break;
@@ -461,9 +467,166 @@ ParserReturnValue GLSL_Parser::S_DatatypeToken(TokenType::value value)
 	return ParserReturnValue(new TypeSpecifierNoArray(value), 1);
 }
 
-ParserReturnValue GLSL_Parser::S_TypeQualifier_TypeSpecifierNonArray(TypeQualifier* sq, TypeSpecifierNoArray* ts)
+class Handler_S_TypeQualifier_TypeSpecifierNonArray : public GLSL_Parser::IStateHandler
+{
+public:
+	TypeQualifier* tq;
+	TypeSpecifierNoArray* st;
+
+public:
+
+	Handler_S_TypeQualifier_TypeSpecifierNonArray(TypeQualifier* tq, TypeSpecifierNoArray* st)
+		: tq(tq),st(st)
+	{
+
+	}
+
+	GLSL_Parser::ShiftHandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->LogDebug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (parser->PeekToken().type)
+		{
+		case TokenType::left_bracket:
+			break;
+		default:
+			retVal = ParserReturnValue(new TypeSpecifierNoPrec(*st), 1);
+			break;
+		}
+
+		return { retVal, valid };
+	}
+
+	GLSL_Parser::ShiftHandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->LogDebug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+	GLSL_Parser::ShiftHandlerReturn Goto(GLSL_Parser* parser, INonTerminal* nonTerminal) override
+	{
+		parser->LogDebug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_TypeQualifier_TypeSpecifierNonArray(TypeQualifier* tq, TypeSpecifierNoArray* ts)
 {
 	LogDebug(__func__);
 
-	return ParserReturnValue();
+	Handler_S_TypeQualifier_TypeSpecifierNonArray temp(tq,ts);
+
+	return StateFuncSkeleton(__func__,temp);
+}
+
+class Handler_S_TypeQualifier_TypeSpecifierNoPrec : public GLSL_Parser::IStateHandler
+{
+public:
+	TypeQualifier* tq;
+	TypeSpecifierNoPrec* ts;
+
+public:
+
+	Handler_S_TypeQualifier_TypeSpecifierNoPrec(TypeQualifier* tq, TypeSpecifierNoPrec* ts)
+		: tq(tq), ts(ts)
+	{
+
+	}
+
+	GLSL_Parser::ShiftHandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->LogDebug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (parser->PeekToken().type)
+		{
+		default:
+			retVal = ParserReturnValue(new TypeSpecifier(*ts), 1);
+			break;
+		}
+
+		return { retVal, valid };
+	}
+
+	GLSL_Parser::ShiftHandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->LogDebug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+	GLSL_Parser::ShiftHandlerReturn Goto(GLSL_Parser* parser, INonTerminal* nonTerminal) override
+	{
+		parser->LogDebug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_TypeQualifier_TypeSpecifierNoPrec(TypeQualifier* tq, TypeSpecifierNoPrec* ts)
+{
+	LogDebug(__func__);
+
+	Handler_S_TypeQualifier_TypeSpecifierNoPrec temp(tq, ts);
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+class Handler_S_TypeQualifier_TypeSpecifier : public GLSL_Parser::IStateHandler
+{
+public:
+	TypeQualifier* tq;
+	TypeSpecifier* ts;
+
+public:
+
+	Handler_S_TypeQualifier_TypeSpecifier(TypeQualifier* tq, TypeSpecifier* ts)
+		: tq(tq), ts(ts)
+	{
+
+	}
+
+	GLSL_Parser::ShiftHandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->LogDebug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (parser->PeekToken().type)
+		{
+		default:
+			retVal = ParserReturnValue(new FullySpecifiedType(*tq, *ts), 2);
+			break;
+		}
+
+		return { retVal, valid };
+	}
+
+	GLSL_Parser::ShiftHandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->LogDebug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+	GLSL_Parser::ShiftHandlerReturn Goto(GLSL_Parser* parser, INonTerminal* nonTerminal) override
+	{
+		parser->LogDebug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_TypeQualifier_TypeSpecifier(TypeQualifier* tq, TypeSpecifier* ts)
+{
+	LogDebug(__func__);
+
+	Handler_S_TypeQualifier_TypeSpecifier temp(tq, ts);
+
+	return StateFuncSkeleton(__func__, temp);
 }
