@@ -108,11 +108,15 @@ int main()
 		return 0;
 	}
 
+	
 	Ceng::GLSL::AbstractSyntaxTree programTree;
 
 	cresult = parser->Parse(tokens, programTree);
 
 	printf("%s\n", parser->GetLog().ToCString());
+	
+
+	parser->Release();
 
 	return 0;
 }
