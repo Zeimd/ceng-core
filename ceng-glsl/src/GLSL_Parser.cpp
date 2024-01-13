@@ -270,7 +270,7 @@ public:
 		return { retVal, valid };
 	}
 
-	GLSL_Parser::ShiftHandlerReturn Goto(GLSL_Parser* parser, INonTerminal* nonTerminal) override
+	GLSL_Parser::ShiftHandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
 	{
 		parser->LogDebug(__FUNCTION__);
 
@@ -279,11 +279,17 @@ public:
 
 		switch (nonTerminal->type)
 		{
-		case NonTerminalType::storage_qualifier:
-			retVal = parser->S_StorageQualifier((StorageQualifier*)nonTerminal);
+		case NonTerminalType::storage_qualifier:			
+			{
+				auto temp = std::static_pointer_cast<StorageQualifier>(nonTerminal);
+				retVal = parser->S_StorageQualifier(temp);
+			}
 			break;
 		case NonTerminalType::type_qualifier:
-			retVal = parser->S_TypeQualifier((TypeQualifier*)nonTerminal);
+			{
+				auto temp = std::static_pointer_cast<TypeQualifier>(nonTerminal);
+				retVal = parser->S_TypeQualifier(temp);
+			}
 			break;
 
 		default:
@@ -310,24 +316,24 @@ ParserReturnValue GLSL_Parser::S_StorageQualifierToken(TokenType::value value)
 {
 	LogDebug(__func__);
 
-	return ParserReturnValue(new StorageQualifier(value), 1);
+	return { std::make_shared<StorageQualifier>(value), 1 };
 }
 
-ParserReturnValue GLSL_Parser::S_StorageQualifier(StorageQualifier* sq)
+ParserReturnValue GLSL_Parser::S_StorageQualifier(std::shared_ptr<StorageQualifier>& sq)
 {
 	LogDebug(__func__);
 
-	return ParserReturnValue(new TypeQualifier(sq), 1);
+	return { std::make_shared<TypeQualifier>(*sq), 1 };
 }
 
 class Handler_S_TypeQualifier : public GLSL_Parser::IStateHandler
 {
 public:
-	TypeQualifier* sq;
+	std::shared_ptr<TypeQualifier> sq;
 
 public:
 
-	Handler_S_TypeQualifier(TypeQualifier* sq)
+	Handler_S_TypeQualifier(std::shared_ptr<TypeQualifier>& sq)
 		: sq(sq)
 	{
 
@@ -363,7 +369,7 @@ public:
 		return { retVal, valid };
 	}
 
-	GLSL_Parser::ShiftHandlerReturn Goto(GLSL_Parser* parser, INonTerminal* nonTerminal) override
+	GLSL_Parser::ShiftHandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
 	{
 		parser->LogDebug(__FUNCTION__);
 
@@ -373,14 +379,23 @@ public:
 		switch (nonTerminal->type)
 		{
 		case NonTerminalType::type_specifier_nonarray:
-			retVal = parser->S_TypeQualifier_TypeSpecifierNonArray(sq, (TypeSpecifierNoArray*)nonTerminal);
+			{
+				auto temp = std::static_pointer_cast<TypeSpecifierNoArray>(nonTerminal);
+				retVal = parser->S_TypeQualifier_TypeSpecifierNonArray(sq, temp);
+			}
 			break;
 		case NonTerminalType::type_specifier_no_prec:
-			retVal = parser->S_TypeQualifier_TypeSpecifierNoPrec(sq, (TypeSpecifierNoPrec*)nonTerminal);
-			break;
+			{
+				auto temp = std::static_pointer_cast<TypeSpecifierNoPrec>(nonTerminal);
+				retVal = parser->S_TypeQualifier_TypeSpecifierNoPrec(sq, temp);
+				break;
+			}
 		case NonTerminalType::type_specifier:
-			retVal = parser->S_TypeQualifier_TypeSpecifier(sq, (TypeSpecifier*)nonTerminal);
-			break;
+			{
+				auto temp = std::static_pointer_cast<TypeSpecifier>(nonTerminal);
+				retVal = parser->S_TypeQualifier_TypeSpecifier(sq, temp);
+				break;
+			}
 		default:
 			valid = false;
 			break;
@@ -391,11 +406,11 @@ public:
 
 };
 
-ParserReturnValue GLSL_Parser::S_TypeQualifier(TypeQualifier* sq)
+ParserReturnValue GLSL_Parser::S_TypeQualifier(std::shared_ptr<TypeQualifier>& tq)
 {
 	LogDebug(__func__);
 
-	Handler_S_TypeQualifier temp{ sq };
+	Handler_S_TypeQualifier temp{ tq };
 
 	return StateFuncSkeleton(__func__, temp);
 }
@@ -404,18 +419,19 @@ ParserReturnValue GLSL_Parser::S_DatatypeToken(TokenType::value value)
 {
 	LogDebug(__func__);
 
-	return ParserReturnValue(new TypeSpecifierNoArray(value), 1);
+	return { std::make_unique<TypeSpecifierNoArray>(value), 1 };
 }
 
 class Handler_S_TypeQualifier_TypeSpecifierNonArray : public GLSL_Parser::IStateHandler
 {
 public:
-	TypeQualifier* tq;
-	TypeSpecifierNoArray* st;
+	std::shared_ptr<TypeQualifier>& tq;
+	std::shared_ptr<TypeSpecifierNoArray>& st;
 
 public:
 
-	Handler_S_TypeQualifier_TypeSpecifierNonArray(TypeQualifier* tq, TypeSpecifierNoArray* st)
+	Handler_S_TypeQualifier_TypeSpecifierNonArray(std::shared_ptr<TypeQualifier>& tq, 
+		std::shared_ptr<TypeSpecifierNoArray>& st)
 		: tq(tq),st(st)
 	{
 
@@ -433,7 +449,7 @@ public:
 		case TokenType::left_bracket:
 			break;
 		default:
-			retVal = ParserReturnValue(new TypeSpecifierNoPrec(*st), 1);
+			retVal = ParserReturnValue(std::make_shared<TypeSpecifierNoPrec>(*st), 1);
 			break;
 		}
 
@@ -446,7 +462,7 @@ public:
 		return { ParserReturnValue(),false };
 	}
 
-	GLSL_Parser::ShiftHandlerReturn Goto(GLSL_Parser* parser, INonTerminal* nonTerminal) override
+	GLSL_Parser::ShiftHandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
 	{
 		parser->LogDebug(__FUNCTION__);
 		return { ParserReturnValue(),false };
@@ -454,7 +470,8 @@ public:
 
 };
 
-ParserReturnValue GLSL_Parser::S_TypeQualifier_TypeSpecifierNonArray(TypeQualifier* tq, TypeSpecifierNoArray* ts)
+ParserReturnValue GLSL_Parser::S_TypeQualifier_TypeSpecifierNonArray(std::shared_ptr<TypeQualifier>& tq, 
+	std::shared_ptr<TypeSpecifierNoArray>& ts)
 {
 	LogDebug(__func__);
 
@@ -466,12 +483,13 @@ ParserReturnValue GLSL_Parser::S_TypeQualifier_TypeSpecifierNonArray(TypeQualifi
 class Handler_S_TypeQualifier_TypeSpecifierNoPrec : public GLSL_Parser::IStateHandler
 {
 public:
-	TypeQualifier* tq;
-	TypeSpecifierNoPrec* ts;
+	std::shared_ptr<TypeQualifier> tq;
+	std::shared_ptr<TypeSpecifierNoPrec> ts;
 
 public:
 
-	Handler_S_TypeQualifier_TypeSpecifierNoPrec(TypeQualifier* tq, TypeSpecifierNoPrec* ts)
+	Handler_S_TypeQualifier_TypeSpecifierNoPrec(std::shared_ptr<TypeQualifier>& tq, 
+		std::shared_ptr<TypeSpecifierNoPrec>& ts)
 		: tq(tq), ts(ts)
 	{
 
@@ -487,7 +505,7 @@ public:
 		switch (parser->PeekToken().type)
 		{
 		default:
-			retVal = ParserReturnValue(new TypeSpecifier(*ts), 1);
+			retVal = ParserReturnValue(std::make_shared<TypeSpecifier>(*ts), 1);
 			break;
 		}
 
@@ -500,7 +518,7 @@ public:
 		return { ParserReturnValue(),false };
 	}
 
-	GLSL_Parser::ShiftHandlerReturn Goto(GLSL_Parser* parser, INonTerminal* nonTerminal) override
+	GLSL_Parser::ShiftHandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
 	{
 		parser->LogDebug(__FUNCTION__);
 		return { ParserReturnValue(),false };
@@ -508,7 +526,8 @@ public:
 
 };
 
-ParserReturnValue GLSL_Parser::S_TypeQualifier_TypeSpecifierNoPrec(TypeQualifier* tq, TypeSpecifierNoPrec* ts)
+ParserReturnValue GLSL_Parser::S_TypeQualifier_TypeSpecifierNoPrec(std::shared_ptr<TypeQualifier>& tq, 
+	std::shared_ptr<TypeSpecifierNoPrec>& ts)
 {
 	LogDebug(__func__);
 
@@ -520,12 +539,13 @@ ParserReturnValue GLSL_Parser::S_TypeQualifier_TypeSpecifierNoPrec(TypeQualifier
 class Handler_S_TypeQualifier_TypeSpecifier : public GLSL_Parser::IStateHandler
 {
 public:
-	TypeQualifier* tq;
-	TypeSpecifier* ts;
+	std::shared_ptr<TypeQualifier>& tq;
+	std::shared_ptr<TypeSpecifier>& ts;
 
 public:
 
-	Handler_S_TypeQualifier_TypeSpecifier(TypeQualifier* tq, TypeSpecifier* ts)
+	Handler_S_TypeQualifier_TypeSpecifier(std::shared_ptr<TypeQualifier>& tq, 
+		std::shared_ptr<TypeSpecifier>& ts)
 		: tq(tq), ts(ts)
 	{
 
@@ -541,7 +561,7 @@ public:
 		switch (parser->PeekToken().type)
 		{
 		default:
-			retVal = ParserReturnValue(new FullySpecifiedType(*tq, *ts), 2);
+			retVal = ParserReturnValue(std::make_shared<FullySpecifiedType>(*tq, *ts), 2);
 			break;
 		}
 
@@ -554,7 +574,7 @@ public:
 		return { ParserReturnValue(),false };
 	}
 
-	GLSL_Parser::ShiftHandlerReturn Goto(GLSL_Parser* parser, INonTerminal* nonTerminal) override
+	GLSL_Parser::ShiftHandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
 	{
 		parser->LogDebug(__FUNCTION__);
 		return { ParserReturnValue(),false };
@@ -562,7 +582,7 @@ public:
 
 };
 
-ParserReturnValue GLSL_Parser::S_TypeQualifier_TypeSpecifier(TypeQualifier* tq, TypeSpecifier* ts)
+ParserReturnValue GLSL_Parser::S_TypeQualifier_TypeSpecifier(std::shared_ptr<TypeQualifier>& tq, std::shared_ptr<TypeSpecifier>& ts)
 {
 	LogDebug(__func__);
 

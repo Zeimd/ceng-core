@@ -56,7 +56,8 @@ namespace Ceng
 
 			virtual ShiftHandlerReturn Shift(GLSL_Parser* parser, const Token& token) = 0;
 
-			virtual ShiftHandlerReturn Goto(GLSL_Parser* parser, INonTerminal* nonTerminal) = 0;
+			virtual ShiftHandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) = 0;
+			//virtual ShiftHandlerReturn Goto(GLSL_Parser* parser, INonTerminal* nonTerminal) = 0;
 		};
 
 	protected:
@@ -98,15 +99,15 @@ namespace Ceng
 		ParserReturnValue S_TranslationUnit();
 		
 		ParserReturnValue S_StorageQualifierToken(TokenType::value value);
-		ParserReturnValue S_StorageQualifier(StorageQualifier* sq);
+		ParserReturnValue S_StorageQualifier(std::shared_ptr<StorageQualifier>& sq);
 		
-		ParserReturnValue S_TypeQualifier(TypeQualifier* sq);
+		ParserReturnValue S_TypeQualifier(std::shared_ptr<TypeQualifier>& tq);
 
 		ParserReturnValue S_DatatypeToken(TokenType::value value);
 
-		ParserReturnValue S_TypeQualifier_TypeSpecifierNonArray(TypeQualifier* sq, TypeSpecifierNoArray* ts);
-		ParserReturnValue S_TypeQualifier_TypeSpecifierNoPrec(TypeQualifier* tq, TypeSpecifierNoPrec* ts);
-		ParserReturnValue S_TypeQualifier_TypeSpecifier(TypeQualifier* tq, TypeSpecifier* ts);
+		ParserReturnValue S_TypeQualifier_TypeSpecifierNonArray(std::shared_ptr<TypeQualifier>& sq, std::shared_ptr<TypeSpecifierNoArray>& ts);
+		ParserReturnValue S_TypeQualifier_TypeSpecifierNoPrec(std::shared_ptr<TypeQualifier>& tq, std::shared_ptr<TypeSpecifierNoPrec>& ts);
+		ParserReturnValue S_TypeQualifier_TypeSpecifier(std::shared_ptr<TypeQualifier>& tq, std::shared_ptr<TypeSpecifier>& ts);
 
 
 		
