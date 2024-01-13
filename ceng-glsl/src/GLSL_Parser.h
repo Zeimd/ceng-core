@@ -93,13 +93,9 @@ namespace Ceng
 
 	public:
 
-		ParserReturnValue StateFuncSkeleton(const char* callerName,ShiftHandler shiftHandler, GotoHandler gotoHandler);
 		ParserReturnValue StateFuncSkeleton(const char* callerName, IStateHandler& handler);
 
 		ParserReturnValue S_TranslationUnit();
-
-		ShiftHandlerReturn Shift_S_TranslationUnit(const Token& token);
-		ShiftHandlerReturn Goto_S_TranslationUnit(INonTerminal* nonTerminal);
 		
 		ParserReturnValue S_StorageQualifierToken(TokenType::value value);
 		ParserReturnValue S_StorageQualifier(StorageQualifier* sq);
