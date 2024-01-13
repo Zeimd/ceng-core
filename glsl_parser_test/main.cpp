@@ -8,9 +8,9 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <crtdbg.h>
 
-#endif
+#endif // _DEBUG
 
-#endif
+#endif // _MSC_VER
 
 #include <stdio.h>
 #include <fstream>
@@ -21,6 +21,16 @@
 
 int main()
 {
+#ifdef _MSC_VER
+
+#ifdef _DEBUG
+	// Detect memory leaks after main-function ends
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
+#endif // _DEBUG
+
+#endif // _MSC_VER
+
 	std::ifstream fileReader;
 
 	const char* shaderFile = "forward.vs";
