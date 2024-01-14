@@ -66,6 +66,8 @@ void GLSL_Parser::DiscardNext()
 
 ParserReturnValue GLSL_Parser::StateFuncSkeleton(const char* callerName, IStateHandler& handler)
 {
+	log.Debug(callerName);
+
 	HandlerReturn reductionVal = handler.Reduction(this);
 
 	if (reductionVal.valid)
@@ -255,8 +257,6 @@ public:
 
 ParserReturnValue GLSL_Parser::S_TranslationUnit()
 {
-	log.Debug(__func__);
-
 	Handler_S_TranslationUnit temp;
 
 	return StateFuncSkeleton(__func__, temp);
@@ -358,8 +358,6 @@ public:
 
 ParserReturnValue GLSL_Parser::S_TypeQualifier(std::shared_ptr<TypeQualifier>& tq)
 {
-	log.Debug(__func__);
-
 	Handler_S_TypeQualifier temp{ tq };
 
 	return StateFuncSkeleton(__func__, temp);
@@ -423,8 +421,6 @@ public:
 ParserReturnValue GLSL_Parser::S_TypeQualifier_TypeSpecifierNonArray(std::shared_ptr<TypeQualifier>& tq, 
 	std::shared_ptr<TypeSpecifierNoArray>& ts)
 {
-	log.Debug(__func__);
-
 	Handler_S_TypeQualifier_TypeSpecifierNonArray temp(tq,ts);
 
 	return StateFuncSkeleton(__func__,temp);
@@ -479,8 +475,6 @@ public:
 ParserReturnValue GLSL_Parser::S_TypeQualifier_TypeSpecifierNoPrec(std::shared_ptr<TypeQualifier>& tq, 
 	std::shared_ptr<TypeSpecifierNoPrec>& ts)
 {
-	log.Debug(__func__);
-
 	Handler_S_TypeQualifier_TypeSpecifierNoPrec temp(tq, ts);
 
 	return StateFuncSkeleton(__func__, temp);
