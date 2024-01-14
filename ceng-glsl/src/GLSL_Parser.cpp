@@ -156,19 +156,19 @@ ParserReturnValue GLSL_Parser::StateFuncSkeleton(const char* callerName, IStateH
 	} while (1);
 }
 
-class Handler_S_TranslationUnit : public GLSL_Parser::IStateHandler
+class Handler_S_TranslationUnit : public IStateHandler
 {
 public:
 
 public:
 
-	GLSL_Parser::HandlerReturn Reduction(GLSL_Parser* parser) override
+	HandlerReturn Reduction(GLSL_Parser* parser) override
 	{
 		parser->log.Debug(__FUNCTION__);
 		return { ParserReturnValue(),false };
 	}
 
-	GLSL_Parser::HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
 	{
 		parser->log.Debug(__FUNCTION__);
 
@@ -209,7 +209,7 @@ public:
 		return { retVal, valid };
 	}
 
-	GLSL_Parser::HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
 	{
 		parser->log.Debug(__FUNCTION__);
 
@@ -265,7 +265,7 @@ ParserReturnValue GLSL_Parser::S_StorageQualifier(std::shared_ptr<StorageQualifi
 	return { std::make_shared<TypeQualifier>(*sq), 1 };
 }
 
-class Handler_S_TypeQualifier : public GLSL_Parser::IStateHandler
+class Handler_S_TypeQualifier : public IStateHandler
 {
 public:
 	std::shared_ptr<TypeQualifier> sq;
@@ -278,13 +278,13 @@ public:
 
 	}
 
-	GLSL_Parser::HandlerReturn Reduction(GLSL_Parser* parser) override
+	HandlerReturn Reduction(GLSL_Parser* parser) override
 	{
 		parser->log.Debug(__FUNCTION__);
 		return {ParserReturnValue(),false};
 	}
 
-	GLSL_Parser::HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
 	{
 		parser->log.Debug(__FUNCTION__);
 
@@ -308,7 +308,7 @@ public:
 		return { retVal, valid };
 	}
 
-	GLSL_Parser::HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
 	{
 		parser->log.Debug(__FUNCTION__);
 
@@ -361,7 +361,7 @@ ParserReturnValue GLSL_Parser::S_DatatypeToken(TokenType::value value)
 	return { std::make_unique<TypeSpecifierNoArray>(value), 1 };
 }
 
-class Handler_S_TypeQualifier_TypeSpecifierNonArray : public GLSL_Parser::IStateHandler
+class Handler_S_TypeQualifier_TypeSpecifierNonArray : public IStateHandler
 {
 public:
 	std::shared_ptr<TypeQualifier>& tq;
@@ -376,7 +376,7 @@ public:
 
 	}
 
-	GLSL_Parser::HandlerReturn Reduction(GLSL_Parser* parser) override
+	HandlerReturn Reduction(GLSL_Parser* parser) override
 	{
 		parser->log.Debug(__FUNCTION__);
 
@@ -395,13 +395,13 @@ public:
 		return { retVal, valid };
 	}
 
-	GLSL_Parser::HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
 	{
 		parser->log.Debug(__FUNCTION__);
 		return { ParserReturnValue(),false };
 	}
 
-	GLSL_Parser::HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
 	{
 		parser->log.Debug(__FUNCTION__);
 		return { ParserReturnValue(),false };
@@ -419,7 +419,7 @@ ParserReturnValue GLSL_Parser::S_TypeQualifier_TypeSpecifierNonArray(std::shared
 	return StateFuncSkeleton(__func__,temp);
 }
 
-class Handler_S_TypeQualifier_TypeSpecifierNoPrec : public GLSL_Parser::IStateHandler
+class Handler_S_TypeQualifier_TypeSpecifierNoPrec : public IStateHandler
 {
 public:
 	std::shared_ptr<TypeQualifier> tq;
@@ -434,7 +434,7 @@ public:
 
 	}
 
-	GLSL_Parser::HandlerReturn Reduction(GLSL_Parser* parser) override
+	HandlerReturn Reduction(GLSL_Parser* parser) override
 	{
 		parser->log.Debug(__FUNCTION__);
 
@@ -451,13 +451,13 @@ public:
 		return { retVal, valid };
 	}
 
-	GLSL_Parser::HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
 	{
 		parser->log.Debug(__FUNCTION__);
 		return { ParserReturnValue(),false };
 	}
 
-	GLSL_Parser::HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
 	{
 		parser->log.Debug(__FUNCTION__);
 		return { ParserReturnValue(),false };
@@ -475,7 +475,7 @@ ParserReturnValue GLSL_Parser::S_TypeQualifier_TypeSpecifierNoPrec(std::shared_p
 	return StateFuncSkeleton(__func__, temp);
 }
 
-class Handler_S_TypeQualifier_TypeSpecifier : public GLSL_Parser::IStateHandler
+class Handler_S_TypeQualifier_TypeSpecifier : public IStateHandler
 {
 public:
 	std::shared_ptr<TypeQualifier>& tq;
@@ -490,7 +490,7 @@ public:
 
 	}
 
-	GLSL_Parser::HandlerReturn Reduction(GLSL_Parser* parser) override
+	HandlerReturn Reduction(GLSL_Parser* parser) override
 	{
 		parser->log.Debug(__FUNCTION__);
 
@@ -507,13 +507,13 @@ public:
 		return { retVal, valid };
 	}
 
-	GLSL_Parser::HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
 	{
 		parser->log.Debug(__FUNCTION__);
 		return { ParserReturnValue(),false };
 	}
 
-	GLSL_Parser::HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
 	{
 		parser->log.Debug(__FUNCTION__);
 		return { ParserReturnValue(),false };

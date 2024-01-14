@@ -33,11 +33,13 @@
     <ClInclude Include="..\..\ceng-glsl\src\Declaration.h" />
     <ClInclude Include="..\..\ceng-glsl\src\FullySpecifiedType.h" />
     <ClInclude Include="..\..\ceng-glsl\src\GLSL_Parser.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\HandlerReturn.h" />
     <ClInclude Include="..\..\ceng-glsl\src\InitDeclaratorList.h" />
     <ClInclude Include="..\..\ceng-glsl\src\Initializer.h" />
     <ClInclude Include="..\..\ceng-glsl\src\INonTerminal.h" />
     <ClInclude Include="..\..\ceng-glsl\src\InterpolationQualifier.h" />
     <ClInclude Include="..\..\ceng-glsl\src\InterpolationQualifierType.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\IStateHandler.h" />
     <ClInclude Include="..\..\ceng-glsl\src\keyword_db.h" />
     <ClInclude Include="..\..\ceng-glsl\src\LayoutQualifier.h" />
     <ClInclude Include="..\..\ceng-glsl\src\LayoutQualifierId.h" />

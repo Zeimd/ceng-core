@@ -19,6 +19,8 @@
 #include "StorageQualifierType.h"
 
 #include "ParserReturnValue.h"
+#include "HandlerReturn.h"
+#include "IStateHandler.h"
 
 namespace Ceng
 {
@@ -32,25 +34,9 @@ namespace Ceng
 
 		Log log;
 
-		struct HandlerReturn
-		{
-			ParserReturnValue retVal;
-			bool valid;
-		};
-
 		typedef HandlerReturn (GLSL_Parser::* ReductionHandler)(const Token& next);
 		typedef HandlerReturn (GLSL_Parser::* ShiftHandler)(const Token& next);
 		typedef HandlerReturn (GLSL_Parser::* GotoHandler)(INonTerminal* nonTerminal);
-
-		class IStateHandler
-		{
-		public:
-			virtual HandlerReturn Reduction(GLSL_Parser* parser) = 0;
-
-			virtual HandlerReturn Shift(GLSL_Parser* parser, const Token& token) = 0;
-
-			virtual HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) = 0;
-		};
 
 	protected:
 		~GLSL_Parser() override
