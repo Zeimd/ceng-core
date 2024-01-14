@@ -61,6 +61,8 @@
     <ClInclude Include="..\..\ceng-glsl\src\TypeSpecifierNoArray.h" />
     <ClInclude Include="..\..\ceng-glsl\src\TypeSpecifierNoPrecision.h" />
     <ClInclude Include="..\..\ceng-glsl\src\TypeSpecifier.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\UnaryExpression.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\UnaryOperator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\ceng-glsl\src\ceng_GLSL.cpp" />
@@ -89,6 +91,8 @@
     <ClCompile Include="..\..\ceng-glsl\src\TypeSpecificationNoArray.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\TypeSpecificationNoPrecision.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\TypeSpecifier.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\UnaryExpression.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\UnaryOperator.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
