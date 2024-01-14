@@ -31,12 +31,15 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\Token.h" />
     <ClInclude Include="..\..\ceng-glsl\src\ConstantExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\Declaration.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\Expression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\FullySpecifiedType.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\FunctionCall.h" />
     <ClInclude Include="..\..\ceng-glsl\src\GLSL_Parser.h" />
     <ClInclude Include="..\..\ceng-glsl\src\HandlerReturn.h" />
     <ClInclude Include="..\..\ceng-glsl\src\InitDeclaratorList.h" />
     <ClInclude Include="..\..\ceng-glsl\src\Initializer.h" />
     <ClInclude Include="..\..\ceng-glsl\src\INonTerminal.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\IntegerExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\InterpolationQualifier.h" />
     <ClInclude Include="..\..\ceng-glsl\src\InterpolationQualifierType.h" />
     <ClInclude Include="..\..\ceng-glsl\src\IStateHandler.h" />
@@ -46,6 +49,7 @@
     <ClInclude Include="..\..\ceng-glsl\src\LayoutQualifierIdList.h" />
     <ClInclude Include="..\..\ceng-glsl\src\NonTerminalType.h" />
     <ClInclude Include="..\..\ceng-glsl\src\ParserReturnValue.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\PostfixExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\PrecisionQualifier.h" />
     <ClInclude Include="..\..\ceng-glsl\src\PrecisionQualifierType.h" />
     <ClInclude Include="..\..\ceng-glsl\src\SingleDeclaration.h" />
@@ -74,7 +78,9 @@
     <ClCompile Include="..\..\ceng-glsl\src\LogEntry.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\NonTerminalType.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\ParserReturnValue.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\PostfixExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\PrecisionQualifier.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\PrimaryExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\SingleDeclaration.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\StorageQualifier.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\Token.cpp" />
