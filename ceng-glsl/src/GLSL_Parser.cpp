@@ -746,16 +746,22 @@ ParserReturnValue GLSL_Parser::S_FullySpecifiedType_IdentifierToken_LBracket(std
 
 ParserReturnValue GLSL_Parser::S_FullySpecifiedType_IdentifierToken_LBracket_RBracket(std::shared_ptr<FullySpecifiedType>& spec, const Token& token)
 {
+	log.Debug(__func__);
+
 	return ParserReturnValue(std::make_shared<SingleDeclaration>(*spec, token.name), 4);
 }
 
 ParserReturnValue GLSL_Parser::S_LiteralToken(const Token& token)
 {
+	log.Debug(__func__);
+
 	return ParserReturnValue(std::make_shared<PrimaryExpression>(token), 1);
 }
 
 ParserReturnValue GLSL_Parser::S_PrimaryExpression(std::shared_ptr<PrimaryExpression>& ex)
 {
+	log.Debug(__func__);
+
 	return ParserReturnValue(std::make_shared<PostfixExpression>(ex), 1);
 }
 
@@ -778,8 +784,11 @@ public:
 
 		switch (parser->PeekToken().type)
 		{
-		default:
+		case TokenType::inc_op:
+		case TokenType::dec_op:
 			return { ParserReturnValue(),false };
+		default:
+			return { ParserReturnValue(std::make_shared<UnaryExpression>(ex),1),true };
 		}
 	}
 
@@ -852,11 +861,15 @@ ParserReturnValue GLSL_Parser::S_PostfixExpression(std::shared_ptr<PostfixExpres
 
 ParserReturnValue GLSL_Parser::S_PostfixExpression_IncOp(std::shared_ptr<PostfixExpression>& ex)
 {
+	log.Debug(__func__);
+
 	return ParserReturnValue(std::make_shared<PostfixExpression>(ex,PostfixOperator::inc_op), 2);
 }
 
 ParserReturnValue GLSL_Parser::S_PostfixExpression_DecOp(std::shared_ptr<PostfixExpression>& ex)
 {
+	log.Debug(__func__);
+
 	return ParserReturnValue(std::make_shared<PostfixExpression>(ex, PostfixOperator::dec_op), 2);
 }
 
@@ -922,6 +935,8 @@ ParserReturnValue GLSL_Parser::S_PostfixExpression_Dot(std::shared_ptr<PostfixEx
 
 ParserReturnValue GLSL_Parser::S_PostfixExpression_Dot_IdToken(std::shared_ptr<PostfixExpression>& ex, const Token& token)
 {
+	log.Debug(__func__);
+
 	return { std::make_shared<PostfixExpression>(ex,token.name),3 };
 }
 

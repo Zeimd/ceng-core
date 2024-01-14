@@ -20,6 +20,8 @@
 #include "PrimaryExpression.h"
 #include "Expression.h"
 #include "PostfixExpression.h"
+#include "UnaryExpression.h"
+#include "UnaryOperator.h"
 
 #include "ParserReturnValue.h"
 #include "HandlerReturn.h"
@@ -108,7 +110,18 @@ namespace Ceng
 
 		// postfix_expression LEFT_BRACKET integer_expression RIGHT_BRACKET
 		ParserReturnValue S_PostfixExpression_LBracket_IntExpression_RBracket(std::shared_ptr<PostfixExpression>& ex, std::shared_ptr<IntegerExpression>& intEx);
-		
+
+		ParserReturnValue S_UnaryExpression(std::shared_ptr<UnaryExpression>& ex);
+
+		// INC_OP unary_expression
+		ParserReturnValue S_IncOP_UnaryExpression(std::shared_ptr<UnaryExpression>& ex);
+
+		// DEC_OP unary_expression
+		ParserReturnValue S_DecOP_UnaryExpression(std::shared_ptr<UnaryExpression>& ex);
+
+		// unary_operator unary_expression
+		ParserReturnValue S_UnaryOperator_UnaryExpression(std::shared_ptr<UnaryOperator>& op, std::shared_ptr<UnaryExpression>& ex);
+
 	};
 }
 
