@@ -17,6 +17,9 @@
 #include "InitDeclaratorList.h"
 #include "Declaration.h"
 #include "StorageQualifierType.h"
+#include "PrimaryExpression.h"
+#include "Expression.h"
+#include "PostfixExpression.h"
 
 #include "ParserReturnValue.h"
 #include "HandlerReturn.h"
@@ -65,6 +68,9 @@ namespace Ceng
 		ParserReturnValue S_TranslationUnit();
 		
 		ParserReturnValue S_StorageQualifierToken(TokenType::value value);
+
+		ParserReturnValue S_LiteralToken(const Token& token);
+
 		ParserReturnValue S_StorageQualifier(std::shared_ptr<StorageQualifier>& sq);
 		
 		ParserReturnValue S_TypeQualifier(std::shared_ptr<TypeQualifier>& tq);
@@ -82,7 +88,26 @@ namespace Ceng
 		ParserReturnValue S_FullySpecifiedType_IdentifierToken_LBracket(std::shared_ptr<FullySpecifiedType>& spec, const Token& token);
 		ParserReturnValue S_FullySpecifiedType_IdentifierToken_LBracket_RBracket(std::shared_ptr<FullySpecifiedType>& spec, const Token& token);
 
+		ParserReturnValue S_PrimaryExpression(std::shared_ptr<PrimaryExpression>& ex);
 
+		ParserReturnValue S_PostfixExpression(std::shared_ptr<PostfixExpression>& ex);
+		
+		// postfix_expression INC_OP
+		ParserReturnValue S_PostfixExpression_IncOp(std::shared_ptr<PostfixExpression>& ex);
+
+		// postfix_expression DEC_OP
+		ParserReturnValue S_PostfixExpression_DecOp(std::shared_ptr<PostfixExpression>& ex);
+
+		ParserReturnValue S_PostfixExpression_Dot(std::shared_ptr<PostfixExpression>& ex);
+
+		// postfix_expression DOT FIELD_SELECTION
+		ParserReturnValue S_PostfixExpression_Dot_IdToken(std::shared_ptr<PostfixExpression>& ex, const Token& token);
+
+		ParserReturnValue S_PostfixExpression_LBracket(std::shared_ptr<PostfixExpression>& ex);
+		ParserReturnValue S_PostfixExpression_LBracket_IntExpression(std::shared_ptr<PostfixExpression>& ex,std::shared_ptr<IntegerExpression>& intEx);
+
+		// postfix_expression LEFT_BRACKET integer_expression RIGHT_BRACKET
+		ParserReturnValue S_PostfixExpression_LBracket_IntExpression_RBracket(std::shared_ptr<PostfixExpression>& ex, std::shared_ptr<IntegerExpression>& intEx);
 		
 	};
 }

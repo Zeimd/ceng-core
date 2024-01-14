@@ -693,17 +693,46 @@ public:
 		case TokenType::right_bracket:
 			retVal = parser->S_FullySpecifiedType_IdentifierToken_LBracket_RBracket(typeSpec, next);
 			break;
+		case TokenType::int_constant:
+		case TokenType::float_constant:
+		case TokenType::bool_constant:
+			retVal = parser->S_LiteralToken(next);
+			break;
 		default:
+			valid = false;
 			break;
 		}
 
-		return { ParserReturnValue(),false };
+		return { retVal, valid };
 	}
 
 	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
 	{
 		parser->log.Debug(__FUNCTION__);
-		return { ParserReturnValue(),false };
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::primary_expression:
+		{
+			std::shared_ptr<PrimaryExpression> temp = std::static_pointer_cast<PrimaryExpression>(nonTerminal);
+			retVal = parser->S_PrimaryExpression(temp);
+		}
+			break;
+		case NonTerminalType::postfix_expression:
+		{
+			std::shared_ptr<PostfixExpression> temp = std::static_pointer_cast<PostfixExpression>(nonTerminal);
+			retVal = parser->S_PostfixExpression(temp);
+		}
+		break;
+		default:
+			valid = false;
+			break;
+		}
+
+		return { retVal, valid };
 	}
 
 };
@@ -720,3 +749,193 @@ ParserReturnValue GLSL_Parser::S_FullySpecifiedType_IdentifierToken_LBracket_RBr
 	return ParserReturnValue(std::make_shared<SingleDeclaration>(*spec, token.name), 4);
 }
 
+ParserReturnValue GLSL_Parser::S_LiteralToken(const Token& token)
+{
+	return ParserReturnValue(std::make_shared<PrimaryExpression>(token), 1);
+}
+
+ParserReturnValue GLSL_Parser::S_PrimaryExpression(std::shared_ptr<PrimaryExpression>& ex)
+{
+	return ParserReturnValue(std::make_shared<PostfixExpression>(ex), 1);
+}
+
+class Handler_PostfixExpression : public IStateHandler
+{
+public:
+	std::shared_ptr<PostfixExpression>& ex;
+
+public:
+
+	Handler_PostfixExpression(std::shared_ptr<PostfixExpression>& ex)
+		: ex(ex)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (parser->PeekToken().type)
+		{
+		default:
+			return { ParserReturnValue(),false };
+		}
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (next.type)
+		{
+		case TokenType::left_bracket:
+			retVal = parser->S_PostfixExpression_LBracket(ex);
+			break;
+		case TokenType::dot:
+			retVal = parser->S_PostfixExpression_Dot(ex);
+			break;
+		case TokenType::inc_op:
+			retVal = parser->S_PostfixExpression_IncOp(ex);
+			break;
+		case TokenType::dec_op:
+			retVal = parser->S_PostfixExpression_DecOp(ex);
+			break;
+		default:
+			valid = false;
+			break;
+		}
+
+		return { retVal, valid };
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::primary_expression:
+		{
+			std::shared_ptr<PrimaryExpression> temp = std::static_pointer_cast<PrimaryExpression>(nonTerminal);
+			retVal = parser->S_PrimaryExpression(temp);
+		}
+		break;
+		case NonTerminalType::postfix_expression:
+		{
+			std::shared_ptr<PostfixExpression> temp = std::static_pointer_cast<PostfixExpression>(nonTerminal);
+			retVal = parser->S_PostfixExpression(temp);
+		}
+		break;
+		default:
+			valid = false;
+			break;
+		}
+
+		return { retVal, valid };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_PostfixExpression(std::shared_ptr<PostfixExpression>& ex)
+{
+	Handler_PostfixExpression temp(ex);
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+ParserReturnValue GLSL_Parser::S_PostfixExpression_IncOp(std::shared_ptr<PostfixExpression>& ex)
+{
+	return ParserReturnValue(std::make_shared<PostfixExpression>(ex,PostfixOperator::inc_op), 2);
+}
+
+ParserReturnValue GLSL_Parser::S_PostfixExpression_DecOp(std::shared_ptr<PostfixExpression>& ex)
+{
+	return ParserReturnValue(std::make_shared<PostfixExpression>(ex, PostfixOperator::dec_op), 2);
+}
+
+class Handler_PostfixExpression_Dot : public IStateHandler
+{
+public:
+	std::shared_ptr<PostfixExpression>& ex;
+
+public:
+
+	Handler_PostfixExpression_Dot(std::shared_ptr<PostfixExpression>& ex)
+		: ex(ex)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (parser->PeekToken().type)
+		{
+		default:
+			return { ParserReturnValue(),false };
+		}
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (next.type)
+		{
+		case TokenType::identifier:
+			retVal = parser->S_PostfixExpression_Dot_IdToken(ex, next);
+			break;
+		default:
+			valid = false;
+			break;
+		}
+
+		return { retVal, valid };
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return { ParserReturnValue(),false };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_PostfixExpression_Dot(std::shared_ptr<PostfixExpression>& ex)
+{
+	Handler_PostfixExpression_Dot temp(ex);
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+ParserReturnValue GLSL_Parser::S_PostfixExpression_Dot_IdToken(std::shared_ptr<PostfixExpression>& ex, const Token& token)
+{
+	return { std::make_shared<PostfixExpression>(ex,token.name),3 };
+}
+
+ParserReturnValue GLSL_Parser::S_PostfixExpression_LBracket(std::shared_ptr<PostfixExpression>& ex)
+{
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_PostfixExpression_LBracket_IntExpression(std::shared_ptr<PostfixExpression>& ex, std::shared_ptr<IntegerExpression>& intEx)
+{
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_PostfixExpression_LBracket_IntExpression_RBracket(std::shared_ptr<PostfixExpression>& ex, std::shared_ptr<IntegerExpression>& intEx)
+{
+	return ParserReturnValue();
+}
