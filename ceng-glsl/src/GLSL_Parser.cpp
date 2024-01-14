@@ -60,7 +60,7 @@ void GLSL_Parser::DiscardNext()
 
 ParserReturnValue GLSL_Parser::StateFuncSkeleton(const char* callerName, IStateHandler& handler)
 {
-	ShiftHandlerReturn reductionVal = handler.Reduction(this);
+	HandlerReturn reductionVal = handler.Reduction(this);
 
 	if (reductionVal.valid)
 	{
@@ -162,13 +162,13 @@ public:
 
 public:
 
-	GLSL_Parser::ShiftHandlerReturn Reduction(GLSL_Parser* parser) override
+	GLSL_Parser::HandlerReturn Reduction(GLSL_Parser* parser) override
 	{
 		parser->log.Debug(__FUNCTION__);
 		return { ParserReturnValue(),false };
 	}
 
-	GLSL_Parser::ShiftHandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	GLSL_Parser::HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
 	{
 		parser->log.Debug(__FUNCTION__);
 
@@ -209,7 +209,7 @@ public:
 		return { retVal, valid };
 	}
 
-	GLSL_Parser::ShiftHandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	GLSL_Parser::HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
 	{
 		parser->log.Debug(__FUNCTION__);
 
@@ -278,13 +278,13 @@ public:
 
 	}
 
-	GLSL_Parser::ShiftHandlerReturn Reduction(GLSL_Parser* parser) override
+	GLSL_Parser::HandlerReturn Reduction(GLSL_Parser* parser) override
 	{
 		parser->log.Debug(__FUNCTION__);
 		return {ParserReturnValue(),false};
 	}
 
-	GLSL_Parser::ShiftHandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	GLSL_Parser::HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
 	{
 		parser->log.Debug(__FUNCTION__);
 
@@ -308,7 +308,7 @@ public:
 		return { retVal, valid };
 	}
 
-	GLSL_Parser::ShiftHandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	GLSL_Parser::HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
 	{
 		parser->log.Debug(__FUNCTION__);
 
@@ -376,7 +376,7 @@ public:
 
 	}
 
-	GLSL_Parser::ShiftHandlerReturn Reduction(GLSL_Parser* parser) override
+	GLSL_Parser::HandlerReturn Reduction(GLSL_Parser* parser) override
 	{
 		parser->log.Debug(__FUNCTION__);
 
@@ -395,13 +395,13 @@ public:
 		return { retVal, valid };
 	}
 
-	GLSL_Parser::ShiftHandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	GLSL_Parser::HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
 	{
 		parser->log.Debug(__FUNCTION__);
 		return { ParserReturnValue(),false };
 	}
 
-	GLSL_Parser::ShiftHandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	GLSL_Parser::HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
 	{
 		parser->log.Debug(__FUNCTION__);
 		return { ParserReturnValue(),false };
@@ -434,7 +434,7 @@ public:
 
 	}
 
-	GLSL_Parser::ShiftHandlerReturn Reduction(GLSL_Parser* parser) override
+	GLSL_Parser::HandlerReturn Reduction(GLSL_Parser* parser) override
 	{
 		parser->log.Debug(__FUNCTION__);
 
@@ -451,13 +451,13 @@ public:
 		return { retVal, valid };
 	}
 
-	GLSL_Parser::ShiftHandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	GLSL_Parser::HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
 	{
 		parser->log.Debug(__FUNCTION__);
 		return { ParserReturnValue(),false };
 	}
 
-	GLSL_Parser::ShiftHandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	GLSL_Parser::HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
 	{
 		parser->log.Debug(__FUNCTION__);
 		return { ParserReturnValue(),false };
@@ -490,7 +490,7 @@ public:
 
 	}
 
-	GLSL_Parser::ShiftHandlerReturn Reduction(GLSL_Parser* parser) override
+	GLSL_Parser::HandlerReturn Reduction(GLSL_Parser* parser) override
 	{
 		parser->log.Debug(__FUNCTION__);
 
@@ -507,13 +507,13 @@ public:
 		return { retVal, valid };
 	}
 
-	GLSL_Parser::ShiftHandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	GLSL_Parser::HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
 	{
 		parser->log.Debug(__FUNCTION__);
 		return { ParserReturnValue(),false };
 	}
 
-	GLSL_Parser::ShiftHandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	GLSL_Parser::HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
 	{
 		parser->log.Debug(__FUNCTION__);
 		return { ParserReturnValue(),false };

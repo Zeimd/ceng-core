@@ -32,25 +32,24 @@ namespace Ceng
 
 		Log log;
 
-		struct ShiftHandlerReturn
+		struct HandlerReturn
 		{
 			ParserReturnValue retVal;
 			bool valid;
 		};
 
-		typedef ShiftHandlerReturn (GLSL_Parser::* ReductionHandler)(const Token& next);
-		typedef ShiftHandlerReturn (GLSL_Parser::* ShiftHandler)(const Token& next);
-		typedef ShiftHandlerReturn (GLSL_Parser::* GotoHandler)(INonTerminal* nonTerminal);
+		typedef HandlerReturn (GLSL_Parser::* ReductionHandler)(const Token& next);
+		typedef HandlerReturn (GLSL_Parser::* ShiftHandler)(const Token& next);
+		typedef HandlerReturn (GLSL_Parser::* GotoHandler)(INonTerminal* nonTerminal);
 
 		class IStateHandler
 		{
 		public:
-			virtual ShiftHandlerReturn Reduction(GLSL_Parser* parser) = 0;
+			virtual HandlerReturn Reduction(GLSL_Parser* parser) = 0;
 
-			virtual ShiftHandlerReturn Shift(GLSL_Parser* parser, const Token& token) = 0;
+			virtual HandlerReturn Shift(GLSL_Parser* parser, const Token& token) = 0;
 
-			virtual ShiftHandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) = 0;
-			//virtual ShiftHandlerReturn Goto(GLSL_Parser* parser, INonTerminal* nonTerminal) = 0;
+			virtual HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) = 0;
 		};
 
 	protected:
