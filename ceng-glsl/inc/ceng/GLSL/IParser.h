@@ -6,6 +6,7 @@
 
 #include "Token.h"
 #include "AbstractSyntaxTree.h"
+#include "Log.h"
 
 namespace Ceng
 {
@@ -26,7 +27,7 @@ namespace Ceng
 		public:
 			virtual void Release() = 0;
 
-			virtual const Ceng::StringUtf8 GetLog() const = 0;
+			virtual const Log& GetLog() const = 0;
 
 			virtual CRESULT Parse(const std::vector<Token>& in_tokens, AbstractSyntaxTree& output) = 0;
 		};

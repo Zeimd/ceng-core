@@ -22,6 +22,9 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AbstractSyntaxTree.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\IASTNode.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\IParser.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\Log.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\LogEntry.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\LogLevel.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\TokenCategory.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\Tokenizer.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\TokenType.h" />
@@ -65,6 +68,8 @@
     <ClCompile Include="..\..\ceng-glsl\src\LayoutQualifier.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\LayoutQualifierId.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\LayoutQualifierIdList.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\Log.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\LogEntry.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\NonTerminalType.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\ParserReturnValue.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\PrecisionQualifier.cpp" />

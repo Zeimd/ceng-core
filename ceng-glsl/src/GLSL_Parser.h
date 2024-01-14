@@ -30,14 +30,7 @@ namespace Ceng
 
 		std::vector<Token>::const_iterator tokenIter;
 
-		Ceng::StringUtf8 log;
-
-		enum LogPrefix
-		{
-			log_nominal,
-			log_error,
-			log_debug,
-		};
+		Log log;
 
 		struct ShiftHandlerReturn
 		{
@@ -69,7 +62,7 @@ namespace Ceng
 
 		void Release() override;
 
-		const Ceng::StringUtf8 GetLog() const override;
+		const Log& GetLog() const override;
 		
 		CRESULT Parse(const std::vector<Token>& in_tokens, GLSL::AbstractSyntaxTree& output) override;
 
@@ -79,18 +72,6 @@ namespace Ceng
 
 		// Used when PeekToken() has been used to deduce next parser action
 		void DiscardNext();
-
-		void Log(const char* text, LogPrefix prefix=log_nominal);
-		void Log(const Ceng::StringUtf8& text, LogPrefix prefix = log_nominal);
-
-		void LogError(const char* error);
-		//void LogError(const char* fmt_str,...);
-		void LogError(const Ceng::StringUtf8& error);
-
-		void LogDebug(const char* error);
-		void LogDebug(const Ceng::StringUtf8& error);
-
-		static const char* GetPrefixText(LogPrefix prefix);
 
 	public:
 

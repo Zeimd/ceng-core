@@ -113,7 +113,9 @@ int main()
 
 	cresult = parser->Parse(tokens, programTree);
 
-	printf("%s\n", parser->GetLog().ToCString());
+	auto log = parser->GetLog();
+
+	printf("%s\n", log.ToString().ToCString());
 	
 
 	parser->Release();

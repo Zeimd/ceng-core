@@ -11,24 +11,24 @@ void GLSL_Parser::Release()
 	delete this;
 }
 
-const Ceng::StringUtf8 GLSL_Parser::GetLog() const
+const Log& GLSL_Parser::GetLog() const
 {
 	return log;
 }
 
 CRESULT GLSL_Parser::Parse(const std::vector<Token>& in_tokens, GLSL::AbstractSyntaxTree& output)
 {
-	log = "";
+	log.Clear();
 
 	tokens = in_tokens;
 
 	tokenIter = tokens.begin();
 
-	Log("Parsing start");
+	log.Debug("Parsing start");
 
 	S_TranslationUnit();
 
-	Log("Parsing end");
+	log.Debug("Parsing end");
 
 	return CE_OK;
 }
@@ -38,7 +38,7 @@ const Token& GLSL_Parser::PeekToken()
 	Ceng::StringUtf8 text;
 	text = "PeekToken = ";
 	text += tokenIter->ToString();
-	LogDebug(text);
+	log.Debug(text);
 
 	return *tokenIter;
 }
@@ -48,7 +48,7 @@ const Token GLSL_Parser::NextToken()
 	Ceng::StringUtf8 text;
 	text = "NextToken = ";
 	text += tokenIter->ToString();
-	LogDebug(text);
+	log.Debug(text);
 
 	return (*tokenIter++);
 }
@@ -56,67 +56,6 @@ const Token GLSL_Parser::NextToken()
 void GLSL_Parser::DiscardNext()
 {
 	++tokenIter;
-}
-
-const char* GLSL_Parser::GetPrefixText(LogPrefix prefix)
-{
-	switch (prefix)
-	{
-	case log_nominal:
-		return "";
-	case log_error:
-		return "ERROR: ";
-	}
-
-	return "";
-}
-
-
-void GLSL_Parser::Log(const char* text, LogPrefix prefix)
-{
-#ifndef _DEBUG
-	if (prefix == log_debug)
-	{
-		return;
-	}
-#endif
-
-	log += GetPrefixText(prefix);
-	log += text;
-	log += '\n';
-}
-
-void GLSL_Parser::Log(const Ceng::StringUtf8& text, LogPrefix prefix)
-{
-#ifndef _DEBUG
-	if (prefix == log_debug)
-	{
-		return;
-	}
-#endif
-	log += GetPrefixText(prefix);
-	log += text;
-	log += '\n';
-}
-
-
-void GLSL_Parser::LogError(const char* error)
-{
-	Log(error, log_error);
-}
-
-void GLSL_Parser::LogError(const Ceng::StringUtf8& error)
-{
-	Log(error, log_error);
-}
-
-void GLSL_Parser::LogDebug(const char* text)
-{
-	Log(text, log_debug);
-}
-void GLSL_Parser::LogDebug(const Ceng::StringUtf8& text)
-{
-	Log(text, log_debug);
 }
 
 ParserReturnValue GLSL_Parser::StateFuncSkeleton(const char* callerName, IStateHandler& handler)
@@ -130,7 +69,7 @@ ParserReturnValue GLSL_Parser::StateFuncSkeleton(const char* callerName, IStateH
 		text += callerName;
 		text += " , remaining count = ";
 		text += reductionVal.retVal.backtrackCounter;
-		LogDebug(text);
+		log.Debug(text);
 		return reductionVal.retVal;
 	}
 
@@ -146,7 +85,7 @@ ParserReturnValue GLSL_Parser::StateFuncSkeleton(const char* callerName, IStateH
 
 		if (next.type == TokenType::meta_end_of_file)
 		{
-			LogDebug("end of file reached");
+			log.Debug("end of file reached");
 			return ParserReturnValue();
 		}
 
@@ -154,7 +93,7 @@ ParserReturnValue GLSL_Parser::StateFuncSkeleton(const char* callerName, IStateH
 
 		if (!shiftReturn.valid)
 		{
-			LogDebug("No shift rule for returned non-terminal");
+			log.Debug("No shift rule for returned non-terminal");
 			continue;
 		}
 
@@ -180,7 +119,7 @@ ParserReturnValue GLSL_Parser::StateFuncSkeleton(const char* callerName, IStateH
 				text += callerName;
 				text += " , remaining count = ";
 				text += retVal.backtrackCounter;
-				LogDebug(text);
+				log.Debug(text);
 
 				return retVal;
 			}
@@ -188,13 +127,13 @@ ParserReturnValue GLSL_Parser::StateFuncSkeleton(const char* callerName, IStateH
 			Ceng::StringUtf8 text;
 			text = "goto action: ";
 			text += callerName;
-			LogDebug(text);
+			log.Debug(text);
 
 			if (retVal.nonTerminal == nullptr)
 			{
 				// Received invalid nonterminal
 
-				LogDebug("Received empty non-terminal");
+				log.Debug("Received empty non-terminal");
 
 				return retVal;
 			}
@@ -206,7 +145,7 @@ ParserReturnValue GLSL_Parser::StateFuncSkeleton(const char* callerName, IStateH
 				Ceng::StringUtf8 text;
 				text = "No goto rule for non-terminal: ";
 				text += NonTerminalType::ToString(retVal.nonTerminal->type);
-				LogDebug(text);
+				log.Debug(text);
 				return gotoRet.retVal;
 			}
 
@@ -225,13 +164,13 @@ public:
 
 	GLSL_Parser::ShiftHandlerReturn Reduction(GLSL_Parser* parser) override
 	{
-		parser->LogDebug(__FUNCTION__);
+		parser->log.Debug(__FUNCTION__);
 		return { ParserReturnValue(),false };
 	}
 
 	GLSL_Parser::ShiftHandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
 	{
-		parser->LogDebug(__FUNCTION__);
+		parser->log.Debug(__FUNCTION__);
 
 		ParserReturnValue retVal;
 		bool valid = true;
@@ -241,7 +180,7 @@ public:
 			Ceng::StringUtf8 text;
 			text = "no parsing rule for: ";
 			text += next.ToString();
-			parser->LogError(text);
+			parser->log.Debug(text);
 			valid = false;
 		}
 		else
@@ -260,7 +199,7 @@ public:
 				Ceng::StringUtf8 text;
 				text = "no parsing rule for: ";
 				text += next.ToString();
-				parser->LogError(text);
+				parser->log.Debug(text);
 
 				valid = false;
 				break;
@@ -272,7 +211,7 @@ public:
 
 	GLSL_Parser::ShiftHandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
 	{
-		parser->LogDebug(__FUNCTION__);
+		parser->log.Debug(__FUNCTION__);
 
 		ParserReturnValue retVal;
 		bool valid = true;
@@ -305,7 +244,7 @@ public:
 
 ParserReturnValue GLSL_Parser::S_TranslationUnit()
 {
-	LogDebug(__func__);
+	log.Debug(__func__);
 
 	Handler_S_TranslationUnit temp;
 
@@ -314,14 +253,14 @@ ParserReturnValue GLSL_Parser::S_TranslationUnit()
 
 ParserReturnValue GLSL_Parser::S_StorageQualifierToken(TokenType::value value)
 {
-	LogDebug(__func__);
+	log.Debug(__func__);
 
 	return { std::make_shared<StorageQualifier>(value), 1 };
 }
 
 ParserReturnValue GLSL_Parser::S_StorageQualifier(std::shared_ptr<StorageQualifier>& sq)
 {
-	LogDebug(__func__);
+	log.Debug(__func__);
 
 	return { std::make_shared<TypeQualifier>(*sq), 1 };
 }
@@ -341,13 +280,13 @@ public:
 
 	GLSL_Parser::ShiftHandlerReturn Reduction(GLSL_Parser* parser) override
 	{
-		parser->LogDebug(__FUNCTION__);
+		parser->log.Debug(__FUNCTION__);
 		return {ParserReturnValue(),false};
 	}
 
 	GLSL_Parser::ShiftHandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
 	{
-		parser->LogDebug(__FUNCTION__);
+		parser->log.Debug(__FUNCTION__);
 
 		ParserReturnValue retVal;
 		bool valid = true;
@@ -371,7 +310,7 @@ public:
 
 	GLSL_Parser::ShiftHandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
 	{
-		parser->LogDebug(__FUNCTION__);
+		parser->log.Debug(__FUNCTION__);
 
 		ParserReturnValue retVal;
 		bool valid = true;
@@ -408,7 +347,7 @@ public:
 
 ParserReturnValue GLSL_Parser::S_TypeQualifier(std::shared_ptr<TypeQualifier>& tq)
 {
-	LogDebug(__func__);
+	log.Debug(__func__);
 
 	Handler_S_TypeQualifier temp{ tq };
 
@@ -417,7 +356,7 @@ ParserReturnValue GLSL_Parser::S_TypeQualifier(std::shared_ptr<TypeQualifier>& t
 
 ParserReturnValue GLSL_Parser::S_DatatypeToken(TokenType::value value)
 {
-	LogDebug(__func__);
+	log.Debug(__func__);
 
 	return { std::make_unique<TypeSpecifierNoArray>(value), 1 };
 }
@@ -439,7 +378,7 @@ public:
 
 	GLSL_Parser::ShiftHandlerReturn Reduction(GLSL_Parser* parser) override
 	{
-		parser->LogDebug(__FUNCTION__);
+		parser->log.Debug(__FUNCTION__);
 
 		ParserReturnValue retVal;
 		bool valid = true;
@@ -458,13 +397,13 @@ public:
 
 	GLSL_Parser::ShiftHandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
 	{
-		parser->LogDebug(__FUNCTION__);
+		parser->log.Debug(__FUNCTION__);
 		return { ParserReturnValue(),false };
 	}
 
 	GLSL_Parser::ShiftHandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
 	{
-		parser->LogDebug(__FUNCTION__);
+		parser->log.Debug(__FUNCTION__);
 		return { ParserReturnValue(),false };
 	}
 
@@ -473,7 +412,7 @@ public:
 ParserReturnValue GLSL_Parser::S_TypeQualifier_TypeSpecifierNonArray(std::shared_ptr<TypeQualifier>& tq, 
 	std::shared_ptr<TypeSpecifierNoArray>& ts)
 {
-	LogDebug(__func__);
+	log.Debug(__func__);
 
 	Handler_S_TypeQualifier_TypeSpecifierNonArray temp(tq,ts);
 
@@ -497,7 +436,7 @@ public:
 
 	GLSL_Parser::ShiftHandlerReturn Reduction(GLSL_Parser* parser) override
 	{
-		parser->LogDebug(__FUNCTION__);
+		parser->log.Debug(__FUNCTION__);
 
 		ParserReturnValue retVal;
 		bool valid = true;
@@ -514,13 +453,13 @@ public:
 
 	GLSL_Parser::ShiftHandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
 	{
-		parser->LogDebug(__FUNCTION__);
+		parser->log.Debug(__FUNCTION__);
 		return { ParserReturnValue(),false };
 	}
 
 	GLSL_Parser::ShiftHandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
 	{
-		parser->LogDebug(__FUNCTION__);
+		parser->log.Debug(__FUNCTION__);
 		return { ParserReturnValue(),false };
 	}
 
@@ -529,7 +468,7 @@ public:
 ParserReturnValue GLSL_Parser::S_TypeQualifier_TypeSpecifierNoPrec(std::shared_ptr<TypeQualifier>& tq, 
 	std::shared_ptr<TypeSpecifierNoPrec>& ts)
 {
-	LogDebug(__func__);
+	log.Debug(__func__);
 
 	Handler_S_TypeQualifier_TypeSpecifierNoPrec temp(tq, ts);
 
@@ -553,7 +492,7 @@ public:
 
 	GLSL_Parser::ShiftHandlerReturn Reduction(GLSL_Parser* parser) override
 	{
-		parser->LogDebug(__FUNCTION__);
+		parser->log.Debug(__FUNCTION__);
 
 		ParserReturnValue retVal;
 		bool valid = true;
@@ -570,13 +509,13 @@ public:
 
 	GLSL_Parser::ShiftHandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
 	{
-		parser->LogDebug(__FUNCTION__);
+		parser->log.Debug(__FUNCTION__);
 		return { ParserReturnValue(),false };
 	}
 
 	GLSL_Parser::ShiftHandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
 	{
-		parser->LogDebug(__FUNCTION__);
+		parser->log.Debug(__FUNCTION__);
 		return { ParserReturnValue(),false };
 	}
 
@@ -584,7 +523,7 @@ public:
 
 ParserReturnValue GLSL_Parser::S_TypeQualifier_TypeSpecifier(std::shared_ptr<TypeQualifier>& tq, std::shared_ptr<TypeSpecifier>& ts)
 {
-	LogDebug(__func__);
+	log.Debug(__func__);
 
 	Handler_S_TypeQualifier_TypeSpecifier temp(tq, ts);
 

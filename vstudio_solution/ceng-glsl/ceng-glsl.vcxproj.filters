@@ -117,6 +117,15 @@
     <ClInclude Include="..\..\ceng-glsl\src\PrecisionQualifierType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\LogEntry.h">
+      <Filter>Header Files\public_interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\LogLevel.h">
+      <Filter>Header Files\public_interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\Log.h">
+      <Filter>Header Files\public_interface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\ceng-glsl\src\TypeSpecifier.cpp">
@@ -183,6 +192,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ceng-glsl\src\NonTerminalType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ceng-glsl\src\Log.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ceng-glsl\src\LogEntry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
