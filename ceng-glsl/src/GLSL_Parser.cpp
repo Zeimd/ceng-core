@@ -50,6 +50,11 @@ const Token GLSL_Parser::NextToken()
 	text += tokenIter->ToString();
 	log.Debug(text);
 
+	if (tokenIter->type == TokenType::meta_end_of_file)
+	{
+		return *tokenIter;
+	}
+
 	return (*tokenIter++);
 }
 
