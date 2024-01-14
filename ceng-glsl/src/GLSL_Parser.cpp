@@ -19,6 +19,7 @@ const Log& GLSL_Parser::GetLog() const
 CRESULT GLSL_Parser::Parse(const std::vector<Token>& in_tokens, GLSL::AbstractSyntaxTree& output)
 {
 	log.Clear();
+	log.FlushMode(true);
 
 	tokens = in_tokens;
 

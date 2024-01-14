@@ -13,9 +13,15 @@ namespace Ceng
 	protected:
 		std::vector<LogEntry> log;
 
+		bool flushMode;
+
 	public:
 
 		void Clear();
+
+		void Flush();
+
+		void FlushMode(bool set);
 
 		void Print(LogLevel::value level, const Ceng::StringUtf8& message, const std::shared_ptr<const Ceng::StringUtf8>& fileName, const Ceng::UINT32 line, const Ceng::UINT32 column);
 

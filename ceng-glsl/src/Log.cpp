@@ -7,14 +7,29 @@ void Log::Clear()
 	log.clear();
 }
 
+void Log::FlushMode(bool set)
+{
+	flushMode = true;
+}
+
 void Log::Print(LogLevel::value level, const Ceng::StringUtf8& message, const std::shared_ptr<const Ceng::StringUtf8>& fileName, const Ceng::UINT32 line, const Ceng::UINT32 column)
 {
 	log.emplace_back(level, message, fileName, line, column);
+
+	if (flushMode)
+	{
+		Flush();
+	}
 }
 
 void Log::Print(LogLevel::value level, const Ceng::StringUtf8& message)
 {
 	log.emplace_back(level, message);
+
+	if (flushMode)
+	{
+		Flush();
+	}
 }
 
 void Log::Debug(const Ceng::StringUtf8& message, const std::shared_ptr<const Ceng::StringUtf8>& fileName, const Ceng::UINT32 line, const Ceng::UINT32 column)
@@ -39,4 +54,13 @@ Ceng::StringUtf8 Log::ToString() const
 	}
 
 	return temp;
+}
+
+void Log::Flush()
+{
+	Ceng::StringUtf8 temp = ToString();
+
+	printf("%s", temp.ToCString());
+
+	log.clear();
 }
