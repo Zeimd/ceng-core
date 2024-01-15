@@ -50,8 +50,10 @@
     <ClInclude Include="..\..\ceng-glsl\src\LayoutQualifier.h" />
     <ClInclude Include="..\..\ceng-glsl\src\LayoutQualifierId.h" />
     <ClInclude Include="..\..\ceng-glsl\src\LayoutQualifierIdList.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\LogicalAndExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\MultiplicativeExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\NonTerminalType.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\OrExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\ParserReturnValue.h" />
     <ClInclude Include="..\..\ceng-glsl\src\PostfixExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\PrecisionQualifier.h" />
@@ -70,6 +72,7 @@
     <ClInclude Include="..\..\ceng-glsl\src\TypeSpecifier.h" />
     <ClInclude Include="..\..\ceng-glsl\src\UnaryExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\UnaryOperator.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\XorExpression.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\ceng-glsl\src\AdditiveExpression.cpp" />
@@ -88,8 +91,10 @@
     <ClCompile Include="..\..\ceng-glsl\src\LayoutQualifierIdList.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\Log.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\LogEntry.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\LogicalAndExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\MultiplicativeExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\NonTerminalType.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\OrExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\ParserReturnValue.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\PostfixExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\PrecisionQualifier.cpp" />
@@ -106,6 +111,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\TypeSpecifier.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\UnaryExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\UnaryOperator.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\XorExpression.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
