@@ -24,6 +24,10 @@
 #include "UnaryOperator.h"
 #include "MultiplicativeExpression.h"
 #include "AdditiveExpression.h"
+#include "ShiftExpression.h"
+#include "RelationalExpression.h"
+#include "EqualityExpression.h"
+#include "AndExpression.h"
 
 #include "ParserReturnValue.h"
 #include "HandlerReturn.h"
