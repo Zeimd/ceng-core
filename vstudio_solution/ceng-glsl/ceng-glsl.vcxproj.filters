@@ -159,6 +159,12 @@
     <ClInclude Include="..\..\ceng-glsl\src\PrimaryExpression.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\ceng-glsl\src\ShiftExpression.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ceng-glsl\src\RelationalExpression.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\ceng-glsl\src\TypeSpecifier.cpp">
@@ -249,6 +255,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ceng-glsl\src\AdditiveExpression.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ceng-glsl\src\ShiftExpression.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ceng-glsl\src\RelationalExpression.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -55,6 +55,8 @@
     <ClInclude Include="..\..\ceng-glsl\src\PrecisionQualifier.h" />
     <ClInclude Include="..\..\ceng-glsl\src\PrecisionQualifierType.h" />
     <ClInclude Include="..\..\ceng-glsl\src\PrimaryExpression.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\RelationalExpression.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\ShiftExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\SingleDeclaration.h" />
     <ClInclude Include="..\..\ceng-glsl\src\StorageQualifier.h" />
     <ClInclude Include="..\..\ceng-glsl\src\StorageQualifierType.h" />
@@ -88,6 +90,8 @@
     <ClCompile Include="..\..\ceng-glsl\src\PostfixExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\PrecisionQualifier.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\PrimaryExpression.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\RelationalExpression.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\ShiftExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\SingleDeclaration.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\StorageQualifier.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\Token.cpp" />
