@@ -17,7 +17,7 @@ namespace Ceng
 		std::shared_ptr<AndExpression> lhs;
 		std::shared_ptr<EqualityExpression> rhs;
 
-		EqualityOp::value operation;
+		bool full;
 
 	public:
 
