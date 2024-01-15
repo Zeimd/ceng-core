@@ -8,13 +8,13 @@ void RelationalExpression::Release()
 }
 
 RelationalExpression::RelationalExpression(std::shared_ptr<ShiftExpression>& mulEx)
-	: INonTerminal(NonTerminalType::shift_expression), rhs(mulEx), operation(RelativeOp::unassigned)
+	: INonTerminal(NonTerminalType::relational_expression), rhs(mulEx), operation(RelativeOp::unassigned)
 {
 
 }
 
 RelationalExpression::RelationalExpression(std::shared_ptr<RelationalExpression>& lhs, const Token& token, std::shared_ptr<ShiftExpression>& rhs)
-	: INonTerminal(NonTerminalType::shift_expression), lhs(lhs), rhs(rhs)
+	: INonTerminal(NonTerminalType::relational_expression), lhs(lhs), rhs(rhs)
 {
 	switch (token.type)
 	{
@@ -34,7 +34,7 @@ RelationalExpression::RelationalExpression(std::shared_ptr<RelationalExpression>
 }
 
 RelationalExpression::RelationalExpression(std::shared_ptr<RelationalExpression>& lhs, RelativeOp::value operation, std::shared_ptr<ShiftExpression>& rhs)
-	: INonTerminal(NonTerminalType::shift_expression), lhs(lhs), operation(operation), rhs(rhs)
+	: INonTerminal(NonTerminalType::relational_expression), lhs(lhs), operation(operation), rhs(rhs)
 {
 
 }
