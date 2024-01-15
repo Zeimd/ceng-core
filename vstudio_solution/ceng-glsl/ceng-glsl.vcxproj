@@ -30,8 +30,10 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\TokenType.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\Token.h" />
     <ClInclude Include="..\..\ceng-glsl\src\AdditiveExpression.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\AndExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\ConstantExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\Declaration.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\EqualityExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\Expression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\FullySpecifiedType.h" />
     <ClInclude Include="..\..\ceng-glsl\src\FunctionCall.h" />
@@ -71,8 +73,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\ceng-glsl\src\AdditiveExpression.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\AndExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\ceng_GLSL.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\Declaration.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\EqualityExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\FullySpecifiedType.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\GLSL_Parser.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\InitDeclaratorList.cpp" />
