@@ -23,6 +23,10 @@ PrimaryExpression::PrimaryExpression(const Token& token)
 		type = ExpressionType::bool_const;
 		boolValue = token.value.boolVal;
 		break;
+	case TokenType::identifier:
+		type = ExpressionType::identifier;
+		name = token.name;
+		break;
 	}
 }
 

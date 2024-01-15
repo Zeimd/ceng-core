@@ -698,6 +698,9 @@ public:
 		case TokenType::bool_constant:
 			retVal = parser->S_LiteralToken(next);
 			break;
+		case TokenType::identifier:
+			retVal = parser->S_IdentifierToken(next);
+			break;
 		default:
 			valid = false;
 			break;
@@ -726,6 +729,24 @@ public:
 			std::shared_ptr<PostfixExpression> temp = std::static_pointer_cast<PostfixExpression>(nonTerminal);
 			retVal = parser->S_PostfixExpression(temp);
 		}
+			break;
+		case NonTerminalType::unary_expression:
+		{
+			std::shared_ptr<UnaryExpression> temp = std::static_pointer_cast<UnaryExpression>(nonTerminal);
+			retVal = parser->S_UnaryExpression(temp);
+		}
+			break;
+		case NonTerminalType::multiplicative_expression:
+		{
+			std::shared_ptr<MultiplicativeExpression> temp = std::static_pointer_cast<MultiplicativeExpression>(nonTerminal);
+			retVal = parser->S_MultiplicativeExpression(temp);
+		}
+			break;
+		case NonTerminalType::additive_expression:
+		{
+			std::shared_ptr<AdditiveExpression> temp = std::static_pointer_cast<AdditiveExpression>(nonTerminal);
+			retVal = parser->S_AdditiveExpression(temp);
+		}
 		break;
 		default:
 			valid = false;
@@ -752,6 +773,13 @@ ParserReturnValue GLSL_Parser::S_FullySpecifiedType_IdentifierToken_LBracket_RBr
 }
 
 ParserReturnValue GLSL_Parser::S_LiteralToken(const Token& token)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue(std::make_shared<PrimaryExpression>(token), 1);
+}
+
+ParserReturnValue GLSL_Parser::S_IdentifierToken(const Token& token)
 {
 	log.Debug(__func__);
 
@@ -830,18 +858,6 @@ public:
 
 		switch (nonTerminal->type)
 		{
-		case NonTerminalType::primary_expression:
-		{
-			std::shared_ptr<PrimaryExpression> temp = std::static_pointer_cast<PrimaryExpression>(nonTerminal);
-			retVal = parser->S_PrimaryExpression(temp);
-		}
-		break;
-		case NonTerminalType::postfix_expression:
-		{
-			std::shared_ptr<PostfixExpression> temp = std::static_pointer_cast<PostfixExpression>(nonTerminal);
-			retVal = parser->S_PostfixExpression(temp);
-		}
-		break;
 		default:
 			valid = false;
 			break;
@@ -942,15 +958,213 @@ ParserReturnValue GLSL_Parser::S_PostfixExpression_Dot_IdToken(std::shared_ptr<P
 
 ParserReturnValue GLSL_Parser::S_PostfixExpression_LBracket(std::shared_ptr<PostfixExpression>& ex)
 {
+	log.Debug(__func__);
+
 	return ParserReturnValue();
 }
 
 ParserReturnValue GLSL_Parser::S_PostfixExpression_LBracket_IntExpression(std::shared_ptr<PostfixExpression>& ex, std::shared_ptr<IntegerExpression>& intEx)
 {
+	log.Debug(__func__);
+
 	return ParserReturnValue();
 }
 
 ParserReturnValue GLSL_Parser::S_PostfixExpression_LBracket_IntExpression_RBracket(std::shared_ptr<PostfixExpression>& ex, std::shared_ptr<IntegerExpression>& intEx)
 {
+	log.Debug(__func__);
+
+	return { std::make_shared<PostfixExpression>(ex,intEx),4 };
+}
+
+ParserReturnValue GLSL_Parser::S_UnaryExpression(std::shared_ptr<UnaryExpression>& ex)
+{
+	log.Debug(__func__);
+
+	return { std::make_shared<MultiplicativeExpression>(ex),1 };
+}
+
+ParserReturnValue GLSL_Parser::S_IncOP_UnaryExpression(std::shared_ptr<UnaryExpression>& ex)
+{
+	log.Debug(__func__);
+
+	return { std::make_shared<UnaryExpression>(ex,PrefixOperator::inc_op),2 };
+}
+
+// DEC_OP unary_expression
+ParserReturnValue GLSL_Parser::S_DecOP_UnaryExpression(std::shared_ptr<UnaryExpression>& ex)
+{
+	log.Debug(__func__);
+
+	return { std::make_shared<UnaryExpression>(ex,PrefixOperator::dec_op),2 };
+}
+
+// unary_operator unary_expression
+ParserReturnValue GLSL_Parser::S_UnaryOperator_UnaryExpression(std::shared_ptr<UnaryOperator>& op, std::shared_ptr<UnaryExpression>& ex)
+{
+	log.Debug(__func__);
+
+	return { std::make_shared<UnaryExpression>(op,ex),2 };
+}
+
+class Handler_MultiplicativeExpression : public IStateHandler
+{
+public:
+	std::shared_ptr<MultiplicativeExpression>& ex;
+
+public:
+
+	Handler_MultiplicativeExpression(std::shared_ptr<MultiplicativeExpression>& ex)
+		: ex(ex)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (parser->PeekToken().type)
+		{
+		case TokenType::star:
+		case TokenType::slash:
+		case TokenType::percent:
+			return { ParserReturnValue(),false };
+		default:
+			return { ParserReturnValue(std::make_shared<AdditiveExpression>(ex),1),true };
+		}
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (next.type)
+		{
+		case TokenType::star:
+		case TokenType::slash:
+		case TokenType::percent:
+			retVal = parser->S_MultiplicativeExpression_MulToken(ex, next);
+			break;
+		default:
+			valid = false;
+			break;
+		}
+
+		return { retVal, valid };
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return { ParserReturnValue(),false };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_MultiplicativeExpression(std::shared_ptr<MultiplicativeExpression>& ex)
+{
+	Handler_MultiplicativeExpression temp(ex);
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+class Handler_MultiplicativeExpression_MulToken : public IStateHandler
+{
+public:
+	std::shared_ptr<MultiplicativeExpression>& ex;
+	const Token& token;
+
+public:
+
+	Handler_MultiplicativeExpression_MulToken(std::shared_ptr<MultiplicativeExpression>& ex, const Token& token)
+		: ex(ex), token(token)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (parser->PeekToken().type)
+		{
+		default:
+			return { ParserReturnValue(),false };
+		}
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (next.type)
+		{
+		case TokenType::int_constant:
+		case TokenType::float_constant:
+		case TokenType::bool_constant:
+			retVal = parser->S_LiteralToken(next);
+			break;
+		case TokenType::identifier:
+			retVal = parser->S_IdentifierToken(next);
+			break;
+		default:
+			valid = false;
+			break;
+		}
+
+		return { retVal, valid };
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return { ParserReturnValue(),false };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_MultiplicativeExpression_MulToken(std::shared_ptr<MultiplicativeExpression>& ex, const Token& token)
+{
+	Handler_MultiplicativeExpression_MulToken temp(ex,token);
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+ParserReturnValue GLSL_Parser::S_MultiplicativeExpression_MulToken_UnaryExpression(std::shared_ptr<MultiplicativeExpression>& mulEx, const Token& token,
+	std::shared_ptr<UnaryExpression>& unaryEx)
+{
+	log.Debug(__func__);
+
+	return { std::make_shared<MultiplicativeExpression>(mulEx,token,unaryEx),3 };
+}
+
+ParserReturnValue GLSL_Parser::S_AdditiveExpression(std::shared_ptr<AdditiveExpression>& ex)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_AdditiveExpression_AddToken(std::shared_ptr<AdditiveExpression>& ex, const Token& token)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_AdditiveExpression_AddToken_MultiplicativeEx(std::shared_ptr<AdditiveExpression>& addEx, const Token& token,
+	std::shared_ptr<MultiplicativeExpression>& mulEx)
+{
+	log.Debug(__func__);
+
 	return ParserReturnValue();
 }

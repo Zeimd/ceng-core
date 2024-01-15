@@ -22,6 +22,8 @@
 #include "PostfixExpression.h"
 #include "UnaryExpression.h"
 #include "UnaryOperator.h"
+#include "MultiplicativeExpression.h"
+#include "AdditiveExpression.h"
 
 #include "ParserReturnValue.h"
 #include "HandlerReturn.h"
@@ -73,6 +75,8 @@ namespace Ceng
 
 		ParserReturnValue S_LiteralToken(const Token& token);
 
+		ParserReturnValue S_IdentifierToken(const Token& token);
+
 		ParserReturnValue S_StorageQualifier(std::shared_ptr<StorageQualifier>& sq);
 		
 		ParserReturnValue S_TypeQualifier(std::shared_ptr<TypeQualifier>& tq);
@@ -121,6 +125,24 @@ namespace Ceng
 
 		// unary_operator unary_expression
 		ParserReturnValue S_UnaryOperator_UnaryExpression(std::shared_ptr<UnaryOperator>& op, std::shared_ptr<UnaryExpression>& ex);
+
+		// unary_expression
+		ParserReturnValue S_MultiplicativeExpression(std::shared_ptr<MultiplicativeExpression>& ex);
+
+		ParserReturnValue S_MultiplicativeExpression_MulToken(std::shared_ptr<MultiplicativeExpression>& ex, const Token& token);
+
+		// multiplicative_expression [STAR | SLASH | PERCENT ] unary_expression
+		ParserReturnValue S_MultiplicativeExpression_MulToken_UnaryExpression(std::shared_ptr<MultiplicativeExpression>& mulEx, const Token& token,
+			std::shared_ptr<UnaryExpression>& unaryEx);
+
+		// multiplicative_expression
+		ParserReturnValue S_AdditiveExpression(std::shared_ptr<AdditiveExpression>& ex);
+
+		ParserReturnValue S_AdditiveExpression_AddToken(std::shared_ptr<AdditiveExpression>& ex, const Token& token);
+
+		// additive_expression [PLUS | DASH] unary_expression
+		ParserReturnValue S_AdditiveExpression_AddToken_MultiplicativeEx(std::shared_ptr<AdditiveExpression>& addEx, const Token& token,
+			std::shared_ptr<MultiplicativeExpression>& mulEx);
 
 	};
 }

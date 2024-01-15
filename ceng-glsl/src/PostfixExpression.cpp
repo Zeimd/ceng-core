@@ -8,8 +8,8 @@ PostfixExpression::PostfixExpression(std::shared_ptr<PrimaryExpression>& primary
 
 }
 
-PostfixExpression::PostfixExpression(std::shared_ptr<IntegerExpression>& arrayIndex)
-	: INonTerminal(NonTerminalType::postfix_expression), type(PostfixType::array_index), arrayIndex(arrayIndex)
+PostfixExpression::PostfixExpression(std::shared_ptr<PostfixExpression>& postfixExpression, std::shared_ptr<IntegerExpression>& arrayIndex)
+	: INonTerminal(NonTerminalType::postfix_expression), type(PostfixType::array_index), postfixExpression(postfixExpression),arrayIndex(arrayIndex)
 {
 
 }

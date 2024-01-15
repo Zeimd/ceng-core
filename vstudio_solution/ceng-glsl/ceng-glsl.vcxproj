@@ -29,6 +29,7 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\Tokenizer.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\TokenType.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\Token.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\AdditiveExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\ConstantExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\Declaration.h" />
     <ClInclude Include="..\..\ceng-glsl\src\Expression.h" />
@@ -47,11 +48,13 @@
     <ClInclude Include="..\..\ceng-glsl\src\LayoutQualifier.h" />
     <ClInclude Include="..\..\ceng-glsl\src\LayoutQualifierId.h" />
     <ClInclude Include="..\..\ceng-glsl\src\LayoutQualifierIdList.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\MultiplicativeExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\NonTerminalType.h" />
     <ClInclude Include="..\..\ceng-glsl\src\ParserReturnValue.h" />
     <ClInclude Include="..\..\ceng-glsl\src\PostfixExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\PrecisionQualifier.h" />
     <ClInclude Include="..\..\ceng-glsl\src\PrecisionQualifierType.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\PrimaryExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\SingleDeclaration.h" />
     <ClInclude Include="..\..\ceng-glsl\src\StorageQualifier.h" />
     <ClInclude Include="..\..\ceng-glsl\src\StorageQualifierType.h" />
@@ -65,6 +68,7 @@
     <ClInclude Include="..\..\ceng-glsl\src\UnaryOperator.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\ceng-glsl\src\AdditiveExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\ceng_GLSL.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\Declaration.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\FullySpecifiedType.cpp" />
@@ -78,6 +82,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\LayoutQualifierIdList.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\Log.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\LogEntry.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\MultiplicativeExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\NonTerminalType.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\ParserReturnValue.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\PostfixExpression.cpp" />

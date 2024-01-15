@@ -51,7 +51,7 @@ namespace Ceng
 
 		PostfixExpression(std::shared_ptr<PrimaryExpression>& primaryExpression);
 
-		PostfixExpression(std::shared_ptr<IntegerExpression>& arrayIndex);
+		PostfixExpression(std::shared_ptr<PostfixExpression>& postfixExpression, std::shared_ptr<IntegerExpression>& arrayIndex);
 
 		PostfixExpression(std::shared_ptr<FunctionCall>& functionCall);
 
