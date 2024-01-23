@@ -7,13 +7,13 @@ void TypeSpecifierNoPrec::Release()
 	delete this;
 }
 
-TypeSpecifierNoPrec::TypeSpecifierNoPrec(const TypeSpecifierNoArray& typeSpec)
+TypeSpecifierNoPrec::TypeSpecifierNoPrec(std::shared_ptr<TypeSpecifierNoArray>& typeSpec)
 	: INonTerminal(NonTerminalType::type_specifier_no_prec), typeSpec(typeSpec),isArray(false)
 {
 
 }
 
-TypeSpecifierNoPrec::TypeSpecifierNoPrec(const TypeSpecifierNoArray& typeSpec, const ConstantExpression& elementExpression)
+TypeSpecifierNoPrec::TypeSpecifierNoPrec(std::shared_ptr<TypeSpecifierNoArray>& typeSpec, std::shared_ptr<Expression>& elementExpression)
 	: INonTerminal(NonTerminalType::type_specifier_no_prec), typeSpec(typeSpec), isArray(true), elementExpression(elementExpression)
 {
 

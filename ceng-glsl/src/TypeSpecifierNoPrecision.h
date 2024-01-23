@@ -4,24 +4,25 @@
 #include "INonTerminal.h"
 #include "TypeSpecifierNoArray.h"
 #include "ConstantExpression.h"
+#include "Expression.h"
 
 namespace Ceng
 {
 	class TypeSpecifierNoPrec : public INonTerminal
 	{
 	public:
-		TypeSpecifierNoArray typeSpec;
+		std::shared_ptr<TypeSpecifierNoArray> typeSpec;
 
 		bool isArray;
-		ConstantExpression elementExpression;
+		std::shared_ptr<Expression> elementExpression;
 
 	public:
 
 		void Release() override;
 
-		TypeSpecifierNoPrec(const TypeSpecifierNoArray& typeSpec);
+		TypeSpecifierNoPrec(std::shared_ptr<TypeSpecifierNoArray>& typeSpec);
 
-		TypeSpecifierNoPrec(const TypeSpecifierNoArray& typeSpec, const ConstantExpression& elementExpression);
+		TypeSpecifierNoPrec(std::shared_ptr<TypeSpecifierNoArray>& typeSpec, std::shared_ptr<Expression>& elementExpression);
 	};
 }
 

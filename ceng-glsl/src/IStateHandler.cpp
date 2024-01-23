@@ -11,20 +11,29 @@ HandlerReturn IStateHandler::DefaultExpressionShift(GLSL_Parser* parser, const T
 	ParserReturnValue retVal;
 	bool valid = true;
 
-	switch (next.type)
+	if (next.category == TokenCategory::data_type)
 	{
-	case TokenType::int_constant:
-	case TokenType::float_constant:
-	case TokenType::bool_constant:
-		retVal = parser->S_LiteralToken(next);
-		break;
-	case TokenType::identifier:
-		retVal = parser->S_IdentifierToken(next);
-		break;
-	default:
-		valid = false;
-		break;
+		retVal = parser->S_DatatypeToken(next.type);
 	}
+	else
+	{
+		switch (next.type)
+		{
+		case TokenType::int_constant:
+		case TokenType::float_constant:
+		case TokenType::bool_constant:
+			retVal = parser->S_LiteralToken(next);
+			break;
+		case TokenType::identifier:
+			retVal = parser->S_IdentifierToken(next);
+			break;
+		default:
+			valid = false;
+			break;
+		}
+	}
+
+
 
 	return { retVal, valid };
 }
@@ -38,6 +47,18 @@ HandlerReturn IStateHandler::DefaultExpressionGoto(GLSL_Parser* parser, std::sha
 
 	switch (nonTerminal->type)
 	{
+	case NonTerminalType::type_specifier_nonarray:
+		{
+			std::shared_ptr<TypeSpecifierNoArray> temp = std::static_pointer_cast<TypeSpecifierNoArray>(nonTerminal);
+			retVal = parser->S_TypeSpecifierNonArray(temp);
+		}
+		break;
+	case NonTerminalType::type_specifier_no_prec:
+		{
+			std::shared_ptr<TypeSpecifierNoPrec> temp = std::static_pointer_cast<TypeSpecifierNoPrec>(nonTerminal);
+			retVal = parser->S_TypeSpecifierNoPrec(temp);
+		}
+		break;
 	case NonTerminalType::primary_expression:
 		{
 			std::shared_ptr<PrimaryExpression> temp = std::static_pointer_cast<PrimaryExpression>(nonTerminal);

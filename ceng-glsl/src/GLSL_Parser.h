@@ -96,6 +96,23 @@ namespace Ceng
 
 		ParserReturnValue S_DatatypeToken(TokenType::value value);
 
+		ParserReturnValue S_TypeSpecifierNonArray(std::shared_ptr<TypeSpecifierNoArray>& ts);
+
+		ParserReturnValue S_TypeSpecifierNonArray_LBracket(std::shared_ptr<TypeSpecifierNoArray>& ts);
+
+		ParserReturnValue S_TypeSpecifierNonArray_LBracket_Expression(std::shared_ptr<TypeSpecifierNoArray>& ts,
+			std::shared_ptr<Expression>& expression);
+
+		// Reduction: type_specifier_non_array LBRACKET constant_express RBRACKET
+		ParserReturnValue S_TypeSpecifierNonArray_LBracket_Expression_RBracket(std::shared_ptr<TypeSpecifierNoArray>& ts,
+			std::shared_ptr<Expression>& expression);
+
+		ParserReturnValue S_TypeSpecifierNonArray_LBracket_RBracket(std::shared_ptr<TypeSpecifierNoArray>& ts);
+
+		ParserReturnValue S_TypeSpecifierNoPrec(std::shared_ptr<TypeSpecifierNoPrec>& ts);
+
+		ParserReturnValue S_TypeSpecifier(std::shared_ptr<TypeSpecifier>& ts);
+
 		ParserReturnValue S_TypeQualifier_TypeSpecifierNonArray(std::shared_ptr<TypeQualifier>& sq, std::shared_ptr<TypeSpecifierNoArray>& ts);
 		ParserReturnValue S_TypeQualifier_TypeSpecifierNoPrec(std::shared_ptr<TypeQualifier>& tq, std::shared_ptr<TypeSpecifierNoPrec>& ts);
 		ParserReturnValue S_TypeQualifier_TypeSpecifier(std::shared_ptr<TypeQualifier>& tq, std::shared_ptr<TypeSpecifier>& ts);
@@ -105,6 +122,22 @@ namespace Ceng
 		ParserReturnValue S_FullySpecifiedType_IdentifierToken(std::shared_ptr<FullySpecifiedType>& spec, const Token& token);
 
 		ParserReturnValue S_FullySpecifiedType_IdentifierToken_LBracket(std::shared_ptr<FullySpecifiedType>& spec, const Token& token);
+
+		ParserReturnValue S_FullySpecifiedType_IdentifierToken_LBracket_Expression(std::shared_ptr<FullySpecifiedType>& spec, const Token& token,
+			std::shared_ptr<Expression>& expression);
+
+		ParserReturnValue S_FullySpecifiedType_IdentifierToken_LBracket_Expression_RBracket(std::shared_ptr<FullySpecifiedType>& spec, const Token& token,
+			std::shared_ptr<Expression>& expression);
+
+		ParserReturnValue S_FullySpecifiedType_IdentifierToken_LBracket_Expression_RBracket_Equal(std::shared_ptr<FullySpecifiedType>& spec, const Token& token,
+			std::shared_ptr<Expression>& expression);
+
+		ParserReturnValue S_FullySpecifiedType_IdentifierToken_LBracket_Expression_RBracket_Equal_AssignEx(std::shared_ptr<FullySpecifiedType>& spec, const Token& token,
+			std::shared_ptr<Expression>& expression, std::shared_ptr<AssignmentExpression>& assignEx);
+
+		ParserReturnValue S_FullySpecifiedType_IdentifierToken_LBracket_Expression_RBracket_Equal_Initializer(std::shared_ptr<FullySpecifiedType>& spec, const Token& token,
+			std::shared_ptr<Expression>& expression, std::shared_ptr<Initializer>& initializer);
+
 		ParserReturnValue S_FullySpecifiedType_IdentifierToken_LBracket_RBracket(std::shared_ptr<FullySpecifiedType>& spec, const Token& token);
 
 		ParserReturnValue S_PrimaryExpression(std::shared_ptr<PrimaryExpression>& ex);
@@ -123,6 +156,7 @@ namespace Ceng
 		ParserReturnValue S_PostfixExpression_Dot_IdToken(std::shared_ptr<PostfixExpression>& ex, const Token& token);
 
 		ParserReturnValue S_PostfixExpression_LBracket(std::shared_ptr<PostfixExpression>& ex);
+
 		ParserReturnValue S_PostfixExpression_LBracket_IntExpression(std::shared_ptr<PostfixExpression>& ex,std::shared_ptr<IntegerExpression>& intEx);
 
 		// postfix_expression LEFT_BRACKET integer_expression RIGHT_BRACKET
