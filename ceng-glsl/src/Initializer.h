@@ -3,15 +3,19 @@
 
 #include "INonTerminal.h"
 
+#include "AssignmentExpression.h"
+
 namespace Ceng
 {
 	class Initializer : public INonTerminal
 	{
 	public:
 
+		std::shared_ptr<AssignmentExpression> assignEx;
+
 	public:
 
-		Initializer();
+		Initializer(std::shared_ptr<AssignmentExpression>& assignEx);
 		
 		void Release() override;
 	};

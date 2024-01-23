@@ -2,8 +2,8 @@
 
 using namespace Ceng;
 
-Initializer::Initializer() 
-	: INonTerminal(NonTerminalType::initializer)
+Initializer::Initializer(std::shared_ptr<AssignmentExpression>& assignEx)
+	: INonTerminal(NonTerminalType::initializer), assignEx(assignEx)
 {
 
 }

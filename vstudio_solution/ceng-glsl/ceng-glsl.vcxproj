@@ -39,7 +39,13 @@
     <ClInclude Include="..\..\ceng-glsl\src\EqualityExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\Expression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\FullySpecifiedType.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\FuncCallHeaderNoParams.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\FuncCallHeaderParams.h" />
     <ClInclude Include="..\..\ceng-glsl\src\FunctionCall.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\FunctionCallGeneric.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\FunctionCallHeader.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\FunctionCallOrMethod.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\FunctionIdentifier.h" />
     <ClInclude Include="..\..\ceng-glsl\src\GLSL_Parser.h" />
     <ClInclude Include="..\..\ceng-glsl\src\HandlerReturn.h" />
     <ClInclude Include="..\..\ceng-glsl\src\InitDeclaratorList.h" />
@@ -90,6 +96,12 @@
     <ClCompile Include="..\..\ceng-glsl\src\EqualityExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\Expression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\FullySpecifiedType.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\FuncCallHeaderNoParams.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\FuncCallHeaderParams.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\FunctionCallGeneric.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\FunctionCallHeader.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\FunctionCallOrMethod.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\FunctionIdentifier.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\GLSL_Parser.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\InitDeclaratorList.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\Initializer.cpp" />

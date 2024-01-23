@@ -10,6 +10,9 @@ namespace Ceng
 	public:
 		const NonTerminalType::value type;
 
+		bool isInteger;
+		bool isConst;
+
 	protected:
 
 		virtual ~INonTerminal()
