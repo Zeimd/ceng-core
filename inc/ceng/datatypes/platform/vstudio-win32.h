@@ -105,6 +105,7 @@ namespace Ceng
 
 namespace Ceng
 {
+#ifdef PLATFORM_CPU_X86
 	inline const INT32 CE_FloatToInt(const FLOAT32 x)
 	{
 		INT32 temp;
@@ -126,6 +127,7 @@ namespace Ceng
 		}
 		return temp;
 	}
+#endif
 
 } // Namespace Ceng
 
