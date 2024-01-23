@@ -694,7 +694,7 @@ public:
 			retVal = parser->S_FullySpecifiedType_IdentifierToken_LBracket_RBracket(typeSpec, next);
 			break;
 		default:
-			return DefaultExpressionShift(parser, token);
+			return DefaultExpressionShift(parser, next);
 			break;
 		}
 
