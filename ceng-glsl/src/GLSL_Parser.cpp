@@ -97,11 +97,19 @@ ParserReturnValue GLSL_Parser::StateFuncSkeleton(const char* callerName, IStateH
 			return ParserReturnValue();
 		}
 
+		Ceng::StringUtf8 text;
+		text = "shift action: ";
+		text += callerName;
+		log.Debug(text);
+
 		auto shiftReturn = handler.Shift(this, next);
 
 		if (!shiftReturn.valid)
 		{
-			log.Debug("No shift rule for returned non-terminal");
+			Ceng::StringUtf8 text;
+			text = "No shift rule for token: ";
+			text += next.ToString();
+			log.Error(text);
 			continue;
 		}
 
@@ -153,7 +161,7 @@ ParserReturnValue GLSL_Parser::StateFuncSkeleton(const char* callerName, IStateH
 				Ceng::StringUtf8 text;
 				text = "No goto rule for non-terminal: ";
 				text += NonTerminalType::ToString(retVal.nonTerminal->type);
-				log.Debug(text);
+				log.Error(text);
 				return gotoRet.retVal;
 			}
 

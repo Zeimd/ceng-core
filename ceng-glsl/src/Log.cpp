@@ -43,6 +43,11 @@ void Log::Debug(const Ceng::StringUtf8& message)
 	Print(LogLevel::debug, message);
 }
 
+void Log::Error(const Ceng::StringUtf8& message)
+{
+	Print(LogLevel::error, message);
+}
+
 Ceng::StringUtf8 Log::ToString() const
 {
 	Ceng::StringUtf8 temp;

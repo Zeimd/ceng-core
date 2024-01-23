@@ -27,6 +27,8 @@ namespace Ceng
 
 		void Print(LogLevel::value level, const Ceng::StringUtf8& message);
 
+		void Error(const Ceng::StringUtf8& message);
+
 		void Debug(const Ceng::StringUtf8& message);
 
 		void Debug(const Ceng::StringUtf8& message, const std::shared_ptr<const Ceng::StringUtf8>& fileName, const Ceng::UINT32 line, const Ceng::UINT32 column);
