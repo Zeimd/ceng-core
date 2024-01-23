@@ -1,6 +1,8 @@
 #ifndef CENG_GLSL_FUNCION_CALL_GENERIC_H
 #define CENG_GLSL_FUNCION_CALL_GENERIC_H
 
+#include <memory>
+
 #include "INonTerminal.h"
 #include "FuncCallHeaderNoParams.h"
 #include "FuncCallHeaderParams.h"

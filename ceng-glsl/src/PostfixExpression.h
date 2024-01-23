@@ -4,11 +4,12 @@
 #include <memory>
 #include "INonTerminal.h"
 #include "IntegerExpression.h"
-#include "FunctionCall.h"
 #include "PrimaryExpression.h"
 
 namespace Ceng
 {
+	class FunctionCall;
+
 	namespace PostfixOperator
 	{
 		enum value

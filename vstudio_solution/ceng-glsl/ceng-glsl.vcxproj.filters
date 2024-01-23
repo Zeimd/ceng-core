@@ -365,5 +365,8 @@
     <ClCompile Include="..\..\ceng-glsl\src\FuncCallHeaderParams.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\ceng-glsl\src\FunctionCall.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

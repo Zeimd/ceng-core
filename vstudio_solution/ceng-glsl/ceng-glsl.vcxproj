@@ -98,6 +98,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\FullySpecifiedType.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\FuncCallHeaderNoParams.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\FuncCallHeaderParams.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\FunctionCall.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\FunctionCallGeneric.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\FunctionCallHeader.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\FunctionCallOrMethod.cpp" />

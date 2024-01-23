@@ -1,6 +1,8 @@
 #ifndef CENG_GLSL_FUNCTION_CALL_OR_METHOD_H
 #define CENG_GLSL_FUNCTION_CALL_OR_METHOD_H
 
+#include <memory>
+
 #include "INonTerminal.h"
 #include "FunctionCallGeneric.h"
 #include "PostfixExpression.h"
