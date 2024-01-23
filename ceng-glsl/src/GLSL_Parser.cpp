@@ -693,16 +693,8 @@ public:
 		case TokenType::right_bracket:
 			retVal = parser->S_FullySpecifiedType_IdentifierToken_LBracket_RBracket(typeSpec, next);
 			break;
-		case TokenType::int_constant:
-		case TokenType::float_constant:
-		case TokenType::bool_constant:
-			retVal = parser->S_LiteralToken(next);
-			break;
-		case TokenType::identifier:
-			retVal = parser->S_IdentifierToken(next);
-			break;
 		default:
-			valid = false;
+			return DefaultExpressionShift(parser, token);
 			break;
 		}
 
@@ -718,38 +710,8 @@ public:
 
 		switch (nonTerminal->type)
 		{
-		case NonTerminalType::primary_expression:
-		{
-			std::shared_ptr<PrimaryExpression> temp = std::static_pointer_cast<PrimaryExpression>(nonTerminal);
-			retVal = parser->S_PrimaryExpression(temp);
-		}
-			break;
-		case NonTerminalType::postfix_expression:
-		{
-			std::shared_ptr<PostfixExpression> temp = std::static_pointer_cast<PostfixExpression>(nonTerminal);
-			retVal = parser->S_PostfixExpression(temp);
-		}
-			break;
-		case NonTerminalType::unary_expression:
-		{
-			std::shared_ptr<UnaryExpression> temp = std::static_pointer_cast<UnaryExpression>(nonTerminal);
-			retVal = parser->S_UnaryExpression(temp);
-		}
-			break;
-		case NonTerminalType::multiplicative_expression:
-		{
-			std::shared_ptr<MultiplicativeExpression> temp = std::static_pointer_cast<MultiplicativeExpression>(nonTerminal);
-			retVal = parser->S_MultiplicativeExpression(temp);
-		}
-			break;
-		case NonTerminalType::additive_expression:
-		{
-			std::shared_ptr<AdditiveExpression> temp = std::static_pointer_cast<AdditiveExpression>(nonTerminal);
-			retVal = parser->S_AdditiveExpression(temp);
-		}
-		break;
 		default:
-			valid = false;
+			return DefaultExpressionGoto(parser, nonTerminal);
 			break;
 		}
 
@@ -1221,6 +1183,272 @@ ParserReturnValue GLSL_Parser::S_AdditiveExpression_AddToken(std::shared_ptr<Add
 
 ParserReturnValue GLSL_Parser::S_AdditiveExpression_AddToken_MultiplicativeEx(std::shared_ptr<AdditiveExpression>& addEx, const Token& token,
 	std::shared_ptr<MultiplicativeExpression>& mulEx)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_ShiftExpression(std::shared_ptr<ShiftExpression>& ex)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_ShiftExpression_ShiftToken(std::shared_ptr<ShiftExpression>& ex, const Token& token)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+
+ParserReturnValue GLSL_Parser::S_ShiftExpression_ShiftToken_AdditiveEx(std::shared_ptr<ShiftExpression>& shiftEx, const Token& token,
+	std::shared_ptr<AdditiveExpression>& addEx)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_RelationalExpression(std::shared_ptr<RelationalExpression>& ex)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_RelationalExpression_RelationalToken(std::shared_ptr<RelationalExpression>& ex, const Token& token)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_RelationalExpression_RelationalToken_ShiftEx(std::shared_ptr<RelationalExpression>& relativeEx, const Token& token,
+	std::shared_ptr<ShiftExpression>& shiftEx)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_EqualityExpression(std::shared_ptr<EqualityExpression>& ex)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_EqualityExpression_EqualityToken(std::shared_ptr<EqualityExpression>& ex, const Token& token)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_EqualityExpression_EqualityToken_RelativeEx(std::shared_ptr<EqualityExpression>& equalityEx, const Token& token,
+	std::shared_ptr<RelationalExpression>& relativeEx)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_AndExpression(std::shared_ptr<AndExpression>& ex)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_AndExpression_Ampersand(std::shared_ptr<AndExpression>& ex)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_AndExpression_Ampersand_RelativeEx(std::shared_ptr<AndExpression>& andEx,
+	std::shared_ptr<EqualityExpression>& equalityEx)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_XorExpression(std::shared_ptr<XorExpression>& ex)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_XorExpression_Caret(std::shared_ptr<XorExpression>& ex)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_XorExpression_Caret_AndEx(std::shared_ptr<XorExpression>& xorEx,
+	std::shared_ptr<AndExpression>& andEx)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_OrExpression(std::shared_ptr<OrExpression>& ex)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_OrExpression_Vbar(std::shared_ptr<OrExpression>& ex)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_OrExpression_Vbar_XorEx(std::shared_ptr<OrExpression>& orEx,
+	std::shared_ptr<XorExpression>& xorEx)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_LogicalAndExpression(std::shared_ptr<LogicalAndExpression>& ex)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_LogicalAndExpression_AndOp(std::shared_ptr<LogicalAndExpression>& ex)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_LogicalAndExpression_AndOp_OrEx(std::shared_ptr<LogicalAndExpression>& logicAndEx,
+	std::shared_ptr<OrExpression>& orEx)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_LogicalXorExpression(std::shared_ptr<LogicalXorExpression>& ex)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_LogicalXorExpression_XorOp(std::shared_ptr<LogicalXorExpression>& ex)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_LogicalXorExpression_XorOp_OrEx(std::shared_ptr<LogicalXorExpression>& logicXorEx,
+	std::shared_ptr<LogicalAndExpression>& logicAndEx)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_LogicalOrExpression(std::shared_ptr<LogicalOrExpression>& ex)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_LogicalOrExpression_OrOp(std::shared_ptr<LogicalOrExpression>& ex)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_LogicalOrExpression_OrOp_OrEx(std::shared_ptr<LogicalOrExpression>& logicOrEx,
+	std::shared_ptr<LogicalXorExpression>& logicXorEx)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_ConditionalExpression(std::shared_ptr<ConditionalExpression>& ex)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_CondExpression_Question(std::shared_ptr<ConditionalExpression>& ex)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_CondExpression_Question_Expression(std::shared_ptr<ConditionalExpression>& condEx,
+	std::shared_ptr<Expression>& expression)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_CondExpression_Question_Expression_Colon(std::shared_ptr<ConditionalExpression>& condEx,
+	std::shared_ptr<Expression>& expression)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_CondExpression_Question_Expression_Colon_AssignEx(std::shared_ptr<ConditionalExpression>& condEx,
+	std::shared_ptr<Expression>& expression, std::shared_ptr<AssignmentExpression>& assignEx)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_AssignmentExpression(std::shared_ptr<AssignmentExpression>& ex)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_Expression(std::shared_ptr<Expression>& ex)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_Expression_Comma(std::shared_ptr<Expression>& ex)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_Expression_Comma_AssignmentExpression(std::shared_ptr<Expression>& expression,
+	std::shared_ptr<AssignmentExpression>& assignEx)
 {
 	log.Debug(__func__);
 

@@ -28,6 +28,15 @@
 #include "RelationalExpression.h"
 #include "EqualityExpression.h"
 #include "AndExpression.h"
+#include "XorExpression.h"
+#include "OrExpression.h"
+#include "LogicalAndExpression.h"
+#include "LogicalOrExpression.h"
+#include "LogicalXorExpression.h"
+#include "ConditionalExpression.h"
+#include "AssignmentExpression.h"
+#include "AssignmentOperator.h"
+#include "Expression.h"
 
 #include "ParserReturnValue.h"
 #include "HandlerReturn.h"
@@ -121,6 +130,23 @@ namespace Ceng
 
 		ParserReturnValue S_UnaryExpression(std::shared_ptr<UnaryExpression>& ex);
 
+		// reduce [EQUAL, MUL_ASSIGN, DIV_ASSIGN, MOD_ASSIGN, ADD_ASSIGN, SUB_ASSIGN, LEFT_ASSIGN, RIGHT_ASSIGN, AND_ASSIGN, OR_ASSIGN, XOR_ASSIGN]
+		ParserReturnValue S_AssignToken(const Token& token);
+
+		ParserReturnValue S_UnaryExpression_AssignOperator(std::shared_ptr<UnaryExpression>& ex, std::shared_ptr<AssignmentOperator>& assignOp);
+
+		// reduction: unary_expression assignment_operator assignment_expression
+		ParserReturnValue S_UnaryExpression_AssignOperator_AssignExpression(std::shared_ptr<UnaryExpression>& ex, 
+			std::shared_ptr<AssignmentOperator>& assignOp, std::shared_ptr<AssignmentExpression>& assignEx);
+
+		// INC_OP
+		// NOTE: entered only if stack top is an operator
+		ParserReturnValue S_IncOP();
+
+		// DEC_OP
+		// NOTE: entered only if stack top is an operator
+		ParserReturnValue S_DecOP();
+
 		// INC_OP unary_expression
 		ParserReturnValue S_IncOP_UnaryExpression(std::shared_ptr<UnaryExpression>& ex);
 
@@ -148,6 +174,113 @@ namespace Ceng
 		ParserReturnValue S_AdditiveExpression_AddToken_MultiplicativeEx(std::shared_ptr<AdditiveExpression>& addEx, const Token& token,
 			std::shared_ptr<MultiplicativeExpression>& mulEx);
 
+		// additive_expression
+		ParserReturnValue S_ShiftExpression(std::shared_ptr<ShiftExpression>& ex);
+
+		ParserReturnValue S_ShiftExpression_ShiftToken(std::shared_ptr<ShiftExpression>& ex, const Token& token);
+
+		// shift_expression [LEFT_OP | RIGHT_OP] additive_expression
+		ParserReturnValue S_ShiftExpression_ShiftToken_AdditiveEx(std::shared_ptr<ShiftExpression>& shiftEx, const Token& token,
+			std::shared_ptr<AdditiveExpression>& addEx);
+
+		// shift_expression
+		ParserReturnValue S_RelationalExpression(std::shared_ptr<RelationalExpression>& ex);
+
+		ParserReturnValue S_RelationalExpression_RelationalToken(std::shared_ptr<RelationalExpression>& ex, const Token& token);
+
+		// relational_expression [LEFT_ANGLE | RIGHT_ANGLE | GE_OP | LE_OP] shift_expression
+		ParserReturnValue S_RelationalExpression_RelationalToken_ShiftEx(std::shared_ptr<RelationalExpression>& relativeEx, const Token& token,
+			std::shared_ptr<ShiftExpression>& shiftEx);
+
+		// relational_expression
+		ParserReturnValue S_EqualityExpression(std::shared_ptr<EqualityExpression>& ex);
+
+		ParserReturnValue S_EqualityExpression_EqualityToken(std::shared_ptr<EqualityExpression>& ex, const Token& token);
+
+		// equality_expression [EQ_OP | NE_OP] relational_expression
+		ParserReturnValue S_EqualityExpression_EqualityToken_RelativeEx(std::shared_ptr<EqualityExpression>& equalityEx, const Token& token,
+			std::shared_ptr<RelationalExpression>& relativeEx);
+
+		// equality_expression
+		ParserReturnValue S_AndExpression(std::shared_ptr<AndExpression>& ex);
+
+		ParserReturnValue S_AndExpression_Ampersand(std::shared_ptr<AndExpression>& ex);
+
+		// and_expression AMPERSAND equality_expression
+		ParserReturnValue S_AndExpression_Ampersand_RelativeEx(std::shared_ptr<AndExpression>& andEx,
+			std::shared_ptr<EqualityExpression>& equalityEx);
+
+		// and_expression
+		ParserReturnValue S_XorExpression(std::shared_ptr<XorExpression>& ex);
+
+		ParserReturnValue S_XorExpression_Caret(std::shared_ptr<XorExpression>& ex);
+
+		// xor_expression CARET and_expression
+		ParserReturnValue S_XorExpression_Caret_AndEx(std::shared_ptr<XorExpression>& xorEx,
+			std::shared_ptr<AndExpression>& andEx);
+
+		// xor_expression
+		ParserReturnValue S_OrExpression(std::shared_ptr<OrExpression>& ex);
+
+		ParserReturnValue S_OrExpression_Vbar(std::shared_ptr<OrExpression>& ex);
+
+		// or_expression VERTICAL_BAR xor_expression
+		ParserReturnValue S_OrExpression_Vbar_XorEx(std::shared_ptr<OrExpression>& orEx,
+			std::shared_ptr<XorExpression>& xorEx);
+
+		// or_expression
+		ParserReturnValue S_LogicalAndExpression(std::shared_ptr<LogicalAndExpression>& ex);
+
+		ParserReturnValue S_LogicalAndExpression_AndOp(std::shared_ptr<LogicalAndExpression>& ex);
+
+		// logical_and_expression AND_OP or_expression
+		ParserReturnValue S_LogicalAndExpression_AndOp_OrEx(std::shared_ptr<LogicalAndExpression>& logicAndEx,
+			std::shared_ptr<OrExpression>& orEx);
+
+		// logical_and_expression
+		ParserReturnValue S_LogicalXorExpression(std::shared_ptr<LogicalXorExpression>& ex);
+
+		ParserReturnValue S_LogicalXorExpression_XorOp(std::shared_ptr<LogicalXorExpression>& ex);
+
+		// logical_xor_expression XOR_OP logical_and_expression
+		ParserReturnValue S_LogicalXorExpression_XorOp_OrEx(std::shared_ptr<LogicalXorExpression>& logicXorEx,
+			std::shared_ptr<LogicalAndExpression>& logicAndEx);
+
+		// logical_xor_expression
+		ParserReturnValue S_LogicalOrExpression(std::shared_ptr<LogicalOrExpression>& ex);
+
+		ParserReturnValue S_LogicalOrExpression_OrOp(std::shared_ptr<LogicalOrExpression>& ex);
+
+		// logical_or_expression OR_OP logical_xor_expression
+		ParserReturnValue S_LogicalOrExpression_OrOp_OrEx(std::shared_ptr<LogicalOrExpression>& logicOrEx,
+			std::shared_ptr<LogicalXorExpression>& logicXorEx);
+
+		// logical_or_expression
+		ParserReturnValue S_ConditionalExpression(std::shared_ptr<ConditionalExpression>& ex);
+
+		ParserReturnValue S_CondExpression_Question(std::shared_ptr<ConditionalExpression>& ex);
+
+		ParserReturnValue S_CondExpression_Question_Expression(std::shared_ptr<ConditionalExpression>& condEx,
+			std::shared_ptr<Expression>& expression);
+
+		ParserReturnValue S_CondExpression_Question_Expression_Colon(std::shared_ptr<ConditionalExpression>& condEx,
+			std::shared_ptr<Expression>& expression);
+
+		// conditional_expression QUESTION expression COLON assignment_expression
+		ParserReturnValue S_CondExpression_Question_Expression_Colon_AssignEx(std::shared_ptr<ConditionalExpression>& condEx,
+			std::shared_ptr<Expression>& expression, std::shared_ptr<AssignmentExpression>& assignEx);
+
+		// conditional_expression
+		ParserReturnValue S_AssignmentExpression(std::shared_ptr<AssignmentExpression>& ex);
+
+		// reduction: assignment_expression
+		ParserReturnValue S_Expression(std::shared_ptr<Expression>& ex);
+
+		ParserReturnValue S_Expression_Comma(std::shared_ptr<Expression>& ex);
+
+		// reduction: expression COMMA assignment_expression
+		ParserReturnValue S_Expression_Comma_AssignmentExpression(std::shared_ptr<Expression>& expression,
+			std::shared_ptr<AssignmentExpression>& assignEx);
 	};
 }
 

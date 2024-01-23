@@ -93,6 +93,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\InitDeclaratorList.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\Initializer.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\InterpolationQualifier.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\IStateHandler.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\keyword_db.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\LayoutQualifier.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\LayoutQualifierId.cpp" />

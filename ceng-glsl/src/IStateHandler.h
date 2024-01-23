@@ -16,6 +16,12 @@ namespace Ceng
 		virtual HandlerReturn Shift(GLSL_Parser* parser, const Token& token) = 0;
 
 		virtual HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) = 0;
+
+		// Should be used in a situation where state stack top is an operator
+		HandlerReturn DefaultExpressionShift(GLSL_Parser* parser, const Token& token);
+
+		// Should be used in a situation where state stack top is an operator
+		HandlerReturn DefaultExpressionGoto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal);
 	};
 
 }
