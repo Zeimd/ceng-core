@@ -750,9 +750,59 @@ ParserReturnValue GLSL_Parser::S_TypeQualifier_TypeSpecifierNoPrec(std::shared_p
 	return StateFuncSkeleton(__func__, temp);
 }
 
+class Handler_S_TypeSpecifier : public IStateHandler
+{
+public:
+	std::shared_ptr<TypeSpecifier> typeSpec;
+
+public:
+
+	Handler_S_TypeSpecifier(std::shared_ptr<TypeSpecifier>& typeSpec)
+		: typeSpec(typeSpec)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (parser->PeekToken().type)
+		{
+		case TokenType::left_paren:
+			retVal = ParserReturnValue(std::make_shared<FunctionIdentifier>(typeSpec), 1);
+			break;
+		default:
+			valid = false;
+			break;
+		}
+
+		return { retVal, valid };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+};
+
+
 ParserReturnValue GLSL_Parser::S_TypeSpecifier(std::shared_ptr<TypeSpecifier>& ts)
 {
-	return { std::make_shared<FullySpecifiedType>(*ts), 1 };
+	Handler_S_TypeSpecifier temp(ts);
+
+	return StateFuncSkeleton(__func__, temp);
 }
 
 class Handler_S_TypeQualifier_TypeSpecifier : public IStateHandler
@@ -779,6 +829,8 @@ public:
 
 		switch (parser->PeekToken().type)
 		{
+		case TokenType::left_paren:
+			break;
 		default:
 			retVal = ParserReturnValue(std::make_shared<FullySpecifiedType>(*tq, *ts), 2);
 			break;
@@ -848,10 +900,11 @@ public:
 			retVal = parser->S_FullySpecifiedType_IdentifierToken(typeSpec,next);
 			break;
 		default:
+			valid = false;
 			break;
 		}
 
-		return { ParserReturnValue(),false };
+		return { retVal,valid };
 	}
 
 	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
@@ -1396,6 +1449,21 @@ public:
 	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
 	{
 		parser->log.Debug(__FUNCTION__);
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::function_identifier:
+			{
+				std::shared_ptr<FunctionIdentifier> temp = std::static_pointer_cast<FunctionIdentifier>(nonTerminal);
+				retVal = parser->S_FunctionIdentifier(temp);
+			}
+			break;
+		default:
+			valid = false;
+			break;
+		}
 
 		return { ParserReturnValue(),false };
 	}
@@ -1408,6 +1476,56 @@ ParserReturnValue GLSL_Parser::S_PostfixExpression_Dot(std::shared_ptr<PostfixEx
 
 	return StateFuncSkeleton(__func__, temp);
 }
+
+ParserReturnValue GLSL_Parser::S_PostfixExpression_Dot_FunctionCallGeneric(std::shared_ptr<PostfixExpression>& ex,
+	std::shared_ptr<FunctionCallGeneric>& funcCall)
+{
+	log.Debug(__func__);
+
+	return { std::make_shared<FunctionCallOrMethod>(ex,funcCall),3 };
+}
+
+class Handler_PostfixExpression_Dot_IdToken : public IStateHandler
+{
+public:
+	std::shared_ptr<PostfixExpression>& ex;
+	const Token& token;
+
+public:
+
+	Handler_PostfixExpression_Dot_IdToken(std::shared_ptr<PostfixExpression>& ex, const Token& token)
+		: ex(ex), token(token)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (parser->PeekToken().type)
+		{
+		case TokenType::left_paren:
+			return { ParserReturnValue(std::make_shared<FunctionIdentifier>(token.name),1), true };
+		default:
+			return { ParserReturnValue(),false };
+		}
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return { ParserReturnValue(),false };
+	}
+
+};
 
 ParserReturnValue GLSL_Parser::S_PostfixExpression_Dot_IdToken(std::shared_ptr<PostfixExpression>& ex, const Token& token)
 {
@@ -2505,6 +2623,109 @@ ParserReturnValue GLSL_Parser::S_Expression_Comma(std::shared_ptr<Expression>& e
 
 ParserReturnValue GLSL_Parser::S_Expression_Comma_AssignmentExpression(std::shared_ptr<Expression>& expression,
 	std::shared_ptr<AssignmentExpression>& assignEx)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_FunctionIdentifier(std::shared_ptr<FunctionIdentifier>& funcId)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+// Reduction: function_identifier LPAREN
+ParserReturnValue GLSL_Parser::S_FunctionIdentifier_Lparen(std::shared_ptr<FunctionIdentifier>& funcId)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_FunctionCallHeader(std::shared_ptr<FunctionCallHeader>& funcHeader)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_FunctionCallHeader_VoidToken(std::shared_ptr<FunctionCallHeader>& funcHeader)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_FunctionCallHeaderNoParams(std::shared_ptr<FuncCallHeaderNoParams>& funcHeaderNoParam)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+// Reduction: function_call_header_no_params RIGHT_PAREN
+ParserReturnValue GLSL_Parser::S_FunctionCallHeaderNoParams_RParen(std::shared_ptr<FuncCallHeaderNoParams>& funcHeaderNoParam)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_FunctionCallHeader_AssignEx(std::shared_ptr<FunctionCallHeader>& funcHeader,
+	std::shared_ptr<AssignmentExpression>& assignEx)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_FunctionCallHeaderWithParams(std::shared_ptr<FuncCallHeaderParams>& funcHeaderWithParam)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+// Reduction: function_call_header_with_params RIGHT_PAREN
+ParserReturnValue GLSL_Parser::S_FunctionCallHeaderWithParams_RParen(std::shared_ptr<FuncCallHeaderNoParams>& funcHeaderNoParam)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_FunctionCallHeaderWithParams_Comma(std::shared_ptr<FuncCallHeaderParams>& funcHeaderWithParam)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_FunctionCallHeaderWithParams_Comma_AssignEx(std::shared_ptr<FuncCallHeaderParams>& funcHeaderWithParam,
+	std::shared_ptr<AssignmentExpression>& assignEx)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_FunctionCallGeneric(std::shared_ptr<FunctionCallGeneric>& funcCall)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_FunctionCallOrMethod(std::shared_ptr<FunctionCallOrMethod>& funcCall)
+{
+	log.Debug(__func__);
+
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_FunctionCall(std::shared_ptr<FunctionCall>& funcCall)
 {
 	log.Debug(__func__);
 

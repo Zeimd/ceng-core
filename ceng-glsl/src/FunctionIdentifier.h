@@ -31,7 +31,7 @@ namespace Ceng
 
 		FunctionIdentifier(std::shared_ptr<TypeSpecifier>& typeSpec);
 
-		FunctionIdentifier(Ceng::StringUtf8& name);
+		FunctionIdentifier(const Ceng::StringUtf8& name);
 	};
 }
 

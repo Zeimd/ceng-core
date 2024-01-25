@@ -13,7 +13,7 @@ FunctionIdentifier::FunctionIdentifier(std::shared_ptr<TypeSpecifier>& typeSpec)
 
 }
 
-FunctionIdentifier::FunctionIdentifier(Ceng::StringUtf8& name)
+FunctionIdentifier::FunctionIdentifier(const Ceng::StringUtf8& name)
 	: INonTerminal(NonTerminalType::function_identifier), typeSpec(typeSpec), funcType(FunctionType::normal)
 {
 

@@ -37,6 +37,14 @@
 #include "AssignmentExpression.h"
 #include "AssignmentOperator.h"
 #include "Expression.h"
+#include "FunctionIdentifier.h"
+#include "FunctionCallHeader.h"
+#include "FuncCallHeaderParams.h"
+#include "FuncCallHeaderNoParams.h"
+#include "FunctionCallGeneric.h"
+#include "FunctionCallOrMethod.h"
+#include "FunctionCall.h"
+
 
 #include "ParserReturnValue.h"
 #include "HandlerReturn.h"
@@ -113,6 +121,39 @@ namespace Ceng
 
 		ParserReturnValue S_TypeSpecifier(std::shared_ptr<TypeSpecifier>& ts);
 
+		ParserReturnValue S_FunctionIdentifier(std::shared_ptr<FunctionIdentifier>& funcId);
+
+		// Reduction: function_identifier LPAREN
+		ParserReturnValue S_FunctionIdentifier_Lparen(std::shared_ptr<FunctionIdentifier>& funcId);
+
+		ParserReturnValue S_FunctionCallHeader(std::shared_ptr<FunctionCallHeader>& funcHeader);
+
+		ParserReturnValue S_FunctionCallHeader_VoidToken(std::shared_ptr<FunctionCallHeader>& funcHeader);
+
+		ParserReturnValue S_FunctionCallHeaderNoParams(std::shared_ptr<FuncCallHeaderNoParams>& funcHeaderNoParam);
+
+		// Reduction: function_call_header_no_params RIGHT_PAREN
+		ParserReturnValue S_FunctionCallHeaderNoParams_RParen(std::shared_ptr<FuncCallHeaderNoParams>& funcHeaderNoParam);
+
+		ParserReturnValue S_FunctionCallHeader_AssignEx(std::shared_ptr<FunctionCallHeader>& funcHeader,
+			std::shared_ptr<AssignmentExpression>& assignEx);
+
+		ParserReturnValue S_FunctionCallHeaderWithParams(std::shared_ptr<FuncCallHeaderParams>& funcHeaderWithParam);
+
+		// Reduction: function_call_header_with_params RIGHT_PAREN
+		ParserReturnValue S_FunctionCallHeaderWithParams_RParen(std::shared_ptr<FuncCallHeaderNoParams>& funcHeaderNoParam);
+
+		ParserReturnValue S_FunctionCallHeaderWithParams_Comma(std::shared_ptr<FuncCallHeaderParams>& funcHeaderWithParam);
+
+		ParserReturnValue S_FunctionCallHeaderWithParams_Comma_AssignEx(std::shared_ptr<FuncCallHeaderParams>& funcHeaderWithParam,
+			std::shared_ptr<AssignmentExpression>& assignEx);
+
+		ParserReturnValue S_FunctionCallGeneric(std::shared_ptr<FunctionCallGeneric>& funcCall);
+
+		ParserReturnValue S_FunctionCallOrMethod(std::shared_ptr<FunctionCallOrMethod>& funcCall);
+
+		ParserReturnValue S_FunctionCall(std::shared_ptr<FunctionCall>& funcCall);
+
 		ParserReturnValue S_TypeQualifier_TypeSpecifierNonArray(std::shared_ptr<TypeQualifier>& sq, std::shared_ptr<TypeSpecifierNoArray>& ts);
 		ParserReturnValue S_TypeQualifier_TypeSpecifierNoPrec(std::shared_ptr<TypeQualifier>& tq, std::shared_ptr<TypeSpecifierNoPrec>& ts);
 		ParserReturnValue S_TypeQualifier_TypeSpecifier(std::shared_ptr<TypeQualifier>& tq, std::shared_ptr<TypeSpecifier>& ts);
@@ -143,14 +184,17 @@ namespace Ceng
 		ParserReturnValue S_PrimaryExpression(std::shared_ptr<PrimaryExpression>& ex);
 
 		ParserReturnValue S_PostfixExpression(std::shared_ptr<PostfixExpression>& ex);
+
+		ParserReturnValue S_PostfixExpression_Dot(std::shared_ptr<PostfixExpression>& ex);
+
+		ParserReturnValue S_PostfixExpression_Dot_FunctionCallGeneric(std::shared_ptr<PostfixExpression>& ex,
+			std::shared_ptr<FunctionCallGeneric>& funcCall);
 		
 		// postfix_expression INC_OP
 		ParserReturnValue S_PostfixExpression_IncOp(std::shared_ptr<PostfixExpression>& ex);
 
 		// postfix_expression DEC_OP
 		ParserReturnValue S_PostfixExpression_DecOp(std::shared_ptr<PostfixExpression>& ex);
-
-		ParserReturnValue S_PostfixExpression_Dot(std::shared_ptr<PostfixExpression>& ex);
 
 		// postfix_expression DOT FIELD_SELECTION
 		ParserReturnValue S_PostfixExpression_Dot_IdToken(std::shared_ptr<PostfixExpression>& ex, const Token& token);
