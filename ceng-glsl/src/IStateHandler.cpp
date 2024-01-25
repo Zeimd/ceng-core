@@ -59,6 +59,12 @@ HandlerReturn IStateHandler::DefaultExpressionGoto(GLSL_Parser* parser, std::sha
 			retVal = parser->S_TypeSpecifierNoPrec(temp);
 		}
 		break;
+	case NonTerminalType::type_specifier:
+	{
+		std::shared_ptr<TypeSpecifier> temp = std::static_pointer_cast<TypeSpecifier>(nonTerminal);
+		retVal = parser->S_TypeSpecifier(temp);
+	}
+	break;
 	case NonTerminalType::primary_expression:
 		{
 			std::shared_ptr<PrimaryExpression> temp = std::static_pointer_cast<PrimaryExpression>(nonTerminal);
@@ -153,6 +159,42 @@ HandlerReturn IStateHandler::DefaultExpressionGoto(GLSL_Parser* parser, std::sha
 		{
 			std::shared_ptr<AssignmentExpression> temp = std::static_pointer_cast<AssignmentExpression>(nonTerminal);
 			retVal = parser->S_AssignmentExpression(temp);
+		}
+		break;
+	case NonTerminalType::function_identifier:
+		{
+			std::shared_ptr<FunctionIdentifier> temp = std::static_pointer_cast<FunctionIdentifier>(nonTerminal);
+			retVal = parser->S_FunctionIdentifier(temp);
+		}
+		break;
+	case NonTerminalType::function_call_header:
+		{
+			std::shared_ptr<FunctionCallHeader> temp = std::static_pointer_cast<FunctionCallHeader>(nonTerminal);
+			retVal = parser->S_FunctionCallHeader(temp);
+		}
+		break;
+	case NonTerminalType::function_call_header_no_parameters:
+		{
+			std::shared_ptr<FuncCallHeaderNoParams> temp = std::static_pointer_cast<FuncCallHeaderNoParams>(nonTerminal);
+			retVal = parser->S_FunctionCallHeaderNoParams(temp);
+		}
+		break;
+	case NonTerminalType::function_call_header_with_parameters:
+		{
+			std::shared_ptr<FuncCallHeaderParams> temp = std::static_pointer_cast<FuncCallHeaderParams>(nonTerminal);
+			retVal = parser->S_FunctionCallHeaderWithParams(temp);
+		}
+		break;
+	case NonTerminalType::function_call_generic:
+		{
+			std::shared_ptr<FunctionCallGeneric> temp = std::static_pointer_cast<FunctionCallGeneric>(nonTerminal);
+			retVal = parser->S_FunctionCallGeneric(temp);
+		}
+		break;
+	case NonTerminalType::function_call_or_method:
+		{
+			std::shared_ptr<FunctionCallOrMethod> temp = std::static_pointer_cast<FunctionCallOrMethod>(nonTerminal);
+			retVal = parser->S_FunctionCallOrMethod(temp);
 		}
 		break;
 	case NonTerminalType::function_call:
