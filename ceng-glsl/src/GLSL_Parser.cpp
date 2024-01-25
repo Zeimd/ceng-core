@@ -403,6 +403,7 @@ public:
 		switch (parser->PeekToken().type)
 		{
 		case TokenType::left_bracket:
+			valid = false;
 			break;
 		default:
 			retVal = ParserReturnValue(std::make_shared<TypeSpecifierNoPrec>(st), 1);
@@ -532,6 +533,7 @@ public:
 		{
 		case TokenType::right_bracket:
 			retVal = parser->S_TypeSpecifierNonArray_LBracket_RBracket(typeSpec);
+			break;
 		default:
 			return DefaultExpressionShift(parser, next);
 		}
@@ -676,6 +678,7 @@ public:
 		{
 		default:
 			valid = false;
+			break;
 		}
 
 		return { retVal, valid };
@@ -830,6 +833,7 @@ public:
 		switch (parser->PeekToken().type)
 		{
 		case TokenType::left_paren:
+			valid = false;
 			break;
 		default:
 			retVal = ParserReturnValue(std::make_shared<FullySpecifiedType>(*tq, *ts), 2);
@@ -963,10 +967,11 @@ public:
 			retVal = parser->S_FullySpecifiedType_IdentifierToken_LBracket(typeSpec, next);
 			break;
 		default:
+			valid = false;
 			break;
 		}
 
-		return { ParserReturnValue(),false };
+		return { retVal, valid };
 	}
 
 	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
@@ -1102,6 +1107,7 @@ public:
 			break;
 		default:
 			valid = false;
+			break;
 		}
 
 		
@@ -1147,12 +1153,12 @@ public:
 		switch (parser->PeekToken().type)
 		{
 		case TokenType::equal:
-			break;
+			return { ParserReturnValue(), false };
 		default:
 			return { ParserReturnValue(std::make_shared<SingleDeclaration>(typeSpec,token.name,expression), 5), true};
 		}
 
-		return { ParserReturnValue(), false };
+		
 	}
 
 	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
@@ -1169,6 +1175,7 @@ public:
 			break;
 		default:
 			valid = false;
+			break;
 		}
 
 
@@ -1327,6 +1334,8 @@ public:
 		{
 		case TokenType::inc_op:
 		case TokenType::dec_op:
+		case TokenType::left_bracket:
+		case TokenType::dot:
 			return { ParserReturnValue(),false };
 		default:
 			return { ParserReturnValue(std::make_shared<UnaryExpression>(ex),1),true };
@@ -2060,6 +2069,7 @@ public:
 		switch (parser->PeekToken().type)
 		{
 		case TokenType::ampersand:
+			return { ParserReturnValue(), false };
 		default:
 			return { ParserReturnValue(std::make_shared<XorExpression>(ex),1),true };
 		}
@@ -2894,6 +2904,7 @@ public:
 		{
 		case TokenType::right_paren:
 			retVal = parser->S_FunctionCallHeaderWithParams_RParen(funcHeader);
+			break;
 		case TokenType::comma:
 			retVal = parser->S_FunctionCallHeaderWithParams_Comma(funcHeader);
 			break;
@@ -2974,11 +2985,11 @@ public:
 		switch (nonTerminal->type)
 		{
 		case NonTerminalType::assignment_expression:
-		{
-			std::shared_ptr<AssignmentExpression> temp = std::static_pointer_cast<AssignmentExpression>(nonTerminal);
-			retVal = parser->S_FunctionCallHeaderWithParams_Comma_AssignEx(funcHeader, temp);
-		}
-		break;
+			{
+				std::shared_ptr<AssignmentExpression> temp = std::static_pointer_cast<AssignmentExpression>(nonTerminal);
+				retVal = parser->S_FunctionCallHeaderWithParams_Comma_AssignEx(funcHeader, temp);
+			}
+			break;
 		default:
 			return DefaultExpressionGoto(parser, nonTerminal);
 		}
