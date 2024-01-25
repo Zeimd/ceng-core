@@ -3036,3 +3036,302 @@ ParserReturnValue GLSL_Parser::S_FunctionCall(std::shared_ptr<FunctionCall>& fun
 
 	return { std::make_shared<PostfixExpression>(funcCall),1 };
 }
+
+ParserReturnValue GLSL_Parser::S_Expression_Semicolon(std::shared_ptr<Expression>& ex)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_SingleDeclaration(std::shared_ptr<SingleDeclaration>& singleDecl)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_InitDeclaratorList(std::shared_ptr<InitDeclaratorList>& initList)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_InitDeclaratorList_Semicolon(std::shared_ptr<InitDeclaratorList>& initList)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_InitDeclaratorList_Comma(std::shared_ptr<InitDeclaratorList>& initList)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_InitDeclaratorList_Comma_IdToken(std::shared_ptr<InitDeclaratorList>& initList, const Token& token)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_InitDeclaratorList_Comma_IdToken_LBracket(std::shared_ptr<InitDeclaratorList>& initList, const Token& token)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_InitDeclaratorList_Comma_IdToken_LBracket_RBracket(std::shared_ptr<InitDeclaratorList>& initList, const Token& token)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_InitDeclaratorList_Comma_IdToken_LBracket_RBracket_Equal(std::shared_ptr<InitDeclaratorList>& initList, const Token& token)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_InitDeclaratorList_Comma_IdToken_LBracket_RBracket_Equal_AssignEx(std::shared_ptr<InitDeclaratorList>& initList, const Token& token,
+	std::shared_ptr<AssignmentExpression>& assignEx)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_InitDeclaratorList_Comma_IdToken_LBracket_RBracket_Equal_Initializer(std::shared_ptr<InitDeclaratorList>& initList, const Token& token,
+	std::shared_ptr<Initializer>& initializer)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_InitDeclaratorList_Comma_IdToken_LBracket_Expression(std::shared_ptr<InitDeclaratorList>& initList, const Token& token,
+	std::shared_ptr<Expression>& expression)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_InitDeclaratorList_Comma_IdToken_LBracket_Expression_RBracket(std::shared_ptr<InitDeclaratorList>& initList, const Token& token,
+	std::shared_ptr<Expression>& expression)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_InitDeclaratorList_Comma_IdToken_LBracket_Expression_RBracket_Equal(std::shared_ptr<InitDeclaratorList>& initList, const Token& token,
+	std::shared_ptr<Expression>& expression)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+
+ParserReturnValue GLSL_Parser::S_InitDeclaratorList_Comma_IdToken_LBracket_Expression_RBracket_Equal_AssignEx(std::shared_ptr<InitDeclaratorList>& initList, const Token& token,
+	std::shared_ptr<Expression>& expression, std::shared_ptr<AssignmentExpression>& assignEx)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_InitDeclaratorList_Comma_IdToken_LBracket_Expression_RBracket_Equal_Initializer(std::shared_ptr<InitDeclaratorList>& initList, const Token& token,
+	std::shared_ptr<Expression>& expression, std::shared_ptr<Initializer>& initializer)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_Declaration(std::shared_ptr<Declaration>& singleDecl)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_DeclarationStatement(std::shared_ptr<DeclarationStatement>& declStatement)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_SimpleStatement(std::shared_ptr<SimpleStatement>& simpleStatement)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_Statement(std::shared_ptr<Statement>& statement)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_Statement_ElseToken(std::shared_ptr<Statement>& statement)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_Statement_ElseToken_Statement(std::shared_ptr<Statement>& a, std::shared_ptr<Statement>& b)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_SelectionRestStatement(std::shared_ptr<SelectionRestStatement>& selectionRest)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_StatementList(std::shared_ptr<StatementList>& statementList)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_StatementList_Statement(std::shared_ptr<StatementList>& statementList, std::shared_ptr<Statement>& statement)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_ExpressionStatement(std::shared_ptr<ExpressionStatement>& expressionStatement)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_SelectionStatement(std::shared_ptr<SelectionStatement>& selectionStatement)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_IfToken()
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_IfToken_LParen()
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_IfToken_LParen_Expression(std::shared_ptr<Expression>& expression)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_IfToken_LParen_Expression_RParen(std::shared_ptr<Expression>& expression)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_IfToken_LParen_Expression_RParen_SelectionRestStatement(std::shared_ptr<Expression>& expression,
+	std::shared_ptr<SelectionRestStatement>& selectionRest)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_Condition(std::shared_ptr<Condition>& condition)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_SwitchToken()
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_SwitchToken_LParen()
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_SwitchToken_LParen_Expression(std::shared_ptr<Expression>& expression)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_SwitchToken_LParen_Expression_RParen(std::shared_ptr<Expression>& expression)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_SwitchToken_LParen_Expression_RParen_LBrace(std::shared_ptr<Expression>& expression)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_SwitchToken_LParen_Expression_RParen_LBrace_SwitchStatementList(std::shared_ptr<Expression>& expression,
+	std::shared_ptr<SwitchStatementList>& statementList)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_SwitchToken_LParen_Expression_RParen_LBrace_SwitchStatementList_RBrace(std::shared_ptr<Expression>& expression,
+	std::shared_ptr<SwitchStatementList>& statementList)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_SwitchStatementList(std::shared_ptr<SwitchStatementList>& condition)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_SwitchStatement(std::shared_ptr<SwitchStatement>& switchStatement)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_CaseLabel(std::shared_ptr<CaseLabel>& label)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_CaseToken()
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_CaseToken_Expression(std::shared_ptr<Expression>& expression)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_CaseToken_Expression_Colon(std::shared_ptr<Expression>& expression)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_DefaultToken()
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_DefaultToken_Colon()
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}

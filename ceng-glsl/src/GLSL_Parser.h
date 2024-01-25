@@ -45,6 +45,19 @@
 #include "FunctionCallOrMethod.h"
 #include "FunctionCall.h"
 
+#include "Statement.h"
+#include "StatementList.h"
+#include "SwitchStatement.h"
+#include "SwitchStatementList.h"
+#include "CaseLabel.h"
+#include "Condition.h"
+#include "Declaration.h"
+#include "DeclarationStatement.h"
+#include "SimpleStatement.h"
+#include "SelectionRestStatement.h"
+#include "SelectionStatement.h"
+#include "ExpressionStatement.h"
+
 
 #include "ParserReturnValue.h"
 #include "HandlerReturn.h"
@@ -351,14 +364,122 @@ namespace Ceng
 		// conditional_expression
 		ParserReturnValue S_AssignmentExpression(std::shared_ptr<AssignmentExpression>& ex);
 
-		// reduction: assignment_expression
+		// reduction: expression -> assignment_expression
 		ParserReturnValue S_Expression(std::shared_ptr<Expression>& ex);
 
 		ParserReturnValue S_Expression_Comma(std::shared_ptr<Expression>& ex);
 
-		// reduction: expression COMMA assignment_expression
+		// reduction: expression -> expression COMMA assignment_expression
 		ParserReturnValue S_Expression_Comma_AssignmentExpression(std::shared_ptr<Expression>& expression,
 			std::shared_ptr<AssignmentExpression>& assignEx);
+
+		// reduction: expression_statement -> expression SEMICOLON
+		ParserReturnValue S_Expression_Semicolon(std::shared_ptr<Expression>& ex);
+
+		ParserReturnValue S_SingleDeclaration(std::shared_ptr<SingleDeclaration>& singleDecl);
+
+		ParserReturnValue S_InitDeclaratorList(std::shared_ptr<InitDeclaratorList>& initList);
+
+		ParserReturnValue S_InitDeclaratorList_Semicolon(std::shared_ptr<InitDeclaratorList>& initList);
+
+		ParserReturnValue S_InitDeclaratorList_Comma(std::shared_ptr<InitDeclaratorList>& initList);
+
+		ParserReturnValue S_InitDeclaratorList_Comma_IdToken(std::shared_ptr<InitDeclaratorList>& initList,const Token& token);
+
+		ParserReturnValue S_InitDeclaratorList_Comma_IdToken_LBracket(std::shared_ptr<InitDeclaratorList>& initList, const Token& token);
+
+		ParserReturnValue S_InitDeclaratorList_Comma_IdToken_LBracket_RBracket(std::shared_ptr<InitDeclaratorList>& initList, const Token& token);
+
+		ParserReturnValue S_InitDeclaratorList_Comma_IdToken_LBracket_RBracket_Equal(std::shared_ptr<InitDeclaratorList>& initList, const Token& token);
+
+		ParserReturnValue S_InitDeclaratorList_Comma_IdToken_LBracket_RBracket_Equal_AssignEx(std::shared_ptr<InitDeclaratorList>& initList, const Token& token,
+			std::shared_ptr<AssignmentExpression>& assignEx);
+
+		ParserReturnValue S_InitDeclaratorList_Comma_IdToken_LBracket_RBracket_Equal_Initializer(std::shared_ptr<InitDeclaratorList>& initList, const Token& token,
+			std::shared_ptr<Initializer>& initializer);
+
+		ParserReturnValue S_InitDeclaratorList_Comma_IdToken_LBracket_Expression(std::shared_ptr<InitDeclaratorList>& initList, const Token& token,
+			std::shared_ptr<Expression>& expression);
+
+		ParserReturnValue S_InitDeclaratorList_Comma_IdToken_LBracket_Expression_RBracket(std::shared_ptr<InitDeclaratorList>& initList, const Token& token,
+			std::shared_ptr<Expression>& expression);
+
+		ParserReturnValue S_InitDeclaratorList_Comma_IdToken_LBracket_Expression_RBracket_Equal(std::shared_ptr<InitDeclaratorList>& initList, const Token& token,
+			std::shared_ptr<Expression>& expression);
+
+		ParserReturnValue S_InitDeclaratorList_Comma_IdToken_LBracket_Expression_RBracket_Equal_AssignEx(std::shared_ptr<InitDeclaratorList>& initList, const Token& token,
+			std::shared_ptr<Expression>& expression, std::shared_ptr<AssignmentExpression>& assignEx);
+
+		ParserReturnValue S_InitDeclaratorList_Comma_IdToken_LBracket_Expression_RBracket_Equal_Initializer(std::shared_ptr<InitDeclaratorList>& initList, const Token& token,
+			std::shared_ptr<Expression>& expression, std::shared_ptr<Initializer>& initializer);
+
+		ParserReturnValue S_Declaration(std::shared_ptr<Declaration>& singleDecl);
+
+		ParserReturnValue S_DeclarationStatement(std::shared_ptr<DeclarationStatement>& declStatement);
+
+		ParserReturnValue S_SimpleStatement(std::shared_ptr<SimpleStatement>& simpleStatement);
+
+		ParserReturnValue S_Statement(std::shared_ptr<Statement>& statement);
+
+		ParserReturnValue S_Statement_ElseToken(std::shared_ptr<Statement>& statement);
+
+		ParserReturnValue S_Statement_ElseToken_Statement(std::shared_ptr<Statement>& a, std::shared_ptr<Statement>& b);
+
+		ParserReturnValue S_SelectionRestStatement(std::shared_ptr<SelectionRestStatement>& selectionRest);
+
+		ParserReturnValue S_StatementList(std::shared_ptr<StatementList>& statementList);
+
+		ParserReturnValue S_StatementList_Statement(std::shared_ptr<StatementList>& statementList, std::shared_ptr<Statement>& statement);
+
+		ParserReturnValue S_ExpressionStatement(std::shared_ptr<ExpressionStatement>& expressionStatement);
+
+		ParserReturnValue S_SelectionStatement(std::shared_ptr<SelectionStatement>& selectionStatement);
+
+		ParserReturnValue S_IfToken();
+
+		ParserReturnValue S_IfToken_LParen();
+
+		ParserReturnValue S_IfToken_LParen_Expression(std::shared_ptr<Expression>& expression);
+
+		ParserReturnValue S_IfToken_LParen_Expression_RParen(std::shared_ptr<Expression>& expression);
+
+		ParserReturnValue S_IfToken_LParen_Expression_RParen_SelectionRestStatement(std::shared_ptr<Expression>& expression, 
+			std::shared_ptr<SelectionRestStatement>& selectionRest);
+
+		ParserReturnValue S_Condition(std::shared_ptr<Condition>& condition);
+
+		ParserReturnValue S_SwitchToken();
+
+		ParserReturnValue S_SwitchToken_LParen();
+
+		ParserReturnValue S_SwitchToken_LParen_Expression(std::shared_ptr<Expression>& expression);
+
+		ParserReturnValue S_SwitchToken_LParen_Expression_RParen(std::shared_ptr<Expression>& expression);
+
+		ParserReturnValue S_SwitchToken_LParen_Expression_RParen_LBrace(std::shared_ptr<Expression>& expression);
+
+		ParserReturnValue S_SwitchToken_LParen_Expression_RParen_LBrace_SwitchStatementList(std::shared_ptr<Expression>& expression,
+			std::shared_ptr<SwitchStatementList>& statementList);
+
+		ParserReturnValue S_SwitchToken_LParen_Expression_RParen_LBrace_SwitchStatementList_RBrace(std::shared_ptr<Expression>& expression,
+			std::shared_ptr<SwitchStatementList>& statementList);
+
+		ParserReturnValue S_SwitchStatementList(std::shared_ptr<SwitchStatementList>& condition);
+
+		ParserReturnValue S_SwitchStatement(std::shared_ptr<SwitchStatement>& switchStatement);
+
+		ParserReturnValue S_CaseLabel(std::shared_ptr<CaseLabel>& label);
+
+		ParserReturnValue S_CaseToken();
+
+		ParserReturnValue S_CaseToken_Expression(std::shared_ptr<Expression>& expression);
+
+		ParserReturnValue S_CaseToken_Expression_Colon(std::shared_ptr<Expression>& expression);
+
+		ParserReturnValue S_DefaultToken();
+
+		ParserReturnValue S_DefaultToken_Colon();
+
 	};
 }
 
