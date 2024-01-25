@@ -34,14 +34,19 @@
     <ClInclude Include="..\..\ceng-glsl\src\AssignmentExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\AssignmentOperator.h" />
     <ClInclude Include="..\..\ceng-glsl\src\CaseLabel.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\CompoundStatement.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\CompoundStatementNoNewScope.h" />
     <ClInclude Include="..\..\ceng-glsl\src\Condition.h" />
     <ClInclude Include="..\..\ceng-glsl\src\ConditionalExpression.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\ConditionOpt.h" />
     <ClInclude Include="..\..\ceng-glsl\src\ConstantExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\Declaration.h" />
     <ClInclude Include="..\..\ceng-glsl\src\DeclarationStatement.h" />
     <ClInclude Include="..\..\ceng-glsl\src\EqualityExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\Expression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\ExpressionStatement.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\ForInitStatement.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\ForRestStatement.h" />
     <ClInclude Include="..\..\ceng-glsl\src\FullySpecifiedType.h" />
     <ClInclude Include="..\..\ceng-glsl\src\FuncCallHeaderNoParams.h" />
     <ClInclude Include="..\..\ceng-glsl\src\FuncCallHeaderParams.h" />
@@ -59,6 +64,8 @@
     <ClInclude Include="..\..\ceng-glsl\src\InterpolationQualifier.h" />
     <ClInclude Include="..\..\ceng-glsl\src\InterpolationQualifierType.h" />
     <ClInclude Include="..\..\ceng-glsl\src\IStateHandler.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\IterationStatement.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\JumpStatement.h" />
     <ClInclude Include="..\..\ceng-glsl\src\keyword_db.h" />
     <ClInclude Include="..\..\ceng-glsl\src\LayoutQualifier.h" />
     <ClInclude Include="..\..\ceng-glsl\src\LayoutQualifierId.h" />
@@ -82,6 +89,7 @@
     <ClInclude Include="..\..\ceng-glsl\src\SingleDeclaration.h" />
     <ClInclude Include="..\..\ceng-glsl\src\Statement.h" />
     <ClInclude Include="..\..\ceng-glsl\src\StatementList.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\StatementNoNewScope.h" />
     <ClInclude Include="..\..\ceng-glsl\src\StorageQualifier.h" />
     <ClInclude Include="..\..\ceng-glsl\src\StorageQualifierType.h" />
     <ClInclude Include="..\..\ceng-glsl\src\StructSpecifier.h" />

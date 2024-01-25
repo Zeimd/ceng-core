@@ -3335,3 +3335,239 @@ ParserReturnValue GLSL_Parser::S_DefaultToken_Colon()
 	log.Debug(__func__);
 	return ParserReturnValue();
 }
+
+ParserReturnValue GLSL_Parser::S_ContinueToken()
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_ContinueToken_Semicolon()
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_BreakToken()
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_BreakToken_Semicolon()
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_ReturnToken()
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_ReturnToken_Expression(std::shared_ptr<Expression>& expression)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_ReturnToken_Expression_Semicolon(std::shared_ptr<Expression>& expression)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_ReturnToken_Semicolon()
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_DiscardToken()
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_DiscardToken_Semicolon()
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_JumpStatement(std::shared_ptr<JumpStatement>& jumpStatement)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_ForInitStatement(std::shared_ptr<ForInitStatement>& statement)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_ConditionOpt(std::shared_ptr<ConditionOpt>& conditionOpt)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_ConditionOpt_Semicolon(std::shared_ptr<ConditionOpt>& conditionOpt)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_ConditionOpt_Semicolon_Expression(std::shared_ptr<ConditionOpt>& conditionOpt,
+	std::shared_ptr<Expression>& expression)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_ForRestStatement(std::shared_ptr<ForRestStatement>& statement)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_WhileToken()
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_WhileToken_LParen()
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_WhileToken_LParen_Condition(std::shared_ptr<Condition>& condition)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_WhileToken_LParen_Condition_RParen(std::shared_ptr<Condition>& condition)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_WhileToken_LParen_Condition_RParen_StatementNoNewScope(std::shared_ptr<Condition>& condition,
+	std::shared_ptr<StatementNoNewScope>& block)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_DoToken()
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_DoToken_Statement(std::shared_ptr<Statement>& statement)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_DoToken_Statement_WhileToken(std::shared_ptr<Statement>& statement)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_DoToken_Statement_WhileToken_LParen(std::shared_ptr<Statement>& statement)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_DoToken_Statement_WhileToken_LParen_Expression(std::shared_ptr<Statement>& statement,
+	std::shared_ptr<Expression>& expression)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_DoToken_Statement_WhileToken_LParen_Expression_RParen(std::shared_ptr<Statement>& statement,
+	std::shared_ptr<Expression>& expression)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_DoToken_Statement_WhileToken_LParen_Expression_RParen_Semicolon(std::shared_ptr<Statement>& statement,
+	std::shared_ptr<Expression>& expression)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_ForToken()
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_ForToken_LParen()
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_ForToken_LParen_ForInitStatement(std::shared_ptr<ForInitStatement>& init)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_ForToken_LParen_ForInitStatement_ForRestStatement(std::shared_ptr<ForInitStatement>& init,
+	std::shared_ptr<ForRestStatement>& rest)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_ForToken_LParen_ForInitStatement_ForRestStatement_RParen(std::shared_ptr<ForInitStatement>& init,
+	std::shared_ptr<ForRestStatement>& rest)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_ForToken_LParen_ForInitStatement_ForRestStatement_RParen_StatementNoNewScope(std::shared_ptr<ForInitStatement>& init,
+	std::shared_ptr<ForRestStatement>& rest, std::shared_ptr<StatementNoNewScope>& block)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_IteratorStatement(std::shared_ptr<IterationStatement>& statement)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_StatementNoNewScope(std::shared_ptr<StatementNoNewScope>& block)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_CompoundStatementNoNewScope(std::shared_ptr<CompoundStatementNoNewScope>& block)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}
+
+ParserReturnValue GLSL_Parser::S_CompoundStatement(std::shared_ptr<CompoundStatement>& statement)
+{
+	log.Debug(__func__);
+	return ParserReturnValue();
+}

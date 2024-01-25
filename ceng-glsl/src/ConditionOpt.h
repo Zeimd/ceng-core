@@ -1,0 +1,14 @@
+#ifndef CENG_GLSL_CONDITION_OPT_H
+#define CENG_GLSL_CONDITION_OPT_H
+
+#include "INonTerminal.h"
+
+namespace Ceng
+{
+	class ConditionOpt : public INonTerminal
+	{
+
+	};
+}
+
+#endif

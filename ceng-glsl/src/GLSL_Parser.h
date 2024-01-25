@@ -51,12 +51,21 @@
 #include "SwitchStatementList.h"
 #include "CaseLabel.h"
 #include "Condition.h"
+#include "ConditionOpt.h"
 #include "Declaration.h"
 #include "DeclarationStatement.h"
 #include "SimpleStatement.h"
 #include "SelectionRestStatement.h"
 #include "SelectionStatement.h"
 #include "ExpressionStatement.h"
+
+#include "CompoundStatement.h"
+#include "CompoundStatementNoNewScope.h"
+#include "StatementNoNewScope.h"
+#include "ForInitStatement.h"
+#include "ForRestStatement.h"
+#include "JumpStatement.h"
+#include "IterationStatement.h"
 
 
 #include "ParserReturnValue.h"
@@ -479,6 +488,90 @@ namespace Ceng
 		ParserReturnValue S_DefaultToken();
 
 		ParserReturnValue S_DefaultToken_Colon();
+
+		ParserReturnValue S_ContinueToken();
+
+		ParserReturnValue S_ContinueToken_Semicolon();
+
+		ParserReturnValue S_BreakToken();
+
+		ParserReturnValue S_BreakToken_Semicolon();
+
+		ParserReturnValue S_ReturnToken();
+
+		ParserReturnValue S_ReturnToken_Expression(std::shared_ptr<Expression>& expression);
+
+		ParserReturnValue S_ReturnToken_Expression_Semicolon(std::shared_ptr<Expression>& expression);
+
+		ParserReturnValue S_ReturnToken_Semicolon();
+
+		ParserReturnValue S_DiscardToken();
+
+		ParserReturnValue S_DiscardToken_Semicolon();
+
+		ParserReturnValue S_JumpStatement(std::shared_ptr<JumpStatement>& jumpStatement);
+
+		ParserReturnValue S_ForInitStatement(std::shared_ptr<ForInitStatement>& statement);
+
+		ParserReturnValue S_ConditionOpt(std::shared_ptr<ConditionOpt>& conditionOpt);
+
+		ParserReturnValue S_ConditionOpt_Semicolon(std::shared_ptr<ConditionOpt>& conditionOpt);
+
+		ParserReturnValue S_ConditionOpt_Semicolon_Expression(std::shared_ptr<ConditionOpt>& conditionOpt,
+			std::shared_ptr<Expression>& expression);
+
+		ParserReturnValue S_ForRestStatement(std::shared_ptr<ForRestStatement>& statement);
+
+		ParserReturnValue S_WhileToken();
+
+		ParserReturnValue S_WhileToken_LParen();
+
+		ParserReturnValue S_WhileToken_LParen_Condition(std::shared_ptr<Condition>& condition);
+
+		ParserReturnValue S_WhileToken_LParen_Condition_RParen(std::shared_ptr<Condition>& condition);
+
+		ParserReturnValue S_WhileToken_LParen_Condition_RParen_StatementNoNewScope(std::shared_ptr<Condition>& condition,
+			std::shared_ptr<StatementNoNewScope>& block);
+
+		ParserReturnValue S_DoToken();
+
+		ParserReturnValue S_DoToken_Statement(std::shared_ptr<Statement>& statement);
+
+		ParserReturnValue S_DoToken_Statement_WhileToken(std::shared_ptr<Statement>& statement);
+
+		ParserReturnValue S_DoToken_Statement_WhileToken_LParen(std::shared_ptr<Statement>& statement);
+
+		ParserReturnValue S_DoToken_Statement_WhileToken_LParen_Expression(std::shared_ptr<Statement>& statement,
+			std::shared_ptr<Expression>& expression);
+
+		ParserReturnValue S_DoToken_Statement_WhileToken_LParen_Expression_RParen(std::shared_ptr<Statement>& statement,
+			std::shared_ptr<Expression>& expression);
+
+		ParserReturnValue S_DoToken_Statement_WhileToken_LParen_Expression_RParen_Semicolon(std::shared_ptr<Statement>& statement,
+			std::shared_ptr<Expression>& expression);
+
+		ParserReturnValue S_ForToken();
+
+		ParserReturnValue S_ForToken_LParen();
+
+		ParserReturnValue S_ForToken_LParen_ForInitStatement(std::shared_ptr<ForInitStatement>& init);
+
+		ParserReturnValue S_ForToken_LParen_ForInitStatement_ForRestStatement(std::shared_ptr<ForInitStatement>& init,
+			std::shared_ptr<ForRestStatement>& rest);
+
+		ParserReturnValue S_ForToken_LParen_ForInitStatement_ForRestStatement_RParen(std::shared_ptr<ForInitStatement>& init,
+			std::shared_ptr<ForRestStatement>& rest);
+
+		ParserReturnValue S_ForToken_LParen_ForInitStatement_ForRestStatement_RParen_StatementNoNewScope(std::shared_ptr<ForInitStatement>& init,
+			std::shared_ptr<ForRestStatement>& rest, std::shared_ptr<StatementNoNewScope>& block);
+
+		ParserReturnValue S_IteratorStatement(std::shared_ptr<IterationStatement>& statement);
+
+		ParserReturnValue S_StatementNoNewScope(std::shared_ptr<StatementNoNewScope>& block);
+
+		ParserReturnValue S_CompoundStatementNoNewScope(std::shared_ptr<CompoundStatementNoNewScope>& block);
+
+		ParserReturnValue S_CompoundStatement(std::shared_ptr<CompoundStatement>& statement);
 
 	};
 }
