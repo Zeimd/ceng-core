@@ -7,8 +7,8 @@ void FuncCallHeaderParams::Release()
 	delete this;
 }
 
-FuncCallHeaderParams::FuncCallHeaderParams(std::shared_ptr<AssignmentExpression>& param)
-	: INonTerminal(NonTerminalType::function_call_header_with_parameters)
+FuncCallHeaderParams::FuncCallHeaderParams(std::shared_ptr<FunctionCallHeader>& header, std::shared_ptr<AssignmentExpression>& param)
+	: INonTerminal(NonTerminalType::function_call_header_with_parameters), header(header)
 {
 	params.push_back(param);
 }

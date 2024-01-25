@@ -141,7 +141,7 @@ namespace Ceng
 		ParserReturnValue S_FunctionCallHeaderWithParams(std::shared_ptr<FuncCallHeaderParams>& funcHeaderWithParam);
 
 		// Reduction: function_call_header_with_params RIGHT_PAREN
-		ParserReturnValue S_FunctionCallHeaderWithParams_RParen(std::shared_ptr<FuncCallHeaderNoParams>& funcHeaderNoParam);
+		ParserReturnValue S_FunctionCallHeaderWithParams_RParen(std::shared_ptr<FuncCallHeaderParams>& funcHeaderWithParam);
 
 		ParserReturnValue S_FunctionCallHeaderWithParams_Comma(std::shared_ptr<FuncCallHeaderParams>& funcHeaderWithParam);
 
