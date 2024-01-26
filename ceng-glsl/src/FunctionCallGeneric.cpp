@@ -21,5 +21,18 @@ FunctionCallGeneric::FunctionCallGeneric(std::shared_ptr<FuncCallHeaderNoParams>
 
 Ceng::StringUtf8 FunctionCallGeneric::ToString() const
 {
-	return "";
+	Ceng::StringUtf8 out;
+
+	if (noParams != nullptr)
+	{
+		out += noParams->ToString();
+		out += ')';
+		return out;
+	}
+	else if (withParams != nullptr)
+	{
+		out += withParams->ToString();
+		out += ')';
+		return out;
+	}
 }

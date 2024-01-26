@@ -21,5 +21,15 @@ FunctionIdentifier::FunctionIdentifier(const Ceng::StringUtf8& name)
 
 Ceng::StringUtf8 FunctionIdentifier::ToString() const
 {
+	Ceng::StringUtf8 out;
+
+	switch (funcType)
+	{
+	case FunctionType::constructor:
+		return typeSpec->ToString();
+	case FunctionType::normal:
+		return name;
+	}
+
 	return "";
 }

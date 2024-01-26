@@ -20,5 +20,19 @@ void FuncCallHeaderParams::Append(std::shared_ptr<AssignmentExpression>& param)
 
 Ceng::StringUtf8 FuncCallHeaderParams::ToString() const
 {
-	return "";
+	Ceng::StringUtf8 out;
+
+	out = header->ToString();
+
+	for (size_t k=0; k < params.size(); k++)
+	{
+		out += params[k]->ToString();
+
+		if (k != params.size() - 1)
+		{
+			out += ", ";
+		} 
+	}
+
+	return out;
 }

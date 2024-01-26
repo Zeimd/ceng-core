@@ -15,5 +15,5 @@ FunctionCall::FunctionCall(std::shared_ptr<FunctionCallOrMethod>& call)
 
 Ceng::StringUtf8 FunctionCall::ToString() const
 {
-	return "";
+	return call->ToString();
 }

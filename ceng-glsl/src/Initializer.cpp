@@ -15,5 +15,5 @@ void Initializer::Release()
 
 Ceng::StringUtf8 Initializer::ToString() const
 {
-	return "";
+	return assignEx->ToString();
 }

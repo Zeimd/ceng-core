@@ -21,5 +21,15 @@ FunctionCallOrMethod::FunctionCallOrMethod(std::shared_ptr<PostfixExpression>& r
 
 Ceng::StringUtf8 FunctionCallOrMethod::ToString() const
 {
-	return "";
+	Ceng::StringUtf8 out;
+
+	if (method)
+	{
+		out += root->ToString();
+		out += '.';
+	}
+
+	out += func->ToString();
+
+	return out;
 }

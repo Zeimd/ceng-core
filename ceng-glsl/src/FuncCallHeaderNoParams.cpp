@@ -15,5 +15,5 @@ FuncCallHeaderNoParams::FuncCallHeaderNoParams(std::shared_ptr<FunctionCallHeade
 
 Ceng::StringUtf8 FuncCallHeaderNoParams::ToString() const
 {
-	return "";
+	return header->ToString();
 }
