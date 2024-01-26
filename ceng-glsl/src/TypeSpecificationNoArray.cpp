@@ -144,3 +144,7 @@ TypeSpecifierNoArray::TypeSelector TypeSpecifierNoArray::FromTokenType(TokenType
 	return TypeSelector::invalid;
 }
 
+Ceng::StringUtf8 TypeSpecifierNoArray::ToString() const
+{
+	return "";
+}

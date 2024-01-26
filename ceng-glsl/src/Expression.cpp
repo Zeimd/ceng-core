@@ -22,3 +22,8 @@ void Expression::Append(std::shared_ptr<AssignmentExpression>& ex)
 {
 	assignEx.push_back(ex);
 }
+
+Ceng::StringUtf8 Expression::ToString() const
+{
+	return "";
+}

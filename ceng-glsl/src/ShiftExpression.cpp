@@ -32,3 +32,8 @@ ShiftExpression::ShiftExpression(std::shared_ptr<ShiftExpression>& lhs, ShiftOp:
 {
 
 }
+
+Ceng::StringUtf8 ShiftExpression::ToString() const
+{
+	return "";
+}

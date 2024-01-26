@@ -18,3 +18,8 @@ OrExpression::OrExpression(std::shared_ptr<OrExpression>& lhs, std::shared_ptr<X
 {
 
 }
+
+Ceng::StringUtf8 OrExpression::ToString() const
+{
+	return "";
+}

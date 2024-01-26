@@ -44,3 +44,8 @@ void PostfixExpression::Release()
 {
 	delete this;
 }
+
+Ceng::StringUtf8 PostfixExpression::ToString() const
+{
+	return "";
+}

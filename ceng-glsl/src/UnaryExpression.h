@@ -51,6 +51,7 @@ namespace Ceng
 
 		UnaryExpression(std::shared_ptr<UnaryOperator>& op, std::shared_ptr<UnaryExpression>& unaryExpression);
 
+		Ceng::StringUtf8 ToString() const override;
 	};
 }
 

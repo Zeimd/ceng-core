@@ -12,3 +12,8 @@ void LayoutQualifier::Release()
 {
 	delete this;
 }
+
+Ceng::StringUtf8 LayoutQualifier::ToString() const
+{
+	return "";
+}

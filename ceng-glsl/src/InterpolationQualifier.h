@@ -19,6 +19,8 @@ namespace Ceng
 		InterpolationQualifier();
 	
 		InterpolationQualifier(InterpolationQualifierType::value interpolation);
+
+		Ceng::StringUtf8 ToString() const override;
 	};
 }
 

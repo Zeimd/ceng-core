@@ -19,3 +19,8 @@ AssignmentExpression::AssignmentExpression(std::shared_ptr<UnaryExpression>& una
 {
 
 }
+
+Ceng::StringUtf8 AssignmentExpression::ToString() const
+{
+	return "";
+}

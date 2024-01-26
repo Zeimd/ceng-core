@@ -18,3 +18,8 @@ XorExpression::XorExpression(std::shared_ptr<XorExpression>& lhs, std::shared_pt
 {
 
 }
+
+Ceng::StringUtf8 XorExpression::ToString() const
+{
+	return "";
+}

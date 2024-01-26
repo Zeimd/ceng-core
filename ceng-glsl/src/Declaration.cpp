@@ -12,3 +12,8 @@ void Declaration::Release()
 {
 	delete this;
 }
+
+Ceng::StringUtf8 Declaration::ToString() const
+{
+	return "";
+}

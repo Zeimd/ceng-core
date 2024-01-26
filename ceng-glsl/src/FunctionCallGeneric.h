@@ -23,6 +23,8 @@ namespace Ceng
 		FunctionCallGeneric(std::shared_ptr<FuncCallHeaderParams>& withParams);
 
 		FunctionCallGeneric(std::shared_ptr<FuncCallHeaderNoParams>& noParams);
+
+		Ceng::StringUtf8 ToString() const override;
 	};
 
 }

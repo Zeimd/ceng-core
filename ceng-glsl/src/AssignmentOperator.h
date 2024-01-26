@@ -39,6 +39,8 @@ namespace Ceng
 
 		AssignmentOperator(AssignOpType::value operation);
 
+		Ceng::StringUtf8 ToString() const override;
+
 	};
 }
 

@@ -38,6 +38,8 @@ namespace Ceng
 		EqualityExpression(std::shared_ptr<EqualityExpression>& lhs, const Token& token, std::shared_ptr<RelationalExpression>& rhs);
 
 		EqualityExpression(std::shared_ptr<EqualityExpression>& lhs, EqualityOp::value operation, std::shared_ptr<RelationalExpression>& rhs);
+
+		Ceng::StringUtf8 ToString() const override;
 	};
 }
 

@@ -16,6 +16,8 @@ namespace Ceng
 		LayoutQualifier();
 
 		void Release() override;
+
+		Ceng::StringUtf8 ToString() const override;
 	};
 }
 

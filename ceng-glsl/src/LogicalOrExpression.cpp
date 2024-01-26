@@ -18,3 +18,8 @@ LogicalOrExpression::LogicalOrExpression(std::shared_ptr<LogicalOrExpression>& l
 {
 
 }
+
+Ceng::StringUtf8 LogicalOrExpression::ToString() const
+{
+	return "";
+}

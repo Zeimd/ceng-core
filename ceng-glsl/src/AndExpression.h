@@ -26,6 +26,8 @@ namespace Ceng
 		AndExpression(std::shared_ptr<EqualityExpression>& addEx);
 
 		AndExpression(std::shared_ptr<AndExpression>& lhs, std::shared_ptr<EqualityExpression>& rhs);
+
+		Ceng::StringUtf8 ToString() const override;
 	};
 }
 

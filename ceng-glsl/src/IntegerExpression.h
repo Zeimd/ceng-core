@@ -7,7 +7,13 @@ namespace Ceng
 {
 	class IntegerExpression : public INonTerminal
 	{
+	public:
 
+		IntegerExpression();
+
+		void Release() override;
+
+		Ceng::StringUtf8 ToString() const override;
 	};
 }
 

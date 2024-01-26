@@ -18,3 +18,8 @@ void FullySpecifiedType::Release()
 {
 	delete this;
 }
+
+Ceng::StringUtf8 FullySpecifiedType::ToString() const
+{
+	return "";
+}

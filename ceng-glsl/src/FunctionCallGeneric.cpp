@@ -18,3 +18,8 @@ FunctionCallGeneric::FunctionCallGeneric(std::shared_ptr<FuncCallHeaderNoParams>
 {
 
 }
+
+Ceng::StringUtf8 FunctionCallGeneric::ToString() const
+{
+	return "";
+}

@@ -26,6 +26,8 @@ namespace Ceng
 		StorageQualifier(StorageQualifierType::value qualifier);
 
 		static StorageQualifierType::value FromTokenType(TokenType::value type);
+
+		Ceng::StringUtf8 ToString() const override;
 	};
 }
 

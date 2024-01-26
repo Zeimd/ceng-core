@@ -1,11 +1,13 @@
 #ifndef CENG_GLSL_INONTERMINAL_H
 #define CENG_GLSL_INONTERMINAL_H
 
+#include <ceng/datatypes/ce-string.h>
+
 #include "NonTerminalType.h"
 
 namespace Ceng
 {
-	class INonTerminal
+	class INonTerminal 
 	{
 	public:
 		const NonTerminalType::value type;
@@ -28,6 +30,11 @@ namespace Ceng
 		}
 
 		virtual void Release() = 0;
+
+		virtual Ceng::StringUtf8 ToString() const
+		{
+			return "";
+		}
 	};
 }
 

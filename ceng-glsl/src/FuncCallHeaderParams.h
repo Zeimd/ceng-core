@@ -22,6 +22,8 @@ namespace Ceng
 		FuncCallHeaderParams(std::shared_ptr<FunctionCallHeader>& header, std::shared_ptr<AssignmentExpression>& param);
 
 		void Append(std::shared_ptr<AssignmentExpression>& param);
+
+		Ceng::StringUtf8 ToString() const override;
 	};
 }
 

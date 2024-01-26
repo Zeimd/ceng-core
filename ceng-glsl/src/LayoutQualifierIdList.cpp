@@ -12,3 +12,8 @@ void LayoutQualifierIdList::Release()
 {
 	delete this;
 }
+
+Ceng::StringUtf8 LayoutQualifierIdList::ToString() const
+{
+	return "";
+}

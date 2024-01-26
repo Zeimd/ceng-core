@@ -60,7 +60,7 @@ namespace Ceng
 
 		PostfixExpression(std::shared_ptr<PostfixExpression>& postfixExpression, const Ceng::StringUtf8& fieldName);
 
-
+		Ceng::StringUtf8 ToString() const override;
 	};
 }
 

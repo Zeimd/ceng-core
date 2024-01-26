@@ -22,6 +22,8 @@ namespace Ceng
 
 		FullySpecifiedType(const TypeSpecifier& typeSpec);
 		FullySpecifiedType(const TypeQualifier& qualifier, const TypeSpecifier& typeSpec);
+
+		Ceng::StringUtf8 ToString() const override;
 	};
 }
 

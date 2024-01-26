@@ -32,3 +32,8 @@ AdditiveExpression::AdditiveExpression(std::shared_ptr<AdditiveExpression>& lhs,
 {
 
 }
+
+Ceng::StringUtf8 AdditiveExpression::ToString() const
+{
+	return "";
+}

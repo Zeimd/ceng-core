@@ -46,3 +46,8 @@ UnaryExpression::UnaryExpression(std::shared_ptr<UnaryOperator>& op, std::shared
 		break;
 	}
 }
+
+Ceng::StringUtf8 UnaryExpression::ToString() const
+{
+	return "";
+}

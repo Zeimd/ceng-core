@@ -18,3 +18,8 @@ InterpolationQualifier::InterpolationQualifier(InterpolationQualifierType::value
 {
 
 }
+
+Ceng::StringUtf8 InterpolationQualifier::ToString() const
+{
+	return "";
+}

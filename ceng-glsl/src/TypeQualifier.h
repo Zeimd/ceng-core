@@ -31,6 +31,8 @@ namespace Ceng
 		TypeQualifier(bool invariant, const StorageQualifier& sq);
 		TypeQualifier(const InterpolationQualifier& interpolation, const StorageQualifier& sq);
 		TypeQualifier(bool invariant, const InterpolationQualifier& interpolation, const StorageQualifier& sq);
+
+		Ceng::StringUtf8 ToString() const override;
 		
 	};
 }

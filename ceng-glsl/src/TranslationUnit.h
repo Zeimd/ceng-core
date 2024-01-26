@@ -22,6 +22,8 @@ namespace Ceng
 		void Release() override;
 
 		void Append(std::shared_ptr<INonTerminal>& item);
+
+		Ceng::StringUtf8 ToString() const override;
 	};
 }
 

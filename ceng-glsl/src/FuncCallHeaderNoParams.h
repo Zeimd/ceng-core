@@ -17,6 +17,8 @@ namespace Ceng
 
 		FuncCallHeaderNoParams(std::shared_ptr<FunctionCallHeader>& header);
 
+		Ceng::StringUtf8 ToString() const override;
+
 	};
 }
 

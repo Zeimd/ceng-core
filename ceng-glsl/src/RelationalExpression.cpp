@@ -38,3 +38,8 @@ RelationalExpression::RelationalExpression(std::shared_ptr<RelationalExpression>
 {
 
 }
+
+Ceng::StringUtf8 RelationalExpression::ToString() const
+{
+	return "";
+}

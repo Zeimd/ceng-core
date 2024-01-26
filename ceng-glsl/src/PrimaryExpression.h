@@ -52,6 +52,8 @@ namespace Ceng
 
 		PrimaryExpression(const Ceng::StringUtf8& identifier);
 		PrimaryExpression(std::shared_ptr<Expression>& expression);
+
+		Ceng::StringUtf8 ToString() const override;
 	};
 }
 

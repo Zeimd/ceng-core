@@ -18,6 +18,8 @@ namespace Ceng
 		Initializer(std::shared_ptr<AssignmentExpression>& assignEx);
 		
 		void Release() override;
+
+		Ceng::StringUtf8 ToString() const override;
 	};
 }
 

@@ -22,6 +22,8 @@ namespace Ceng
 		InitDeclaratorList(std::shared_ptr<SingleDeclaration>& decl);
 
 		void Append(std::shared_ptr<SingleDeclaration>& decl);
+
+		Ceng::StringUtf8 ToString() const override;
 	};
 }
 

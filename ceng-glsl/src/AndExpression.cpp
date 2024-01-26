@@ -18,3 +18,8 @@ AndExpression::AndExpression(std::shared_ptr<AndExpression>& lhs, std::shared_pt
 {
 
 }
+
+Ceng::StringUtf8 AndExpression::ToString() const
+{
+	return "";
+}

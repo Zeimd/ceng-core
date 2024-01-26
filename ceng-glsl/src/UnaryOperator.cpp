@@ -32,3 +32,8 @@ UnaryOperator::UnaryOperator(const Token& token)
 		break;
 	}
 }
+
+Ceng::StringUtf8 UnaryOperator::ToString() const
+{
+	return "";
+}

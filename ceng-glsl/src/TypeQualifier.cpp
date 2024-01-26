@@ -56,3 +56,8 @@ TypeQualifier::TypeQualifier(bool invariant, const InterpolationQualifier& inter
 {
 
 }
+
+Ceng::StringUtf8 TypeQualifier::ToString() const
+{
+	return "";
+}

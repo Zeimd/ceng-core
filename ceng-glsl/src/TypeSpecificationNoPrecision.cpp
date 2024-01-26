@@ -18,3 +18,8 @@ TypeSpecifierNoPrec::TypeSpecifierNoPrec(std::shared_ptr<TypeSpecifierNoArray>& 
 {
 
 }
+
+Ceng::StringUtf8 TypeSpecifierNoPrec::ToString() const
+{
+	return "";
+}

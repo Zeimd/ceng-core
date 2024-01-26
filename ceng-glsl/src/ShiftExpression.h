@@ -38,6 +38,8 @@ namespace Ceng
 		ShiftExpression(std::shared_ptr<ShiftExpression>& lhs, const Token& token, std::shared_ptr<AdditiveExpression>& rhs);
 
 		ShiftExpression(std::shared_ptr<ShiftExpression>& lhs, ShiftOp::value operation, std::shared_ptr<AdditiveExpression>& rhs);
+
+		Ceng::StringUtf8 ToString() const override;
 	};
 }
 

@@ -32,6 +32,8 @@ namespace Ceng
 
 		UnaryOperator(const Token& token);
 
+		Ceng::StringUtf8 ToString() const override;
+
 	};
 }
 

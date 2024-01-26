@@ -44,6 +44,8 @@ namespace Ceng
 
 		// INVARIANT IDENTIFIER
 		SingleDeclaration(const Ceng::StringUtf8& name);
+
+		Ceng::StringUtf8 ToString() const override;
 	};
 }
 

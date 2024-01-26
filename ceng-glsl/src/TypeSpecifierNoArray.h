@@ -100,6 +100,8 @@ namespace Ceng
 		TypeSpecifierNoArray(const StructSpecifier& structSpec);
 
 		static TypeSelector FromTokenType(TokenType::value tokenType);
+
+		Ceng::StringUtf8 ToString() const override;
 	};
 }
 

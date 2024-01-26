@@ -32,3 +32,8 @@ EqualityExpression::EqualityExpression(std::shared_ptr<EqualityExpression>& lhs,
 {
 
 }
+
+Ceng::StringUtf8 EqualityExpression::ToString() const
+{
+	return "";
+}

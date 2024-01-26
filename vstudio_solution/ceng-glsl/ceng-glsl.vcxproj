@@ -126,6 +126,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\GLSL_Parser.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\InitDeclaratorList.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\Initializer.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\IntegerExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\InterpolationQualifier.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\IStateHandler.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\keyword_db.cpp" />
@@ -148,6 +149,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\ShiftExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\SingleDeclaration.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\StorageQualifier.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\StructSpecifier.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\Token.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\Tokenizer.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\TranslationUnit.cpp" />

@@ -13,3 +13,7 @@ void Initializer::Release()
 	delete this;
 }
 
+Ceng::StringUtf8 Initializer::ToString() const
+{
+	return "";
+}

@@ -18,3 +18,8 @@ PrecisionQualifier::PrecisionQualifier(PrecisionQualifierType::value precision)
 {
 
 }
+
+Ceng::StringUtf8 PrecisionQualifier::ToString() const
+{
+	return "";
+}

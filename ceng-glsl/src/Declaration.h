@@ -23,6 +23,8 @@ namespace Ceng
 
 		Declaration(std::shared_ptr<InitDeclaratorList>& declList);
 
+		Ceng::StringUtf8 ToString() const override;
+
 	};
 }
 

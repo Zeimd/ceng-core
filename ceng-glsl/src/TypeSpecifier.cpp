@@ -18,3 +18,8 @@ TypeSpecifier::TypeSpecifier(const PrecisionQualifier& precision, const TypeSpec
 {
 
 }
+
+Ceng::StringUtf8 TypeSpecifier::ToString() const
+{
+	return "";
+}

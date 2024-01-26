@@ -45,3 +45,32 @@ StorageQualifierType::value StorageQualifier::FromTokenType(TokenType::value typ
 		return StorageQualifierType::unused;
 	}
 }
+
+Ceng::StringUtf8 StorageQualifier::ToString() const
+{
+	switch (qualifier)
+	{
+	case StorageQualifierType::sq_const:
+		return "const";
+	case StorageQualifierType::sq_attribute:
+		return "attribute";
+	case StorageQualifierType::sq_centroid_in:
+		return "centroid in";
+	case StorageQualifierType::sq_centroid_out:
+		return "centroid out";
+	case StorageQualifierType::sq_centroid_varying:
+		return "centroid varying";
+	case StorageQualifierType::sq_in:
+		return "in";
+	case StorageQualifierType::sq_out:
+		return "out";
+	case StorageQualifierType::sq_uniform:
+		return "uniform";
+	case StorageQualifierType::sq_varying:
+		return "varying";
+	case StorageQualifierType::unused:
+		return "";
+	default:
+		return"StorageQualifier::unhandled";
+	}
+}

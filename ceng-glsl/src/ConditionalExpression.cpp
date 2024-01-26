@@ -18,3 +18,8 @@ ConditionalExpression::ConditionalExpression(std::shared_ptr<LogicalOrExpression
 {
 
 }
+
+Ceng::StringUtf8 ConditionalExpression::ToString() const
+{
+	return "";
+}

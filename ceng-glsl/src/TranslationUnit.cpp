@@ -22,3 +22,8 @@ void TranslationUnit::Append(std::shared_ptr<INonTerminal>& item)
 {
 	items.push_back(item);
 }
+
+Ceng::StringUtf8 TranslationUnit::ToString() const
+{
+	return "";
+}

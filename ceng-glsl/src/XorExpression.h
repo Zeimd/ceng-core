@@ -26,6 +26,8 @@ namespace Ceng
 		XorExpression(std::shared_ptr<AndExpression>& addEx);
 
 		XorExpression(std::shared_ptr<XorExpression>& lhs, std::shared_ptr<AndExpression>& rhs);
+
+		Ceng::StringUtf8 ToString() const override;
 	};
 }
 

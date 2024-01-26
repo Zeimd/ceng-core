@@ -36,3 +36,8 @@ MultiplicativeExpression::MultiplicativeExpression(std::shared_ptr<Multiplicativ
 {
 
 }
+
+Ceng::StringUtf8 MultiplicativeExpression::ToString() const
+{
+	return "";
+}

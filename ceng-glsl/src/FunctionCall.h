@@ -16,6 +16,8 @@ namespace Ceng
 		void Release() override;
 
 		FunctionCall(std::shared_ptr<FunctionCallOrMethod>& call);
+
+		Ceng::StringUtf8 ToString() const override;
 	};
 }
 

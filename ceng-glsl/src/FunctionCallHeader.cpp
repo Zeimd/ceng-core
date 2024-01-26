@@ -12,3 +12,8 @@ FunctionCallHeader::FunctionCallHeader(std::shared_ptr<FunctionIdentifier>& iden
 {
 
 }
+
+Ceng::StringUtf8 FunctionCallHeader::ToString() const
+{
+	return "";
+}

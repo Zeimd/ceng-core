@@ -18,3 +18,8 @@ LogicalXorExpression::LogicalXorExpression(std::shared_ptr<LogicalXorExpression>
 {
 
 }
+
+Ceng::StringUtf8 LogicalXorExpression::ToString() const
+{
+	return "";
+}

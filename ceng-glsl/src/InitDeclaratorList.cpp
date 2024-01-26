@@ -17,3 +17,8 @@ void InitDeclaratorList::Release()
 {
 	delete this;
 }
+
+Ceng::StringUtf8 InitDeclaratorList::ToString() const
+{
+	return "";
+}

@@ -54,3 +54,8 @@ AssignmentOperator::AssignmentOperator(AssignOpType::value operation)
 {
 
 }
+
+Ceng::StringUtf8 AssignmentOperator::ToString() const
+{
+	return "";
+}

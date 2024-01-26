@@ -49,3 +49,8 @@ void SingleDeclaration::Release()
 {
 	delete this;
 }
+
+Ceng::StringUtf8 SingleDeclaration::ToString() const
+{
+	return "";
+}

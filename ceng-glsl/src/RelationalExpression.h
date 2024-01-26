@@ -40,6 +40,8 @@ namespace Ceng
 		RelationalExpression(std::shared_ptr<RelationalExpression>& lhs, const Token& token, std::shared_ptr<ShiftExpression>& rhs);
 
 		RelationalExpression(std::shared_ptr<RelationalExpression>& lhs, RelativeOp::value operation, std::shared_ptr<ShiftExpression>& rhs);
+
+		Ceng::StringUtf8 ToString() const override;
 	};
 }
 

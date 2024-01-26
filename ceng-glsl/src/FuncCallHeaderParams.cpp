@@ -17,3 +17,8 @@ void FuncCallHeaderParams::Append(std::shared_ptr<AssignmentExpression>& param)
 {
 	params.push_back(param);
 }
+
+Ceng::StringUtf8 FuncCallHeaderParams::ToString() const
+{
+	return "";
+}

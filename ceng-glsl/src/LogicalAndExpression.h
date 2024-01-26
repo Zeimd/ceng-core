@@ -26,6 +26,8 @@ namespace Ceng
 		LogicalAndExpression(std::shared_ptr<OrExpression>& addEx);
 
 		LogicalAndExpression(std::shared_ptr<LogicalAndExpression>& lhs, std::shared_ptr<OrExpression>& rhs);
+
+		Ceng::StringUtf8 ToString() const override;
 	};
 }
 

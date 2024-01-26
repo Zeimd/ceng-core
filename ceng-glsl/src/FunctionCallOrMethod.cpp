@@ -18,3 +18,8 @@ FunctionCallOrMethod::FunctionCallOrMethod(std::shared_ptr<PostfixExpression>& r
 {
 
 }
+
+Ceng::StringUtf8 FunctionCallOrMethod::ToString() const
+{
+	return "";
+}

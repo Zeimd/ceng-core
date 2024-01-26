@@ -19,6 +19,7 @@ namespace Ceng
 		PrecisionQualifier();
 		PrecisionQualifier(PrecisionQualifierType::value precision);
 
+		Ceng::StringUtf8 ToString() const override;
 	};
 }
 

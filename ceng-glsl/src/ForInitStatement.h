@@ -7,7 +7,9 @@ namespace Ceng
 {
 	class ForInitStatement : public INonTerminal
 	{
+	public:
 
+		Ceng::StringUtf8 ToString() const override;
 	};
 }
 

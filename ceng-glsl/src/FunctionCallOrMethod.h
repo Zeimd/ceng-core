@@ -26,6 +26,8 @@ namespace Ceng
 
 		FunctionCallOrMethod(std::shared_ptr<PostfixExpression>& root, std::shared_ptr<FunctionCallGeneric>& func);
 
+		Ceng::StringUtf8 ToString() const override;
+
 	};
 }
 

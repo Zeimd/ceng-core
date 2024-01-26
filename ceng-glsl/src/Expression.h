@@ -26,6 +26,8 @@ namespace Ceng
 
 		void Append(std::shared_ptr<AssignmentExpression>& ex);
 
+		Ceng::StringUtf8 ToString() const override;
+
 	};
 }
 

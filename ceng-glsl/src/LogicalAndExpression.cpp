@@ -18,3 +18,8 @@ LogicalAndExpression::LogicalAndExpression(std::shared_ptr<LogicalAndExpression>
 {
 
 }
+
+Ceng::StringUtf8 LogicalAndExpression::ToString() const
+{
+	return "";
+}

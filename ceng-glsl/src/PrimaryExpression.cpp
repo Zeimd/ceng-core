@@ -70,3 +70,8 @@ void PrimaryExpression::Release()
 {
 	delete this;
 }
+
+Ceng::StringUtf8 PrimaryExpression::ToString() const
+{
+	return "";
+}
