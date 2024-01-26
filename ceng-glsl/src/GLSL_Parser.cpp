@@ -198,76 +198,21 @@ public:
 	{
 		parser->log.Debug(__FUNCTION__);
 
-		ParserReturnValue retVal;
-		bool valid = true;
-
-		if (next.category == TokenCategory::data_type)
-		{
-			Ceng::StringUtf8 text;
-			text = "no parsing rule for: ";
-			text += next.ToString();
-			parser->log.Debug(text);
-			valid = false;
-		}
-		else
-		{
-			switch (next.type)
-			{
-			case TokenType::keyword_const:
-			case TokenType::keyword_attribute:
-			case TokenType::keyword_varying:
-			case TokenType::keyword_uniform:
-			case TokenType::keyword_in:
-			case TokenType::keyword_out:
-				retVal = parser->S_StorageQualifierToken(next.type);
-				break;
-			default:
-				Ceng::StringUtf8 text;
-				text = "no parsing rule for: ";
-				text += next.ToString();
-				parser->log.Debug(text);
-
-				valid = false;
-				break;
-			}
-		}
-
-		return { retVal, valid };
+		return DefaultExpressionShift(parser, next);
 	}
 
 	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
 	{
 		parser->log.Debug(__FUNCTION__);
 
-		ParserReturnValue retVal;
-		bool valid = true;
-
 		switch (nonTerminal->type)
 		{
-		case NonTerminalType::storage_qualifier:			
-			{
-				auto temp = std::static_pointer_cast<StorageQualifier>(nonTerminal);
-				retVal = parser->S_StorageQualifier(temp);
-			}
-			break;
-		case NonTerminalType::type_qualifier:
-			{
-				auto temp = std::static_pointer_cast<TypeQualifier>(nonTerminal);
-				retVal = parser->S_TypeQualifier(temp);
-			}
-			break;
-		case NonTerminalType::fully_specified_type:
-			{
-				auto temp = std::static_pointer_cast<FullySpecifiedType>(nonTerminal);
-				retVal = parser->S_FullySpecifiedType(temp);
-			}
-			break;
+		case NonTerminalType::declaration:
+		case NonTerminalType::function_definition:
+			return { ParserReturnValue(), false };
 		default:
 			return DefaultExpressionGoto(parser, nonTerminal);
-			break;
 		}
-
-		return { retVal, valid };
 	}
 
 };

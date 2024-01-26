@@ -19,6 +19,17 @@ HandlerReturn IStateHandler::DefaultExpressionShift(GLSL_Parser* parser, const T
 	{
 		switch (next.type)
 		{
+		case TokenType::keyword_const:
+		case TokenType::keyword_attribute:
+		case TokenType::keyword_varying:
+		case TokenType::keyword_uniform:
+		case TokenType::keyword_in:
+		case TokenType::keyword_out:
+			retVal = parser->S_StorageQualifierToken(next.type);
+			break;
+		case TokenType::keyword_invariant:
+			retVal = parser->S_InvariantToken();
+			break;
 		case TokenType::int_constant:
 		case TokenType::float_constant:
 		case TokenType::bool_constant:
@@ -47,6 +58,24 @@ HandlerReturn IStateHandler::DefaultExpressionGoto(GLSL_Parser* parser, std::sha
 
 	switch (nonTerminal->type)
 	{
+	case NonTerminalType::storage_qualifier:
+		{
+			auto temp = std::static_pointer_cast<StorageQualifier>(nonTerminal);
+			retVal = parser->S_StorageQualifier(temp);
+		}
+		break;
+	case NonTerminalType::type_qualifier:
+		{
+			auto temp = std::static_pointer_cast<TypeQualifier>(nonTerminal);
+			retVal = parser->S_TypeQualifier(temp);
+		}
+		break;
+	case NonTerminalType::fully_specified_type:
+		{
+			auto temp = std::static_pointer_cast<FullySpecifiedType>(nonTerminal);
+			retVal = parser->S_FullySpecifiedType(temp);
+		}
+		break;
 	case NonTerminalType::type_specifier_nonarray:
 		{
 			std::shared_ptr<TypeSpecifierNoArray> temp = std::static_pointer_cast<TypeSpecifierNoArray>(nonTerminal);
