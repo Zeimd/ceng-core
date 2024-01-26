@@ -16,6 +16,9 @@ namespace Ceng
 		bool hasName;
 		Ceng::StringUtf8 name;
 
+		// Indicates an empty array when *arraySizeExpression* is NULL.
+		bool isArray;
+
 		std::shared_ptr<Expression> arraySizeExpression;
 
 		bool invariant;

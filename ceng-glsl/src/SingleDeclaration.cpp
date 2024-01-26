@@ -4,28 +4,28 @@ using namespace Ceng;
 
 SingleDeclaration::SingleDeclaration(std::shared_ptr<FullySpecifiedType>& fullType)
 	: INonTerminal(NonTerminalType::single_declaration), fullType(fullType), hasName(false),invariant(false),
-	arraySizeExpression(nullptr), initializer(nullptr)
+	arraySizeExpression(nullptr), initializer(nullptr), isArray(false)
 {
 
 }
 
 SingleDeclaration::SingleDeclaration(std::shared_ptr<FullySpecifiedType>& fullType, const Ceng::StringUtf8& name)
 	: INonTerminal(NonTerminalType::single_declaration), fullType(fullType), hasName(true), invariant(false),
-	arraySizeExpression(nullptr), initializer(nullptr),name(name)
+	arraySizeExpression(nullptr), initializer(nullptr),name(name), isArray(false)
 {
 
 }
 
 SingleDeclaration::SingleDeclaration(std::shared_ptr<FullySpecifiedType>& fullType, const Ceng::StringUtf8& name, std::shared_ptr<Initializer>& initializer)
 	: INonTerminal(NonTerminalType::single_declaration), fullType(fullType), hasName(true), invariant(false),
-	arraySizeExpression(nullptr), initializer(initializer), name(name)
+	arraySizeExpression(nullptr), initializer(initializer), name(name), isArray(false)
 {
 
 }
 
 SingleDeclaration::SingleDeclaration(std::shared_ptr<FullySpecifiedType>& fullType, const Ceng::StringUtf8& name, std::shared_ptr<Expression>& arraySizeExpression)
 	: INonTerminal(NonTerminalType::single_declaration), fullType(fullType), hasName(true), invariant(false),
-	arraySizeExpression(arraySizeExpression), initializer(nullptr), name(name)
+	arraySizeExpression(arraySizeExpression), initializer(nullptr), name(name), isArray(true)
 {
 
 }
@@ -33,7 +33,7 @@ SingleDeclaration::SingleDeclaration(std::shared_ptr<FullySpecifiedType>& fullTy
 SingleDeclaration::SingleDeclaration(std::shared_ptr<FullySpecifiedType>& fullType, const Ceng::StringUtf8& name, std::shared_ptr<Expression>& arraySizeExpression,
 	std::shared_ptr<Initializer>& initializer)
 	: INonTerminal(NonTerminalType::single_declaration), fullType(fullType), hasName(true), invariant(false),
-	arraySizeExpression(arraySizeExpression), initializer(initializer), name(name)
+	arraySizeExpression(arraySizeExpression), initializer(initializer), name(name), isArray(true)
 {
 
 }
@@ -69,10 +69,15 @@ Ceng::StringUtf8 SingleDeclaration::ToString() const
 		out += name;
 	}
 
-	if (arraySizeExpression != nullptr)
+	if (isArray)
 	{
 		out += '[';
-		out += arraySizeExpression->ToString();
+
+		if (arraySizeExpression != nullptr)
+		{
+			out += arraySizeExpression->ToString();
+		}
+
 		out += ']';
 	}
 
