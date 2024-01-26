@@ -22,6 +22,8 @@ namespace Ceng
 
 		TypeSpecifierNoPrec(std::shared_ptr<TypeSpecifierNoArray>& typeSpec);
 
+		TypeSpecifierNoPrec(std::shared_ptr<TypeSpecifierNoArray>& typeSpec, bool undefinedArray);
+
 		TypeSpecifierNoPrec(std::shared_ptr<TypeSpecifierNoArray>& typeSpec, std::shared_ptr<Expression>& elementExpression);
 
 		Ceng::StringUtf8 ToString() const override;

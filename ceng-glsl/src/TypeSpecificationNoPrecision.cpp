@@ -13,6 +13,12 @@ TypeSpecifierNoPrec::TypeSpecifierNoPrec(std::shared_ptr<TypeSpecifierNoArray>& 
 
 }
 
+TypeSpecifierNoPrec::TypeSpecifierNoPrec(std::shared_ptr<TypeSpecifierNoArray>& typeSpec, bool undefinedArray)
+	: INonTerminal(NonTerminalType::type_specifier_no_prec), typeSpec(typeSpec), isArray(true), elementExpression(nullptr)
+{
+
+}
+
 TypeSpecifierNoPrec::TypeSpecifierNoPrec(std::shared_ptr<TypeSpecifierNoArray>& typeSpec, std::shared_ptr<Expression>& elementExpression)
 	: INonTerminal(NonTerminalType::type_specifier_no_prec), typeSpec(typeSpec), isArray(true), elementExpression(elementExpression)
 {
@@ -25,12 +31,18 @@ Ceng::StringUtf8 TypeSpecifierNoPrec::ToString() const
 
 	out = typeSpec->ToString();
 
-	if (elementExpression != nullptr)
+	if (isArray)
 	{
 		out += '[';
-		out += elementExpression->ToString();
+
+		if (elementExpression != nullptr)
+		{
+			out += elementExpression->ToString();
+		}
+
 		out += ']';
 	}
+
 
 	return out;
 }

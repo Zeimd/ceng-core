@@ -678,7 +678,7 @@ ParserReturnValue GLSL_Parser::S_TypeSpecifierNonArray_LBracket_Expression_RBrac
 ParserReturnValue GLSL_Parser::S_TypeSpecifierNonArray_LBracket_RBracket(std::shared_ptr<TypeSpecifierNoArray>& ts)
 {
 	log.Debug(__func__);
-	return { std::make_shared<TypeSpecifierNoPrec>(ts),3 };
+	return { std::make_shared<TypeSpecifierNoPrec>(ts,true),3 };
 }
 
 class Handler_TypeSpecifierNoPrec : public IStateHandler
