@@ -27,10 +27,15 @@ Ceng::StringUtf8 TranslationUnit::ToString() const
 {
 	Ceng::StringUtf8 out;
 
+	out += '\n';
+
 	for (auto& x : items)
 	{
 		out += x->ToString();
+		out += '\n';
 	}
+
+	out += '\n';
 
 	return out;
 }
