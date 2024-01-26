@@ -6,24 +6,17 @@
 #include "ConstantExpression.h"
 #include "Initializer.h"
 
+#include "DeclarationData.h"
+
 namespace Ceng
 {
 	class SingleDeclaration : public INonTerminal
 	{
 	public:
 		std::shared_ptr<FullySpecifiedType> fullType;
-
-		bool hasName;
-		Ceng::StringUtf8 name;
-
-		// Indicates an empty array when *arraySizeExpression* is NULL.
-		bool isArray;
-
-		std::shared_ptr<Expression> arraySizeExpression;
-
 		bool invariant;
-
-		std::shared_ptr<Initializer> initializer;
+		
+		DeclarationData data;
 
 	public:
 

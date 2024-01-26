@@ -41,6 +41,7 @@
     <ClInclude Include="..\..\ceng-glsl\src\ConditionOpt.h" />
     <ClInclude Include="..\..\ceng-glsl\src\ConstantExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\Declaration.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\DeclarationData.h" />
     <ClInclude Include="..\..\ceng-glsl\src\DeclarationStatement.h" />
     <ClInclude Include="..\..\ceng-glsl\src\EqualityExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\Expression.h" />
@@ -113,6 +114,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\ceng_GLSL.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\ConditionalExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\Declaration.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\DeclarationData.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\EqualityExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\Expression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\FullySpecifiedType.cpp" />

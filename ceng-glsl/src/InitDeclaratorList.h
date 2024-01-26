@@ -12,8 +12,10 @@ namespace Ceng
 	class InitDeclaratorList : public INonTerminal
 	{
 	public:
+		std::shared_ptr<FullySpecifiedType> fullType;
+		bool invariant;
 
-		std::vector<std::shared_ptr<SingleDeclaration>> list;
+		std::vector<DeclarationData> list;
 
 	public:
 

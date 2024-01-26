@@ -3,53 +3,46 @@
 using namespace Ceng;
 
 SingleDeclaration::SingleDeclaration(std::shared_ptr<FullySpecifiedType>& fullType)
-	: INonTerminal(NonTerminalType::single_declaration), fullType(fullType), hasName(false),invariant(false),
-	arraySizeExpression(nullptr), initializer(nullptr), isArray(false)
+	: INonTerminal(NonTerminalType::single_declaration), fullType(fullType), invariant(false), data()
 {
 
 }
 
 SingleDeclaration::SingleDeclaration(std::shared_ptr<FullySpecifiedType>& fullType, const Ceng::StringUtf8& name)
-	: INonTerminal(NonTerminalType::single_declaration), fullType(fullType), hasName(true), invariant(false),
-	arraySizeExpression(nullptr), initializer(nullptr),name(name), isArray(false)
+	: INonTerminal(NonTerminalType::single_declaration), fullType(fullType), invariant(false), data(name)
 {
 
 }
 
 SingleDeclaration::SingleDeclaration(std::shared_ptr<FullySpecifiedType>& fullType, const Ceng::StringUtf8& name, std::shared_ptr<Initializer>& initializer)
-	: INonTerminal(NonTerminalType::single_declaration), fullType(fullType), hasName(true), invariant(false),
-	arraySizeExpression(nullptr), initializer(initializer), name(name), isArray(false)
+	: INonTerminal(NonTerminalType::single_declaration), fullType(fullType), invariant(false), data(name,initializer)
 {
 
 }
 
 SingleDeclaration::SingleDeclaration(std::shared_ptr<FullySpecifiedType>& fullType, const Ceng::StringUtf8& name, bool undefinedArray,
 	std::shared_ptr<Initializer>& initializer)
-	: INonTerminal(NonTerminalType::single_declaration), fullType(fullType), hasName(true), invariant(false),
-	arraySizeExpression(nullptr), initializer(initializer), name(name), isArray(true)
+	: INonTerminal(NonTerminalType::single_declaration), fullType(fullType), invariant(false), data(name,undefinedArray, initializer)
 {
 
 }
 
 
 SingleDeclaration::SingleDeclaration(std::shared_ptr<FullySpecifiedType>& fullType, const Ceng::StringUtf8& name, std::shared_ptr<Expression>& arraySizeExpression)
-	: INonTerminal(NonTerminalType::single_declaration), fullType(fullType), hasName(true), invariant(false),
-	arraySizeExpression(arraySizeExpression), initializer(nullptr), name(name), isArray(true)
+	: INonTerminal(NonTerminalType::single_declaration), fullType(fullType), invariant(false), data(name, arraySizeExpression)
 {
 
 }
 
 SingleDeclaration::SingleDeclaration(std::shared_ptr<FullySpecifiedType>& fullType, const Ceng::StringUtf8& name, std::shared_ptr<Expression>& arraySizeExpression,
 	std::shared_ptr<Initializer>& initializer)
-	: INonTerminal(NonTerminalType::single_declaration), fullType(fullType), hasName(true), invariant(false),
-	arraySizeExpression(arraySizeExpression), initializer(initializer), name(name), isArray(true)
+	: INonTerminal(NonTerminalType::single_declaration), fullType(fullType), invariant(false), data(name, arraySizeExpression, initializer)
 {
 
 }
 
 SingleDeclaration::SingleDeclaration(const Ceng::StringUtf8& name)
-	: INonTerminal(NonTerminalType::single_declaration), fullType(fullType), hasName(true), invariant(true),
-	arraySizeExpression(nullptr), initializer(nullptr), name(name)
+	: INonTerminal(NonTerminalType::single_declaration), fullType(fullType), invariant(true), data(name)
 {
 
 }
@@ -61,40 +54,8 @@ void SingleDeclaration::Release()
 
 Ceng::StringUtf8 SingleDeclaration::ToString() const
 {
-	Ceng::StringUtf8 out;
+	return "";
 
-	if (invariant)
-	{
-		out += "invariant ";
-		out += name;
-		return out;
-	}
-
-	out += fullType->ToString();
-	out += ' ';
-
-	if (hasName)
-	{
-		out += name;
-	}
-
-	if (isArray)
-	{
-		out += '[';
-
-		if (arraySizeExpression != nullptr)
-		{
-			out += arraySizeExpression->ToString();
-		}
-
-		out += ']';
-	}
-
-	if (initializer != nullptr)
-	{
-		out += " = ";
-		out += initializer->ToString();
-	}
-
-	return out;	
+	
+	
 }
