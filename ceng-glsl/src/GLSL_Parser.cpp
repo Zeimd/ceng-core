@@ -994,7 +994,7 @@ public:
 			return { ParserReturnValue(),false };
 			break;
 		default:
-			return { ParserReturnValue(std::make_shared<SingleDeclaration>(typeSpec),2),true };
+			return { ParserReturnValue(std::make_shared<SingleDeclaration>(typeSpec,token.name),2),true };
 		}
 	}
 
