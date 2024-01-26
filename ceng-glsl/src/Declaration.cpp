@@ -2,7 +2,7 @@
 
 using namespace Ceng;
 
-Declaration::Declaration(const InitDeclaratorList& declList)
+Declaration::Declaration(std::shared_ptr<InitDeclaratorList>& declList)
 	: INonTerminal(NonTerminalType::declaration), declList(declList)
 {
 

@@ -1,5 +1,7 @@
 #include "GLSL_Parser.h"
 
+#include "TranslationUnit.h"
+
 using namespace Ceng;
 
 GLSL_Parser::GLSL_Parser()
@@ -27,7 +29,9 @@ CRESULT GLSL_Parser::Parse(const std::vector<Token>& in_tokens, GLSL::AbstractSy
 
 	log.Debug("Parsing start");
 
-	S_TranslationUnit();
+	ParserReturnValue retVal = S_TranslationUnit();
+
+	//output.
 
 	log.Debug("Parsing end");
 
@@ -162,7 +166,7 @@ ParserReturnValue GLSL_Parser::StateFuncSkeleton(const char* callerName, IStateH
 				text = "No goto rule for non-terminal: ";
 				text += NonTerminalType::ToString(retVal.nonTerminal->type);
 				log.Error(text);
-				return gotoRet.retVal;
+				return retVal;
 			}
 
 			retVal = gotoRet.retVal;
@@ -253,7 +257,7 @@ public:
 			}
 			break;
 		default:
-			valid = false;
+			return DefaultExpressionGoto(parser, nonTerminal);
 			break;
 		}
 
@@ -265,9 +269,49 @@ public:
 
 ParserReturnValue GLSL_Parser::S_TranslationUnit()
 {
+	log.Debug(__func__);
+
 	Handler_S_TranslationUnit temp;
 
-	return StateFuncSkeleton(__func__, temp);
+	ParserReturnValue retVal;
+
+	std::shared_ptr<TranslationUnit> translationUnit;
+
+	do
+	{
+		retVal = StateFuncSkeleton(__func__, temp);
+
+		log.Debug("Returned to S_TranslationUnit");
+
+		/*
+		Ceng::StringUtf8 text;
+		text = "nonTerminal: ";
+		text += retVal.nonTerminal;
+		log.Debug(text);
+		*/
+
+		if (retVal.nonTerminal == nullptr)
+		{
+			break;
+		}
+
+		Ceng::StringUtf8 text = "nonTerminal type: ";
+		text += NonTerminalType::ToString(retVal.nonTerminal->type);
+		log.Debug(text);
+
+		switch (retVal.nonTerminal->type)
+		{
+		case NonTerminalType::declaration:
+		case NonTerminalType::function_definition:
+			translationUnit->Append(retVal.nonTerminal);
+			break;
+		default:
+			break;
+		}
+
+	} while (1);
+
+	return { translationUnit,0 };
 }
 
 ParserReturnValue GLSL_Parser::S_StorageQualifierToken(TokenType::value value)
@@ -316,12 +360,6 @@ public:
 		}
 		else
 		{
-			/*
-			Ceng::StringUtf8 text;
-			text = "no parsing rule for: ";
-			text += next.ToString();
-			LogError(text);
-			*/
 			valid = false;
 		}
 		return { retVal, valid };
@@ -3046,19 +3084,69 @@ ParserReturnValue GLSL_Parser::S_Expression_Semicolon(std::shared_ptr<Expression
 ParserReturnValue GLSL_Parser::S_SingleDeclaration(std::shared_ptr<SingleDeclaration>& singleDecl)
 {
 	log.Debug(__func__);
-	return ParserReturnValue();
+	return { std::make_shared<InitDeclaratorList>(singleDecl),1 };
 }
+
+class Handler_InitDeclaratorList : public IStateHandler
+{
+public:
+	std::shared_ptr<InitDeclaratorList>& list;
+
+public:
+
+	Handler_InitDeclaratorList(std::shared_ptr<InitDeclaratorList>& list)
+		: list(list)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		
+		switch (parser->PeekToken().type)
+		{
+		case TokenType::comma:
+			return { ParserReturnValue(),false };
+		default:
+			return { ParserReturnValue(std::make_shared<Declaration>(list),1) };
+		}
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::semicolon:
+			return { parser->S_InitDeclaratorList_Semicolon(list),true };
+		case TokenType::comma:
+			return { parser->S_InitDeclaratorList_Comma(list),true };
+		default:
+			return { ParserReturnValue(),false };
+		}
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(), false };
+	}
+
+};
 
 ParserReturnValue GLSL_Parser::S_InitDeclaratorList(std::shared_ptr<InitDeclaratorList>& initList)
 {
-	log.Debug(__func__);
-	return ParserReturnValue();
+	Handler_InitDeclaratorList temp(initList);
+
+	return StateFuncSkeleton(__func__, temp);
 }
 
 ParserReturnValue GLSL_Parser::S_InitDeclaratorList_Semicolon(std::shared_ptr<InitDeclaratorList>& initList)
 {
 	log.Debug(__func__);
-	return ParserReturnValue();
+	return { std::make_shared<Declaration>(initList),2 };
 }
 
 ParserReturnValue GLSL_Parser::S_InitDeclaratorList_Comma(std::shared_ptr<InitDeclaratorList>& initList)

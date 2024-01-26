@@ -1,6 +1,7 @@
 #ifndef CENG_GLSL_INIT_DECL_LIST_H
 #define CENG_GLSL_INIT_DECL_LIST_H
 
+#include <memory>
 #include <vector>
 
 #include "INonTerminal.h"
@@ -12,13 +13,15 @@ namespace Ceng
 	{
 	public:
 
-		std::vector<SingleDeclaration> list;
+		std::vector<std::shared_ptr<SingleDeclaration>> list;
 
 	public:
 
 		void Release() override;
 
-		InitDeclaratorList(const SingleDeclaration& decl);
+		InitDeclaratorList(std::shared_ptr<SingleDeclaration>& decl);
+
+		void Append(std::shared_ptr<SingleDeclaration>& decl);
 	};
 }
 

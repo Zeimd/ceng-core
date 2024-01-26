@@ -1,6 +1,8 @@
 #ifndef CENG_GLSL_DECLARATION_H
 #define CENG_GLSL_DECLARATION_H
 
+#include <memory>
+
 #include "INonTerminal.h"
 #include "InitDeclaratorList.h"
 #include "TypeQualifier.h"
@@ -13,13 +15,13 @@ namespace Ceng
 
 		//FunctionPrototype funcProto;
 
-		InitDeclaratorList declList;
+		std::shared_ptr<InitDeclaratorList> declList;
 
 	public:
 
 		void Release() override;
 
-		Declaration(const InitDeclaratorList& declList);
+		Declaration(std::shared_ptr<InitDeclaratorList>& declList);
 
 	};
 }

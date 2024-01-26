@@ -96,6 +96,7 @@
     <ClInclude Include="..\..\ceng-glsl\src\SwitchStatement.h" />
     <ClInclude Include="..\..\ceng-glsl\src\SwitchStatementList.h" />
     <ClInclude Include="..\..\ceng-glsl\src\TokenInfo.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\TranslationUnit.h" />
     <ClInclude Include="..\..\ceng-glsl\src\TypeQualifier.h" />
     <ClInclude Include="..\..\ceng-glsl\src\TypeSpecifierNoArray.h" />
     <ClInclude Include="..\..\ceng-glsl\src\TypeSpecifierNoPrecision.h" />
@@ -149,6 +150,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\StorageQualifier.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\Token.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\Tokenizer.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\TranslationUnit.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\TypeQualifier.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\TypeSpecificationNoArray.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\TypeSpecificationNoPrecision.cpp" />
