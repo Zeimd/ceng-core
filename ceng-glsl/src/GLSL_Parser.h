@@ -114,6 +114,10 @@ namespace Ceng
 
 		ParserReturnValue S_TranslationUnit();
 		
+		ParserReturnValue S_InvariantToken();
+
+		ParserReturnValue S_InvariantToken_IdentifierToken(const Token& token);
+
 		ParserReturnValue S_StorageQualifierToken(TokenType::value value);
 
 		ParserReturnValue S_LiteralToken(const Token& token);

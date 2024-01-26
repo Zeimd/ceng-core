@@ -265,6 +265,54 @@ ParserReturnValue GLSL_Parser::S_TranslationUnit()
 	return { translationUnit,0 };
 }
 
+class Handler_S_InvariantToken : public IStateHandler
+{
+public:
+
+public:
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::identifier:
+			return { parser->S_InvariantToken_IdentifierToken(next), true };
+		default:
+			return { ParserReturnValue(),false };
+		}
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_InvariantToken()
+{
+	Handler_S_InvariantToken temp;
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+ParserReturnValue GLSL_Parser::S_InvariantToken_IdentifierToken(const Token& token)
+{
+	log.Debug(__func__);
+
+	return { std::make_shared<SingleDeclaration>(token.name),2 };
+}
+
+
 ParserReturnValue GLSL_Parser::S_StorageQualifierToken(TokenType::value value)
 {
 	log.Debug(__func__);
