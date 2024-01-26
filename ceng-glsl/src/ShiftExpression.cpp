@@ -35,5 +35,28 @@ ShiftExpression::ShiftExpression(std::shared_ptr<ShiftExpression>& lhs, ShiftOp:
 
 Ceng::StringUtf8 ShiftExpression::ToString() const
 {
-	return "";
+	Ceng::StringUtf8 out;
+
+	if (operation == ShiftOp::unassigned)
+	{
+		return rhs->ToString();
+	}
+
+	out = lhs->ToString();
+	out += ' ';
+
+	switch (operation)
+	{
+	case ShiftOp::left:
+		out += '<<';
+		break;
+	case ShiftOp::right:
+		out += '>>';
+		break;
+	}
+
+	out += ' ';
+	out = rhs->ToString();
+
+	return out;
 }

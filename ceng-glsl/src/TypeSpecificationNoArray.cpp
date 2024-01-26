@@ -25,8 +25,8 @@ TypeSpecifierNoArray::TypeSpecifierNoArray(const Ceng::StringUtf8& name)
 
 }
 
-TypeSpecifierNoArray::TypeSpecifierNoArray(const StructSpecifier& structSpec)
-	: INonTerminal(NonTerminalType::type_specifier_nonarray), type(TypeSelector::struct_specifier), structSpec(std::move(structSpec))
+TypeSpecifierNoArray::TypeSpecifierNoArray(std::shared_ptr<StructSpecifier>& structSpec)
+	: INonTerminal(NonTerminalType::type_specifier_nonarray), type(TypeSelector::struct_specifier), structSpec(structSpec)
 {
 
 }
@@ -144,7 +144,89 @@ TypeSpecifierNoArray::TypeSelector TypeSpecifierNoArray::FromTokenType(TokenType
 	return TypeSelector::invalid;
 }
 
+#define CASE_TO_TEXT(x) case TypeSelector::x: return #x;
+
 Ceng::StringUtf8 TypeSpecifierNoArray::ToString() const
 {
-	return "";
+	switch (type)
+	{
+	case ts_void:
+		return "void";
+	case ts_float:
+		return "float";
+	case ts_int:
+		return "int";
+	case ts_uint:
+		return "uint";
+	case ts_bool:
+		return "bool";
+		CASE_TO_TEXT(vec2);
+		CASE_TO_TEXT(vec3);
+		CASE_TO_TEXT(vec4);
+		CASE_TO_TEXT(bvec2);
+		CASE_TO_TEXT(bvec3);
+		CASE_TO_TEXT(bvec4);
+		CASE_TO_TEXT(ivec2);
+		CASE_TO_TEXT(ivec3);
+		CASE_TO_TEXT(ivec4);
+		CASE_TO_TEXT(uvec2);
+		CASE_TO_TEXT(uvec3);
+		CASE_TO_TEXT(uvec4);
+		CASE_TO_TEXT(mat2);
+		CASE_TO_TEXT(mat3);
+		CASE_TO_TEXT(mat4);
+		CASE_TO_TEXT(mat2x2);
+		CASE_TO_TEXT(mat2x3);
+		CASE_TO_TEXT(mat2x4);
+		CASE_TO_TEXT(mat3x2);
+		CASE_TO_TEXT(mat3x3);
+		CASE_TO_TEXT(mat3x4);
+		CASE_TO_TEXT(mat4x2);
+		CASE_TO_TEXT(mat4x3);
+		CASE_TO_TEXT(mat4x4);
+		CASE_TO_TEXT(sampler1D);
+		CASE_TO_TEXT(sampler2D);
+		CASE_TO_TEXT(sampler3D);
+		CASE_TO_TEXT(samplerCube);
+		CASE_TO_TEXT(sampler1DShadow);
+		CASE_TO_TEXT(sampler2DShadow);
+		CASE_TO_TEXT(samplerCubeShadow);
+		CASE_TO_TEXT(sampler1DArray);
+		CASE_TO_TEXT(sampler2DArray);
+		CASE_TO_TEXT(sampler1DArrayShadow);
+		CASE_TO_TEXT(sampler2DArrayShadow);
+		CASE_TO_TEXT(isampler1D);
+		CASE_TO_TEXT(isampler2D);
+		CASE_TO_TEXT(isampler3D);
+		CASE_TO_TEXT(isamplerCube);
+		CASE_TO_TEXT(isampler1DArray);
+		CASE_TO_TEXT(isampler2DArray);
+		CASE_TO_TEXT(usampler1D);
+		CASE_TO_TEXT(usampler2D);
+		CASE_TO_TEXT(usampler3D);
+		CASE_TO_TEXT(usamplerCube);
+		CASE_TO_TEXT(usampler1DArray);
+		CASE_TO_TEXT(usampler2DArray);
+		CASE_TO_TEXT(sampler2DRect);
+		CASE_TO_TEXT(sampler2DRectShadow);
+		CASE_TO_TEXT(isampler2DRect);
+		CASE_TO_TEXT(usampler2DRect);
+		CASE_TO_TEXT(samplerBuffer);
+		CASE_TO_TEXT(isamplerBuffer);
+		CASE_TO_TEXT(usamplerBuffer);
+		CASE_TO_TEXT(sampler2DMS);
+		CASE_TO_TEXT(isampler2DMS);
+		CASE_TO_TEXT(usampler2DMS);
+		CASE_TO_TEXT(sampler2DMSArray);
+		CASE_TO_TEXT(isampler2DMSArray);
+		CASE_TO_TEXT(usampler2DMSArray);
+		CASE_TO_TEXT(typeName);
+		CASE_TO_TEXT(invalid);
+	case struct_specifier:
+		return structSpec->ToString();		
+	default:
+		return "TypeSpecifierNoArray::unhandled case";
+	}
 }
+
+#undef CASE_TO_TEXT

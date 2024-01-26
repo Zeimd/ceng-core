@@ -22,5 +22,20 @@ AssignmentExpression::AssignmentExpression(std::shared_ptr<UnaryExpression>& una
 
 Ceng::StringUtf8 AssignmentExpression::ToString() const
 {
-	return "";
+	Ceng::StringUtf8 out;
+
+	if (full)
+	{
+		out += unaryEx->ToString();
+		out += ' ';
+		out += op->ToString();
+		out += ' ';
+		out += assignEx->ToString();
+	}
+	else
+	{
+		out = cond->ToString();
+	}
+
+	return out;
 }

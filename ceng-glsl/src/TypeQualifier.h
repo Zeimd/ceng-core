@@ -16,7 +16,7 @@ namespace Ceng
 		InterpolationQualifier interpolation;
 		bool invariant;
 
-		LayoutQualifier layout;
+		std::shared_ptr<LayoutQualifier> layout;
 	public:
 
 		void Release() override;
@@ -24,7 +24,10 @@ namespace Ceng
 		TypeQualifier();
 
 		TypeQualifier(const StorageQualifier& sq);
-		TypeQualifier(const LayoutQualifier& layout);
+		
+		TypeQualifier(std::shared_ptr<LayoutQualifier>& layout);
+		TypeQualifier(std::shared_ptr<LayoutQualifier>& layout, const StorageQualifier& sq);
+
 		TypeQualifier(const InterpolationQualifier& interpolation);
 		TypeQualifier(bool invariant);
 

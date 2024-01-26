@@ -41,5 +41,34 @@ RelationalExpression::RelationalExpression(std::shared_ptr<RelationalExpression>
 
 Ceng::StringUtf8 RelationalExpression::ToString() const
 {
-	return "";
+	Ceng::StringUtf8 out;
+
+	if (operation == RelativeOp::unassigned)
+	{
+		return rhs->ToString();
+	}
+
+	out = lhs->ToString();
+	out += ' ';
+
+	switch (operation)
+	{
+	case RelativeOp::less:
+		out += '<';
+		break;
+	case RelativeOp::greater:
+		out += '>';
+		break;
+	case RelativeOp::less_or_equal:
+		out += '<=';
+		break;
+	case RelativeOp::greater_or_equal:
+		out += '>=';
+		break;
+	}
+
+	out += ' ';
+	out = rhs->ToString();
+
+	return out;
 }

@@ -49,5 +49,35 @@ UnaryExpression::UnaryExpression(std::shared_ptr<UnaryOperator>& op, std::shared
 
 Ceng::StringUtf8 UnaryExpression::ToString() const
 {
-	return "";
+	Ceng::StringUtf8 out;
+
+	switch (unaryType)
+	{
+	case UnaryExpressionType::postfix_expression:
+		return postfixExpression->ToString();
+	case UnaryExpressionType::inc_op:
+		out = "++";
+		out += unaryExpression->ToString();
+		return out;
+	case UnaryExpressionType::dec_op:
+		out = "--";
+		out += unaryExpression->ToString();
+		return out;
+	case UnaryExpressionType::plus:
+		out = "+";
+		out += unaryExpression->ToString();
+		return out;
+	case UnaryExpressionType::negation:
+		out = "-";
+		out += unaryExpression->ToString();
+		return out;
+	case UnaryExpressionType::logical_not:
+		out = "!";
+		out += unaryExpression->ToString();
+		return out;
+	case UnaryExpressionType::two_complement:
+		out = "~";
+		out += unaryExpression->ToString();
+		return out;
+	}
 }

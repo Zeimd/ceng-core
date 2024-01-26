@@ -73,5 +73,23 @@ void PrimaryExpression::Release()
 
 Ceng::StringUtf8 PrimaryExpression::ToString() const
 {
+	Ceng::StringUtf8 out;
+
+	switch (type)
+	{
+	case ExpressionType::identifier:
+		return name;
+	case ExpressionType::int_const:
+		return intValue;
+	case ExpressionType::uint_const:
+		return uintValue;
+	case ExpressionType::float_const:
+		return floatValue;
+	case ExpressionType::bool_const:
+		return boolValue;
+	case ExpressionType::expression:
+		return expression->ToString();
+	}
+
 	return "";
 }

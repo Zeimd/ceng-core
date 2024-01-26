@@ -21,5 +21,18 @@ InterpolationQualifier::InterpolationQualifier(InterpolationQualifierType::value
 
 Ceng::StringUtf8 InterpolationQualifier::ToString() const
 {
-	return "";
+	switch (interpolation)
+	{
+	case InterpolationQualifierType::flat:
+		return "flat";
+	case InterpolationQualifierType::noperspective:
+		return "noperspective";
+	case InterpolationQualifierType::smooth:
+		return "smooth";
+	case InterpolationQualifierType::unused:
+		return "";
+	default:
+		return "InterpolationQualifierType::unhandled";
+	}
+
 }

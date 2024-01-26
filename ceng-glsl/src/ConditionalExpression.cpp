@@ -1,4 +1,5 @@
 #include "ConditionalExpression.h"
+#include "AssignmentExpression.h"
 
 using namespace Ceng;
 
@@ -21,5 +22,21 @@ ConditionalExpression::ConditionalExpression(std::shared_ptr<LogicalOrExpression
 
 Ceng::StringUtf8 ConditionalExpression::ToString() const
 {
-	return "";
+	Ceng::StringUtf8 out;
+
+	if (full)
+	{
+		out = a->ToString();
+		out += " ? ";
+		out += b->ToString();
+		out += " : ";
+		out += c->ToString();
+	}
+	else
+	{
+		out = a->ToString();
+	}
+
+
+	return out;
 }

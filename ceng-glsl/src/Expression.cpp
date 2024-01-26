@@ -1,4 +1,5 @@
 #include "Expression.h"
+#include "AssignmentExpression.h"
 
 using namespace Ceng;
 
@@ -25,5 +26,12 @@ void Expression::Append(std::shared_ptr<AssignmentExpression>& ex)
 
 Ceng::StringUtf8 Expression::ToString() const
 {
-	return "";
+	Ceng::StringUtf8 out;
+
+	for (auto& x : assignEx)
+	{
+		out += x->ToString();
+	}
+
+	return out;
 }

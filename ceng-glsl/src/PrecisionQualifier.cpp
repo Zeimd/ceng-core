@@ -19,7 +19,16 @@ PrecisionQualifier::PrecisionQualifier(PrecisionQualifierType::value precision)
 
 }
 
+#define CASE_TO_TEXT(x) case PrecisionQualifierType::x: return #x;
+
 Ceng::StringUtf8 PrecisionQualifier::ToString() const
 {
-	return "";
+	switch (precision)
+	{
+		CASE_TO_TEXT(high);
+		CASE_TO_TEXT(medium);
+		CASE_TO_TEXT(low);
+	default:
+		return "";
+	}
 }

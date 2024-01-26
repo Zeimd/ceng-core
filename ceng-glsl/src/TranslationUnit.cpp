@@ -25,5 +25,12 @@ void TranslationUnit::Append(std::shared_ptr<INonTerminal>& item)
 
 Ceng::StringUtf8 TranslationUnit::ToString() const
 {
-	return "";
+	Ceng::StringUtf8 out;
+
+	for (auto& x : items)
+	{
+		out += x->ToString();
+	}
+
+	return out;
 }

@@ -1,4 +1,5 @@
 #include "PostfixExpression.h"
+#include "FunctionCall.h"
 
 using namespace Ceng;
 
@@ -47,5 +48,34 @@ void PostfixExpression::Release()
 
 Ceng::StringUtf8 PostfixExpression::ToString() const
 {
-	return "";
+	Ceng::StringUtf8 out;
+
+	switch (type)
+	{
+	case PostfixType::primary_expression:
+		return primaryExpression->ToString();
+	case PostfixType::array_index:
+		out = '[';
+		out += arrayIndex->ToString();
+		out += ']';
+		return out;
+	case PostfixType::function_call:
+		return functionCall->ToString();
+	case PostfixType::field_select:
+		out = postfixExpression->ToString();
+		out += '.';
+		out += fieldName;
+		return out;
+	case PostfixType::inc_op:
+		out += postfixExpression->ToString();
+		out += "++";
+		return out;
+	case PostfixType::dec_op:
+		out += postfixExpression->ToString();
+		out += "--";
+		return out;
+		break;
+	}
+
+	return out;
 }

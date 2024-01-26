@@ -14,8 +14,14 @@ TypeQualifier::TypeQualifier()
 
 }
 
-TypeQualifier::TypeQualifier(const LayoutQualifier& layout)
-	: INonTerminal(NonTerminalType::type_qualifier)
+TypeQualifier::TypeQualifier(std::shared_ptr<LayoutQualifier>& layout)
+	: INonTerminal(NonTerminalType::type_qualifier), layout(layout)
+{
+
+}
+
+TypeQualifier::TypeQualifier(std::shared_ptr<LayoutQualifier>& layout, const StorageQualifier& sq)
+	: INonTerminal(NonTerminalType::type_qualifier), layout(layout), storage(sq)
 {
 
 }
@@ -59,5 +65,29 @@ TypeQualifier::TypeQualifier(bool invariant, const InterpolationQualifier& inter
 
 Ceng::StringUtf8 TypeQualifier::ToString() const
 {
-	return "";
+	Ceng::StringUtf8 out;
+
+	if (layout != nullptr)
+	{
+		out += layout->ToString();
+	}
+
+	if (invariant)
+	{
+		out += "invariant ";
+	}
+
+	if (interpolation.interpolation != InterpolationQualifierType::unused)
+	{
+		out += interpolation.ToString();
+		out += ' ';
+	}
+
+	if (storage.qualifier != StorageQualifierType::unused)
+	{
+		out += storage.ToString();
+		out += ' ';
+	}
+
+	return out;
 }

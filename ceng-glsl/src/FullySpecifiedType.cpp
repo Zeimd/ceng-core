@@ -21,5 +21,11 @@ void FullySpecifiedType::Release()
 
 Ceng::StringUtf8 FullySpecifiedType::ToString() const
 {
-	return "";
+	Ceng::StringUtf8 out;
+
+	out += qualifier.ToString();
+	out += ' ';
+	out += typeSpec.ToString();
+
+	return out;
 }

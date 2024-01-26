@@ -21,5 +21,19 @@ XorExpression::XorExpression(std::shared_ptr<XorExpression>& lhs, std::shared_pt
 
 Ceng::StringUtf8 XorExpression::ToString() const
 {
-	return "";
+	Ceng::StringUtf8 out;
+
+	if (full)
+	{
+		out = lhs->ToString();
+		out += " ^ ";
+		out += rhs->ToString();
+	}
+	else
+	{
+		out = rhs->ToString();
+	}
+
+
+	return out;
 }

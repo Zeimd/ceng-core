@@ -35,5 +35,28 @@ EqualityExpression::EqualityExpression(std::shared_ptr<EqualityExpression>& lhs,
 
 Ceng::StringUtf8 EqualityExpression::ToString() const
 {
-	return "";
+	Ceng::StringUtf8 out;
+
+	if (operation == EqualityOp::unassigned)
+	{
+		return rhs->ToString();
+	}
+
+	out = lhs->ToString();
+	out += ' ';
+
+	switch (operation)
+	{
+	case EqualityOp::equal:
+		out += '==';
+		break;
+	case EqualityOp::not_equal:
+		out += '!=';
+		break;
+	}
+
+	out += ' ';
+	out = rhs->ToString();
+
+	return out;
 }

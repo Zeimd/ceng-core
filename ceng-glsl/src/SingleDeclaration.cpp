@@ -52,5 +52,35 @@ void SingleDeclaration::Release()
 
 Ceng::StringUtf8 SingleDeclaration::ToString() const
 {
-	return "";
+	Ceng::StringUtf8 out;
+
+	if (invariant)
+	{
+		out += "invariant ";
+		out += name;
+		return out;
+	}
+
+	out += fullType->ToString();
+	out += ' ';
+
+	if (hasName)
+	{
+		out += name;
+	}
+
+	if (arraySizeExpression != nullptr)
+	{
+		out += '[';
+		out += arraySizeExpression->ToString();
+		out += ']';
+	}
+
+	if (initializer != nullptr)
+	{
+		out += " = ";
+		out += initializer->ToString();
+	}
+
+	return out;	
 }

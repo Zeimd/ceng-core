@@ -21,5 +21,19 @@ OrExpression::OrExpression(std::shared_ptr<OrExpression>& lhs, std::shared_ptr<X
 
 Ceng::StringUtf8 OrExpression::ToString() const
 {
-	return "";
+	Ceng::StringUtf8 out;
+
+	if (full)
+	{
+		out = lhs->ToString();
+		out += " | ";
+		out += rhs->ToString();
+	}
+	else
+	{
+		out = rhs->ToString();
+	}
+
+
+	return out;
 }

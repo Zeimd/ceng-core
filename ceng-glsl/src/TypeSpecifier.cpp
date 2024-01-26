@@ -21,5 +21,11 @@ TypeSpecifier::TypeSpecifier(const PrecisionQualifier& precision, const TypeSpec
 
 Ceng::StringUtf8 TypeSpecifier::ToString() const
 {
-	return "";
+	Ceng::StringUtf8 out;
+
+	out += precision.ToString();
+	out += ' ';
+	out += typeSpec.ToString();
+
+	return out;
 }

@@ -21,5 +21,19 @@ LogicalOrExpression::LogicalOrExpression(std::shared_ptr<LogicalOrExpression>& l
 
 Ceng::StringUtf8 LogicalOrExpression::ToString() const
 {
-	return "";
+	Ceng::StringUtf8 out;
+
+	if (full)
+	{
+		out = lhs->ToString();
+		out += " || ";
+		out += rhs->ToString();
+	}
+	else
+	{
+		out = rhs->ToString();
+	}
+
+
+	return out;
 }

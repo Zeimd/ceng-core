@@ -21,5 +21,19 @@ LogicalAndExpression::LogicalAndExpression(std::shared_ptr<LogicalAndExpression>
 
 Ceng::StringUtf8 LogicalAndExpression::ToString() const
 {
-	return "";
+	Ceng::StringUtf8 out;
+
+	if (full)
+	{
+		out = lhs->ToString();
+		out += " && ";
+		out += rhs->ToString();
+	}
+	else
+	{
+		out = rhs->ToString();
+	}
+
+
+	return out;
 }

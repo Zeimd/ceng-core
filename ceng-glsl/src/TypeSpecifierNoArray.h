@@ -86,7 +86,7 @@ namespace Ceng
 
 		TypeSelector type;
 
-		StructSpecifier structSpec;
+		std::shared_ptr<StructSpecifier> structSpec;
 
 		Ceng::StringUtf8 name;
 	public:
@@ -97,7 +97,7 @@ namespace Ceng
 		TypeSpecifierNoArray(TokenType::value tokenType);
 
 		TypeSpecifierNoArray(const Ceng::StringUtf8& name);
-		TypeSpecifierNoArray(const StructSpecifier& structSpec);
+		TypeSpecifierNoArray(std::shared_ptr<StructSpecifier>& structSpec);
 
 		static TypeSelector FromTokenType(TokenType::value tokenType);
 

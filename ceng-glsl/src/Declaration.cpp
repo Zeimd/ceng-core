@@ -15,5 +15,8 @@ void Declaration::Release()
 
 Ceng::StringUtf8 Declaration::ToString() const
 {
-	return "";
+	Ceng::StringUtf8 temp = declList->ToString();
+	temp += ';';
+
+	return temp;
 }

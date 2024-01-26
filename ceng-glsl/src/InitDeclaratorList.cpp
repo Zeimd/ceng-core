@@ -20,5 +20,12 @@ void InitDeclaratorList::Release()
 
 Ceng::StringUtf8 InitDeclaratorList::ToString() const
 {
-	return "";
+	Ceng::StringUtf8 out;
+
+	for (auto& x : list)
+	{
+		out += x->ToString();
+	}
+
+	return out;
 }

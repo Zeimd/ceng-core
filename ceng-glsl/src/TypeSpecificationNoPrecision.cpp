@@ -21,5 +21,16 @@ TypeSpecifierNoPrec::TypeSpecifierNoPrec(std::shared_ptr<TypeSpecifierNoArray>& 
 
 Ceng::StringUtf8 TypeSpecifierNoPrec::ToString() const
 {
-	return "";
+	Ceng::StringUtf8 out;
+
+	out = typeSpec->ToString();
+
+	if (elementExpression != nullptr)
+	{
+		out += '[';
+		out += elementExpression->ToString();
+		out += ']';
+	}
+
+	return out;
 }

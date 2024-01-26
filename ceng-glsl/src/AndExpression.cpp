@@ -21,5 +21,19 @@ AndExpression::AndExpression(std::shared_ptr<AndExpression>& lhs, std::shared_pt
 
 Ceng::StringUtf8 AndExpression::ToString() const
 {
-	return "";
+	Ceng::StringUtf8 out;
+
+	if (full)
+	{
+		out = lhs->ToString();
+		out += " & ";
+		out += rhs->ToString();
+	}
+	else
+	{
+		out = rhs->ToString();
+	}
+
+
+	return out;
 }

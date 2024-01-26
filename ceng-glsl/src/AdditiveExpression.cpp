@@ -35,5 +35,29 @@ AdditiveExpression::AdditiveExpression(std::shared_ptr<AdditiveExpression>& lhs,
 
 Ceng::StringUtf8 AdditiveExpression::ToString() const
 {
-	return "";
+	Ceng::StringUtf8 out;
+
+	if (operation == AdditiveOp::unassigned)
+	{
+		out = rhs->ToString();
+	}
+	else
+	{
+		out = lhs->ToString();
+		
+		switch (operation)
+		{
+		case AdditiveOp::add:
+			out += " + ";
+			break;
+		case AdditiveOp::sub:
+			out += " - ";
+			break;
+		}
+
+		out += rhs->ToString();
+	}
+
+
+	return out;
 }

@@ -31,9 +31,15 @@ CRESULT GLSL_Parser::Parse(const std::vector<Token>& in_tokens, GLSL::AbstractSy
 
 	ParserReturnValue retVal = S_TranslationUnit();
 
-	//output.
-
 	log.Debug("Parsing end");
+
+	log.Debug("****************************************************************************");
+	log.Debug("Roundtrip print:");
+
+	Ceng::StringUtf8 text = retVal.nonTerminal->ToString();
+	log.Debug(text);
+
+	log.Debug("****************************************************************************");
 
 	return CE_OK;
 }

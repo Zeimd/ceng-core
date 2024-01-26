@@ -35,5 +35,17 @@ UnaryOperator::UnaryOperator(const Token& token)
 
 Ceng::StringUtf8 UnaryOperator::ToString() const
 {
-	return "";
+	switch (type)
+	{
+	case UnaryOperatorType::plus:
+		return "+";
+	case  UnaryOperatorType::logical_not:
+		return "!";
+	case UnaryOperatorType::negation:
+		return "-";
+	case UnaryOperatorType::two_complement:
+		return "~";
+	default:
+		return "UnaryOperator: unhandled case";
+	}
 }

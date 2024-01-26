@@ -39,5 +39,32 @@ MultiplicativeExpression::MultiplicativeExpression(std::shared_ptr<Multiplicativ
 
 Ceng::StringUtf8 MultiplicativeExpression::ToString() const
 {
-	return "";
+	Ceng::StringUtf8 out;
+
+	if (operation == MultiplicativeOp::unassigned)
+	{
+		out = rhs->ToString();
+	}
+	else
+	{
+		out = lhs->ToString();
+
+		switch (operation)
+		{
+		case MultiplicativeOp::mul:
+			out += " * ";
+			break;
+		case MultiplicativeOp::div:
+			out += " / ";
+			break;
+		case MultiplicativeOp::mod:
+			out += " % ";
+			break;
+		}
+
+		out += rhs->ToString();
+	}
+
+
+	return out;
 }
