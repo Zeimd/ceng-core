@@ -23,6 +23,15 @@ SingleDeclaration::SingleDeclaration(std::shared_ptr<FullySpecifiedType>& fullTy
 
 }
 
+SingleDeclaration::SingleDeclaration(std::shared_ptr<FullySpecifiedType>& fullType, const Ceng::StringUtf8& name, bool undefinedArray,
+	std::shared_ptr<Initializer>& initializer)
+	: INonTerminal(NonTerminalType::single_declaration), fullType(fullType), hasName(true), invariant(false),
+	arraySizeExpression(nullptr), initializer(initializer), name(name), isArray(true)
+{
+
+}
+
+
 SingleDeclaration::SingleDeclaration(std::shared_ptr<FullySpecifiedType>& fullType, const Ceng::StringUtf8& name, std::shared_ptr<Expression>& arraySizeExpression)
 	: INonTerminal(NonTerminalType::single_declaration), fullType(fullType), hasName(true), invariant(false),
 	arraySizeExpression(arraySizeExpression), initializer(nullptr), name(name), isArray(true)

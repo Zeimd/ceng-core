@@ -203,6 +203,14 @@ namespace Ceng
 
 		ParserReturnValue S_FullySpecifiedType_IdentifierToken_LBracket_RBracket(std::shared_ptr<FullySpecifiedType>& spec, const Token& token);
 
+		ParserReturnValue S_FullySpecifiedType_IdentifierToken_LBracket_RBracket_Equal(std::shared_ptr<FullySpecifiedType>& spec, const Token& token);
+
+		ParserReturnValue S_FullySpecifiedType_IdentifierToken_LBracket_RBracket_Equal_AssignEx(std::shared_ptr<FullySpecifiedType>& spec, const Token& token,
+			std::shared_ptr<AssignmentExpression>& assignEx);
+
+		ParserReturnValue S_FullySpecifiedType_IdentifierToken_LBracket_RBracket_Equal_Initializer(std::shared_ptr<FullySpecifiedType>& spec, const Token& token,
+			std::shared_ptr<Initializer>& initializer);
+
 		ParserReturnValue S_PrimaryExpression(std::shared_ptr<PrimaryExpression>& ex);
 
 		ParserReturnValue S_PostfixExpression(std::shared_ptr<PostfixExpression>& ex);
