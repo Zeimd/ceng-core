@@ -1008,7 +1008,7 @@ public:
 		switch (next.type)
 		{
 		case TokenType::left_bracket:
-			retVal = parser->S_FullySpecifiedType_IdentifierToken_LBracket(typeSpec, next);
+			retVal = parser->S_FullySpecifiedType_IdentifierToken_LBracket(typeSpec, token);
 			break;
 		default:
 			valid = false;
@@ -1068,7 +1068,7 @@ public:
 		switch (next.type)
 		{
 		case TokenType::right_bracket:
-			retVal = parser->S_FullySpecifiedType_IdentifierToken_LBracket_RBracket(typeSpec, next);
+			retVal = parser->S_FullySpecifiedType_IdentifierToken_LBracket_RBracket(typeSpec, token);
 			break;
 		default:
 			return DefaultExpressionShift(parser, next);
