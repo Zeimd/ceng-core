@@ -62,7 +62,7 @@ Ceng::StringUtf8 SingleDeclaration::ToString() const
 	}
 
 	out += fullType->ToString();
-	//out += ' ';
+	out += ' ';
 
 	if (hasName)
 	{
