@@ -991,6 +991,7 @@ public:
 		switch (parser->PeekToken().type)
 		{
 		case TokenType::left_bracket:
+		case TokenType::equal:
 			return { ParserReturnValue(),false };
 			break;
 		default:
@@ -1007,6 +1008,9 @@ public:
 
 		switch (next.type)
 		{
+		case TokenType::equal:
+			retVal = parser->S_FullySpecifiedType_IdentifierToken_Equal(typeSpec, token);
+			break;
 		case TokenType::left_bracket:
 			retVal = parser->S_FullySpecifiedType_IdentifierToken_LBracket(typeSpec, token);
 			break;
@@ -1032,6 +1036,91 @@ ParserReturnValue GLSL_Parser::S_FullySpecifiedType_IdentifierToken(std::shared_
 
 	return StateFuncSkeleton(__func__, temp);
 }
+
+class Handler_FullySpecifiedType_IdentifierToken_Equal : public IStateHandler
+{
+public:
+	std::shared_ptr<FullySpecifiedType>& typeSpec;
+	const Token& token;
+
+public:
+
+	Handler_FullySpecifiedType_IdentifierToken_Equal(std::shared_ptr<FullySpecifiedType>& typeSpec, const Token& token)
+		: typeSpec(typeSpec), token(token)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (next.type)
+		{
+		default:
+			return DefaultExpressionShift(parser, next);
+		}
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::assignment_expression:
+		{
+			std::shared_ptr<AssignmentExpression> temp = std::static_pointer_cast<AssignmentExpression>(nonTerminal);
+			retVal = parser->S_FullySpecifiedType_IdentifierToken_Equal_AssignEx(typeSpec, token, temp);
+		}
+		break;
+		case NonTerminalType::initializer:
+		{
+			std::shared_ptr<Initializer> temp = std::static_pointer_cast<Initializer>(nonTerminal);
+			retVal = parser->S_FullySpecifiedType_IdentifierToken_Equal_Initializer(typeSpec, token, temp);
+		}
+		break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+		return { retVal, valid };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_FullySpecifiedType_IdentifierToken_Equal(std::shared_ptr<FullySpecifiedType>& spec, const Token& token)
+{
+	Handler_FullySpecifiedType_IdentifierToken_Equal temp(spec, token);
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+ParserReturnValue GLSL_Parser::S_FullySpecifiedType_IdentifierToken_Equal_AssignEx(std::shared_ptr<FullySpecifiedType>& spec, const Token& token,
+	std::shared_ptr<AssignmentExpression>& assignEx)
+{
+	log.Debug(__func__);
+	return { std::make_shared<Initializer>(assignEx),1 };
+}
+
+ParserReturnValue GLSL_Parser::S_FullySpecifiedType_IdentifierToken_Equal_Initializer(std::shared_ptr<FullySpecifiedType>& spec, const Token& token,
+	std::shared_ptr<Initializer>& initializer)
+{
+	log.Debug(__func__);
+	return { std::make_shared<SingleDeclaration>(spec,token.name,initializer),4 };
+}
+
 
 class Handler_FullySpecifiedType_IdentifierToken_LBracket : public IStateHandler
 {
