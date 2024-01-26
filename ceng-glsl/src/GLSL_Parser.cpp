@@ -275,7 +275,7 @@ ParserReturnValue GLSL_Parser::S_TranslationUnit()
 
 	ParserReturnValue retVal;
 
-	std::shared_ptr<TranslationUnit> translationUnit;
+	std::shared_ptr<TranslationUnit> translationUnit = std::make_shared<TranslationUnit>();;
 
 	do
 	{
