@@ -67,6 +67,12 @@
 #include "JumpStatement.h"
 #include "IterationStatement.h"
 
+#include "StructDeclarator.h"
+#include "StructDeclaratorList.h"
+#include "StructDeclaration.h"
+#include "StructDeclarationList.h"
+#include "StructSpecifier.h"
+
 
 #include "ParserReturnValue.h"
 #include "HandlerReturn.h"
@@ -118,70 +124,87 @@ namespace Ceng
 
 		ParserReturnValue S_InvariantToken_IdentifierToken(const Token& token);
 
+		ParserReturnValue S_StructToken();
+
+		ParserReturnValue S_StructToken_IdentifierToken(const Token& structName);
+
+		ParserReturnValue S_StructToken_IdentifierToken_LBrace(const Token& structName);
+
+		ParserReturnValue S_StructToken_IdentifierToken_LBrace_StructDeclaration(const Token& structName, std::shared_ptr<StructDeclaration>& decl);
+
+		ParserReturnValue S_StructToken_IdentifierToken_LBrace_StructDeclarationList(const Token& structName, std::shared_ptr<StructDeclarationList>& list);
+
+		ParserReturnValue S_StructToken_IdentifierToken_LBrace_StructDeclarationList_StructDeclaration(const Token& structName, 
+			std::shared_ptr<StructDeclarationList>& list, std::shared_ptr<StructDeclaration>& decl);
+
+		// Reduction: struct_specifier
+		ParserReturnValue S_StructToken_IdentifierToken_LBrace_StructDeclarationList_RBrace(const Token& structName, std::shared_ptr<StructDeclarationList>& list);
+
+		ParserReturnValue S_StructToken_LBrace();
+
+		ParserReturnValue S_StructToken_LBrace_StructDeclarationList(std::shared_ptr<StructDeclarationList>& list);
+
+		// Reduction: struct_specifier
+		ParserReturnValue S_StructToken_LBrace_StructDeclarationList_RBrace(std::shared_ptr<StructDeclarationList>& list);
+
+		// StructHeader = STRUCT IDENTIFIER LEFT_BRACE {struct_declaration_list}
+		ParserReturnValue S_StructHeader_TypeQualifier(std::shared_ptr<TypeQualifier>& typeQ);
+
+		// StructHeader = STRUCT IDENTIFIER LEFT_BRACE {struct_declaration_list}
+		ParserReturnValue S_StructHeader_TypeQualifier_TypeSpecifier(std::shared_ptr<TypeQualifier>& typeQ, std::shared_ptr<TypeSpecifier>& typeSpec);
+
+		// StructHeader = STRUCT IDENTIFIER LEFT_BRACE {struct_declaration_list}
+		ParserReturnValue S_StructHeader_TypeQualifier_TypeSpecifier_StructDeclaratorList(std::shared_ptr<TypeQualifier>& typeQ, 
+			std::shared_ptr<TypeSpecifier>& typeSpec, std::shared_ptr<StructDeclaratorList>& list);
+
+		// StructHeader = STRUCT IDENTIFIER LEFT_BRACE {struct_declaration_list}
+		ParserReturnValue S_StructHeader_TypeQualifier_TypeSpecifier_StructDeclaratorList_Semicolon(std::shared_ptr<TypeQualifier>& typeQ, 
+			std::shared_ptr<TypeSpecifier>& typeSpec, std::shared_ptr<StructDeclaratorList>& list);
+
+		// StructHeader = STRUCT IDENTIFIER LEFT_BRACE {struct_declaration_list}
+		ParserReturnValue S_StructHeader_TypeSpecifier(std::shared_ptr<TypeSpecifier>& typeSpec);
+
+		// StructHeader = STRUCT IDENTIFIER LEFT_BRACE {struct_declaration_list}
+		ParserReturnValue S_StructHeader_TypeSpecifier_StructDeclaratorList(std::shared_ptr<TypeSpecifier>& typeSpec, 
+			std::shared_ptr<StructDeclaratorList>& list);
+
+		// StructHeader = STRUCT IDENTIFIER LEFT_BRACE
+		ParserReturnValue S_StructHeader_TypeSpecifier_StructDeclaratorList_Semicolon(std::shared_ptr<TypeSpecifier>& typeSpec,
+			std::shared_ptr<StructDeclaratorList>& list);
+
+		// StructDecl = StructHeader {type_qualifier} type_specifier 
+		ParserReturnValue S_StructDecl_IdentifierToken(const Token& id);
+
+		// StructDecl = StructHeader {type_qualifier} type_specifier 
+		ParserReturnValue S_StructDecl_IdentifierToken_LBracket(const Token& id);
+
+		// StructDecl = StructHeader {type_qualifier} type_specifier 
+		ParserReturnValue S_StructDecl_IdentifierToken_LBracket_RBracket(const Token& id);
+
+		// StructDecl = StructHeader {type_qualifier} type_specifier 
+		ParserReturnValue S_StructDecl_IdentifierToken_LBracket_Expression(const Token& id, std::shared_ptr<Expression>& arraySize);
+
+		// StructDecl = StructHeader {type_qualifier} type_specifier 
+		ParserReturnValue S_StructDecl_IdentifierToken_LBracket_Expression_RBracket(const Token& id, std::shared_ptr<Expression>& arraySize);
+
+		// StructDecl = StructHeader {type_qualifier} type_specifier 
+		ParserReturnValue S_StructDecl_StructDeclarator(std::shared_ptr<StructDeclarator>& decl);
+
 		ParserReturnValue S_StorageQualifierToken(TokenType::value value);
 
 		ParserReturnValue S_LiteralToken(const Token& token);
 
 		ParserReturnValue S_IdentifierToken(const Token& token);
 
+		ParserReturnValue S_DatatypeToken(TokenType::value value);
+
 		ParserReturnValue S_StorageQualifier(std::shared_ptr<StorageQualifier>& sq);
 		
 		ParserReturnValue S_TypeQualifier(std::shared_ptr<TypeQualifier>& tq);
 
-		ParserReturnValue S_DatatypeToken(TokenType::value value);
-
-		ParserReturnValue S_TypeSpecifierNonArray(std::shared_ptr<TypeSpecifierNoArray>& ts);
-
-		ParserReturnValue S_TypeSpecifierNonArray_LBracket(std::shared_ptr<TypeSpecifierNoArray>& ts);
-
-		ParserReturnValue S_TypeSpecifierNonArray_LBracket_Expression(std::shared_ptr<TypeSpecifierNoArray>& ts,
-			std::shared_ptr<Expression>& expression);
-
-		// Reduction: type_specifier_non_array LBRACKET constant_express RBRACKET
-		ParserReturnValue S_TypeSpecifierNonArray_LBracket_Expression_RBracket(std::shared_ptr<TypeSpecifierNoArray>& ts,
-			std::shared_ptr<Expression>& expression);
-
-		ParserReturnValue S_TypeSpecifierNonArray_LBracket_RBracket(std::shared_ptr<TypeSpecifierNoArray>& ts);
-
-		ParserReturnValue S_TypeSpecifierNoPrec(std::shared_ptr<TypeSpecifierNoPrec>& ts);
-
-		ParserReturnValue S_TypeSpecifier(std::shared_ptr<TypeSpecifier>& ts);
-
-		ParserReturnValue S_FunctionIdentifier(std::shared_ptr<FunctionIdentifier>& funcId);
-
-		// Reduction: function_identifier LPAREN
-		ParserReturnValue S_FunctionIdentifier_Lparen(std::shared_ptr<FunctionIdentifier>& funcId);
-
-		ParserReturnValue S_FunctionCallHeader(std::shared_ptr<FunctionCallHeader>& funcHeader);
-
-		ParserReturnValue S_FunctionCallHeader_VoidToken(std::shared_ptr<FunctionCallHeader>& funcHeader);
-
-		ParserReturnValue S_FunctionCallHeaderNoParams(std::shared_ptr<FuncCallHeaderNoParams>& funcHeaderNoParam);
-
-		// Reduction: function_call_header_no_params RIGHT_PAREN
-		ParserReturnValue S_FunctionCallHeaderNoParams_RParen(std::shared_ptr<FuncCallHeaderNoParams>& funcHeaderNoParam);
-
-		ParserReturnValue S_FunctionCallHeader_AssignEx(std::shared_ptr<FunctionCallHeader>& funcHeader,
-			std::shared_ptr<AssignmentExpression>& assignEx);
-
-		ParserReturnValue S_FunctionCallHeaderWithParams(std::shared_ptr<FuncCallHeaderParams>& funcHeaderWithParam);
-
-		// Reduction: function_call_header_with_params RIGHT_PAREN
-		ParserReturnValue S_FunctionCallHeaderWithParams_RParen(std::shared_ptr<FuncCallHeaderParams>& funcHeaderWithParam);
-
-		ParserReturnValue S_FunctionCallHeaderWithParams_Comma(std::shared_ptr<FuncCallHeaderParams>& funcHeaderWithParam);
-
-		ParserReturnValue S_FunctionCallHeaderWithParams_Comma_AssignEx(std::shared_ptr<FuncCallHeaderParams>& funcHeaderWithParam,
-			std::shared_ptr<AssignmentExpression>& assignEx);
-
-		ParserReturnValue S_FunctionCallGeneric(std::shared_ptr<FunctionCallGeneric>& funcCall);
-
-		ParserReturnValue S_FunctionCallOrMethod(std::shared_ptr<FunctionCallOrMethod>& funcCall);
-
-		ParserReturnValue S_FunctionCall(std::shared_ptr<FunctionCall>& funcCall);
-
 		ParserReturnValue S_TypeQualifier_TypeSpecifierNonArray(std::shared_ptr<TypeQualifier>& sq, std::shared_ptr<TypeSpecifierNoArray>& ts);
 		ParserReturnValue S_TypeQualifier_TypeSpecifierNoPrec(std::shared_ptr<TypeQualifier>& tq, std::shared_ptr<TypeSpecifierNoPrec>& ts);
+
 		ParserReturnValue S_TypeQualifier_TypeSpecifier(std::shared_ptr<TypeQualifier>& tq, std::shared_ptr<TypeSpecifier>& ts);
 
 		ParserReturnValue S_FullySpecifiedType(std::shared_ptr<FullySpecifiedType>& spec);
@@ -222,6 +245,62 @@ namespace Ceng
 
 		ParserReturnValue S_FullySpecifiedType_IdentifierToken_LBracket_RBracket_Equal_Initializer(std::shared_ptr<FullySpecifiedType>& spec, const Token& token,
 			std::shared_ptr<Initializer>& initializer);
+
+		ParserReturnValue S_TypeSpecifierNonArray(std::shared_ptr<TypeSpecifierNoArray>& ts);
+
+		ParserReturnValue S_TypeSpecifierNonArray_LBracket(std::shared_ptr<TypeSpecifierNoArray>& ts);
+
+		ParserReturnValue S_TypeSpecifierNonArray_LBracket_Expression(std::shared_ptr<TypeSpecifierNoArray>& ts,
+			std::shared_ptr<Expression>& expression);
+
+		// Reduction: type_specifier_non_array LBRACKET constant_express RBRACKET
+		ParserReturnValue S_TypeSpecifierNonArray_LBracket_Expression_RBracket(std::shared_ptr<TypeSpecifierNoArray>& ts,
+			std::shared_ptr<Expression>& expression);
+
+		ParserReturnValue S_TypeSpecifierNonArray_LBracket_RBracket(std::shared_ptr<TypeSpecifierNoArray>& ts);
+
+		ParserReturnValue S_TypeSpecifierNoPrec(std::shared_ptr<TypeSpecifierNoPrec>& ts);
+
+		ParserReturnValue S_TypeSpecifier(std::shared_ptr<TypeSpecifier>& ts);
+
+		ParserReturnValue S_TypeSpecifier_StructDeclaratorList(std::shared_ptr<TypeSpecifier>& ts,
+			std::shared_ptr<StructDeclaratorList>& list);
+
+		ParserReturnValue S_TypeSpecifier_StructDeclaratorList_Semicolon(std::shared_ptr<TypeSpecifier>& ts,
+			std::shared_ptr<StructDeclaratorList>& list);
+
+		ParserReturnValue S_FunctionIdentifier(std::shared_ptr<FunctionIdentifier>& funcId);
+
+		// Reduction: function_identifier LPAREN
+		ParserReturnValue S_FunctionIdentifier_Lparen(std::shared_ptr<FunctionIdentifier>& funcId);
+
+		ParserReturnValue S_FunctionCallHeader(std::shared_ptr<FunctionCallHeader>& funcHeader);
+
+		ParserReturnValue S_FunctionCallHeader_VoidToken(std::shared_ptr<FunctionCallHeader>& funcHeader);
+
+		ParserReturnValue S_FunctionCallHeaderNoParams(std::shared_ptr<FuncCallHeaderNoParams>& funcHeaderNoParam);
+
+		// Reduction: function_call_header_no_params RIGHT_PAREN
+		ParserReturnValue S_FunctionCallHeaderNoParams_RParen(std::shared_ptr<FuncCallHeaderNoParams>& funcHeaderNoParam);
+
+		ParserReturnValue S_FunctionCallHeader_AssignEx(std::shared_ptr<FunctionCallHeader>& funcHeader,
+			std::shared_ptr<AssignmentExpression>& assignEx);
+
+		ParserReturnValue S_FunctionCallHeaderWithParams(std::shared_ptr<FuncCallHeaderParams>& funcHeaderWithParam);
+
+		// Reduction: function_call_header_with_params RIGHT_PAREN
+		ParserReturnValue S_FunctionCallHeaderWithParams_RParen(std::shared_ptr<FuncCallHeaderParams>& funcHeaderWithParam);
+
+		ParserReturnValue S_FunctionCallHeaderWithParams_Comma(std::shared_ptr<FuncCallHeaderParams>& funcHeaderWithParam);
+
+		ParserReturnValue S_FunctionCallHeaderWithParams_Comma_AssignEx(std::shared_ptr<FuncCallHeaderParams>& funcHeaderWithParam,
+			std::shared_ptr<AssignmentExpression>& assignEx);
+
+		ParserReturnValue S_FunctionCallGeneric(std::shared_ptr<FunctionCallGeneric>& funcCall);
+
+		ParserReturnValue S_FunctionCallOrMethod(std::shared_ptr<FunctionCallOrMethod>& funcCall);
+
+		ParserReturnValue S_FunctionCall(std::shared_ptr<FunctionCall>& funcCall);
 
 		ParserReturnValue S_PrimaryExpression(std::shared_ptr<PrimaryExpression>& ex);
 
