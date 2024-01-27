@@ -93,6 +93,10 @@
     <ClInclude Include="..\..\ceng-glsl\src\StatementNoNewScope.h" />
     <ClInclude Include="..\..\ceng-glsl\src\StorageQualifier.h" />
     <ClInclude Include="..\..\ceng-glsl\src\StorageQualifierType.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\StructDeclaration.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\StructDeclarationList.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\StructDeclarator.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\StructDeclaratorList.h" />
     <ClInclude Include="..\..\ceng-glsl\src\StructSpecifier.h" />
     <ClInclude Include="..\..\ceng-glsl\src\SwitchStatement.h" />
     <ClInclude Include="..\..\ceng-glsl\src\SwitchStatementList.h" />
@@ -151,6 +155,10 @@
     <ClCompile Include="..\..\ceng-glsl\src\ShiftExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\SingleDeclaration.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\StorageQualifier.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\StructDeclaration.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\StructDeclarationList.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\StructDeclarator.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\StructDeclaratorList.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\StructSpecifier.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\Token.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\Tokenizer.cpp" />
