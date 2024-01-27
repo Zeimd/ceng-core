@@ -31,6 +31,9 @@ namespace Ceng
 		// fully_specified_type IDENTIFIER EQUAL initializer
 		SingleDeclaration(std::shared_ptr<FullySpecifiedType>& fullType, const Ceng::StringUtf8& name, std::shared_ptr<Initializer>& initializer);
 
+		// fully_specified_type IDENTIFIER LEFT_BRACKET RIGHT_BRACKET
+		SingleDeclaration(std::shared_ptr<FullySpecifiedType>& fullType, const Ceng::StringUtf8& name, bool undefinedArray);
+
 		// fully_specified_type IDENTIFIER LEFT_BRACKET RIGHT_BRACKET EQUAL initializer
 		SingleDeclaration(std::shared_ptr<FullySpecifiedType>& fullType, const Ceng::StringUtf8& name, bool undefinedArray, std::shared_ptr<Initializer>& initializer);
 

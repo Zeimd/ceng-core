@@ -8,9 +8,9 @@ InitDeclaratorList::InitDeclaratorList(std::shared_ptr<SingleDeclaration>& decl)
 	list.push_back(decl->data);
 }
 
-void InitDeclaratorList::Append(std::shared_ptr<SingleDeclaration>& decl)
+void InitDeclaratorList::Append(DeclarationData& decl)
 {
-	list.push_back(decl->data);
+	list.push_back(decl);
 }
 
 void InitDeclaratorList::Release()
@@ -32,9 +32,14 @@ Ceng::StringUtf8 InitDeclaratorList::ToString() const
 		out += ' ';
 	}
 
-	for (auto& x : list)
+	for (size_t k=0; k < list.size(); k++)
 	{
-		out += x.ToString();
+		out += list[k].ToString();
+
+		if (k < list.size() - 1)
+		{
+			out += ", ";
+		}
 	}
 
 	return out;

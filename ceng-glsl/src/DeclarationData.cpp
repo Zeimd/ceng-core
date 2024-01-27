@@ -25,6 +25,13 @@ DeclarationData::DeclarationData(const Ceng::StringUtf8& name, std::shared_ptr<I
 
 }
 
+// IDENTIFIER LEFT_BRACKET RIGHT_BRACKET
+DeclarationData::DeclarationData(const Ceng::StringUtf8& name, bool undefinedArray)
+	: empty(false), name(name), isArray(true), arraySizeExpression(nullptr), initializer(nullptr)
+{
+
+}
+
 // IDENTIFIER LEFT_BRACKET RIGHT_BRACKET EQUAL initializer
 DeclarationData::DeclarationData(const Ceng::StringUtf8& name, bool undefinedArray, std::shared_ptr<Initializer>& initializer)
 	: empty(false), name(name), isArray(true), arraySizeExpression(nullptr), initializer(initializer)

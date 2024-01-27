@@ -35,6 +35,9 @@ namespace Ceng
 		// IDENTIFIER EQUAL initializer
 		DeclarationData(const Ceng::StringUtf8& name, std::shared_ptr<Initializer>& initializer);
 
+		// IDENTIFIER LEFT_BRACKET RIGHT_BRACKET
+		DeclarationData(const Ceng::StringUtf8& name, bool undefinedArray);
+
 		// IDENTIFIER LEFT_BRACKET RIGHT_BRACKET EQUAL initializer
 		DeclarationData(const Ceng::StringUtf8& name, bool undefinedArray, std::shared_ptr<Initializer>& initializer);
 

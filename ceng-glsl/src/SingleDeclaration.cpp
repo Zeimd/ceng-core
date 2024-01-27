@@ -20,6 +20,13 @@ SingleDeclaration::SingleDeclaration(std::shared_ptr<FullySpecifiedType>& fullTy
 
 }
 
+SingleDeclaration::SingleDeclaration(std::shared_ptr<FullySpecifiedType>& fullType, const Ceng::StringUtf8& name, bool undefinedArray)
+	: INonTerminal(NonTerminalType::single_declaration), fullType(fullType), invariant(false), data(name, undefinedArray)
+{
+
+}
+
+
 SingleDeclaration::SingleDeclaration(std::shared_ptr<FullySpecifiedType>& fullType, const Ceng::StringUtf8& name, bool undefinedArray,
 	std::shared_ptr<Initializer>& initializer)
 	: INonTerminal(NonTerminalType::single_declaration), fullType(fullType), invariant(false), data(name,undefinedArray, initializer)

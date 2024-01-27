@@ -812,6 +812,9 @@ public:
 
 		switch (parser->PeekToken().type)
 		{
+		case TokenType::identifier:
+			retVal = ParserReturnValue(std::make_shared<FullySpecifiedType>(*typeSpec), 1);
+			break;
 		case TokenType::left_paren:
 			retVal = ParserReturnValue(std::make_shared<FunctionIdentifier>(typeSpec), 1);
 			break;
@@ -826,17 +829,16 @@ public:
 	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
 	{
 		parser->log.Debug(__FUNCTION__);
-		return { ParserReturnValue(),false };
+		return { ParserReturnValue(), false };
+		
 	}
 
 	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
 	{
 		parser->log.Debug(__FUNCTION__);
-		return { ParserReturnValue(),false };
+		return { ParserReturnValue(), false };		
 	}
-
 };
-
 
 ParserReturnValue GLSL_Parser::S_TypeSpecifier(std::shared_ptr<TypeSpecifier>& ts)
 {
@@ -1434,7 +1436,7 @@ public:
 		case TokenType::equal:
 			return { ParserReturnValue(), false };
 		default:
-			return { ParserReturnValue(std::make_shared<SingleDeclaration>(typeSpec, token.name), 4 ), true };
+			return { ParserReturnValue(std::make_shared<SingleDeclaration>(typeSpec, token.name, true), 4 ), true };
 		}
 	}
 
@@ -3374,63 +3376,489 @@ ParserReturnValue GLSL_Parser::S_InitDeclaratorList_Semicolon(std::shared_ptr<In
 	return { std::make_shared<Declaration>(initList),2 };
 }
 
+class Handler_InitDeclaratorList_Comma : public IStateHandler
+{
+public:
+	std::shared_ptr<InitDeclaratorList>& list;
+
+public:
+
+	Handler_InitDeclaratorList_Comma(std::shared_ptr<InitDeclaratorList>& list)
+		: list(list)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::identifier:
+			return { parser->S_InitDeclaratorList_Comma_IdToken(list, next),true };
+		default:
+			return { ParserReturnValue(),false };
+		}
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(), false };
+	}
+
+};
+
 ParserReturnValue GLSL_Parser::S_InitDeclaratorList_Comma(std::shared_ptr<InitDeclaratorList>& initList)
 {
-	log.Debug(__func__);
-	return ParserReturnValue();
+	Handler_InitDeclaratorList_Comma temp(initList);
+
+	return StateFuncSkeleton(__func__, temp);
 }
+
+class Handler_InitDeclaratorList_Comma_IdToken : public IStateHandler
+{
+public:
+	std::shared_ptr<InitDeclaratorList>& list;
+	const Token& token;
+
+public:
+
+	Handler_InitDeclaratorList_Comma_IdToken(std::shared_ptr<InitDeclaratorList>& list, const Token& token)
+		: list(list), token(token)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		
+		switch (parser->PeekToken().type)
+		{
+		case TokenType::left_bracket:
+			return { ParserReturnValue(),false };
+		default:
+			DeclarationData data{ token.name };
+			list->Append(data);
+			return { ParserReturnValue(list,3), true };
+		}
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::left_bracket:
+			return { parser->S_InitDeclaratorList_Comma_IdToken_LBracket(list, token),true };
+		default:
+			return { ParserReturnValue(),false };
+		}
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(), false };
+	}
+
+};
 
 ParserReturnValue GLSL_Parser::S_InitDeclaratorList_Comma_IdToken(std::shared_ptr<InitDeclaratorList>& initList, const Token& token)
 {
-	log.Debug(__func__);
-	return ParserReturnValue();
+	Handler_InitDeclaratorList_Comma_IdToken temp(initList, token);
+
+	return StateFuncSkeleton(__func__, temp);
 }
+
+class Handler_InitDeclaratorList_Comma_IdToken_LBracket : public IStateHandler
+{
+public:
+	std::shared_ptr<InitDeclaratorList>& list;
+	const Token& token;
+
+public:
+
+	Handler_InitDeclaratorList_Comma_IdToken_LBracket(std::shared_ptr<InitDeclaratorList>& list, const Token& token)
+		: list(list), token(token)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::right_bracket:
+			return { parser->S_InitDeclaratorList_Comma_IdToken_LBracket_RBracket(list,token),true };
+		default:
+			return DefaultExpressionShift(parser, next);
+		}
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::expression:
+			{
+				auto temp = std::static_pointer_cast<Expression>(nonTerminal);
+				return { parser->S_InitDeclaratorList_Comma_IdToken_LBracket_Expression(list, token, temp),true };
+			}
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+	}
+
+};
 
 ParserReturnValue GLSL_Parser::S_InitDeclaratorList_Comma_IdToken_LBracket(std::shared_ptr<InitDeclaratorList>& initList, const Token& token)
 {
-	log.Debug(__func__);
-	return ParserReturnValue();
+	Handler_InitDeclaratorList_Comma_IdToken_LBracket temp(initList, token);
+
+	return StateFuncSkeleton(__func__, temp);
 }
+
+class Handler_InitDeclaratorList_Comma_IdToken_LBracket_RBracket : public IStateHandler
+{
+public:
+	std::shared_ptr<InitDeclaratorList>& list;
+	const Token& token;
+
+public:
+
+	Handler_InitDeclaratorList_Comma_IdToken_LBracket_RBracket(std::shared_ptr<InitDeclaratorList>& list, const Token& token)
+		: list(list), token(token)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (parser->PeekToken().type)
+		{
+		case TokenType::equal:
+			return { ParserReturnValue(),false };
+		default:
+			DeclarationData data{ token.name, true };
+			list->Append(data);
+			return { ParserReturnValue(list,5), true };
+		}
+
+		
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::equal:
+			return { parser->S_InitDeclaratorList_Comma_IdToken_LBracket_RBracket_Equal(list,token),true };
+		default:
+			return { ParserReturnValue(),false };
+		}
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+};
 
 ParserReturnValue GLSL_Parser::S_InitDeclaratorList_Comma_IdToken_LBracket_RBracket(std::shared_ptr<InitDeclaratorList>& initList, const Token& token)
 {
-	log.Debug(__func__);
-	return ParserReturnValue();
+	Handler_InitDeclaratorList_Comma_IdToken_LBracket_RBracket temp(initList, token);
+
+	return StateFuncSkeleton(__func__, temp);
 }
+
+class Handler_InitDeclaratorList_Comma_IdToken_LBracket_RBracket_Equal : public IStateHandler
+{
+public:
+	std::shared_ptr<InitDeclaratorList>& list;
+	const Token& token;
+
+public:
+
+	Handler_InitDeclaratorList_Comma_IdToken_LBracket_RBracket_Equal(std::shared_ptr<InitDeclaratorList>& list, const Token& token)
+		: list(list), token(token)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (next.type)
+		{
+		default:
+			return DefaultExpressionShift(parser, next);
+		}
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::assignment_expression:
+		{
+			std::shared_ptr<AssignmentExpression> temp = std::static_pointer_cast<AssignmentExpression>(nonTerminal);
+			retVal = parser->S_InitDeclaratorList_Comma_IdToken_LBracket_RBracket_Equal_AssignEx(list, token, temp);
+		}
+		break;
+		case NonTerminalType::initializer:
+		{
+			std::shared_ptr<Initializer> temp = std::static_pointer_cast<Initializer>(nonTerminal);
+			retVal = parser->S_InitDeclaratorList_Comma_IdToken_LBracket_RBracket_Equal_Initializer(list, token, temp);
+		}
+		break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+		return { retVal, valid };
+	}
+
+};
 
 ParserReturnValue GLSL_Parser::S_InitDeclaratorList_Comma_IdToken_LBracket_RBracket_Equal(std::shared_ptr<InitDeclaratorList>& initList, const Token& token)
 {
-	log.Debug(__func__);
-	return ParserReturnValue();
+	Handler_InitDeclaratorList_Comma_IdToken_LBracket_RBracket_Equal temp(initList, token);
+
+	return StateFuncSkeleton(__func__, temp);
 }
 
 ParserReturnValue GLSL_Parser::S_InitDeclaratorList_Comma_IdToken_LBracket_RBracket_Equal_AssignEx(std::shared_ptr<InitDeclaratorList>& initList, const Token& token,
 	std::shared_ptr<AssignmentExpression>& assignEx)
 {
 	log.Debug(__func__);
-	return ParserReturnValue();
+	return { std::make_shared<Initializer>(assignEx),1 };
 }
 
 ParserReturnValue GLSL_Parser::S_InitDeclaratorList_Comma_IdToken_LBracket_RBracket_Equal_Initializer(std::shared_ptr<InitDeclaratorList>& initList, const Token& token,
 	std::shared_ptr<Initializer>& initializer)
 {
 	log.Debug(__func__);
-	return ParserReturnValue();
+
+	DeclarationData data{ token.name, true, initializer };
+	initList->Append(data);
+	return { initList, 7 };
 }
+
+class Handler_InitDeclaratorList_Comma_IdToken_LBracket_Expression : public IStateHandler
+{
+public:
+	std::shared_ptr<InitDeclaratorList>& list;
+	const Token& token;
+	std::shared_ptr<Expression>& expression;
+
+public:
+
+	Handler_InitDeclaratorList_Comma_IdToken_LBracket_Expression(std::shared_ptr<InitDeclaratorList>& list, 
+		const Token& token, std::shared_ptr<Expression>& expression)
+		: list(list), token(token), expression(expression)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::right_bracket:
+			return { parser->S_InitDeclaratorList_Comma_IdToken_LBracket_Expression_RBracket(list,token,expression),true };
+		default:
+			return DefaultExpressionShift(parser, next);
+		}
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+};
 
 ParserReturnValue GLSL_Parser::S_InitDeclaratorList_Comma_IdToken_LBracket_Expression(std::shared_ptr<InitDeclaratorList>& initList, const Token& token,
 	std::shared_ptr<Expression>& expression)
 {
-	log.Debug(__func__);
-	return ParserReturnValue();
+	Handler_InitDeclaratorList_Comma_IdToken_LBracket_Expression temp(initList, token, expression);
+
+	return StateFuncSkeleton(__func__, temp);
 }
+
+class Handler_InitDeclaratorList_Comma_IdToken_LBracket_Expression_RBracket : public IStateHandler
+{
+public:
+	std::shared_ptr<InitDeclaratorList>& list;
+	const Token& token;
+	std::shared_ptr<Expression>& expression;
+
+public:
+
+	Handler_InitDeclaratorList_Comma_IdToken_LBracket_Expression_RBracket(std::shared_ptr<InitDeclaratorList>& list,
+		const Token& token, std::shared_ptr<Expression>& expression)
+		: list(list), token(token), expression(expression)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (parser->PeekToken().type)
+		{
+		case TokenType::equal:
+			return { ParserReturnValue(),false };
+		default:
+			DeclarationData data{ token.name, expression };
+			list->Append(data);
+			return { ParserReturnValue(list,6), true };
+		}
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::equal:
+			return { parser->S_InitDeclaratorList_Comma_IdToken_LBracket_Expression_RBracket_Equal(list,token, expression),true };
+		default:
+			return { ParserReturnValue(),false };
+		}
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+};
 
 ParserReturnValue GLSL_Parser::S_InitDeclaratorList_Comma_IdToken_LBracket_Expression_RBracket(std::shared_ptr<InitDeclaratorList>& initList, const Token& token,
 	std::shared_ptr<Expression>& expression)
 {
-	log.Debug(__func__);
-	return ParserReturnValue();
+	Handler_InitDeclaratorList_Comma_IdToken_LBracket_Expression_RBracket temp(initList, token, expression);
+
+	return StateFuncSkeleton(__func__, temp);
 }
+
+class Handler_InitDeclaratorList_Comma_IdToken_LBracket_Expression_RBracket_Equal : public IStateHandler
+{
+public:
+	std::shared_ptr<InitDeclaratorList>& list;
+	const Token& token;
+	std::shared_ptr<Expression>& expression;
+
+public:
+
+	Handler_InitDeclaratorList_Comma_IdToken_LBracket_Expression_RBracket_Equal(std::shared_ptr<InitDeclaratorList>& list,
+		const Token& token, std::shared_ptr<Expression>& expression)
+		: list(list), token(token), expression(expression)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (next.type)
+		{
+		default:
+			return DefaultExpressionShift(parser, next);
+		}
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::assignment_expression:
+		{
+			std::shared_ptr<AssignmentExpression> temp = std::static_pointer_cast<AssignmentExpression>(nonTerminal);
+			retVal = parser->S_InitDeclaratorList_Comma_IdToken_LBracket_Expression_RBracket_Equal_AssignEx(list, token, expression, temp);
+		}
+		break;
+		case NonTerminalType::initializer:
+		{
+			std::shared_ptr<Initializer> temp = std::static_pointer_cast<Initializer>(nonTerminal);
+			retVal = parser->S_InitDeclaratorList_Comma_IdToken_LBracket_Expression_RBracket_Equal_Initializer(list, token, expression, temp);
+		}
+		break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+		return { retVal, valid };
+	}
+
+};
 
 ParserReturnValue GLSL_Parser::S_InitDeclaratorList_Comma_IdToken_LBracket_Expression_RBracket_Equal(std::shared_ptr<InitDeclaratorList>& initList, const Token& token,
 	std::shared_ptr<Expression>& expression)
@@ -3444,14 +3872,17 @@ ParserReturnValue GLSL_Parser::S_InitDeclaratorList_Comma_IdToken_LBracket_Expre
 	std::shared_ptr<Expression>& expression, std::shared_ptr<AssignmentExpression>& assignEx)
 {
 	log.Debug(__func__);
-	return ParserReturnValue();
+	return { std::make_shared<Initializer>(assignEx), 1 };
 }
 
 ParserReturnValue GLSL_Parser::S_InitDeclaratorList_Comma_IdToken_LBracket_Expression_RBracket_Equal_Initializer(std::shared_ptr<InitDeclaratorList>& initList, const Token& token,
 	std::shared_ptr<Expression>& expression, std::shared_ptr<Initializer>& initializer)
 {
 	log.Debug(__func__);
-	return ParserReturnValue();
+
+	DeclarationData data{ token.name, expression, initializer };
+	initList->Append(data);
+	return { initList, 8 };
 }
 
 ParserReturnValue GLSL_Parser::S_Declaration(std::shared_ptr<Declaration>& singleDecl)
