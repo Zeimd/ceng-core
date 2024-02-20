@@ -529,7 +529,7 @@ const CRESULT SoftwareRenderer::CopyTextureData(CR_NewTargetData *texture, const
 				tempDest[2] = tempSource[0];
 				tempDest[3] = tempSource[3];
 
-				tempSource += 3;
+				tempSource += 4;
 				tempDest += texture->channels[0].bytesPerPixel;
 
 				//memcpy(destAddress, sourceAddress, rowBytes);
