@@ -512,6 +512,36 @@ const CRESULT SoftwareRenderer::CopyTextureData(CR_NewTargetData *texture, const
 		return Ceng::CE_OK;
 	}
 
+	if (texture->bufferFormat == IMAGE_FORMAT::C32_ABGR && sourceFormat == IMAGE_FORMAT::C24_BGR)
+	{
+		Ceng::UINT32 rowBytes = sourceData->rowPitch;
+
+		for (Ceng::UINT32 k = 0; k < texture->bufferHeight; ++k)
+		{
+			Ceng::UINT8* tempSource = sourceAddress;
+			Ceng::UINT8* tempDest = destAddress;
+
+			for (Ceng::UINT32 j = 0; j < texture->bufferWidth; ++j)
+			{
+				tempDest[0] = tempSource[0];
+				tempDest[1] = tempSource[1];
+				tempDest[2] = tempSource[2];
+				tempDest[3] = 255;
+
+				tempSource += 3;
+				tempDest += texture->channels[0].bytesPerPixel;
+
+				//memcpy(destAddress, sourceAddress, rowBytes);
+
+			}
+
+			destAddress += texture->channels[0].tileYstep;
+			sourceAddress += rowBytes;
+		}
+
+		return Ceng::CE_OK;
+	}
+
 	if ( (texture->bufferFormat == IMAGE_FORMAT::C32_ARGB && sourceFormat == IMAGE_FORMAT::C32_ABGR)
 		|| (texture->bufferFormat == IMAGE_FORMAT::C32_ABGR && sourceFormat == IMAGE_FORMAT::C32_ARGB) )
 	{
@@ -544,6 +574,36 @@ const CRESULT SoftwareRenderer::CopyTextureData(CR_NewTargetData *texture, const
 	}
 
 	if (texture->bufferFormat == IMAGE_FORMAT::C32_ARGB && sourceFormat == IMAGE_FORMAT::C24_BGR)
+	{
+		Ceng::UINT32 rowBytes = sourceData->rowPitch;
+
+		for (Ceng::UINT32 k = 0; k < texture->bufferHeight; ++k)
+		{
+			Ceng::UINT8* tempSource = sourceAddress;
+			Ceng::UINT8* tempDest = destAddress;
+
+			for (Ceng::UINT32 j = 0; j < texture->bufferWidth; ++j)
+			{
+				tempDest[0] = tempSource[2];
+				tempDest[1] = tempSource[1];
+				tempDest[2] = tempSource[0];
+				tempDest[3] = 255;
+
+				tempSource += 3;
+				tempDest += texture->channels[0].bytesPerPixel;
+
+				//memcpy(destAddress, sourceAddress, rowBytes);
+
+			}
+
+			destAddress += texture->channels[0].tileYstep;
+			sourceAddress += rowBytes;
+		}
+
+		return Ceng::CE_OK;
+	}
+
+	if (texture->bufferFormat == IMAGE_FORMAT::C32_ABGR && sourceFormat == IMAGE_FORMAT::C24_RGB)
 	{
 		Ceng::UINT32 rowBytes = sourceData->rowPitch;
 
