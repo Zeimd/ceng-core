@@ -475,6 +475,8 @@ const CRESULT SoftwareRenderer::CopyTextureData(CR_NewTargetData *texture, const
 			destAddress += texture->channels[0].tileYstep;
 			sourceAddress += rowBytes;
 		}
+
+		return Ceng::CE_OK;
 	}
 
 	if (texture->bufferFormat == IMAGE_FORMAT::C32_ARGB && sourceFormat == IMAGE_FORMAT::C24_RGB)
@@ -503,6 +505,39 @@ const CRESULT SoftwareRenderer::CopyTextureData(CR_NewTargetData *texture, const
 			destAddress += texture->channels[0].tileYstep;
 			sourceAddress += rowBytes;
 		}
+
+		return Ceng::CE_OK;
+	}
+
+	if ( (texture->bufferFormat == IMAGE_FORMAT::C32_ARGB && sourceFormat == IMAGE_FORMAT::C32_ABGR)
+		|| (texture->bufferFormat == IMAGE_FORMAT::C32_ABGR && sourceFormat == IMAGE_FORMAT::C32_ARGB) )
+	{
+		Ceng::UINT32 rowBytes = sourceData->rowPitch;
+
+		for (Ceng::UINT32 k = 0; k < texture->bufferHeight; ++k)
+		{
+			Ceng::UINT8* tempSource = sourceAddress;
+			Ceng::UINT8* tempDest = destAddress;
+
+			for (Ceng::UINT32 j = 0; j < texture->bufferWidth; ++j)
+			{
+				tempDest[0] = tempSource[2];
+				tempDest[1] = tempSource[1];
+				tempDest[2] = tempSource[0];
+				tempDest[3] = tempSource[3];
+
+				tempSource += 3;
+				tempDest += texture->channels[0].bytesPerPixel;
+
+				//memcpy(destAddress, sourceAddress, rowBytes);
+
+			}
+
+			destAddress += texture->channels[0].tileYstep;
+			sourceAddress += rowBytes;
+		}
+
+		return Ceng::CE_OK;
 	}
 
 	if (texture->bufferFormat == IMAGE_FORMAT::C32_ARGB && sourceFormat == IMAGE_FORMAT::C24_BGR)
@@ -531,9 +566,11 @@ const CRESULT SoftwareRenderer::CopyTextureData(CR_NewTargetData *texture, const
 			destAddress += texture->channels[0].tileYstep;
 			sourceAddress += rowBytes;
 		}
+
+		return Ceng::CE_OK;
 	}
 
-	return CE_OK;
+	return CE_ERR_INCOMPATIBLE_FORMAT;
 }
 
 const Ceng::CRESULT SoftwareRenderer::CreateVertexShader(const Ceng::StringUtf8& shaderText, Ceng::VertexShader** shaderPtr)
