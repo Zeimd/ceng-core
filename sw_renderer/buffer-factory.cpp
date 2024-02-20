@@ -487,13 +487,14 @@ const CRESULT CR_BufferFactory::GetChannelData(const Ceng::IMAGE_FORMAT::value f
 	switch (format)
 	{
 	case Ceng::IMAGE_FORMAT::C32_ARGB:
+	case Ceng::IMAGE_FORMAT::C32_ABGR:
 
 		out_channels[0].semantic = Ceng::CHANNEL_SEMANTIC::FORMAT_COLOR;
 		out_channels[0].dataType = Ceng::VECTOR_TYPE::INT8;
 		out_channels[0].bytesPerPixel = 4;
 
 		break;
-
+	case Ceng::IMAGE_FORMAT::C24_BGR:
 	case Ceng::IMAGE_FORMAT::C24_RGB:
 
 		out_channels[0].semantic = Ceng::CHANNEL_SEMANTIC::FORMAT_COLOR;
