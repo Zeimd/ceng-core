@@ -259,10 +259,11 @@ const CRESULT SoftwareRenderer::CreateTexture2D(const Texture2dDesc &desc,
 
 	switch (localDesc.format)
 	{
-	case IMAGE_FORMAT::C24_RGB:
 	case IMAGE_FORMAT::C32_ARGB:
+	case IMAGE_FORMAT::C24_RGB:
 		internalFormat = IMAGE_FORMAT::C32_ARGB;
 		break;
+	case IMAGE_FORMAT::C32_ABGR:
 	case IMAGE_FORMAT::C24_BGR:
 		internalFormat = IMAGE_FORMAT::C32_ABGR;
 		break;
@@ -316,11 +317,7 @@ const CRESULT SoftwareRenderer::CreateTexture2D(const Texture2dDesc &desc,
 
 			if (cresult != Ceng::CE_OK)
 			{
-				switch (cresult)
-				{
-				default:
-					return cresult;
-				}
+				return cresult;
 			}
 
 			if (j == 0 || !(desc.optionFlags & BufferOptions::generate_mip_maps))
@@ -368,6 +365,11 @@ const CRESULT SoftwareRenderer::CreateTexture2D(const Texture2dDesc &desc,
 			CR_NewTargetData *tempTexture;
 
 			cresult = bufferFactory.GetTiledTexture2D(localDesc, &tempTexture);
+
+			if (cresult != Ceng::CE_OK)
+			{
+				return cresult;
+			}
 
 			CopyToTiled(tempTexture, tempTex->textures[k][j].get());
 
