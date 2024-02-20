@@ -249,8 +249,6 @@ const CRESULT SoftwareRenderer::CreateShaderResourceView(RenderResource *resourc
 const CRESULT SoftwareRenderer::CreateTexture2D(const Texture2dDesc &desc,
 	const SubResourceData *initialData, Ceng::Texture2D **texturePtr)
 {
-	TextureArrayVector textures(desc.arraySize);
-
 	CRESULT cresult;
 
 	Texture2dDesc localDesc;
@@ -262,13 +260,20 @@ const CRESULT SoftwareRenderer::CreateTexture2D(const Texture2dDesc &desc,
 	switch (localDesc.format)
 	{
 	case IMAGE_FORMAT::C24_RGB:
+	case IMAGE_FORMAT::C32_ARGB:
 		internalFormat = IMAGE_FORMAT::C32_ARGB;
 		break;
 	case IMAGE_FORMAT::C24_BGR:
 		internalFormat = IMAGE_FORMAT::C32_ABGR;
 		break;
 	default:
+		return CE_ERR_INCOMPATIBLE_FORMAT;
 		break;
+	}
+
+	if (desc.arraySize == 0)
+	{
+		localDesc.arraySize = 1;
 	}
 
 	localDesc.format = internalFormat;
@@ -296,7 +301,9 @@ const CRESULT SoftwareRenderer::CreateTexture2D(const Texture2dDesc &desc,
 		}
 	}
 
-	for (Ceng::UINT32 k = 0; k < desc.arraySize; ++k)
+	TextureArrayVector textures(localDesc.arraySize);
+
+	for (Ceng::UINT32 k = 0; k < localDesc.arraySize; ++k)
 	{
 		localDesc.width = desc.width;
 		localDesc.height = desc.height;
@@ -306,6 +313,15 @@ const CRESULT SoftwareRenderer::CreateTexture2D(const Texture2dDesc &desc,
 			CR_NewTargetData *tempTexture;
 
 			cresult = bufferFactory.GetTexture2D(localDesc, &tempTexture);
+
+			if (cresult != Ceng::CE_OK)
+			{
+				switch (cresult)
+				{
+				default:
+					return cresult;
+				}
+			}
 
 			if (j == 0 || !(desc.optionFlags & BufferOptions::generate_mip_maps))
 			{
@@ -340,9 +356,9 @@ const CRESULT SoftwareRenderer::CreateTexture2D(const Texture2dDesc &desc,
 
 	// Convert textures to tiled layout
 
-	textures = TextureArrayVector(desc.arraySize);
+	textures = TextureArrayVector(localDesc.arraySize);
 
-	for (Ceng::UINT32 k = 0; k < desc.arraySize; ++k)
+	for (Ceng::UINT32 k = 0; k < localDesc.arraySize; ++k)
 	{
 		localDesc.width = desc.width;
 		localDesc.height = desc.height;
@@ -473,6 +489,34 @@ const CRESULT SoftwareRenderer::CopyTextureData(CR_NewTargetData *texture, const
 				tempDest[0] = tempSource[0];
 				tempDest[1] = tempSource[1];
 				tempDest[2] = tempSource[2];
+				tempDest[3] = 255;
+
+				tempSource += 3;
+				tempDest += texture->channels[0].bytesPerPixel;
+
+				//memcpy(destAddress, sourceAddress, rowBytes);
+
+			}
+
+			destAddress += texture->channels[0].tileYstep;
+			sourceAddress += rowBytes;
+		}
+	}
+
+	if (texture->bufferFormat == IMAGE_FORMAT::C32_ARGB && sourceFormat == IMAGE_FORMAT::C24_BGR)
+	{
+		Ceng::UINT32 rowBytes = sourceData->rowPitch;
+
+		for (Ceng::UINT32 k = 0; k < texture->bufferHeight; ++k)
+		{
+			Ceng::UINT8* tempSource = sourceAddress;
+			Ceng::UINT8* tempDest = destAddress;
+
+			for (Ceng::UINT32 j = 0; j < texture->bufferWidth; ++j)
+			{
+				tempDest[0] = tempSource[2];
+				tempDest[1] = tempSource[1];
+				tempDest[2] = tempSource[0];
 				tempDest[3] = 255;
 
 				tempSource += 3;
