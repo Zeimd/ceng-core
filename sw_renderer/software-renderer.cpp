@@ -281,24 +281,27 @@ const CRESULT SoftwareRenderer::CreateTexture2D(const Texture2dDesc &desc,
 
 	if (desc.mipLevels == 0)
 	{
-		localDesc.width = desc.width;
-		localDesc.height = desc.height;
-
 		localDesc.mipLevels = 1;
-		
-		while (localDesc.width > 1 || localDesc.height > 1)
+
+		if (desc.optionFlags & BufferOptions::generate_mip_maps)
 		{
-			if (localDesc.width > 1)
-			{
-				localDesc.width = localDesc.width >> 1;
-			}
+			localDesc.width = desc.width;
+			localDesc.height = desc.height;
 
-			if (localDesc.height > 1)
+			while (localDesc.width > 1 || localDesc.height > 1)
 			{
-				localDesc.height = localDesc.height >> 1;
-			}
+				if (localDesc.width > 1)
+				{
+					localDesc.width = localDesc.width >> 1;
+				}
 
-			++localDesc.mipLevels;
+				if (localDesc.height > 1)
+				{
+					localDesc.height = localDesc.height >> 1;
+				}
+
+				++localDesc.mipLevels;
+			}
 		}
 	}
 
