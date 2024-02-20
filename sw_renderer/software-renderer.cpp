@@ -280,21 +280,21 @@ const CRESULT SoftwareRenderer::CreateTexture2D(const Texture2dDesc &desc,
 
 	if (desc.mipLevels == 0)
 	{
-		localDesc.width = desc.width;
-		localDesc.height = desc.height;
+		auto width = desc.width;
+		auto height = desc.height;
 
 		localDesc.mipLevels = 1;
 		
-		while (localDesc.width > 1 || localDesc.height > 1)
+		while (width > 1 || height > 1)
 		{
-			if (localDesc.width > 1)
+			if (width > 1)
 			{
-				localDesc.width = localDesc.width >> 1;
+				width >>= 1;
 			}
 
-			if (localDesc.height > 1)
+			if (height > 1)
 			{
-				localDesc.height = localDesc.height >> 1;
+				height >>= 1;
 			}
 
 			++localDesc.mipLevels;
@@ -305,8 +305,8 @@ const CRESULT SoftwareRenderer::CreateTexture2D(const Texture2dDesc &desc,
 
 	for (Ceng::UINT32 k = 0; k < localDesc.arraySize; ++k)
 	{
-		localDesc.width = desc.width;
-		localDesc.height = desc.height;
+		auto width = desc.width;
+		auto height = desc.height;
 
 		for (Ceng::UINT32 j = 0; j < localDesc.mipLevels; ++j)
 		{
@@ -332,20 +332,17 @@ const CRESULT SoftwareRenderer::CreateTexture2D(const Texture2dDesc &desc,
 
 			textures[k].push_back(std::shared_ptr<CR_NewTargetData>(tempTexture));
 
-			if (localDesc.width > 1)
+			if (width > 1)
 			{
-				localDesc.width = localDesc.width >> 1;
+				width >>= 1;
 			}
 
-			if (localDesc.height > 1)
+			if (height > 1)
 			{
-				localDesc.height = localDesc.height >> 1;
+				height >>= 1;
 			}
 		}
 	}
-
-	localDesc.width = desc.width;
-	localDesc.height = desc.height;
 
 	CR_Texture2D *tempTex = new CR_Texture2D(localDesc, std::move(textures));
 
@@ -360,8 +357,8 @@ const CRESULT SoftwareRenderer::CreateTexture2D(const Texture2dDesc &desc,
 
 	for (Ceng::UINT32 k = 0; k < localDesc.arraySize; ++k)
 	{
-		localDesc.width = desc.width;
-		localDesc.height = desc.height;
+		auto width = desc.width;
+		auto height = desc.height;
 
 		for (Ceng::UINT32 j = 0; j < localDesc.mipLevels; ++j)
 		{
@@ -373,20 +370,17 @@ const CRESULT SoftwareRenderer::CreateTexture2D(const Texture2dDesc &desc,
 
 			textures[k].push_back(std::shared_ptr<CR_NewTargetData>(tempTexture));
 
-			if (localDesc.width > 1)
+			if (width > 1)
 			{
-				localDesc.width = localDesc.width >> 1;
+				width >>= 1;
 			}
 
-			if (localDesc.height > 1)
+			if (height > 1)
 			{
-				localDesc.height = localDesc.height >> 1;
+				height >>= 1;
 			}
 		}
 	}
-
-	localDesc.width = desc.width;
-	localDesc.height = desc.height;
 
 	delete tempTex;
 
