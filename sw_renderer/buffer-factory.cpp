@@ -486,20 +486,141 @@ const CRESULT CR_BufferFactory::GetChannelData(const Ceng::IMAGE_FORMAT::value f
 
 	switch (format)
 	{
-	case Ceng::IMAGE_FORMAT::C32_ARGB:
-	case Ceng::IMAGE_FORMAT::C32_ABGR:
+	case Ceng::IMAGE_FORMAT::gray_8:
+	case Ceng::IMAGE_FORMAT::alpha_8:
+	case Ceng::IMAGE_FORMAT::unorm_r3_g3_b2:
+	case Ceng::IMAGE_FORMAT::unorm_b2_g3_r3:
+		out_channels[0].semantic = Ceng::CHANNEL_SEMANTIC::FORMAT_COLOR;
+		out_channels[0].dataType = Ceng::VECTOR_TYPE::INT8;
+		out_channels[0].bytesPerPixel = 1;
 
+		break;
+	case Ceng::IMAGE_FORMAT::unorm_r5_g6_b5:
+	case Ceng::IMAGE_FORMAT::unorm_b5_g6_r5:
+	case Ceng::IMAGE_FORMAT::unorm_a4_r4_g4_b4:
+	case Ceng::IMAGE_FORMAT::unorm_a4_b4_g4_r4:
+	case Ceng::IMAGE_FORMAT::unorm_a1_r5_g5_b5:
+	case Ceng::IMAGE_FORMAT::unorm_a1_b5_g5_r5:
+	case Ceng::IMAGE_FORMAT::unorm_a8_r3_g3_b2:
+	case Ceng::IMAGE_FORMAT::unorm_a8_b2_g3_r3:
+		out_channels[0].semantic = Ceng::CHANNEL_SEMANTIC::FORMAT_COLOR;
+		out_channels[0].dataType = Ceng::VECTOR_TYPE::INT16;
+		out_channels[0].bytesPerPixel = 2;
+		out_channels[0].mixedData = true;
+
+		break;
+
+	case Ceng::IMAGE_FORMAT::gray_16:
+		out_channels[0].semantic = Ceng::CHANNEL_SEMANTIC::FORMAT_COLOR;
+		out_channels[0].dataType = Ceng::VECTOR_TYPE::INT16;
+		out_channels[0].bytesPerPixel = 2;
+
+		break;
+	case Ceng::IMAGE_FORMAT::unorm_r8_g8:
+	case Ceng::IMAGE_FORMAT::unorm_g8_r8:
+		out_channels[0].semantic = Ceng::CHANNEL_SEMANTIC::FORMAT_COLOR;
+		out_channels[0].dataType = Ceng::VECTOR_TYPE::INT8;
+		out_channels[0].bytesPerPixel = 2;
+
+		break;
+	case Ceng::IMAGE_FORMAT::unorm_r16_g16:
+	case Ceng::IMAGE_FORMAT::unorm_g16_r16:
+		out_channels[0].semantic = Ceng::CHANNEL_SEMANTIC::FORMAT_COLOR;
+		out_channels[0].dataType = Ceng::VECTOR_TYPE::INT16;
+		out_channels[0].bytesPerPixel = 4;
+
+		break;
+	case Ceng::IMAGE_FORMAT::unorm_r8_g8_b8:
+	case Ceng::IMAGE_FORMAT::unorm_b8_g8_r8:
+
+		out_channels[0].semantic = Ceng::CHANNEL_SEMANTIC::FORMAT_COLOR;
+		out_channels[0].dataType = Ceng::VECTOR_TYPE::INT8;
+		out_channels[0].bytesPerPixel = 3;
+
+		break;
+	case Ceng::IMAGE_FORMAT::unorm_a2_r10_g10_b10:
+	case Ceng::IMAGE_FORMAT::unorm_a2_b10_g10_r10:
+
+		out_channels[0].semantic = Ceng::CHANNEL_SEMANTIC::FORMAT_COLOR;
+		out_channels[0].dataType = Ceng::VECTOR_TYPE::INT32;
+		out_channels[0].bytesPerPixel = 4;
+		out_channels[0].mixedData = true;
+
+		break;
+	case Ceng::IMAGE_FORMAT::unorm_x8_r8_g8_b8:
+	case Ceng::IMAGE_FORMAT::unorm_x8_b8_g8_r8:
+	case Ceng::IMAGE_FORMAT::unorm_a8_r8_g8_b8:
+	case Ceng::IMAGE_FORMAT::unorm_a8_b8_g8_r8:
 		out_channels[0].semantic = Ceng::CHANNEL_SEMANTIC::FORMAT_COLOR;
 		out_channels[0].dataType = Ceng::VECTOR_TYPE::INT8;
 		out_channels[0].bytesPerPixel = 4;
 
 		break;
-	case Ceng::IMAGE_FORMAT::C24_BGR:
-	case Ceng::IMAGE_FORMAT::C24_RGB:
+	case Ceng::IMAGE_FORMAT::gray_32:
+		out_channels[0].semantic = Ceng::CHANNEL_SEMANTIC::FORMAT_COLOR;
+		out_channels[0].dataType = Ceng::VECTOR_TYPE::INT32;
+		out_channels[0].bytesPerPixel = 4;
+
+		break;
+	case Ceng::IMAGE_FORMAT::unorm_a16_r16_g16_b16:
+	case Ceng::IMAGE_FORMAT::unorm_a16_b16_g16_r16:
+		out_channels[0].semantic = Ceng::CHANNEL_SEMANTIC::FORMAT_COLOR;
+		out_channels[0].dataType = Ceng::VECTOR_TYPE::INT16;
+		out_channels[0].bytesPerPixel = 8;
+
+		break;
+
+	case Ceng::IMAGE_FORMAT::fp32_r:
 
 		out_channels[0].semantic = Ceng::CHANNEL_SEMANTIC::FORMAT_COLOR;
-		out_channels[0].dataType = Ceng::VECTOR_TYPE::INT8;
-		out_channels[0].bytesPerPixel = 3;
+		out_channels[0].dataType = Ceng::VECTOR_TYPE::FLOAT32;
+		out_channels[0].bytesPerPixel = 4;
+
+		break;
+	case Ceng::IMAGE_FORMAT::fp32_rg:
+	case Ceng::IMAGE_FORMAT::fp32_gr:
+
+		out_channels[0].semantic = Ceng::CHANNEL_SEMANTIC::FORMAT_COLOR;
+		out_channels[0].dataType = Ceng::VECTOR_TYPE::FLOAT32;
+		out_channels[0].bytesPerPixel = 8;
+
+		break;
+	case Ceng::IMAGE_FORMAT::fp32_argb:
+	case Ceng::IMAGE_FORMAT::fp32_abgr:
+
+		out_channels[0].semantic = Ceng::CHANNEL_SEMANTIC::FORMAT_COLOR;
+		out_channels[0].dataType = Ceng::VECTOR_TYPE::FLOAT32;
+		out_channels[0].bytesPerPixel = 16;
+
+		break;
+	case Ceng::IMAGE_FORMAT::fp16_r:
+
+		out_channels[0].semantic = Ceng::CHANNEL_SEMANTIC::FORMAT_COLOR;
+		out_channels[0].dataType = Ceng::VECTOR_TYPE::FLOAT16;
+		out_channels[0].bytesPerPixel = 2;
+
+		break;
+	case Ceng::IMAGE_FORMAT::fp16_rg:
+	case Ceng::IMAGE_FORMAT::fp16_gr:
+
+		out_channels[0].semantic = Ceng::CHANNEL_SEMANTIC::FORMAT_COLOR;
+		out_channels[0].dataType = Ceng::VECTOR_TYPE::FLOAT16;
+		out_channels[0].bytesPerPixel = 4;
+
+		break;
+	case Ceng::IMAGE_FORMAT::fp16_argb:
+	case Ceng::IMAGE_FORMAT::fp16_abgr:
+
+		out_channels[0].semantic = Ceng::CHANNEL_SEMANTIC::FORMAT_COLOR;
+		out_channels[0].dataType = Ceng::VECTOR_TYPE::FLOAT16;
+		out_channels[0].bytesPerPixel = 8;
+
+		break;
+	case Ceng::IMAGE_FORMAT::D32:
+
+		out_channels[0].semantic = Ceng::CHANNEL_SEMANTIC::DEPTH;
+		out_channels[0].dataType = Ceng::VECTOR_TYPE::INT32;
+		out_channels[0].bytesPerPixel = 4;
 
 		break;
 	case Ceng::IMAGE_FORMAT::D32F:
@@ -522,6 +643,19 @@ const CRESULT CR_BufferFactory::GetChannelData(const Ceng::IMAGE_FORMAT::value f
 		out_channels[1].bytesPerPixel = 1;
 
 		break;
+	case Ceng::IMAGE_FORMAT::D32F_S16:
+
+		*channelCount = 2;
+
+		out_channels[0].semantic = Ceng::CHANNEL_SEMANTIC::DEPTH;
+		out_channels[0].dataType = Ceng::VECTOR_TYPE::FLOAT32;
+		out_channels[0].bytesPerPixel = 4;
+
+		out_channels[1].semantic = Ceng::CHANNEL_SEMANTIC::STENCIL;
+		out_channels[1].dataType = Ceng::VECTOR_TYPE::INT16;
+		out_channels[1].bytesPerPixel = 2;
+
+		break;
 	case Ceng::IMAGE_FORMAT::D24_S8:
 
 		out_channels[0].semantic = Ceng::CHANNEL_SEMANTIC::FORMAT_DEPTH_STENCIL;
@@ -530,6 +664,68 @@ const CRESULT CR_BufferFactory::GetChannelData(const Ceng::IMAGE_FORMAT::value f
 		out_channels[0].mixedData = true;
 
 		break;
+	case Ceng::IMAGE_FORMAT::D24_X8:
+
+		out_channels[0].semantic = Ceng::CHANNEL_SEMANTIC::DEPTH;
+		out_channels[0].dataType = Ceng::VECTOR_TYPE::INT32;
+		out_channels[0].bytesPerPixel = 4;
+
+		break;
+	case Ceng::IMAGE_FORMAT::D24_S16:
+
+		out_channels[0].semantic = Ceng::CHANNEL_SEMANTIC::DEPTH;
+		out_channels[0].dataType = Ceng::VECTOR_TYPE::INT32;
+		out_channels[0].bytesPerPixel = 4;
+
+		out_channels[0].semantic = Ceng::CHANNEL_SEMANTIC::STENCIL;
+		out_channels[0].dataType = Ceng::VECTOR_TYPE::INT16;
+		out_channels[0].bytesPerPixel = 2;
+
+		break;
+
+	case Ceng::IMAGE_FORMAT::D16:
+
+		out_channels[0].semantic = Ceng::CHANNEL_SEMANTIC::DEPTH;
+		out_channels[0].dataType = Ceng::VECTOR_TYPE::INT16;
+		out_channels[0].bytesPerPixel = 2;
+
+		break;
+	case Ceng::IMAGE_FORMAT::D15_S1:
+
+		out_channels[0].semantic = Ceng::CHANNEL_SEMANTIC::FORMAT_DEPTH_STENCIL;
+		out_channels[0].dataType = Ceng::VECTOR_TYPE::INT16;
+		out_channels[0].bytesPerPixel = 2;
+		out_channels[0].mixedData = true;
+
+		break;
+
+	case Ceng::IMAGE_FORMAT::D16_S8:
+
+		*channelCount = 2;
+
+		out_channels[0].semantic = Ceng::CHANNEL_SEMANTIC::DEPTH;
+		out_channels[0].dataType = Ceng::VECTOR_TYPE::INT16;
+		out_channels[0].bytesPerPixel = 2;
+
+		out_channels[1].semantic = Ceng::CHANNEL_SEMANTIC::STENCIL;
+		out_channels[1].dataType = Ceng::VECTOR_TYPE::INT8;
+		out_channels[1].bytesPerPixel = 1;
+
+		break;
+	case Ceng::IMAGE_FORMAT::D16_S16:
+
+		*channelCount = 2;
+
+		out_channels[0].semantic = Ceng::CHANNEL_SEMANTIC::DEPTH;
+		out_channels[0].dataType = Ceng::VECTOR_TYPE::INT16;
+		out_channels[0].bytesPerPixel = 2;
+
+		out_channels[1].semantic = Ceng::CHANNEL_SEMANTIC::STENCIL;
+		out_channels[1].dataType = Ceng::VECTOR_TYPE::INT16;
+		out_channels[1].bytesPerPixel = 2;
+
+		break;
+
 	default:
 		return CE_ERR_NOT_SUPPORTED;
 	};

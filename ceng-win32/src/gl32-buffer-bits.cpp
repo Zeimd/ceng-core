@@ -33,21 +33,9 @@ void BufferBits::SetColorFormat(const Ceng::IMAGE_FORMAT::value format)
 {
 	switch (format)
 	{
-	case IMAGE_FORMAT::C32_ARGB:
-	case IMAGE_FORMAT::C32_XRGB:
-	case IMAGE_FORMAT::C24_RGB:
-		desc.cRedBits = 8;
-		desc.cRedShift = 0;
-
-		desc.cGreenBits = 8;
-		desc.cGreenShift = 8;
-
-		desc.cBlueBits = 8;
-		desc.cBlueShift = 16;
-		break;
-	case IMAGE_FORMAT::C32_ABGR:
-	case IMAGE_FORMAT::C32_XBGR:
-	case IMAGE_FORMAT::C24_BGR:
+	case IMAGE_FORMAT::unorm_a8_r8_g8_b8:
+	case IMAGE_FORMAT::unorm_x8_r8_g8_b8:
+	case IMAGE_FORMAT::unorm_r8_g8_b8:
 		desc.cRedBits = 8;
 		desc.cRedShift = 16;
 
@@ -57,17 +45,19 @@ void BufferBits::SetColorFormat(const Ceng::IMAGE_FORMAT::value format)
 		desc.cBlueBits = 8;
 		desc.cBlueShift = 0;
 		break;
-	case IMAGE_FORMAT::C32_A2_BGR:
-		desc.cRedBits = 10;
-		desc.cRedShift = 20;
+	case IMAGE_FORMAT::unorm_a8_b8_g8_r8:
+	case IMAGE_FORMAT::unorm_x8_b8_g8_r8:
+	case IMAGE_FORMAT::unorm_b8_g8_r8:
+		desc.cRedBits = 8;
+		desc.cRedShift = 0;
 
-		desc.cGreenBits = 10;
-		desc.cGreenShift = 10;
+		desc.cGreenBits = 8;
+		desc.cGreenShift = 8;
 
-		desc.cBlueBits = 10;
-		desc.cBlueShift = 0;
+		desc.cBlueBits = 8;
+		desc.cBlueShift = 16;
 		break;
-	case IMAGE_FORMAT::C32_A2_RGB:
+	case IMAGE_FORMAT::unorm_a2_b10_g10_r10:
 		desc.cRedBits = 10;
 		desc.cRedShift = 0;
 
@@ -76,6 +66,16 @@ void BufferBits::SetColorFormat(const Ceng::IMAGE_FORMAT::value format)
 
 		desc.cBlueBits = 10;
 		desc.cBlueShift = 20;
+		break;
+	case IMAGE_FORMAT::unorm_a2_r10_g10_b10:
+		desc.cRedBits = 10;
+		desc.cRedShift = 20;
+
+		desc.cGreenBits = 10;
+		desc.cGreenShift = 10;
+
+		desc.cBlueBits = 10;
+		desc.cBlueShift = 0;
 		break;
 
 	default:
@@ -95,13 +95,13 @@ void BufferBits::SetColorFormat(const Ceng::IMAGE_FORMAT::value format)
 
 	switch (format)
 	{
-	case IMAGE_FORMAT::C32_ARGB:
-	case IMAGE_FORMAT::C32_ABGR:
+	case IMAGE_FORMAT::unorm_a8_b8_g8_r8:
+	case IMAGE_FORMAT::unorm_a8_r8_g8_b8:
 		desc.cAlphaBits = 8;
 		desc.cAlphaShift = 24;
 		break;
-	case IMAGE_FORMAT::C32_A2_BGR:
-	case IMAGE_FORMAT::C32_A2_RGB:
+	case IMAGE_FORMAT::unorm_a2_b10_g10_r10:
+	case IMAGE_FORMAT::unorm_a2_r10_g10_b10:
 		desc.cAlphaBits = 2;
 		desc.cAlphaShift = 30;
 		break;

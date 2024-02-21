@@ -41,6 +41,8 @@
 
 #include "cr-shader-program.h"
 
+#include "texture-copy.h"
+
 using namespace Ceng;
 
 //***************************************************************************
@@ -259,13 +261,13 @@ const CRESULT SoftwareRenderer::CreateTexture2D(const Texture2dDesc &desc,
 
 	switch (localDesc.format)
 	{
-	case IMAGE_FORMAT::C32_ARGB:
-	case IMAGE_FORMAT::C24_RGB:
-		internalFormat = IMAGE_FORMAT::C32_ARGB;
+	case IMAGE_FORMAT::unorm_a8_r8_g8_b8:
+	case IMAGE_FORMAT::unorm_r8_g8_b8:
+		internalFormat = IMAGE_FORMAT::unorm_a8_r8_g8_b8;
 		break;
-	case IMAGE_FORMAT::C32_ABGR:
-	case IMAGE_FORMAT::C24_BGR:
-		internalFormat = IMAGE_FORMAT::C32_ABGR;
+	case IMAGE_FORMAT::unorm_a8_b8_g8_r8:
+	case IMAGE_FORMAT::unorm_b8_g8_r8:
+		internalFormat = IMAGE_FORMAT::unorm_a8_b8_g8_r8;
 		break;
 	default:
 		return CE_ERR_INCOMPATIBLE_FORMAT;
@@ -461,6 +463,7 @@ const Ceng::UINT8* SoftwareRenderer::GetTiledAddress(CR_NewTargetData *tiledTex,
 	return texelPtr;
 }
 
+
 const CRESULT SoftwareRenderer::CopyTextureData(CR_NewTargetData *texture, const SubResourceData *sourceData,
 	const Ceng::IMAGE_FORMAT::value sourceFormat)
 {
@@ -482,157 +485,15 @@ const CRESULT SoftwareRenderer::CopyTextureData(CR_NewTargetData *texture, const
 		return Ceng::CE_OK;
 	}
 
-	if (texture->bufferFormat == IMAGE_FORMAT::C32_ARGB && sourceFormat == IMAGE_FORMAT::C24_RGB)
+	switch (texture->bufferFormat)
 	{
-		Ceng::UINT32 rowBytes = sourceData->rowPitch;
-
-		for (Ceng::UINT32 k = 0; k < texture->bufferHeight; ++k)
-		{
-			Ceng::UINT8 *tempSource = sourceAddress;
-			Ceng::UINT8 *tempDest = destAddress;
-
-			for (Ceng::UINT32 j = 0; j < texture->bufferWidth; ++j)
-			{
-				tempDest[0] = tempSource[0];
-				tempDest[1] = tempSource[1];
-				tempDest[2] = tempSource[2];
-				tempDest[3] = 255;
-
-				tempSource += 3;
-				tempDest += texture->channels[0].bytesPerPixel;
-
-				//memcpy(destAddress, sourceAddress, rowBytes);
-
-			}
-
-			destAddress += texture->channels[0].tileYstep;
-			sourceAddress += rowBytes;
-		}
-
-		return Ceng::CE_OK;
+	case IMAGE_FORMAT::unorm_a8_r8_g8_b8:
+		return To_unorm_a8_r8_g8_b8(texture, sourceData, sourceFormat);
+	case IMAGE_FORMAT::unorm_a8_b8_g8_r8:
+		return To_unorm_a8_b8_g8_r8(texture, sourceData, sourceFormat);
+	default:
+		break;
 	}
-
-	if (texture->bufferFormat == IMAGE_FORMAT::C32_ABGR && sourceFormat == IMAGE_FORMAT::C24_BGR)
-	{
-		Ceng::UINT32 rowBytes = sourceData->rowPitch;
-
-		for (Ceng::UINT32 k = 0; k < texture->bufferHeight; ++k)
-		{
-			Ceng::UINT8* tempSource = sourceAddress;
-			Ceng::UINT8* tempDest = destAddress;
-
-			for (Ceng::UINT32 j = 0; j < texture->bufferWidth; ++j)
-			{
-				tempDest[0] = tempSource[0];
-				tempDest[1] = tempSource[1];
-				tempDest[2] = tempSource[2];
-				tempDest[3] = 255;
-
-				tempSource += 3;
-				tempDest += texture->channels[0].bytesPerPixel;
-
-				//memcpy(destAddress, sourceAddress, rowBytes);
-
-			}
-
-			destAddress += texture->channels[0].tileYstep;
-			sourceAddress += rowBytes;
-		}
-
-		return Ceng::CE_OK;
-	}
-
-	if ( (texture->bufferFormat == IMAGE_FORMAT::C32_ARGB && sourceFormat == IMAGE_FORMAT::C32_ABGR)
-		|| (texture->bufferFormat == IMAGE_FORMAT::C32_ABGR && sourceFormat == IMAGE_FORMAT::C32_ARGB) )
-	{
-		Ceng::UINT32 rowBytes = sourceData->rowPitch;
-
-		for (Ceng::UINT32 k = 0; k < texture->bufferHeight; ++k)
-		{
-			Ceng::UINT8* tempSource = sourceAddress;
-			Ceng::UINT8* tempDest = destAddress;
-
-			for (Ceng::UINT32 j = 0; j < texture->bufferWidth; ++j)
-			{
-				tempDest[0] = tempSource[2];
-				tempDest[1] = tempSource[1];
-				tempDest[2] = tempSource[0];
-				tempDest[3] = tempSource[3];
-
-				tempSource += 4;
-				tempDest += texture->channels[0].bytesPerPixel;
-
-				//memcpy(destAddress, sourceAddress, rowBytes);
-
-			}
-
-			destAddress += texture->channels[0].tileYstep;
-			sourceAddress += rowBytes;
-		}
-
-		return Ceng::CE_OK;
-	}
-
-	if (texture->bufferFormat == IMAGE_FORMAT::C32_ARGB && sourceFormat == IMAGE_FORMAT::C24_BGR)
-	{
-		Ceng::UINT32 rowBytes = sourceData->rowPitch;
-
-		for (Ceng::UINT32 k = 0; k < texture->bufferHeight; ++k)
-		{
-			Ceng::UINT8* tempSource = sourceAddress;
-			Ceng::UINT8* tempDest = destAddress;
-
-			for (Ceng::UINT32 j = 0; j < texture->bufferWidth; ++j)
-			{
-				tempDest[0] = tempSource[2];
-				tempDest[1] = tempSource[1];
-				tempDest[2] = tempSource[0];
-				tempDest[3] = 255;
-
-				tempSource += 3;
-				tempDest += texture->channels[0].bytesPerPixel;
-
-				//memcpy(destAddress, sourceAddress, rowBytes);
-
-			}
-
-			destAddress += texture->channels[0].tileYstep;
-			sourceAddress += rowBytes;
-		}
-
-		return Ceng::CE_OK;
-	}
-
-	if (texture->bufferFormat == IMAGE_FORMAT::C32_ABGR && sourceFormat == IMAGE_FORMAT::C24_RGB)
-	{
-		Ceng::UINT32 rowBytes = sourceData->rowPitch;
-
-		for (Ceng::UINT32 k = 0; k < texture->bufferHeight; ++k)
-		{
-			Ceng::UINT8* tempSource = sourceAddress;
-			Ceng::UINT8* tempDest = destAddress;
-
-			for (Ceng::UINT32 j = 0; j < texture->bufferWidth; ++j)
-			{
-				tempDest[0] = tempSource[2];
-				tempDest[1] = tempSource[1];
-				tempDest[2] = tempSource[0];
-				tempDest[3] = 255;
-
-				tempSource += 3;
-				tempDest += texture->channels[0].bytesPerPixel;
-
-				//memcpy(destAddress, sourceAddress, rowBytes);
-
-			}
-
-			destAddress += texture->channels[0].tileYstep;
-			sourceAddress += rowBytes;
-		}
-
-		return Ceng::CE_OK;
-	}
-
 	return CE_ERR_INCOMPATIBLE_FORMAT;
 }
 

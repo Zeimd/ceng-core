@@ -424,16 +424,16 @@ const Ceng::CRESULT Direct3D_Core::TranslateSwapChainDesc(Ceng::SwapChainDesc &s
 	{
 		switch (swapChainDesc.displayMode.format)
 		{
-		case Ceng::IMAGE_FORMAT::C16:
+		case Ceng::IMAGE_FORMAT::unorm_r5_g6_b5:
 			out_params.BackBufferFormat = D3DFMT_R5G6B5;
 			break;
-		case Ceng::IMAGE_FORMAT::C16_A1:
+		case Ceng::IMAGE_FORMAT::unorm_a1_r5_g5_b5:
 			out_params.BackBufferFormat = D3DFMT_A1R5G5B5;
 			break;
-		case Ceng::IMAGE_FORMAT::C32_ARGB:
+		case Ceng::IMAGE_FORMAT::unorm_a8_r8_g8_b8:
 			out_params.BackBufferFormat = D3DFMT_A8R8G8B8;
 			break;
-		case Ceng::IMAGE_FORMAT::C32_A2_RGB:
+		case Ceng::IMAGE_FORMAT::unorm_a2_r10_g10_b10:
 			out_params.BackBufferFormat = D3DFMT_A2R10G10B10;
 			break;
 		default:
@@ -536,62 +536,62 @@ const D3DFORMAT Direct3D_Core::MapFormat(const Ceng::IMAGE_FORMAT::value format)
 {
 	switch (format)
 	{
-	case Ceng::IMAGE_FORMAT::C32_ARGB:
+	case Ceng::IMAGE_FORMAT::unorm_a8_r8_g8_b8:
 		return ::D3DFMT_A8R8G8B8;
-	case Ceng::IMAGE_FORMAT::C32_XRGB:
+	case Ceng::IMAGE_FORMAT::unorm_x8_r8_g8_b8:
 		return ::D3DFMT_X8R8G8B8;
 
-	case Ceng::IMAGE_FORMAT::C32_ABGR:
+	case Ceng::IMAGE_FORMAT::unorm_a8_b8_g8_r8:
 		return ::D3DFMT_A8B8G8R8;
-	case Ceng::IMAGE_FORMAT::C32_XBGR:
+	case Ceng::IMAGE_FORMAT::unorm_x8_b8_g8_r8:
 		return ::D3DFMT_X8B8G8R8;
 
-	case Ceng::IMAGE_FORMAT::C24_RGB:
+	case Ceng::IMAGE_FORMAT::unorm_r8_g8_b8:
 		return ::D3DFMT_R8G8B8;
 
-	case Ceng::IMAGE_FORMAT::C32_A2_BGR:
+	case Ceng::IMAGE_FORMAT::unorm_a2_b10_g10_r10:
 		return ::D3DFMT_A2B10G10R10;
-	case Ceng::IMAGE_FORMAT::C32_A2_RGB:
+	case Ceng::IMAGE_FORMAT::unorm_a2_r10_g10_b10:
 		return ::D3DFMT_A2R10G10B10;
 
-	case Ceng::IMAGE_FORMAT::C32_GR_16:
+	case Ceng::IMAGE_FORMAT::unorm_g16_r16:
 		return ::D3DFMT_G16R16;
 		
 
-	case Ceng::IMAGE_FORMAT::C16_ARGB:
+	case Ceng::IMAGE_FORMAT::unorm_a4_r4_g4_b4:
 		return ::D3DFMT_A4R4G4B4;
-	case Ceng::IMAGE_FORMAT::C16_XRGB:
+	case Ceng::IMAGE_FORMAT::unorm_x4_r4_g4_b4:
 		return ::D3DFMT_X4R4G4B4;
 
-	case Ceng::IMAGE_FORMAT::C16:
+	case Ceng::IMAGE_FORMAT::unorm_r5_g6_b5:
 		return ::D3DFMT_R5G6B5;
-	case Ceng::IMAGE_FORMAT::C16_A1:
+	case Ceng::IMAGE_FORMAT::unorm_a1_r5_g5_b5:
 		return ::D3DFMT_A1R5G5B5;
-	case Ceng::IMAGE_FORMAT::C16_X1:
+	case Ceng::IMAGE_FORMAT::unorm_x1_r5_g5_b5:
 		return ::D3DFMT_X1R5G5B5;
 	
-	case Ceng::IMAGE_FORMAT::C64_ABGR:
+	case Ceng::IMAGE_FORMAT::unorm_a16_b16_g16_r16:
 		return ::D3DFMT_A16B16G16R16;
 
-	case Ceng::IMAGE_FORMAT::CF32_ABGR:
+	case Ceng::IMAGE_FORMAT::fp32_abgr:
 		return ::D3DFMT_A32B32G32R32F;
-	case Ceng::IMAGE_FORMAT::CF32_R:
+	case Ceng::IMAGE_FORMAT::fp32_r:
 		return ::D3DFMT_R32F;
-	case Ceng::IMAGE_FORMAT::CF32_GR:
+	case Ceng::IMAGE_FORMAT::fp32_gr:
 		return ::D3DFMT_G32R32F;
 
-	case Ceng::IMAGE_FORMAT::CF16_ABGR:
+	case Ceng::IMAGE_FORMAT::fp16_abgr:
 		return ::D3DFMT_A16B16G16R16F;
-	case Ceng::IMAGE_FORMAT::CF16_R:
+	case Ceng::IMAGE_FORMAT::fp16_r:
 		return ::D3DFMT_R16F;
-	case Ceng::IMAGE_FORMAT::CF16_GR:
+	case Ceng::IMAGE_FORMAT::fp16_gr:
 		return ::D3DFMT_G16R16F;
 
-	case Ceng::IMAGE_FORMAT::ALPHA_8:
+	case Ceng::IMAGE_FORMAT::alpha_8:
 		return ::D3DFMT_A8;
-	case Ceng::IMAGE_FORMAT::C16_A8RGB:
+	case Ceng::IMAGE_FORMAT::unorm_a8_r3_g3_b2:
 		return ::D3DFMT_A8R3G3B2;
-	case Ceng::IMAGE_FORMAT::C8_RGB:
+	case Ceng::IMAGE_FORMAT::unorm_r3_g3_b2:
 		return ::D3DFMT_R3G3B2;
 
 	case Ceng::IMAGE_FORMAT::D24_S8:
@@ -601,6 +601,7 @@ const D3DFORMAT Direct3D_Core::MapFormat(const Ceng::IMAGE_FORMAT::value format)
 	case Ceng::IMAGE_FORMAT::D24F_S8:
 		return ::D3DFMT_D24FS8;
 
+		/*
 	case Ceng::IMAGE_FORMAT::D32F_LOCKABLE:
 		return ::D3DFMT_D32F_LOCKABLE;
 
@@ -609,6 +610,7 @@ const D3DFORMAT Direct3D_Core::MapFormat(const Ceng::IMAGE_FORMAT::value format)
 
 	case Ceng::IMAGE_FORMAT::D16_LOCKABLE:
 		return ::D3DFMT_D16_LOCKABLE;
+		*/
 
 	case Ceng::IMAGE_FORMAT::D16:
 		return ::D3DFMT_D16;
@@ -640,63 +642,63 @@ const Ceng::IMAGE_FORMAT::value Direct3D_Core::ReverseMapFormat(::D3DFORMAT form
 	switch (format)
 	{
 	case ::D3DFMT_A8R8G8B8:
-		return Ceng::IMAGE_FORMAT::C32_ARGB;
+		return Ceng::IMAGE_FORMAT::unorm_a8_r8_g8_b8;
 	case ::D3DFMT_X8R8G8B8:
-		return Ceng::IMAGE_FORMAT::C32_XRGB;
+		return Ceng::IMAGE_FORMAT::unorm_x8_r8_g8_b8;
 
 	case ::D3DFMT_A8B8G8R8:
-		return Ceng::IMAGE_FORMAT::C32_ABGR;
+		return Ceng::IMAGE_FORMAT::unorm_a8_b8_g8_r8;
 	case ::D3DFMT_X8B8G8R8:
-		return Ceng::IMAGE_FORMAT::C32_XBGR;
+		return Ceng::IMAGE_FORMAT::unorm_x8_b8_g8_r8;
 
 	case ::D3DFMT_R8G8B8:
-		return Ceng::IMAGE_FORMAT::C24_RGB;
+		return Ceng::IMAGE_FORMAT::unorm_r8_g8_b8;
 
 	case ::D3DFMT_A2B10G10R10:
-		return Ceng::IMAGE_FORMAT::C32_A2_BGR;
+		return Ceng::IMAGE_FORMAT::unorm_a2_b10_g10_r10;
 	case ::D3DFMT_A2R10G10B10:
-		return Ceng::IMAGE_FORMAT::C32_A2_RGB;
+		return Ceng::IMAGE_FORMAT::unorm_a2_r10_g10_b10;
 
 	case ::D3DFMT_G16R16:
-		return Ceng::IMAGE_FORMAT::C32_GR_16;
+		return Ceng::IMAGE_FORMAT::unorm_g16_r16;
 
 	case ::D3DFMT_R5G6B5:
-		return Ceng::IMAGE_FORMAT::C16;
+		return Ceng::IMAGE_FORMAT::unorm_r5_g6_b5;
 
 	case ::D3DFMT_A4R4G4B4:
-		return Ceng::IMAGE_FORMAT::C16_ARGB;
+		return Ceng::IMAGE_FORMAT::unorm_a4_r4_g4_b4;
 	case ::D3DFMT_X4R4G4B4:
-		return Ceng::IMAGE_FORMAT::C16_XRGB;
+		return Ceng::IMAGE_FORMAT::unorm_x4_r4_g4_b4;
 
 	case ::D3DFMT_A1R5G5B5:
-		return Ceng::IMAGE_FORMAT::C16_A1;
+		return Ceng::IMAGE_FORMAT::unorm_a1_r5_g5_b5;
 
 	case ::D3DFMT_X1R5G5B5:
-		return Ceng::IMAGE_FORMAT::C16_X1;
+		return Ceng::IMAGE_FORMAT::unorm_x1_r5_g5_b5;
 
 	case ::D3DFMT_A16B16G16R16:
-		return Ceng::IMAGE_FORMAT::C64_ABGR;
+		return Ceng::IMAGE_FORMAT::unorm_a16_b16_g16_r16;
 
 	case ::D3DFMT_A32B32G32R32F:
-		return Ceng::IMAGE_FORMAT::CF32_ABGR;
+		return Ceng::IMAGE_FORMAT::fp32_abgr;
 	case ::D3DFMT_G32R32F:
-		return Ceng::IMAGE_FORMAT::CF32_GR;
+		return Ceng::IMAGE_FORMAT::fp32_gr;
 	case ::D3DFMT_R32F:
-		return Ceng::IMAGE_FORMAT::CF32_R;
+		return Ceng::IMAGE_FORMAT::fp32_r;
 
 	case ::D3DFMT_A16B16G16R16F:
-		return Ceng::IMAGE_FORMAT::CF16_ABGR;
+		return Ceng::IMAGE_FORMAT::fp16_abgr;
 	case ::D3DFMT_G16R16F:
-		return Ceng::IMAGE_FORMAT::CF16_GR;
+		return Ceng::IMAGE_FORMAT::fp16_gr;
 	case ::D3DFMT_R16F:
-		return Ceng::IMAGE_FORMAT::CF16_R;
+		return Ceng::IMAGE_FORMAT::fp16_r;
 
 	case ::D3DFMT_A8:
-		return Ceng::IMAGE_FORMAT::ALPHA_8;
+		return Ceng::IMAGE_FORMAT::alpha_8;
 	case ::D3DFMT_A8R3G3B2:
-		return Ceng::IMAGE_FORMAT::C16_A8RGB;
+		return Ceng::IMAGE_FORMAT::unorm_a8_r3_g3_b2;
 	case ::D3DFMT_R3G3B2:
-		return Ceng::IMAGE_FORMAT::C8_RGB;
+		return Ceng::IMAGE_FORMAT::unorm_r3_g3_b2;
 
 	case ::D3DFMT_D24S8:
 		return Ceng::IMAGE_FORMAT::D24_S8;
@@ -705,12 +707,14 @@ const Ceng::IMAGE_FORMAT::value Direct3D_Core::ReverseMapFormat(::D3DFORMAT form
 	case ::D3DFMT_D24FS8:
 		return Ceng::IMAGE_FORMAT::D24F_S8;
 
+		/*
 	case ::D3DFMT_D32F_LOCKABLE:
 		return Ceng::IMAGE_FORMAT::D32F_LOCKABLE;
 	case ::D3DFMT_D32_LOCKABLE:
 		return Ceng::IMAGE_FORMAT::D32_LOCKABLE;
 	case ::D3DFMT_D16_LOCKABLE:
 		return Ceng::IMAGE_FORMAT::D16_LOCKABLE;
+		*/
 
 	case ::D3DFMT_D16:
 		return Ceng::IMAGE_FORMAT::D16;

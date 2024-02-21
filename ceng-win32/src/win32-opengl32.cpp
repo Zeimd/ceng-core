@@ -39,7 +39,7 @@ const Ceng::CRESULT GL32_GraphicsSystem::GetInstance(CPU_Info *cpuData, Ceng::Gr
 
 	::HDC deviceContext = ::GetDC(window->GetWindowHandle());
 
-	Ceng::INT32 pixelFormat = GL32_GraphicsSystem::FindSimplePixelFormat(deviceContext, IMAGE_FORMAT::C32_XBGR);
+	Ceng::INT32 pixelFormat = GL32_GraphicsSystem::FindSimplePixelFormat(deviceContext, IMAGE_FORMAT::unorm_x8_b8_g8_r8);
 
 	::PIXELFORMATDESCRIPTOR pixelDesc;
 
@@ -191,13 +191,13 @@ const Ceng::IMAGE_FORMAT::value GL32_GraphicsSystem::BitsToFormat(const Ceng::UI
 	switch (colorBits)
 	{
 	case 16:
-		return IMAGE_FORMAT::C16;
+		return IMAGE_FORMAT::unorm_r5_g6_b5;
 	case 24:
-		return IMAGE_FORMAT::C24_RGB;
+		return IMAGE_FORMAT::unorm_r8_g8_b8;
 	case 32:
-		return IMAGE_FORMAT::C32_XRGB;
+		return IMAGE_FORMAT::unorm_x8_r8_g8_b8;
 	case 64:
-		return IMAGE_FORMAT::C64_ABGR;
+		return IMAGE_FORMAT::unorm_a16_b16_g16_r16;
 	default:
 		return IMAGE_FORMAT::UNKNOWN;
 	}

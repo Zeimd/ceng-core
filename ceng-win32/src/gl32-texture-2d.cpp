@@ -637,36 +637,36 @@ const Ceng::CRESULT GL32_Texture2D::TranslateFormat(const Texture2dDesc &desc, G
 
 	switch (desc.format)
 	{
-	case Ceng::IMAGE_FORMAT::C32_ARGB:
+	case Ceng::IMAGE_FORMAT::unorm_a8_r8_g8_b8:
 		gl_format->type = GL_UNSIGNED_BYTE;
 		gl_format->format = GL_BGRA;
 		gl_format->internalFormat = GL_RGBA8;
 		srgb_format = GL_SRGB8_ALPHA8;
 		break;
-	case Ceng::IMAGE_FORMAT::C24_RGB:
+	case Ceng::IMAGE_FORMAT::unorm_r8_g8_b8:
 		gl_format->type = GL_UNSIGNED_BYTE;
 		gl_format->format = GL_BGR;
 		gl_format->internalFormat = GL_RGB8;
 		srgb_format = GL_SRGB8;
 		break;
-	case Ceng::IMAGE_FORMAT::C32_ABGR:
+	case Ceng::IMAGE_FORMAT::unorm_a8_b8_g8_r8:
 		gl_format->type = GL_UNSIGNED_BYTE;
 		gl_format->format = GL_RGBA;
 		gl_format->internalFormat = GL_RGBA8;
 		srgb_format = GL_SRGB8_ALPHA8;
 		break;
-	case Ceng::IMAGE_FORMAT::C24_BGR:
+	case Ceng::IMAGE_FORMAT::unorm_b8_g8_r8:
 		gl_format->type = GL_UNSIGNED_BYTE;
 		gl_format->format = GL_RGB;
 		gl_format->internalFormat = GL_RGB8;
 		srgb_format = GL_SRGB8;
 		break;
-	case Ceng::IMAGE_FORMAT::CF16_ABGR:
+	case Ceng::IMAGE_FORMAT::fp16_abgr:
 		gl_format->type = GL_HALF_FLOAT;
 		gl_format->format = GL_RGBA;
 		gl_format->internalFormat = GL_RGBA16F;
 		break;
-	case Ceng::IMAGE_FORMAT::CF32_ABGR:
+	case Ceng::IMAGE_FORMAT::fp32_abgr:
 		gl_format->type = GL_FLOAT;
 		gl_format->format = GL_RGBA;
 		gl_format->internalFormat = GL_RGBA32F;

@@ -94,7 +94,7 @@ GL33_RenderContext::GL33_RenderContext(PlatformWindow *window, ::HDC deviceHandl
 
 	desc.width = width;
 	desc.height = height;
-	desc.format = IMAGE_FORMAT::C32_ABGR;
+	desc.format = IMAGE_FORMAT::unorm_a8_b8_g8_r8;
 	desc.mipLevels = 1;
 	desc.arraySize = 1;
 
