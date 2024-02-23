@@ -40,9 +40,15 @@ namespace Ceng
 		const Matrix4 operator * (const Matrix4 &other) const;
 		const VectorF4 operator * (const VectorF4 &other) const;
 
+		// Assuming matrix A = B.Transpose(), then
+		// A.TransposeMul(other) = B * other.
+		const VectorF4 TransposeMul(const VectorF4& other) const;
+
 		const Matrix4 operator * (const FLOAT32 value) const;
 
 		const Matrix4 Inverse() const;
+
+		const Matrix4 Transpose() const;
 
 		const Ceng::FLOAT32 Determinant() const;
 
@@ -434,6 +440,33 @@ namespace Ceng
 		return temp;
 	}
 
+	inline const VectorF4 Matrix4::TransposeMul(const VectorF4& other) const
+	{
+		VectorF4 a,b,c,d;
+
+		a.x = data[0][0] * other.x;
+		a.y = data[0][1] * other.x;
+		a.z = data[0][2] * other.x;
+		a.w = data[0][3] * other.x;
+
+		b.x = data[1][0] * other.y;
+		b.y = data[1][1] * other.y;
+		b.z = data[1][2] * other.y;
+		b.w = data[1][3] * other.y;
+
+		c.x = data[2][0] * other.z;
+		c.y = data[2][1] * other.z;
+		c.z = data[2][2] * other.z;
+		c.w = data[2][3] * other.z;
+
+		d.x = data[3][0] * other.w;
+		d.y = data[3][1] * other.w;
+		d.z = data[3][2] * other.w;
+		d.w = data[3][3] * other.w;
+
+		return a+b+c+d;
+	}
+
 	/**
 	 * Uses Gauss-Jordan elimination method from Intel's 
 	 * "Streaming SIMD Extensions - Inverse of 4x4 Matrix".
@@ -710,6 +743,21 @@ namespace Ceng
 		}
 
 		return out;
+	}
+
+	inline const Ceng::Matrix4 Matrix4::Transpose() const
+	{
+		Matrix4 temp;
+
+		for (int row = 0; row < 4; ++row)
+		{
+			for (int col = 0; col < 4; ++col)
+			{
+				temp.data[row][col] = data[col][row];
+			}
+		}
+
+		return temp;
 	}
 
 	inline const Ceng::FLOAT32 Matrix4::Determinant() const
