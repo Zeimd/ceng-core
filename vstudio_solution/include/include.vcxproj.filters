@@ -447,5 +447,8 @@
     <ClInclude Include="..\..\inc\ceng\interfaces\pixel-shader.h">
       <Filter>Header Files\ceng\interfaces</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\math\sse_intrinsics.h">
+      <Filter>Header Files\ceng\math</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

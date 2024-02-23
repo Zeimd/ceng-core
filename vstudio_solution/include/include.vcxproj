@@ -248,6 +248,7 @@
     <ClInclude Include="..\..\inc\ceng\math\ce-matrix.h" />
     <ClInclude Include="..\..\inc\ceng\math\ce-quaternion.h" />
     <ClInclude Include="..\..\inc\ceng\math\ce-vector.h" />
+    <ClInclude Include="..\..\inc\ceng\math\sse_intrinsics.h" />
     <ClInclude Include="..\..\inc\ceng\platform.h" />
     <ClInclude Include="..\..\inc\deps\MurmurHash3.h" />
   </ItemGroup>
