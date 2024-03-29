@@ -24,11 +24,11 @@ namespace Ceng
 
 		Ceng::StringUtf8 ToString() const override;
 
-		StructDeclarator(Ceng::StringUtf8& name);
+		StructDeclarator(const Ceng::StringUtf8& name);
 
-		StructDeclarator(Ceng::StringUtf8& name, bool implicitArray);
+		StructDeclarator(const Ceng::StringUtf8& name, bool implicitArray);
 
-		StructDeclarator(Ceng::StringUtf8& name, std::shared_ptr<Expression>& arraySize);
+		StructDeclarator(const Ceng::StringUtf8& name, std::shared_ptr<Expression>& arraySize);
 	};
 }
 

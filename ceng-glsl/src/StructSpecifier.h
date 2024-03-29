@@ -1,7 +1,10 @@
 #ifndef CENG_GLSL_STRUCT_SPECIFIER
 #define CENG_GLSL_STRUCT_SPECIFIER
 
+#include <memory>
+
 #include "INonTerminal.h"
+#include "StructDeclarationList.h"
 
 namespace Ceng
 {
@@ -9,7 +12,12 @@ namespace Ceng
 	{
 	public:
 
-		StructSpecifier();
+		Ceng::StringUtf8 name;
+		std::shared_ptr<StructDeclarationList> list;
+
+	public:
+
+		StructSpecifier(const Ceng::StringUtf8& name, std::shared_ptr<StructDeclarationList>& list);
 
 		void Release() override;
 

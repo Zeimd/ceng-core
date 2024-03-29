@@ -38,6 +38,9 @@ HandlerReturn IStateHandler::DefaultExpressionShift(GLSL_Parser* parser, const T
 		case TokenType::identifier:
 			retVal = parser->S_IdentifierToken(next);
 			break;
+		case TokenType::keyword_struct:
+			retVal = parser->S_StructToken();
+			break;
 		default:
 			valid = false;
 			break;
