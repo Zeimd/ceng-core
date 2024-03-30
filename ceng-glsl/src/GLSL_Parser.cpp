@@ -663,6 +663,134 @@ ParserReturnValue GLSL_Parser::S_StructHeader_TypeQualifier_TypeSpecifier_Struct
 	return { std::make_shared<StructDeclaration>(*typeQ,*typeSpec,list),4 };
 }
 
+class Handler_S_StructHeader_TypeSpecifier : public IStateHandler
+{
+public:
+	std::shared_ptr<TypeSpecifier>& typeSpec;
+
+
+public:
+
+	Handler_S_StructHeader_TypeSpecifier(std::shared_ptr<TypeSpecifier>& _typeSpec)
+		: typeSpec(_typeSpec)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::identifier:
+			return { parser->S_StructDecl_IdentifierToken(next),true };
+		default:
+			return DefaultExpressionShift(parser, next);
+		}
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::struct_declarator:
+		{
+			std::shared_ptr<StructDeclarator> decl = std::static_pointer_cast<StructDeclarator>(nonTerminal);
+			retVal = parser->S_StructDecl_StructDeclarator(decl);
+		}
+		break;
+		case NonTerminalType::struct_declarator_list:
+		{
+			std::shared_ptr<StructDeclaratorList> decl = std::static_pointer_cast<StructDeclaratorList>(nonTerminal);
+			retVal = parser->S_StructHeader_TypeSpecifier_StructDeclaratorList(typeSpec, decl);
+		}
+		break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+		return { retVal, valid };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_StructHeader_TypeSpecifier(std::shared_ptr<TypeSpecifier>& typeSpec)
+{
+	Handler_S_StructHeader_TypeSpecifier temp(typeSpec);
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+class Handler_S_StructHeader_TypeSpecifier_StructDeclaratorList : public IStateHandler
+{
+public:
+	std::shared_ptr<TypeSpecifier>& typeSpec;
+	std::shared_ptr<StructDeclaratorList>& list;
+
+
+public:
+
+	Handler_S_StructHeader_TypeSpecifier_StructDeclaratorList(std::shared_ptr<TypeSpecifier>& _typeSpec, 
+		std::shared_ptr<StructDeclaratorList>& _list)
+		: typeSpec(_typeSpec), list(_list)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::semicolon:
+			return { parser->S_StructHeader_TypeSpecifier_StructDeclaratorList_Semicolon(typeSpec,list),true };
+		default:
+			return DefaultExpressionShift(parser, next);
+		}
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(), false };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_StructHeader_TypeSpecifier_StructDeclaratorList(
+	std::shared_ptr<TypeSpecifier>& typeSpec, std::shared_ptr<StructDeclaratorList>& list)
+{
+	Handler_S_StructHeader_TypeSpecifier_StructDeclaratorList temp(typeSpec, list);
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+ParserReturnValue GLSL_Parser::S_StructHeader_TypeSpecifier_StructDeclaratorList_Semicolon(
+	std::shared_ptr<TypeSpecifier>& typeSpec, std::shared_ptr<StructDeclaratorList>& list)
+{
+	log.Debug(__func__);
+	return { std::make_shared<StructDeclaration>(*typeSpec,list),3 };
+}
+
+
 class Handler_S_StructDecl_IdentifierToken : public IStateHandler
 {
 public:
@@ -710,13 +838,6 @@ public:
 	}
 
 };
-
-ParserReturnValue GLSL_Parser::S_StructHeader_TypeSpecifier(std::shared_ptr<TypeSpecifier>& typeSpec)
-{
-	log.Debug(__FUNCTION__);
-	log.Debug("unimplemented");
-	return ParserReturnValue();
-}
 
 ParserReturnValue GLSL_Parser::S_StructDecl_IdentifierToken(const Token& id)
 {
