@@ -2836,11 +2836,166 @@ ParserReturnValue GLSL_Parser::S_PostfixExpression_LBracket_IntExpression_RBrack
 	return { std::make_shared<PostfixExpression>(ex,intEx),4 };
 }
 
+class Handler_S_UnaryExpression : public IStateHandler
+{
+public:
+	std::shared_ptr<UnaryExpression>& ex;
+
+public:
+
+	Handler_S_UnaryExpression(std::shared_ptr<UnaryExpression>& _ex)
+		: ex(_ex)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (parser->PeekToken().type)
+		{
+		case TokenType::equal:
+		case TokenType::mul_assign:
+		case TokenType::div_assign:
+		case TokenType::mod_assign:
+		case TokenType::add_assign:
+		case TokenType::sub_assign:
+		case TokenType::or_assign:
+		case TokenType::and_assign:
+		case TokenType::xor_assign:
+		case TokenType::left_assign:
+		case TokenType::right_assign:
+			return { ParserReturnValue(), false };
+		default:
+			return { ParserReturnValue(std::make_shared<MultiplicativeExpression>(ex),1),true };
+		}
+
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (next.type)
+		{
+		default:
+			return DefaultExpressionShift(parser, next);
+		}
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::assignment_operator:
+		{
+			std::shared_ptr<AssignmentOperator> op = std::static_pointer_cast<AssignmentOperator>(nonTerminal);
+			retVal = parser->S_UnaryExpression_AssignOperator(ex, op);
+		}
+		break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+		return { retVal, valid };
+	}
+
+};
+
 ParserReturnValue GLSL_Parser::S_UnaryExpression(std::shared_ptr<UnaryExpression>& ex)
+{
+	Handler_S_UnaryExpression temp(ex);
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+ParserReturnValue GLSL_Parser::S_AssignToken(const Token& token)
 {
 	log.Debug(__func__);
 
-	return { std::make_shared<MultiplicativeExpression>(ex),1 };
+	return { std::make_shared<AssignmentOperator>(token),1 };
+}
+
+class Handler_S_UnaryExpression_AssignOperator : public IStateHandler
+{
+public:
+	std::shared_ptr<UnaryExpression>& ex;
+	std::shared_ptr<AssignmentOperator>& assignOp;
+
+public:
+
+	Handler_S_UnaryExpression_AssignOperator(std::shared_ptr<UnaryExpression>& _ex,
+		std::shared_ptr<AssignmentOperator>& _assignOp)
+		: ex(_ex), assignOp(_assignOp)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (next.type)
+		{
+		default:
+			return DefaultExpressionShift(parser, next);
+		}
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::assignment_expression:
+		{
+			std::shared_ptr<AssignmentExpression> assignEx = std::static_pointer_cast<AssignmentExpression>(nonTerminal);
+			retVal = parser->S_UnaryExpression_AssignOperator_AssignExpression(ex, assignOp, assignEx);
+		}
+		break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+		return { retVal, valid };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_UnaryExpression_AssignOperator(std::shared_ptr<UnaryExpression>& ex, std::shared_ptr<AssignmentOperator>& assignOp)
+{
+	Handler_S_UnaryExpression_AssignOperator temp(ex,assignOp);
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+ParserReturnValue GLSL_Parser::S_UnaryExpression_AssignOperator_AssignExpression(std::shared_ptr<UnaryExpression>& ex,
+	std::shared_ptr<AssignmentOperator>& assignOp, std::shared_ptr<AssignmentExpression>& assignEx)
+{
+	log.Debug(__func__);
+
+	return { std::make_shared<AssignmentExpression>(ex,assignOp,assignEx),3 };
 }
 
 ParserReturnValue GLSL_Parser::S_IncOP_UnaryExpression(std::shared_ptr<UnaryExpression>& ex)
@@ -2978,7 +3133,21 @@ public:
 	{
 		parser->log.Debug(__FUNCTION__);
 
-		return { ParserReturnValue(),false };
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::unary_expression:
+		{
+			std::shared_ptr<UnaryExpression> unaryEx = std::static_pointer_cast<UnaryExpression>(nonTerminal);
+			retVal = parser->S_MultiplicativeExpression_MulToken_UnaryExpression(ex, token, unaryEx);
+		}
+		break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+		return { retVal, valid };
 	}
 
 };
@@ -3063,19 +3232,141 @@ ParserReturnValue GLSL_Parser::S_AdditiveExpression(std::shared_ptr<AdditiveExpr
 	return StateFuncSkeleton(__func__, temp);
 }
 
+class Handler_S_AdditiveExpression_AddToken : public IStateHandler
+{
+public:
+	std::shared_ptr<AdditiveExpression>& ex;
+	const Token& token;
+
+public:
+
+	Handler_S_AdditiveExpression_AddToken(std::shared_ptr<AdditiveExpression>& ex, const Token& token)
+		: ex(ex), token(token)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (parser->PeekToken().type)
+		{
+		default:
+			return { ParserReturnValue(),false };
+		}
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (next.type)
+		{
+		default:
+			return DefaultExpressionShift(parser, next);
+			break;
+		}
+
+		return { retVal, valid };
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::multiplicative_expression:
+		{
+			std::shared_ptr<MultiplicativeExpression> mulEx = std::static_pointer_cast<MultiplicativeExpression>(nonTerminal);
+			retVal = parser->S_AdditiveExpression_AddToken_MultiplicativeEx(ex, token, mulEx);
+		}
+		break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+		return { retVal, valid };
+	}
+
+};
+
 ParserReturnValue GLSL_Parser::S_AdditiveExpression_AddToken(std::shared_ptr<AdditiveExpression>& ex, const Token& token)
 {
-	log.Debug(__func__);
+	Handler_S_AdditiveExpression_AddToken temp(ex, token);
 
-	return ParserReturnValue();
+	return StateFuncSkeleton(__func__, temp);
 }
+
+class Handler_S_AdditiveExpression_AddToken_MultiplicativeEx : public IStateHandler
+{
+public:
+	std::shared_ptr<AdditiveExpression>& ex;
+	const Token& token;
+	std::shared_ptr<MultiplicativeExpression>& mulEx;
+
+public:
+
+	Handler_S_AdditiveExpression_AddToken_MultiplicativeEx(std::shared_ptr<AdditiveExpression>& ex, const Token& token,
+		std::shared_ptr<MultiplicativeExpression>& mulEx)
+		: ex(ex), token(token), mulEx(mulEx)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (parser->PeekToken().type)
+		{
+		case TokenType::slash:
+		case TokenType::star:
+		case TokenType::percent:
+			return { ParserReturnValue(),false };
+		default:
+			return { ParserReturnValue(std::make_shared<AdditiveExpression>(ex,token,mulEx),3),true };
+		}
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (next.type)
+		{
+		default:
+			return DefaultExpressionShift(parser, next);
+			break;
+		}
+
+		return { retVal, valid };
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return { ParserReturnValue(), false };
+	}
+
+};
 
 ParserReturnValue GLSL_Parser::S_AdditiveExpression_AddToken_MultiplicativeEx(std::shared_ptr<AdditiveExpression>& addEx, const Token& token,
 	std::shared_ptr<MultiplicativeExpression>& mulEx)
 {
-	log.Debug(__func__);
+	Handler_S_AdditiveExpression_AddToken_MultiplicativeEx temp(addEx, token, mulEx);
 
-	return ParserReturnValue();
+	return StateFuncSkeleton(__func__, temp);
 }
 
 class Handler_ShiftExpression : public IStateHandler
