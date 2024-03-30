@@ -35,4 +35,6 @@ Ceng::StringUtf8 FunctionCallGeneric::ToString() const
 		out += ')';
 		return out;
 	}
+
+	return "<UNHANDLED FUNCTION TYPE>";
 }

@@ -80,4 +80,6 @@ Ceng::StringUtf8 UnaryExpression::ToString() const
 		out += unaryExpression->ToString();
 		return out;
 	}
+
+	return "<UNHANDLED UNARY TYPE>";
 }
