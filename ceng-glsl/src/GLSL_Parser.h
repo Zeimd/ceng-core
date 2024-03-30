@@ -160,6 +160,14 @@ namespace Ceng
 			std::shared_ptr<TypeSpecifier>& typeSpec, std::shared_ptr<StructDeclaratorList>& list);
 
 		// StructHeader = STRUCT IDENTIFIER LEFT_BRACE {struct_declaration_list}
+		ParserReturnValue S_StructHeader_TypeQualifier_TypeSpecifier_StructDeclaratorList_Comma(std::shared_ptr<TypeQualifier>& typeQ,
+			std::shared_ptr<TypeSpecifier>& typeSpec, std::shared_ptr<StructDeclaratorList>& list);
+
+		// StructHeader = STRUCT IDENTIFIER LEFT_BRACE {struct_declaration_list}
+		ParserReturnValue S_StructHeader_TypeQualifier_TypeSpecifier_StructDeclaratorList_Comma_StructDeclarator(std::shared_ptr<TypeQualifier>& typeQ,
+			std::shared_ptr<TypeSpecifier>& typeSpec, std::shared_ptr<StructDeclaratorList>& list,std::shared_ptr<StructDeclarator>& decl);
+
+		// StructHeader = STRUCT IDENTIFIER LEFT_BRACE {struct_declaration_list}
 		ParserReturnValue S_StructHeader_TypeQualifier_TypeSpecifier_StructDeclaratorList_Semicolon(std::shared_ptr<TypeQualifier>& typeQ, 
 			std::shared_ptr<TypeSpecifier>& typeSpec, std::shared_ptr<StructDeclaratorList>& list);
 
@@ -169,6 +177,14 @@ namespace Ceng
 		// StructHeader = STRUCT IDENTIFIER LEFT_BRACE {struct_declaration_list}
 		ParserReturnValue S_StructHeader_TypeSpecifier_StructDeclaratorList(std::shared_ptr<TypeSpecifier>& typeSpec, 
 			std::shared_ptr<StructDeclaratorList>& list);
+
+		// StructHeader = STRUCT IDENTIFIER LEFT_BRACE {struct_declaration_list}
+		ParserReturnValue S_StructHeader_TypeSpecifier_StructDeclaratorList_Comma(std::shared_ptr<TypeSpecifier>& typeSpec,
+			std::shared_ptr<StructDeclaratorList>& list);
+
+		// StructHeader = STRUCT IDENTIFIER LEFT_BRACE {struct_declaration_list}
+		ParserReturnValue S_StructHeader_TypeSpecifier_StructDeclaratorList_Comma_StructDeclarator(std::shared_ptr<TypeSpecifier>& typeSpec,
+			std::shared_ptr<StructDeclaratorList>& list, std::shared_ptr<StructDeclarator>& decl);
 
 		// StructHeader = STRUCT IDENTIFIER LEFT_BRACE
 		ParserReturnValue S_StructHeader_TypeSpecifier_StructDeclaratorList_Semicolon(std::shared_ptr<TypeSpecifier>& typeSpec,
