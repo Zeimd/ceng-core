@@ -22,6 +22,15 @@ void StructDeclaration::Release()
 
 Ceng::StringUtf8 StructDeclaration::ToString() const
 {
-	return "";
+	Ceng::StringUtf8 out;
+
+	out += typeQ.ToString();
+	out += ' ';
+	out += typeSpec.ToString();
+	out += ' ';
+	out += list->ToString();
+	out += ';';
+
+	return out;
 }
 

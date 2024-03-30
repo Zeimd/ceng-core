@@ -828,6 +828,12 @@ ParserReturnValue GLSL_Parser::S_StructToken_IdentifierToken_LBrace_StructDeclar
 	return ParserReturnValue(std::make_shared<StructSpecifier>(structName.name,list), 5);
 }
 
+ParserReturnValue GLSL_Parser::S_StructSpecifier(std::shared_ptr<StructSpecifier>& structSpec)
+{
+	log.Debug(__func__);
+	return ParserReturnValue(std::make_shared<TypeSpecifierNoArray>(structSpec), 1);
+}
+
 class Handler_S_InvariantToken : public IStateHandler
 {
 public:
@@ -1375,6 +1381,7 @@ public:
 
 		switch (parser->PeekToken().type)
 		{
+		case TokenType::semicolon:
 		case TokenType::identifier:
 			retVal = ParserReturnValue(std::make_shared<FullySpecifiedType>(*typeSpec), 1);
 			break;

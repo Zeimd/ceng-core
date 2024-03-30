@@ -29,7 +29,11 @@ Ceng::StringUtf8 InitDeclaratorList::ToString() const
 	else
 	{
 		out += fullType->ToString();
-		out += ' ';
+
+		if (list.size() > 1 || !list[0].empty)
+		{
+			out += ' ';
+		}
 	}
 
 	for (size_t k=0; k < list.size(); k++)

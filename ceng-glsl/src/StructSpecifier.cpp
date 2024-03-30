@@ -24,7 +24,7 @@ Ceng::StringUtf8 StructSpecifier::ToString() const
 
 	temp += list->ToString();
 
-	temp += "};\n";
+	temp += "}";
 
 	return temp;
 }

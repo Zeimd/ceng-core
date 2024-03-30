@@ -190,6 +190,8 @@ namespace Ceng
 		// StructDecl = StructHeader {type_qualifier} type_specifier 
 		ParserReturnValue S_StructDecl_StructDeclarator(std::shared_ptr<StructDeclarator>& decl);
 
+		ParserReturnValue S_StructSpecifier(std::shared_ptr<StructSpecifier>& structSpec);
+
 		ParserReturnValue S_StorageQualifierToken(TokenType::value value);
 
 		ParserReturnValue S_LiteralToken(const Token& token);

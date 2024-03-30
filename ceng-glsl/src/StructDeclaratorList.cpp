@@ -21,5 +21,17 @@ void StructDeclaratorList::Release()
 
 Ceng::StringUtf8 StructDeclaratorList::ToString() const
 {
-	return "";
+	Ceng::StringUtf8 out;
+
+	for (size_t k = 0; k < list.size(); k++)
+	{
+		out += list[k]->ToString();
+
+		if (k != list.size() - 1)
+		{
+			out += ", ";
+		}		
+	}
+
+	return out;
 }

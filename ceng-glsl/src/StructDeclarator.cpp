@@ -1,4 +1,5 @@
 #include "StructDeclarator.h"
+#include "Expression.h"
 
 using namespace Ceng;
 
@@ -29,5 +30,21 @@ void StructDeclarator::Release()
 
 Ceng::StringUtf8 StructDeclarator::ToString() const
 {
-	return "";
+	Ceng::StringUtf8 out;
+
+	out += name;
+
+	if (isArray)
+	{
+		out += '[';
+
+		if (arraySize != nullptr)
+		{
+			out += arraySize->ToString();
+		}
+
+		out += ']';
+	}
+
+	return out;
 }

@@ -79,6 +79,12 @@ HandlerReturn IStateHandler::DefaultExpressionGoto(GLSL_Parser* parser, std::sha
 			retVal = parser->S_FullySpecifiedType(temp);
 		}
 		break;
+	case NonTerminalType::struct_specifier:
+		{
+			std::shared_ptr<StructSpecifier> temp = std::static_pointer_cast<StructSpecifier>(nonTerminal);
+			retVal = parser->S_StructSpecifier(temp);
+		}
+		break;
 	case NonTerminalType::type_specifier_nonarray:
 		{
 			std::shared_ptr<TypeSpecifierNoArray> temp = std::static_pointer_cast<TypeSpecifierNoArray>(nonTerminal);

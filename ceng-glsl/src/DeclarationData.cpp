@@ -56,12 +56,17 @@ DeclarationData::DeclarationData(const Ceng::StringUtf8& name, std::shared_ptr<E
 
 Ceng::StringUtf8 DeclarationData::ToString() const
 {
+	if (empty)
+	{
+		return "";
+	}
+
 	Ceng::StringUtf8 out;
 
-	if (!empty)
-	{
+	//if (!empty)
+	//{
 		out += name;
-	}
+	//}
 
 	if (isArray)
 	{
