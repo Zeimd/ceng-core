@@ -54,6 +54,7 @@ Ceng::StringUtf8 ParameterDeclaration::ToString() const
 	}
 
 	out += paramQ->ToString();
+	out += ' ';
 
 	if (typeOnly)
 	{
