@@ -285,7 +285,8 @@ namespace Ceng
 
 		ParserReturnValue S_FunctionHeaderWithParams_Comma(std::shared_ptr<FunctionHeaderWithParams>& header);
 
-		ParserReturnValue S_FunctionHeaderWithParams_Comma_ParameterDeclaration(std::shared_ptr<FunctionHeaderWithParams>& header, std::shared_ptr<ParameterDeclaration>& decl);
+		ParserReturnValue S_FunctionHeaderWithParams_Comma_ParameterDeclaration(std::shared_ptr<FunctionHeaderWithParams>& header, 
+			std::shared_ptr<ParameterDeclaration>& decl);
 
 		ParserReturnValue S_FunctionDeclarator(std::shared_ptr<FunctionDeclarator>& decl);
 
@@ -293,7 +294,7 @@ namespace Ceng
 
 		ParserReturnValue S_FunctionPrototype(std::shared_ptr<FunctionPrototype>& prototype);
 
-		ParserReturnValue S_ParamBuilder_TypeSpecifier(std::shared_ptr<TypeSpecifier>& type);
+		ParserReturnValue S_FunctionPrototype_Semicolon(std::shared_ptr<FunctionPrototype>& prototype);
 
 		ParserReturnValue S_ParamBuilder_TypeSpecifier_Identifier(std::shared_ptr<TypeSpecifier>& type, const Token& id);
 
@@ -304,6 +305,10 @@ namespace Ceng
 
 		ParserReturnValue S_ParamBuilder_TypeSpecifier_Identifier_LBracket_Expression_RBracket(std::shared_ptr<TypeSpecifier>& type, const Token& id,
 			std::shared_ptr<Expression>& ex);
+
+		ParserReturnValue S_ParamBuilder_ParameterTypeQualifierToken(const Token& token);
+
+		ParserReturnValue S_ParamBuilder_ParameterQualifierToken(const Token& token);
 
 		ParserReturnValue S_ParameterDeclarator(std::shared_ptr<ParameterDeclarator>& decl);
 

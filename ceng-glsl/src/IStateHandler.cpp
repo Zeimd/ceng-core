@@ -111,11 +111,35 @@ HandlerReturn IStateHandler::DefaultExpressionGoto(GLSL_Parser* parser, std::sha
 		}
 		break;
 	case NonTerminalType::type_specifier:
-	{
-		std::shared_ptr<TypeSpecifier> temp = std::static_pointer_cast<TypeSpecifier>(nonTerminal);
-		retVal = parser->S_TypeSpecifier(temp);
-	}
-	break;
+		{
+			std::shared_ptr<TypeSpecifier> temp = std::static_pointer_cast<TypeSpecifier>(nonTerminal);
+			retVal = parser->S_TypeSpecifier(temp);
+		}
+		break;
+	case NonTerminalType::function_header:
+		{
+			std::shared_ptr<FunctionHeader> temp = std::static_pointer_cast<FunctionHeader>(nonTerminal);
+			retVal = parser->S_FunctionHeader(temp);
+		}
+		break;
+	case NonTerminalType::function_header_with_parameters:
+		{
+			std::shared_ptr<FunctionHeaderWithParams> temp = std::static_pointer_cast<FunctionHeaderWithParams>(nonTerminal);
+			retVal = parser->S_FunctionHeaderWithParams(temp);
+		}
+		break;
+	case NonTerminalType::function_declarator:
+		{
+			std::shared_ptr<FunctionDeclarator> temp = std::static_pointer_cast<FunctionDeclarator>(nonTerminal);
+			retVal = parser->S_FunctionDeclarator(temp);
+		}
+		break;
+	case NonTerminalType::function_prototype:
+		{
+			std::shared_ptr<FunctionPrototype> temp = std::static_pointer_cast<FunctionPrototype>(nonTerminal);
+			retVal = parser->S_FunctionPrototype(temp);
+		}
+		break;
 	case NonTerminalType::primary_expression:
 		{
 			std::shared_ptr<PrimaryExpression> temp = std::static_pointer_cast<PrimaryExpression>(nonTerminal);
