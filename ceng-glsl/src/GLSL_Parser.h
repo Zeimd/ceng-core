@@ -317,6 +317,12 @@ namespace Ceng
 		ParserReturnValue S_ParameterTypeQualifier_ParameterQualifier(std::shared_ptr<ParameterTypeQualifier>& typeQ,
 			std::shared_ptr<ParameterQualifier>& paramQ);
 
+		ParserReturnValue S_ParameterTypeQualifier_ParameterDeclarator(std::shared_ptr<ParameterTypeQualifier>& typeQ,
+			std::shared_ptr<ParameterDeclarator>& decl);
+
+		ParserReturnValue S_ParameterTypeQualifier_TypeSpecifier(std::shared_ptr<ParameterTypeQualifier>& typeQ,
+			std::shared_ptr<TypeSpecifier>& spec);
+
 		ParserReturnValue S_ParameterTypeQualifier_ParameterQualifier_ParameterDeclarator(std::shared_ptr<ParameterTypeQualifier>& typeQ,
 			std::shared_ptr<ParameterQualifier>& paramQ, std::shared_ptr<ParameterDeclarator>& decl);
 

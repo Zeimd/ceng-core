@@ -2979,10 +2979,16 @@ public:
 
 		switch (nonTerminal->type)
 		{
-		case NonTerminalType::parameter_qualifier:
+		case NonTerminalType::parameter_declarator:
 			{
-				std::shared_ptr<ParameterQualifier> temp = std::static_pointer_cast<ParameterQualifier>(nonTerminal);
-				retVal = parser->S_ParameterTypeQualifier_ParameterQualifier(typeQ, temp);
+				std::shared_ptr<ParameterDeclarator> temp = std::static_pointer_cast<ParameterDeclarator>(nonTerminal);
+				retVal = parser->S_ParameterTypeQualifier_ParameterDeclarator(typeQ, temp);
+			}
+			break;
+		case NonTerminalType::type_specifier:
+			{
+				std::shared_ptr<TypeSpecifier> temp = std::static_pointer_cast<TypeSpecifier>(nonTerminal);
+				retVal = parser->S_ParameterTypeQualifier_TypeSpecifier(typeQ, temp);
 			}
 			break;
 		default:
@@ -3143,6 +3149,80 @@ ParserReturnValue GLSL_Parser::S_ParameterTypeQualifier_ParameterQualifier_TypeS
 
 	return StateFuncSkeleton(__func__, temp);
 }
+
+ParserReturnValue GLSL_Parser::S_ParameterTypeQualifier_ParameterDeclarator(std::shared_ptr<ParameterTypeQualifier>& typeQ,
+	std::shared_ptr<ParameterDeclarator>& decl)
+{
+	log.Debug(__func__);
+
+	auto temp = std::make_shared<ParameterQualifier>(ParameterQualifierType::empty);
+
+	return { std::make_shared<ParameterDeclaration>(typeQ, temp ,decl), 2 };
+}
+
+class Handler_ParameterTypeQualifier_TypeSpecifier : public IStateHandler
+{
+public:
+	std::shared_ptr<ParameterTypeQualifier>& typeQ;
+	std::shared_ptr<TypeSpecifier>& typeSpec;
+
+public:
+
+	Handler_ParameterTypeQualifier_TypeSpecifier(std::shared_ptr<ParameterTypeQualifier>& typeQ,
+		std::shared_ptr<TypeSpecifier>& typeSpec)
+		: typeQ(typeQ), typeSpec(typeSpec)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (parser->PeekToken().type)
+		{
+		case TokenType::comma:
+		case TokenType::right_paren:
+			auto temp = std::make_shared<ParameterQualifier>(ParameterQualifierType::empty);
+			return { ParserReturnValue(std::make_shared<ParameterDeclaration>(typeQ, temp, typeSpec),2), true };
+		}
+
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (next.type)
+		{
+		case TokenType::identifier:
+			return { parser->S_ParamBuilder_TypeSpecifier_Identifier(typeSpec,next), true };
+		default:
+			return DefaultExpressionShift(parser, next);
+		}
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return { ParserReturnValue(), false };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_ParameterTypeQualifier_TypeSpecifier(std::shared_ptr<ParameterTypeQualifier>& typeQ,
+	std::shared_ptr<TypeSpecifier>& spec)
+{
+	Handler_ParameterTypeQualifier_TypeSpecifier temp(typeQ, spec);
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
 
 class Handler_ParameterQualifier : public IStateHandler
 {
