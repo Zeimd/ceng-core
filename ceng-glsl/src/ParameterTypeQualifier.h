@@ -10,6 +10,7 @@ namespace Ceng
 		enum value
 		{
 			const_qual,
+			invalid_value,
 		};
 	}
 

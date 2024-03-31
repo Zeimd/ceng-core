@@ -15,7 +15,7 @@ void ParameterQualifier::Release()
 }
 
 ParameterQualifier::ParameterQualifier()
-	: INonTerminal(NonTerminalType::parameter_qualifier), type(ParameterQualifierType::empty)
+	: INonTerminal(NonTerminalType::parameter_qualifier), qualifier(ParameterQualifierType::empty)
 {
 
 }
@@ -23,18 +23,18 @@ ParameterQualifier::ParameterQualifier()
 ParameterQualifier::ParameterQualifier(const Token& token)
 	: INonTerminal(NonTerminalType::parameter_qualifier)
 {
-	type = TokenToType(token);
+	qualifier = TokenToType(token);
 }
 
-ParameterQualifier::ParameterQualifier(ParameterQualifierType::value type)
-	: INonTerminal(NonTerminalType::parameter_qualifier), type(type)
+ParameterQualifier::ParameterQualifier(ParameterQualifierType::value qualifier)
+	: INonTerminal(NonTerminalType::parameter_qualifier), qualifier(qualifier)
 {
 
 }
 
 Ceng::StringUtf8 ParameterQualifier::ToString() const
 {
-	switch (type)
+	switch (qualifier)
 	{
 	case ParameterQualifierType::empty:
 		return "";
@@ -44,6 +44,8 @@ Ceng::StringUtf8 ParameterQualifier::ToString() const
 		return "out";
 	case ParameterQualifierType::inout:
 		return "inout";
+	case ParameterQualifierType::invalid_value:
+		return "<invalid>";
 	default:
 		return "<UNHANDLED PARAMETER QUALIFIER>";
 	}
@@ -60,4 +62,6 @@ ParameterQualifierType::value ParameterQualifier::TokenToType(const Token& token
 	case TokenType::keyword_inout:
 		return ParameterQualifierType::inout;
 	}
+
+	return ParameterQualifierType::invalid_value;
 }

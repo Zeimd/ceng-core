@@ -28,11 +28,12 @@ ParameterTypeQualifier::ParameterTypeQualifier(ParamTypeQualifiers::value qualif
 
 Ceng::StringUtf8 ParameterTypeQualifier::ToString() const
 {
-	switch (type)
+	switch (qualifier)
 	{
 	case ParamTypeQualifiers::const_qual:
 		return "const";
-
+	case ParamTypeQualifiers::invalid_value:
+		return "<invalid>";
 	default:
 		return "<UNHANDLED PARAMETER TYPE QUALIFIER>";
 	}
@@ -45,4 +46,6 @@ ParamTypeQualifiers::value ParameterTypeQualifier::TokenToQualifier(const Token&
 	case TokenType::keyword_const:
 		return ParamTypeQualifiers::const_qual;
 	}
+
+	return ParamTypeQualifiers::invalid_value;
 }

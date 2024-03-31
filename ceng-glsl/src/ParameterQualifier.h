@@ -13,6 +13,7 @@ namespace Ceng
 			in,
 			out,
 			inout,
+			invalid_value,
 		};
 	}
 
@@ -22,7 +23,7 @@ namespace Ceng
 	{
 	public:
 
-		ParameterQualifierType::value type;
+		ParameterQualifierType::value qualifier;
 
 	public:
 
