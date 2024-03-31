@@ -2648,7 +2648,20 @@ public:
 				std::shared_ptr<ParameterDeclaration> temp = std::static_pointer_cast<ParameterDeclaration>(nonTerminal);
 				retVal = parser->S_FunctionHeader_ParameterDeclaration(header, temp);
 			}
-		break;
+			break;
+		case NonTerminalType::type_specifier:
+			{
+				std::shared_ptr<TypeSpecifier> typeSpec = std::static_pointer_cast<TypeSpecifier>(nonTerminal);
+				retVal = parser->S_ParamBuilder_TypeSpecifier(typeSpec);
+			}
+			break;
+		case NonTerminalType::parameter_declarator:
+			{
+				std::shared_ptr<ParameterDeclarator> decl = std::static_pointer_cast<ParameterDeclarator>(nonTerminal);
+				retVal = parser->S_ParameterDeclarator(decl);
+			}
+			break;
+
 		default:
 			return DefaultExpressionGoto(parser, nonTerminal);
 		}
@@ -2662,6 +2675,15 @@ ParserReturnValue GLSL_Parser::S_FunctionHeader(std::shared_ptr<FunctionHeader>&
 	Handler_FunctionHeader temp(header);
 
 	return StateFuncSkeleton(__func__, temp);
+}
+
+ParserReturnValue GLSL_Parser::S_ParameterDeclarator(std::shared_ptr<ParameterDeclarator>& decl)
+{
+	log.Debug(__func__);
+
+	auto temp = std::make_shared<ParameterQualifier>(ParameterQualifierType::empty);
+
+	return ParserReturnValue(std::make_shared<ParameterDeclaration>(temp, decl), 1);
 }
 
 ParserReturnValue GLSL_Parser::S_FunctionHeader_ParameterDeclaration(std::shared_ptr<FunctionHeader>& header, std::shared_ptr<ParameterDeclaration>& decl)
@@ -2759,6 +2781,12 @@ public:
 
 		switch (next.type)
 		{
+		case TokenType::keyword_const:
+			return { parser->S_ParamBuilder_ParameterTypeQualifierToken(next), true };
+		case TokenType::keyword_in:
+		case TokenType::keyword_out:
+		case TokenType::keyword_inout:
+			return { parser->S_ParamBuilder_ParameterQualifierToken(next), true };
 		default:
 			return DefaultExpressionShift(parser, next);
 		}
@@ -2773,12 +2801,36 @@ public:
 
 		switch (nonTerminal->type)
 		{
+		case NonTerminalType::parameter_type_qualifier:
+			{
+				std::shared_ptr<ParameterTypeQualifier> temp = std::static_pointer_cast<ParameterTypeQualifier>(nonTerminal);
+				retVal = parser->S_ParameterTypeQualifier(temp);
+			}
+			break;
+		case NonTerminalType::parameter_qualifier:
+			{
+				std::shared_ptr<ParameterQualifier> temp = std::static_pointer_cast<ParameterQualifier>(nonTerminal);
+				retVal = parser->S_ParameterQualifier(temp);
+			}
+			break;
 		case NonTerminalType::parameter_declaration:
 		{
 			std::shared_ptr<ParameterDeclaration> temp = std::static_pointer_cast<ParameterDeclaration>(nonTerminal);
 			retVal = parser->S_FunctionHeaderWithParams_Comma_ParameterDeclaration(header, temp);
 		}
-		break;
+			break;
+		case NonTerminalType::type_specifier:
+			{
+				std::shared_ptr<TypeSpecifier> typeSpec = std::static_pointer_cast<TypeSpecifier>(nonTerminal);
+				retVal = parser->S_ParamBuilder_TypeSpecifier(typeSpec);
+			}
+			break;
+		case NonTerminalType::parameter_declarator:
+			{
+				std::shared_ptr<ParameterDeclarator> decl = std::static_pointer_cast<ParameterDeclarator>(nonTerminal);
+				retVal = parser->S_ParameterDeclarator(decl);
+			}
+			break;
 		default:
 			return DefaultExpressionGoto(parser, nonTerminal);
 		}
@@ -2929,6 +2981,68 @@ ParserReturnValue GLSL_Parser::S_ParamBuilder_ParameterQualifierToken(const Toke
 
 	return { std::make_shared<ParameterQualifier>(token),1 };
 }
+
+class Handler_ParamBuilder_TypeSpecifier : public IStateHandler
+{
+public:
+	std::shared_ptr<TypeSpecifier>& typeSpec;
+
+public:
+
+	Handler_ParamBuilder_TypeSpecifier(std::shared_ptr<TypeSpecifier>& typeSpec)
+		: typeSpec(typeSpec)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (parser->PeekToken().type)
+		{
+		case TokenType::comma:
+		case TokenType::right_paren:
+			auto temp = std::make_shared<ParameterQualifier>(ParameterQualifierType::empty);
+
+			return { ParserReturnValue(std::make_shared<ParameterDeclaration>(temp, typeSpec),1), true };
+		}
+
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (next.type)
+		{
+		case TokenType::identifier:
+			return { parser->S_ParamBuilder_TypeSpecifier_Identifier(typeSpec,next), true };
+		default:
+			return DefaultExpressionShift(parser, next);
+		}
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return { ParserReturnValue(), false };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_ParamBuilder_TypeSpecifier(std::shared_ptr<TypeSpecifier>& spec)
+{
+	Handler_ParamBuilder_TypeSpecifier temp(spec);
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
 
 class Handler_ParameterTypeQualifier : public IStateHandler
 {

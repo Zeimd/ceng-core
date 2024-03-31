@@ -279,6 +279,8 @@ namespace Ceng
 
 		ParserReturnValue S_FunctionHeader(std::shared_ptr<FunctionHeader>& header);
 
+		ParserReturnValue S_ParameterDeclarator(std::shared_ptr<ParameterDeclarator>& decl);
+
 		ParserReturnValue S_FunctionHeader_ParameterDeclaration(std::shared_ptr<FunctionHeader>& header, std::shared_ptr<ParameterDeclaration>& decl);
 
 		ParserReturnValue S_FunctionHeaderWithParams(std::shared_ptr<FunctionHeaderWithParams>& header);
@@ -310,9 +312,9 @@ namespace Ceng
 
 		ParserReturnValue S_ParamBuilder_ParameterQualifierToken(const Token& token);
 
-		ParserReturnValue S_ParameterDeclarator(std::shared_ptr<ParameterDeclarator>& decl);
-
 		ParserReturnValue S_ParameterTypeQualifier(std::shared_ptr<ParameterTypeQualifier>& typeQ);
+
+		ParserReturnValue S_ParamBuilder_TypeSpecifier(std::shared_ptr<TypeSpecifier>& spec);
 
 		ParserReturnValue S_ParameterTypeQualifier_ParameterQualifier(std::shared_ptr<ParameterTypeQualifier>& typeQ,
 			std::shared_ptr<ParameterQualifier>& paramQ);
