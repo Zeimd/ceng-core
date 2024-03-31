@@ -55,7 +55,11 @@
     <ClInclude Include="..\..\ceng-glsl\src\FunctionCallGeneric.h" />
     <ClInclude Include="..\..\ceng-glsl\src\FunctionCallHeader.h" />
     <ClInclude Include="..\..\ceng-glsl\src\FunctionCallOrMethod.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\FunctionDeclarator.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\FunctionHeader.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\FunctionHeaderWithParams.h" />
     <ClInclude Include="..\..\ceng-glsl\src\FunctionIdentifier.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\FunctionPrototype.h" />
     <ClInclude Include="..\..\ceng-glsl\src\GLSL_Parser.h" />
     <ClInclude Include="..\..\ceng-glsl\src\HandlerReturn.h" />
     <ClInclude Include="..\..\ceng-glsl\src\InitDeclaratorList.h" />
@@ -77,6 +81,10 @@
     <ClInclude Include="..\..\ceng-glsl\src\MultiplicativeExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\NonTerminalType.h" />
     <ClInclude Include="..\..\ceng-glsl\src\OrExpression.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\ParameterDeclaration.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\ParameterDeclarator.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\ParameterQualifier.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\ParameterTypeQualifier.h" />
     <ClInclude Include="..\..\ceng-glsl\src\ParserReturnValue.h" />
     <ClInclude Include="..\..\ceng-glsl\src\PostfixExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\PrecisionQualifier.h" />
@@ -129,7 +137,11 @@
     <ClCompile Include="..\..\ceng-glsl\src\FunctionCallGeneric.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\FunctionCallHeader.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\FunctionCallOrMethod.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\FunctionDeclarator.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\FunctionHeader.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\FunctionHeaderWithParams.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\FunctionIdentifier.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\FunctionPrototype.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\GLSL_Parser.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\InitDeclaratorList.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\Initializer.cpp" />
@@ -148,6 +160,10 @@
     <ClCompile Include="..\..\ceng-glsl\src\MultiplicativeExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\NonTerminalType.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\OrExpression.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\ParameterDeclaration.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\ParameterDeclarator.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\ParameterQualifier.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\ParameterTypeQualifier.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\ParserReturnValue.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\PostfixExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\PrecisionQualifier.cpp" />

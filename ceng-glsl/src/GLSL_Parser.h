@@ -78,6 +78,15 @@
 #include "HandlerReturn.h"
 #include "IStateHandler.h"
 
+#include "FunctionHeader.h"
+#include "FunctionHeaderWithParams.h"
+#include "ParameterDeclaration.h"
+#include "ParameterDeclarator.h"
+#include "ParameterQualifier.h"
+#include "ParameterTypeQualifier.h"
+#include "FunctionDeclarator.h"
+#include "FunctionPrototype.h"
+
 namespace Ceng
 {
 	class GLSL_Parser : public GLSL::IParser
@@ -266,6 +275,55 @@ namespace Ceng
 		ParserReturnValue S_FullySpecifiedType_IdentifierToken_LBracket_RBracket_Equal_Initializer(std::shared_ptr<FullySpecifiedType>& spec, const Token& token,
 			std::shared_ptr<Initializer>& initializer);
 
+		ParserReturnValue S_FullySpecifiedType_Identifier_LParen(std::shared_ptr<FullySpecifiedType>& type, const Token& id);
+
+		ParserReturnValue S_FunctionHeader(std::shared_ptr<FunctionHeader>& header);
+
+		ParserReturnValue S_FunctionHeader_ParameterDeclaration(std::shared_ptr<FunctionHeader>& header, std::shared_ptr<ParameterDeclaration>& decl);
+
+		ParserReturnValue S_FunctionHeaderWithParams(std::shared_ptr<FunctionHeaderWithParams>& header);
+
+		ParserReturnValue S_FunctionHeaderWithParams_Comma(std::shared_ptr<FunctionHeaderWithParams>& header);
+
+		ParserReturnValue S_FunctionHeaderWithParams_Comma_ParameterDeclaration(std::shared_ptr<FunctionHeaderWithParams>& header, std::shared_ptr<ParameterDeclaration>& decl);
+
+		ParserReturnValue S_FunctionDeclarator(std::shared_ptr<FunctionDeclarator>& decl);
+
+		ParserReturnValue S_FunctionDeclarator_RParen(std::shared_ptr<FunctionDeclarator>& decl);
+
+		ParserReturnValue S_FunctionPrototype(std::shared_ptr<FunctionPrototype>& prototype);
+
+		ParserReturnValue S_ParamBuilder_TypeSpecifier(std::shared_ptr<TypeSpecifier>& type);
+
+		ParserReturnValue S_ParamBuilder_TypeSpecifier_Identifier(std::shared_ptr<TypeSpecifier>& type, const Token& id);
+
+		ParserReturnValue S_ParamBuilder_TypeSpecifier_Identifier_LBracket(std::shared_ptr<TypeSpecifier>& type, const Token& id);
+
+		ParserReturnValue S_ParamBuilder_TypeSpecifier_Identifier_LBracket_Expression(std::shared_ptr<TypeSpecifier>& type, const Token& id,
+			std::shared_ptr<Expression>& ex);
+
+		ParserReturnValue S_ParamBuilder_TypeSpecifier_Identifier_LBracket_Expression_RBracket(std::shared_ptr<TypeSpecifier>& type, const Token& id,
+			std::shared_ptr<Expression>& ex);
+
+		ParserReturnValue S_ParameterDeclarator(std::shared_ptr<ParameterDeclarator>& decl);
+
+		ParserReturnValue S_ParameterTypeQualifier(std::shared_ptr<ParameterTypeQualifier>& typeQ);
+
+		ParserReturnValue S_ParameterTypeQualifier_ParameterQualifier(std::shared_ptr<ParameterTypeQualifier>& typeQ,
+			std::shared_ptr<ParameterQualifier>& paramQ);
+
+		ParserReturnValue S_ParameterTypeQualifier_ParameterQualifier_ParameterDeclarator(std::shared_ptr<ParameterTypeQualifier>& typeQ,
+			std::shared_ptr<ParameterQualifier>& paramQ, std::shared_ptr<ParameterDeclarator>& decl);
+
+		ParserReturnValue S_ParameterTypeQualifier_ParameterQualifier_TypeSpecifier(std::shared_ptr<ParameterTypeQualifier>& typeQ,
+			std::shared_ptr<ParameterQualifier>& paramQ, std::shared_ptr<TypeSpecifier>& spec);
+
+		ParserReturnValue S_ParameterQualifier(std::shared_ptr<ParameterQualifier>& paramQ);
+
+		ParserReturnValue S_ParameterQualifier_ParameterDeclarator(std::shared_ptr<ParameterQualifier>& paramQ, std::shared_ptr<ParameterDeclarator>& decl);
+
+		ParserReturnValue S_ParameterQualifier_TypeSpecifier(std::shared_ptr<ParameterQualifier>& paramQ, std::shared_ptr<TypeSpecifier>& spec);
+
 		ParserReturnValue S_TypeSpecifierNonArray(std::shared_ptr<TypeSpecifierNoArray>& ts);
 
 		ParserReturnValue S_TypeSpecifierNonArray_LBracket(std::shared_ptr<TypeSpecifierNoArray>& ts);
@@ -282,12 +340,6 @@ namespace Ceng
 		ParserReturnValue S_TypeSpecifierNoPrec(std::shared_ptr<TypeSpecifierNoPrec>& ts);
 
 		ParserReturnValue S_TypeSpecifier(std::shared_ptr<TypeSpecifier>& ts);
-
-		ParserReturnValue S_TypeSpecifier_StructDeclaratorList(std::shared_ptr<TypeSpecifier>& ts,
-			std::shared_ptr<StructDeclaratorList>& list);
-
-		ParserReturnValue S_TypeSpecifier_StructDeclaratorList_Semicolon(std::shared_ptr<TypeSpecifier>& ts,
-			std::shared_ptr<StructDeclaratorList>& list);
 
 		ParserReturnValue S_FunctionIdentifier(std::shared_ptr<FunctionIdentifier>& funcId);
 
