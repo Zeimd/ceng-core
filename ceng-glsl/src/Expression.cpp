@@ -28,9 +28,14 @@ Ceng::StringUtf8 Expression::ToString() const
 {
 	Ceng::StringUtf8 out;
 
-	for (auto& x : assignEx)
+	for (size_t k = 0; k < assignEx.size(); k++)
 	{
-		out += x->ToString();
+		out += assignEx[k]->ToString();
+
+		if (k < assignEx.size() - 1)
+		{
+			out += ", ";
+		}
 	}
 
 	return out;
