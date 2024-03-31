@@ -467,5 +467,11 @@
     <ClCompile Include="..\..\ceng-glsl\src\StructDeclarator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\ceng-glsl\src\ExpressionStatement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ceng-glsl\src\SimpleStatement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

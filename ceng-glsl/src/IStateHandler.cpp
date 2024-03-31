@@ -41,6 +41,19 @@ HandlerReturn IStateHandler::DefaultExpressionShift(GLSL_Parser* parser, const T
 		case TokenType::keyword_struct:
 			retVal = parser->S_StructToken();
 			break;
+		case TokenType::equal:
+		case TokenType::mul_assign:
+		case TokenType::div_assign:
+		case TokenType::mod_assign:
+		case TokenType::add_assign:
+		case TokenType::sub_assign:
+		case TokenType::or_assign:
+		case TokenType::and_assign:
+		case TokenType::xor_assign:
+		case TokenType::left_assign:
+		case TokenType::right_assign:
+			retVal = parser->S_AssignToken(next);
+			break;	
 		default:
 			valid = false;
 			break;
@@ -197,6 +210,24 @@ HandlerReturn IStateHandler::DefaultExpressionGoto(GLSL_Parser* parser, std::sha
 		{
 			std::shared_ptr<AssignmentExpression> temp = std::static_pointer_cast<AssignmentExpression>(nonTerminal);
 			retVal = parser->S_AssignmentExpression(temp);
+		}
+		break;
+	case NonTerminalType::expression:
+		{
+			std::shared_ptr<Expression> temp = std::static_pointer_cast<Expression>(nonTerminal);
+			retVal = parser->S_Expression(temp);
+		}
+		break;
+	case NonTerminalType::expression_statement:
+		{
+			std::shared_ptr<ExpressionStatement> temp = std::static_pointer_cast<ExpressionStatement>(nonTerminal);
+			retVal = parser->S_ExpressionStatement(temp);
+		}
+		break;
+	case NonTerminalType::simple_statement:
+		{
+			std::shared_ptr<SimpleStatement> temp = std::static_pointer_cast<SimpleStatement>(nonTerminal);
+			retVal = parser->S_SimpleStatement(temp);
 		}
 		break;
 	case NonTerminalType::function_identifier:

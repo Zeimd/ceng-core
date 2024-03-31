@@ -121,6 +121,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\DeclarationData.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\EqualityExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\Expression.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\ExpressionStatement.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\FullySpecifiedType.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\FuncCallHeaderNoParams.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\FuncCallHeaderParams.cpp" />
@@ -153,6 +154,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\PrimaryExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\RelationalExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\ShiftExpression.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\SimpleStatement.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\SingleDeclaration.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\StorageQualifier.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\StructDeclaration.cpp" />

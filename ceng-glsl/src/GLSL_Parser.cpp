@@ -3344,6 +3344,10 @@ public:
 
 		switch (next.type)
 		{
+		case TokenType::slash:
+		case TokenType::star:
+		case TokenType::percent:
+			return { parser->S_MultiplicativeExpression_MulToken(mulEx, next), true };
 		default:
 			return DefaultExpressionShift(parser, next);
 			break;
@@ -4181,17 +4185,137 @@ ParserReturnValue GLSL_Parser::S_AssignmentExpression(std::shared_ptr<Assignment
 	return { std::make_shared<Expression>(ex),1 };
 }
 
+class Handler_S_Expression : public IStateHandler
+{
+public:
+	std::shared_ptr<Expression>& ex;
+
+public:
+
+	Handler_S_Expression(std::shared_ptr<Expression>& _ex)
+		: ex(_ex)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (parser->PeekToken().type)
+		{
+		default:
+			return { ParserReturnValue(), false };
+		}
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (next.type)
+		{
+		case TokenType::semicolon:
+			retVal = parser->S_Expression_Semicolon(ex);
+			break;
+		case TokenType::comma:
+			retVal = parser->S_Expression_Comma(ex);
+			break;
+		default:
+			valid = false;
+			break;
+		}
+
+		return { retVal, valid };
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return { ParserReturnValue(),false };
+	}
+
+};
+
 ParserReturnValue GLSL_Parser::S_Expression(std::shared_ptr<Expression>& ex)
 {
-	log.Debug(__func__);
-	return ParserReturnValue();
+	Handler_S_Expression temp(ex);
+
+	return StateFuncSkeleton(__func__, temp);
 }
+
+class Handler_S_Expression_Comma : public IStateHandler
+{
+public:
+	std::shared_ptr<Expression>& ex;
+
+public:
+
+	Handler_S_Expression_Comma(std::shared_ptr<Expression>& _ex)
+		: ex(_ex)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (parser->PeekToken().type)
+		{
+		default:
+			return { ParserReturnValue(), false };
+		}
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (next.type)
+		{
+		default:
+			return DefaultExpressionShift(parser, next);			
+		}
+
+		return { retVal, valid };
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::assignment_expression:
+		{
+			std::shared_ptr<AssignmentExpression> assignEx = std::static_pointer_cast<AssignmentExpression>(nonTerminal);
+			retVal = parser->S_Expression_Comma_AssignmentExpression(ex, assignEx);
+		}
+		break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+		return { retVal, valid };
+	}
+
+};
 
 ParserReturnValue GLSL_Parser::S_Expression_Comma(std::shared_ptr<Expression>& ex)
 {
-	log.Debug(__func__);
+	Handler_S_Expression_Comma temp(ex);
 
-	return ParserReturnValue();
+	return StateFuncSkeleton(__func__, temp);
 }
 
 ParserReturnValue GLSL_Parser::S_Expression_Comma_AssignmentExpression(std::shared_ptr<Expression>& expression,
@@ -4199,8 +4323,18 @@ ParserReturnValue GLSL_Parser::S_Expression_Comma_AssignmentExpression(std::shar
 {
 	log.Debug(__func__);
 
-	return ParserReturnValue();
+	expression->Append(assignEx);
+
+	return { expression,3 };
 }
+
+ParserReturnValue GLSL_Parser::S_Expression_Semicolon(std::shared_ptr<Expression>& ex)
+{
+	log.Debug(__func__);
+	
+	return { std::make_shared<ExpressionStatement>(ex), 2 };
+}
+
 
 class Handler_FunctionIdentifier : public IStateHandler
 {
@@ -4598,12 +4732,6 @@ ParserReturnValue GLSL_Parser::S_FunctionCall(std::shared_ptr<FunctionCall>& fun
 	log.Debug(__func__);
 
 	return { std::make_shared<PostfixExpression>(funcCall),1 };
-}
-
-ParserReturnValue GLSL_Parser::S_Expression_Semicolon(std::shared_ptr<Expression>& ex)
-{
-	log.Debug(__func__);
-	return ParserReturnValue();
 }
 
 ParserReturnValue GLSL_Parser::S_SingleDeclaration(std::shared_ptr<SingleDeclaration>& singleDecl)
@@ -5240,7 +5368,8 @@ ParserReturnValue GLSL_Parser::S_StatementList_Statement(std::shared_ptr<Stateme
 ParserReturnValue GLSL_Parser::S_ExpressionStatement(std::shared_ptr<ExpressionStatement>& expressionStatement)
 {
 	log.Debug(__func__);
-	return ParserReturnValue();
+
+	return { std::make_shared<SimpleStatement>(expressionStatement),1 };
 }
 
 ParserReturnValue GLSL_Parser::S_SelectionStatement(std::shared_ptr<SelectionStatement>& selectionStatement)
