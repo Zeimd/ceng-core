@@ -4,22 +4,36 @@
 #include <memory>
 
 #include "INonTerminal.h"
-#include "InitDeclaratorList.h"
-#include "TypeQualifier.h"
 
 namespace Ceng
 {
+	namespace DeclarationType
+	{
+		enum value
+		{
+			function_prototype,
+			init_list,
+		};
+	}
+
+	class InitDeclaratorList;
+	class FunctionPrototype;
+
 	class Declaration : public INonTerminal
 	{
 	public:
 
-		//FunctionPrototype funcProto;
+		DeclarationType::value type;
+
+		std::shared_ptr<FunctionPrototype> prototype;
 
 		std::shared_ptr<InitDeclaratorList> declList;
 
 	public:
 
 		void Release() override;
+
+		Declaration(std::shared_ptr<FunctionPrototype>& prototype);
 
 		Declaration(std::shared_ptr<InitDeclaratorList>& declList);
 
