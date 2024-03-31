@@ -37,7 +37,7 @@ Ceng::StringUtf8 ParameterQualifier::ToString() const
 	case ParameterQualifierType::inout:
 		return "inout";
 	default:
-		return "<UNHANDLED PARAMETER QUALIFIER TYPE>";
+		return "<UNHANDLED PARAMETER QUALIFIER>";
 	}
 }
 
