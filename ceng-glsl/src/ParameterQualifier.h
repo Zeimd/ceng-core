@@ -9,6 +9,7 @@ namespace Ceng
 	{
 		enum value
 		{
+			empty,
 			in,
 			out,
 			inout,
@@ -28,6 +29,8 @@ namespace Ceng
 		~ParameterQualifier() override;
 
 		void Release() override;
+
+		ParameterQualifier();
 
 		ParameterQualifier(const Token& token);
 

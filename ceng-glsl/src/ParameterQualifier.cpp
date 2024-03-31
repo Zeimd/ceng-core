@@ -14,6 +14,12 @@ void ParameterQualifier::Release()
 	delete this;
 }
 
+ParameterQualifier::ParameterQualifier()
+	: INonTerminal(NonTerminalType::parameter_qualifier), type(ParameterQualifierType::empty)
+{
+
+}
+
 ParameterQualifier::ParameterQualifier(const Token& token)
 	: INonTerminal(NonTerminalType::parameter_qualifier)
 {
@@ -30,6 +36,8 @@ Ceng::StringUtf8 ParameterQualifier::ToString() const
 {
 	switch (type)
 	{
+	case ParameterQualifierType::empty:
+		return "";
 	case ParameterQualifierType::in:
 		return "in";
 	case ParameterQualifierType::out:
