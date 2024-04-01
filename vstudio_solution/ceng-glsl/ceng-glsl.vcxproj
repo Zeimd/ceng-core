@@ -97,6 +97,7 @@
     <ClInclude Include="..\..\ceng-glsl\src\SimpleStatement.h" />
     <ClInclude Include="..\..\ceng-glsl\src\SingleDeclaration.h" />
     <ClInclude Include="..\..\ceng-glsl\src\Statement.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\StatementCategory.h" />
     <ClInclude Include="..\..\ceng-glsl\src\StatementList.h" />
     <ClInclude Include="..\..\ceng-glsl\src\StatementNoNewScope.h" />
     <ClInclude Include="..\..\ceng-glsl\src\StorageQualifier.h" />
@@ -124,6 +125,8 @@
     <ClCompile Include="..\..\ceng-glsl\src\AssignmentExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AssignmentOperator.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\ceng_GLSL.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\CompoundStatement.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\CompoundStatementNoNewScope.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\ConditionalExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\Declaration.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\DeclarationData.cpp" />
@@ -172,6 +175,9 @@
     <ClCompile Include="..\..\ceng-glsl\src\ShiftExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\SimpleStatement.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\SingleDeclaration.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\Statement.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\StatementList.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\StatementNoNewScope.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\StorageQualifier.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\StructDeclaration.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\StructDeclarationList.cpp" />
