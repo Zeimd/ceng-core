@@ -33,4 +33,6 @@ Ceng::StringUtf8 StatementList::ToString() const
 		out += x->ToString();
 		out += '\n';
 	}
+
+	return out;
 }

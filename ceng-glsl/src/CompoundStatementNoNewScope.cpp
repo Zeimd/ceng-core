@@ -39,4 +39,6 @@ Ceng::StringUtf8 CompoundStatementNoNewScope::ToString() const
 	list->ToString();
 
 	out += '}\n';
+
+	return out;
 }
