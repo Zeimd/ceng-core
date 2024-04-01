@@ -242,6 +242,18 @@ HandlerReturn IStateHandler::DefaultExpressionGoto(GLSL_Parser* parser, std::sha
 			retVal = parser->S_Expression(temp);
 		}
 		break;
+	case NonTerminalType::declaration:
+		{
+			std::shared_ptr<Declaration> temp = std::static_pointer_cast<Declaration>(nonTerminal);
+			retVal = parser->S_Declaration(temp);
+		}
+		break;
+	case NonTerminalType::declaration_statement:
+		{
+			std::shared_ptr<DeclarationStatement> temp = std::static_pointer_cast<DeclarationStatement>(nonTerminal);
+			retVal = parser->S_DeclarationStatement(temp);
+		}
+		break;
 	case NonTerminalType::expression_statement:
 		{
 			std::shared_ptr<ExpressionStatement> temp = std::static_pointer_cast<ExpressionStatement>(nonTerminal);
