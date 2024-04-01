@@ -57,5 +57,32 @@ AssignmentOperator::AssignmentOperator(AssignOpType::value operation)
 
 Ceng::StringUtf8 AssignmentOperator::ToString() const
 {
-	return "";
+	switch (operation)
+	{
+	case AssignOpType::equal:
+		return "=";
+	case AssignOpType::add:
+		return "+=";
+	case AssignOpType::sub:
+		return "-=";
+	case AssignOpType::mul:
+		return "*=";
+	case AssignOpType::div:
+		return "/=";
+	case AssignOpType::mod:
+		return "%=";
+	case AssignOpType::left:
+		return "<<=";
+	case AssignOpType::right:
+		return ">>=";
+	case AssignOpType::and_op:
+		return "&=";
+	case AssignOpType::or_op:
+		return "|=";
+	case AssignOpType::xor_op:
+		return "^=";
+	default:
+		return "<UNHANDLED ASSIGNMENT OPERATOR>";
+
+	}
 }

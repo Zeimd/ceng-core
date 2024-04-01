@@ -26,5 +26,10 @@ Ceng::StringUtf8 ExpressionStatement::ToString() const
 		return ";";
 	}
 
-	return ex->ToString();
+	Ceng::StringUtf8 out;
+
+	out = ex->ToString();
+	out += ';';
+
+	return out;
 }

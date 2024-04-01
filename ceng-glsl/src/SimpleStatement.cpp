@@ -66,6 +66,8 @@ Ceng::StringUtf8 SimpleStatement::ToString() const
 {
 	switch (type)
 	{
+	case StatementType::expression:
+		return expression->ToString();
 	case StatementType::declaration:
 		return declaration->ToString();
 	case StatementType::selection:
