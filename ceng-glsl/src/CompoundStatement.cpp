@@ -33,7 +33,7 @@ Ceng::StringUtf8 CompoundStatement::ToString() const
 
 	if (list != nullptr)
 	{
-		list->ToString();
+		out += list->ToString();
 	}
 	else
 	{

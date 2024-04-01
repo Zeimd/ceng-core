@@ -29,11 +29,11 @@ Ceng::StringUtf8 CompoundStatementNoNewScope::ToString() const
 {
 	Ceng::StringUtf8 out;
 
-	out += "\n{\n";
+	out = "\n{\n";
 
 	if (list != nullptr)
 	{
-		list->ToString();
+		out += list->ToString();
 	}	
 	else
 	{
