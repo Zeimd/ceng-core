@@ -24,6 +24,9 @@ EqualityExpression::EqualityExpression(std::shared_ptr<EqualityExpression>& lhs,
 	case TokenType::ne_op:
 		operation = EqualityOp::not_equal;
 		break;
+	default:
+		operation = EqualityOp::invalid_value;
+		break;
 	}
 }
 
@@ -48,15 +51,21 @@ Ceng::StringUtf8 EqualityExpression::ToString() const
 	switch (operation)
 	{
 	case EqualityOp::equal:
-		out += '==';
+		out += "==";
 		break;
 	case EqualityOp::not_equal:
-		out += '!=';
+		out += "!=";
+		break;
+	case EqualityOp::invalid_value:
+		out += "<INVALID EQUALITY OP>";
+		break;
+	default:
+		out += "<UNHANDLED EQUALITY OP>";
 		break;
 	}
 
 	out += ' ';
-	out = rhs->ToString();
+	out += rhs->ToString();
 
 	return out;
 }

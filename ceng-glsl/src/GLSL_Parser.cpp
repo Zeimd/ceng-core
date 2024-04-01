@@ -5116,19 +5116,124 @@ ParserReturnValue GLSL_Parser::S_RelationalExpression(std::shared_ptr<Relational
 	return StateFuncSkeleton(__func__, temp);
 }
 
+class Handler_RelationalExpression_RelationalToken : public IStateHandler
+{
+public:
+	std::shared_ptr<RelationalExpression>& ex;
+	const Token& token;
+
+public:
+
+	Handler_RelationalExpression_RelationalToken(std::shared_ptr<RelationalExpression>& ex, const Token& token)
+		: ex(ex), token(token)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::shift_expression:
+		{
+			std::shared_ptr<ShiftExpression> shiftEx = std::static_pointer_cast<ShiftExpression>(nonTerminal);
+			retVal = parser->S_RelationalExpression_RelationalToken_ShiftEx(ex, token, shiftEx);
+		}
+		break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+		return { retVal, valid };
+	}
+
+};
+
 ParserReturnValue GLSL_Parser::S_RelationalExpression_RelationalToken(std::shared_ptr<RelationalExpression>& ex, const Token& token)
 {
-	log.Debug(__func__);
+	Handler_RelationalExpression_RelationalToken temp(ex, token);
 
-	return ParserReturnValue();
+	return StateFuncSkeleton(__func__, temp);
 }
+
+class Handler_RelationalExpression_RelationalToken_ShiftEx : public IStateHandler
+{
+public:
+	std::shared_ptr<RelationalExpression>& ex;
+	const Token& token;
+	std::shared_ptr<ShiftExpression>& shiftEx;
+
+public:
+
+	Handler_RelationalExpression_RelationalToken_ShiftEx(std::shared_ptr<RelationalExpression>& ex, const Token& token,
+		std::shared_ptr<ShiftExpression>& shiftEx)
+		: ex(ex), token(token), shiftEx(shiftEx)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (parser->PeekToken().type)
+		{
+		case TokenType::left_op:
+		case TokenType::right_op:
+			return { ParserReturnValue(),false };
+		}
+
+		return { ParserReturnValue(std::make_shared<RelationalExpression>(ex,token,shiftEx),3),true };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::left_op:
+		case TokenType::right_op:
+			return { parser->S_ShiftExpression_ShiftToken(shiftEx,next),true };
+		}
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return { ParserReturnValue(),false };
+	}
+
+};
+
 
 ParserReturnValue GLSL_Parser::S_RelationalExpression_RelationalToken_ShiftEx(std::shared_ptr<RelationalExpression>& relativeEx, const Token& token,
 	std::shared_ptr<ShiftExpression>& shiftEx)
 {
-	log.Debug(__func__);
+	Handler_RelationalExpression_RelationalToken_ShiftEx temp(relativeEx, token, shiftEx);
 
-	return ParserReturnValue();
+	return StateFuncSkeleton(__func__, temp);
 }
 
 class Handler_EqualityExpression : public IStateHandler
@@ -5195,19 +5300,123 @@ ParserReturnValue GLSL_Parser::S_EqualityExpression(std::shared_ptr<EqualityExpr
 	return StateFuncSkeleton(__func__, temp);
 }
 
+class Handler_EqualityExpression_EqualityToken : public IStateHandler
+{
+public:
+	std::shared_ptr<EqualityExpression>& ex;
+	const Token& token;
+
+public:
+
+	Handler_EqualityExpression_EqualityToken(std::shared_ptr<EqualityExpression>& ex, const Token& token)
+		: ex(ex), token(token)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::relational_expression:
+		{
+			std::shared_ptr<RelationalExpression> relEx = std::static_pointer_cast<RelationalExpression>(nonTerminal);
+			retVal = parser->S_EqualityExpression_EqualityToken_RelativeEx(ex, token, relEx);
+		}
+		break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+		return { retVal, valid };
+	}
+
+};
+
 ParserReturnValue GLSL_Parser::S_EqualityExpression_EqualityToken(std::shared_ptr<EqualityExpression>& ex, const Token& token)
 {
-	log.Debug(__func__);
+	Handler_EqualityExpression_EqualityToken temp(ex, token);
 
-	return ParserReturnValue();
+	return StateFuncSkeleton(__func__, temp);
 }
+
+class Handler_EqualityExpression_EqualityToken_RelativeEx : public IStateHandler
+{
+public:
+	std::shared_ptr<EqualityExpression>& ex;
+	const Token& token;
+	std::shared_ptr<RelationalExpression>& relEx;
+
+public:
+
+	Handler_EqualityExpression_EqualityToken_RelativeEx(std::shared_ptr<EqualityExpression>& ex, const Token& token,
+		std::shared_ptr<RelationalExpression>& relEx)
+		: ex(ex), token(token), relEx(relEx)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (parser->PeekToken().type)
+		{
+		case TokenType::left_op:
+		case TokenType::right_op:
+			return { ParserReturnValue(),false };
+		}
+
+		return { ParserReturnValue(std::make_shared<EqualityExpression>(ex,token,relEx),3),true };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::left_op:
+		case TokenType::right_op:
+			return { parser->S_RelationalExpression_RelationalToken(relEx,next),true };
+		}
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return { ParserReturnValue(),false };
+	}
+
+};
 
 ParserReturnValue GLSL_Parser::S_EqualityExpression_EqualityToken_RelativeEx(std::shared_ptr<EqualityExpression>& equalityEx, const Token& token,
 	std::shared_ptr<RelationalExpression>& relativeEx)
 {
-	log.Debug(__func__);
+	Handler_EqualityExpression_EqualityToken_RelativeEx temp(equalityEx, token, relativeEx);
 
-	return ParserReturnValue();
+	return StateFuncSkeleton(__func__, temp);
 }
 
 class Handler_AndExpression : public IStateHandler
