@@ -51,15 +51,18 @@ Ceng::StringUtf8 ShiftExpression::ToString() const
 	switch (operation)
 	{
 	case ShiftOp::left:
-		out += '<<';
+		out += "<<";
 		break;
 	case ShiftOp::right:
-		out += '>>';
+		out += ">>";
+		break;
+	default:
+		out += "<UNHANDLED SHIFT OPERATOR>";
 		break;
 	}
 
 	out += ' ';
-	out = rhs->ToString();
+	out += rhs->ToString();
 
 	return out;
 }
