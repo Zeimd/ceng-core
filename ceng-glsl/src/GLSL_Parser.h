@@ -564,16 +564,16 @@ namespace Ceng
 		// logical_or_expression
 		ParserReturnValue S_ConditionalExpression(std::shared_ptr<ConditionalExpression>& ex);
 
-		ParserReturnValue S_CondExpression_Question(std::shared_ptr<ConditionalExpression>& ex);
+		ParserReturnValue S_LogicalOrExpression_Question(std::shared_ptr<LogicalOrExpression>& logicalOrex);
 
-		ParserReturnValue S_CondExpression_Question_Expression(std::shared_ptr<ConditionalExpression>& condEx,
+		ParserReturnValue S_LogicalOrExpression_Question_Expression(std::shared_ptr<LogicalOrExpression>& logicalOrex,
 			std::shared_ptr<Expression>& expression);
 
-		ParserReturnValue S_CondExpression_Question_Expression_Colon(std::shared_ptr<ConditionalExpression>& condEx,
+		ParserReturnValue S_LogicalOrExpression_Question_Expression_Colon(std::shared_ptr<LogicalOrExpression>& logicalOrex,
 			std::shared_ptr<Expression>& expression);
 
 		// conditional_expression QUESTION expression COLON assignment_expression
-		ParserReturnValue S_CondExpression_Question_Expression_Colon_AssignEx(std::shared_ptr<ConditionalExpression>& condEx,
+		ParserReturnValue S_LogicalOrExpression_Question_Expression_Colon_AssignEx(std::shared_ptr<LogicalOrExpression>& logicalOrex,
 			std::shared_ptr<Expression>& expression, std::shared_ptr<AssignmentExpression>& assignEx);
 
 		// conditional_expression

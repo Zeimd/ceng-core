@@ -6339,6 +6339,7 @@ public:
 
 		switch (parser->PeekToken().type)
 		{
+		case TokenType::question:
 		case TokenType::or_op:
 			return { ParserReturnValue(),false };
 			break;
@@ -6351,20 +6352,16 @@ public:
 	{
 		parser->log.Debug(__FUNCTION__);
 
-		ParserReturnValue retVal;
-		bool valid = true;
-
 		switch (next.type)
 		{
+		case TokenType::question:
+			return { parser->S_LogicalOrExpression_Question(ex),true };
 		case TokenType::or_op:
-			retVal = parser->S_LogicalOrExpression_OrOp(ex);
-			break;
-		default:
-			valid = false;
+			return { parser->S_LogicalOrExpression_OrOp(ex), true };
 			break;
 		}
 
-		return { retVal, valid };
+		return { ParserReturnValue(), false };
 	}
 
 	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
@@ -6499,14 +6496,14 @@ ParserReturnValue GLSL_Parser::S_LogicalOrExpression_OrOp_LogicalXorEx(std::shar
 	return StateFuncSkeleton(__func__, temp);
 }
 
-class Handler_ConditionalExpression : public IStateHandler
+class Handler_LogicalOrExpression_Question : public IStateHandler
 {
 public:
-	std::shared_ptr<ConditionalExpression>& ex;
+	std::shared_ptr<LogicalOrExpression>& ex;
 
 public:
 
-	Handler_ConditionalExpression(std::shared_ptr<ConditionalExpression>& ex)
+	Handler_LogicalOrExpression_Question(std::shared_ptr<LogicalOrExpression>& ex)
 		: ex(ex)
 	{
 
@@ -6516,34 +6513,80 @@ public:
 	{
 		parser->log.Debug(__FUNCTION__);
 
-		switch (parser->PeekToken().type)
-		{
-		case TokenType::question:
-			return { ParserReturnValue(),false };
-			break;
-		default:
-			return { ParserReturnValue(std::make_shared<AssignmentExpression>(ex),1),true };
-		}
+		return { ParserReturnValue(),false };
 	}
 
 	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
 	{
 		parser->log.Debug(__FUNCTION__);
 
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
 		ParserReturnValue retVal;
 		bool valid = true;
 
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::expression:
+		{
+			std::shared_ptr<Expression> temp = std::static_pointer_cast<Expression>(nonTerminal);
+			retVal = parser->S_LogicalOrExpression_Question_Expression(ex, temp);
+		}
+		break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+		return { retVal, valid };
+	}
+
+};
+
+
+ParserReturnValue GLSL_Parser::S_LogicalOrExpression_Question(std::shared_ptr<LogicalOrExpression>& logicalOrex)
+{
+	Handler_LogicalOrExpression_Question temp(logicalOrex);
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+class Handler_LogicalOrExpression_Question_Expression : public IStateHandler
+{
+public:
+	std::shared_ptr<LogicalOrExpression>& logicalOrEx;
+	std::shared_ptr<Expression>& expression;
+
+public:
+
+	Handler_LogicalOrExpression_Question_Expression(std::shared_ptr<LogicalOrExpression>& logicalOrEx,
+		std::shared_ptr<Expression>& expression)
+		: logicalOrEx(logicalOrEx), expression(expression)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
 		switch (next.type)
 		{
-		case TokenType::question:
-			retVal = parser->S_CondExpression_Question(ex);
-			break;
-		default:
-			valid = false;
-			break;
+		case TokenType::colon:
+			return { parser->S_LogicalOrExpression_Question_Expression_Colon(logicalOrEx,expression),true };
 		}
 
-		return { retVal, valid };
+		return { ParserReturnValue(),false };
 	}
 
 	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
@@ -6555,42 +6598,91 @@ public:
 
 };
 
-ParserReturnValue GLSL_Parser::S_ConditionalExpression(std::shared_ptr<ConditionalExpression>& ex)
+
+ParserReturnValue GLSL_Parser::S_LogicalOrExpression_Question_Expression(std::shared_ptr<LogicalOrExpression>& logicalOrex,
+	std::shared_ptr<Expression>& expression)
 {
-	Handler_ConditionalExpression temp(ex);
+	Handler_LogicalOrExpression_Question_Expression temp(logicalOrex,expression);
 
 	return StateFuncSkeleton(__func__, temp);
 }
 
-ParserReturnValue GLSL_Parser::S_CondExpression_Question(std::shared_ptr<ConditionalExpression>& ex)
+class Handler_LogicalOrExpression_Question_Expression_Colon : public IStateHandler
 {
-	log.Debug(__func__);
+public:
+	std::shared_ptr<LogicalOrExpression>& logicalOrEx;
+	std::shared_ptr<Expression>& expression;
 
-	return ParserReturnValue();
-}
+public:
 
-ParserReturnValue GLSL_Parser::S_CondExpression_Question_Expression(std::shared_ptr<ConditionalExpression>& condEx,
+	Handler_LogicalOrExpression_Question_Expression_Colon(std::shared_ptr<LogicalOrExpression>& logicalOrEx,
+		std::shared_ptr<Expression>& expression)
+		: logicalOrEx(logicalOrEx), expression(expression)
+	{
+
+	}
+
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::assignment_expression:
+		{
+			std::shared_ptr<AssignmentExpression> temp = std::static_pointer_cast<AssignmentExpression>(nonTerminal);
+			retVal = parser->S_LogicalOrExpression_Question_Expression_Colon_AssignEx(logicalOrEx, expression, temp);
+		}
+		break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+		return { retVal, valid };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_LogicalOrExpression_Question_Expression_Colon(std::shared_ptr<LogicalOrExpression>& logicalOrex,
 	std::shared_ptr<Expression>& expression)
 {
-	log.Debug(__func__);
+	Handler_LogicalOrExpression_Question_Expression_Colon temp(logicalOrex, expression);
 
-	return ParserReturnValue();
+	return StateFuncSkeleton(__func__, temp);
 }
 
-ParserReturnValue GLSL_Parser::S_CondExpression_Question_Expression_Colon(std::shared_ptr<ConditionalExpression>& condEx,
-	std::shared_ptr<Expression>& expression)
-{
-	log.Debug(__func__);
-
-	return ParserReturnValue();
-}
-
-ParserReturnValue GLSL_Parser::S_CondExpression_Question_Expression_Colon_AssignEx(std::shared_ptr<ConditionalExpression>& condEx,
+// conditional_expression QUESTION expression COLON assignment_expression
+ParserReturnValue GLSL_Parser::S_LogicalOrExpression_Question_Expression_Colon_AssignEx(std::shared_ptr<LogicalOrExpression>& logicalOrex,
 	std::shared_ptr<Expression>& expression, std::shared_ptr<AssignmentExpression>& assignEx)
 {
 	log.Debug(__func__);
 
-	return ParserReturnValue();
+	return { std::make_shared<ConditionalExpression>(logicalOrex,expression,assignEx),5 };
+}
+
+ParserReturnValue GLSL_Parser::S_ConditionalExpression(std::shared_ptr<ConditionalExpression>& ex)
+{
+	log.Debug(__func__);
+
+	return { std::make_shared<AssignmentExpression>(ex),1 };
+
 }
 
 ParserReturnValue GLSL_Parser::S_AssignmentExpression(std::shared_ptr<AssignmentExpression>& ex)
