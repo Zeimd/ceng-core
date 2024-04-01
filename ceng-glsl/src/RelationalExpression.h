@@ -19,6 +19,7 @@ namespace Ceng
 			less_or_equal,
 			greater_or_equal,
 			unassigned,
+			invalid_value,
 		};
 	}
 

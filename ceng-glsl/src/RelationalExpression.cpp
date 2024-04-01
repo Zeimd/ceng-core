@@ -30,6 +30,9 @@ RelationalExpression::RelationalExpression(std::shared_ptr<RelationalExpression>
 	case TokenType::ge_op:
 		operation = RelativeOp::greater_or_equal;
 		break;
+	default:
+		operation = RelativeOp::invalid_value;
+		break;
 	}
 }
 
@@ -60,15 +63,17 @@ Ceng::StringUtf8 RelationalExpression::ToString() const
 		out += '>';
 		break;
 	case RelativeOp::less_or_equal:
-		out += '<=';
+		out += "<=";
 		break;
 	case RelativeOp::greater_or_equal:
-		out += '>=';
+		out += ">=";
 		break;
+	default:
+		out += "<UNHANDLED RELATIVE OPERATOR>";
 	}
 
 	out += ' ';
-	out = rhs->ToString();
+	out += rhs->ToString();
 
 	return out;
 }
