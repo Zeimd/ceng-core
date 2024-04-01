@@ -5485,19 +5485,122 @@ ParserReturnValue GLSL_Parser::S_AndExpression(std::shared_ptr<AndExpression>& e
 	return StateFuncSkeleton(__func__, temp);
 }
 
+class Handler_AndExpression_Ampersand : public IStateHandler
+{
+public:
+	std::shared_ptr<AndExpression>& ex;
+
+public:
+
+	Handler_AndExpression_Ampersand(std::shared_ptr<AndExpression>& ex)
+		: ex(ex)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::equality_expression:
+		{
+			std::shared_ptr<EqualityExpression> relEx = std::static_pointer_cast<EqualityExpression>(nonTerminal);
+			retVal = parser->S_AndExpression_Ampersand_RelativeEx(ex,relEx);
+		}
+		break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+		return { retVal, valid };
+	}
+
+};
+
 ParserReturnValue GLSL_Parser::S_AndExpression_Ampersand(std::shared_ptr<AndExpression>& ex)
 {
-	log.Debug(__func__);
+	Handler_AndExpression_Ampersand temp(ex);
 
-	return ParserReturnValue();
+	return StateFuncSkeleton(__func__, temp);
 }
+
+class Handler_AndExpression_Ampersand_RelativeEx : public IStateHandler
+{
+public:
+	std::shared_ptr<AndExpression>& ex;
+	std::shared_ptr<EqualityExpression>& eqEx;
+
+public:
+
+	Handler_AndExpression_Ampersand_RelativeEx(std::shared_ptr<AndExpression>& ex,
+		std::shared_ptr<EqualityExpression>& eqEx)
+		: ex(ex), eqEx(eqEx)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (parser->PeekToken().type)
+		{
+		case TokenType::eq_op:
+		case TokenType::ne_op:
+			return { ParserReturnValue(),false };
+		}
+
+		return { ParserReturnValue(std::make_shared<AndExpression>(ex,eqEx),3),true };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::eq_op:
+		case TokenType::ne_op:
+
+			return { parser->S_EqualityExpression_EqualityToken(eqEx,next),true };
+		}
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return { ParserReturnValue(),false };
+	}
+
+};
 
 ParserReturnValue GLSL_Parser::S_AndExpression_Ampersand_RelativeEx(std::shared_ptr<AndExpression>& andEx,
 	std::shared_ptr<EqualityExpression>& equalityEx)
 {
-	log.Debug(__func__);
+	Handler_AndExpression_Ampersand_RelativeEx temp(andEx,equalityEx);
 
-	return ParserReturnValue();
+	return StateFuncSkeleton(__func__, temp);
 }
 
 class Handler_XorExpression : public IStateHandler
