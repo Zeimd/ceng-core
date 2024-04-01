@@ -60,6 +60,12 @@ HandlerReturn IStateHandler::DefaultExpressionShift(GLSL_Parser* parser, const T
 		case TokenType::dec_op:
 			retVal = parser->S_DecOP();
 			break;
+		case TokenType::bang:
+		case TokenType::plus:
+		case TokenType::dash:
+		case TokenType::tilde:
+			retVal = parser->S_UnaryOperatorToken(next);
+			break;
 		default:
 			valid = false;
 			break;
@@ -156,6 +162,12 @@ HandlerReturn IStateHandler::DefaultExpressionGoto(GLSL_Parser* parser, std::sha
 		{
 			std::shared_ptr<PostfixExpression> temp = std::static_pointer_cast<PostfixExpression>(nonTerminal);
 			retVal = parser->S_PostfixExpression(temp);
+		}
+		break;
+	case NonTerminalType::unary_operator:
+		{
+			std::shared_ptr<UnaryOperator> temp = std::static_pointer_cast<UnaryOperator>(nonTerminal);
+			retVal = parser->S_UnaryOperator(temp);
 		}
 		break;
 	case NonTerminalType::unary_expression:

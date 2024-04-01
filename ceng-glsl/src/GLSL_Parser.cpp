@@ -4440,6 +4440,70 @@ ParserReturnValue GLSL_Parser::S_DecOP_UnaryExpression(std::shared_ptr<UnaryExpr
 	return { std::make_shared<UnaryExpression>(ex,PrefixOperator::dec_op),2 };
 }
 
+ParserReturnValue GLSL_Parser::S_UnaryOperatorToken(const Token& token)
+{
+	log.Debug(__func__);
+
+	return { std::make_shared<UnaryOperator>(token),1 };
+}
+
+class Handler_UnaryOperator : public IStateHandler
+{
+public:
+
+	std::shared_ptr<UnaryOperator>& op;
+
+public:
+
+	Handler_UnaryOperator(std::shared_ptr<UnaryOperator>& op)
+		: op(op)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::unary_expression:
+		{
+			std::shared_ptr<UnaryExpression> unaryEx = std::static_pointer_cast<UnaryExpression>(nonTerminal);
+			retVal = parser->S_UnaryOperator_UnaryExpression(op, unaryEx);
+		}
+		break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+		return { retVal, valid };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_UnaryOperator(std::shared_ptr<UnaryOperator>& op)
+{
+	Handler_UnaryOperator temp(op);
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
 // unary_operator unary_expression
 ParserReturnValue GLSL_Parser::S_UnaryOperator_UnaryExpression(std::shared_ptr<UnaryOperator>& op, std::shared_ptr<UnaryExpression>& ex)
 {

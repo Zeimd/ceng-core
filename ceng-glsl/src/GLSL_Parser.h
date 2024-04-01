@@ -454,6 +454,11 @@ namespace Ceng
 		// DEC_OP unary_expression
 		ParserReturnValue S_DecOP_UnaryExpression(std::shared_ptr<UnaryExpression>& ex);
 
+		ParserReturnValue S_UnaryOperatorToken(const Token& token);
+
+		// unary_operator 
+		ParserReturnValue S_UnaryOperator(std::shared_ptr<UnaryOperator>& op);
+
 		// unary_operator unary_expression
 		ParserReturnValue S_UnaryOperator_UnaryExpression(std::shared_ptr<UnaryOperator>& op, std::shared_ptr<UnaryExpression>& ex);
 
