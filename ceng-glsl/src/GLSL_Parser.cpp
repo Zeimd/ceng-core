@@ -4928,20 +4928,123 @@ ParserReturnValue GLSL_Parser::S_ShiftExpression(std::shared_ptr<ShiftExpression
 	return StateFuncSkeleton(__func__, temp);
 }
 
+class Handler_ShiftExpression_ShiftToken : public IStateHandler
+{
+public:
+	std::shared_ptr<ShiftExpression>& ex;
+	const Token& token;
+
+public:
+
+	Handler_ShiftExpression_ShiftToken(std::shared_ptr<ShiftExpression>& ex, const Token& token)
+		: ex(ex), token(token)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::additive_expression:
+		{
+			std::shared_ptr<AdditiveExpression> addEx = std::static_pointer_cast<AdditiveExpression>(nonTerminal);
+			retVal = parser->S_ShiftExpression_ShiftToken_AdditiveEx(ex, token, addEx);
+		}
+		break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+		return { retVal, valid };
+	}
+
+};
+
 ParserReturnValue GLSL_Parser::S_ShiftExpression_ShiftToken(std::shared_ptr<ShiftExpression>& ex, const Token& token)
 {
-	log.Debug(__func__);
+	Handler_ShiftExpression_ShiftToken temp(ex,token);
 
-	return ParserReturnValue();
+	return StateFuncSkeleton(__func__, temp);
 }
 
+class Handler_ShiftExpression_ShiftToken_AdditiveEx : public IStateHandler
+{
+public:
+	std::shared_ptr<ShiftExpression>& ex;
+	const Token& token;
+	std::shared_ptr<AdditiveExpression>& addEx;
+
+public:
+
+	Handler_ShiftExpression_ShiftToken_AdditiveEx(std::shared_ptr<ShiftExpression>& ex, const Token& token,
+		std::shared_ptr<AdditiveExpression>& addEx)
+		: ex(ex), token(token), addEx(addEx)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (parser->PeekToken().type)
+		{
+		case TokenType::plus:
+		case TokenType::dash:
+			return { ParserReturnValue(),false };
+		}
+
+		return { ParserReturnValue(std::make_shared<ShiftExpression>(ex,token,addEx),3),true };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::plus:
+		case TokenType::dash:
+			return { parser->S_AdditiveExpression_AddToken(addEx,next),true };
+		}
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return { ParserReturnValue(),false };
+	}
+
+};
 
 ParserReturnValue GLSL_Parser::S_ShiftExpression_ShiftToken_AdditiveEx(std::shared_ptr<ShiftExpression>& shiftEx, const Token& token,
 	std::shared_ptr<AdditiveExpression>& addEx)
 {
-	log.Debug(__func__);
+	Handler_ShiftExpression_ShiftToken_AdditiveEx temp(shiftEx, token, addEx);
 
-	return ParserReturnValue();
+	return StateFuncSkeleton(__func__, temp);
 }
 
 class Handler_RelationalExpression : public IStateHandler
