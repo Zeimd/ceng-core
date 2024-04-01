@@ -5666,19 +5666,120 @@ ParserReturnValue GLSL_Parser::S_XorExpression(std::shared_ptr<XorExpression>& e
 	return StateFuncSkeleton(__func__, temp);
 }
 
+class Handler_XorExpression_Caret : public IStateHandler
+{
+public:
+	std::shared_ptr<XorExpression>& ex;
+
+public:
+
+	Handler_XorExpression_Caret(std::shared_ptr<XorExpression>& ex)
+		: ex(ex)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::and_expression:
+		{
+			std::shared_ptr<AndExpression> relEx = std::static_pointer_cast<AndExpression>(nonTerminal);
+			retVal = parser->S_XorExpression_Caret_AndEx(ex, relEx);
+		}
+		break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+		return { retVal, valid };
+	}
+
+};
+
+
 ParserReturnValue GLSL_Parser::S_XorExpression_Caret(std::shared_ptr<XorExpression>& ex)
 {
-	log.Debug(__func__);
+	Handler_XorExpression_Caret temp(ex);
 
-	return ParserReturnValue();
+	return StateFuncSkeleton(__func__, temp);
 }
+
+class Handler_XorExpression_Caret_AndEx : public IStateHandler
+{
+public:
+	std::shared_ptr<XorExpression>& ex;
+	std::shared_ptr<AndExpression>& andEx;
+
+public:
+
+	Handler_XorExpression_Caret_AndEx(std::shared_ptr<XorExpression>& ex,
+		std::shared_ptr<AndExpression>& andEx)
+		: ex(ex), andEx(andEx)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (parser->PeekToken().type)
+		{
+		case TokenType::ampersand:
+			return { ParserReturnValue(),false };
+		}
+
+		return { ParserReturnValue(std::make_shared<XorExpression>(ex,andEx),3),true };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::ampersand:
+			return { parser->S_AndExpression_Ampersand(andEx),true };
+		}
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return { ParserReturnValue(),false };
+	}
+
+};
 
 ParserReturnValue GLSL_Parser::S_XorExpression_Caret_AndEx(std::shared_ptr<XorExpression>& xorEx,
 	std::shared_ptr<AndExpression>& andEx)
 {
-	log.Debug(__func__);
+	Handler_XorExpression_Caret_AndEx temp(xorEx,andEx);
 
-	return ParserReturnValue();
+	return StateFuncSkeleton(__func__, temp);
 }
 
 class Handler_OrExpression : public IStateHandler
