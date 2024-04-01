@@ -5380,8 +5380,10 @@ public:
 
 		switch (parser->PeekToken().type)
 		{
-		case TokenType::left_op:
-		case TokenType::right_op:
+		case TokenType::left_angle:
+		case TokenType::right_angle:
+		case TokenType::le_op:
+		case TokenType::ge_op:
 			return { ParserReturnValue(),false };
 		}
 
@@ -5394,8 +5396,10 @@ public:
 
 		switch (next.type)
 		{
-		case TokenType::left_op:
-		case TokenType::right_op:
+		case TokenType::left_angle:
+		case TokenType::right_angle:
+		case TokenType::le_op:
+		case TokenType::ge_op:
 			return { parser->S_RelationalExpression_RelationalToken(relEx,next),true };
 		}
 
