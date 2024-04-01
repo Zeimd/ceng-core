@@ -56,6 +56,7 @@
     <ClInclude Include="..\..\ceng-glsl\src\FunctionCallHeader.h" />
     <ClInclude Include="..\..\ceng-glsl\src\FunctionCallOrMethod.h" />
     <ClInclude Include="..\..\ceng-glsl\src\FunctionDeclarator.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\FunctionDefinition.h" />
     <ClInclude Include="..\..\ceng-glsl\src\FunctionHeader.h" />
     <ClInclude Include="..\..\ceng-glsl\src\FunctionHeaderWithParams.h" />
     <ClInclude Include="..\..\ceng-glsl\src\FunctionIdentifier.h" />
@@ -142,6 +143,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\FunctionCallHeader.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\FunctionCallOrMethod.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\FunctionDeclarator.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\FunctionDefinition.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\FunctionHeader.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\FunctionHeaderWithParams.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\FunctionIdentifier.cpp" />
