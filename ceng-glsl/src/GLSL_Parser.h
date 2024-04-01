@@ -549,7 +549,7 @@ namespace Ceng
 		ParserReturnValue S_LogicalXorExpression_XorOp(std::shared_ptr<LogicalXorExpression>& ex);
 
 		// logical_xor_expression XOR_OP logical_and_expression
-		ParserReturnValue S_LogicalXorExpression_XorOp_OrEx(std::shared_ptr<LogicalXorExpression>& logicXorEx,
+		ParserReturnValue S_LogicalXorExpression_XorOp_LogicalAndEx(std::shared_ptr<LogicalXorExpression>& logicXorEx,
 			std::shared_ptr<LogicalAndExpression>& logicAndEx);
 
 		// logical_xor_expression
@@ -558,7 +558,7 @@ namespace Ceng
 		ParserReturnValue S_LogicalOrExpression_OrOp(std::shared_ptr<LogicalOrExpression>& ex);
 
 		// logical_or_expression OR_OP logical_xor_expression
-		ParserReturnValue S_LogicalOrExpression_OrOp_OrEx(std::shared_ptr<LogicalOrExpression>& logicOrEx,
+		ParserReturnValue S_LogicalOrExpression_OrOp_LogicalXorEx(std::shared_ptr<LogicalOrExpression>& logicOrEx,
 			std::shared_ptr<LogicalXorExpression>& logicXorEx);
 
 		// logical_or_expression

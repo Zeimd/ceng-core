@@ -6204,19 +6204,120 @@ ParserReturnValue GLSL_Parser::S_LogicalXorExpression(std::shared_ptr<LogicalXor
 	return StateFuncSkeleton(__func__, temp);
 }
 
+class Handler_LogicalXorExpression_XorOp : public IStateHandler
+{
+public:
+	std::shared_ptr<LogicalXorExpression>& ex;
+
+public:
+
+	Handler_LogicalXorExpression_XorOp(std::shared_ptr<LogicalXorExpression>& ex)
+		: ex(ex)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::logical_and_expression:
+		{
+			std::shared_ptr<LogicalAndExpression> xorEx = std::static_pointer_cast<LogicalAndExpression>(nonTerminal);
+			retVal = parser->S_LogicalXorExpression_XorOp_LogicalAndEx(ex, xorEx);
+		}
+		break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+		return { retVal, valid };
+	}
+
+};
+
 ParserReturnValue GLSL_Parser::S_LogicalXorExpression_XorOp(std::shared_ptr<LogicalXorExpression>& ex)
 {
-	log.Debug(__func__);
+	Handler_LogicalXorExpression_XorOp temp(ex);
 
-	return ParserReturnValue();
+	return StateFuncSkeleton(__func__, temp);
 }
 
-ParserReturnValue GLSL_Parser::S_LogicalXorExpression_XorOp_OrEx(std::shared_ptr<LogicalXorExpression>& logicXorEx,
+class Handler_LogicalXorExpression_XorOp_LogicalAndEx : public IStateHandler
+{
+public:
+	std::shared_ptr<LogicalXorExpression>& ex;
+	std::shared_ptr<LogicalAndExpression>& andEx;
+
+public:
+
+	Handler_LogicalXorExpression_XorOp_LogicalAndEx(std::shared_ptr<LogicalXorExpression>& ex,
+		std::shared_ptr<LogicalAndExpression>& andEx)
+		: ex(ex), andEx(andEx)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (parser->PeekToken().type)
+		{
+		case TokenType::and_op:
+			return { ParserReturnValue(),false };
+		}
+
+		return { ParserReturnValue(std::make_shared<LogicalXorExpression>(ex,andEx),3),true };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::and_op:
+			return { parser->S_LogicalAndExpression_AndOp(andEx),true };
+		}
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return { ParserReturnValue(),false };
+	}
+
+};
+
+
+ParserReturnValue GLSL_Parser::S_LogicalXorExpression_XorOp_LogicalAndEx(std::shared_ptr<LogicalXorExpression>& logicXorEx,
 	std::shared_ptr<LogicalAndExpression>& logicAndEx)
 {
-	log.Debug(__func__);
+	Handler_LogicalXorExpression_XorOp_LogicalAndEx temp(logicXorEx,logicAndEx);
 
-	return ParserReturnValue();
+	return StateFuncSkeleton(__func__, temp);
 }
 
 class Handler_LogicalOrExpression : public IStateHandler
@@ -6289,7 +6390,7 @@ ParserReturnValue GLSL_Parser::S_LogicalOrExpression_OrOp(std::shared_ptr<Logica
 	return ParserReturnValue();
 }
 
-ParserReturnValue GLSL_Parser::S_LogicalOrExpression_OrOp_OrEx(std::shared_ptr<LogicalOrExpression>& logicOrEx,
+ParserReturnValue GLSL_Parser::S_LogicalOrExpression_OrOp_LogicalXorEx(std::shared_ptr<LogicalOrExpression>& logicOrEx,
 	std::shared_ptr<LogicalXorExpression>& logicXorEx)
 {
 	log.Debug(__func__);
