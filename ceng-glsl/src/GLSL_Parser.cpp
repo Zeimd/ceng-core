@@ -4038,20 +4038,13 @@ public:
 	{
 		parser->log.Debug(__FUNCTION__);
 
-		ParserReturnValue retVal;
-		bool valid = true;
-
 		switch (next.type)
 		{
 		case TokenType::identifier:
-			retVal = parser->S_PostfixExpression_Dot_IdToken(ex, next);
-			break;
-		default:
-			valid = false;
-			break;
+			return { parser->S_PostfixExpression_Dot_IdToken(ex, next), true };
 		}
 
-		return { retVal, valid };
+		return { ParserReturnValue(), false };
 	}
 
 	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
@@ -4062,18 +4055,17 @@ public:
 
 		switch (nonTerminal->type)
 		{
-		case NonTerminalType::function_identifier:
+		case NonTerminalType::function_call_generic:
 			{
-				std::shared_ptr<FunctionIdentifier> temp = std::static_pointer_cast<FunctionIdentifier>(nonTerminal);
-				retVal = parser->S_FunctionIdentifier(temp);
+				std::shared_ptr<FunctionCallGeneric> temp = std::static_pointer_cast<FunctionCallGeneric>(nonTerminal);
+				retVal = parser->S_PostfixExpression_Dot_FunctionCallGeneric(ex, temp);
 			}
 			break;
 		default:
-			valid = false;
-			break;
+			return DefaultExpressionGoto(parser, nonTerminal);
 		}
 
-		return { ParserReturnValue(),false };
+		return { retVal,valid };
 	}
 
 };
@@ -4116,7 +4108,7 @@ public:
 		case TokenType::left_paren:
 			return { ParserReturnValue(std::make_shared<FunctionIdentifier>(token.name),1), true };
 		default:
-			return { ParserReturnValue(),false };
+			return { ParserReturnValue(std::make_shared<PostfixExpression>(ex,token.name),3), true };
 		}
 	}
 
@@ -4130,16 +4122,16 @@ public:
 	{
 		parser->log.Debug(__FUNCTION__);
 
-		return { ParserReturnValue(),false };
+		return { ParserReturnValue(), false };
 	}
 
 };
 
 ParserReturnValue GLSL_Parser::S_PostfixExpression_Dot_IdToken(std::shared_ptr<PostfixExpression>& ex, const Token& token)
 {
-	log.Debug(__func__);
+	Handler_PostfixExpression_Dot_IdToken temp(ex, token);
 
-	return { std::make_shared<PostfixExpression>(ex,token.name),3 };
+	return StateFuncSkeleton(__func__, temp);	
 }
 
 ParserReturnValue GLSL_Parser::S_PostfixExpression_LBracket(std::shared_ptr<PostfixExpression>& ex)
@@ -5686,20 +5678,13 @@ public:
 	{
 		parser->log.Debug(__FUNCTION__);
 
-		ParserReturnValue retVal;
-		bool valid = true;
-
 		switch (next.type)
 		{
 		case TokenType::left_paren:
-			retVal = parser->S_FunctionIdentifier_Lparen(funcId);
-			break;
-		default:
-			valid = false;
-			break;
+			return { parser->S_FunctionIdentifier_Lparen(funcId), true };
 		}
 
-		return { retVal, valid };
+		return { ParserReturnValue(), false };
 	}
 
 	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
@@ -5743,40 +5728,27 @@ public:
 	{
 		parser->log.Debug(__FUNCTION__);
 
-		ParserReturnValue retVal;
-		bool valid = true;
-
 		switch (parser->PeekToken().type)
 		{
 		case TokenType::right_paren:
-			retVal = { std::make_shared<FuncCallHeaderNoParams>(funcHeader),1 };
-			break;
-		default:
-			valid = false;
-			break;
+			return { ParserReturnValue(std::make_shared<FuncCallHeaderNoParams>(funcHeader),1), true };
 		}
 
-		return { retVal,valid };
+		return { ParserReturnValue(),false };
 	}
 
 	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
 	{
 		parser->log.Debug(__FUNCTION__);
 
-		ParserReturnValue retVal;
-		bool valid = true;
-
 		switch (next.type)
 		{
 		case TokenType::keyword_void:
-			retVal = parser->S_FunctionCallHeader_VoidToken(funcHeader);
-			break;
+			return { parser->S_FunctionCallHeader_VoidToken(funcHeader), true };
 		default:
 			return DefaultExpressionShift(parser, next);
 			break;
 		}
-
-		return { retVal, valid };
 	}
 
 	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
