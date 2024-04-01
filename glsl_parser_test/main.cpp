@@ -85,9 +85,22 @@ int main()
 	cresult = tokenizer.RemoveComments(tokens, tokens);
 
 	printf("Tokenized output:\n");
+	printf("--------------------------------------\n");
+	printf("Clean:\n");
 	for (auto& x : tokens)
 	{
-		//printf("%s ", x.ToString().ToCString());
+		printf("%s ", x.ToString().ToCString());
+		if (x.endLine)
+		{
+			printf("\n");
+		}
+	}
+	
+	printf("--------------------------------------\n");
+	printf("Diagnostic:\n");
+	for (auto& x : tokens)
+	{
+		
 		printf("%s ", x.ToDiagnosticString().ToCString());
 		if (x.endLine)
 		{

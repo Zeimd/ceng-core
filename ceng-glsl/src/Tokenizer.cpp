@@ -57,6 +57,7 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 	 
 	TokenType::value prevToken = TokenType::meta_uninitialized;;
 	TokenType::value currentToken = TokenType::meta_uninitialized;;
+	TokenType::value nextToken = TokenType::meta_uninitialized;;
 
 	for (auto iter = source.ConstBeginIterator(); iter != source.ConstEndIterator(); iter++)
 	{
@@ -77,9 +78,13 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 
 		++position;
 
+		auto nextIter = iter + 1;
+
 		char currentChar;
+		char nextChar;
 		
 		(*iter).ToChar(&currentChar);
+		(*nextIter).ToChar(&nextChar);
 
 		//printf("DEBUG: currentChar = %c\n", currentChar);
 
@@ -123,7 +128,12 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 		case '!':
 			flushSection = true;
 			currentIsOperator = true;
-			trailingOperator = true;
+
+			if (nextChar == '=')
+			{
+				trailingOperator = true;
+			}
+			
 			currentToken = TokenType::bang;
 			break;
 		case '&':
@@ -134,7 +144,12 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 				currentToken = TokenType::and_op;
 				break;
 			}
-			trailingOperator = true;
+
+			if (nextChar == '&' || nextChar == '=')
+			{
+				trailingOperator = true;
+			}
+			
 			flushSection = true;
 			
 			currentToken = TokenType::ampersand;
@@ -147,7 +162,12 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 				currentToken = TokenType::or_op;
 				break;
 			}
-			trailingOperator = true;
+
+			if (nextChar == '|' || nextChar == '=')
+			{
+				trailingOperator = true;
+			}
+			
 			flushSection = true;			
 			currentToken = TokenType::vertical_bar;
 			break;
@@ -159,7 +179,12 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 				currentToken = TokenType::xor_op;
 				break;
 			}
-			trailingOperator = true;
+
+			if (nextChar == '^' || nextChar == '=')
+			{
+				trailingOperator = true;
+			}
+			
 			flushSection = true;
 			currentToken = TokenType::caret;
 			break;
@@ -171,7 +196,12 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 				currentToken = TokenType::preprocess_comment_start;
 				break;
 			}
-			trailingOperator = true;
+
+			if (nextChar == '/' || nextChar == '=')
+			{
+				trailingOperator = true;
+			}
+			
 			flushSection = true;			
 			currentToken = TokenType::star;
 			break;
@@ -188,7 +218,12 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 				currentToken = TokenType::preprocess_comment_end;
 				break;
 			}
-			trailingOperator = true;
+
+			if (nextChar == '*' || nextChar == '=' || nextChar == '/')
+			{
+				trailingOperator = true;
+			}
+
 			flushSection = true;			
 			currentToken = TokenType::slash;
 			break;
@@ -205,7 +240,12 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 				currentToken = TokenType::dec_op;
 				break;
 			}
-			trailingOperator = true;
+
+			if (nextChar == '-' || nextChar == '=')
+			{
+				trailingOperator = true;
+			}
+			
 			flushSection = true;			
 			currentToken = TokenType::dash;
 			break;
@@ -217,13 +257,23 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 				currentToken = TokenType::inc_op;
 				break;
 			}
-			trailingOperator = true;
+
+			if (nextChar == '+' || nextChar == '=')
+			{
+				trailingOperator = true;
+			}
+
 			flushSection = true;			
 			currentToken = TokenType::plus;
 			break;
 		case '%':
 			currentIsOperator = true;
-			trailingOperator = true;
+
+			if (nextChar == '=')
+			{
+				trailingOperator = true;
+			}
+			
 			flushSection = true;			
 			currentToken = TokenType::percent;
 			break;
@@ -252,7 +302,12 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 				currentToken = TokenType::left_op;
 				break;
 			}
-			trailingOperator = true;
+
+			if (nextChar == '<' || nextChar == '=')
+			{
+				trailingOperator = true;
+			}
+			
 			flushSection = true;			
 			currentToken = TokenType::left_angle;
 			break;
@@ -264,7 +319,12 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 				currentToken = TokenType::right_op;
 				break;
 			}
-			trailingOperator = true;
+
+			if (nextChar == '>' || nextChar == '=')
+			{
+				trailingOperator = true;
+			}
+			
 			flushSection = true;			
 			currentToken = TokenType::right_angle;
 			break;
@@ -316,7 +376,12 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 				currentToken = TokenType::ne_op;
 				break;
 			default:
-				trailingOperator = true;
+
+				if (nextChar == '=')
+				{
+					trailingOperator = true;
+				}
+				
 				flushSection = true;				
 				currentToken = TokenType::equal;
 				break;
