@@ -6842,6 +6842,12 @@ ParserReturnValue GLSL_Parser::S_Expression_Semicolon(std::shared_ptr<Expression
 	return { std::make_shared<ExpressionStatement>(ex), 2 };
 }
 
+ParserReturnValue GLSL_Parser::S_Semicolon()
+{
+	log.Debug(__func__);
+
+	return { std::make_shared<ExpressionStatement>(), 1 };
+}
 
 class Handler_FunctionIdentifier : public IStateHandler
 {

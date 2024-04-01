@@ -13,6 +13,12 @@ void ExpressionStatement::Release()
 	delete this;
 }
 
+ExpressionStatement::ExpressionStatement()
+	: INonTerminal(NonTerminalType::expression_statement), ex(nullptr)
+{
+
+}
+
 ExpressionStatement::ExpressionStatement(std::shared_ptr<Expression>& ex)
 	: INonTerminal(NonTerminalType::expression_statement),ex(ex)
 {

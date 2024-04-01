@@ -19,6 +19,8 @@ namespace Ceng
 
 		void Release() override;
 
+		ExpressionStatement();
+
 		ExpressionStatement(std::shared_ptr<Expression>& ex);		
 
 		Ceng::StringUtf8 ToString() const override;

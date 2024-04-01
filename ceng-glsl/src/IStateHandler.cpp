@@ -66,6 +66,8 @@ HandlerReturn IStateHandler::DefaultExpressionShift(GLSL_Parser* parser, const T
 		case TokenType::tilde:
 			retVal = parser->S_UnaryOperatorToken(next);
 			break;
+		case TokenType::semicolon:
+			retVal = parser->S_Semicolon();
 		default:
 			valid = false;
 			break;

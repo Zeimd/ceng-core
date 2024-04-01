@@ -579,6 +579,8 @@ namespace Ceng
 		// conditional_expression
 		ParserReturnValue S_AssignmentExpression(std::shared_ptr<AssignmentExpression>& ex);
 
+		ParserReturnValue S_Semicolon();
+
 		// reduction: expression -> assignment_expression
 		ParserReturnValue S_Expression(std::shared_ptr<Expression>& ex);
 
