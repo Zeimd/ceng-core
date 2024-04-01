@@ -68,6 +68,10 @@ HandlerReturn IStateHandler::DefaultExpressionShift(GLSL_Parser* parser, const T
 			break;
 		case TokenType::semicolon:
 			retVal = parser->S_Semicolon();
+			break;
+		case TokenType::left_paren:
+			retVal = parser->S_LParen();
+			break;
 		default:
 			valid = false;
 			break;

@@ -88,7 +88,12 @@ Ceng::StringUtf8 PrimaryExpression::ToString() const
 	case ExpressionType::bool_const:
 		return boolValue;
 	case ExpressionType::expression:
-		return expression->ToString();
+		out = '(';
+		out += expression->ToString();
+		out += ')';
+		return out;
+	default:
+		return "<UNHANDLED PRIMARY EXPRESSION>";
 	}
 
 	return "";

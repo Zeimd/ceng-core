@@ -6849,6 +6849,118 @@ ParserReturnValue GLSL_Parser::S_Semicolon()
 	return { std::make_shared<ExpressionStatement>(), 1 };
 }
 
+class Handler_LParen : public IStateHandler
+{
+public:
+	
+public:
+
+	Handler_LParen()
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return {ParserReturnValue(), false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::expression:
+			{
+				std::shared_ptr<Expression> ex = std::static_pointer_cast<Expression>(nonTerminal);
+				retVal = parser->S_LParen_Expression(ex);
+			}
+			break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+		return { retVal, valid };
+	}
+
+};
+
+
+ParserReturnValue GLSL_Parser::S_LParen()
+{
+	Handler_LParen temp;
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+class Handler_LParen_Expression : public IStateHandler
+{
+public:
+	std::shared_ptr<Expression>& ex;
+
+public:
+
+	Handler_LParen_Expression(std::shared_ptr<Expression>& ex)
+		: ex(ex)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::right_paren:
+			return { parser->S_LParen_Expression_RParen(ex),true };
+		}
+
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return { ParserReturnValue(), false };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_LParen_Expression(std::shared_ptr<Expression>& ex)
+{
+	Handler_LParen_Expression temp(ex);
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+ParserReturnValue GLSL_Parser::S_LParen_Expression_RParen(std::shared_ptr<Expression>& ex)
+{
+	log.Debug(__func__);
+
+	return { std::make_shared<PrimaryExpression>(ex),3 };
+}
+
 class Handler_FunctionIdentifier : public IStateHandler
 {
 public:

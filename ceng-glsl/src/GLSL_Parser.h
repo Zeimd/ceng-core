@@ -581,6 +581,12 @@ namespace Ceng
 
 		ParserReturnValue S_Semicolon();
 
+		ParserReturnValue S_LParen();
+
+		ParserReturnValue S_LParen_Expression(std::shared_ptr<Expression>& ex);
+
+		ParserReturnValue S_LParen_Expression_RParen(std::shared_ptr<Expression>& ex);
+
 		// reduction: expression -> assignment_expression
 		ParserReturnValue S_Expression(std::shared_ptr<Expression>& ex);
 
