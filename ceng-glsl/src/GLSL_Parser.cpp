@@ -3856,11 +3856,53 @@ ParserReturnValue GLSL_Parser::S_LiteralToken(const Token& token)
 	return ParserReturnValue(std::make_shared<PrimaryExpression>(token), 1);
 }
 
-ParserReturnValue GLSL_Parser::S_IdentifierToken(const Token& token)
+class Handler_IdentifierToken : public IStateHandler
 {
-	log.Debug(__func__);
+public:
+	const Token& id;
 
-	return ParserReturnValue(std::make_shared<PrimaryExpression>(token), 1);
+public:
+
+	Handler_IdentifierToken(const Token& id)
+		: id(id)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (parser->PeekToken().type)
+		{
+		case TokenType::left_paren:
+			return { ParserReturnValue(std::make_shared<FunctionIdentifier>(id.name),1), true };
+		default:
+			return { ParserReturnValue(std::make_shared<PrimaryExpression>(id.name),1), true };
+		}
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return { ParserReturnValue(), false };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_IdentifierToken(const Token& id)
+{
+	Handler_IdentifierToken temp(id);
+
+	return StateFuncSkeleton(__func__, temp);
 }
 
 ParserReturnValue GLSL_Parser::S_PrimaryExpression(std::shared_ptr<PrimaryExpression>& ex)
