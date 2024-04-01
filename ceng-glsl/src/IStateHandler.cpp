@@ -54,6 +54,12 @@ HandlerReturn IStateHandler::DefaultExpressionShift(GLSL_Parser* parser, const T
 		case TokenType::right_assign:
 			retVal = parser->S_AssignToken(next);
 			break;	
+		case TokenType::inc_op:
+			retVal = parser->S_IncOP();
+			break;
+		case TokenType::dec_op:
+			retVal = parser->S_DecOP();
+			break;
 		default:
 			valid = false;
 			break;

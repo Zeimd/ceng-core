@@ -4317,6 +4317,114 @@ ParserReturnValue GLSL_Parser::S_UnaryExpression_AssignOperator_AssignExpression
 	return { std::make_shared<AssignmentExpression>(ex,assignOp,assignEx),3 };
 }
 
+class Handler_IncOp : public IStateHandler
+{
+public:
+	
+public:
+
+	Handler_IncOp()
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::unary_expression:
+		{
+			std::shared_ptr<UnaryExpression> unaryEx = std::static_pointer_cast<UnaryExpression>(nonTerminal);
+			retVal = parser->S_IncOP_UnaryExpression(unaryEx);
+		}
+		break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+		return { retVal, valid };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_IncOP()
+{
+	Handler_IncOp temp;
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+class Handler_DecOp : public IStateHandler
+{
+public:
+
+public:
+
+	Handler_DecOp()
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::unary_expression:
+		{
+			std::shared_ptr<UnaryExpression> unaryEx = std::static_pointer_cast<UnaryExpression>(nonTerminal);
+			retVal = parser->S_DecOP_UnaryExpression(unaryEx);
+		}
+		break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+		return { retVal, valid };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_DecOP()
+{
+	Handler_DecOp temp;
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
 ParserReturnValue GLSL_Parser::S_IncOP_UnaryExpression(std::shared_ptr<UnaryExpression>& ex)
 {
 	log.Debug(__func__);
