@@ -20,6 +20,7 @@ namespace Ceng
 
 		void Release() override;
 
+		CompoundStatementNoNewScope();
 		CompoundStatementNoNewScope(std::shared_ptr<StatementList>& list);
 
 		Ceng::StringUtf8 ToString() const override;

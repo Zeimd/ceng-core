@@ -21,6 +21,7 @@ namespace Ceng
 
 		void Release() override;
 
+		CompoundStatement();
 		CompoundStatement(std::shared_ptr<StatementList>& list);
 
 		Ceng::StringUtf8 ToString() const override;
