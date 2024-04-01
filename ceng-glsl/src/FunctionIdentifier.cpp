@@ -14,7 +14,7 @@ FunctionIdentifier::FunctionIdentifier(std::shared_ptr<TypeSpecifier>& typeSpec)
 }
 
 FunctionIdentifier::FunctionIdentifier(const Ceng::StringUtf8& name)
-	: INonTerminal(NonTerminalType::function_identifier), typeSpec(typeSpec), funcType(FunctionType::normal)
+	: INonTerminal(NonTerminalType::function_identifier), name(name), typeSpec(nullptr), funcType(FunctionType::normal)
 {
 
 }
@@ -29,7 +29,7 @@ Ceng::StringUtf8 FunctionIdentifier::ToString() const
 		return typeSpec->ToString();
 	case FunctionType::normal:
 		return name;
+	default:
+		return "<UNHANDLED FUNCTION INDENTIFIER TYPE>";
 	}
-
-	return "";
 }
