@@ -27,18 +27,20 @@ CompoundStatementNoNewScope::CompoundStatementNoNewScope(std::shared_ptr<Stateme
 
 Ceng::StringUtf8 CompoundStatementNoNewScope::ToString() const
 {
-	if (list == nullptr)
-	{
-		return "";
-	}
-
 	Ceng::StringUtf8 out;
 
-	out += '{\n';
+	out += "\n{\n";
 
-	list->ToString();
+	if (list != nullptr)
+	{
+		list->ToString();
+	}	
+	else
+	{
+		out += '\n';
+	}
 
-	out += '}\n';
+	out += "}\n";
 
 	return out;
 }

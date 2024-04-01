@@ -27,18 +27,20 @@ CompoundStatement::CompoundStatement(std::shared_ptr<StatementList>& list)
 
 Ceng::StringUtf8 CompoundStatement::ToString() const
 {
-	if (list == nullptr)
-	{
-		return "";
-	}
-
 	Ceng::StringUtf8 out;
 
-	out += '{\n';
-	
-	list->ToString();
+	out += "\n{\n";
 
-	out += '}\n';
+	if (list != nullptr)
+	{
+		list->ToString();
+	}
+	else
+	{
+		out += '\n';
+	}
+
+	out += "}\n";
 
 	return out;
 }
