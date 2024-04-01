@@ -2938,6 +2938,8 @@ public:
 
 		switch (next.type)
 		{
+		case TokenType::left_brace:
+			return { parser->S_FunctionPrototype_LBrace(prototype),true };
 		case TokenType::semicolon:
 			return { parser->S_FunctionPrototype_Semicolon(prototype),true };
 		}
@@ -2949,7 +2951,21 @@ public:
 	{
 		parser->log.Debug(__FUNCTION__);
 
-		return { ParserReturnValue(), false };
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::compound_statement_no_new_scope:
+			{
+				std::shared_ptr<CompoundStatementNoNewScope> temp = std::static_pointer_cast<CompoundStatementNoNewScope>(nonTerminal);
+				retVal = parser->S_FunctionPrototype_CompoundStatementNoNewScope(prototype,temp);
+			}
+			break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+		return { retVal, valid };
 	}
 
 };
@@ -2966,6 +2982,184 @@ ParserReturnValue GLSL_Parser::S_FunctionPrototype_Semicolon(std::shared_ptr<Fun
 	log.Debug(__func__);
 
 	return { std::make_shared<Declaration>(prototype),2 };
+}
+
+class Handler_FunctionPrototype_LBrace : public IStateHandler
+{
+public:
+	std::shared_ptr<FunctionPrototype>& prototype;
+
+public:
+
+	Handler_FunctionPrototype_LBrace(std::shared_ptr<FunctionPrototype>& prototype)
+		: prototype(prototype)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::right_brace:
+			return { parser->S_FunctionPrototype_LBrace_RBrace(prototype),true };
+		default:
+			return DefaultExpressionShift(parser, next);
+		}
+
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::statement:
+			{
+				std::shared_ptr<Statement> temp = std::static_pointer_cast<Statement>(nonTerminal);
+				retVal = parser->S_FunctionPrototype_LBrace_Statement(prototype, temp);
+			}
+			break;
+		case NonTerminalType::statement_list:
+			{
+				std::shared_ptr<StatementList> temp = std::static_pointer_cast<StatementList>(nonTerminal);
+				retVal = parser->S_FunctionPrototype_LBrace_StatementList(prototype, temp);
+			}
+			break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+		return { retVal, valid };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_FunctionPrototype_LBrace(std::shared_ptr<FunctionPrototype>& prototype)
+{
+	Handler_FunctionPrototype_LBrace temp(prototype);
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+ParserReturnValue GLSL_Parser::S_FunctionPrototype_LBrace_RBrace(std::shared_ptr<FunctionPrototype>& prototype)
+{
+	log.Debug(__func__);
+
+	return { std::make_shared<CompoundStatementNoNewScope>(),2 };
+}
+
+ParserReturnValue GLSL_Parser::S_FunctionPrototype_LBrace_Statement(std::shared_ptr<FunctionPrototype>& prototype, std::shared_ptr<Statement>& statement)
+{
+	log.Debug(__func__);
+
+	return { std::make_shared<StatementList>(statement),1 };
+}
+
+class Handler_FunctionPrototype_LBrace_StatementList : public IStateHandler
+{
+public:
+	std::shared_ptr<FunctionPrototype>& prototype;
+	std::shared_ptr<StatementList>& list;
+
+public:
+
+	Handler_FunctionPrototype_LBrace_StatementList(std::shared_ptr<FunctionPrototype>& prototype,
+		std::shared_ptr<StatementList>& list)
+		: prototype(prototype),list(list)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::right_brace:
+			return { parser->S_FunctionPrototype_LBrace_StatementList_RBrace(prototype,list),true };
+		default:
+			return DefaultExpressionShift(parser, next);
+		}
+
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::statement:
+			{
+				std::shared_ptr<Statement> temp = std::static_pointer_cast<Statement>(nonTerminal);
+				retVal = parser->S_FunctionPrototype_LBrace_StatementList_Statement(prototype, list, temp);
+			}
+			break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+		return { retVal, valid };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_FunctionPrototype_LBrace_StatementList(std::shared_ptr<FunctionPrototype>& prototype, std::shared_ptr<StatementList>& list)
+{
+	Handler_FunctionPrototype_LBrace_StatementList temp(prototype,list);
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+ParserReturnValue GLSL_Parser::S_FunctionPrototype_LBrace_StatementList_Statement(std::shared_ptr<FunctionPrototype>& prototype,
+	std::shared_ptr<StatementList>& list, std::shared_ptr<Statement>& statement)
+{
+	log.Debug(__func__);
+
+	list->Append(statement);
+
+	return { list,2};
+}
+
+
+ParserReturnValue GLSL_Parser::S_FunctionPrototype_LBrace_StatementList_RBrace(std::shared_ptr<FunctionPrototype>& prototype, std::shared_ptr<StatementList>& list)
+{
+	log.Debug(__func__);
+
+	return { std::make_shared<CompoundStatementNoNewScope>(list),3 };
+}
+
+ParserReturnValue GLSL_Parser::S_FunctionPrototype_CompoundStatementNoNewScope(std::shared_ptr<FunctionPrototype>& prototype,
+	std::shared_ptr<CompoundStatementNoNewScope>& statement)
+{
+	log.Debug(__func__);
+
+	return { std::make_shared<FunctionDefinition>(prototype, statement),2 };
 }
 
 ParserReturnValue GLSL_Parser::S_ParamBuilder_ParameterTypeQualifierToken(const Token& token)

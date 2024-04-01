@@ -86,6 +86,7 @@
 #include "ParameterTypeQualifier.h"
 #include "FunctionDeclarator.h"
 #include "FunctionPrototype.h"
+#include "FunctionDefinition.h"
 
 namespace Ceng
 {
@@ -297,6 +298,22 @@ namespace Ceng
 		ParserReturnValue S_FunctionPrototype(std::shared_ptr<FunctionPrototype>& prototype);
 
 		ParserReturnValue S_FunctionPrototype_Semicolon(std::shared_ptr<FunctionPrototype>& prototype);
+
+		ParserReturnValue S_FunctionPrototype_LBrace(std::shared_ptr<FunctionPrototype>& prototype);
+
+		ParserReturnValue S_FunctionPrototype_LBrace_RBrace(std::shared_ptr<FunctionPrototype>& prototype);
+
+		ParserReturnValue S_FunctionPrototype_LBrace_Statement(std::shared_ptr<FunctionPrototype>& prototype, std::shared_ptr<Statement>& statement);
+
+		ParserReturnValue S_FunctionPrototype_LBrace_StatementList(std::shared_ptr<FunctionPrototype>& prototype, std::shared_ptr<StatementList>& list);
+
+		ParserReturnValue S_FunctionPrototype_LBrace_StatementList_Statement(std::shared_ptr<FunctionPrototype>& prototype, 
+			std::shared_ptr<StatementList>& list, std::shared_ptr<Statement>& statement);
+
+		ParserReturnValue S_FunctionPrototype_LBrace_StatementList_RBrace(std::shared_ptr<FunctionPrototype>& prototype, std::shared_ptr<StatementList>& list);
+
+		ParserReturnValue S_FunctionPrototype_CompoundStatementNoNewScope(std::shared_ptr<FunctionPrototype>& prototype, 
+			std::shared_ptr<CompoundStatementNoNewScope>& statement);
 
 		ParserReturnValue S_ParamBuilder_TypeSpecifier_Identifier(std::shared_ptr<TypeSpecifier>& type, const Token& id);
 
