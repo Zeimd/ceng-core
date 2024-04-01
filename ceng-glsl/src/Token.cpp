@@ -149,6 +149,10 @@ Ceng::StringUtf8 Token::ToString() const
 		return "void";
 	case TokenType::keyword_while:
 		return "while";
+	case TokenType::inc_op:
+		return "++";
+	case TokenType::dec_op:
+		return "--";
 	case TokenType::ampersand:
 		return "&";
 	case TokenType::equal:
