@@ -24,6 +24,9 @@ ShiftExpression::ShiftExpression(std::shared_ptr<ShiftExpression>& lhs, const To
 	case TokenType::right_op:
 		operation = ShiftOp::right;
 		break;
+	default:
+		operation = ShiftOp::invalid_value;
+		break;
 	}
 }
 

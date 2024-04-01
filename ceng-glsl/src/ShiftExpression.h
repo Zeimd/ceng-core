@@ -17,6 +17,7 @@ namespace Ceng
 			left,
 			right,
 			unassigned,
+			invalid_value,
 		};
 	}
 
