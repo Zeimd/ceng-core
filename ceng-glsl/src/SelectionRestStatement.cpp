@@ -34,7 +34,7 @@ Ceng::StringUtf8 SelectionRestStatement::ToString() const
 
 	if (elseBlock != nullptr)
 	{
-		out += ' ';
+		out += " else ";
 		out += elseBlock->ToString();
 	}
 
