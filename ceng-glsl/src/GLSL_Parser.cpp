@@ -7889,8 +7889,9 @@ public:
 ParserReturnValue GLSL_Parser::S_InitDeclaratorList_Comma_IdToken_LBracket_Expression_RBracket_Equal(std::shared_ptr<InitDeclaratorList>& initList, const Token& token,
 	std::shared_ptr<Expression>& expression)
 {
-	log.Debug(__func__);
-	return ParserReturnValue();
+	Handler_InitDeclaratorList_Comma_IdToken_LBracket_Expression_RBracket_Equal temp(initList, token, expression);
+
+	return StateFuncSkeleton(__func__, temp);
 }
 
 
