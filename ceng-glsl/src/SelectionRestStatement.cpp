@@ -34,7 +34,15 @@ Ceng::StringUtf8 SelectionRestStatement::ToString() const
 
 	if (elseBlock != nullptr)
 	{
-		out += " else ";
+		if (elseBlock->category == StatementCategory::compound)
+		{
+			out += "else";
+		}
+		else
+		{
+			out += " else ";
+		}
+		
 		out += elseBlock->ToString();
 	}
 

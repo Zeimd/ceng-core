@@ -27,7 +27,7 @@ Ceng::StringUtf8 SelectionStatement::ToString() const
 
 	out = "if (";
 	out += condition->ToString();
-	out += ")";
+	out += ") ";
 
 	out += rest->ToString();
 
