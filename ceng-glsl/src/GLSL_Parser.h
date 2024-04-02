@@ -587,6 +587,21 @@ namespace Ceng
 
 		ParserReturnValue S_LParen_Expression_RParen(std::shared_ptr<Expression>& ex);
 
+		// compound_statement start
+		ParserReturnValue S_LBrace();
+
+		// compound_statement end
+		ParserReturnValue S_LBrace_RBrace();
+
+		ParserReturnValue S_LBrace_Statement(std::shared_ptr<Statement>& statement);
+
+		ParserReturnValue S_LBrace_StatementList(std::shared_ptr<StatementList>& list);
+
+		ParserReturnValue S_LBrace_StatementList_Statement(std::shared_ptr<StatementList>& list, std::shared_ptr<Statement>& statement);
+
+		// compound_statement end
+		ParserReturnValue S_LBrace_StatementList_RBrace(std::shared_ptr<StatementList>& list);
+
 		// reduction: expression -> assignment_expression
 		ParserReturnValue S_Expression(std::shared_ptr<Expression>& ex);
 
