@@ -28,7 +28,7 @@ Ceng::StringUtf8 StructSpecifier::ToString(unsigned int indentLevel) const
 	temp += "\n";
 	temp += "{\n";
 
-	temp += list->ToString(indentLevel);
+	temp += list->ToString(indentLevel+1);
 
 	temp += "}";
 
