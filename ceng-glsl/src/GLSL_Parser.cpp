@@ -217,10 +217,9 @@ public:
 
 };
 
-
 ParserReturnValue GLSL_Parser::S_TranslationUnit()
 {
-	log.Debug(__func__);
+	
 
 	Handler_S_TranslationUnit temp;
 
@@ -230,19 +229,15 @@ ParserReturnValue GLSL_Parser::S_TranslationUnit()
 
 	do
 	{
+		log.Debug(__func__);
+
 		retVal = StateFuncSkeleton(__func__, temp);
 
 		log.Debug("Returned to S_TranslationUnit");
 
-		/*
-		Ceng::StringUtf8 text;
-		text = "nonTerminal: ";
-		text += retVal.nonTerminal;
-		log.Debug(text);
-		*/
-
 		if (retVal.nonTerminal == nullptr)
 		{
+			log.Error("Received empty non-terminal");
 			break;
 		}
 
