@@ -166,6 +166,11 @@ namespace Ceng
 
 		BaseString(const wchar_t *source);
 
+		/**
+		* Construct string with n copies of character.
+		*/
+		BaseString(const char value, Ceng::INT32 n);
+
 		static void Swap(BaseString &a,BaseString &b);
 
 		void Swap(BaseString &other);
@@ -606,6 +611,29 @@ namespace Ceng
 		rawData.push_back('\0');
 
 		Append(source);			
+	}
+
+	template<class STRING_CONFIG>
+	BaseString<STRING_CONFIG>::BaseString(const char value, Ceng::INT32 n)
+	{
+		DATA_ELEMENT encoding[CHARACTER_TYPE::MAX_ENCODING_ELEMENTS];
+		UINT32 bytes;
+
+		CHAR32 unicode = value;
+
+		bytes = CHARACTER_TYPE::EncodeUTF32(unicode, encoding);
+
+		for (int i = 0; i < n; i++)
+		{
+			for (Ceng::UINT32 k = 0; k < bytes; k++)
+			{
+				rawData.push_back(encoding[k]);
+			}
+		}
+
+		length = n;
+
+		rawData.push_back('\0');
 	}
 
 	template<class STRING_CONFIG>
