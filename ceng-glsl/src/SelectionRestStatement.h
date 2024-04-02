@@ -5,9 +5,25 @@
 
 namespace Ceng
 {
+	class Statement;
+
 	class SelectionRestStatement : public INonTerminal
 	{
 	public:
+
+		std::shared_ptr<Statement> main;
+
+		std::shared_ptr<Statement> elseBlock;
+
+	public:
+
+		~SelectionRestStatement() override;
+
+		void Release() override;
+
+		SelectionRestStatement(std::shared_ptr<Statement>& main);
+
+		SelectionRestStatement(std::shared_ptr<Statement>& main, std::shared_ptr<Statement>& elseBlock);
 
 		Ceng::StringUtf8 ToString() const override;
 	};

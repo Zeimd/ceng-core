@@ -175,6 +175,8 @@
     <ClCompile Include="..\..\ceng-glsl\src\PrecisionQualifier.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\PrimaryExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\RelationalExpression.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\SelectionRestStatement.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\SelectionStatement.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\ShiftExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\SimpleStatement.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\SingleDeclaration.cpp" />
