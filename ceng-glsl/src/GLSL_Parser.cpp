@@ -1,3 +1,5 @@
+#include <ceng/lib/timerlib.h>
+
 #include "GLSL_Parser.h"
 
 #include "TranslationUnit.h"
@@ -29,15 +31,27 @@ CRESULT GLSL_Parser::Parse(const std::vector<Token>& in_tokens, GLSL::AbstractSy
 
 	log.Debug("Parsing start");
 
+	double start = Ceng_HighPrecisionTimer();
+
 	ParserReturnValue retVal = S_TranslationUnit();
 
+	double end = Ceng_HighPrecisionTimer();
+
 	log.Debug("Parsing end");
+	
+	Ceng::StringUtf8 timeText;
+
+	timeText = "Took : ";
+	timeText += end - start;
+	timeText += " seconds";
+
+	log.Nominal(timeText);
 
 	log.Debug("****************************************************************************");
 	log.Debug("Roundtrip print:");
 
 	Ceng::StringUtf8 text = retVal.nonTerminal->ToString(0);
-	log.Debug(text);
+	log.Nominal(text);
 
 	log.Debug("****************************************************************************");
 
