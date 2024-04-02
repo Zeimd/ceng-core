@@ -37,10 +37,16 @@ void Log::Debug(const Ceng::StringUtf8& message, const std::shared_ptr<const Cen
 	Print(LogLevel::debug, message, fileName, line, column);
 }
 
+void Log::Nominal(const Ceng::StringUtf8& message)
+{
+	Print(LogLevel::nominal, message);
+}
 
 void Log::Debug(const Ceng::StringUtf8& message)
 {
+#ifdef _DEBUG
 	Print(LogLevel::debug, message);
+#endif
 }
 
 void Log::Error(const Ceng::StringUtf8& message)

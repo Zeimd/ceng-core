@@ -54,7 +54,11 @@ Ceng::StringUtf8 LogEntry::ToString() const
 		temp += ": ";
 		temp += column;
 	}
-	temp += ": ";
+
+	if (level != LogLevel::nominal)
+	{
+		temp += ": ";
+	}
 	temp += message;
 
 	return temp;
