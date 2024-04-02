@@ -27,13 +27,13 @@ FunctionDeclarator::FunctionDeclarator(std::shared_ptr<FunctionHeaderWithParams>
 
 }
 
-Ceng::StringUtf8 FunctionDeclarator::ToString() const
+Ceng::StringUtf8 FunctionDeclarator::ToString(unsigned int indentLevel) const
 {
 	if (params)
 	{
-		return withParams->ToString();
+		return withParams->ToString(indentLevel);
 	}
 
-	return header->ToString();
+	return header->ToString(indentLevel);
 }
 

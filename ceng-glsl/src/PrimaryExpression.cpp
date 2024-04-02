@@ -71,7 +71,7 @@ void PrimaryExpression::Release()
 	delete this;
 }
 
-Ceng::StringUtf8 PrimaryExpression::ToString() const
+Ceng::StringUtf8 PrimaryExpression::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
@@ -89,7 +89,7 @@ Ceng::StringUtf8 PrimaryExpression::ToString() const
 		return boolValue;
 	case ExpressionType::expression:
 		out = '(';
-		out += expression->ToString();
+		out += expression->ToString(indentLevel);
 		out += ')';
 		return out;
 	default:

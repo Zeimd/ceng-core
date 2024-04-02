@@ -21,12 +21,12 @@ FunctionDefinition::FunctionDefinition(std::shared_ptr<FunctionPrototype>& proto
 
 }
 
-Ceng::StringUtf8 FunctionDefinition::ToString() const
+Ceng::StringUtf8 FunctionDefinition::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
-	out = prototype->ToString();
-	out += body->ToString();
+	out = prototype->ToString(indentLevel);
+	out += body->ToString(indentLevel);
 	out += '\n';
 
 	return out;

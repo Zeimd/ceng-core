@@ -25,7 +25,7 @@ namespace Ceng
 
 		SelectionRestStatement(std::shared_ptr<Statement>& main, std::shared_ptr<Statement>& elseBlock);
 
-		Ceng::StringUtf8 ToString() const override;
+		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
 	};
 }
 

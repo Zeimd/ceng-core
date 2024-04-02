@@ -19,7 +19,7 @@ void StructSpecifier::Release()
 	delete this;
 }
 
-Ceng::StringUtf8 StructSpecifier::ToString() const
+Ceng::StringUtf8 StructSpecifier::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 temp;
 
@@ -28,7 +28,7 @@ Ceng::StringUtf8 StructSpecifier::ToString() const
 	temp += "\n";
 	temp += "{\n";
 
-	temp += list->ToString();
+	temp += list->ToString(indentLevel);
 
 	temp += "}";
 

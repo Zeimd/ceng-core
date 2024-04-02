@@ -25,7 +25,7 @@ namespace Ceng
 		FunctionDefinition(std::shared_ptr<FunctionPrototype>& prototype,
 			std::shared_ptr<CompoundStatementNoNewScope>& body);
 
-		Ceng::StringUtf8 ToString() const override;
+		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
 	};
 }
 

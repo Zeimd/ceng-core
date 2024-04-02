@@ -25,7 +25,7 @@ namespace Ceng
 
 		void Append(DeclarationData& decl);
 
-		Ceng::StringUtf8 ToString() const override;
+		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
 	};
 }
 

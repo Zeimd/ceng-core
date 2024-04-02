@@ -13,7 +13,7 @@ FuncCallHeaderNoParams::FuncCallHeaderNoParams(std::shared_ptr<FunctionCallHeade
 
 }
 
-Ceng::StringUtf8 FuncCallHeaderNoParams::ToString() const
+Ceng::StringUtf8 FuncCallHeaderNoParams::ToString(unsigned int indentLevel) const
 {
-	return header->ToString();
+	return header->ToString(indentLevel);
 }

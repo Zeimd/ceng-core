@@ -27,7 +27,7 @@ namespace Ceng
 
 		LogicalXorExpression(std::shared_ptr<LogicalXorExpression>& lhs, std::shared_ptr<LogicalAndExpression>& rhs);
 
-		Ceng::StringUtf8 ToString() const override;
+		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
 	};
 }
 

@@ -19,17 +19,17 @@ FunctionCallOrMethod::FunctionCallOrMethod(std::shared_ptr<PostfixExpression>& r
 
 }
 
-Ceng::StringUtf8 FunctionCallOrMethod::ToString() const
+Ceng::StringUtf8 FunctionCallOrMethod::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
 	if (method)
 	{
-		out += root->ToString();
+		out += root->ToString(indentLevel);
 		out += '.';
 	}
 
-	out += func->ToString();
+	out += func->ToString(indentLevel);
 
 	return out;
 }

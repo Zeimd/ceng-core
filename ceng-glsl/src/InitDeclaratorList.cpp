@@ -18,7 +18,7 @@ void InitDeclaratorList::Release()
 	delete this;
 }
 
-Ceng::StringUtf8 InitDeclaratorList::ToString() const
+Ceng::StringUtf8 InitDeclaratorList::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
@@ -28,7 +28,7 @@ Ceng::StringUtf8 InitDeclaratorList::ToString() const
 	}
 	else
 	{
-		out += fullType->ToString();
+		out += fullType->ToString(indentLevel);
 
 		if (list.size() > 1 || !list[0].empty)
 		{
@@ -38,7 +38,7 @@ Ceng::StringUtf8 InitDeclaratorList::ToString() const
 
 	for (size_t k=0; k < list.size(); k++)
 	{
-		out += list[k].ToString();
+		out += list[k].ToString(indentLevel);
 
 		if (k < list.size() - 1)
 		{

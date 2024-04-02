@@ -19,14 +19,14 @@ FunctionIdentifier::FunctionIdentifier(const Ceng::StringUtf8& name)
 
 }
 
-Ceng::StringUtf8 FunctionIdentifier::ToString() const
+Ceng::StringUtf8 FunctionIdentifier::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
 	switch (funcType)
 	{
 	case FunctionType::constructor:
-		return typeSpec->ToString();
+		return typeSpec->ToString(indentLevel);
 	case FunctionType::normal:
 		return name;
 	default:

@@ -24,13 +24,13 @@ void StructDeclaratorList::Release()
 	delete this;
 }
 
-Ceng::StringUtf8 StructDeclaratorList::ToString() const
+Ceng::StringUtf8 StructDeclaratorList::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
 	for (size_t k = 0; k < list.size(); k++)
 	{
-		out += list[k]->ToString();
+		out += list[k]->ToString(indentLevel);
 
 		if (k != list.size() - 1)
 		{

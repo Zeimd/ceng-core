@@ -146,7 +146,7 @@ TypeSpecifierNoArray::TypeSelector TypeSpecifierNoArray::FromTokenType(TokenType
 
 #define CASE_TO_TEXT(x) case TypeSelector::x: return #x;
 
-Ceng::StringUtf8 TypeSpecifierNoArray::ToString() const
+Ceng::StringUtf8 TypeSpecifierNoArray::ToString(unsigned int indentLevel) const
 {
 	switch (type)
 	{
@@ -223,7 +223,7 @@ Ceng::StringUtf8 TypeSpecifierNoArray::ToString() const
 		CASE_TO_TEXT(typeName);
 		CASE_TO_TEXT(invalid);
 	case struct_specifier:
-		return structSpec->ToString();		
+		return structSpec->ToString(indentLevel);		
 	default:
 		return "TypeSpecifierNoArray::unhandled case";
 	}

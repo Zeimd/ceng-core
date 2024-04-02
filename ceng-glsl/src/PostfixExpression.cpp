@@ -46,32 +46,32 @@ void PostfixExpression::Release()
 	delete this;
 }
 
-Ceng::StringUtf8 PostfixExpression::ToString() const
+Ceng::StringUtf8 PostfixExpression::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
 	switch (type)
 	{
 	case PostfixType::primary_expression:
-		return primaryExpression->ToString();
+		return primaryExpression->ToString(indentLevel);
 	case PostfixType::array_index:
 		out = '[';
-		out += arrayIndex->ToString();
+		out += arrayIndex->ToString(indentLevel);
 		out += ']';
 		return out;
 	case PostfixType::function_call:
-		return functionCall->ToString();
+		return functionCall->ToString(indentLevel);
 	case PostfixType::field_select:
-		out = postfixExpression->ToString();
+		out = postfixExpression->ToString(indentLevel);
 		out += '.';
 		out += fieldName;
 		return out;
 	case PostfixType::inc_op:
-		out += postfixExpression->ToString();
+		out += postfixExpression->ToString(indentLevel);
 		out += "++";
 		return out;
 	case PostfixType::dec_op:
-		out += postfixExpression->ToString();
+		out += postfixExpression->ToString(indentLevel);
 		out += "--";
 		return out;
 		break;

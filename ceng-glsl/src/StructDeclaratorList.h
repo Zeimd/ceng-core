@@ -19,7 +19,7 @@ namespace Ceng
 
 		void Release() override;
 
-		Ceng::StringUtf8 ToString() const override;
+		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
 
 		StructDeclaratorList(std::shared_ptr<StructDeclarator>& decl);
 

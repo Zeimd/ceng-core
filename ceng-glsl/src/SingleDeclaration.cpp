@@ -59,7 +59,7 @@ void SingleDeclaration::Release()
 	delete this;
 }
 
-Ceng::StringUtf8 SingleDeclaration::ToString() const
+Ceng::StringUtf8 SingleDeclaration::ToString(unsigned int indentLevel) const
 {
 	return "";
 

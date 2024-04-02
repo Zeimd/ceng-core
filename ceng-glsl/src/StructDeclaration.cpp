@@ -25,15 +25,15 @@ void StructDeclaration::Release()
 	delete this;
 }
 
-Ceng::StringUtf8 StructDeclaration::ToString() const
+Ceng::StringUtf8 StructDeclaration::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
-	out += typeQ.ToString();
+	out += typeQ.ToString(indentLevel);
 	out += ' ';
-	out += typeSpec.ToString();
+	out += typeSpec.ToString(indentLevel);
 	out += ' ';
-	out += list->ToString();
+	out += list->ToString(indentLevel);
 	out += ';';
 
 	return out;

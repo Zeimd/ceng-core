@@ -36,16 +36,16 @@ ShiftExpression::ShiftExpression(std::shared_ptr<ShiftExpression>& lhs, ShiftOp:
 
 }
 
-Ceng::StringUtf8 ShiftExpression::ToString() const
+Ceng::StringUtf8 ShiftExpression::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
 	if (operation == ShiftOp::unassigned)
 	{
-		return rhs->ToString();
+		return rhs->ToString(indentLevel);
 	}
 
-	out = lhs->ToString();
+	out = lhs->ToString(indentLevel);
 	out += ' ';
 
 	switch (operation)
@@ -62,7 +62,7 @@ Ceng::StringUtf8 ShiftExpression::ToString() const
 	}
 
 	out += ' ';
-	out += rhs->ToString();
+	out += rhs->ToString(indentLevel);
 
 	return out;
 }

@@ -55,7 +55,7 @@ AssignmentOperator::AssignmentOperator(AssignOpType::value operation)
 
 }
 
-Ceng::StringUtf8 AssignmentOperator::ToString() const
+Ceng::StringUtf8 AssignmentOperator::ToString(unsigned int indentLevel) const
 {
 	switch (operation)
 	{

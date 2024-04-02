@@ -18,15 +18,15 @@ void FuncCallHeaderParams::Append(std::shared_ptr<AssignmentExpression>& param)
 	params.push_back(param);
 }
 
-Ceng::StringUtf8 FuncCallHeaderParams::ToString() const
+Ceng::StringUtf8 FuncCallHeaderParams::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
-	out = header->ToString();
+	out = header->ToString(indentLevel);
 
 	for (size_t k=0; k < params.size(); k++)
 	{
-		out += params[k]->ToString();
+		out += params[k]->ToString(indentLevel);
 
 		if (k != params.size() - 1)
 		{

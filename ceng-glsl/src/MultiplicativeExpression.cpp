@@ -37,17 +37,17 @@ MultiplicativeExpression::MultiplicativeExpression(std::shared_ptr<Multiplicativ
 
 }
 
-Ceng::StringUtf8 MultiplicativeExpression::ToString() const
+Ceng::StringUtf8 MultiplicativeExpression::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
 	if (operation == MultiplicativeOp::unassigned)
 	{
-		out = rhs->ToString();
+		out = rhs->ToString(indentLevel);
 	}
 	else
 	{
-		out = lhs->ToString();
+		out = lhs->ToString(indentLevel);
 
 		switch (operation)
 		{
@@ -62,7 +62,7 @@ Ceng::StringUtf8 MultiplicativeExpression::ToString() const
 			break;
 		}
 
-		out += rhs->ToString();
+		out += rhs->ToString(indentLevel);
 	}
 
 

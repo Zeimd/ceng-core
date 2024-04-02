@@ -27,18 +27,18 @@ ParameterDeclarator::ParameterDeclarator(std::shared_ptr<TypeSpecifier>& typeSpe
 
 }
 
-Ceng::StringUtf8 ParameterDeclarator::ToString() const
+Ceng::StringUtf8 ParameterDeclarator::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
-	out = typeSpec->ToString();
+	out = typeSpec->ToString(indentLevel);
 	out += ' ';
 	out += name;
 
 	if (arraySize != nullptr)
 	{
 		out += '[';
-		out += arraySize->ToString();
+		out += arraySize->ToString(indentLevel);
 		out += ']';
 	}
 

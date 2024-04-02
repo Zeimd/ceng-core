@@ -22,7 +22,7 @@ namespace Ceng
 
 		DeclarationStatement(std::shared_ptr<Declaration>& declaration);
 
-		Ceng::StringUtf8 ToString() const override;
+		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
 	};
 }
 

@@ -33,17 +33,17 @@ AdditiveExpression::AdditiveExpression(std::shared_ptr<AdditiveExpression>& lhs,
 
 }
 
-Ceng::StringUtf8 AdditiveExpression::ToString() const
+Ceng::StringUtf8 AdditiveExpression::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
 	if (operation == AdditiveOp::unassigned)
 	{
-		out = rhs->ToString();
+		out = rhs->ToString(indentLevel);
 	}
 	else
 	{
-		out = lhs->ToString();
+		out = lhs->ToString(indentLevel);
 		
 		switch (operation)
 		{
@@ -55,7 +55,7 @@ Ceng::StringUtf8 AdditiveExpression::ToString() const
 			break;
 		}
 
-		out += rhs->ToString();
+		out += rhs->ToString(indentLevel);
 	}
 
 

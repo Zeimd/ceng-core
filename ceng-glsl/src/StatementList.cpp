@@ -24,13 +24,14 @@ void StatementList::Append(std::shared_ptr<Statement>& statement)
 	list.push_back(statement);
 }
 
-Ceng::StringUtf8 StatementList::ToString() const
+Ceng::StringUtf8 StatementList::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
 	for (auto& x : list)
 	{
-		out += x->ToString();
+		out += GetIndent(indentLevel);
+		out += x->ToString(indentLevel);
 		out += '\n';
 	}
 

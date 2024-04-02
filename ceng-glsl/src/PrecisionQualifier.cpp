@@ -21,7 +21,7 @@ PrecisionQualifier::PrecisionQualifier(PrecisionQualifierType::value precision)
 
 #define CASE_TO_TEXT(x) case PrecisionQualifierType::x: out += #x; out += ' '; break;
 
-Ceng::StringUtf8 PrecisionQualifier::ToString() const
+Ceng::StringUtf8 PrecisionQualifier::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 

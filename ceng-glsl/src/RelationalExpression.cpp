@@ -42,16 +42,16 @@ RelationalExpression::RelationalExpression(std::shared_ptr<RelationalExpression>
 
 }
 
-Ceng::StringUtf8 RelationalExpression::ToString() const
+Ceng::StringUtf8 RelationalExpression::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
 	if (operation == RelativeOp::unassigned)
 	{
-		return rhs->ToString();
+		return rhs->ToString(indentLevel);
 	}
 
-	out = lhs->ToString();
+	out = lhs->ToString(indentLevel);
 	out += ' ';
 
 	switch (operation)
@@ -73,7 +73,7 @@ Ceng::StringUtf8 RelationalExpression::ToString() const
 	}
 
 	out += ' ';
-	out += rhs->ToString();
+	out += rhs->ToString(indentLevel);
 
 	return out;
 }

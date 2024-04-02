@@ -27,7 +27,7 @@ namespace Ceng
 
 		OrExpression(std::shared_ptr<OrExpression>& lhs, std::shared_ptr<XorExpression>& rhs);
 
-		Ceng::StringUtf8 ToString() const override;
+		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
 	};
 }
 

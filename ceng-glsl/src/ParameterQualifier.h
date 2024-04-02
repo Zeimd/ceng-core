@@ -37,7 +37,7 @@ namespace Ceng
 
 		ParameterQualifier(ParameterQualifierType::value type);
 	
-		Ceng::StringUtf8 ToString() const override;
+		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
 
 		static ParameterQualifierType::value TokenToType(const Token& token);
 	};

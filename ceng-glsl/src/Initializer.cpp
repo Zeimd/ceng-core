@@ -13,7 +13,7 @@ void Initializer::Release()
 	delete this;
 }
 
-Ceng::StringUtf8 Initializer::ToString() const
+Ceng::StringUtf8 Initializer::ToString(unsigned int indentLevel) const
 {
-	return assignEx->ToString();
+	return assignEx->ToString(indentLevel);
 }

@@ -43,26 +43,26 @@ ParameterDeclaration::ParameterDeclaration(std::shared_ptr<ParameterQualifier>& 
 
 }
 
-Ceng::StringUtf8 ParameterDeclaration::ToString() const
+Ceng::StringUtf8 ParameterDeclaration::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
 	if (typeQ != nullptr)
 	{
-		out += typeQ->ToString();
+		out += typeQ->ToString(indentLevel);
 		out += ' ';
 	}
 
-	out += paramQ->ToString();
+	out += paramQ->ToString(indentLevel);
 	out += ' ';
 
 	if (typeOnly)
 	{
-		out += type->ToString();
+		out += type->ToString(indentLevel);
 	}
 	else
 	{
-		out += decl->ToString();
+		out += decl->ToString(indentLevel);
 	}
 
 	return out;

@@ -19,19 +19,19 @@ LogicalXorExpression::LogicalXorExpression(std::shared_ptr<LogicalXorExpression>
 
 }
 
-Ceng::StringUtf8 LogicalXorExpression::ToString() const
+Ceng::StringUtf8 LogicalXorExpression::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
 	if (full)
 	{
-		out = lhs->ToString();
+		out = lhs->ToString(indentLevel);
 		out += " ^^ ";
-		out += rhs->ToString();
+		out += rhs->ToString(indentLevel);
 	}
 	else
 	{
-		out = rhs->ToString();
+		out = rhs->ToString(indentLevel);
 	}
 
 

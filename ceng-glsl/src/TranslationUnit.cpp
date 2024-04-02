@@ -23,7 +23,7 @@ void TranslationUnit::Append(std::shared_ptr<INonTerminal>& item)
 	items.push_back(item);
 }
 
-Ceng::StringUtf8 TranslationUnit::ToString() const
+Ceng::StringUtf8 TranslationUnit::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
@@ -31,7 +31,7 @@ Ceng::StringUtf8 TranslationUnit::ToString() const
 
 	for (auto& x : items)
 	{
-		out += x->ToString();
+		out += x->ToString(indentLevel);
 		out += '\n';
 	}
 

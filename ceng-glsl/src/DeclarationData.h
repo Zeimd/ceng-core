@@ -48,7 +48,7 @@ namespace Ceng
 		DeclarationData(const Ceng::StringUtf8& name, std::shared_ptr<Expression>& arraySizeExpression,
 			std::shared_ptr<Initializer>& initializer);
 
-		Ceng::StringUtf8 ToString() const;
+		Ceng::StringUtf8 ToString(unsigned int indentLevel) const;
 	};
 }
 

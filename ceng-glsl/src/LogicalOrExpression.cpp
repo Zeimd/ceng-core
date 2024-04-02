@@ -19,19 +19,19 @@ LogicalOrExpression::LogicalOrExpression(std::shared_ptr<LogicalOrExpression>& l
 
 }
 
-Ceng::StringUtf8 LogicalOrExpression::ToString() const
+Ceng::StringUtf8 LogicalOrExpression::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
 	if (full)
 	{
-		out = lhs->ToString();
+		out = lhs->ToString(indentLevel);
 		out += " || ";
-		out += rhs->ToString();
+		out += rhs->ToString(indentLevel);
 	}
 	else
 	{
-		out = rhs->ToString();
+		out = rhs->ToString(indentLevel);
 	}
 
 

@@ -19,19 +19,19 @@ LogicalAndExpression::LogicalAndExpression(std::shared_ptr<LogicalAndExpression>
 
 }
 
-Ceng::StringUtf8 LogicalAndExpression::ToString() const
+Ceng::StringUtf8 LogicalAndExpression::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
 	if (full)
 	{
-		out = lhs->ToString();
+		out = lhs->ToString(indentLevel);
 		out += " && ";
-		out += rhs->ToString();
+		out += rhs->ToString(indentLevel);
 	}
 	else
 	{
-		out = rhs->ToString();
+		out = rhs->ToString(indentLevel);
 	}
 
 

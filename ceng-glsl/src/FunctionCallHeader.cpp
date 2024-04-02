@@ -13,11 +13,11 @@ FunctionCallHeader::FunctionCallHeader(std::shared_ptr<FunctionIdentifier>& iden
 
 }
 
-Ceng::StringUtf8 FunctionCallHeader::ToString() const
+Ceng::StringUtf8 FunctionCallHeader::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
-	out = identifier->ToString();
+	out = identifier->ToString(indentLevel);
 	out += '(';
 
 	return out;

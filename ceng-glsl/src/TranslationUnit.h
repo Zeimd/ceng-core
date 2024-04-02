@@ -23,7 +23,7 @@ namespace Ceng
 
 		void Append(std::shared_ptr<INonTerminal>& item);
 
-		Ceng::StringUtf8 ToString() const override;
+		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
 	};
 }
 

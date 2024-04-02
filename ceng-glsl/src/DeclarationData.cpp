@@ -54,7 +54,7 @@ DeclarationData::DeclarationData(const Ceng::StringUtf8& name, std::shared_ptr<E
 
 }
 
-Ceng::StringUtf8 DeclarationData::ToString() const
+Ceng::StringUtf8 DeclarationData::ToString(unsigned int indentLevel) const
 {
 	if (empty)
 	{
@@ -74,7 +74,7 @@ Ceng::StringUtf8 DeclarationData::ToString() const
 
 		if (arraySizeExpression != nullptr)
 		{
-			out += arraySizeExpression->ToString();
+			out += arraySizeExpression->ToString(indentLevel);
 		}
 
 		out += ']';
@@ -83,7 +83,7 @@ Ceng::StringUtf8 DeclarationData::ToString() const
 	if (initializer != nullptr)
 	{
 		out += " = ";
-		out += initializer->ToString();
+		out += initializer->ToString(indentLevel);
 	}
 
 	return out;

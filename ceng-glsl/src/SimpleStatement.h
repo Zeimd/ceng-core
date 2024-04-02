@@ -55,7 +55,7 @@ namespace Ceng
 		SimpleStatement(std::shared_ptr<IterationStatement>& iteration);
 		SimpleStatement(std::shared_ptr<JumpStatement>& jump);
 
-		Ceng::StringUtf8 ToString() const override;
+		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
 	};
 }
 

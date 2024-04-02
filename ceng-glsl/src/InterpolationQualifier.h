@@ -20,7 +20,7 @@ namespace Ceng
 	
 		InterpolationQualifier(InterpolationQualifierType::value interpolation);
 
-		Ceng::StringUtf8 ToString() const override;
+		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
 	};
 }
 

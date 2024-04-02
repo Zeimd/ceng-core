@@ -20,21 +20,21 @@ AssignmentExpression::AssignmentExpression(std::shared_ptr<UnaryExpression>& una
 
 }
 
-Ceng::StringUtf8 AssignmentExpression::ToString() const
+Ceng::StringUtf8 AssignmentExpression::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
 	if (full)
 	{
-		out += unaryEx->ToString();
+		out += unaryEx->ToString(indentLevel);
 		out += ' ';
-		out += op->ToString();
+		out += op->ToString(indentLevel);
 		out += ' ';
-		out += assignEx->ToString();
+		out += assignEx->ToString(indentLevel);
 	}
 	else
 	{
-		out = cond->ToString();
+		out = cond->ToString(indentLevel);
 	}
 
 	return out;

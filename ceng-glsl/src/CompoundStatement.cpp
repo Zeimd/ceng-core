@@ -25,21 +25,24 @@ CompoundStatement::CompoundStatement(std::shared_ptr<StatementList>& list)
 
 }
 
-Ceng::StringUtf8 CompoundStatement::ToString() const
+Ceng::StringUtf8 CompoundStatement::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
-	out += "\n{\n";
+	out += "\n";
+	out += GetIndent(indentLevel);
+	out += "{\n";
 
 	if (list != nullptr)
 	{
-		out += list->ToString();
+		out += list->ToString(indentLevel+1);
 	}
 	else
 	{
 		out += '\n';
 	}
 
+	out += GetIndent(indentLevel);
 	out += "}\n";
 
 	return out;

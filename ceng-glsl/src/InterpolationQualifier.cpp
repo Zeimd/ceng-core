@@ -19,7 +19,7 @@ InterpolationQualifier::InterpolationQualifier(InterpolationQualifierType::value
 
 }
 
-Ceng::StringUtf8 InterpolationQualifier::ToString() const
+Ceng::StringUtf8 InterpolationQualifier::ToString(unsigned int indentLevel) const
 {
 	switch (interpolation)
 	{

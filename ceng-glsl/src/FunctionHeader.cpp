@@ -19,11 +19,11 @@ FunctionHeader::FunctionHeader(std::shared_ptr<FullySpecifiedType>& type, const 
 
 }
 
-Ceng::StringUtf8 FunctionHeader::ToString() const
+Ceng::StringUtf8 FunctionHeader::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
-	out += type->ToString();
+	out += type->ToString(indentLevel);
 	out += ' ';
 	out += name;
 	out += '(';

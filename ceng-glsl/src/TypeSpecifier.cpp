@@ -19,12 +19,12 @@ TypeSpecifier::TypeSpecifier(const PrecisionQualifier& precision, const TypeSpec
 
 }
 
-Ceng::StringUtf8 TypeSpecifier::ToString() const
+Ceng::StringUtf8 TypeSpecifier::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
-	out += precision.ToString();
-	out += typeSpec.ToString();
+	out += precision.ToString(indentLevel);
+	out += typeSpec.ToString(indentLevel);
 
 	return out;
 }

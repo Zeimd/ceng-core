@@ -25,7 +25,7 @@ CompoundStatementNoNewScope::CompoundStatementNoNewScope(std::shared_ptr<Stateme
 
 }
 
-Ceng::StringUtf8 CompoundStatementNoNewScope::ToString() const
+Ceng::StringUtf8 CompoundStatementNoNewScope::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
@@ -33,7 +33,7 @@ Ceng::StringUtf8 CompoundStatementNoNewScope::ToString() const
 
 	if (list != nullptr)
 	{
-		out += list->ToString();
+		out += list->ToString(indentLevel+1);
 	}	
 	else
 	{

@@ -62,24 +62,24 @@ SimpleStatement::SimpleStatement(std::shared_ptr<JumpStatement>& jump)
 
 }
 
-Ceng::StringUtf8 SimpleStatement::ToString() const
+Ceng::StringUtf8 SimpleStatement::ToString(unsigned int indentLevel) const
 {
 	switch (type)
 	{
 	case StatementType::expression:
-		return expression->ToString();
+		return expression->ToString(indentLevel);
 	case StatementType::declaration:
-		return declaration->ToString();
+		return declaration->ToString(indentLevel);
 	case StatementType::selection:
-		return selection->ToString();
+		return selection->ToString(indentLevel);
 	case StatementType::switch_statement:
-		return switchStatement->ToString();
+		return switchStatement->ToString(indentLevel);
 	case StatementType::case_label:
-		return caseLabel->ToString();
+		return caseLabel->ToString(indentLevel);
 	case StatementType::iteration:
-		return iteration->ToString();
+		return iteration->ToString(indentLevel);
 	case StatementType::jump:
-		return jump->ToString();
+		return jump->ToString(indentLevel);
 	default:
 		return "<UNHANDLED STATEMENT TYPE>";
 	}

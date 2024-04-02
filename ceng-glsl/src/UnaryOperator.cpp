@@ -33,7 +33,7 @@ UnaryOperator::UnaryOperator(const Token& token)
 	}
 }
 
-Ceng::StringUtf8 UnaryOperator::ToString() const
+Ceng::StringUtf8 UnaryOperator::ToString(unsigned int indentLevel) const
 {
 	switch (type)
 	{

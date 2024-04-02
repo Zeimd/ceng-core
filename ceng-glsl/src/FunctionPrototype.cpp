@@ -20,11 +20,11 @@ FunctionPrototype::FunctionPrototype(std::shared_ptr<FunctionDeclarator>& decl)
 
 }
 
-Ceng::StringUtf8 FunctionPrototype::ToString() const
+Ceng::StringUtf8 FunctionPrototype::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
-	out = decl->ToString();
+	out = decl->ToString(indentLevel);
 	out += ')';
 
 	return out;

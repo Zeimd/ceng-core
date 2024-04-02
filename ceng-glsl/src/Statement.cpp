@@ -28,14 +28,14 @@ Statement::Statement(std::shared_ptr<CompoundStatement>& compoundStatement)
 
 }
 
-Ceng::StringUtf8 Statement::ToString() const
+Ceng::StringUtf8 Statement::ToString(unsigned int indentLevel) const
 {
 	switch (category)
 	{
 	case StatementCategory::simple:
-		return simpleStatement->ToString();
+		return simpleStatement->ToString(indentLevel);
 	case StatementCategory::compound:
-		return compoundStatement->ToString();
+		return compoundStatement->ToString(indentLevel);
 	default:
 		return "<UNHANDLED STATEMENT CATEGORY>";
 	}

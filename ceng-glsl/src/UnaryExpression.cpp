@@ -47,37 +47,37 @@ UnaryExpression::UnaryExpression(std::shared_ptr<UnaryOperator>& op, std::shared
 	}
 }
 
-Ceng::StringUtf8 UnaryExpression::ToString() const
+Ceng::StringUtf8 UnaryExpression::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
 	switch (unaryType)
 	{
 	case UnaryExpressionType::postfix_expression:
-		return postfixExpression->ToString();
+		return postfixExpression->ToString(indentLevel);
 	case UnaryExpressionType::inc_op:
 		out = "++";
-		out += unaryExpression->ToString();
+		out += unaryExpression->ToString(indentLevel);
 		return out;
 	case UnaryExpressionType::dec_op:
 		out = "--";
-		out += unaryExpression->ToString();
+		out += unaryExpression->ToString(indentLevel);
 		return out;
 	case UnaryExpressionType::plus:
 		out = "+";
-		out += unaryExpression->ToString();
+		out += unaryExpression->ToString(indentLevel);
 		return out;
 	case UnaryExpressionType::negation:
 		out = "-";
-		out += unaryExpression->ToString();
+		out += unaryExpression->ToString(indentLevel);
 		return out;
 	case UnaryExpressionType::logical_not:
 		out = "!";
-		out += unaryExpression->ToString();
+		out += unaryExpression->ToString(indentLevel);
 		return out;
 	case UnaryExpressionType::two_complement:
 		out = "~";
-		out += unaryExpression->ToString();
+		out += unaryExpression->ToString(indentLevel);
 		return out;
 	}
 

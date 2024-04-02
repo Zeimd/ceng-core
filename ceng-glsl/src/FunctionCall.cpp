@@ -13,7 +13,7 @@ FunctionCall::FunctionCall(std::shared_ptr<FunctionCallOrMethod>& call)
 
 }
 
-Ceng::StringUtf8 FunctionCall::ToString() const
+Ceng::StringUtf8 FunctionCall::ToString(unsigned int indentLevel) const
 {
-	return call->ToString();
+	return call->ToString(indentLevel);
 }

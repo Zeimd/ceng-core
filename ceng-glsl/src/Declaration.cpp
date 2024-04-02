@@ -21,17 +21,17 @@ void Declaration::Release()
 	delete this;
 }
 
-Ceng::StringUtf8 Declaration::ToString() const
+Ceng::StringUtf8 Declaration::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 temp;
 
 	switch (type)
 	{
 	case DeclarationType::function_prototype:
-		temp = prototype->ToString();
+		temp = prototype->ToString(indentLevel);
 		break;
 	case DeclarationType::init_list:
-		temp = declList->ToString();
+		temp = declList->ToString(indentLevel);
 		break;
 	default:
 		return "<UNHANDLED DECLARATION TYPE>";

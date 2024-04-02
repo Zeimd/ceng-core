@@ -39,7 +39,7 @@ namespace Ceng
 
 		AdditiveExpression(std::shared_ptr<AdditiveExpression>& lhs, AdditiveOp::value operation, std::shared_ptr<MultiplicativeExpression>& rhs);
 
-		Ceng::StringUtf8 ToString() const override;
+		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
 	};
 }
 

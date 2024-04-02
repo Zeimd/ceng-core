@@ -40,7 +40,7 @@ namespace Ceng
 
 		MultiplicativeExpression(std::shared_ptr<MultiplicativeExpression>& lhs, MultiplicativeOp::value operation, std::shared_ptr<UnaryExpression>& rhs);
 
-		Ceng::StringUtf8 ToString() const override;
+		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
 	};
 }
 

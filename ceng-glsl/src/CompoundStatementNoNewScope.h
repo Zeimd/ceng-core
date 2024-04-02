@@ -23,7 +23,7 @@ namespace Ceng
 		CompoundStatementNoNewScope();
 		CompoundStatementNoNewScope(std::shared_ptr<StatementList>& list);
 
-		Ceng::StringUtf8 ToString() const override;
+		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
 	};
 }
 

@@ -19,19 +19,19 @@ FunctionCallGeneric::FunctionCallGeneric(std::shared_ptr<FuncCallHeaderNoParams>
 
 }
 
-Ceng::StringUtf8 FunctionCallGeneric::ToString() const
+Ceng::StringUtf8 FunctionCallGeneric::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
 	if (noParams != nullptr)
 	{
-		out += noParams->ToString();
+		out += noParams->ToString(indentLevel);
 		out += ')';
 		return out;
 	}
 	else if (withParams != nullptr)
 	{
-		out += withParams->ToString();
+		out += withParams->ToString(indentLevel);
 		out += ')';
 		return out;
 	}

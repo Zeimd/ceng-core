@@ -42,7 +42,7 @@ namespace Ceng
 
 		RelationalExpression(std::shared_ptr<RelationalExpression>& lhs, RelativeOp::value operation, std::shared_ptr<ShiftExpression>& rhs);
 
-		Ceng::StringUtf8 ToString() const override;
+		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
 	};
 }
 

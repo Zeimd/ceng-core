@@ -33,7 +33,7 @@ void StructDeclarator::Release()
 	delete this;
 }
 
-Ceng::StringUtf8 StructDeclarator::ToString() const
+Ceng::StringUtf8 StructDeclarator::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
@@ -45,7 +45,7 @@ Ceng::StringUtf8 StructDeclarator::ToString() const
 
 		if (arraySize != nullptr)
 		{
-			out += arraySize->ToString();
+			out += arraySize->ToString(indentLevel);
 		}
 
 		out += ']';

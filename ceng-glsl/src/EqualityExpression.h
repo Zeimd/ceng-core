@@ -40,7 +40,7 @@ namespace Ceng
 
 		EqualityExpression(std::shared_ptr<EqualityExpression>& lhs, EqualityOp::value operation, std::shared_ptr<RelationalExpression>& rhs);
 
-		Ceng::StringUtf8 ToString() const override;
+		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
 	};
 }
 

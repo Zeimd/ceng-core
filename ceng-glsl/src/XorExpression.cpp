@@ -19,19 +19,19 @@ XorExpression::XorExpression(std::shared_ptr<XorExpression>& lhs, std::shared_pt
 
 }
 
-Ceng::StringUtf8 XorExpression::ToString() const
+Ceng::StringUtf8 XorExpression::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
 	if (full)
 	{
-		out = lhs->ToString();
+		out = lhs->ToString(indentLevel);
 		out += " ^ ";
-		out += rhs->ToString();
+		out += rhs->ToString(indentLevel);
 	}
 	else
 	{
-		out = rhs->ToString();
+		out = rhs->ToString(indentLevel);
 	}
 
 

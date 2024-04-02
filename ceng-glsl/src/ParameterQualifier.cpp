@@ -32,7 +32,7 @@ ParameterQualifier::ParameterQualifier(ParameterQualifierType::value qualifier)
 
 }
 
-Ceng::StringUtf8 ParameterQualifier::ToString() const
+Ceng::StringUtf8 ParameterQualifier::ToString(unsigned int indentLevel) const
 {
 	switch (qualifier)
 	{

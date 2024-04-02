@@ -25,11 +25,11 @@ TypeSpecifierNoPrec::TypeSpecifierNoPrec(std::shared_ptr<TypeSpecifierNoArray>& 
 
 }
 
-Ceng::StringUtf8 TypeSpecifierNoPrec::ToString() const
+Ceng::StringUtf8 TypeSpecifierNoPrec::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
-	out = typeSpec->ToString();
+	out = typeSpec->ToString(indentLevel);
 
 	if (isArray)
 	{
@@ -37,7 +37,7 @@ Ceng::StringUtf8 TypeSpecifierNoPrec::ToString() const
 
 		if (elementExpression != nullptr)
 		{
-			out += elementExpression->ToString();
+			out += elementExpression->ToString(indentLevel);
 		}
 
 		out += ']';

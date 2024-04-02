@@ -27,7 +27,7 @@ namespace Ceng
 
 		static StorageQualifierType::value FromTokenType(TokenType::value type);
 
-		Ceng::StringUtf8 ToString() const override;
+		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
 	};
 }
 

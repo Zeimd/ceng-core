@@ -31,9 +31,14 @@ namespace Ceng
 
 		virtual void Release() = 0;
 
-		virtual Ceng::StringUtf8 ToString() const
+		virtual Ceng::StringUtf8 ToString(unsigned int indentLevel) const
 		{
 			return "";
+		}
+
+		static Ceng::StringUtf8 GetIndent(unsigned int indentLevel)
+		{
+			return Ceng::StringUtf8(' ', 4 * indentLevel );
 		}
 	};
 }

@@ -63,13 +63,13 @@ TypeQualifier::TypeQualifier(bool invariant, const InterpolationQualifier& inter
 
 }
 
-Ceng::StringUtf8 TypeQualifier::ToString() const
+Ceng::StringUtf8 TypeQualifier::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
 	if (layout != nullptr)
 	{
-		out += layout->ToString();
+		out += layout->ToString(indentLevel);
 	}
 
 	if (invariant)
@@ -79,13 +79,13 @@ Ceng::StringUtf8 TypeQualifier::ToString() const
 
 	if (interpolation.interpolation != InterpolationQualifierType::unused)
 	{
-		out += interpolation.ToString();
+		out += interpolation.ToString(indentLevel);
 		out += ' ';
 	}
 
 	if (storage.qualifier != StorageQualifierType::unused)
 	{
-		out += storage.ToString();
+		out += storage.ToString(indentLevel);
 		out += ' ';
 	}
 

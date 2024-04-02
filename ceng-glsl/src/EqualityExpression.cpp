@@ -36,16 +36,16 @@ EqualityExpression::EqualityExpression(std::shared_ptr<EqualityExpression>& lhs,
 
 }
 
-Ceng::StringUtf8 EqualityExpression::ToString() const
+Ceng::StringUtf8 EqualityExpression::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
 	if (operation == EqualityOp::unassigned)
 	{
-		return rhs->ToString();
+		return rhs->ToString(indentLevel);
 	}
 
-	out = lhs->ToString();
+	out = lhs->ToString(indentLevel);
 	out += ' ';
 
 	switch (operation)
@@ -65,7 +65,7 @@ Ceng::StringUtf8 EqualityExpression::ToString() const
 	}
 
 	out += ' ';
-	out += rhs->ToString();
+	out += rhs->ToString(indentLevel);
 
 	return out;
 }

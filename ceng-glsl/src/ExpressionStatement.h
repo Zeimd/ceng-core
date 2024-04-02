@@ -23,7 +23,7 @@ namespace Ceng
 
 		ExpressionStatement(std::shared_ptr<Expression>& ex);		
 
-		Ceng::StringUtf8 ToString() const override;
+		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
 	};
 }
 

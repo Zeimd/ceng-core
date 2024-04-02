@@ -26,16 +26,17 @@ SelectionRestStatement::SelectionRestStatement(std::shared_ptr<Statement>& main,
 
 }
 
-Ceng::StringUtf8 SelectionRestStatement::ToString() const
+Ceng::StringUtf8 SelectionRestStatement::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
-	out += main->ToString();
+	out += main->ToString(indentLevel);
 
 	if (elseBlock != nullptr)
 	{
-		if (elseBlock->category == StatementCategory::compound)
+		if (main->category == StatementCategory::compound)
 		{
+			out += GetIndent(indentLevel);
 			out += "else";
 		}
 		else
@@ -43,7 +44,7 @@ Ceng::StringUtf8 SelectionRestStatement::ToString() const
 			out += " else ";
 		}
 		
-		out += elseBlock->ToString();
+		out += elseBlock->ToString(indentLevel);
 	}
 
 	return out;

@@ -22,7 +22,7 @@ namespace Ceng
 		TypeSpecifier(const TypeSpecifierNoPrec& typeSpec);
 		TypeSpecifier(const PrecisionQualifier& precision, const TypeSpecifierNoPrec& typeSpec);
 
-		Ceng::StringUtf8 ToString() const override;
+		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
 	};
 }
 

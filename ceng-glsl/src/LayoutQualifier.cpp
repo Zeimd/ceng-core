@@ -13,7 +13,7 @@ void LayoutQualifier::Release()
 	delete this;
 }
 
-Ceng::StringUtf8 LayoutQualifier::ToString() const
+Ceng::StringUtf8 LayoutQualifier::ToString(unsigned int indentLevel) const
 {
 	return "";
 }

@@ -26,7 +26,7 @@ namespace Ceng
 
 		TypeSpecifierNoPrec(std::shared_ptr<TypeSpecifierNoArray>& typeSpec, std::shared_ptr<Expression>& elementExpression);
 
-		Ceng::StringUtf8 ToString() const override;
+		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
 	};
 }
 

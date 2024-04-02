@@ -13,7 +13,7 @@ void IntegerExpression::Release()
 	delete this;
 }
 
-Ceng::StringUtf8 IntegerExpression::ToString() const
+Ceng::StringUtf8 IntegerExpression::ToString(unsigned int indentLevel) const
 {
 	return "";
 }

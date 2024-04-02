@@ -46,7 +46,7 @@ StorageQualifierType::value StorageQualifier::FromTokenType(TokenType::value typ
 	}
 }
 
-Ceng::StringUtf8 StorageQualifier::ToString() const
+Ceng::StringUtf8 StorageQualifier::ToString(unsigned int indentLevel) const
 {
 	switch (qualifier)
 	{

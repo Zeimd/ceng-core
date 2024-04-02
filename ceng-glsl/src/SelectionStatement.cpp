@@ -21,15 +21,15 @@ SelectionStatement::SelectionStatement(std::shared_ptr<Expression>& condition, s
 
 }
 
-Ceng::StringUtf8 SelectionStatement::ToString() const
+Ceng::StringUtf8 SelectionStatement::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
 	out = "if (";
-	out += condition->ToString();
+	out += condition->ToString(indentLevel);
 	out += ") ";
 
-	out += rest->ToString();
+	out += rest->ToString(indentLevel);
 
 	return out;
 }

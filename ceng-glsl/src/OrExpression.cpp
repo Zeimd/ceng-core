@@ -19,19 +19,19 @@ OrExpression::OrExpression(std::shared_ptr<OrExpression>& lhs, std::shared_ptr<X
 
 }
 
-Ceng::StringUtf8 OrExpression::ToString() const
+Ceng::StringUtf8 OrExpression::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
 	if (full)
 	{
-		out = lhs->ToString();
+		out = lhs->ToString(indentLevel);
 		out += " | ";
-		out += rhs->ToString();
+		out += rhs->ToString(indentLevel);
 	}
 	else
 	{
-		out = rhs->ToString();
+		out = rhs->ToString(indentLevel);
 	}
 
 

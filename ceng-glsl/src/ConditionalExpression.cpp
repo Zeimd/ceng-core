@@ -20,21 +20,21 @@ ConditionalExpression::ConditionalExpression(std::shared_ptr<LogicalOrExpression
 
 }
 
-Ceng::StringUtf8 ConditionalExpression::ToString() const
+Ceng::StringUtf8 ConditionalExpression::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
 	if (full)
 	{
-		out = a->ToString();
+		out = a->ToString(indentLevel);
 		out += " ? ";
-		out += b->ToString();
+		out += b->ToString(indentLevel);
 		out += " : ";
-		out += c->ToString();
+		out += c->ToString(indentLevel);
 	}
 	else
 	{
-		out = a->ToString();
+		out = a->ToString(indentLevel);
 	}
 
 
