@@ -31,6 +31,8 @@ namespace Ceng
 
 		void Debug(const Ceng::StringUtf8& message);
 
+		void Nominal(const Ceng::StringUtf8& message);
+
 		void Debug(const Ceng::StringUtf8& message, const std::shared_ptr<const Ceng::StringUtf8>& fileName, const Ceng::UINT32 line, const Ceng::UINT32 column);
 
 		Ceng::StringUtf8 ToString() const;
