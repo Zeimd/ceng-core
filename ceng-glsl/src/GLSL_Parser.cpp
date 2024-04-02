@@ -7915,7 +7915,6 @@ ParserReturnValue GLSL_Parser::S_InitDeclaratorList_Comma_IdToken_LBracket_Expre
 ParserReturnValue GLSL_Parser::S_Declaration(std::shared_ptr<Declaration>& decl)
 {
 	log.Debug(__func__);
-	//return ParserReturnValue();
 
 	return { std::make_shared<DeclarationStatement>(decl),1 };
 }
@@ -7923,7 +7922,6 @@ ParserReturnValue GLSL_Parser::S_Declaration(std::shared_ptr<Declaration>& decl)
 ParserReturnValue GLSL_Parser::S_DeclarationStatement(std::shared_ptr<DeclarationStatement>& declStatement)
 {
 	log.Debug(__func__);
-	//return ParserReturnValue();
 
 	return { std::make_shared<SimpleStatement>(declStatement),1 };
 }
