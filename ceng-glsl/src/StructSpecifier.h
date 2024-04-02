@@ -4,10 +4,11 @@
 #include <memory>
 
 #include "INonTerminal.h"
-#include "StructDeclarationList.h"
 
 namespace Ceng
 {
+	class StructDeclarationList;
+
 	class StructSpecifier : public INonTerminal
 	{
 	public:
@@ -16,6 +17,8 @@ namespace Ceng
 		std::shared_ptr<StructDeclarationList> list;
 
 	public:
+
+		~StructSpecifier() override;
 
 		StructSpecifier(const Ceng::StringUtf8& name, std::shared_ptr<StructDeclarationList>& list);
 

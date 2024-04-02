@@ -1,9 +1,15 @@
 #include "StructSpecifier.h"
+#include "StructDeclarationList.h"
 
 using namespace Ceng;
 
 StructSpecifier::StructSpecifier(const Ceng::StringUtf8& _name, std::shared_ptr<StructDeclarationList>& _list)
 	: INonTerminal(NonTerminalType::struct_specifier),name(_name),list(_list)
+{
+
+}
+
+StructSpecifier::~StructSpecifier()
 {
 
 }

@@ -15,6 +15,8 @@ namespace Ceng
 
 	public:
 
+		~StructDeclaratorList() override;
+
 		void Release() override;
 
 		Ceng::StringUtf8 ToString() const override;

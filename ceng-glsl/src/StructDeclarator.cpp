@@ -23,6 +23,11 @@ StructDeclarator::StructDeclarator(const Ceng::StringUtf8& name, std::shared_ptr
 
 }
 
+StructDeclarator::~StructDeclarator()
+{
+
+}
+
 void StructDeclarator::Release()
 {
 	delete this;

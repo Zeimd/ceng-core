@@ -23,6 +23,7 @@ namespace Ceng
 		void Release() override;
 
 		Ceng::StringUtf8 ToString() const override;
+		~StructDeclarationList() override;
 	};
 }
 

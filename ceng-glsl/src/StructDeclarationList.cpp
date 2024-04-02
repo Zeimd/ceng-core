@@ -14,6 +14,11 @@ void StructDeclarationList::Append(std::shared_ptr<StructDeclaration>& decl)
 	list.push_back(decl);
 }
 
+StructDeclarationList::~StructDeclarationList()
+{
+
+}
+
 void StructDeclarationList::Release()
 {
 	delete this;

@@ -21,6 +21,8 @@ namespace Ceng
 
 	public:
 
+		~StructDeclaration() override;
+
 		StructDeclaration(TypeSpecifier& typeSpec, std::shared_ptr<StructDeclaratorList>& list);
 		StructDeclaration(TypeQualifier& typeQ, TypeSpecifier& typeSpec, std::shared_ptr<StructDeclaratorList>& list);
 

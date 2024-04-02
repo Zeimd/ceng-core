@@ -15,6 +15,11 @@ StructDeclaration::StructDeclaration(TypeQualifier& typeQ, TypeSpecifier& typeSp
 
 }
 
+StructDeclaration::~StructDeclaration()
+{
+
+}
+
 void StructDeclaration::Release()
 {
 	delete this;
