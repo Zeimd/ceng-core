@@ -169,7 +169,9 @@ These values must be obtained for the 2x2 quad. One way is to use duplication an
 to produce the quad's input value before multiplying each SIMD slot by corresponding z. The data used for this can be halved by using two cleverly
 selected step values:
 
-a,b = [dpOz_dx, -dpOz_dx + dpOz_dy]
+a = dpOz_dx
+
+b = -dpOz_dx + dpOz_dy
 
 which gives the quad's points as:
 
@@ -209,19 +211,99 @@ Much of the address calculation relies on the way PMADDWD instruction works:
 
 using 16-bit integers, we have
 
-steps = [ yStep, xStep, yStep, xStep, yStep, xStep, yStep, xStep],
+    steps = [ yStep, xStep, yStep, xStep, yStep, xStep, yStep, xStep],
 
-uv = [v3, u3, v2, u2, v1, u1, v0, u0],
+    uv = [v3, u3, v2, u2, v1, u1, v0, u0],
 
 where slots are 16 bit.
 
+Now,
+
 pmaddwd out, steps, uv
 
-out = [v3 * yStep, u3 * xStep, v2 * yStep, u2 * xStep, v1 * yStep, u1 * xStep, v0 * yStep, u0 * xStep],
+gives
+
+    out = [v3 * yStep, u3 * xStep, v2 * yStep, u2 * xStep, v1 * yStep, u1 * xStep, v0 * yStep, u0 * xStep],
 
 where slots are 32 bit.
 
 In 32-bit mode, it is then simple to add the base address of the texture to each slot.
+
+Linear filtering uses the following factors:
+
+uFrac = frac(u);
+vFrac = frac(v);
+
+fracMul = uFrac * vFrac;
+
+factorTopLeft = 1 + fracMul - uFrac - vFrac
+factorTopRight = uFrac - fracMul;
+factorBottomLeft = vFrac - fracMul;
+factorBottomRight = fracMul;
+
+A 2x2 quad of texels is fetched and the final color is given by
+
+color = colorTopLeft * factorTopLeft + ... + colorBottomRight * factorBottomRight;
+
+Each color has 4 channels, so it is 16 multiplications total. Fixed point can be used to pack as much of this as possible with SSE instructions.
+
+The color values in the texture can be understood as 0.8 fixed point. Meanwhile, our factors are in 0.16 fixed point:
+
+We need to extend the 0.8 fixed point to 0.16 fixed point:
+
+c' = c << 8
+
+[TBC: why does the code use 7 as shift here?]
+
+to get
+
+   0.8
+ <------->
+|........|00000000|
+|........ ........|
+ <--------------->
+        0.16
+
+This is inaccurate, but if c = 255, then the error of the conversion is
+
+absolute error = 65535 - 255 * 256 = 255
+
+relative error = 255 / 65535 = 0.0038,
+
+which we can basically ignore in the shader.
+
+Using the normal integer multiplication on two 0.16 numbers gives a 0.32 number. We need to discard the lowest 16 bits to get back to 0.16 format:
+
+result = (a * b) >> 16, 
+
+which is exactly what the SSE instruction PMULHUW does.
+
+We need to add four such products together:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+The shader uses 9.7 fixed point arithmetic to perform 8 multiplications of 16 bit integers
+at the same time.
 
 -----------------------------------------------------------------
 Render targets
