@@ -110,8 +110,9 @@ Pixel shader
 Pixel shaders are currently written in C++ code that internally expands to use the types used by each input, output and local variable. This isn't
 exposed to the client at the moment, and shaders can only be implemented within the library.
 
-Pixel shader works on 2x2 pixel quads. This makes it possible to calculate derivatives, and hence MIP-map levels. It also allows the struct of arrays (SoA)
-layout to be used instead of the usual array of structs (AoS).
+Pixel shader works on 2x2 pixel quads. This makes it possible to calculate derivatives, and hence MIP-map levels. 
+
+Pixel shader uses struct of arrays (SoA) instead of the more common array of structs (AoS):
 
 // Traditional approach
 
@@ -137,15 +138,16 @@ struct QuadVec4
 
 QuadVec4 pos;
 
-Many operations are easier to do in vector instruction sets (SSE in particular), for the struct of arrays layout. 
-These include: 
+When using vector instruction sets (SSE in particular), SoA is better for some things that often appear in
+shader code:
 
-1. Swizzles: converted into moves / use only selected channels.
-2. Per component operations: simply skip unused channels.
+1. Swizzles: converted into moves / use only selected channels. AoS would require shuffle or masking.
+2. Per component operations: simply skip unused channels. AoS would require shuffle or masking.
 3. Dot product (because it requires a horizontal sum in array of structs mode)
 4. Cross product (because it requires swizzles)
 
-It also doesn't waste any SIMD register slots when 3 components are used.
+SoA allows uniform way of handling vectors of any number of components. When 3 components are used, it doesn't waste a SIMD register slot or require special
+load/store solution.
 
 The main downside of the SoA approach is that data must be converted between AoS and SoA at various points of the process. For example texture data
 comes in AoS. The other is that it produces larger working sets.
@@ -156,15 +158,16 @@ invZ = z0 + (x-x0)*step_dz_dx + (y-y0)*step_dz_dy
 
 z = 1 / invZ
 
-pOz = p0 + (x-x0)*step_dpOz_dx + (y-y0)*step_dpOz_dy
+pOverZ = p0 + (x-x0)*step_dpOz_dx + (y-y0)*step_dpOz_dy
 
-p = pOz * z
+p = pOverZ * z
 
 These values must be obtained for the 2x2 quad. One way is to use duplication and stored step vectors
 
 [0, dpOz_dx, dpOz_dy, dpOz_dx + dpOz_dy]
 
-to produce the quad's input value before multiplying each SIMD slot by corresponding z. The data used for this can be halved by using two step values:
+to produce the quad's input value before multiplying each SIMD slot by corresponding z. The data used for this can be halved by using two cleverly
+selected step values:
 
 a,b = [dpOz_dx, -dpOz_dx + dpOz_dy]
 
@@ -179,11 +182,55 @@ and as a bonus, the value for the top-left corner of the next quad on the right 
 
 pTopLeft = pBottomRight - b;
 
-so this process can continue through the entire scanline. 
+so this process can continue through the entire scanline. The steps above generate a Z-order curve.
 
 The division by depth is easily performed with a SIMD operation, and in practice SSE's approximate 1/x instruction is accurate enough for 
 rendering purposes unless the camera is super close to the surface. 
 
+--------------------------------------------------------------
+Textures
+
+Shader input textures are converted into a 4x4 pixel tile layout. For 4 bits per pixel, this corresponds to a single 64 byte cache line. This increases
+the probability that texels that will be needed next are already in cache, regardless of the direction the texture is scanned.
+
+Mip-map level calculation, texel fetch and bilinear interpolation are performed using SSE instrinsics. These can be found in source file
+
+    cr-shader-view-tex2d.cpp
+
+Address is calculated with
+
+    address = base + bytes_per_pixel * (v * rowBytes + u);
+
+or more simply
+
+    address = base + v * yStep + u * xStep;
+
+Much of the address calculation relies on the way PMADDWD instruction works:
+
+using 16-bit integers, we have
+
+steps = [ yStep, xStep, yStep, xStep, yStep, xStep, yStep, xStep],
+
+uv = [v3, u3, v2, u2, v1, u1, v0, u0],
+
+where slots are 16 bit.
+
+pmaddwd out, steps, uv
+
+out = [v3 * yStep, u3 * xStep, v2 * yStep, u2 * xStep, v1 * yStep, u1 * xStep, v0 * yStep, u0 * xStep],
+
+where slots are 32 bit.
+
+In 32-bit mode, it is then simple to add the base address of the texture to each slot.
+
+-----------------------------------------------------------------
+Render targets
+
+Shader output textures, also known as render targets, use rows of 2x2 quads as their layout. This allows pixel shader to output with the smallest
+extra cost possible. This layout is converted back to scanlines just before presenting the framebuffer.
+
+The renderer doesn't currently handle the possibility of a texture being swapped between input and output role. In those cases the 2x2 rows layout would
+most likely be used to avoid the costly conversion process.
 
 
 
