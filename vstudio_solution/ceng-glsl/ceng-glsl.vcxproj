@@ -125,6 +125,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\AndExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AssignmentExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AssignmentOperator.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\CaseLabel.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\ceng_GLSL.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\CompoundStatement.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\CompoundStatementNoNewScope.cpp" />
@@ -189,6 +190,8 @@
     <ClCompile Include="..\..\ceng-glsl\src\StructDeclarator.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\StructDeclaratorList.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\StructSpecifier.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\SwitchStatement.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\SwitchStatementList.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\Token.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\Tokenizer.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\TranslationUnit.cpp" />
