@@ -27,14 +27,17 @@ ExpressionStatement::ExpressionStatement(std::shared_ptr<Expression>& ex)
 
 Ceng::StringUtf8 ExpressionStatement::ToString(unsigned int indentLevel) const
 {
-	if (ex == nullptr)
-	{
-		return ";";
-	}
-
 	Ceng::StringUtf8 out;
 
-	out = ex->ToString(indentLevel);
+	out += GetIndent(indentLevel);
+
+	if (ex == nullptr)
+	{
+		out += ';';
+		return out;
+	}
+
+	out += ex->ToString(indentLevel);
 	out += ';';
 
 	return out;

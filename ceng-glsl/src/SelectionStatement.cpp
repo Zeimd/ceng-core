@@ -25,7 +25,9 @@ Ceng::StringUtf8 SelectionStatement::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
-	out = "if (";
+	out = GetIndent(indentLevel);
+
+	out += "if (";
 	out += condition->ToString(indentLevel);
 	out += ") ";
 

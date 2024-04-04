@@ -30,7 +30,7 @@ Ceng::StringUtf8 StatementList::ToString(unsigned int indentLevel) const
 
 	for (auto& x : list)
 	{
-		out += GetIndent(indentLevel);
+		//out += GetIndent(indentLevel);
 		out += x->ToString(indentLevel);
 		out += '\n';
 	}

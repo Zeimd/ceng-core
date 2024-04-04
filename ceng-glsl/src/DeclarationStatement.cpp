@@ -21,5 +21,11 @@ DeclarationStatement::DeclarationStatement(std::shared_ptr<Declaration>& declara
 
 Ceng::StringUtf8 DeclarationStatement::ToString(unsigned int indentLevel) const
 {
-	return declaration->ToString(indentLevel);
+	Ceng::StringUtf8 out;
+
+	out = GetIndent(indentLevel);
+
+	out += declaration->ToString(indentLevel);
+
+	return out;
 }
