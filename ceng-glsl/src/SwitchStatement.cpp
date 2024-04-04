@@ -30,7 +30,7 @@ Ceng::StringUtf8 SwitchStatement::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
-	out += GetIndent(indentLevel);
+	//out += GetIndent(indentLevel);
 
 	out += "switch (";
 	out += expression->ToString(indentLevel);
