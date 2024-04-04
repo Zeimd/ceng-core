@@ -572,5 +572,11 @@
     <ClCompile Include="..\..\ceng-glsl\src\Condition.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\ceng-glsl\src\ForInitStatement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ceng-glsl\src\ForRestStatement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

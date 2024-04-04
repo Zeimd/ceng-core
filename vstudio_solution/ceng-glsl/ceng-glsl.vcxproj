@@ -137,6 +137,8 @@
     <ClCompile Include="..\..\ceng-glsl\src\EqualityExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\Expression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\ExpressionStatement.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\ForInitStatement.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\ForRestStatement.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\FullySpecifiedType.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\FuncCallHeaderNoParams.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\FuncCallHeaderParams.cpp" />
