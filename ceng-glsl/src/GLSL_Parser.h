@@ -657,13 +657,16 @@ namespace Ceng
 
 		ParserReturnValue S_SimpleStatement(std::shared_ptr<SimpleStatement>& simpleStatement);
 
-		ParserReturnValue S_Statement(std::shared_ptr<Statement>& statement);
+		// Special branch for statement that is parsed as part of selection statement
+		ParserReturnValue S_Selection_Statement(std::shared_ptr<Statement>& statement);
 
 		ParserReturnValue S_Statement_ElseToken(std::shared_ptr<Statement>& statement);
 
 		ParserReturnValue S_Statement_ElseToken_Statement(std::shared_ptr<Statement>& a, std::shared_ptr<Statement>& b);
 
 		ParserReturnValue S_SelectionRestStatement(std::shared_ptr<SelectionRestStatement>& selectionRest);
+
+		ParserReturnValue S_Statement(std::shared_ptr<Statement>& statement);
 
 		ParserReturnValue S_StatementList(std::shared_ptr<StatementList>& statementList);
 
@@ -695,6 +698,17 @@ namespace Ceng
 		ParserReturnValue S_SwitchToken_LParen_Expression_RParen(std::shared_ptr<Expression>& expression);
 
 		ParserReturnValue S_SwitchToken_LParen_Expression_RParen_LBrace(std::shared_ptr<Expression>& expression);
+
+		ParserReturnValue S_SwitchToken_LParen_Expression_RParen_LBrace_RBrace(std::shared_ptr<Expression>& expression);
+
+		ParserReturnValue S_SwitchToken_LParen_Expression_RParen_LBrace_Statement(std::shared_ptr<Expression>& expression,
+			std::shared_ptr<Statement>& statement);
+
+		ParserReturnValue S_SwitchToken_LParen_Expression_RParen_LBrace_StatementList(std::shared_ptr<Expression>& expression,
+			std::shared_ptr<StatementList>& list);
+
+		ParserReturnValue S_SwitchToken_LParen_Expression_RParen_LBrace_StatementList_Statement(std::shared_ptr<Expression>& expression,
+			std::shared_ptr<StatementList>& list, std::shared_ptr<Statement>& statement);
 
 		ParserReturnValue S_SwitchToken_LParen_Expression_RParen_LBrace_SwitchStatementList(std::shared_ptr<Expression>& expression,
 			std::shared_ptr<SwitchStatementList>& statementList);

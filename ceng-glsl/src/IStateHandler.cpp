@@ -78,6 +78,27 @@ HandlerReturn IStateHandler::DefaultExpressionShift(GLSL_Parser* parser, const T
 		case TokenType::keyword_if:
 			retVal = parser->S_IfToken();
 			break;
+		case TokenType::keyword_switch:
+			retVal = parser->S_SwitchToken();
+			break;
+		case TokenType::keyword_case:
+			retVal = parser->S_CaseToken();
+			break;
+		case TokenType::keyword_break:
+			retVal = parser->S_BreakToken();
+			break;
+		case TokenType::keyword_default:
+			retVal = parser->S_DefaultToken();
+			break;
+		case TokenType::keyword_continue:
+			retVal = parser->S_ContinueToken();
+			break;
+		case TokenType::keyword_discard:
+			retVal = parser->S_DiscardToken();
+			break;
+		case TokenType::keyword_return:
+			retVal = parser->S_ReturnToken();
+			break;
 		default:
 			valid = false;
 			break;
@@ -302,6 +323,24 @@ HandlerReturn IStateHandler::DefaultExpressionGoto(GLSL_Parser* parser, std::sha
 			retVal = parser->S_SelectionStatement(temp);
 		}
 		break;
+	case NonTerminalType::switch_statement:
+		{
+			std::shared_ptr<SwitchStatement> temp = std::static_pointer_cast<SwitchStatement>(nonTerminal);
+			retVal = parser->S_SwitchStatement(temp);
+		}
+		break;
+	case NonTerminalType::case_label:
+		{
+			std::shared_ptr<CaseLabel> temp = std::static_pointer_cast<CaseLabel>(nonTerminal);
+			retVal = parser->S_CaseLabel(temp);
+		}
+		break;
+	case NonTerminalType::jump_statement:
+		{
+			std::shared_ptr<JumpStatement> temp = std::static_pointer_cast<JumpStatement>(nonTerminal);
+			retVal = parser->S_JumpStatement(temp);
+		}
+		break;
 	case NonTerminalType::compound_statement:
 		{
 			std::shared_ptr<CompoundStatement> temp = std::static_pointer_cast<CompoundStatement>(nonTerminal);
@@ -312,6 +351,12 @@ HandlerReturn IStateHandler::DefaultExpressionGoto(GLSL_Parser* parser, std::sha
 		{
 			std::shared_ptr<Statement> temp = std::static_pointer_cast<Statement>(nonTerminal);
 			retVal = parser->S_Statement(temp);
+		}
+		break;
+	case NonTerminalType::statement_list:
+		{
+			std::shared_ptr<StatementList> temp = std::static_pointer_cast<StatementList>(nonTerminal);
+			retVal = parser->S_StatementList(temp);
 		}
 		break;
 	case NonTerminalType::function_identifier:
