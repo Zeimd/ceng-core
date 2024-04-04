@@ -563,5 +563,8 @@
     <ClCompile Include="..\..\ceng-glsl\src\SwitchStatementList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\ceng-glsl\src\JumpStatement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

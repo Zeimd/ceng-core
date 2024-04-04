@@ -155,6 +155,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\IntegerExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\InterpolationQualifier.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\IStateHandler.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\JumpStatement.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\keyword_db.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\LayoutQualifier.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\LayoutQualifierId.cpp" />
