@@ -29,8 +29,6 @@ Ceng::StringUtf8 JumpStatement::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
-	out += GetIndent(indentLevel);
-
 	switch (jumpType)
 	{
 	case JumpType::breakStatement:

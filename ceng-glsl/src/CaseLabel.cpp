@@ -30,8 +30,6 @@ Ceng::StringUtf8 CaseLabel::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
-	out += GetIndent(indentLevel);
-
 	if (defaultCase)
 	{		
 		out += "default:\n";

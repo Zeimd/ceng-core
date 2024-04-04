@@ -30,8 +30,6 @@ Ceng::StringUtf8 SwitchStatement::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
-	//out += GetIndent(indentLevel);
-
 	out += "switch (";
 	out += expression->ToString(indentLevel);
 	out += ")\n";
@@ -41,7 +39,7 @@ Ceng::StringUtf8 SwitchStatement::ToString(unsigned int indentLevel) const
 
 	if (list != nullptr)
 	{
-		list->ToString(indentLevel + 1);
+		out += list->ToString(indentLevel+1);
 	}
 
 	out += GetIndent(indentLevel);
