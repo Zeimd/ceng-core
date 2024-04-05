@@ -15,6 +15,7 @@ namespace Ceng
 			negation,
 			logical_not,
 			two_complement,
+			invalid_value
 		};
 	}
 
@@ -22,7 +23,7 @@ namespace Ceng
 	{
 	public:
 
-		UnaryOperatorType::value type;
+		UnaryOperatorType::value operatorType;
 
 	public:
 

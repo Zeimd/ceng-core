@@ -18,6 +18,7 @@ namespace Ceng
 			div,
 			mod,
 			unassigned,
+			invalid_value,
 		};
 	}
 

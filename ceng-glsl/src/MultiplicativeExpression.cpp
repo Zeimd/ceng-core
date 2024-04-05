@@ -27,6 +27,9 @@ MultiplicativeExpression::MultiplicativeExpression(std::shared_ptr<Multiplicativ
 	case TokenType::percent:
 		operation = MultiplicativeOp::mod;
 		break;
+	default:
+		operation = MultiplicativeOp::invalid_value;
+		break;
 	}
 }
 

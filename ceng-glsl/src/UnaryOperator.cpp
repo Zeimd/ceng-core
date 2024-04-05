@@ -19,18 +19,23 @@ UnaryOperator::UnaryOperator(const Token& token)
 	switch (token.type)
 	{
 	case TokenType::plus:
-		type = UnaryOperatorType::plus;
+		operatorType = UnaryOperatorType::plus;
 		break;
 	case TokenType::dash:
-		type = UnaryOperatorType::negation;
+		operatorType = UnaryOperatorType::negation;
 		break;
 	case TokenType::tilde:
-		type = UnaryOperatorType::two_complement;
+		operatorType = UnaryOperatorType::two_complement;
 		break;
 	case TokenType::bang:
-		type = UnaryOperatorType::logical_not;
+		operatorType = UnaryOperatorType::logical_not;
+		break;
+	default:
+		operatorType = UnaryOperatorType::invalid_value;
 		break;
 	}
+
+	
 }
 
 Ceng::StringUtf8 UnaryOperator::ToString(unsigned int indentLevel) const

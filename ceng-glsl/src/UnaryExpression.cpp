@@ -24,6 +24,9 @@ UnaryExpression::UnaryExpression(std::shared_ptr<UnaryExpression>& unaryExpressi
 	case PrefixOperator::dec_op:
 		unaryType = UnaryExpressionType::dec_op;
 		break;
+	default:
+		unaryType = UnaryExpressionType::invalid_value;
+		break;
 	}
 }
 
@@ -44,7 +47,12 @@ UnaryExpression::UnaryExpression(std::shared_ptr<UnaryOperator>& op, std::shared
 	case UnaryOperatorType::negation:
 		unaryType = UnaryExpressionType::negation;
 		break;
+	default:
+		unaryType = UnaryExpressionType::invalid_value;
+		break;
 	}
+
+	
 }
 
 Ceng::StringUtf8 UnaryExpression::ToString(unsigned int indentLevel) const

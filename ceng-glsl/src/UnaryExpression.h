@@ -20,6 +20,7 @@ namespace Ceng
 			negation,
 			logical_not,
 			two_complement,
+			invalid_value,
 		};
 	}
 
