@@ -59,9 +59,10 @@ Ceng::StringUtf8 IterationStatement::ToString(unsigned int indentLevel) const
 		out += GetIndent(indentLevel);
 		out += "do";
 		out += doBody->ToString(indentLevel);
+		out += GetIndent(indentLevel);
 		out += "while (";
 		out += doWhileCondition->ToString(indentLevel);
-		out += ")";
+		out += ");";
 		break;
 	case IterationType::forLoop:
 		out += GetIndent(indentLevel);
