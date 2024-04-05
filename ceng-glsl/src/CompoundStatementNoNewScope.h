@@ -7,6 +7,7 @@
 namespace Ceng
 {
 	class StatementList;
+	class CompoundStatement;
 
 	class CompoundStatementNoNewScope : public INonTerminal
 	{
@@ -22,6 +23,7 @@ namespace Ceng
 
 		CompoundStatementNoNewScope();
 		CompoundStatementNoNewScope(std::shared_ptr<StatementList>& list);
+		CompoundStatementNoNewScope(std::shared_ptr<CompoundStatement>& compound);
 
 		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
 	};

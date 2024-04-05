@@ -1,5 +1,6 @@
 #include "CompoundStatementNoNewScope.h"
 #include "StatementList.h"
+#include "CompoundStatement.h"
 
 using namespace Ceng;
 
@@ -25,11 +26,21 @@ CompoundStatementNoNewScope::CompoundStatementNoNewScope(std::shared_ptr<Stateme
 
 }
 
+CompoundStatementNoNewScope::CompoundStatementNoNewScope(std::shared_ptr<CompoundStatement>& compound)
+	: INonTerminal(NonTerminalType::compound_statement_no_new_scope), list(compound->list)
+{
+
+}
+
 Ceng::StringUtf8 CompoundStatementNoNewScope::ToString(unsigned int indentLevel) const
 {
+	printf(__FUNCTION__);
+
 	Ceng::StringUtf8 out;
 
-	out = "\n{\n";
+	out += '\n';
+	out += GetIndent(indentLevel);
+	out += "{\n";
 
 	if (list != nullptr)
 	{
@@ -40,6 +51,7 @@ Ceng::StringUtf8 CompoundStatementNoNewScope::ToString(unsigned int indentLevel)
 		out += '\n';
 	}
 
+	out += GetIndent(indentLevel);
 	out += "}\n";
 
 	return out;

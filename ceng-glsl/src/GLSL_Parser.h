@@ -756,18 +756,25 @@ namespace Ceng
 
 		ParserReturnValue S_ForInitStatement(std::shared_ptr<ForInitStatement>& statement);
 
-		ParserReturnValue S_ConditionOpt(std::shared_ptr<ConditionOpt>& conditionOpt);
-
-		ParserReturnValue S_ConditionOpt_Semicolon(std::shared_ptr<ConditionOpt>& conditionOpt);
-
-		ParserReturnValue S_ConditionOpt_Semicolon_Expression(std::shared_ptr<ConditionOpt>& conditionOpt,
-			std::shared_ptr<Expression>& expression);
-
 		ParserReturnValue S_ForRestStatement(std::shared_ptr<ForRestStatement>& statement);
 
 		ParserReturnValue S_WhileToken();
 
 		ParserReturnValue S_WhileToken_LParen();
+
+		ParserReturnValue S_WhileToken_LParen_Expression(std::shared_ptr<Expression>& expression);
+
+		ParserReturnValue S_WhileToken_LParen_FullType(std::shared_ptr<FullySpecifiedType>& fullType);
+
+		ParserReturnValue S_WhileToken_LParen_FullType_Identifier(std::shared_ptr<FullySpecifiedType>& fullType, const Token& id);
+		
+		ParserReturnValue S_WhileToken_LParen_FullType_Identifier_Equal(std::shared_ptr<FullySpecifiedType>& fullType, const Token& id);
+
+		ParserReturnValue S_WhileToken_LParen_FullType_Identifier_Equal_AssignEx(std::shared_ptr<FullySpecifiedType>& fullType, const Token& id,
+			std::shared_ptr<AssignmentExpression>& assignEx);
+
+		ParserReturnValue S_WhileToken_LParen_FullType_Identifier_Equal_Initializer(std::shared_ptr<FullySpecifiedType>& fullType, const Token& id,
+			std::shared_ptr<Initializer>& initializer);
 
 		ParserReturnValue S_WhileToken_LParen_Condition(std::shared_ptr<Condition>& condition);
 
@@ -775,6 +782,10 @@ namespace Ceng
 
 		ParserReturnValue S_WhileToken_LParen_Condition_RParen_StatementNoNewScope(std::shared_ptr<Condition>& condition,
 			std::shared_ptr<StatementNoNewScope>& block);
+
+		ParserReturnValue S_ForWhile_SimpleStatement(std::shared_ptr<SimpleStatement>& statement);
+
+		ParserReturnValue S_ForWhile_CompoundStatement(std::shared_ptr<CompoundStatement>& statement);
 
 		ParserReturnValue S_DoToken();
 
@@ -808,7 +819,7 @@ namespace Ceng
 		ParserReturnValue S_ForToken_LParen_ForInitStatement_ForRestStatement_RParen_StatementNoNewScope(std::shared_ptr<ForInitStatement>& init,
 			std::shared_ptr<ForRestStatement>& rest, std::shared_ptr<StatementNoNewScope>& block);
 
-		ParserReturnValue S_IteratorStatement(std::shared_ptr<IterationStatement>& statement);
+		ParserReturnValue S_IterationStatement(std::shared_ptr<IterationStatement>& statement);
 
 		ParserReturnValue S_StatementNoNewScope(std::shared_ptr<StatementNoNewScope>& block);
 

@@ -8,6 +8,7 @@
 namespace Ceng
 {
 	class SimpleStatement;
+	class CompoundStatement;
 	class CompoundStatementNoNewScope;
 
 	class StatementNoNewScope : public INonTerminal
@@ -26,6 +27,8 @@ namespace Ceng
 		void Release() override;
 
 		StatementNoNewScope(std::shared_ptr<SimpleStatement>& simpleStatement);
+
+		StatementNoNewScope(std::shared_ptr<CompoundStatement>& compoundStatement);
 
 		StatementNoNewScope(std::shared_ptr<CompoundStatementNoNewScope>& compoundStatement);
 

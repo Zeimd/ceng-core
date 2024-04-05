@@ -99,6 +99,15 @@ HandlerReturn IStateHandler::DefaultExpressionShift(GLSL_Parser* parser, const T
 		case TokenType::keyword_return:
 			retVal = parser->S_ReturnToken();
 			break;
+		case TokenType::keyword_while:
+			retVal = parser->S_WhileToken();
+			break;
+		case TokenType::keyword_do:
+			retVal = parser->S_DoToken();
+			break;
+		case TokenType::keyword_for:
+			retVal = parser->S_ForToken();
+			break;
 		default:
 			valid = false;
 			break;
@@ -339,6 +348,12 @@ HandlerReturn IStateHandler::DefaultExpressionGoto(GLSL_Parser* parser, std::sha
 		{
 			std::shared_ptr<JumpStatement> temp = std::static_pointer_cast<JumpStatement>(nonTerminal);
 			retVal = parser->S_JumpStatement(temp);
+		}
+		break;
+	case NonTerminalType::iteration_statement:
+		{
+			std::shared_ptr<IterationStatement> temp = std::static_pointer_cast<IterationStatement>(nonTerminal);
+			retVal = parser->S_IterationStatement(temp);
 		}
 		break;
 	case NonTerminalType::compound_statement:

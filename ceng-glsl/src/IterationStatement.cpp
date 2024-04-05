@@ -72,6 +72,9 @@ Ceng::StringUtf8 IterationStatement::ToString(unsigned int indentLevel) const
 		out += ")\n";
 		out += forWhileBody->ToString(indentLevel);
 		break;
+	default:
+		out += "<UNHANDLED ITERATION TYPE>";
+		break;
 	}
 
 	return out;
