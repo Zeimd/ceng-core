@@ -9859,49 +9859,321 @@ ParserReturnValue GLSL_Parser::S_WhileToken_LParen_Condition_RParen_StatementNoN
 	return { std::make_shared<IterationStatement>(condition, block), 5};
 }
 
+class Handler_DoToken : public IStateHandler
+{
+public:
+
+public:
+
+	Handler_DoToken()
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::statement:
+		{
+			std::shared_ptr<Statement> temp = std::static_pointer_cast<Statement>(nonTerminal);
+			retVal = parser->S_DoToken_Statement(temp);
+		}
+		break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+		return { retVal, valid };
+	}
+
+};
+
+
 ParserReturnValue GLSL_Parser::S_DoToken()
 {
-	log.Debug(__func__);
-	return ParserReturnValue();
+	Handler_DoToken temp;
+
+	return StateFuncSkeleton(__func__, temp);
 }
+
+class Handler_DoToken_Statement : public IStateHandler
+{
+public:
+
+	std::shared_ptr<Statement>& statement;
+
+public:
+
+	Handler_DoToken_Statement(std::shared_ptr<Statement>& statement)
+		: statement(statement)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::keyword_while:
+			return {parser->S_DoToken_Statement_WhileToken(statement),true };
+		}
+
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(), false };
+	}
+
+};
 
 ParserReturnValue GLSL_Parser::S_DoToken_Statement(std::shared_ptr<Statement>& statement)
 {
-	log.Debug(__func__);
-	return ParserReturnValue();
+	Handler_DoToken_Statement temp(statement);
+
+	return StateFuncSkeleton(__func__, temp);
 }
+
+class Handler_DoToken_Statement_WhileToken : public IStateHandler
+{
+public:
+
+	std::shared_ptr<Statement>& statement;
+
+public:
+
+	Handler_DoToken_Statement_WhileToken(std::shared_ptr<Statement>& statement)
+		: statement(statement)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::left_paren:
+			return { parser->S_DoToken_Statement_WhileToken_LParen(statement),true };
+		}
+
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(), false };
+	}
+
+};
 
 ParserReturnValue GLSL_Parser::S_DoToken_Statement_WhileToken(std::shared_ptr<Statement>& statement)
 {
-	log.Debug(__func__);
-	return ParserReturnValue();
+	Handler_DoToken_Statement_WhileToken temp(statement);
+
+	return StateFuncSkeleton(__func__, temp);
 }
+
+class Handler_DoToken_Statement_WhileToken_LParen : public IStateHandler
+{
+public:
+
+	std::shared_ptr<Statement>& statement;
+
+public:
+
+	Handler_DoToken_Statement_WhileToken_LParen(std::shared_ptr<Statement>& statement)
+		: statement(statement)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::expression:
+		{
+			std::shared_ptr<Expression> temp = std::static_pointer_cast<Expression>(nonTerminal);
+			retVal = parser->S_DoToken_Statement_WhileToken_LParen_Expression(statement, temp);
+		}
+		break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+		return { retVal, valid };
+	}
+
+};
 
 ParserReturnValue GLSL_Parser::S_DoToken_Statement_WhileToken_LParen(std::shared_ptr<Statement>& statement)
 {
-	log.Debug(__func__);
-	return ParserReturnValue();
+	Handler_DoToken_Statement_WhileToken_LParen temp(statement);
+
+	return StateFuncSkeleton(__func__, temp);
 }
+
+class Handler_DoToken_Statement_WhileToken_LParen_Expression : public IStateHandler
+{
+public:
+
+	std::shared_ptr<Statement>& statement;
+	std::shared_ptr<Expression>& expression;
+
+public:
+
+	Handler_DoToken_Statement_WhileToken_LParen_Expression(std::shared_ptr<Statement>& statement,
+		std::shared_ptr<Expression>& expression)
+		: statement(statement), expression(expression)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::right_paren:
+			return { parser->S_DoToken_Statement_WhileToken_LParen_Expression_RParen(statement, expression),true };
+		}
+
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(), false };
+	}
+
+};
 
 ParserReturnValue GLSL_Parser::S_DoToken_Statement_WhileToken_LParen_Expression(std::shared_ptr<Statement>& statement,
 	std::shared_ptr<Expression>& expression)
 {
-	log.Debug(__func__);
-	return ParserReturnValue();
+	Handler_DoToken_Statement_WhileToken_LParen_Expression temp(statement,expression);
+
+	return StateFuncSkeleton(__func__, temp);
 }
+
+class Handler_DoToken_Statement_WhileToken_LParen_Expression_RParen : public IStateHandler
+{
+public:
+
+	std::shared_ptr<Statement>& statement;
+	std::shared_ptr<Expression>& expression;
+
+public:
+
+	Handler_DoToken_Statement_WhileToken_LParen_Expression_RParen(std::shared_ptr<Statement>& statement,
+		std::shared_ptr<Expression>& expression)
+		: statement(statement), expression(expression)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::semicolon:
+			return { parser->S_DoToken_Statement_WhileToken_LParen_Expression_RParen_Semicolon(statement, expression),true };
+		}
+
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(), false };
+	}
+
+};
 
 ParserReturnValue GLSL_Parser::S_DoToken_Statement_WhileToken_LParen_Expression_RParen(std::shared_ptr<Statement>& statement,
 	std::shared_ptr<Expression>& expression)
 {
-	log.Debug(__func__);
-	return ParserReturnValue();
+	Handler_DoToken_Statement_WhileToken_LParen_Expression_RParen temp(statement, expression);
+
+	return StateFuncSkeleton(__func__, temp);
 }
 
 ParserReturnValue GLSL_Parser::S_DoToken_Statement_WhileToken_LParen_Expression_RParen_Semicolon(std::shared_ptr<Statement>& statement,
 	std::shared_ptr<Expression>& expression)
 {
 	log.Debug(__func__);
-	return ParserReturnValue();
+	return { std::make_shared<IterationStatement>(statement,expression),7 };
 }
 
 ParserReturnValue GLSL_Parser::S_ForInitStatement(std::shared_ptr<ForInitStatement>& statement)
