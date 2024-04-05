@@ -68,9 +68,9 @@ Ceng::StringUtf8 IterationStatement::ToString(unsigned int indentLevel) const
 		out += GetIndent(indentLevel);
 		out += "for (";
 		out += forInit->ToString(indentLevel);
-		out += "; ";
+		out += ' ';
 		out += forRest->ToString(indentLevel);
-		out += ")\n";
+		out += ")";
 		out += forWhileBody->ToString(indentLevel);
 		break;
 	default:

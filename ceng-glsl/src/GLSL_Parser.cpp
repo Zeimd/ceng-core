@@ -9516,7 +9516,7 @@ public:
 		case NonTerminalType::fully_specified_type:
 		{
 			std::shared_ptr<FullySpecifiedType> temp = std::static_pointer_cast<FullySpecifiedType>(nonTerminal);
-			retVal = parser->S_WhileToken_LParen_FullType(temp);
+			retVal = parser->S_ConditionBuilder_FullType(temp);
 		}
 		break;
 		case NonTerminalType::expression:
@@ -9547,7 +9547,7 @@ ParserReturnValue GLSL_Parser::S_WhileToken_LParen_Expression(std::shared_ptr<Ex
 }
 
 
-class Handler_WhileToken_LParen_FullType : public IStateHandler
+class Handler_ConditionBuilder_FullType : public IStateHandler
 {
 public:
 
@@ -9555,7 +9555,7 @@ public:
 
 public:
 
-	Handler_WhileToken_LParen_FullType(std::shared_ptr<FullySpecifiedType>& fullType)
+	Handler_ConditionBuilder_FullType(std::shared_ptr<FullySpecifiedType>& fullType)
 		: fullType(fullType)
 	{
 
@@ -9574,7 +9574,7 @@ public:
 		switch (next.type)
 		{
 		case TokenType::identifier:
-			return { parser->S_WhileToken_LParen_FullType_Identifier(fullType, next), true };
+			return { parser->S_ConditionBuilder_FullType_Identifier(fullType, next), true };
 		}
 
 		return { ParserReturnValue(), false };
@@ -9588,14 +9588,14 @@ public:
 
 };
 
-ParserReturnValue GLSL_Parser::S_WhileToken_LParen_FullType(std::shared_ptr<FullySpecifiedType>& fullType)
+ParserReturnValue GLSL_Parser::S_ConditionBuilder_FullType(std::shared_ptr<FullySpecifiedType>& fullType)
 {
-	Handler_WhileToken_LParen_FullType temp(fullType);
+	Handler_ConditionBuilder_FullType temp(fullType);
 
 	return StateFuncSkeleton(__func__, temp);
 }
 
-class Handler_WhileToken_LParen_FullType_Identifier : public IStateHandler
+class Handler_ConditionBuilder_FullType_Identifier : public IStateHandler
 {
 public:
 
@@ -9604,7 +9604,7 @@ public:
 
 public:
 
-	Handler_WhileToken_LParen_FullType_Identifier(std::shared_ptr<FullySpecifiedType>& fullType,
+	Handler_ConditionBuilder_FullType_Identifier(std::shared_ptr<FullySpecifiedType>& fullType,
 		const Token& id)
 		: fullType(fullType),id(id)
 	{
@@ -9624,7 +9624,7 @@ public:
 		switch (next.type)
 		{
 		case TokenType::equal:
-			return { parser->S_WhileToken_LParen_FullType_Identifier_Equal(fullType, id), true };
+			return { parser->S_ConditionBuilder_FullType_Identifier_Equal(fullType, id), true };
 		}
 
 		return { ParserReturnValue(), false };
@@ -9638,14 +9638,14 @@ public:
 
 };
 
-ParserReturnValue GLSL_Parser::S_WhileToken_LParen_FullType_Identifier(std::shared_ptr<FullySpecifiedType>& fullType, const Token& id)
+ParserReturnValue GLSL_Parser::S_ConditionBuilder_FullType_Identifier(std::shared_ptr<FullySpecifiedType>& fullType, const Token& id)
 {
-	Handler_WhileToken_LParen_FullType_Identifier temp(fullType, id);
+	Handler_ConditionBuilder_FullType_Identifier temp(fullType, id);
 
 	return StateFuncSkeleton(__func__, temp);
 }
 
-class Handler_WhileToken_LParen_FullType_Identifier_Equal : public IStateHandler
+class Handler_ConditionBuilder_FullType_Identifier_Equal : public IStateHandler
 {
 public:
 
@@ -9654,7 +9654,7 @@ public:
 
 public:
 
-	Handler_WhileToken_LParen_FullType_Identifier_Equal(std::shared_ptr<FullySpecifiedType>& fullType,
+	Handler_ConditionBuilder_FullType_Identifier_Equal(std::shared_ptr<FullySpecifiedType>& fullType,
 		const Token& id)
 		: fullType(fullType), id(id)
 	{
@@ -9685,13 +9685,13 @@ public:
 		case NonTerminalType::assignment_expression:
 		{
 			std::shared_ptr<AssignmentExpression> temp = std::static_pointer_cast<AssignmentExpression>(nonTerminal);
-			retVal = parser->S_WhileToken_LParen_FullType_Identifier_Equal_AssignEx(fullType, id, temp);
+			retVal = parser->S_ConditionBuilder_FullType_Identifier_Equal_AssignEx(fullType, id, temp);
 		}
 		break;
 		case NonTerminalType::initializer:
 		{
 			std::shared_ptr<Initializer> temp = std::static_pointer_cast<Initializer>(nonTerminal);
-			retVal = parser->S_WhileToken_LParen_FullType_Identifier_Equal_Initializer(fullType, id, temp);
+			retVal = parser->S_ConditionBuilder_FullType_Identifier_Equal_Initializer(fullType, id, temp);
 		}
 		break;
 		default:
@@ -9702,21 +9702,21 @@ public:
 
 };
 
-ParserReturnValue GLSL_Parser::S_WhileToken_LParen_FullType_Identifier_Equal(std::shared_ptr<FullySpecifiedType>& fullType, const Token& id)
+ParserReturnValue GLSL_Parser::S_ConditionBuilder_FullType_Identifier_Equal(std::shared_ptr<FullySpecifiedType>& fullType, const Token& id)
 {
-	Handler_WhileToken_LParen_FullType_Identifier_Equal temp(fullType, id);
+	Handler_ConditionBuilder_FullType_Identifier_Equal temp(fullType, id);
 
 	return StateFuncSkeleton(__func__, temp);
 }
 
-ParserReturnValue GLSL_Parser::S_WhileToken_LParen_FullType_Identifier_Equal_AssignEx(std::shared_ptr<FullySpecifiedType>& fullType, const Token& id,
+ParserReturnValue GLSL_Parser::S_ConditionBuilder_FullType_Identifier_Equal_AssignEx(std::shared_ptr<FullySpecifiedType>& fullType, const Token& id,
 	std::shared_ptr<AssignmentExpression>& assignEx)
 {
 	log.Debug(__func__);
 	return { std::make_shared<Initializer>(assignEx),1 };
 }
 
-ParserReturnValue GLSL_Parser::S_WhileToken_LParen_FullType_Identifier_Equal_Initializer(std::shared_ptr<FullySpecifiedType>& fullType, const Token& id,
+ParserReturnValue GLSL_Parser::S_ConditionBuilder_FullType_Identifier_Equal_Initializer(std::shared_ptr<FullySpecifiedType>& fullType, const Token& id,
 	std::shared_ptr<Initializer>& initializer)
 {
 	log.Debug(__func__);
@@ -10182,44 +10182,525 @@ ParserReturnValue GLSL_Parser::S_ForInitStatement(std::shared_ptr<ForInitStateme
 	return ParserReturnValue();
 }
 
+class Handler_ForToken : public IStateHandler
+{
+public:
+
+
+public:
+
+	Handler_ForToken()
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::left_paren:
+			return { parser->S_ForToken_LParen(),true };
+		}
+
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(), false };
+	}
+
+};
 
 ParserReturnValue GLSL_Parser::S_ForToken()
 {
-	log.Debug(__func__);
-	return ParserReturnValue();
+	Handler_ForToken temp;
+
+	return StateFuncSkeleton(__func__, temp);
 }
+
+class Handler_ForToken_LParen : public IStateHandler
+{
+public:
+
+public:
+
+	Handler_ForToken_LParen()
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::expression_statement:
+		{
+			std::shared_ptr<ExpressionStatement> temp = std::static_pointer_cast<ExpressionStatement>(nonTerminal);
+
+			auto initStatement = std::make_shared<ForInitStatement>(temp);
+
+			retVal = parser->S_ForToken_LParen_ForInitStatement(initStatement);
+		}
+		break;
+		case NonTerminalType::declaration_statement:
+		{
+			std::shared_ptr<DeclarationStatement> temp = std::static_pointer_cast<DeclarationStatement>(nonTerminal);
+
+			auto initStatement = std::make_shared<ForInitStatement>(temp);
+
+			retVal = parser->S_ForToken_LParen_ForInitStatement(initStatement);
+		}
+		break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+		return { retVal, valid };
+	}
+
+};
 
 ParserReturnValue GLSL_Parser::S_ForToken_LParen()
 {
-	log.Debug(__func__);
-	return ParserReturnValue();
+	Handler_ForToken_LParen temp;
+
+	return StateFuncSkeleton(__func__, temp);
 }
+
+class Handler_ForToken_LParen_ForInitStatement : public IStateHandler
+{
+public:
+
+	std::shared_ptr<ForInitStatement>& init;
+
+public:
+
+	Handler_ForToken_LParen_ForInitStatement(std::shared_ptr<ForInitStatement>& init)
+		: init(init)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::semicolon:
+			return { parser->S_ForRest_Semicolon(), true };
+		}
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::fully_specified_type:
+		{
+			std::shared_ptr<FullySpecifiedType> temp = std::static_pointer_cast<FullySpecifiedType>(nonTerminal);
+
+			retVal = parser->S_ConditionBuilder_FullType(temp);
+		}
+		break;
+		case NonTerminalType::expression:
+		{
+			std::shared_ptr<Expression> temp = std::static_pointer_cast<Expression>(nonTerminal);
+
+			auto condition = std::make_shared<Condition>(temp);
+
+			retVal = parser->S_ForRest_Condition(condition);
+		}
+		break;
+		/*
+		case NonTerminalType::condition:
+		{
+			std::shared_ptr<Condition> temp = std::static_pointer_cast<Condition>(nonTerminal);
+
+			retVal = parser->S_ForRest_Condition(temp);
+		}
+		break;
+		*/
+		case NonTerminalType::for_rest_statement:
+		{
+			std::shared_ptr<ForRestStatement> temp = std::static_pointer_cast<ForRestStatement>(nonTerminal);
+
+			retVal = parser->S_ForToken_LParen_ForInitStatement_ForRestStatement(init,temp);
+		}
+		break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+		return { retVal, valid };
+	}
+
+};
 
 ParserReturnValue GLSL_Parser::S_ForToken_LParen_ForInitStatement(std::shared_ptr<ForInitStatement>& init)
 {
-	log.Debug(__func__);
-	return ParserReturnValue();
+	Handler_ForToken_LParen_ForInitStatement temp(init);
+
+	return StateFuncSkeleton(__func__, temp);
 }
+
+class Handler_ForRest_Semicolon : public IStateHandler
+{
+public:
+
+
+public:
+
+	Handler_ForRest_Semicolon()
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (parser->PeekToken().type)
+		{
+		case TokenType::right_paren:
+			return { ParserReturnValue(std::make_shared<ForRestStatement>(), 1), true };
+		}
+
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::expression:
+		{
+			std::shared_ptr<Expression> temp = std::static_pointer_cast<Expression>(nonTerminal);
+
+			retVal = parser->S_ForRest_Semicolon_Expression(temp);
+		}
+		break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+		return { retVal, valid };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_ForRest_Semicolon()
+{
+	Handler_ForRest_Semicolon temp;
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+
+ParserReturnValue GLSL_Parser::S_ForRest_Semicolon_Expression(std::shared_ptr<Expression>& expression)
+{
+	log.Debug(__func__);
+	return { std::make_shared<ForRestStatement>(expression), 2 };
+}
+
+class Handler_ForRest_Condition : public IStateHandler
+{
+public:
+
+	std::shared_ptr<Condition>& condition;
+
+public:
+
+	Handler_ForRest_Condition(std::shared_ptr<Condition>& condition)
+		: condition(condition)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::semicolon:
+			return { parser->S_ForRest_Condition_Semicolon(condition), true };
+		}
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(), false };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_ForRest_Condition(std::shared_ptr<Condition>& condition)
+{
+	Handler_ForRest_Condition temp{ condition };
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+class Handler_ForRest_Condition_Semicolon : public IStateHandler
+{
+public:
+
+	std::shared_ptr<Condition>& condition;
+
+public:
+
+	Handler_ForRest_Condition_Semicolon(std::shared_ptr<Condition>& condition)
+		: condition(condition)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (parser->PeekToken().type)
+		{
+		case TokenType::right_paren:
+			return { ParserReturnValue(std::make_shared<ForRestStatement>(condition), 2), true };
+		}
+
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::expression:
+		{
+			std::shared_ptr<Expression> temp = std::static_pointer_cast<Expression>(nonTerminal);
+
+			retVal = parser->S_ForRest_Condition_Semicolon_Expression(condition, temp);
+		}
+		break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+		return { retVal, valid };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_ForRest_Condition_Semicolon(std::shared_ptr<Condition>& condition)
+{
+	Handler_ForRest_Condition_Semicolon temp{ condition };
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+ParserReturnValue GLSL_Parser::S_ForRest_Condition_Semicolon_Expression(std::shared_ptr<Condition>& condition, 
+	std::shared_ptr<Expression>& expression)
+{
+	log.Debug(__func__);
+	return { std::make_shared<ForRestStatement>(condition, expression), 3 };
+}
+
+class Handler_ForToken_LParen_ForInitStatement_ForRestStatement : public IStateHandler
+{
+public:
+
+	std::shared_ptr<ForInitStatement>& init;
+	std::shared_ptr<ForRestStatement>& rest;
+
+public:
+
+	Handler_ForToken_LParen_ForInitStatement_ForRestStatement(std::shared_ptr<ForInitStatement>& init,
+		std::shared_ptr<ForRestStatement>& rest)
+		: init(init), rest(rest)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::right_paren:
+			return { parser->S_ForToken_LParen_ForInitStatement_ForRestStatement_RParen(init,rest), true };
+		}
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(), false };
+	}
+
+};
 
 ParserReturnValue GLSL_Parser::S_ForToken_LParen_ForInitStatement_ForRestStatement(std::shared_ptr<ForInitStatement>& init,
 	std::shared_ptr<ForRestStatement>& rest)
 {
-	log.Debug(__func__);
-	return ParserReturnValue();
+	Handler_ForToken_LParen_ForInitStatement_ForRestStatement temp{ init, rest };
+
+	return StateFuncSkeleton(__func__, temp);
 }
+
+class Handler_ForToken_LParen_ForInitStatement_ForRestStatement_RParen : public IStateHandler
+{
+public:
+
+	std::shared_ptr<ForInitStatement>& init;
+	std::shared_ptr<ForRestStatement>& rest;
+
+public:
+
+	Handler_ForToken_LParen_ForInitStatement_ForRestStatement_RParen(std::shared_ptr<ForInitStatement>& init,
+		std::shared_ptr<ForRestStatement>& rest)
+		: init(init), rest(rest)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::simple_statement:
+		{
+			std::shared_ptr<SimpleStatement> temp = std::static_pointer_cast<SimpleStatement>(nonTerminal);
+			retVal = parser->S_ForWhile_SimpleStatement(temp);
+		}
+		break;
+		case NonTerminalType::compound_statement:
+		{
+			std::shared_ptr<CompoundStatement> temp = std::static_pointer_cast<CompoundStatement>(nonTerminal);
+			retVal = parser->S_ForWhile_CompoundStatement(temp);
+		}
+		break;
+		case NonTerminalType::statement_no_new_scope:
+		{
+			std::shared_ptr<StatementNoNewScope> temp = std::static_pointer_cast<StatementNoNewScope>(nonTerminal);
+			retVal = parser->S_ForToken_LParen_ForInitStatement_ForRestStatement_RParen_StatementNoNewScope(init, rest, temp);
+		}
+		break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+		return { retVal, valid };
+	}
+
+};
 
 ParserReturnValue GLSL_Parser::S_ForToken_LParen_ForInitStatement_ForRestStatement_RParen(std::shared_ptr<ForInitStatement>& init,
 	std::shared_ptr<ForRestStatement>& rest)
 {
-	log.Debug(__func__);
-	return ParserReturnValue();
+	Handler_ForToken_LParen_ForInitStatement_ForRestStatement_RParen temp{ init, rest };
+
+	return StateFuncSkeleton(__func__, temp);
 }
 
 ParserReturnValue GLSL_Parser::S_ForToken_LParen_ForInitStatement_ForRestStatement_RParen_StatementNoNewScope(std::shared_ptr<ForInitStatement>& init,
 	std::shared_ptr<ForRestStatement>& rest, std::shared_ptr<StatementNoNewScope>& block)
 {
 	log.Debug(__func__);
-	return ParserReturnValue();
+	return { std::make_shared<IterationStatement>(init, rest, block),6 };
 }
 
 ParserReturnValue GLSL_Parser::S_IterationStatement(std::shared_ptr<IterationStatement>& statement)

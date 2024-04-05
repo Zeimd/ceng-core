@@ -764,16 +764,16 @@ namespace Ceng
 
 		ParserReturnValue S_WhileToken_LParen_Expression(std::shared_ptr<Expression>& expression);
 
-		ParserReturnValue S_WhileToken_LParen_FullType(std::shared_ptr<FullySpecifiedType>& fullType);
+		ParserReturnValue S_ConditionBuilder_FullType(std::shared_ptr<FullySpecifiedType>& fullType);
 
-		ParserReturnValue S_WhileToken_LParen_FullType_Identifier(std::shared_ptr<FullySpecifiedType>& fullType, const Token& id);
+		ParserReturnValue S_ConditionBuilder_FullType_Identifier(std::shared_ptr<FullySpecifiedType>& fullType, const Token& id);
 		
-		ParserReturnValue S_WhileToken_LParen_FullType_Identifier_Equal(std::shared_ptr<FullySpecifiedType>& fullType, const Token& id);
+		ParserReturnValue S_ConditionBuilder_FullType_Identifier_Equal(std::shared_ptr<FullySpecifiedType>& fullType, const Token& id);
 
-		ParserReturnValue S_WhileToken_LParen_FullType_Identifier_Equal_AssignEx(std::shared_ptr<FullySpecifiedType>& fullType, const Token& id,
+		ParserReturnValue S_ConditionBuilder_FullType_Identifier_Equal_AssignEx(std::shared_ptr<FullySpecifiedType>& fullType, const Token& id,
 			std::shared_ptr<AssignmentExpression>& assignEx);
 
-		ParserReturnValue S_WhileToken_LParen_FullType_Identifier_Equal_Initializer(std::shared_ptr<FullySpecifiedType>& fullType, const Token& id,
+		ParserReturnValue S_ConditionBuilder_FullType_Identifier_Equal_Initializer(std::shared_ptr<FullySpecifiedType>& fullType, const Token& id,
 			std::shared_ptr<Initializer>& initializer);
 
 		ParserReturnValue S_WhileToken_LParen_Condition(std::shared_ptr<Condition>& condition);
@@ -818,6 +818,16 @@ namespace Ceng
 
 		ParserReturnValue S_ForToken_LParen_ForInitStatement_ForRestStatement_RParen_StatementNoNewScope(std::shared_ptr<ForInitStatement>& init,
 			std::shared_ptr<ForRestStatement>& rest, std::shared_ptr<StatementNoNewScope>& block);
+
+		ParserReturnValue S_ForRest_Semicolon();
+
+		ParserReturnValue S_ForRest_Semicolon_Expression(std::shared_ptr<Expression>& expression);
+
+		ParserReturnValue S_ForRest_Condition(std::shared_ptr<Condition>& condition);
+
+		ParserReturnValue S_ForRest_Condition_Semicolon(std::shared_ptr<Condition>& condition);
+
+		ParserReturnValue S_ForRest_Condition_Semicolon_Expression(std::shared_ptr<Condition>& condition, std::shared_ptr<Expression>& expression);
 
 		ParserReturnValue S_IterationStatement(std::shared_ptr<IterationStatement>& statement);
 

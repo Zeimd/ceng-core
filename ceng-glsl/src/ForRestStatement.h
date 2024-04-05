@@ -23,12 +23,16 @@ namespace Ceng
 
 		void Release() override;
 
+		// Used for ";)" case
 		ForRestStatement();
 
+		// Used for "condition;)" case
 		ForRestStatement(std::shared_ptr<Condition>& condition);
 
+		// Used for "condition; expression)" case
 		ForRestStatement(std::shared_ptr<Condition>& condition, std::shared_ptr<Expression>& expression);
 
+		// Used for "; expression)" case
 		ForRestStatement(std::shared_ptr<Expression>& expression);
 
 		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
