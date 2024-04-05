@@ -8,7 +8,7 @@ void UnaryOperator::Release()
 }
 
 UnaryOperator::UnaryOperator(UnaryOperatorType::value type)
-	: INonTerminal(NonTerminalType::unary_operator), type(type)
+	: INonTerminal(NonTerminalType::unary_operator), operatorType(type)
 {
 
 }
