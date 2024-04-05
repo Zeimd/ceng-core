@@ -35,7 +35,7 @@ namespace Ceng
 
 	public:
 
-		BaseIterator()
+		BaseIterator() : index(0), rawPosition(0)
 		{
 		}
 
