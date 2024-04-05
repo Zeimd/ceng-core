@@ -46,10 +46,13 @@ namespace Ceng
 
 		void Release() override;
 
+		// While loop
 		IterationStatement(std::shared_ptr<Condition>& whileCondition, std::shared_ptr<StatementNoNewScope>& forWhileBody);
 
+		// Do-while loop
 		IterationStatement(std::shared_ptr<Statement>& doBody, std::shared_ptr<Expression>& doWhileCondition);
 
+		// For loop
 		IterationStatement(std::shared_ptr<ForInitStatement>& forInit, std::shared_ptr<ForRestStatement>& forRest,
 			std::shared_ptr<StatementNoNewScope>& forWhileBody);
 
