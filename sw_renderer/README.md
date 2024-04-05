@@ -278,33 +278,6 @@ result = (a * b) >> 16,
 
 which is exactly what the SSE instruction PMULHUW does.
 
-We need to add four such products together:
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-The shader uses 9.7 fixed point arithmetic to perform 8 multiplications of 16 bit integers
-at the same time.
-
 -----------------------------------------------------------------
 Render targets
 
