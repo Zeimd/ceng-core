@@ -140,6 +140,20 @@ namespace Ceng
 
 		ParserReturnValue S_InvariantToken_InterpolationQualifier(std::shared_ptr<InterpolationQualifier>& interpolation);
 
+		ParserReturnValue S_PrecisionToken();
+
+		ParserReturnValue S_PrecisionToken_PrecisionQualifier(std::shared_ptr<PrecisionQualifier>& qualifier);
+
+		ParserReturnValue S_PrecisionToken_PrecisionQualifier_TypeSpecifierNoPrec(std::shared_ptr<PrecisionQualifier>& qualifier,
+			std::shared_ptr<TypeSpecifierNoPrec>& typeNoPrec);
+
+		ParserReturnValue S_PrecisionToken_PrecisionQualifier_TypeSpecifierNoPrec_Semicolon(std::shared_ptr<PrecisionQualifier>& qualifier,
+			std::shared_ptr<TypeSpecifierNoPrec>& typeNoPrec);
+
+		ParserReturnValue S_PrecisionQualifierToken(const Token& qualifier);
+
+		ParserReturnValue S_PrecisionQualifier(std::shared_ptr<PrecisionQualifier>& qualifier);
+
 		ParserReturnValue S_StructToken();
 
 		ParserReturnValue S_StructToken_IdentifierToken(const Token& structName);

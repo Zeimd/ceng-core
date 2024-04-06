@@ -1601,6 +1601,7 @@ public:
 	{
 		parser->log.Debug(__FUNCTION__);
 
+		/*
 		ParserReturnValue retVal;
 		bool valid = true;
 
@@ -1613,6 +1614,9 @@ public:
 			valid = false;
 		}
 		return { retVal, valid };
+		*/
+
+		return DefaultExpressionShift(parser, next);
 	}
 
 	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
@@ -1643,8 +1647,9 @@ public:
 				break;
 			}
 		default:
-			valid = false;
-			break;
+			//valid = false;
+			//break;
+			return DefaultExpressionGoto(parser, nonTerminal);
 		}
 
 		return { retVal,valid };
@@ -2016,6 +2021,245 @@ ParserReturnValue GLSL_Parser::S_LayoutToken_LParen_LayoutQualifierIdList_RParen
 	return { std::make_shared<LayoutQualifier>(list), 4 };
 }
 
+class Handler_PrecisionToken : public IStateHandler
+{
+public:
+
+
+public:
+
+	Handler_PrecisionToken()
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::precision_qualifier:
+		{
+			auto temp = std::static_pointer_cast<PrecisionQualifier>(nonTerminal);
+
+			retVal = parser->S_PrecisionToken_PrecisionQualifier(temp);
+		}
+		break;
+		default:
+			valid = false;
+			break;
+		}
+
+		return { retVal,valid };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_PrecisionToken()
+{
+	Handler_PrecisionToken temp;
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+class Handler_PrecisionToken_PrecisionQualifier : public IStateHandler
+{
+public:
+
+	std::shared_ptr<PrecisionQualifier>& qualifier;
+
+public:
+
+	Handler_PrecisionToken_PrecisionQualifier(std::shared_ptr<PrecisionQualifier>& qualifier)
+		: qualifier(qualifier)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::type_specifier_no_prec:
+		{
+			auto temp = std::static_pointer_cast<TypeSpecifierNoPrec>(nonTerminal);
+
+			return { parser->S_PrecisionToken_PrecisionQualifier_TypeSpecifierNoPrec(qualifier, temp), true };
+		}
+		break;
+		}
+
+		return DefaultExpressionGoto(parser,nonTerminal);
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_PrecisionToken_PrecisionQualifier(std::shared_ptr<PrecisionQualifier>& qualifier)
+{
+	Handler_PrecisionToken_PrecisionQualifier temp{ qualifier };
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+class Handler_PrecisionToken_PrecisionQualifier_TypeSpecifierNoPrec : public IStateHandler
+{
+public:
+
+	std::shared_ptr<PrecisionQualifier>& qualifier;
+	std::shared_ptr<TypeSpecifierNoPrec>& typeNoPrec;
+
+public:
+
+	Handler_PrecisionToken_PrecisionQualifier_TypeSpecifierNoPrec(std::shared_ptr<PrecisionQualifier>& qualifier,
+		std::shared_ptr<TypeSpecifierNoPrec>& typeNoPrec)
+		: qualifier(qualifier), typeNoPrec(typeNoPrec)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::semicolon:
+			return { parser->S_PrecisionToken_PrecisionQualifier_TypeSpecifierNoPrec_Semicolon(qualifier, typeNoPrec), true };
+		}
+
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+};
+
+
+ParserReturnValue GLSL_Parser::S_PrecisionToken_PrecisionQualifier_TypeSpecifierNoPrec(std::shared_ptr<PrecisionQualifier>& qualifier,
+	std::shared_ptr<TypeSpecifierNoPrec>& typeNoPrec)
+{
+	Handler_PrecisionToken_PrecisionQualifier_TypeSpecifierNoPrec temp{ qualifier, typeNoPrec };
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+ParserReturnValue GLSL_Parser::S_PrecisionToken_PrecisionQualifier_TypeSpecifierNoPrec_Semicolon(std::shared_ptr<PrecisionQualifier>& qualifier,
+	std::shared_ptr<TypeSpecifierNoPrec>& typeNoPrec)
+{
+	log.Debug(__func__);
+	return { std::make_shared<Declaration>(qualifier, typeNoPrec), 4 };
+}
+
+ParserReturnValue GLSL_Parser::S_PrecisionQualifierToken(const Token& qualifier)
+{
+	log.Debug(__func__);
+	return { std::make_shared<PrecisionQualifier>(qualifier), 1 };
+}
+
+class Handler_PrecisionQualifier : public IStateHandler
+{
+public:
+
+	std::shared_ptr<PrecisionQualifier>& qualifier;
+
+public:
+
+	Handler_PrecisionQualifier(std::shared_ptr<PrecisionQualifier>& qualifier)
+		: qualifier(qualifier)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::type_specifier_no_prec:
+		{
+			auto temp = std::static_pointer_cast<TypeSpecifierNoPrec>(nonTerminal);
+
+			auto typeSpec = std::make_shared<TypeSpecifier>(*qualifier, *temp);
+
+			return { ParserReturnValue(typeSpec, 3), true };
+		}
+		break;
+		default:
+			valid = false;
+			break;
+		}
+
+		return { retVal,valid };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_PrecisionQualifier(std::shared_ptr<PrecisionQualifier>& qualifier)
+{
+	Handler_PrecisionQualifier temp{ qualifier };
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
 class Handler_S_TypeQualifier_TypeSpecifierNonArray : public IStateHandler
 {
 public:
@@ -2024,9 +2268,9 @@ public:
 
 public:
 
-	Handler_S_TypeQualifier_TypeSpecifierNonArray(std::shared_ptr<TypeQualifier>& tq, 
+	Handler_S_TypeQualifier_TypeSpecifierNonArray(std::shared_ptr<TypeQualifier>& tq,
 		std::shared_ptr<TypeSpecifierNoArray>& st)
-		: tq(tq),st(st)
+		: tq(tq), st(st)
 	{
 
 	}
@@ -2064,6 +2308,7 @@ public:
 	}
 
 };
+
 
 ParserReturnValue GLSL_Parser::S_TypeQualifier_TypeSpecifierNonArray(std::shared_ptr<TypeQualifier>& tq, 
 	std::shared_ptr<TypeSpecifierNoArray>& ts)

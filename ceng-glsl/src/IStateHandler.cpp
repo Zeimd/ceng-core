@@ -27,6 +27,14 @@ HandlerReturn IStateHandler::DefaultExpressionShift(GLSL_Parser* parser, const T
 		case TokenType::keyword_out:
 			retVal = parser->S_StorageQualifierToken(next.type);
 			break;
+		case TokenType::keyword_precision:
+			retVal = parser->S_PrecisionToken();
+			break;
+		case TokenType::keyword_low_precision:
+		case TokenType::keyword_medium_precision:
+		case TokenType::keyword_high_precision:
+			retVal = parser->S_PrecisionQualifierToken(next);
+			break;
 		case TokenType::keyword_noperspective:
 		case TokenType::keyword_smooth:
 		case TokenType::keyword_flat:
@@ -146,6 +154,12 @@ HandlerReturn IStateHandler::DefaultExpressionGoto(GLSL_Parser* parser, std::sha
 		{
 			auto temp = std::static_pointer_cast<LayoutQualifier>(nonTerminal);
 			retVal = parser->S_LayoutQualifier(temp);
+		}
+		break;
+	case NonTerminalType::precision_qualifier:
+		{
+			auto temp = std::static_pointer_cast<PrecisionQualifier>(nonTerminal);
+			retVal = parser->S_PrecisionQualifier(temp);
 		}
 		break;
 	case NonTerminalType::interpolation_qualifier:
