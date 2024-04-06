@@ -15,25 +15,27 @@ TypeQualifier::TypeQualifier()
 }
 
 TypeQualifier::TypeQualifier(std::shared_ptr<LayoutQualifier>& layout)
-	: INonTerminal(NonTerminalType::type_qualifier), layout(layout), invariant(false)
+	: INonTerminal(NonTerminalType::type_qualifier), layout(layout), invariant(false),interpolation()
 {
 
 }
 
 TypeQualifier::TypeQualifier(std::shared_ptr<LayoutQualifier>& layout, const StorageQualifier& sq)
-	: INonTerminal(NonTerminalType::type_qualifier), layout(layout), storage(sq), invariant(false)
+	: INonTerminal(NonTerminalType::type_qualifier), layout(layout), storage(sq), invariant(false),
+	interpolation()
 {
 
 }
 
 TypeQualifier::TypeQualifier(const InterpolationQualifier& interpolation)
-	: INonTerminal(NonTerminalType::type_qualifier), invariant(false)
+	: INonTerminal(NonTerminalType::type_qualifier), invariant(false), interpolation(interpolation)
 {
 
 }
 
 TypeQualifier::TypeQualifier(const StorageQualifier& sq)
-	: INonTerminal(NonTerminalType::type_qualifier), storage(sq), invariant(false)
+	: INonTerminal(NonTerminalType::type_qualifier), storage(sq), invariant(false),
+	interpolation()
 {
 
 }
@@ -46,19 +48,19 @@ TypeQualifier::TypeQualifier(bool invariant)
 }
 
 TypeQualifier::TypeQualifier(bool invariant, const StorageQualifier& sq)
-	: INonTerminal(NonTerminalType::type_qualifier), invariant(false)
+	: INonTerminal(NonTerminalType::type_qualifier), invariant(false),interpolation()
 {
 
 }
 
 TypeQualifier::TypeQualifier(const InterpolationQualifier& interpolation, const StorageQualifier& sq)
-	: INonTerminal(NonTerminalType::type_qualifier), invariant(false)
+	: INonTerminal(NonTerminalType::type_qualifier), invariant(false),interpolation(interpolation),storage(sq)
 {
 
 }
 
 TypeQualifier::TypeQualifier(bool invariant, const InterpolationQualifier& interpolation, const StorageQualifier& sq)
-	: INonTerminal(NonTerminalType::type_qualifier), invariant(false)
+	: INonTerminal(NonTerminalType::type_qualifier), invariant(false), interpolation(interpolation), storage(sq)
 {
 
 }
