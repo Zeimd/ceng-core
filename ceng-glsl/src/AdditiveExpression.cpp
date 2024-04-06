@@ -24,6 +24,9 @@ AdditiveExpression::AdditiveExpression(std::shared_ptr<AdditiveExpression>& lhs,
 	case TokenType::dash:
 		operation = AdditiveOp::sub;
 		break;
+	default:
+		operation = AdditiveOp::invalid_value;
+		break;
 	}
 }
 
@@ -52,6 +55,9 @@ Ceng::StringUtf8 AdditiveExpression::ToString(unsigned int indentLevel) const
 			break;
 		case AdditiveOp::sub:
 			out += " - ";
+			break;
+		default:
+			out += " <UNHANDLED ADDITIVE OP> ";
 			break;
 		}
 
