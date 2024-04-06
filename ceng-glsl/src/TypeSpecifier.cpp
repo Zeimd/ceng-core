@@ -23,7 +23,11 @@ Ceng::StringUtf8 TypeSpecifier::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
-	out += precision.ToString(indentLevel);
+	if (precision.precision != PrecisionQualifierType::unassigned)
+	{
+		out += precision.ToString(indentLevel);
+		out += ' ';
+	}
 	out += typeSpec.ToString(indentLevel);
 
 	return out;
