@@ -138,6 +138,8 @@ namespace Ceng
 
 		ParserReturnValue S_InvariantToken_IdentifierToken(const Token& token);
 
+		ParserReturnValue S_InvariantToken_InterpolationQualifier(std::shared_ptr<InterpolationQualifier>& interpolation);
+
 		ParserReturnValue S_StructToken();
 
 		ParserReturnValue S_StructToken_IdentifierToken(const Token& structName);

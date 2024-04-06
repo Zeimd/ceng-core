@@ -1301,14 +1301,39 @@ public:
 		case TokenType::identifier:
 			return { parser->S_InvariantToken_IdentifierToken(next), true };
 		default:
-			return { ParserReturnValue(),false };
+			return DefaultExpressionShift(parser,next);
 		}
 	}
 
 	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
 	{
 		parser->log.Debug(__FUNCTION__);
-		return { ParserReturnValue(),false };
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::interpolation_qualifier:
+		{
+			auto temp = std::static_pointer_cast<InterpolationQualifier>(nonTerminal);
+
+			retVal = parser->S_InvariantToken_InterpolationQualifier(temp);
+		}
+		break;
+		case NonTerminalType::storage_qualifier:
+		{
+			auto temp = std::static_pointer_cast<StorageQualifier>(nonTerminal);
+
+			auto typeQ = std::make_shared<TypeQualifier>(true, *temp);
+
+			retVal = parser->S_TypeQualifier(typeQ);
+		}
+		break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+		return { retVal, valid };
 	}
 
 };
@@ -1319,6 +1344,68 @@ ParserReturnValue GLSL_Parser::S_InvariantToken()
 
 	return StateFuncSkeleton(__func__, temp);
 }
+
+class Handler_S_InvariantToken_InterpolationQualifier : public IStateHandler
+{
+public:
+
+	std::shared_ptr<InterpolationQualifier>& interpolation;
+
+public:
+
+	Handler_S_InvariantToken_InterpolationQualifier(std::shared_ptr<InterpolationQualifier>& interpolation)
+		: interpolation(interpolation)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::storage_qualifier:
+		{
+			auto temp = std::static_pointer_cast<StorageQualifier>(nonTerminal);
+
+			auto typeQ = std::make_shared<TypeQualifier>(true, *interpolation, *temp);
+
+			retVal = parser->S_TypeQualifier(typeQ);
+		}
+		break;
+		default:
+			valid = false;
+			break;
+		}
+
+		return { retVal,valid };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_InvariantToken_InterpolationQualifier(std::shared_ptr<InterpolationQualifier>& interpolation)
+{
+	Handler_S_InvariantToken_InterpolationQualifier temp{ interpolation };
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
 
 ParserReturnValue GLSL_Parser::S_InvariantToken_IdentifierToken(const Token& token)
 {
@@ -1377,6 +1464,7 @@ public:
 
 			retVal = parser->S_TypeQualifier(typeQ);
 		}
+		break;
 		case NonTerminalType::type_specifier_nonarray:
 		{
 			auto temp = std::static_pointer_cast<TypeSpecifierNoArray>(nonTerminal);
