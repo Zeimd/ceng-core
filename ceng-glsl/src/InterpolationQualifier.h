@@ -6,6 +6,8 @@
 
 namespace Ceng
 {
+	class Token;
+
 	class InterpolationQualifier : public INonTerminal
 	{
 	public:
@@ -14,9 +16,13 @@ namespace Ceng
 
 	public:
 
+		~InterpolationQualifier() override;
+
 		void Release() override;
 
 		InterpolationQualifier();
+
+		InterpolationQualifier(const Token& token);
 	
 		InterpolationQualifier(InterpolationQualifierType::value interpolation);
 

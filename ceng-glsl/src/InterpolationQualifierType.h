@@ -11,6 +11,7 @@ namespace Ceng
 			flat,
 			noperspective,
 			unused,
+			invalid_value,
 		};
 	}
 }
