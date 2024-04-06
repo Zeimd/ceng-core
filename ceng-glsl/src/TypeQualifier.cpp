@@ -48,7 +48,7 @@ TypeQualifier::TypeQualifier(bool invariant)
 }
 
 TypeQualifier::TypeQualifier(bool invariant, const StorageQualifier& sq)
-	: INonTerminal(NonTerminalType::type_qualifier), invariant(false),interpolation()
+	: INonTerminal(NonTerminalType::type_qualifier), invariant(invariant),interpolation(),storage(sq)
 {
 
 }
@@ -60,7 +60,7 @@ TypeQualifier::TypeQualifier(const InterpolationQualifier& interpolation, const 
 }
 
 TypeQualifier::TypeQualifier(bool invariant, const InterpolationQualifier& interpolation, const StorageQualifier& sq)
-	: INonTerminal(NonTerminalType::type_qualifier), invariant(false), interpolation(interpolation), storage(sq)
+	: INonTerminal(NonTerminalType::type_qualifier), invariant(invariant), interpolation(interpolation), storage(sq)
 {
 
 }

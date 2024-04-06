@@ -1327,7 +1327,7 @@ public:
 
 			auto typeQ = std::make_shared<TypeQualifier>(true, *temp);
 
-			retVal = parser->S_TypeQualifier(typeQ);
+			return { ParserReturnValue(typeQ,2), true };
 		}
 		break;
 		default:
@@ -1386,15 +1386,12 @@ public:
 
 			auto typeQ = std::make_shared<TypeQualifier>(true, *interpolation, *temp);
 
-			retVal = parser->S_TypeQualifier(typeQ);
+			return { ParserReturnValue(typeQ, 3), true };
 		}
 		break;
-		default:
-			valid = false;
-			break;
 		}
 
-		return { retVal,valid };
+		return { ParserReturnValue(),false };
 	}
 
 };
@@ -1437,7 +1434,20 @@ public:
 	HandlerReturn Reduction(GLSL_Parser* parser) override
 	{
 		parser->log.Debug(__FUNCTION__);
-		return { ParserReturnValue(),false };
+
+		switch (parser->PeekToken().type)
+		{
+		case TokenType::keyword_const:
+		case TokenType::keyword_attribute:
+		case TokenType::keyword_varying:
+		case TokenType::keyword_uniform:
+		case TokenType::keyword_in:
+		case TokenType::keyword_out:
+			return { ParserReturnValue(), false };
+			break;
+		}
+
+		return { ParserReturnValue(std::make_shared<TypeQualifier>(*interpolation),1),true };
 	}
 
 	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
@@ -1462,36 +1472,9 @@ public:
 
 			auto typeQ = std::make_shared<TypeQualifier>(*interpolation,*temp);
 
-			retVal = parser->S_TypeQualifier(typeQ);
+			return { ParserReturnValue(typeQ, 2), true };
 		}
 		break;
-		case NonTerminalType::type_specifier_nonarray:
-		{
-			auto temp = std::static_pointer_cast<TypeSpecifierNoArray>(nonTerminal);
-
-			auto typeQ = std::make_shared<TypeQualifier>(*interpolation);
-
-			retVal = parser->S_TypeQualifier_TypeSpecifierNonArray(typeQ, temp);
-		}
-		break;
-		case NonTerminalType::type_specifier_no_prec:
-		{
-			auto temp = std::static_pointer_cast<TypeSpecifierNoPrec>(nonTerminal);
-
-			auto typeQ = std::make_shared<TypeQualifier>(*interpolation);
-
-			retVal = parser->S_TypeQualifier_TypeSpecifierNoPrec(typeQ, temp);
-			break;
-		}
-		case NonTerminalType::type_specifier:
-		{
-			auto temp = std::static_pointer_cast<TypeSpecifier>(nonTerminal);
-
-			auto typeQ = std::make_shared<TypeQualifier>(*interpolation);
-
-			retVal = parser->S_TypeQualifier_TypeSpecifier(typeQ, temp);
-			break;
-		}
 		default:
 			valid = false;
 			break;
@@ -1517,83 +1500,10 @@ ParserReturnValue GLSL_Parser::S_StorageQualifierToken(TokenType::value value)
 	return { std::make_shared<StorageQualifier>(value), 1 };
 }
 
-class Handler_StorageQualifier : public IStateHandler
-{
-public:
-	std::shared_ptr<StorageQualifier>& sq;
-
-public:
-
-	Handler_StorageQualifier(std::shared_ptr<StorageQualifier>& sq)
-		: sq(sq)
-	{
-
-	}
-
-	HandlerReturn Reduction(GLSL_Parser* parser) override
-	{
-		parser->log.Debug(__FUNCTION__);
-		return { ParserReturnValue(),false };
-	}
-
-	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
-	{
-		parser->log.Debug(__FUNCTION__);
-
-		return DefaultExpressionShift(parser, next);
-	}
-
-	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
-	{
-		parser->log.Debug(__FUNCTION__);
-
-		ParserReturnValue retVal;
-		bool valid = true;
-
-		switch (nonTerminal->type)
-		{
-		case NonTerminalType::type_specifier_nonarray:
-		{
-			auto temp = std::static_pointer_cast<TypeSpecifierNoArray>(nonTerminal);
-
-			auto typeQ = std::make_shared<TypeQualifier>(*sq);
-
-			retVal = parser->S_TypeQualifier_TypeSpecifierNonArray(typeQ, temp);
-		}
-		break;
-		case NonTerminalType::type_specifier_no_prec:
-		{
-			auto temp = std::static_pointer_cast<TypeSpecifierNoPrec>(nonTerminal);
-
-			auto typeQ = std::make_shared<TypeQualifier>(*sq);
-
-			retVal = parser->S_TypeQualifier_TypeSpecifierNoPrec(typeQ, temp);
-			break;
-		}
-		case NonTerminalType::type_specifier:
-		{
-			auto temp = std::static_pointer_cast<TypeSpecifier>(nonTerminal);
-
-			auto typeQ = std::make_shared<TypeQualifier>(*sq);
-
-			retVal = parser->S_TypeQualifier_TypeSpecifier(typeQ, temp);
-			break;
-		}
-		default:
-			valid = false;
-			break;
-		}
-
-		return { retVal,valid };
-	}
-
-};
-
 ParserReturnValue GLSL_Parser::S_StorageQualifier(std::shared_ptr<StorageQualifier>& sq)
 {
-	Handler_StorageQualifier temp{ sq };
-
-	return StateFuncSkeleton(__func__, temp);
+	log.Debug(__func__);
+	return { std::make_shared<TypeQualifier>(*sq), 1 };
 }
 
 class Handler_LayoutQualifier : public IStateHandler
@@ -1612,7 +1522,19 @@ public:
 	HandlerReturn Reduction(GLSL_Parser* parser) override
 	{
 		parser->log.Debug(__FUNCTION__);
-		return { ParserReturnValue(),false };
+		
+		switch (parser->PeekToken().type)
+		{
+		case TokenType::keyword_const:
+		case TokenType::keyword_attribute:
+		case TokenType::keyword_varying:
+		case TokenType::keyword_uniform:
+		case TokenType::keyword_in:
+		case TokenType::keyword_out:
+			return { ParserReturnValue(),false };
+		}
+
+		return { ParserReturnValue(std::make_shared<TypeQualifier>(layout), 1), true };		
 	}
 
 	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
@@ -1635,36 +1557,9 @@ public:
 		{
 			auto temp = std::static_pointer_cast<StorageQualifier>(nonTerminal);
 
-			auto typeQ = std::make_shared<TypeQualifier>(layout,*temp);
+			auto typeQ = std::make_shared<TypeQualifier>(layout, *temp);
 
-			retVal = parser->S_TypeQualifier(typeQ);
-		}
-		case NonTerminalType::type_specifier_nonarray:
-		{
-			auto temp = std::static_pointer_cast<TypeSpecifierNoArray>(nonTerminal);
-
-			auto typeQ = std::make_shared<TypeQualifier>(layout);
-
-			retVal = parser->S_TypeQualifier_TypeSpecifierNonArray(typeQ, temp);
-		}
-		break;
-		case NonTerminalType::type_specifier_no_prec:
-		{
-			auto temp = std::static_pointer_cast<TypeSpecifierNoPrec>(nonTerminal);
-
-			auto typeQ = std::make_shared<TypeQualifier>(layout);
-
-			retVal = parser->S_TypeQualifier_TypeSpecifierNoPrec(typeQ, temp);
-			break;
-		}
-		case NonTerminalType::type_specifier:
-		{
-			auto temp = std::static_pointer_cast<TypeSpecifier>(nonTerminal);
-
-			auto typeQ = std::make_shared<TypeQualifier>(layout);
-
-			retVal = parser->S_TypeQualifier_TypeSpecifier(typeQ, temp);
-			break;
+			return { ParserReturnValue(typeQ, 2), true };
 		}
 		default:
 			valid = false;
