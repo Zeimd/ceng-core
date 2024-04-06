@@ -1335,11 +1335,170 @@ ParserReturnValue GLSL_Parser::S_StorageQualifierToken(TokenType::value value)
 	return { std::make_shared<StorageQualifier>(value), 1 };
 }
 
+class Handler_StorageQualifier : public IStateHandler
+{
+public:
+	std::shared_ptr<StorageQualifier>& sq;
+
+public:
+
+	Handler_StorageQualifier(std::shared_ptr<StorageQualifier>& sq)
+		: sq(sq)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::type_specifier_nonarray:
+		{
+			auto temp = std::static_pointer_cast<TypeSpecifierNoArray>(nonTerminal);
+
+			auto typeQ = std::make_shared<TypeQualifier>(*sq);
+
+			retVal = parser->S_TypeQualifier_TypeSpecifierNonArray(typeQ, temp);
+		}
+		break;
+		case NonTerminalType::type_specifier_no_prec:
+		{
+			auto temp = std::static_pointer_cast<TypeSpecifierNoPrec>(nonTerminal);
+
+			auto typeQ = std::make_shared<TypeQualifier>(*sq);
+
+			retVal = parser->S_TypeQualifier_TypeSpecifierNoPrec(typeQ, temp);
+			break;
+		}
+		case NonTerminalType::type_specifier:
+		{
+			auto temp = std::static_pointer_cast<TypeSpecifier>(nonTerminal);
+
+			auto typeQ = std::make_shared<TypeQualifier>(*sq);
+
+			retVal = parser->S_TypeQualifier_TypeSpecifier(typeQ, temp);
+			break;
+		}
+		default:
+			valid = false;
+			break;
+		}
+
+		return { retVal,valid };
+	}
+
+};
+
 ParserReturnValue GLSL_Parser::S_StorageQualifier(std::shared_ptr<StorageQualifier>& sq)
 {
-	log.Debug(__func__);
+	Handler_StorageQualifier temp{ sq };
 
-	return { std::make_shared<TypeQualifier>(*sq), 1 };
+	return StateFuncSkeleton(__func__, temp);
+}
+
+class Handler_LayoutQualifier : public IStateHandler
+{
+public:
+	std::shared_ptr<LayoutQualifier>& layout;
+
+public:
+
+	Handler_LayoutQualifier(std::shared_ptr<LayoutQualifier>& layout)
+		: layout(layout)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::storage_qualifier:
+		{
+			auto temp = std::static_pointer_cast<StorageQualifier>(nonTerminal);
+
+			auto typeQ = std::make_shared<TypeQualifier>(layout,*temp);
+
+			retVal = parser->S_TypeQualifier(typeQ);
+		}
+		case NonTerminalType::type_specifier_nonarray:
+		{
+			auto temp = std::static_pointer_cast<TypeSpecifierNoArray>(nonTerminal);
+
+			auto typeQ = std::make_shared<TypeQualifier>(layout);
+
+			retVal = parser->S_TypeQualifier_TypeSpecifierNonArray(typeQ, temp);
+		}
+		break;
+		case NonTerminalType::type_specifier_no_prec:
+		{
+			auto temp = std::static_pointer_cast<TypeSpecifierNoPrec>(nonTerminal);
+
+			auto typeQ = std::make_shared<TypeQualifier>(layout);
+
+			retVal = parser->S_TypeQualifier_TypeSpecifierNoPrec(typeQ, temp);
+			break;
+		}
+		case NonTerminalType::type_specifier:
+		{
+			auto temp = std::static_pointer_cast<TypeSpecifier>(nonTerminal);
+
+			auto typeQ = std::make_shared<TypeQualifier>(layout);
+
+			retVal = parser->S_TypeQualifier_TypeSpecifier(typeQ, temp);
+			break;
+		}
+		default:
+			valid = false;
+			break;
+		}
+
+		return { retVal,valid };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_LayoutQualifier(std::shared_ptr<LayoutQualifier>& qualifier)
+{
+	Handler_LayoutQualifier temp{ qualifier };
+
+	return StateFuncSkeleton(__func__, temp);
 }
 
 class Handler_S_TypeQualifier : public IStateHandler
@@ -1428,6 +1587,356 @@ ParserReturnValue GLSL_Parser::S_DatatypeToken(TokenType::value value)
 	log.Debug(__func__);
 
 	return { std::make_unique<TypeSpecifierNoArray>(value), 1 };
+}
+
+class Handler_LayoutToken : public IStateHandler
+{
+public:
+
+public:
+
+	Handler_LayoutToken()
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::left_paren:
+			return { parser->S_LayoutToken_LParen(), true };
+		}
+
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_LayoutToken()
+{
+	Handler_LayoutToken temp;
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+class Handler_LayoutToken_LParen : public IStateHandler
+{
+public:
+
+public:
+
+	Handler_LayoutToken_LParen()
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::identifier:
+			return { parser->S_LayoutIdBuilder_Identifier(next), true };
+		//default:
+			//return DefaultExpressionShift(parser, next);
+		}		
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::layout_qualifier_id:
+		{
+			auto temp = std::static_pointer_cast<LayoutQualifierId>(nonTerminal);
+
+			auto list = std::make_shared< LayoutQualifierIdList>(temp);
+
+			retVal = parser->S_LayoutToken_LParen_LayoutQualifierIdList(list);
+		}
+		break;
+		case NonTerminalType::layout_qualifier_id_list:
+		{
+			auto temp = std::static_pointer_cast<LayoutQualifierIdList>(nonTerminal);
+			retVal = parser->S_LayoutToken_LParen_LayoutQualifierIdList(temp);
+		}
+		break;
+		default:
+			valid = false;
+			break;
+		}
+
+		return { retVal,valid };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_LayoutToken_LParen()
+{
+	Handler_LayoutToken_LParen temp;
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+class Handler_LayoutIdBuilder_Identifier : public IStateHandler
+{
+public:
+
+	const Token& id;
+
+public:
+
+	Handler_LayoutIdBuilder_Identifier(const Token& id)
+		: id(id)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (parser->PeekToken().type)
+		{
+		case TokenType::equal:
+			return { ParserReturnValue(),false };
+		}
+
+		return { ParserReturnValue(std::make_shared<LayoutQualifierId>(id.name),1), true };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::equal:
+			return { parser->S_LayoutIdBuilder_Identifier_Equal(id), true };
+		}
+
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_LayoutIdBuilder_Identifier(const Token& id)
+{
+	Handler_LayoutIdBuilder_Identifier temp{ id };
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+class Handler_LayoutIdBuilder_Identifier_Equal : public IStateHandler
+{
+public:
+
+	const Token& id;
+
+public:
+
+	Handler_LayoutIdBuilder_Identifier_Equal(const Token& id)
+		: id(id)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::int_constant:
+			return { parser->S_LayoutIdBuilder_Identifier_Equal_IntConstant(id,next.value.intVal), true };
+		}
+
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_LayoutIdBuilder_Identifier_Equal(const Token& id)
+{
+	Handler_LayoutIdBuilder_Identifier_Equal temp{ id };
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+ParserReturnValue GLSL_Parser::S_LayoutIdBuilder_Identifier_Equal_IntConstant(const Token& id, const Ceng::INT32 value)
+{
+	log.Debug(__func__);
+
+	return { std::make_shared<LayoutQualifierId>(id.name,value), 3 };
+}
+
+class Handler_LayoutToken_LParen_LayoutQualifierIdList : public IStateHandler
+{
+public:
+
+	std::shared_ptr<LayoutQualifierIdList>& list;
+
+public:
+
+	Handler_LayoutToken_LParen_LayoutQualifierIdList(std::shared_ptr<LayoutQualifierIdList>& list)
+		: list(list)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::right_paren:
+			return { parser->S_LayoutToken_LParen_LayoutQualifierIdList_RParen(list), true };
+		case TokenType::comma:
+			return { parser->S_LayoutToken_LParen_LayoutQualifierIdList_Comma(list), true };
+		}
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_LayoutToken_LParen_LayoutQualifierIdList(std::shared_ptr<LayoutQualifierIdList>& list)
+{
+	Handler_LayoutToken_LParen_LayoutQualifierIdList temp{ list };
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+class Handler_LayoutToken_LParen_LayoutQualifierIdList_Comma : public IStateHandler
+{
+public:
+
+	std::shared_ptr<LayoutQualifierIdList>& list;
+
+public:
+
+	Handler_LayoutToken_LParen_LayoutQualifierIdList_Comma(std::shared_ptr<LayoutQualifierIdList>& list)
+		: list(list)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::identifier:
+			return { parser->S_LayoutIdBuilder_Identifier(next), true };
+		}
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::layout_qualifier_id:
+		{
+			auto temp = std::static_pointer_cast<LayoutQualifierId>(nonTerminal);
+
+			list->Append(temp);
+
+			retVal = { list, 3 };
+		}
+		break;
+		default:
+			valid = false;
+			break;
+		}
+
+		return { retVal,valid };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_LayoutToken_LParen_LayoutQualifierIdList_Comma(std::shared_ptr<LayoutQualifierIdList>& list)
+{
+	Handler_LayoutToken_LParen_LayoutQualifierIdList_Comma temp{ list };
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+ParserReturnValue GLSL_Parser::S_LayoutToken_LParen_LayoutQualifierIdList_RParen(std::shared_ptr<LayoutQualifierIdList>& list)
+{
+	log.Debug(__func__);
+
+	return { std::make_shared<LayoutQualifier>(list), 4 };
 }
 
 class Handler_S_TypeQualifier_TypeSpecifierNonArray : public IStateHandler

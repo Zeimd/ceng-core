@@ -30,6 +30,9 @@ HandlerReturn IStateHandler::DefaultExpressionShift(GLSL_Parser* parser, const T
 		case TokenType::keyword_invariant:
 			retVal = parser->S_InvariantToken();
 			break;
+		case TokenType::keyword_layout:
+			retVal = parser->S_LayoutToken();
+			break;
 		case TokenType::int_constant:
 		case TokenType::float_constant:
 		case TokenType::bool_constant:
@@ -132,6 +135,12 @@ HandlerReturn IStateHandler::DefaultExpressionGoto(GLSL_Parser* parser, std::sha
 		{
 			auto temp = std::static_pointer_cast<StorageQualifier>(nonTerminal);
 			retVal = parser->S_StorageQualifier(temp);
+		}
+		break;
+	case NonTerminalType::layout_qualifier:
+		{
+			auto temp = std::static_pointer_cast<LayoutQualifier>(nonTerminal);
+			retVal = parser->S_LayoutQualifier(temp);
 		}
 		break;
 	case NonTerminalType::type_qualifier:

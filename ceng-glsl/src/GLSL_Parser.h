@@ -88,6 +88,10 @@
 #include "FunctionPrototype.h"
 #include "FunctionDefinition.h"
 
+#include "LayoutQualifier.h"
+#include "LayoutQualifierId.h"
+#include "LayoutQualifierIdList.h"
+
 namespace Ceng
 {
 	class GLSL_Parser : public GLSL::IParser
@@ -227,6 +231,24 @@ namespace Ceng
 		ParserReturnValue S_IdentifierToken(const Token& token);
 
 		ParserReturnValue S_DatatypeToken(TokenType::value value);
+
+		ParserReturnValue S_LayoutToken();
+
+		ParserReturnValue S_LayoutToken_LParen();
+
+		ParserReturnValue S_LayoutToken_LParen_LayoutQualifierIdList(std::shared_ptr<LayoutQualifierIdList>& list);
+
+		ParserReturnValue S_LayoutToken_LParen_LayoutQualifierIdList_Comma(std::shared_ptr<LayoutQualifierIdList>& list);
+
+		ParserReturnValue S_LayoutToken_LParen_LayoutQualifierIdList_RParen(std::shared_ptr<LayoutQualifierIdList>& list);
+
+		ParserReturnValue S_LayoutIdBuilder_Identifier(const Token& id);
+
+		ParserReturnValue S_LayoutIdBuilder_Identifier_Equal(const Token& id);
+
+		ParserReturnValue S_LayoutIdBuilder_Identifier_Equal_IntConstant(const Token& id, const Ceng::INT32 value);
+
+		ParserReturnValue S_LayoutQualifier(std::shared_ptr<LayoutQualifier>& sq);
 
 		ParserReturnValue S_StorageQualifier(std::shared_ptr<StorageQualifier>& sq);
 		
