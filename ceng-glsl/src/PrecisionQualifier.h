@@ -6,6 +6,8 @@
 
 namespace Ceng
 {
+	class Token;
+
 	class PrecisionQualifier : public INonTerminal
 	{
 	public:
@@ -14,9 +16,12 @@ namespace Ceng
 
 	public:
 
+		~PrecisionQualifier() override;
+
 		void Release() override;
 
 		PrecisionQualifier();
+		PrecisionQualifier(const Token& token);
 		PrecisionQualifier(PrecisionQualifierType::value precision);
 
 		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;

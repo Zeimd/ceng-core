@@ -11,6 +11,7 @@ namespace Ceng
 			medium,
 			low,
 			unassigned,
+			invalid_value,
 		};
 	}
 }
