@@ -10938,15 +10938,6 @@ public:
 			retVal = parser->S_ForRest_Condition(condition);
 		}
 		break;
-		/*
-		case NonTerminalType::condition:
-		{
-			std::shared_ptr<Condition> temp = std::static_pointer_cast<Condition>(nonTerminal);
-
-			retVal = parser->S_ForRest_Condition(temp);
-		}
-		break;
-		*/
 		case NonTerminalType::for_rest_statement:
 		{
 			std::shared_ptr<ForRestStatement> temp = std::static_pointer_cast<ForRestStatement>(nonTerminal);
