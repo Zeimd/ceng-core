@@ -250,6 +250,10 @@ namespace Ceng
 
 		ParserReturnValue S_LayoutQualifier(std::shared_ptr<LayoutQualifier>& sq);
 
+		ParserReturnValue S_InterpolationToken(const Token& interpolation);
+
+		ParserReturnValue S_InterpolationQualifier(std::shared_ptr<InterpolationQualifier>& interpolation);
+
 		ParserReturnValue S_StorageQualifier(std::shared_ptr<StorageQualifier>& sq);
 		
 		ParserReturnValue S_TypeQualifier(std::shared_ptr<TypeQualifier>& tq);
