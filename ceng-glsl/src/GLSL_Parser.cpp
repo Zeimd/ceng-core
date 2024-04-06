@@ -2240,11 +2240,11 @@ public:
 
 			auto typeSpec = std::make_shared<TypeSpecifier>(*qualifier, *temp);
 
-			return { ParserReturnValue(typeSpec, 3), true };
+			return { ParserReturnValue(typeSpec, 2), true };
 		}
 		break;
 		default:
-			valid = false;
+			return DefaultExpressionGoto(parser, nonTerminal);
 			break;
 		}
 
