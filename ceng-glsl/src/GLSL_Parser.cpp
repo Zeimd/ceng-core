@@ -111,8 +111,6 @@ ParserReturnValue GLSL_Parser::StateFuncSkeleton(const char* callerName, IStateH
 
 		ParserReturnValue retVal;
 
-		// TODO: reduction handler
-
 		Token next = NextToken();
 
 		if (next.type == TokenType::meta_end_of_file)
@@ -768,7 +766,6 @@ ParserReturnValue GLSL_Parser::S_StructHeader_TypeQualifier_TypeSpecifier_Struct
 	return StateFuncSkeleton(__func__, temp);
 }
 
-// StructHeader = STRUCT IDENTIFIER LEFT_BRACE {struct_declaration_list}
 ParserReturnValue GLSL_Parser::S_StructHeader_TypeQualifier_TypeSpecifier_StructDeclaratorList_Comma_StructDeclarator(std::shared_ptr<TypeQualifier>& typeQ,
 	std::shared_ptr<TypeSpecifier>& typeSpec, std::shared_ptr<StructDeclaratorList>& list, std::shared_ptr<StructDeclarator>& decl)
 {
@@ -1619,22 +1616,6 @@ public:
 	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
 	{
 		parser->log.Debug(__FUNCTION__);
-
-		/*
-		ParserReturnValue retVal;
-		bool valid = true;
-
-		if (next.category == TokenCategory::data_type)
-		{
-			retVal = parser->S_DatatypeToken(next.type);
-		}
-		else
-		{
-			valid = false;
-		}
-		return { retVal, valid };
-		*/
-
 		return DefaultExpressionShift(parser, next);
 	}
 
@@ -1666,8 +1647,6 @@ public:
 				break;
 			}
 		default:
-			//valid = false;
-			//break;
 			return DefaultExpressionGoto(parser, nonTerminal);
 		}
 
@@ -1760,8 +1739,6 @@ public:
 		{
 		case TokenType::identifier:
 			return { parser->S_LayoutIdBuilder_Identifier(next), true };
-		//default:
-			//return DefaultExpressionShift(parser, next);
 		}		
 		return { ParserReturnValue(),false };
 	}
@@ -7709,7 +7686,6 @@ ParserReturnValue GLSL_Parser::S_LogicalOrExpression_Question_Expression_Colon(s
 	return StateFuncSkeleton(__func__, temp);
 }
 
-// conditional_expression QUESTION expression COLON assignment_expression
 ParserReturnValue GLSL_Parser::S_LogicalOrExpression_Question_Expression_Colon_AssignEx(std::shared_ptr<LogicalOrExpression>& logicalOrex,
 	std::shared_ptr<Expression>& expression, std::shared_ptr<AssignmentExpression>& assignEx)
 {
@@ -8050,7 +8026,6 @@ ParserReturnValue GLSL_Parser::S_FunctionIdentifier(std::shared_ptr<FunctionIden
 	return StateFuncSkeleton(__func__, temp);
 }
 
-// Reduction: function_identifier LPAREN
 ParserReturnValue GLSL_Parser::S_FunctionIdentifier_Lparen(std::shared_ptr<FunctionIdentifier>& funcId)
 {
 	log.Debug(__func__);
@@ -8190,7 +8165,6 @@ ParserReturnValue GLSL_Parser::S_FunctionCallHeaderNoParams(std::shared_ptr<Func
 	return StateFuncSkeleton(__func__, temp);
 }
 
-// Reduction: function_call_header_no_params RIGHT_PAREN
 ParserReturnValue GLSL_Parser::S_FunctionCallHeaderNoParams_RParen(std::shared_ptr<FuncCallHeaderNoParams>& funcHeaderNoParam)
 {
 	log.Debug(__func__);
@@ -8274,7 +8248,6 @@ ParserReturnValue GLSL_Parser::S_FunctionCallHeaderWithParams(std::shared_ptr<Fu
 	return StateFuncSkeleton(__func__, temp);
 }
 
-// Reduction: function_call_header_with_params RIGHT_PAREN
 ParserReturnValue GLSL_Parser::S_FunctionCallHeaderWithParams_RParen(std::shared_ptr<FuncCallHeaderParams>& funcHeaderWithParam)
 {
 	log.Debug(__func__);
