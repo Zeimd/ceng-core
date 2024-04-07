@@ -140,6 +140,11 @@ namespace Ceng
 
 		ParserReturnValue S_InvariantToken_InterpolationQualifier(std::shared_ptr<InterpolationQualifier>& interpolation);
 
+		ParserReturnValue S_InvariantToken_InterpolationQualifier_StorageQualifier(std::shared_ptr<InterpolationQualifier>& interpolation,
+			std::shared_ptr<StorageQualifier>& sq);
+
+		ParserReturnValue S_InvariantToken_StorageQualifier(std::shared_ptr<StorageQualifier>& sq);
+
 		ParserReturnValue S_PrecisionToken();
 
 		ParserReturnValue S_PrecisionToken_PrecisionQualifier(std::shared_ptr<PrecisionQualifier>& qualifier);
@@ -153,6 +158,9 @@ namespace Ceng
 		ParserReturnValue S_PrecisionQualifierToken(const Token& qualifier);
 
 		ParserReturnValue S_PrecisionQualifier(std::shared_ptr<PrecisionQualifier>& qualifier);
+
+		ParserReturnValue S_PrecisionQualifier_TypeSpecNoPrec(std::shared_ptr<PrecisionQualifier>& qualifier,
+			std::shared_ptr<TypeSpecifierNoPrec>& typeSpec);
 
 		ParserReturnValue S_StructToken();
 
@@ -252,9 +260,14 @@ namespace Ceng
 
 		ParserReturnValue S_LayoutToken_LParen();
 
+		ParserReturnValue S_LayoutToken_LParen_LayoutQualifierId(std::shared_ptr<LayoutQualifierId>& qualifier);
+
 		ParserReturnValue S_LayoutToken_LParen_LayoutQualifierIdList(std::shared_ptr<LayoutQualifierIdList>& list);
 
 		ParserReturnValue S_LayoutToken_LParen_LayoutQualifierIdList_Comma(std::shared_ptr<LayoutQualifierIdList>& list);
+
+		ParserReturnValue S_LayoutToken_LParen_LayoutQualifierIdList_Comma_LayoutQualifierId(std::shared_ptr<LayoutQualifierIdList>& list,
+			std::shared_ptr<LayoutQualifierId>& qualifier);
 
 		ParserReturnValue S_LayoutToken_LParen_LayoutQualifierIdList_RParen(std::shared_ptr<LayoutQualifierIdList>& list);
 
@@ -264,11 +277,17 @@ namespace Ceng
 
 		ParserReturnValue S_LayoutIdBuilder_Identifier_Equal_IntConstant(const Token& id, const Ceng::INT32 value);
 
-		ParserReturnValue S_LayoutQualifier(std::shared_ptr<LayoutQualifier>& sq);
+		ParserReturnValue S_LayoutQualifier(std::shared_ptr<LayoutQualifier>& layout);
+
+		ParserReturnValue S_LayoutQualifier_StorageQualifier(std::shared_ptr<LayoutQualifier>& layout,
+			std::shared_ptr<StorageQualifier>& sq);
 
 		ParserReturnValue S_InterpolationToken(const Token& interpolation);
 
 		ParserReturnValue S_InterpolationQualifier(std::shared_ptr<InterpolationQualifier>& interpolation);
+
+		ParserReturnValue S_InterpolationQualifier_StorageQualifier(std::shared_ptr<InterpolationQualifier>& interpolation,
+			std::shared_ptr<StorageQualifier>& sq);
 
 		ParserReturnValue S_StorageQualifier(std::shared_ptr<StorageQualifier>& sq);
 		

@@ -1315,21 +1315,19 @@ public:
 		switch (nonTerminal->type)
 		{
 		case NonTerminalType::interpolation_qualifier:
-		{
-			auto temp = std::static_pointer_cast<InterpolationQualifier>(nonTerminal);
+			{
+				auto temp = std::static_pointer_cast<InterpolationQualifier>(nonTerminal);
 
-			retVal = parser->S_InvariantToken_InterpolationQualifier(temp);
-		}
-		break;
+				retVal = parser->S_InvariantToken_InterpolationQualifier(temp);
+			}
+			break;
 		case NonTerminalType::storage_qualifier:
-		{
-			auto temp = std::static_pointer_cast<StorageQualifier>(nonTerminal);
+			{
+				auto temp = std::static_pointer_cast<StorageQualifier>(nonTerminal);
 
-			auto typeQ = std::make_shared<TypeQualifier>(true, *temp);
-
-			return { ParserReturnValue(typeQ,2), true };
-		}
-		break;
+				retVal = parser->S_InvariantToken_StorageQualifier(temp);
+			}
+			break;
 		default:
 			return DefaultExpressionGoto(parser, nonTerminal);
 		}
@@ -1343,6 +1341,12 @@ ParserReturnValue GLSL_Parser::S_InvariantToken()
 	Handler_S_InvariantToken temp;
 
 	return StateFuncSkeleton(__func__, temp);
+}
+
+ParserReturnValue GLSL_Parser::S_InvariantToken_StorageQualifier(std::shared_ptr<StorageQualifier>& sq)
+{
+	log.Debug(__func__);
+	return { std::make_shared<TypeQualifier>(true, *sq), 2 };
 }
 
 class Handler_S_InvariantToken_InterpolationQualifier : public IStateHandler
@@ -1384,9 +1388,7 @@ public:
 		{
 			auto temp = std::static_pointer_cast<StorageQualifier>(nonTerminal);
 
-			auto typeQ = std::make_shared<TypeQualifier>(true, *interpolation, *temp);
-
-			return { ParserReturnValue(typeQ, 3), true };
+			return { parser->S_InvariantToken_InterpolationQualifier_StorageQualifier(interpolation,temp), true };
 		}
 		break;
 		}
@@ -1403,6 +1405,13 @@ ParserReturnValue GLSL_Parser::S_InvariantToken_InterpolationQualifier(std::shar
 	return StateFuncSkeleton(__func__, temp);
 }
 
+ParserReturnValue GLSL_Parser::S_InvariantToken_InterpolationQualifier_StorageQualifier(std::shared_ptr<InterpolationQualifier>& interpolation,
+	std::shared_ptr<StorageQualifier>& sq)
+{
+	log.Debug(__func__);
+
+	return { std::make_shared<TypeQualifier>(true, *interpolation, *sq),3 };
+}
 
 ParserReturnValue GLSL_Parser::S_InvariantToken_IdentifierToken(const Token& token)
 {
@@ -1467,14 +1476,12 @@ public:
 		switch (nonTerminal->type)
 		{
 		case NonTerminalType::storage_qualifier:
-		{
-			auto temp = std::static_pointer_cast<StorageQualifier>(nonTerminal);
+			{
+				auto temp = std::static_pointer_cast<StorageQualifier>(nonTerminal);
 
-			auto typeQ = std::make_shared<TypeQualifier>(*interpolation,*temp);
-
-			return { ParserReturnValue(typeQ, 2), true };
-		}
-		break;
+				retVal = parser->S_InterpolationQualifier_StorageQualifier(interpolation, temp);
+			}
+			break;
 		default:
 			valid = false;
 			break;
@@ -1492,6 +1499,12 @@ ParserReturnValue GLSL_Parser::S_InterpolationQualifier(std::shared_ptr<Interpol
 	return StateFuncSkeleton(__func__, temp);
 }
 
+ParserReturnValue GLSL_Parser::S_InterpolationQualifier_StorageQualifier(std::shared_ptr<InterpolationQualifier>& interpolation,
+	std::shared_ptr<StorageQualifier>& sq)
+{
+	log.Debug(__func__);
+	return { std::make_shared<TypeQualifier>(*interpolation,*sq), 2 };
+}
 
 ParserReturnValue GLSL_Parser::S_StorageQualifierToken(TokenType::value value)
 {
@@ -1554,13 +1567,12 @@ public:
 		switch (nonTerminal->type)
 		{
 		case NonTerminalType::storage_qualifier:
-		{
-			auto temp = std::static_pointer_cast<StorageQualifier>(nonTerminal);
+			{
+				auto temp = std::static_pointer_cast<StorageQualifier>(nonTerminal);
 
-			auto typeQ = std::make_shared<TypeQualifier>(layout, *temp);
-
-			return { ParserReturnValue(typeQ, 2), true };
-		}
+				retVal = parser->S_LayoutQualifier_StorageQualifier(layout, temp);
+			}
+			break;
 		default:
 			valid = false;
 			break;
@@ -1576,6 +1588,13 @@ ParserReturnValue GLSL_Parser::S_LayoutQualifier(std::shared_ptr<LayoutQualifier
 	Handler_LayoutQualifier temp{ qualifier };
 
 	return StateFuncSkeleton(__func__, temp);
+}
+
+ParserReturnValue GLSL_Parser::S_LayoutQualifier_StorageQualifier(std::shared_ptr<LayoutQualifier>& layout,
+	std::shared_ptr<StorageQualifier>& sq)
+{
+	log.Debug(__func__);
+	return { std::make_shared<TypeQualifier>(layout,*sq), 2 };
 }
 
 class Handler_S_TypeQualifier : public IStateHandler
@@ -1757,20 +1776,18 @@ public:
 		switch (nonTerminal->type)
 		{
 		case NonTerminalType::layout_qualifier_id:
-		{
-			auto temp = std::static_pointer_cast<LayoutQualifierId>(nonTerminal);
+			{
+				auto temp = std::static_pointer_cast<LayoutQualifierId>(nonTerminal);
 
-			auto list = std::make_shared< LayoutQualifierIdList>(temp);
-
-			retVal = parser->S_LayoutToken_LParen_LayoutQualifierIdList(list);
-		}
-		break;
+				retVal = parser->S_LayoutToken_LParen_LayoutQualifierId(temp);
+			}
+			break;
 		case NonTerminalType::layout_qualifier_id_list:
-		{
-			auto temp = std::static_pointer_cast<LayoutQualifierIdList>(nonTerminal);
-			retVal = parser->S_LayoutToken_LParen_LayoutQualifierIdList(temp);
-		}
-		break;
+			{
+				auto temp = std::static_pointer_cast<LayoutQualifierIdList>(nonTerminal);
+				retVal = parser->S_LayoutToken_LParen_LayoutQualifierIdList(temp);
+			}
+			break;
 		default:
 			valid = false;
 			break;
@@ -1898,6 +1915,13 @@ ParserReturnValue GLSL_Parser::S_LayoutIdBuilder_Identifier_Equal_IntConstant(co
 	return { std::make_shared<LayoutQualifierId>(id.name,value), 3 };
 }
 
+ParserReturnValue GLSL_Parser::S_LayoutToken_LParen_LayoutQualifierId(std::shared_ptr<LayoutQualifierId>& qualifier)
+{
+	log.Debug(__func__);
+
+	return { std::make_shared<LayoutQualifierIdList>(qualifier), 1 };
+}
+
 class Handler_LayoutToken_LParen_LayoutQualifierIdList : public IStateHandler
 {
 public:
@@ -1989,14 +2013,12 @@ public:
 		switch (nonTerminal->type)
 		{
 		case NonTerminalType::layout_qualifier_id:
-		{
-			auto temp = std::static_pointer_cast<LayoutQualifierId>(nonTerminal);
+			{
+				auto temp = std::static_pointer_cast<LayoutQualifierId>(nonTerminal);
 
-			list->Append(temp);
-
-			retVal = { list, 3 };
-		}
-		break;
+				retVal = parser->S_LayoutToken_LParen_LayoutQualifierIdList_Comma_LayoutQualifierId(list, temp);
+			}
+			break;
 		default:
 			valid = false;
 			break;
@@ -2012,6 +2034,16 @@ ParserReturnValue GLSL_Parser::S_LayoutToken_LParen_LayoutQualifierIdList_Comma(
 	Handler_LayoutToken_LParen_LayoutQualifierIdList_Comma temp{ list };
 
 	return StateFuncSkeleton(__func__, temp);
+}
+
+ParserReturnValue GLSL_Parser::S_LayoutToken_LParen_LayoutQualifierIdList_Comma_LayoutQualifierId(std::shared_ptr<LayoutQualifierIdList>& list,
+	std::shared_ptr<LayoutQualifierId>& qualifier)
+{
+	log.Debug(__func__);
+
+	list->Append(qualifier);
+
+	return { list, 3 };
 }
 
 ParserReturnValue GLSL_Parser::S_LayoutToken_LParen_LayoutQualifierIdList_RParen(std::shared_ptr<LayoutQualifierIdList>& list)
@@ -2238,9 +2270,7 @@ public:
 		{
 			auto temp = std::static_pointer_cast<TypeSpecifierNoPrec>(nonTerminal);
 
-			auto typeSpec = std::make_shared<TypeSpecifier>(*qualifier, *temp);
-
-			return { ParserReturnValue(typeSpec, 2), true };
+			retVal = parser->S_PrecisionQualifier_TypeSpecNoPrec(qualifier, temp);
 		}
 		break;
 		default:
@@ -2252,6 +2282,13 @@ public:
 	}
 
 };
+
+ParserReturnValue  GLSL_Parser::S_PrecisionQualifier_TypeSpecNoPrec(std::shared_ptr<PrecisionQualifier>& qualifier,
+	std::shared_ptr<TypeSpecifierNoPrec>& typeSpec)
+{
+	log.Debug(__func__);
+	return { std::make_shared<TypeSpecifier>(*qualifier, *typeSpec), 2 };
+}
 
 ParserReturnValue GLSL_Parser::S_PrecisionQualifier(std::shared_ptr<PrecisionQualifier>& qualifier)
 {
