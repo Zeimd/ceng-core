@@ -4,6 +4,8 @@
 #include "FullySpecifiedType.h"
 #include "Initializer.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 Condition::~Condition()
@@ -47,4 +49,9 @@ Ceng::StringUtf8 Condition::ToString(unsigned int indentLevel) const
 	}
 
 	return "<UNHANDLED CONDITION TYPE>";
+}
+
+void Condition::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_Condition(*this);
 }

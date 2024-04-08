@@ -1,5 +1,7 @@
 #include "XorExpression.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 void XorExpression::Release()
@@ -36,4 +38,9 @@ Ceng::StringUtf8 XorExpression::ToString(unsigned int indentLevel) const
 
 
 	return out;
+}
+
+void XorExpression::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_XorExpression(*this);
 }

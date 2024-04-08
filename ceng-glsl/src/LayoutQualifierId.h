@@ -25,6 +25,8 @@ namespace Ceng
 		LayoutQualifierId(const Ceng::StringUtf8& identifier, Ceng::INT32 value);
 
 		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
+
+		void AcceptVisitor(AST_Visitor& visitor) override;
 	};
 }
 

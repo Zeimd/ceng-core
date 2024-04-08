@@ -1,5 +1,7 @@
 #include "UnaryOperator.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 void UnaryOperator::Release()
@@ -53,4 +55,9 @@ Ceng::StringUtf8 UnaryOperator::ToString(unsigned int indentLevel) const
 	default:
 		return "UnaryOperator: unhandled case";
 	}
+}
+
+void UnaryOperator::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_UnaryOperator(*this);
 }

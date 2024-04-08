@@ -2,6 +2,8 @@
 #include "FunctionHeader.h"
 #include "ParameterDeclaration.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 FunctionHeaderWithParams::~FunctionHeaderWithParams()
@@ -42,4 +44,9 @@ Ceng::StringUtf8 FunctionHeaderWithParams::ToString(unsigned int indentLevel) co
 	}
 
 	return out;
+}
+
+void FunctionHeaderWithParams::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_FunctionHeaderWithParams(*this);
 }

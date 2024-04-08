@@ -31,6 +31,8 @@ namespace Ceng
 		StructDeclarator(const Ceng::StringUtf8& name, bool implicitArray);
 
 		StructDeclarator(const Ceng::StringUtf8& name, std::shared_ptr<Expression>& arraySize);
+
+		void AcceptVisitor(AST_Visitor& visitor) override;
 	};
 }
 

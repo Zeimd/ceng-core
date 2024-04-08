@@ -1,6 +1,8 @@
 #include "CompoundStatement.h"
 #include "StatementList.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 CompoundStatement::~CompoundStatement()
@@ -46,4 +48,9 @@ Ceng::StringUtf8 CompoundStatement::ToString(unsigned int indentLevel) const
 	out += "}\n";
 
 	return out;
+}
+
+void CompoundStatement::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_CompoundStatement(*this);
 }

@@ -1,5 +1,7 @@
 #include "SingleDeclaration.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 SingleDeclaration::SingleDeclaration(std::shared_ptr<FullySpecifiedType>& fullType)
@@ -61,8 +63,10 @@ void SingleDeclaration::Release()
 
 Ceng::StringUtf8 SingleDeclaration::ToString(unsigned int indentLevel) const
 {
-	return "";
+	return "";	
+}
 
-	
-	
+void SingleDeclaration::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_SingleDeclaration(*this);
 }

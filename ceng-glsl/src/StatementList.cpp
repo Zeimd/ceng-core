@@ -1,6 +1,8 @@
 #include "StatementList.h"
 #include "Statement.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 StatementList::~StatementList()
@@ -36,4 +38,9 @@ Ceng::StringUtf8 StatementList::ToString(unsigned int indentLevel) const
 	}
 
 	return out;
+}
+
+void StatementList::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_StatementList(*this);
 }

@@ -8,6 +8,8 @@
 #include "IterationStatement.h"
 #include "JumpStatement.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 SimpleStatement::~SimpleStatement()
@@ -83,4 +85,9 @@ Ceng::StringUtf8 SimpleStatement::ToString(unsigned int indentLevel) const
 	default:
 		return "<UNHANDLED STATEMENT TYPE>";
 	}
+}
+
+void SimpleStatement::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_SimpleStatement(*this);
 }

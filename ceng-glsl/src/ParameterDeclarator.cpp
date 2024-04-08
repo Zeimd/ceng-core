@@ -3,6 +3,8 @@
 #include "TypeSpecifier.h"
 #include "Expression.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 ParameterDeclarator::~ParameterDeclarator()
@@ -43,4 +45,9 @@ Ceng::StringUtf8 ParameterDeclarator::ToString(unsigned int indentLevel) const
 	}
 
 	return out;
+}
+
+void ParameterDeclarator::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_ParameterDeclarator(*this);
 }

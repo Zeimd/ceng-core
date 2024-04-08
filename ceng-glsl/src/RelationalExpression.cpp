@@ -1,5 +1,7 @@
 #include "RelationalExpression.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 void RelationalExpression::Release()
@@ -76,4 +78,9 @@ Ceng::StringUtf8 RelationalExpression::ToString(unsigned int indentLevel) const
 	out += rhs->ToString(indentLevel);
 
 	return out;
+}
+
+void RelationalExpression::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_RelationalExpression(*this);
 }

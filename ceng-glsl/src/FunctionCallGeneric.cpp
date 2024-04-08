@@ -1,5 +1,7 @@
 #include "FunctionCallGeneric.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 void FunctionCallGeneric::Release()
@@ -37,4 +39,9 @@ Ceng::StringUtf8 FunctionCallGeneric::ToString(unsigned int indentLevel) const
 	}
 
 	return "<UNHANDLED FUNCTION TYPE>";
+}
+
+void FunctionCallGeneric::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_FunctionCallGeneric(*this);
 }

@@ -1,6 +1,8 @@
 #include "DeclarationStatement.h"
 #include "Declaration.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 DeclarationStatement::~DeclarationStatement()
@@ -28,4 +30,9 @@ Ceng::StringUtf8 DeclarationStatement::ToString(unsigned int indentLevel) const
 	out += declaration->ToString(indentLevel);
 
 	return out;
+}
+
+void DeclarationStatement::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_DeclarationStatement(*this);
 }

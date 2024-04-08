@@ -53,6 +53,8 @@ namespace Ceng
 		UnaryExpression(std::shared_ptr<UnaryOperator>& op, std::shared_ptr<UnaryExpression>& unaryExpression);
 
 		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
+
+		void AcceptVisitor(AST_Visitor& visitor) override;
 	};
 }
 

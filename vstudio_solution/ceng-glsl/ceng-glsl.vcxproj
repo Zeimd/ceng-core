@@ -34,6 +34,7 @@
     <ClInclude Include="..\..\ceng-glsl\src\AndExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\AssignmentExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\AssignmentOperator.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\AST_Visitor.h" />
     <ClInclude Include="..\..\ceng-glsl\src\CaseLabel.h" />
     <ClInclude Include="..\..\ceng-glsl\src\CompoundStatement.h" />
     <ClInclude Include="..\..\ceng-glsl\src\CompoundStatementNoNewScope.h" />

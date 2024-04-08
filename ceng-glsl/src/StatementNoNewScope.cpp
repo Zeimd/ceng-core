@@ -3,6 +3,8 @@
 #include "CompoundStatementNoNewScope.h"
 #include "CompoundStatement.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 StatementNoNewScope::~StatementNoNewScope()
@@ -49,4 +51,9 @@ Ceng::StringUtf8 StatementNoNewScope::ToString(unsigned int indentLevel) const
 	default:
 		return "<UNHANDLED STATEMENT CATEGORY>";
 	}
+}
+
+void StatementNoNewScope::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_StatementNoNewScope(*this);
 }

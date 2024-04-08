@@ -1,5 +1,7 @@
 #include "EqualityExpression.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 void EqualityExpression::Release()
@@ -68,4 +70,9 @@ Ceng::StringUtf8 EqualityExpression::ToString(unsigned int indentLevel) const
 	out += rhs->ToString(indentLevel);
 
 	return out;
+}
+
+void EqualityExpression::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_EqualityExpression(*this);
 }

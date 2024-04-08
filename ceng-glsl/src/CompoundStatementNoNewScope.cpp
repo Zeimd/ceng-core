@@ -2,6 +2,8 @@
 #include "StatementList.h"
 #include "CompoundStatement.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 CompoundStatementNoNewScope::~CompoundStatementNoNewScope()
@@ -55,4 +57,9 @@ Ceng::StringUtf8 CompoundStatementNoNewScope::ToString(unsigned int indentLevel)
 	out += "}\n";
 
 	return out;
+}
+
+void CompoundStatementNoNewScope::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_CompoundStatementNoNewScope(*this);
 }

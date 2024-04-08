@@ -25,6 +25,8 @@ namespace Ceng
 		CompoundStatement(std::shared_ptr<StatementList>& list);
 
 		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
+
+		void AcceptVisitor(AST_Visitor& visitor) override;
 	};
 }
 

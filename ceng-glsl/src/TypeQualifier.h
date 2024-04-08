@@ -36,6 +36,8 @@ namespace Ceng
 		TypeQualifier(bool invariant, const InterpolationQualifier& interpolation, const StorageQualifier& sq);
 
 		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
+
+		void AcceptVisitor(AST_Visitor& visitor) override;
 		
 	};
 }

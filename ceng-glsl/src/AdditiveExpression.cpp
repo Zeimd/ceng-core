@@ -1,5 +1,7 @@
 #include "AdditiveExpression.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 void AdditiveExpression::Release()
@@ -66,4 +68,9 @@ Ceng::StringUtf8 AdditiveExpression::ToString(unsigned int indentLevel) const
 
 
 	return out;
+}
+
+void AdditiveExpression::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_AdditiveExpression(*this);
 }

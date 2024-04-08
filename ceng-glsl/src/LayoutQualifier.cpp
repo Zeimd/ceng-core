@@ -1,6 +1,8 @@
 #include "LayoutQualifier.h"
 #include "LayoutQualifierIdList.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 LayoutQualifier::~LayoutQualifier()
@@ -28,4 +30,9 @@ Ceng::StringUtf8 LayoutQualifier::ToString(unsigned int indentLevel) const
 	out += ") ";
 
 	return out;
+}
+
+void LayoutQualifier::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_LayoutQualifier(*this);
 }

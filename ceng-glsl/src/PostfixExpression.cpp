@@ -1,6 +1,8 @@
 #include "PostfixExpression.h"
 #include "FunctionCall.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 PostfixExpression::PostfixExpression(std::shared_ptr<PrimaryExpression>& primaryExpression)
@@ -78,4 +80,9 @@ Ceng::StringUtf8 PostfixExpression::ToString(unsigned int indentLevel) const
 	}
 
 	return out;
+}
+
+void PostfixExpression::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_PostfixExpression(*this);
 }

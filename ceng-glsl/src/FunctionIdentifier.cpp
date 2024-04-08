@@ -1,5 +1,7 @@
 #include "FunctionIdentifier.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 void FunctionIdentifier::Release()
@@ -32,4 +34,9 @@ Ceng::StringUtf8 FunctionIdentifier::ToString(unsigned int indentLevel) const
 	default:
 		return "<UNHANDLED FUNCTION INDENTIFIER TYPE>";
 	}
+}
+
+void FunctionIdentifier::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_FunctionIdentifier(*this);
 }

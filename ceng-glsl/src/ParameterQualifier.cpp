@@ -2,6 +2,8 @@
 
 #include "ParameterQualifier.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 ParameterQualifier::~ParameterQualifier()
@@ -64,4 +66,9 @@ ParameterQualifierType::value ParameterQualifier::TokenToType(const Token& token
 	}
 
 	return ParameterQualifierType::invalid_value;
+}
+
+void ParameterQualifier::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_ParameterQualifier(*this);
 }

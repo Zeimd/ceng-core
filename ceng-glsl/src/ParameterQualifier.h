@@ -40,6 +40,8 @@ namespace Ceng
 		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
 
 		static ParameterQualifierType::value TokenToType(const Token& token);
+
+		void AcceptVisitor(AST_Visitor& visitor) override;
 	};
 }
 

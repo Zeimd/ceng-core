@@ -28,6 +28,8 @@ namespace Ceng
 		SwitchStatement(std::shared_ptr<Expression>& expression, std::shared_ptr<SwitchStatementList>& list);
 
 		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
+
+		void AcceptVisitor(AST_Visitor& visitor) override;
 	};
 }
 

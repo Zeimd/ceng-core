@@ -1,5 +1,7 @@
 #include "TypeSpecifierNoPrecision.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 void TypeSpecifierNoPrec::Release()
@@ -45,4 +47,9 @@ Ceng::StringUtf8 TypeSpecifierNoPrec::ToString(unsigned int indentLevel) const
 
 
 	return out;
+}
+
+void TypeSpecifierNoPrec::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_TypeSpecifierNoPrec(*this);
 }

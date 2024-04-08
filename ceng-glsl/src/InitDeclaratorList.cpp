@@ -1,5 +1,7 @@
 #include "InitDeclaratorList.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 InitDeclaratorList::InitDeclaratorList(std::shared_ptr<SingleDeclaration>& decl)
@@ -47,4 +49,9 @@ Ceng::StringUtf8 InitDeclaratorList::ToString(unsigned int indentLevel) const
 	}
 
 	return out;
+}
+
+void InitDeclaratorList::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_InitDeclaratorList(*this);
 }

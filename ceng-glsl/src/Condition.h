@@ -43,6 +43,8 @@ namespace Ceng
 		Condition(std::shared_ptr<FullySpecifiedType>& fullSpec, const Ceng::StringUtf8& identifier, std::shared_ptr<Initializer>& initializer);
 
 		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
+
+		void AcceptVisitor(AST_Visitor& visitor) override;
 	};
 }
 

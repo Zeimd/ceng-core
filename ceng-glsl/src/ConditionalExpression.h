@@ -32,6 +32,8 @@ namespace Ceng
 		ConditionalExpression(std::shared_ptr<LogicalOrExpression>& a, std::shared_ptr<Expression>& b, std::shared_ptr<AssignmentExpression>& c);
 
 		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
+
+		void AcceptVisitor(AST_Visitor& visitor) override;
 	};
 }
 

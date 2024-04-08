@@ -18,6 +18,8 @@ namespace Ceng
 		FunctionCallHeader(std::shared_ptr<FunctionIdentifier>& identifier);
 
 		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
+
+		void AcceptVisitor(AST_Visitor& visitor) override;
 	};
 }
 

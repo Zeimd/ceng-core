@@ -2,6 +2,8 @@
 #include "FunctionPrototype.h"
 #include "CompoundStatementNoNewScope.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 FunctionDefinition::~FunctionDefinition()
@@ -30,4 +32,9 @@ Ceng::StringUtf8 FunctionDefinition::ToString(unsigned int indentLevel) const
 	out += '\n';
 
 	return out;
+}
+
+void FunctionDefinition::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_FunctionDefinition(*this);
 }

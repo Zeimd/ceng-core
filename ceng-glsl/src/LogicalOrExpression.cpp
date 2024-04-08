@@ -1,5 +1,7 @@
 #include "LogicalOrExpression.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 void LogicalOrExpression::Release()
@@ -36,4 +38,9 @@ Ceng::StringUtf8 LogicalOrExpression::ToString(unsigned int indentLevel) const
 
 
 	return out;
+}
+
+void LogicalOrExpression::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_LogicalOrExpression(*this);
 }

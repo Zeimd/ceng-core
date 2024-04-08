@@ -7,7 +7,9 @@
 
 namespace Ceng
 {
-	class INonTerminal 
+	class AST_Visitor;
+
+	class INonTerminal
 	{
 	public:
 		const NonTerminalType::value type;
@@ -40,6 +42,8 @@ namespace Ceng
 		{
 			return Ceng::StringUtf8(' ', 4 * indentLevel );
 		}
+
+		virtual void AcceptVisitor(AST_Visitor& visitor) = 0;
 	};
 }
 

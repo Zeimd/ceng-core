@@ -1,5 +1,7 @@
 #include "TranslationUnit.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 TranslationUnit::TranslationUnit()
@@ -38,4 +40,9 @@ Ceng::StringUtf8 TranslationUnit::ToString(unsigned int indentLevel) const
 	out += '\n';
 
 	return out;
+}
+
+void TranslationUnit::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_TranslationUnit(*this);
 }

@@ -1,5 +1,5 @@
-#ifndef CENG_GLSL_FUNCION_CALL_GENERIC_H
-#define CENG_GLSL_FUNCION_CALL_GENERIC_H
+#ifndef CENG_GLSL_FUNCTION_CALL_GENERIC_H
+#define CENG_GLSL_FUNCTION_CALL_GENERIC_H
 
 #include <memory>
 
@@ -25,6 +25,8 @@ namespace Ceng
 		FunctionCallGeneric(std::shared_ptr<FuncCallHeaderNoParams>& noParams);
 
 		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
+
+		void AcceptVisitor(AST_Visitor& visitor) override;
 	};
 
 }

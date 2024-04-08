@@ -1,5 +1,7 @@
 #include "TypeQualifier.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 void TypeQualifier::Release()
@@ -92,4 +94,9 @@ Ceng::StringUtf8 TypeQualifier::ToString(unsigned int indentLevel) const
 	}
 
 	return out;
+}
+
+void TypeQualifier::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_TypeQualifier(*this);
 }

@@ -1,5 +1,7 @@
 #include "PrimaryExpression.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 PrimaryExpression::PrimaryExpression(const Token& token)
@@ -97,4 +99,9 @@ Ceng::StringUtf8 PrimaryExpression::ToString(unsigned int indentLevel) const
 	}
 
 	return "";
+}
+
+void PrimaryExpression::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_PrimaryExpression(*this);
 }

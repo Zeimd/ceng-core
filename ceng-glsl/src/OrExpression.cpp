@@ -1,5 +1,7 @@
 #include "OrExpression.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 void OrExpression::Release()
@@ -36,4 +38,9 @@ Ceng::StringUtf8 OrExpression::ToString(unsigned int indentLevel) const
 
 
 	return out;
+}
+
+void OrExpression::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_OrExpression(*this);
 }

@@ -1,6 +1,8 @@
 #include "ConditionalExpression.h"
 #include "AssignmentExpression.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 void ConditionalExpression::Release()
@@ -39,4 +41,9 @@ Ceng::StringUtf8 ConditionalExpression::ToString(unsigned int indentLevel) const
 
 
 	return out;
+}
+
+void ConditionalExpression::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_ConditionalExpression(*this);
 }

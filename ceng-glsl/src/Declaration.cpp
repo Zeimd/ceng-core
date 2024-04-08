@@ -7,6 +7,8 @@
 #include "TypeSpecifierNoPrecision.h"
 #include "PrecisionQualifier.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 Declaration::~Declaration()
@@ -148,4 +150,9 @@ Ceng::StringUtf8 Declaration::ToString(unsigned int indentLevel) const
 	out += ';';
 
 	return out;
+}
+
+void Declaration::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_Declaration(*this);
 }

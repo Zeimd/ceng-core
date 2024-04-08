@@ -41,6 +41,8 @@ namespace Ceng
 		ShiftExpression(std::shared_ptr<ShiftExpression>& lhs, ShiftOp::value operation, std::shared_ptr<AdditiveExpression>& rhs);
 
 		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
+
+		void AcceptVisitor(AST_Visitor& visitor) override;
 	};
 }
 

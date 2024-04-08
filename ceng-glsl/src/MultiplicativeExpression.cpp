@@ -1,5 +1,7 @@
 #include "MultiplicativeExpression.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 void MultiplicativeExpression::Release()
@@ -70,4 +72,9 @@ Ceng::StringUtf8 MultiplicativeExpression::ToString(unsigned int indentLevel) co
 
 
 	return out;
+}
+
+void MultiplicativeExpression::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_MultiplicativeExpression(*this);
 }

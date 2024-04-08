@@ -1,6 +1,8 @@
 #include "LayoutQualifierIdList.h"
 #include "LayoutQualifierId.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 LayoutQualifierIdList::~LayoutQualifierIdList()
@@ -28,7 +30,7 @@ Ceng::StringUtf8 LayoutQualifierIdList::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
-	for(int k=0; k < list.size(); k++)
+	for(size_t k=0; k < list.size(); k++)
 	{
 		out += list[k]->ToString(indentLevel);
 
@@ -39,4 +41,9 @@ Ceng::StringUtf8 LayoutQualifierIdList::ToString(unsigned int indentLevel) const
 	}
 
 	return out;
+}
+
+void LayoutQualifierIdList::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_LayoutQualifierIdList(*this);
 }

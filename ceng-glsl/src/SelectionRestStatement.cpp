@@ -1,6 +1,8 @@
 #include "SelectionRestStatement.h"
 #include "Statement.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 SelectionRestStatement::~SelectionRestStatement()
@@ -48,4 +50,9 @@ Ceng::StringUtf8 SelectionRestStatement::ToString(unsigned int indentLevel) cons
 	}
 
 	return out;
+}
+
+void SelectionRestStatement::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_SelectionRestStatement(*this);
 }

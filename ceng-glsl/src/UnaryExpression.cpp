@@ -1,5 +1,7 @@
 #include "UnaryExpression.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 void UnaryExpression::Release()
@@ -90,4 +92,9 @@ Ceng::StringUtf8 UnaryExpression::ToString(unsigned int indentLevel) const
 	}
 
 	return "<UNHANDLED UNARY TYPE>";
+}
+
+void UnaryExpression::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_UnaryExpression(*this);
 }

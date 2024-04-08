@@ -3,6 +3,8 @@
 #include "FunctionHeader.h"
 #include "FunctionHeaderWithParams.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 FunctionDeclarator::~FunctionDeclarator()
@@ -37,3 +39,7 @@ Ceng::StringUtf8 FunctionDeclarator::ToString(unsigned int indentLevel) const
 	return header->ToString(indentLevel);
 }
 
+void FunctionDeclarator::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_FunctionDeclarator(*this);
+}

@@ -29,6 +29,8 @@ namespace Ceng
 		ParameterDeclarator(std::shared_ptr<TypeSpecifier>& typeSpec, const Ceng::StringUtf8& name, std::shared_ptr<Expression>& arraySize);
 
 		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
+
+		void AcceptVisitor(AST_Visitor& visitor) override;
 	};
 }
 

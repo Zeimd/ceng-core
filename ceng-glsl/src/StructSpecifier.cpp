@@ -1,6 +1,8 @@
 #include "StructSpecifier.h"
 #include "StructDeclarationList.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 StructSpecifier::StructSpecifier(const Ceng::StringUtf8& _name, std::shared_ptr<StructDeclarationList>& _list)
@@ -44,4 +46,9 @@ Ceng::StringUtf8 StructSpecifier::ToString(unsigned int indentLevel) const
 	temp += "}";
 
 	return temp;
+}
+
+void StructSpecifier::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_StructSpecifier(*this);
 }

@@ -1,5 +1,7 @@
 #include "ShiftExpression.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 void ShiftExpression::Release()
@@ -65,4 +67,9 @@ Ceng::StringUtf8 ShiftExpression::ToString(unsigned int indentLevel) const
 	out += rhs->ToString(indentLevel);
 
 	return out;
+}
+
+void ShiftExpression::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_ShiftExpression(*this);
 }

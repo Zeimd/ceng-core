@@ -1,5 +1,7 @@
 #include "FullySpecifiedType.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 FullySpecifiedType::FullySpecifiedType(const TypeSpecifier& typeSpec)
@@ -27,4 +29,9 @@ Ceng::StringUtf8 FullySpecifiedType::ToString(unsigned int indentLevel) const
 	out += typeSpec.ToString(indentLevel);
 
 	return out;
+}
+
+void FullySpecifiedType::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_FullySpecifiedType(*this);
 }

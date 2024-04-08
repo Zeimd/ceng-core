@@ -1,6 +1,8 @@
 #include "JumpStatement.h"
 #include "Expression.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 JumpStatement::~JumpStatement()
@@ -63,4 +65,9 @@ Ceng::StringUtf8 JumpStatement::ToString(unsigned int indentLevel) const
 	}
 
 	return out;
+}
+
+void JumpStatement::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_JumpStatement(*this);
 }

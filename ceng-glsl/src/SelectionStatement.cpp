@@ -3,6 +3,8 @@
 #include "Expression.h"
 #include "SelectionRestStatement.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 SelectionStatement::~SelectionStatement()
@@ -34,4 +36,9 @@ Ceng::StringUtf8 SelectionStatement::ToString(unsigned int indentLevel) const
 	out += rest->ToString(indentLevel);
 
 	return out;
+}
+
+void SelectionStatement::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_SelectionStatement(*this);
 }

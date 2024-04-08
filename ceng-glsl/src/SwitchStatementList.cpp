@@ -1,6 +1,8 @@
 #include "SwitchStatementList.h"
 #include "StatementList.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 SwitchStatementList::~SwitchStatementList()
@@ -22,4 +24,9 @@ SwitchStatementList::SwitchStatementList(std::shared_ptr<StatementList>& list)
 Ceng::StringUtf8 SwitchStatementList::ToString(unsigned int indentLevel) const
 {
 	return list->ToString(indentLevel);
+}
+
+void SwitchStatementList::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_SwitchStatementList(*this);
 }

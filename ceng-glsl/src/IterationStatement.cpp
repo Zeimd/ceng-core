@@ -9,6 +9,8 @@
 #include "ForInitStatement.h"
 #include "ForRestStatement.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 IterationStatement::~IterationStatement()
@@ -79,4 +81,9 @@ Ceng::StringUtf8 IterationStatement::ToString(unsigned int indentLevel) const
 	}
 
 	return out;
+}
+
+void IterationStatement::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_IterationStatement(*this);
 }

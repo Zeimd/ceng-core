@@ -1,5 +1,7 @@
 #include "TypeSpecifier.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 void TypeSpecifier::Release()
@@ -31,4 +33,9 @@ Ceng::StringUtf8 TypeSpecifier::ToString(unsigned int indentLevel) const
 	out += typeSpec.ToString(indentLevel);
 
 	return out;
+}
+
+void TypeSpecifier::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_TypeSpecifier(*this);
 }

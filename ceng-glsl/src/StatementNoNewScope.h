@@ -33,6 +33,8 @@ namespace Ceng
 		StatementNoNewScope(std::shared_ptr<CompoundStatementNoNewScope>& compoundStatement);
 
 		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
+
+		void AcceptVisitor(AST_Visitor& visitor) override;
 	};
 }
 

@@ -1,4 +1,5 @@
 #include "AssignmentOperator.h"
+#include "AST_Visitor.h"
 
 using namespace Ceng;
 
@@ -85,4 +86,9 @@ Ceng::StringUtf8 AssignmentOperator::ToString(unsigned int indentLevel) const
 		return "<UNHANDLED ASSIGNMENT OPERATOR>";
 
 	}
+}
+
+void AssignmentOperator::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_AssignmentOperator(*this);
 }

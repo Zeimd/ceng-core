@@ -2,6 +2,8 @@
 
 #include "FunctionDeclarator.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 FunctionPrototype::~FunctionPrototype()
@@ -28,4 +30,9 @@ Ceng::StringUtf8 FunctionPrototype::ToString(unsigned int indentLevel) const
 	out += ')';
 
 	return out;
+}
+
+void FunctionPrototype::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_FunctionPrototype(*this);
 }

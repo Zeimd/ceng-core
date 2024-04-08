@@ -1,6 +1,8 @@
 #include "Expression.h"
 #include "AssignmentExpression.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 Expression::~Expression()
@@ -39,4 +41,9 @@ Ceng::StringUtf8 Expression::ToString(unsigned int indentLevel) const
 	}
 
 	return out;
+}
+
+void Expression::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_Expression(*this);
 }

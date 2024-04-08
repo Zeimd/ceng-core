@@ -1,5 +1,7 @@
 #include "FunctionCallOrMethod.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 void FunctionCallOrMethod::Release()
@@ -32,4 +34,9 @@ Ceng::StringUtf8 FunctionCallOrMethod::ToString(unsigned int indentLevel) const
 	out += func->ToString(indentLevel);
 
 	return out;
+}
+
+void FunctionCallOrMethod::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_FunctionCallOrMethod(*this);
 }

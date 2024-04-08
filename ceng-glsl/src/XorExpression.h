@@ -28,6 +28,8 @@ namespace Ceng
 		XorExpression(std::shared_ptr<XorExpression>& lhs, std::shared_ptr<AndExpression>& rhs);
 
 		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
+
+		void AcceptVisitor(AST_Visitor& visitor) override;
 	};
 }
 

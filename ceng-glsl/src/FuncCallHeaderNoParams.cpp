@@ -1,5 +1,7 @@
 #include "FuncCallHeaderNoParams.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 void FuncCallHeaderNoParams::Release()
@@ -16,4 +18,9 @@ FuncCallHeaderNoParams::FuncCallHeaderNoParams(std::shared_ptr<FunctionCallHeade
 Ceng::StringUtf8 FuncCallHeaderNoParams::ToString(unsigned int indentLevel) const
 {
 	return header->ToString(indentLevel);
+}
+
+void FuncCallHeaderNoParams::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_FuncCallHeaderNoParams(*this);
 }

@@ -2,6 +2,8 @@
 #include "SimpleStatement.h"
 #include "CompoundStatement.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 Statement::~Statement()
@@ -39,4 +41,9 @@ Ceng::StringUtf8 Statement::ToString(unsigned int indentLevel) const
 	default:
 		return "<UNHANDLED STATEMENT CATEGORY>";
 	}
+}
+
+void Statement::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_Statement(*this);
 }

@@ -24,6 +24,8 @@ namespace Ceng
 		void Append(std::shared_ptr<LayoutQualifierId>& qualifier);
 
 		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
+
+		void AcceptVisitor(AST_Visitor& visitor) override;
 	};
 }
 

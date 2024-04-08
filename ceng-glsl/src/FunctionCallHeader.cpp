@@ -1,5 +1,7 @@
 #include "FunctionCallHeader.h"
 
+#include "AST_Visitor.h"
+
 using namespace Ceng;
 
 void FunctionCallHeader::Release()
@@ -21,4 +23,9 @@ Ceng::StringUtf8 FunctionCallHeader::ToString(unsigned int indentLevel) const
 	out += '(';
 
 	return out;
+}
+
+void FunctionCallHeader::AcceptVisitor(AST_Visitor& visitor)
+{
+	visitor.V_FunctionCallHeader(*this);
 }
