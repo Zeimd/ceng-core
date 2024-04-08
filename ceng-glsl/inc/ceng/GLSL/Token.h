@@ -9,6 +9,8 @@
 #include "TokenType.h"
 #include "TokenCategory.h"
 
+#include "FilePosition.h"
+
 namespace Ceng
 {
 	union LiteralValue
@@ -23,9 +25,7 @@ namespace Ceng
 	class Token
 	{
 	public:
-		std::shared_ptr<const Ceng::StringUtf8> file;
-		Ceng::UINT32 line;
-		Ceng::UINT32 position;
+		FilePosition position;
 
 		// Was there a space on the left side in the source file
 		bool leftSpace;

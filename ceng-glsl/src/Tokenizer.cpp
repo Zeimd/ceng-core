@@ -470,9 +470,9 @@ Ceng::CRESULT Tokenizer::Tokenize(const Ceng::StringUtf8& fileName, const Ceng::
 
 				cresult = TokenizeString(sectionType, sectionStart, sectionEnd, token);
 
-				token.file = sourceFile;
-				token.position = sectionStartPos;
-				token.line = line;
+				token.position.file = sourceFile;
+				token.position.column = sectionStartPos;
+				token.position.line = line;
 				token.leftSpace = sectionLeftSpace;
 				token.rightSpace = rightSpace;
 				token.startLine = sectionStartLine;

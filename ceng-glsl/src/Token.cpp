@@ -9,7 +9,7 @@ Token::Token() : type(TokenType::meta_uninitialized)
 
 Token::Token(const std::shared_ptr<const Ceng::StringUtf8>& file, const Ceng::UINT32 line, const Ceng::UINT32 position,
 	bool leftSpace, bool rightSpace, bool startLine, bool endLine, Ceng::TokenType::value type, Ceng::TokenCategory::value category)
-	: file(file),line(line),position(position),leftSpace(leftSpace),rightSpace(rightSpace),startLine(startLine),endLine(endLine),
+	: position(file,line,position),leftSpace(leftSpace),rightSpace(rightSpace),startLine(startLine),endLine(endLine),
 		type(type), category(category)
 {
 
@@ -18,7 +18,7 @@ Token::Token(const std::shared_ptr<const Ceng::StringUtf8>& file, const Ceng::UI
 Token::Token(const std::shared_ptr<const Ceng::StringUtf8>& file, const Ceng::UINT32 line, const Ceng::UINT32 position,
 	bool leftSpace, bool rightSpace, bool startLine, bool endLine, Ceng::TokenType::value type, Ceng::TokenCategory::value category,
 	const Ceng::StringUtf8& name)
-	: file(file), line(line), position(position), leftSpace(leftSpace), rightSpace(rightSpace), startLine(startLine), endLine(endLine),
+	: position(file, line, position), leftSpace(leftSpace), rightSpace(rightSpace), startLine(startLine), endLine(endLine),
 	type(type), category(category), name(name)
 {
 
@@ -27,7 +27,7 @@ Token::Token(const std::shared_ptr<const Ceng::StringUtf8>& file, const Ceng::UI
 Token::Token(const std::shared_ptr<const Ceng::StringUtf8>& file, const Ceng::UINT32 line, const Ceng::UINT32 position,
 	bool leftSpace, bool rightSpace, bool startLine, bool endLine, Ceng::TokenType::value type, Ceng::TokenCategory::value category,
 	const Ceng::StringUtf8& name, bool value)
-	: file(file), line(line), position(position), leftSpace(leftSpace), rightSpace(rightSpace), startLine(startLine), endLine(endLine),
+	: position(file, line, position), leftSpace(leftSpace), rightSpace(rightSpace), startLine(startLine), endLine(endLine),
 	type(type), category(category), name(name)
 {
 	this->value.boolVal = value;
@@ -36,7 +36,7 @@ Token::Token(const std::shared_ptr<const Ceng::StringUtf8>& file, const Ceng::UI
 Token::Token(const std::shared_ptr<const Ceng::StringUtf8>& file, const Ceng::UINT32 line, const Ceng::UINT32 position,
 	bool leftSpace, bool rightSpace, bool startLine, bool endLine, Ceng::TokenType::value type, Ceng::TokenCategory::value category,
 	const Ceng::StringUtf8& name, Ceng::UINT32 value)
-	: file(file), line(line), position(position), leftSpace(leftSpace), rightSpace(rightSpace), startLine(startLine), endLine(endLine),
+	: position(file, line, position), leftSpace(leftSpace), rightSpace(rightSpace), startLine(startLine), endLine(endLine),
 	type(type), category(category), name(name)
 {
 	this->value.intVal = value;
@@ -45,7 +45,7 @@ Token::Token(const std::shared_ptr<const Ceng::StringUtf8>& file, const Ceng::UI
 Token::Token(const std::shared_ptr<const Ceng::StringUtf8>& file, const Ceng::UINT32 line, const Ceng::UINT32 position,
 	bool leftSpace, bool rightSpace, bool startLine, bool endLine, Ceng::TokenType::value type, Ceng::TokenCategory::value category,
 	const Ceng::StringUtf8& name, Ceng::FLOAT32 value)
-	: file(file), line(line), position(position), leftSpace(leftSpace), rightSpace(rightSpace), startLine(startLine), endLine(endLine),
+	: position(file, line, position), leftSpace(leftSpace), rightSpace(rightSpace), startLine(startLine), endLine(endLine),
 	type(type), category(category), name(name)
 {
 	this->value.floatVal = value;
@@ -390,9 +390,9 @@ Ceng::StringUtf8 Token::ToDiagnosticString() const
 	Ceng::StringUtf8 text;
 
 	text += '@';
-	text += line;
+	text += position.line;
 	text += ':';
-	text += position;
+	text += position.column;
 	text += '@';
 
 	if (leftSpace)

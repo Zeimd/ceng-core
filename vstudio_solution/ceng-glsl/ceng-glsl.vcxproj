@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AbstractSyntaxTree.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\FilePosition.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\IASTNode.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\IParser.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\Log.h" />
@@ -110,6 +111,7 @@
     <ClInclude Include="..\..\ceng-glsl\src\StructSpecifier.h" />
     <ClInclude Include="..\..\ceng-glsl\src\SwitchStatement.h" />
     <ClInclude Include="..\..\ceng-glsl\src\SwitchStatementList.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\Symbol.h" />
     <ClInclude Include="..\..\ceng-glsl\src\TokenInfo.h" />
     <ClInclude Include="..\..\ceng-glsl\src\TranslationUnit.h" />
     <ClInclude Include="..\..\ceng-glsl\src\TypeQualifier.h" />
