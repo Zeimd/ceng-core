@@ -39,29 +39,32 @@ Declaration::Declaration(std::shared_ptr<PrecisionQualifier>& precision, std::sh
 }
 
 Declaration::Declaration(std::shared_ptr<TypeQualifier>& typeQ, const Ceng::StringUtf8& structName, std::shared_ptr<StructDeclarationList>& list)
-	: INonTerminal(NonTerminalType::declaration), type(DeclarationType::interface_block_define), typeQ(typeQ), interfaceName(interfaceName), list(list)
+	: INonTerminal(NonTerminalType::declaration), type(DeclarationType::global_interface_block), typeQ(typeQ), 
+	interfaceName(interfaceName), list(list)
 {
 
 }
 
 Declaration::Declaration(std::shared_ptr<TypeQualifier>& typeQ, const Ceng::StringUtf8& structName, std::shared_ptr<StructDeclarationList>& list,
 	const Ceng::StringUtf8& variableName)
-	: INonTerminal(NonTerminalType::declaration), type(DeclarationType::interface_block), typeQ(typeQ), interfaceName(interfaceName), list(list), variableName(variableName)
+	: INonTerminal(NonTerminalType::declaration), type(DeclarationType::scoped_interface_block), typeQ(typeQ), 
+	interfaceName(interfaceName), list(list), variableName(variableName)
 {
 
 }
 
 Declaration::Declaration(std::shared_ptr<TypeQualifier>& typeQ, const Ceng::StringUtf8& interfaceName, std::shared_ptr<StructDeclarationList>& list,
 	const Ceng::StringUtf8& variableName, bool implicitArray)
-	: INonTerminal(NonTerminalType::declaration), type(DeclarationType::interface_block_array), typeQ(typeQ), interfaceName(interfaceName), list(list), variableName(variableName),
-	implicitArray(true)
+	: INonTerminal(NonTerminalType::declaration), type(DeclarationType::scoped_interface_block_array), typeQ(typeQ), 
+	interfaceName(interfaceName), list(list), variableName(variableName), implicitArray(true)
 {
 
 }
 
 Declaration::Declaration(std::shared_ptr<TypeQualifier>& typeQ, const Ceng::StringUtf8& interfaceName, std::shared_ptr<StructDeclarationList>& list,
 	const Ceng::StringUtf8& variableName, std::shared_ptr<Expression>& arraySize)
-	: INonTerminal(NonTerminalType::declaration), type(DeclarationType::interface_block_array), typeQ(typeQ), interfaceName(interfaceName), list(list), variableName(variableName),
+	: INonTerminal(NonTerminalType::declaration), type(DeclarationType::scoped_interface_block_array), typeQ(typeQ), 
+	interfaceName(interfaceName), list(list), variableName(variableName),
 	implicitArray(false), arraySize(arraySize)
 {
 
@@ -92,7 +95,7 @@ Ceng::StringUtf8 Declaration::ToString(unsigned int indentLevel) const
 		out += ' ';
 		out += spec->ToString(indentLevel);
 		break;
-	case DeclarationType::interface_block_define:
+	case DeclarationType::global_interface_block:
 		out += typeQ->ToString(indentLevel);
 		out += ' ';
 		out += interfaceName;
@@ -104,7 +107,7 @@ Ceng::StringUtf8 Declaration::ToString(unsigned int indentLevel) const
 		out += GetIndent(indentLevel);
 		out += "}";
 		break;
-	case DeclarationType::interface_block:
+	case DeclarationType::scoped_interface_block:
 		out += typeQ->ToString(indentLevel);
 		out += ' ';
 		out += interfaceName;
@@ -117,7 +120,7 @@ Ceng::StringUtf8 Declaration::ToString(unsigned int indentLevel) const
 		out += "} ";
 		out + variableName;
 		break;
-	case DeclarationType::interface_block_array:
+	case DeclarationType::scoped_interface_block_array:
 		out += typeQ->ToString(indentLevel);
 		out += ' ';
 		out += interfaceName;

@@ -14,9 +14,9 @@ namespace Ceng
 			function_prototype,
 			init_list,
 			precision,
-			interface_block_define,
-			interface_block,
-			interface_block_array,
+			global_interface_block,
+			scoped_interface_block,
+			scoped_interface_block_array,
 			type_qualifier,
 		};
 	}
