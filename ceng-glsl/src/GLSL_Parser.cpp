@@ -1764,6 +1764,18 @@ public:
 
 		switch (nonTerminal->type)
 		{
+		case NonTerminalType::type_qualifier:
+		{
+			std::shared_ptr<TypeQualifier> typeQ = std::static_pointer_cast<TypeQualifier>(nonTerminal);
+			retVal = parser->S_StructHeader_TypeQualifier(typeQ);
+		}
+		break;
+		case NonTerminalType::type_specifier:
+		{
+			std::shared_ptr<TypeSpecifier> typeSpec = std::static_pointer_cast<TypeSpecifier>(nonTerminal);
+			retVal = parser->S_StructHeader_TypeSpecifier(typeSpec);
+		}
+		break;
 		case NonTerminalType::struct_declaration:
 		{
 			std::shared_ptr<StructDeclaration> decl = std::static_pointer_cast<StructDeclaration>(nonTerminal);
@@ -1844,6 +1856,18 @@ public:
 
 		switch (nonTerminal->type)
 		{
+		case NonTerminalType::type_qualifier:
+		{
+			std::shared_ptr<TypeQualifier> typeQ = std::static_pointer_cast<TypeQualifier>(nonTerminal);
+			retVal = parser->S_StructHeader_TypeQualifier(typeQ);
+		}
+		break;
+		case NonTerminalType::type_specifier:
+		{
+			std::shared_ptr<TypeSpecifier> typeSpec = std::static_pointer_cast<TypeSpecifier>(nonTerminal);
+			retVal = parser->S_StructHeader_TypeSpecifier(typeSpec);
+		}
+		break;
 		case NonTerminalType::struct_declaration:
 			{
 				std::shared_ptr<StructDeclaration> decl = std::static_pointer_cast<StructDeclaration>(nonTerminal);
