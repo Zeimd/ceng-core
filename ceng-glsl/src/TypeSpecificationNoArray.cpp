@@ -35,6 +35,8 @@ TypeSpecifierNoArray::TypeSelector TypeSpecifierNoArray::FromTokenType(TokenType
 {
 	switch (tokenType)
 	{
+	case TokenType::keyword_void:
+		return TypeSelector::ts_void;
 	case TokenType::type_bool:
 		return TypeSelector::ts_bool;
 	case TokenType::type_bvec2:

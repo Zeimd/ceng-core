@@ -20,7 +20,7 @@ namespace Ceng
 		{"case",{TokenType::keyword_case,TokenCategory::undefined}},
 		{"struct",{TokenType::keyword_struct,TokenCategory::undefined}},
 		{"default",{TokenType::keyword_default,TokenCategory::undefined}},
-		{"void",{TokenType::keyword_void,TokenCategory::undefined}},
+		{"void",{TokenType::keyword_void,TokenCategory::data_type}},
 		{"while",{TokenType::keyword_while,TokenCategory::undefined}},
 
 		{"attribute",{TokenType::keyword_attribute,TokenCategory::qualifier}},
