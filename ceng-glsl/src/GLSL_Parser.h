@@ -293,10 +293,55 @@ namespace Ceng
 		
 		ParserReturnValue S_TypeQualifier(std::shared_ptr<TypeQualifier>& tq);
 
+		ParserReturnValue S_TypeQualifier_Semicolon(std::shared_ptr<TypeQualifier>& tq);
+
 		ParserReturnValue S_TypeQualifier_TypeSpecifierNonArray(std::shared_ptr<TypeQualifier>& sq, std::shared_ptr<TypeSpecifierNoArray>& ts);
 		ParserReturnValue S_TypeQualifier_TypeSpecifierNoPrec(std::shared_ptr<TypeQualifier>& tq, std::shared_ptr<TypeSpecifierNoPrec>& ts);
 
 		ParserReturnValue S_TypeQualifier_TypeSpecifier(std::shared_ptr<TypeQualifier>& tq, std::shared_ptr<TypeSpecifier>& ts);
+
+		ParserReturnValue S_TypeQualifier_Identifier(std::shared_ptr<TypeQualifier>& tq, const Token& interfaceName);
+
+		ParserReturnValue S_TypeQualifier_Identifier_LBrace(std::shared_ptr<TypeQualifier>& tq, const Token& interfaceName);
+
+		ParserReturnValue S_TypeQualifier_Identifier_LBrace_StructDeclaration(std::shared_ptr<TypeQualifier>& typeQ,
+			const Token& interfaceName, std::shared_ptr<StructDeclaration>& decl);
+
+		ParserReturnValue S_TypeQualifier_Identifier_LBrace_StructDeclarationList(std::shared_ptr<TypeQualifier>& typeQ, 
+			const Token& interfaceName,	std::shared_ptr<StructDeclarationList>& list);
+
+		ParserReturnValue S_TypeQualifier_Identifier_LBrace_StructDeclarationList_StructDeclaration(std::shared_ptr<TypeQualifier>& typeQ,
+			const Token& interfaceName, std::shared_ptr<StructDeclarationList>& list, std::shared_ptr<StructDeclaration>& decl);
+
+		ParserReturnValue S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace(std::shared_ptr<TypeQualifier>& typeQ,
+			const Token& interfaceName,	std::shared_ptr<StructDeclarationList>& list);
+
+		ParserReturnValue S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Semicolon(std::shared_ptr<TypeQualifier>& typeQ,
+			const Token& interfaceName,	std::shared_ptr<StructDeclarationList>& list);
+
+		ParserReturnValue S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier(std::shared_ptr<TypeQualifier>& typeQ,
+			const Token& interfaceName,	std::shared_ptr<StructDeclarationList>& list, const Token& instanceName);
+
+		ParserReturnValue S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_Semicolon(std::shared_ptr<TypeQualifier>& typeQ,
+			const Token& interfaceName,	std::shared_ptr<StructDeclarationList>& list, const Token& instanceName);
+
+		ParserReturnValue S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket(std::shared_ptr<TypeQualifier>& typeQ,
+			const Token& interfaceName,	std::shared_ptr<StructDeclarationList>& list, const Token& instanceName);
+
+		ParserReturnValue S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket_RBracket(std::shared_ptr<TypeQualifier>& typeQ,
+			const Token& interfaceName,	std::shared_ptr<StructDeclarationList>& list, const Token& instanceName);
+
+		ParserReturnValue S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket_RBracket_Semicolon(std::shared_ptr<TypeQualifier>& typeQ,
+			const Token& interfaceName,	std::shared_ptr<StructDeclarationList>& list, const Token& instanceName);
+
+		ParserReturnValue S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket_Expression(std::shared_ptr<TypeQualifier>& typeQ,
+			const Token& interfaceName,	std::shared_ptr<StructDeclarationList>& list, const Token& instanceName, std::shared_ptr<Expression>& expression);
+
+		ParserReturnValue S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket_Expression_RBracket(std::shared_ptr<TypeQualifier>& typeQ,
+			const Token& interfaceName,	std::shared_ptr<StructDeclarationList>& list, const Token& instanceName, std::shared_ptr<Expression>& expression);
+
+		ParserReturnValue S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket_Expression_RBracket_Semicolon(std::shared_ptr<TypeQualifier>& typeQ,
+			const Token& interfaceName,	std::shared_ptr<StructDeclarationList>& list, const Token& instanceName, std::shared_ptr<Expression>& expression);
 
 		ParserReturnValue S_FullySpecifiedType(std::shared_ptr<FullySpecifiedType>& spec);
 

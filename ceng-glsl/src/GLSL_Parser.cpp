@@ -1597,12 +1597,12 @@ ParserReturnValue GLSL_Parser::S_LayoutQualifier_StorageQualifier(std::shared_pt
 class Handler_S_TypeQualifier : public IStateHandler
 {
 public:
-	std::shared_ptr<TypeQualifier> sq;
+	std::shared_ptr<TypeQualifier> typeQ;
 
 public:
 
-	Handler_S_TypeQualifier(std::shared_ptr<TypeQualifier>& sq)
-		: sq(sq)
+	Handler_S_TypeQualifier(std::shared_ptr<TypeQualifier>& typeQ)
+		: typeQ(typeQ)
 	{
 
 	}
@@ -1616,6 +1616,15 @@ public:
 	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
 	{
 		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::semicolon:
+			return { parser->S_TypeQualifier_Semicolon(typeQ), true };
+		case TokenType::identifier:
+			return {parser->S_TypeQualifier_Identifier(typeQ,next), true };
+		}
+
 		return DefaultExpressionShift(parser, next);
 	}
 
@@ -1631,19 +1640,19 @@ public:
 		case NonTerminalType::type_specifier_nonarray:
 			{
 				auto temp = std::static_pointer_cast<TypeSpecifierNoArray>(nonTerminal);
-				retVal = parser->S_TypeQualifier_TypeSpecifierNonArray(sq, temp);
+				retVal = parser->S_TypeQualifier_TypeSpecifierNonArray(typeQ, temp);
 			}
 			break;
 		case NonTerminalType::type_specifier_no_prec:
 			{
 				auto temp = std::static_pointer_cast<TypeSpecifierNoPrec>(nonTerminal);
-				retVal = parser->S_TypeQualifier_TypeSpecifierNoPrec(sq, temp);
+				retVal = parser->S_TypeQualifier_TypeSpecifierNoPrec(typeQ, temp);
 				break;
 			}
 		case NonTerminalType::type_specifier:
 			{
 				auto temp = std::static_pointer_cast<TypeSpecifier>(nonTerminal);
-				retVal = parser->S_TypeQualifier_TypeSpecifier(sq, temp);
+				retVal = parser->S_TypeQualifier_TypeSpecifier(typeQ, temp);
 				break;
 			}
 		default:
@@ -1661,6 +1670,587 @@ ParserReturnValue GLSL_Parser::S_TypeQualifier(std::shared_ptr<TypeQualifier>& t
 
 	return StateFuncSkeleton(__func__, temp);
 }
+
+ParserReturnValue GLSL_Parser::S_TypeQualifier_Semicolon(std::shared_ptr<TypeQualifier>& typeQ)
+{
+	log.Debug(__func__);
+	return { std::make_shared<Declaration>(typeQ), 2 };
+}
+
+class Handler_S_TypeQualifier_Identifier : public IStateHandler
+{
+public:
+	std::shared_ptr<TypeQualifier> typeQ;
+	const Token& interfaceName;
+
+public:
+
+	Handler_S_TypeQualifier_Identifier(std::shared_ptr<TypeQualifier>& typeQ,
+		const Token& interfaceName)
+		: typeQ(typeQ), interfaceName(interfaceName)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::left_brace:
+			return { parser->S_TypeQualifier_Identifier_LBrace(typeQ, interfaceName), true };
+		}
+
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_TypeQualifier_Identifier(std::shared_ptr<TypeQualifier>& tq, const Token& interfaceName)
+{
+	Handler_S_TypeQualifier_Identifier temp{ tq, interfaceName };
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+class Handler_S_TypeQualifier_Identifier_LBrace : public IStateHandler
+{
+public:
+	std::shared_ptr<TypeQualifier> typeQ;
+	const Token& interfaceName;
+
+public:
+
+	Handler_S_TypeQualifier_Identifier_LBrace(std::shared_ptr<TypeQualifier>& sq,
+		const Token& interfaceName)
+		: typeQ(typeQ), interfaceName(interfaceName)
+	{
+
+	}
+
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::struct_declaration:
+		{
+			std::shared_ptr<StructDeclaration> decl = std::static_pointer_cast<StructDeclaration>(nonTerminal);
+			retVal = parser->S_TypeQualifier_Identifier_LBrace_StructDeclaration(typeQ, interfaceName, decl);
+		}
+		break;
+		case NonTerminalType::struct_declaration_list:
+		{
+			std::shared_ptr<StructDeclarationList> list = std::static_pointer_cast<StructDeclarationList>(nonTerminal);
+			retVal = parser->S_TypeQualifier_Identifier_LBrace_StructDeclarationList(typeQ, interfaceName, list);
+		}
+		break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+
+		return { retVal,valid };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_TypeQualifier_Identifier_LBrace(std::shared_ptr<TypeQualifier>& tq, const Token& interfaceName)
+{
+	Handler_S_TypeQualifier_Identifier_LBrace temp{ tq, interfaceName };
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+ParserReturnValue GLSL_Parser::S_TypeQualifier_Identifier_LBrace_StructDeclaration(std::shared_ptr<TypeQualifier>& typeQ,
+	const Token& interfaceName, std::shared_ptr<StructDeclaration>& decl)
+{
+	log.Debug(__func__);
+	return { std::make_shared<StructDeclarationList>(decl), 1 };
+}
+
+class Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList : public IStateHandler
+{
+public:
+	std::shared_ptr<TypeQualifier> typeQ;
+	const Token& interfaceName;
+	std::shared_ptr<StructDeclarationList>& list;
+
+public:
+
+	Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList(std::shared_ptr<TypeQualifier>& sq,
+		const Token& interfaceName, std::shared_ptr<StructDeclarationList>& list)
+		: typeQ(typeQ), interfaceName(interfaceName),list(list)
+	{
+
+	}
+
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::right_brace:
+			return { parser->S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace(typeQ,interfaceName, list), true };
+		}
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::struct_declaration:
+			{
+				std::shared_ptr<StructDeclaration> decl = std::static_pointer_cast<StructDeclaration>(nonTerminal);
+				retVal = parser->S_TypeQualifier_Identifier_LBrace_StructDeclarationList_StructDeclaration(typeQ, interfaceName, list, decl);
+			}
+			break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+
+		return { retVal,valid };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_TypeQualifier_Identifier_LBrace_StructDeclarationList(std::shared_ptr<TypeQualifier>& typeQ,
+	const Token& interfaceName, std::shared_ptr<StructDeclarationList>& list)
+{
+	Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList temp{ typeQ, interfaceName, list };
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+ParserReturnValue GLSL_Parser::S_TypeQualifier_Identifier_LBrace_StructDeclarationList_StructDeclaration(std::shared_ptr<TypeQualifier>& typeQ,
+	const Token& interfaceName, std::shared_ptr<StructDeclarationList>& list, std::shared_ptr<StructDeclaration>& decl)
+{
+	log.Debug(__func__);
+
+	list->Append(decl);
+
+	return { list, 2 };
+}
+
+class Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace : public IStateHandler
+{
+public:
+	std::shared_ptr<TypeQualifier> typeQ;
+	const Token& interfaceName;
+	std::shared_ptr<StructDeclarationList>& list;
+
+public:
+
+	Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace(std::shared_ptr<TypeQualifier>& sq,
+		const Token& interfaceName, std::shared_ptr<StructDeclarationList>& list)
+		: typeQ(typeQ), interfaceName(interfaceName), list(list)
+	{
+
+	}
+
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::identifier:
+			return { parser->S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier(typeQ,interfaceName, list, next), true };
+		case TokenType::semicolon:
+			return { parser->S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Semicolon(typeQ,interfaceName, list), true };
+		}
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace(std::shared_ptr<TypeQualifier>& typeQ,
+	const Token& interfaceName, std::shared_ptr<StructDeclarationList>& list)
+{
+	Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace temp{ typeQ, interfaceName, list };
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+ParserReturnValue GLSL_Parser::S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Semicolon(std::shared_ptr<TypeQualifier>& typeQ,
+	const Token& interfaceName, std::shared_ptr<StructDeclarationList>& list)
+{
+	log.Debug(__func__);
+	return { std::make_shared<Declaration>(typeQ, interfaceName.name, list), 6 };
+}
+
+class Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier : public IStateHandler
+{
+public:
+	std::shared_ptr<TypeQualifier> typeQ;
+	const Token& interfaceName;
+	std::shared_ptr<StructDeclarationList>& list;
+	const Token& instanceName;
+
+public:
+
+	Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier(std::shared_ptr<TypeQualifier>& sq,
+		const Token& interfaceName, std::shared_ptr<StructDeclarationList>& list, const Token& instanceName)
+		: typeQ(typeQ), interfaceName(interfaceName), list(list), instanceName(instanceName)
+	{
+
+	}
+
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::left_bracket:
+			return { parser->S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket(typeQ,interfaceName, list, instanceName), true };
+		case TokenType::semicolon:
+			return { parser->S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_Semicolon(typeQ,interfaceName, list, instanceName), true };
+		}
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier(std::shared_ptr<TypeQualifier>& typeQ,
+	const Token& interfaceName, std::shared_ptr<StructDeclarationList>& list, const Token& instanceName)
+{
+	Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier temp{ typeQ, interfaceName, list, instanceName };
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+ParserReturnValue GLSL_Parser::S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_Semicolon(std::shared_ptr<TypeQualifier>& typeQ,
+	const Token& interfaceName, std::shared_ptr<StructDeclarationList>& list, const Token& instanceName)
+{
+	log.Debug(__func__);
+	return { std::make_shared<Declaration>(typeQ,interfaceName.name, list, instanceName.name), 7 };
+}
+
+class Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket : public IStateHandler
+{
+public:
+	std::shared_ptr<TypeQualifier> typeQ;
+	const Token& interfaceName;
+	std::shared_ptr<StructDeclarationList>& list;
+	const Token& instanceName;
+
+public:
+
+	Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket(std::shared_ptr<TypeQualifier>& sq,
+		const Token& interfaceName, std::shared_ptr<StructDeclarationList>& list, const Token& instanceName)
+		: typeQ(typeQ), interfaceName(interfaceName), list(list), instanceName(instanceName)
+	{
+
+	}
+
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::right_bracket:
+			return { parser->S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket_RBracket(typeQ,interfaceName, list, instanceName), true };
+		}
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::expression:
+		{
+			auto expression = std::static_pointer_cast<Expression>(nonTerminal);
+			retVal = parser->S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket_Expression(typeQ, interfaceName, list, 
+				instanceName, expression);
+		}
+		break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+
+		return { retVal,valid };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket(std::shared_ptr<TypeQualifier>& typeQ,
+	const Token& interfaceName, std::shared_ptr<StructDeclarationList>& list, const Token& instanceName)
+{
+	Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket temp{ typeQ, interfaceName, list, instanceName };
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+class Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket_RBracket : public IStateHandler
+{
+public:
+	std::shared_ptr<TypeQualifier> typeQ;
+	const Token& interfaceName;
+	std::shared_ptr<StructDeclarationList>& list;
+	const Token& instanceName;
+
+public:
+
+	Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket_RBracket(std::shared_ptr<TypeQualifier>& sq,
+		const Token& interfaceName, std::shared_ptr<StructDeclarationList>& list, const Token& instanceName)
+		: typeQ(typeQ), interfaceName(interfaceName), list(list), instanceName(instanceName)
+	{
+
+	}
+
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::semicolon:
+			return { parser->S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket_RBracket_Semicolon(typeQ,interfaceName, list, instanceName), true };
+		}
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket_RBracket(std::shared_ptr<TypeQualifier>& typeQ,
+	const Token& interfaceName, std::shared_ptr<StructDeclarationList>& list, const Token& instanceName)
+{
+	Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket_RBracket temp{ typeQ, interfaceName, list, instanceName };
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+ParserReturnValue GLSL_Parser::S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket_RBracket_Semicolon(std::shared_ptr<TypeQualifier>& typeQ,
+	const Token& interfaceName, std::shared_ptr<StructDeclarationList>& list, const Token& instanceName)
+{
+	log.Debug(__func__);
+	return { std::make_shared<Declaration>(typeQ, interfaceName.name, list, instanceName.name, true), 9};
+}
+
+class Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket_Expression : public IStateHandler
+{
+public:
+	std::shared_ptr<TypeQualifier> typeQ;
+	const Token& interfaceName;
+	std::shared_ptr<StructDeclarationList>& list;
+	const Token& instanceName;
+	std::shared_ptr<Expression>& expression;
+
+public:
+
+	Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket_Expression(std::shared_ptr<TypeQualifier>& sq,
+		const Token& interfaceName, std::shared_ptr<StructDeclarationList>& list, const Token& instanceName,
+		std::shared_ptr<Expression>& expression)
+		: typeQ(typeQ), interfaceName(interfaceName), list(list), instanceName(instanceName), expression(expression)
+	{
+
+	}
+
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::right_bracket:
+			return { parser->S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket_Expression_RBracket(
+				typeQ,interfaceName, list, instanceName, expression), true };
+		}
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket_Expression(std::shared_ptr<TypeQualifier>& typeQ,
+	const Token& interfaceName, std::shared_ptr<StructDeclarationList>& list, const Token& instanceName, std::shared_ptr<Expression>& expression)
+{
+	Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket_Expression 
+		temp{ typeQ, interfaceName, list, instanceName, expression };
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+class Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket_Expression_RBracet : public IStateHandler
+{
+public:
+	std::shared_ptr<TypeQualifier> typeQ;
+	const Token& interfaceName;
+	std::shared_ptr<StructDeclarationList>& list;
+	const Token& instanceName;
+	std::shared_ptr<Expression>& expression;
+
+public:
+
+	Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket_Expression_RBracet(std::shared_ptr<TypeQualifier>& sq,
+		const Token& interfaceName, std::shared_ptr<StructDeclarationList>& list, const Token& instanceName,
+		std::shared_ptr<Expression>& expression)
+		: typeQ(typeQ), interfaceName(interfaceName), list(list), instanceName(instanceName), expression(expression)
+	{
+
+	}
+
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::semicolon:
+			return { parser->S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket_Expression_RBracket_Semicolon(
+				typeQ,interfaceName, list, instanceName, expression), true };
+		}
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket_Expression_RBracket(std::shared_ptr<TypeQualifier>& typeQ,
+	const Token& interfaceName, std::shared_ptr<StructDeclarationList>& list, const Token& instanceName, std::shared_ptr<Expression>& expression)
+{
+	Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket_Expression_RBracet
+		temp{ typeQ, interfaceName, list, instanceName, expression };
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+ParserReturnValue GLSL_Parser::S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket_Expression_RBracket_Semicolon(std::shared_ptr<TypeQualifier>& typeQ,
+	const Token& interfaceName, std::shared_ptr<StructDeclarationList>& list, const Token& instanceName, std::shared_ptr<Expression>& expression)
+{
+	log.Debug(__func__);
+	return { std::make_shared<Declaration>(typeQ, interfaceName.name, list, instanceName.name, expression), 10 };
+}
+
 
 ParserReturnValue GLSL_Parser::S_DatatypeToken(TokenType::value value)
 {
