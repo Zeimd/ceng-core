@@ -38,14 +38,14 @@ Declaration::Declaration(std::shared_ptr<PrecisionQualifier>& precision, std::sh
 
 }
 
-Declaration::Declaration(std::shared_ptr<TypeQualifier>& typeQ, const Ceng::StringUtf8& structName, std::shared_ptr<StructDeclarationList>& list)
+Declaration::Declaration(std::shared_ptr<TypeQualifier>& typeQ, const Ceng::StringUtf8& interfaceName, std::shared_ptr<StructDeclarationList>& list)
 	: INonTerminal(NonTerminalType::declaration), type(DeclarationType::global_interface_block), typeQ(typeQ), 
 	interfaceName(interfaceName), list(list)
 {
 
 }
 
-Declaration::Declaration(std::shared_ptr<TypeQualifier>& typeQ, const Ceng::StringUtf8& structName, std::shared_ptr<StructDeclarationList>& list,
+Declaration::Declaration(std::shared_ptr<TypeQualifier>& typeQ, const Ceng::StringUtf8& interfaceName, std::shared_ptr<StructDeclarationList>& list,
 	const Ceng::StringUtf8& variableName)
 	: INonTerminal(NonTerminalType::declaration), type(DeclarationType::scoped_interface_block), typeQ(typeQ), 
 	interfaceName(interfaceName), list(list), variableName(variableName)
