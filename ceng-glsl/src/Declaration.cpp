@@ -118,7 +118,7 @@ Ceng::StringUtf8 Declaration::ToString(unsigned int indentLevel) const
 
 		out += GetIndent(indentLevel);
 		out += "} ";
-		out + variableName;
+		out += variableName;
 		break;
 	case DeclarationType::scoped_interface_block_array:
 		out += typeQ->ToString(indentLevel);
@@ -131,7 +131,7 @@ Ceng::StringUtf8 Declaration::ToString(unsigned int indentLevel) const
 
 		out += GetIndent(indentLevel);
 		out += "} ";
-		out + variableName;
+		out += variableName;
 		out += '[';
 
 		if (implicitArray == false)
