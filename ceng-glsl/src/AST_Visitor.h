@@ -3,6 +3,7 @@
 
 #include <memory>
 
+/*
 #include "AdditiveExpression.h"
 #include "AndExpression.h"
 #include "AssignmentExpression.h"
@@ -64,9 +65,102 @@
 #include "TypeSpecifier.h"
 #include "TypeSpecifierNoArray.h"
 #include "TypeSpecifierNoPrecision.h"
+*/
 
 namespace Ceng
 {
+	class AdditiveExpression;
+	class AndExpression;
+	class AssignmentExpression;
+	class AssignmentOperator;
+
+	class CaseLabel;
+	class CompoundStatement;
+	class CompoundStatementNoNewScope;
+	class Condition;
+	class ConditionalExpression;
+	class ConditionOpt;
+	class ConstantExpression;
+
+	class Declaration;
+	class DeclarationStatement;
+
+	class EqualityExpression;
+	class Expression;
+	class ExpressionStatement;
+
+	class ForInitStatement;
+	class ForRestStatement;
+	class FullySpecifiedType;
+	class FuncCallHeaderNoParams;
+	class FuncCallHeaderParams;
+	class FunctionCall;
+	class FunctionCallGeneric;
+	class FunctionCallHeader;
+	class FunctionCallOrMethod;
+	class FunctionDeclarator;
+	class FunctionDefinition;
+	class FunctionHeader;
+	class FunctionHeaderWithParams;
+	class FunctionIdentifier;
+	class FunctionPrototype;
+	
+	class InitDeclaratorList;
+	class Initializer;
+	class IntegerExpression;
+	class InterpolationQualifier;
+	class IterationStatement;
+
+	class JumpStatement;
+	
+	class LayoutQualifier;
+	class LayoutQualifierId;
+	class LayoutQualifierIdList;
+	class LogicalAndExpression;
+	class LogicalOrExpression;
+	class LogicalXorExpression;	
+
+	class MultiplicativeExpression;
+	
+	class OrExpression;
+
+	class ParameterDeclaration;
+	class ParameterDeclarator;
+	class ParameterQualifier;
+	class ParameterTypeQualifier;
+	class PostfixExpression;
+	class PrecisionQualifier;
+	class PrimaryExpression;
+
+	class RelationalExpression;
+
+	class SelectionRestStatement;
+	class SelectionStatement;
+	class ShiftExpression;
+	class SimpleStatement;
+	class SingleDeclaration;
+	class Statement;
+	class StatementList;
+	class StatementNoNewScope;
+	class StorageQualifier;
+	class StructDeclaration;
+	class StructDeclarationList;
+	class StructDeclarator;
+	class StructDeclaratorList;
+	class StructSpecifier;
+	class SwitchStatement;
+	class SwitchStatementList;
+
+	class TranslationUnit;
+	class TypeQualifier;
+	class TypeSpecifier;
+	class TypeSpecifierNoArray;
+	class TypeSpecifierNoPrec;
+	
+	class UnaryExpression;
+	class UnaryOperator;
+	class XorExpression;
+
 	class AST_Visitor
 	{
 	public:
