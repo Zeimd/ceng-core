@@ -13,6 +13,8 @@ namespace Ceng
 	{
 	public:
 
+		bool anonymous;
+
 		Ceng::StringUtf8 name;
 		std::shared_ptr<StructDeclarationList> list;
 
@@ -21,6 +23,8 @@ namespace Ceng
 		~StructSpecifier() override;
 
 		StructSpecifier(const Ceng::StringUtf8& name, std::shared_ptr<StructDeclarationList>& list);
+
+		StructSpecifier(std::shared_ptr<StructDeclarationList>& list);
 
 		void Release() override;
 

@@ -330,17 +330,46 @@ public:
 	{
 		parser->log.Debug(__FUNCTION__);
 
-		switch (next.type)
-		{
-		default:
-			return { ParserReturnValue(),false };
-		}
+		return DefaultExpressionShift(parser, next);
 	}
 
 	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
 	{
 		parser->log.Debug(__FUNCTION__);
-		return { ParserReturnValue(),false };
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::type_qualifier:
+		{
+			std::shared_ptr<TypeQualifier> typeQ = std::static_pointer_cast<TypeQualifier>(nonTerminal);
+			retVal = parser->S_StructHeader_TypeQualifier(typeQ);
+		}
+		break;
+		case NonTerminalType::type_specifier:
+		{
+			std::shared_ptr<TypeSpecifier> typeSpec = std::static_pointer_cast<TypeSpecifier>(nonTerminal);
+			retVal = parser->S_StructHeader_TypeSpecifier(typeSpec);
+		}
+		break;
+		case NonTerminalType::struct_declaration:
+		{
+			std::shared_ptr<StructDeclaration> decl = std::static_pointer_cast<StructDeclaration>(nonTerminal);
+			retVal = parser->S_StructToken_LBrace_StructDeclaration(decl);
+		}
+		break;
+		case NonTerminalType::struct_declaration_list:
+		{
+			std::shared_ptr<StructDeclarationList> list = std::static_pointer_cast<StructDeclarationList>(nonTerminal);
+			retVal = parser->S_StructToken_LBrace_StructDeclarationList(list);
+		}
+		break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+		return { retVal, valid };
 	}
 
 };
@@ -350,6 +379,106 @@ ParserReturnValue GLSL_Parser::S_StructToken_LBrace()
 	Handler_S_StructToken_LBrace temp;
 
 	return StateFuncSkeleton(__func__, temp);
+}
+
+ParserReturnValue GLSL_Parser::S_StructToken_LBrace_StructDeclaration(std::shared_ptr<StructDeclaration>& decl)
+{
+	log.Debug(__func__);
+	return { std::make_shared<StructDeclarationList>(decl), 1 };
+}
+
+class Handler_S_StructToken_LBrace_StructDeclarationList : public IStateHandler
+{
+public:
+
+	std::shared_ptr<StructDeclarationList>& list;
+
+public:
+
+	Handler_S_StructToken_LBrace_StructDeclarationList(std::shared_ptr<StructDeclarationList>& list)
+		: list(list)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(),false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::right_brace:
+			return {parser->S_StructToken_LBrace_StructDeclarationList_RBrace(list) , true };
+		}
+
+		return DefaultExpressionShift(parser, next);
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::type_qualifier:
+		{
+			std::shared_ptr<TypeQualifier> typeQ = std::static_pointer_cast<TypeQualifier>(nonTerminal);
+			retVal = parser->S_StructHeader_TypeQualifier(typeQ);
+		}
+		break;
+		case NonTerminalType::type_specifier:
+		{
+			std::shared_ptr<TypeSpecifier> typeSpec = std::static_pointer_cast<TypeSpecifier>(nonTerminal);
+			retVal = parser->S_StructHeader_TypeSpecifier(typeSpec);
+		}
+		break;
+		case NonTerminalType::struct_declaration:
+		{
+			std::shared_ptr<StructDeclaration> decl = std::static_pointer_cast<StructDeclaration>(nonTerminal);
+			retVal = parser->S_StructToken_LBrace_StructDeclarationList_StructDeclaration(list, decl);
+		}
+		break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+		return { retVal, valid };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_StructToken_LBrace_StructDeclarationList(std::shared_ptr<StructDeclarationList>& list)
+{
+	Handler_S_StructToken_LBrace_StructDeclarationList temp{ list };
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+ParserReturnValue GLSL_Parser::S_StructToken_LBrace_StructDeclarationList_StructDeclaration(std::shared_ptr<StructDeclarationList>& list,
+	std::shared_ptr<StructDeclaration>& decl)
+{
+	log.Debug(__func__);
+	
+	list->Append(decl);
+
+	return { list, 2 };
+}
+
+
+// Reduction: struct_specifier
+ParserReturnValue GLSL_Parser::S_StructToken_LBrace_StructDeclarationList_RBrace(std::shared_ptr<StructDeclarationList>& list)
+{
+	log.Debug(__func__);
+
+	return { std::make_shared<StructSpecifier>(list), 4 };
 }
 
 class Handler_S_StructToken_IdentifierToken : public IStateHandler

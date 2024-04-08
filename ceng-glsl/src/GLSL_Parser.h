@@ -182,6 +182,9 @@ namespace Ceng
 
 		ParserReturnValue S_StructToken_LBrace_StructDeclaration(std::shared_ptr<StructDeclaration>& decl);
 
+		ParserReturnValue S_StructToken_LBrace_StructDeclarationList_StructDeclaration(std::shared_ptr<StructDeclarationList>& list,
+			std::shared_ptr<StructDeclaration>& decl);
+
 		ParserReturnValue S_StructToken_LBrace_StructDeclarationList(std::shared_ptr<StructDeclarationList>& list);
 
 		// Reduction: struct_specifier

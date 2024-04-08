@@ -4,7 +4,13 @@
 using namespace Ceng;
 
 StructSpecifier::StructSpecifier(const Ceng::StringUtf8& _name, std::shared_ptr<StructDeclarationList>& _list)
-	: INonTerminal(NonTerminalType::struct_specifier),name(_name),list(_list)
+	: INonTerminal(NonTerminalType::struct_specifier),name(_name),list(_list), anonymous(false)
+{
+
+}
+
+StructSpecifier::StructSpecifier(std::shared_ptr<StructDeclarationList>& _list)
+	: INonTerminal(NonTerminalType::struct_specifier), list(_list), anonymous(true)
 {
 
 }
@@ -24,7 +30,12 @@ Ceng::StringUtf8 StructSpecifier::ToString(unsigned int indentLevel) const
 	Ceng::StringUtf8 temp;
 
 	temp = "struct ";
-	temp += name;
+
+	if (!anonymous)
+	{
+		temp += name;
+	}	
+
 	temp += "\n";
 	temp += "{\n";
 
