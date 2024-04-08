@@ -1734,7 +1734,7 @@ public:
 
 public:
 
-	Handler_S_TypeQualifier_Identifier_LBrace(std::shared_ptr<TypeQualifier>& sq,
+	Handler_S_TypeQualifier_Identifier_LBrace(std::shared_ptr<TypeQualifier>& typeQ,
 		const Token& interfaceName)
 		: typeQ(typeQ), interfaceName(interfaceName)
 	{
@@ -1766,8 +1766,8 @@ public:
 		{
 		case NonTerminalType::type_qualifier:
 		{
-			std::shared_ptr<TypeQualifier> typeQ = std::static_pointer_cast<TypeQualifier>(nonTerminal);
-			retVal = parser->S_StructHeader_TypeQualifier(typeQ);
+			auto temp = std::static_pointer_cast<TypeQualifier>(nonTerminal);
+			retVal = parser->S_StructHeader_TypeQualifier(temp);
 		}
 		break;
 		case NonTerminalType::type_specifier:
@@ -1820,7 +1820,7 @@ public:
 
 public:
 
-	Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList(std::shared_ptr<TypeQualifier>& sq,
+	Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList(std::shared_ptr<TypeQualifier>& typeQ,
 		const Token& interfaceName, std::shared_ptr<StructDeclarationList>& list)
 		: typeQ(typeQ), interfaceName(interfaceName),list(list)
 	{
@@ -1858,8 +1858,8 @@ public:
 		{
 		case NonTerminalType::type_qualifier:
 		{
-			std::shared_ptr<TypeQualifier> typeQ = std::static_pointer_cast<TypeQualifier>(nonTerminal);
-			retVal = parser->S_StructHeader_TypeQualifier(typeQ);
+			auto temp = std::static_pointer_cast<TypeQualifier>(nonTerminal);
+			retVal = parser->S_StructHeader_TypeQualifier(temp);
 		}
 		break;
 		case NonTerminalType::type_specifier:
@@ -1910,7 +1910,7 @@ public:
 
 public:
 
-	Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace(std::shared_ptr<TypeQualifier>& sq,
+	Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace(std::shared_ptr<TypeQualifier>& typeQ,
 		const Token& interfaceName, std::shared_ptr<StructDeclarationList>& list)
 		: typeQ(typeQ), interfaceName(interfaceName), list(list)
 	{
@@ -1972,7 +1972,7 @@ public:
 
 public:
 
-	Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier(std::shared_ptr<TypeQualifier>& sq,
+	Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier(std::shared_ptr<TypeQualifier>& typeQ,
 		const Token& interfaceName, std::shared_ptr<StructDeclarationList>& list, const Token& instanceName)
 		: typeQ(typeQ), interfaceName(interfaceName), list(list), instanceName(instanceName)
 	{
@@ -2034,7 +2034,7 @@ public:
 
 public:
 
-	Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket(std::shared_ptr<TypeQualifier>& sq,
+	Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket(std::shared_ptr<TypeQualifier>& typeQ,
 		const Token& interfaceName, std::shared_ptr<StructDeclarationList>& list, const Token& instanceName)
 		: typeQ(typeQ), interfaceName(interfaceName), list(list), instanceName(instanceName)
 	{
@@ -2104,7 +2104,7 @@ public:
 
 public:
 
-	Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket_RBracket(std::shared_ptr<TypeQualifier>& sq,
+	Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket_RBracket(std::shared_ptr<TypeQualifier>& typeQ,
 		const Token& interfaceName, std::shared_ptr<StructDeclarationList>& list, const Token& instanceName)
 		: typeQ(typeQ), interfaceName(interfaceName), list(list), instanceName(instanceName)
 	{
@@ -2165,7 +2165,7 @@ public:
 
 public:
 
-	Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket_Expression(std::shared_ptr<TypeQualifier>& sq,
+	Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket_Expression(std::shared_ptr<TypeQualifier>& typeQ,
 		const Token& interfaceName, std::shared_ptr<StructDeclarationList>& list, const Token& instanceName,
 		std::shared_ptr<Expression>& expression)
 		: typeQ(typeQ), interfaceName(interfaceName), list(list), instanceName(instanceName), expression(expression)
@@ -2222,7 +2222,7 @@ public:
 
 public:
 
-	Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket_Expression_RBracet(std::shared_ptr<TypeQualifier>& sq,
+	Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket_Expression_RBracet(std::shared_ptr<TypeQualifier>& typeQ,
 		const Token& interfaceName, std::shared_ptr<StructDeclarationList>& list, const Token& instanceName,
 		std::shared_ptr<Expression>& expression)
 		: typeQ(typeQ), interfaceName(interfaceName), list(list), instanceName(instanceName), expression(expression)
