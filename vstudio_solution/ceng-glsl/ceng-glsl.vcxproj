@@ -94,7 +94,6 @@
     <ClInclude Include="..\..\ceng-glsl\src\PrecisionQualifierType.h" />
     <ClInclude Include="..\..\ceng-glsl\src\PrimaryExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\RelationalExpression.h" />
-    <ClInclude Include="..\..\ceng-glsl\src\Scope.h" />
     <ClInclude Include="..\..\ceng-glsl\src\SelectionRestStatement.h" />
     <ClInclude Include="..\..\ceng-glsl\src\SelectionStatement.h" />
     <ClInclude Include="..\..\ceng-glsl\src\ShiftExpression.h" />

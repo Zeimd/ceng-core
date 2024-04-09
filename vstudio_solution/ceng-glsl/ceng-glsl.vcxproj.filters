@@ -324,9 +324,6 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\FilePosition.h">
       <Filter>Header Files\public_interface</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\ceng-glsl\src\Scope.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\ceng-glsl\src\SymbolDatabase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
