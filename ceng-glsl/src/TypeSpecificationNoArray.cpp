@@ -9,7 +9,7 @@ void TypeSpecifierNoArray::Release()
 	delete this;
 }
 
-TypeSpecifierNoArray::TypeSpecifierNoArray(TypeSelector::Value datatype)
+TypeSpecifierNoArray::TypeSpecifierNoArray(TypeSelector::value datatype)
 	: INonTerminal(NonTerminalType::type_specifier_nonarray), datatype(datatype)
 {
 
