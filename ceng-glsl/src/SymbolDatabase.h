@@ -5,6 +5,8 @@
 
 namespace Ceng
 {
+	class FunctionDefinition;
+
 	class SymbolDatabase
 	{
 	private:
@@ -19,6 +21,16 @@ namespace Ceng
 
 		Symbol& StartScope();
 		Symbol& EndScope();
+
+		Symbol& StartFunction(std::shared_ptr<FunctionDefinition>& functionDef);
+
+		Symbol& Top();
+
+		Ceng::INT32 Add(std::shared_ptr<Declaration>& decl);
+
+		Ceng::INT32 Add(std::shared_ptr<StructSpecifier>& structSpec);
+
+		Symbol* Find(const Ceng::StringUtf8& name) const;
 	};
 }
 
