@@ -1,6 +1,6 @@
 #include "StorageQualifier.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -77,7 +77,7 @@ Ceng::StringUtf8 StorageQualifier::ToString(unsigned int indentLevel) const
 	}
 }
 
-void StorageQualifier::AcceptVisitor(AST_Visitor& visitor)
+void StorageQualifier::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_StorageQualifier(*this);
 }

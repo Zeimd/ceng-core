@@ -2,7 +2,7 @@
 
 #include "InterpolationQualifier.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -66,7 +66,7 @@ Ceng::StringUtf8 InterpolationQualifier::ToString(unsigned int indentLevel) cons
 
 }
 
-void InterpolationQualifier::AcceptVisitor(AST_Visitor& visitor)
+void InterpolationQualifier::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_InterpolationQualifier(*this);
 }

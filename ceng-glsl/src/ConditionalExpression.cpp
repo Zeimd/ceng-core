@@ -1,7 +1,7 @@
 #include "ConditionalExpression.h"
 #include "AssignmentExpression.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -43,7 +43,7 @@ Ceng::StringUtf8 ConditionalExpression::ToString(unsigned int indentLevel) const
 	return out;
 }
 
-void ConditionalExpression::AcceptVisitor(AST_Visitor& visitor)
+void ConditionalExpression::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_ConditionalExpression(*this);
 }

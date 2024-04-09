@@ -7,7 +7,7 @@
 
 namespace Ceng
 {
-	class AST_Visitor;
+	class NonTerminalVisitor;
 
 	class INonTerminal
 	{
@@ -43,7 +43,7 @@ namespace Ceng
 			return Ceng::StringUtf8(' ', 4 * indentLevel );
 		}
 
-		virtual void AcceptVisitor(AST_Visitor& visitor) = 0;
+		virtual void AcceptVisitor(NonTerminalVisitor& visitor) = 0;
 	};
 }
 

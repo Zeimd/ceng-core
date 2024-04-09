@@ -1,7 +1,7 @@
 #include "DeclarationStatement.h"
 #include "Declaration.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -32,7 +32,7 @@ Ceng::StringUtf8 DeclarationStatement::ToString(unsigned int indentLevel) const
 	return out;
 }
 
-void DeclarationStatement::AcceptVisitor(AST_Visitor& visitor)
+void DeclarationStatement::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_DeclarationStatement(*this);
 }

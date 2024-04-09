@@ -7,7 +7,7 @@
 #include "TypeSpecifierNoPrecision.h"
 #include "PrecisionQualifier.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -152,7 +152,7 @@ Ceng::StringUtf8 Declaration::ToString(unsigned int indentLevel) const
 	return out;
 }
 
-void Declaration::AcceptVisitor(AST_Visitor& visitor)
+void Declaration::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_Declaration(*this);
 }

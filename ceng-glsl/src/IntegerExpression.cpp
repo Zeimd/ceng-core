@@ -1,6 +1,6 @@
 #include "IntegerExpression.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -20,7 +20,7 @@ Ceng::StringUtf8 IntegerExpression::ToString(unsigned int indentLevel) const
 	return "";
 }
 
-void IntegerExpression::AcceptVisitor(AST_Visitor& visitor)
+void IntegerExpression::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_IntegerExpression(*this);
 }

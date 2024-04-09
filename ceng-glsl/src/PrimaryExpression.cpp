@@ -1,6 +1,6 @@
 #include "PrimaryExpression.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -101,7 +101,7 @@ Ceng::StringUtf8 PrimaryExpression::ToString(unsigned int indentLevel) const
 	return "";
 }
 
-void PrimaryExpression::AcceptVisitor(AST_Visitor& visitor)
+void PrimaryExpression::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_PrimaryExpression(*this);
 }

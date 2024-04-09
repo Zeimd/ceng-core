@@ -1,7 +1,7 @@
 #include "StructDeclaratorList.h"
 #include "StructDeclarator.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -43,7 +43,7 @@ Ceng::StringUtf8 StructDeclaratorList::ToString(unsigned int indentLevel) const
 	return out;
 }
 
-void StructDeclaratorList::AcceptVisitor(AST_Visitor& visitor)
+void StructDeclaratorList::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_StructDeclaratorList(*this);
 }

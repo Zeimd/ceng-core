@@ -1,7 +1,7 @@
 #include "PostfixExpression.h"
 #include "FunctionCall.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -82,7 +82,7 @@ Ceng::StringUtf8 PostfixExpression::ToString(unsigned int indentLevel) const
 	return out;
 }
 
-void PostfixExpression::AcceptVisitor(AST_Visitor& visitor)
+void PostfixExpression::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_PostfixExpression(*this);
 }

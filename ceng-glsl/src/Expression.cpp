@@ -1,7 +1,7 @@
 #include "Expression.h"
 #include "AssignmentExpression.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -43,7 +43,7 @@ Ceng::StringUtf8 Expression::ToString(unsigned int indentLevel) const
 	return out;
 }
 
-void Expression::AcceptVisitor(AST_Visitor& visitor)
+void Expression::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_Expression(*this);
 }

@@ -1,6 +1,6 @@
 #include "UnaryExpression.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -94,7 +94,7 @@ Ceng::StringUtf8 UnaryExpression::ToString(unsigned int indentLevel) const
 	return "<UNHANDLED UNARY TYPE>";
 }
 
-void UnaryExpression::AcceptVisitor(AST_Visitor& visitor)
+void UnaryExpression::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_UnaryExpression(*this);
 }

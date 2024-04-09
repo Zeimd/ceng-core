@@ -1,6 +1,6 @@
 #include "LogicalAndExpression.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -40,7 +40,7 @@ Ceng::StringUtf8 LogicalAndExpression::ToString(unsigned int indentLevel) const
 	return out;
 }
 
-void LogicalAndExpression::AcceptVisitor(AST_Visitor& visitor)
+void LogicalAndExpression::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_LogicalAndExpression(*this);
 }

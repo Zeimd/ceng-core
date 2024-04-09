@@ -3,7 +3,7 @@
 #include "Expression.h"
 #include "Condition.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -61,7 +61,7 @@ Ceng::StringUtf8 ForRestStatement::ToString(unsigned int indentLevel) const
 	return out;
 }
 
-void ForRestStatement::AcceptVisitor(AST_Visitor& visitor)
+void ForRestStatement::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_ForRestStatement(*this);
 }

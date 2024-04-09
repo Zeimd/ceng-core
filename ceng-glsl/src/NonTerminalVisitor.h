@@ -1,5 +1,5 @@
-#ifndef CENG_AST_VISITOR_H
-#define CENG_AST_VISITOR_H
+#ifndef CENG_NonTerminalVisitor_H
+#define CENG_NonTerminalVisitor_H
 
 #include <memory>
 
@@ -161,7 +161,7 @@ namespace Ceng
 	class UnaryOperator;
 	class XorExpression;
 
-	class AST_Visitor
+	class NonTerminalVisitor
 	{
 	public:
 

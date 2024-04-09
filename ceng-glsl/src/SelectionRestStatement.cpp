@@ -1,7 +1,7 @@
 #include "SelectionRestStatement.h"
 #include "Statement.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -52,7 +52,7 @@ Ceng::StringUtf8 SelectionRestStatement::ToString(unsigned int indentLevel) cons
 	return out;
 }
 
-void SelectionRestStatement::AcceptVisitor(AST_Visitor& visitor)
+void SelectionRestStatement::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_SelectionRestStatement(*this);
 }

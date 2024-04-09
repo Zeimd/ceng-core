@@ -2,7 +2,7 @@
 
 #include "ParameterQualifier.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -68,7 +68,7 @@ ParameterQualifierType::value ParameterQualifier::TokenToType(const Token& token
 	return ParameterQualifierType::invalid_value;
 }
 
-void ParameterQualifier::AcceptVisitor(AST_Visitor& visitor)
+void ParameterQualifier::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_ParameterQualifier(*this);
 }

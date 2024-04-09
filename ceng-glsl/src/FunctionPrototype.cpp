@@ -2,7 +2,7 @@
 
 #include "FunctionDeclarator.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -32,7 +32,7 @@ Ceng::StringUtf8 FunctionPrototype::ToString(unsigned int indentLevel) const
 	return out;
 }
 
-void FunctionPrototype::AcceptVisitor(AST_Visitor& visitor)
+void FunctionPrototype::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_FunctionPrototype(*this);
 }

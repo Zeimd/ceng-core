@@ -1,6 +1,6 @@
 #include "TypeSpecifier.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -35,7 +35,7 @@ Ceng::StringUtf8 TypeSpecifier::ToString(unsigned int indentLevel) const
 	return out;
 }
 
-void TypeSpecifier::AcceptVisitor(AST_Visitor& visitor)
+void TypeSpecifier::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_TypeSpecifier(*this);
 }

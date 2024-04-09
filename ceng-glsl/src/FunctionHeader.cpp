@@ -1,7 +1,7 @@
 #include "FunctionHeader.h"
 #include "FullySpecifiedType.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -33,7 +33,7 @@ Ceng::StringUtf8 FunctionHeader::ToString(unsigned int indentLevel) const
 	return out;
 }
 
-void FunctionHeader::AcceptVisitor(AST_Visitor& visitor)
+void FunctionHeader::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_FunctionHeader(*this);
 }

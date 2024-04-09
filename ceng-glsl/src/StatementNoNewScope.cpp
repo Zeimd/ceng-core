@@ -3,7 +3,7 @@
 #include "CompoundStatementNoNewScope.h"
 #include "CompoundStatement.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -53,7 +53,7 @@ Ceng::StringUtf8 StatementNoNewScope::ToString(unsigned int indentLevel) const
 	}
 }
 
-void StatementNoNewScope::AcceptVisitor(AST_Visitor& visitor)
+void StatementNoNewScope::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_StatementNoNewScope(*this);
 }

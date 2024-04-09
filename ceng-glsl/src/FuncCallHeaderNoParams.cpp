@@ -1,6 +1,6 @@
 #include "FuncCallHeaderNoParams.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -20,7 +20,7 @@ Ceng::StringUtf8 FuncCallHeaderNoParams::ToString(unsigned int indentLevel) cons
 	return header->ToString(indentLevel);
 }
 
-void FuncCallHeaderNoParams::AcceptVisitor(AST_Visitor& visitor)
+void FuncCallHeaderNoParams::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_FuncCallHeaderNoParams(*this);
 }

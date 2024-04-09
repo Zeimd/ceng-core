@@ -25,7 +25,7 @@ namespace Ceng
 
 		void Append(std::shared_ptr<StructDeclarator>& decl);
 
-		void AcceptVisitor(AST_Visitor& visitor) override;
+		void AcceptVisitor(NonTerminalVisitor& visitor) override;
 	};
 }
 

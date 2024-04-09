@@ -1,7 +1,7 @@
 #include "StatementList.h"
 #include "Statement.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -40,7 +40,7 @@ Ceng::StringUtf8 StatementList::ToString(unsigned int indentLevel) const
 	return out;
 }
 
-void StatementList::AcceptVisitor(AST_Visitor& visitor)
+void StatementList::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_StatementList(*this);
 }

@@ -1,7 +1,7 @@
 #include "SwitchStatementList.h"
 #include "StatementList.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -26,7 +26,7 @@ Ceng::StringUtf8 SwitchStatementList::ToString(unsigned int indentLevel) const
 	return list->ToString(indentLevel);
 }
 
-void SwitchStatementList::AcceptVisitor(AST_Visitor& visitor)
+void SwitchStatementList::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_SwitchStatementList(*this);
 }

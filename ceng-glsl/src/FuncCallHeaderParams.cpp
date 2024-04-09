@@ -1,6 +1,6 @@
 #include "FuncCallHeaderParams.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -39,7 +39,7 @@ Ceng::StringUtf8 FuncCallHeaderParams::ToString(unsigned int indentLevel) const
 	return out;
 }
 
-void FuncCallHeaderParams::AcceptVisitor(AST_Visitor& visitor)
+void FuncCallHeaderParams::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_FuncCallHeaderParams(*this);
 }

@@ -2,7 +2,7 @@
 
 #include "PrecisionQualifier.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -69,7 +69,7 @@ Ceng::StringUtf8 PrecisionQualifier::ToString(unsigned int indentLevel) const
 
 #undef CASE_TO_TEXT
 
-void PrecisionQualifier::AcceptVisitor(AST_Visitor& visitor)
+void PrecisionQualifier::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_PrecisionQualifier(*this);
 }

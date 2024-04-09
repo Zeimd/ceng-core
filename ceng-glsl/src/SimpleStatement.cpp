@@ -8,7 +8,7 @@
 #include "IterationStatement.h"
 #include "JumpStatement.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -87,7 +87,7 @@ Ceng::StringUtf8 SimpleStatement::ToString(unsigned int indentLevel) const
 	}
 }
 
-void SimpleStatement::AcceptVisitor(AST_Visitor& visitor)
+void SimpleStatement::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_SimpleStatement(*this);
 }

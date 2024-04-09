@@ -1,6 +1,6 @@
 #include "FunctionCallOrMethod.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -36,7 +36,7 @@ Ceng::StringUtf8 FunctionCallOrMethod::ToString(unsigned int indentLevel) const
 	return out;
 }
 
-void FunctionCallOrMethod::AcceptVisitor(AST_Visitor& visitor)
+void FunctionCallOrMethod::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_FunctionCallOrMethod(*this);
 }

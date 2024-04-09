@@ -1,6 +1,6 @@
 #include "TypeSpecifierNoArray.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -235,7 +235,7 @@ Ceng::StringUtf8 TypeSpecifierNoArray::ToString(unsigned int indentLevel) const
 
 #undef CASE_TO_TEXT
 
-void TypeSpecifierNoArray::AcceptVisitor(AST_Visitor& visitor)
+void TypeSpecifierNoArray::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_TypeSpecifierNoArray(*this);
 }

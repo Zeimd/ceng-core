@@ -1,6 +1,6 @@
 #include "FunctionIdentifier.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -36,7 +36,7 @@ Ceng::StringUtf8 FunctionIdentifier::ToString(unsigned int indentLevel) const
 	}
 }
 
-void FunctionIdentifier::AcceptVisitor(AST_Visitor& visitor)
+void FunctionIdentifier::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_FunctionIdentifier(*this);
 }

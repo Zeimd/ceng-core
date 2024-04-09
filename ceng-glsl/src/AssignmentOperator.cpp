@@ -1,5 +1,5 @@
 #include "AssignmentOperator.h"
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -88,7 +88,7 @@ Ceng::StringUtf8 AssignmentOperator::ToString(unsigned int indentLevel) const
 	}
 }
 
-void AssignmentOperator::AcceptVisitor(AST_Visitor& visitor)
+void AssignmentOperator::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_AssignmentOperator(*this);
 }

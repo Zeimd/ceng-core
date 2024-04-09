@@ -5,7 +5,7 @@
 #include "TypeSpecifier.h"
 #include "ParameterDeclarator.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -70,7 +70,7 @@ Ceng::StringUtf8 ParameterDeclaration::ToString(unsigned int indentLevel) const
 	return out;
 }
 
-void ParameterDeclaration::AcceptVisitor(AST_Visitor& visitor)
+void ParameterDeclaration::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_ParameterDeclaration(*this);
 }

@@ -1,5 +1,5 @@
 #include "AndExpression.h"
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 
 using namespace Ceng;
@@ -40,7 +40,7 @@ Ceng::StringUtf8 AndExpression::ToString(unsigned int indentLevel) const
 	return out;
 }
 
-void AndExpression::AcceptVisitor(AST_Visitor& visitor)
+void AndExpression::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_AndExpression(*this);
 }

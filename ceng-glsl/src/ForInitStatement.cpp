@@ -3,7 +3,7 @@
 #include "ExpressionStatement.h"
 #include "DeclarationStatement.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -42,7 +42,7 @@ Ceng::StringUtf8 ForInitStatement::ToString(unsigned int indentLevel) const
 	return "<UNHANDLED FOR INIT TYPE>";
 }
 
-void ForInitStatement::AcceptVisitor(AST_Visitor& visitor)
+void ForInitStatement::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_ForInitStatement(*this);
 }

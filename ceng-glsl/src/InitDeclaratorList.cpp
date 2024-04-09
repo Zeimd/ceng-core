@@ -1,6 +1,6 @@
 #include "InitDeclaratorList.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -51,7 +51,7 @@ Ceng::StringUtf8 InitDeclaratorList::ToString(unsigned int indentLevel) const
 	return out;
 }
 
-void InitDeclaratorList::AcceptVisitor(AST_Visitor& visitor)
+void InitDeclaratorList::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_InitDeclaratorList(*this);
 }

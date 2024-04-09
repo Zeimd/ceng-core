@@ -1,7 +1,7 @@
 #include "CaseLabel.h"
 #include "Expression.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -53,7 +53,7 @@ Ceng::StringUtf8 CaseLabel::ToString(unsigned int indentLevel) const
 	return out;
 }
 
-void CaseLabel::AcceptVisitor(AST_Visitor& visitor)
+void CaseLabel::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_CaseLabel(*this);
 }

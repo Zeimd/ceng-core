@@ -1,6 +1,6 @@
 #include "SingleDeclaration.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -66,7 +66,7 @@ Ceng::StringUtf8 SingleDeclaration::ToString(unsigned int indentLevel) const
 	return "";	
 }
 
-void SingleDeclaration::AcceptVisitor(AST_Visitor& visitor)
+void SingleDeclaration::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_SingleDeclaration(*this);
 }

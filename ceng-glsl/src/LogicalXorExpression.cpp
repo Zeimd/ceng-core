@@ -1,6 +1,6 @@
 #include "LogicalXorExpression.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -40,7 +40,7 @@ Ceng::StringUtf8 LogicalXorExpression::ToString(unsigned int indentLevel) const
 	return out;
 }
 
-void LogicalXorExpression::AcceptVisitor(AST_Visitor& visitor)
+void LogicalXorExpression::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_LogicalXorExpression(*this);
 }

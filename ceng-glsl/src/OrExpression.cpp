@@ -1,6 +1,6 @@
 #include "OrExpression.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -40,7 +40,7 @@ Ceng::StringUtf8 OrExpression::ToString(unsigned int indentLevel) const
 	return out;
 }
 
-void OrExpression::AcceptVisitor(AST_Visitor& visitor)
+void OrExpression::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_OrExpression(*this);
 }

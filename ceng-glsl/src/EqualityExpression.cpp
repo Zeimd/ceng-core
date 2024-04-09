@@ -1,6 +1,6 @@
 #include "EqualityExpression.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -72,7 +72,7 @@ Ceng::StringUtf8 EqualityExpression::ToString(unsigned int indentLevel) const
 	return out;
 }
 
-void EqualityExpression::AcceptVisitor(AST_Visitor& visitor)
+void EqualityExpression::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_EqualityExpression(*this);
 }

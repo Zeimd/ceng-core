@@ -2,7 +2,7 @@
 #include "Expression.h"
 #include "SwitchStatementList.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -51,7 +51,7 @@ Ceng::StringUtf8 SwitchStatement::ToString(unsigned int indentLevel) const
 	return out;
 }
 
-void SwitchStatement::AcceptVisitor(AST_Visitor& visitor)
+void SwitchStatement::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_SwitchStatement(*this);
 }

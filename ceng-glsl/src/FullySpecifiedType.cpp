@@ -1,6 +1,6 @@
 #include "FullySpecifiedType.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -31,7 +31,7 @@ Ceng::StringUtf8 FullySpecifiedType::ToString(unsigned int indentLevel) const
 	return out;
 }
 
-void FullySpecifiedType::AcceptVisitor(AST_Visitor& visitor)
+void FullySpecifiedType::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_FullySpecifiedType(*this);
 }

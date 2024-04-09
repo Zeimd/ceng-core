@@ -2,7 +2,7 @@
 #include "FunctionPrototype.h"
 #include "CompoundStatementNoNewScope.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -34,7 +34,7 @@ Ceng::StringUtf8 FunctionDefinition::ToString(unsigned int indentLevel) const
 	return out;
 }
 
-void FunctionDefinition::AcceptVisitor(AST_Visitor& visitor)
+void FunctionDefinition::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_FunctionDefinition(*this);
 }

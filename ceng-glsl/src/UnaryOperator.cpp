@@ -1,6 +1,6 @@
 #include "UnaryOperator.h"
 
-#include "AST_Visitor.h"
+#include "NonTerminalVisitor.h"
 
 using namespace Ceng;
 
@@ -57,7 +57,7 @@ Ceng::StringUtf8 UnaryOperator::ToString(unsigned int indentLevel) const
 	}
 }
 
-void UnaryOperator::AcceptVisitor(AST_Visitor& visitor)
+void UnaryOperator::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_UnaryOperator(*this);
 }

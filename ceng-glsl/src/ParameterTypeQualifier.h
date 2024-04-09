@@ -36,7 +36,7 @@ namespace Ceng
 
 		static ParamTypeQualifiers::value TokenToQualifier(const Token& token);
 
-		void AcceptVisitor(AST_Visitor& visitor) override;
+		void AcceptVisitor(NonTerminalVisitor& visitor) override;
 	};
 }
 
