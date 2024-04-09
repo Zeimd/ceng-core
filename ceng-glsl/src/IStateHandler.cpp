@@ -19,6 +19,16 @@ HandlerReturn IStateHandler::DefaultExpressionShift(GLSL_Parser* parser, const T
 	{
 		switch (next.type)
 		{
+		case TokenType::identifier:
+			if (parser->IsCustomType(next.name))
+			{
+				retVal = parser->S_CustomTypeToken(next);
+			}
+			else
+			{
+				retVal = parser->S_IdentifierToken(next);
+			}			
+			break;
 		case TokenType::keyword_const:
 		case TokenType::keyword_attribute:
 		case TokenType::keyword_varying:
@@ -50,9 +60,6 @@ HandlerReturn IStateHandler::DefaultExpressionShift(GLSL_Parser* parser, const T
 		case TokenType::float_constant:
 		case TokenType::bool_constant:
 			retVal = parser->S_LiteralToken(next);
-			break;
-		case TokenType::identifier:
-			retVal = parser->S_IdentifierToken(next);
 			break;
 		case TokenType::keyword_struct:
 			retVal = parser->S_StructToken();

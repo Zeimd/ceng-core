@@ -88,6 +88,30 @@ void GLSL_Parser::DiscardNext()
 	++tokenIter;
 }
 
+bool GLSL_Parser::IsCustomType(const Ceng::StringUtf8& name)
+{
+	for (auto& x : customTypeNames)
+	{
+		if (x == name)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+void GLSL_Parser::AddCustomType(const Ceng::StringUtf8& name)
+{
+	if (IsCustomType(name))
+	{
+		return;
+	}
+
+	customTypeNames.push_back(name);
+}
+
+
 ParserReturnValue GLSL_Parser::StateFuncSkeleton(const char* callerName, IStateHandler& handler)
 {
 	log.Debug(callerName);
@@ -1397,6 +1421,9 @@ ParserReturnValue GLSL_Parser::S_StructToken_IdentifierToken_LBrace_StructDeclar
 ParserReturnValue GLSL_Parser::S_StructToken_IdentifierToken_LBrace_StructDeclarationList_RBrace(const Token& structName, std::shared_ptr<StructDeclarationList>& list)
 {
 	log.Debug(__func__);
+
+	AddCustomType(structName.name);
+
 	return ParserReturnValue(std::make_shared<StructSpecifier>(structName.name,list), 5);
 }
 
@@ -2410,6 +2437,13 @@ ParserReturnValue GLSL_Parser::S_DatatypeToken(TokenType::value value)
 	log.Debug(__func__);
 
 	return { std::make_unique<TypeSpecifierNoArray>(value), 1 };
+}
+
+ParserReturnValue GLSL_Parser::S_CustomTypeToken(const Token& typeName)
+{
+	log.Debug(__func__);
+
+	return { std::make_unique<TypeSpecifierNoArray>(typeName.name), 1 };
 }
 
 class Handler_LayoutToken : public IStateHandler

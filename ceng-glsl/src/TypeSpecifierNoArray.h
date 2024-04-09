@@ -80,11 +80,11 @@ namespace Ceng
 			isampler2DMSArray,
 			usampler2DMSArray,
 			struct_specifier,
-			typeName,
+			type_name,
 			invalid,
 		};
 
-		TypeSelector type;
+		TypeSelector datatype;
 
 		std::shared_ptr<StructSpecifier> structSpec;
 
@@ -93,7 +93,7 @@ namespace Ceng
 		
 		void Release() override;
 
-		TypeSpecifierNoArray(TypeSpecifierNoArray::TypeSelector type);
+		TypeSpecifierNoArray(TypeSpecifierNoArray::TypeSelector datatype);
 		TypeSpecifierNoArray(TokenType::value tokenType);
 
 		TypeSpecifierNoArray(const Ceng::StringUtf8& name);
