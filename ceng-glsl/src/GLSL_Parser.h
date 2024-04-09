@@ -7,93 +7,104 @@
 #include <ceng/GLSL/Token.h>
 #include <ceng/GLSL/IParser.h>
 
-#include "StorageQualifier.h"
-#include "TypeSpecifierNoArray.h"
-#include "TypeQualifier.h"
-#include "TypeSpecifierNoPrecision.h"
-#include "TypeSpecifier.h"
-#include "FullySpecifiedType.h"
-#include "SingleDeclaration.h"
-#include "InitDeclaratorList.h"
-#include "Declaration.h"
-#include "StorageQualifierType.h"
-#include "PrimaryExpression.h"
-#include "Expression.h"
-#include "PostfixExpression.h"
-#include "UnaryExpression.h"
-#include "UnaryOperator.h"
-#include "MultiplicativeExpression.h"
-#include "AdditiveExpression.h"
-#include "ShiftExpression.h"
-#include "RelationalExpression.h"
-#include "EqualityExpression.h"
-#include "AndExpression.h"
-#include "XorExpression.h"
-#include "OrExpression.h"
-#include "LogicalAndExpression.h"
-#include "LogicalOrExpression.h"
-#include "LogicalXorExpression.h"
-#include "ConditionalExpression.h"
-#include "AssignmentExpression.h"
-#include "AssignmentOperator.h"
-#include "Expression.h"
-#include "FunctionIdentifier.h"
-#include "FunctionCallHeader.h"
-#include "FuncCallHeaderParams.h"
-#include "FuncCallHeaderNoParams.h"
-#include "FunctionCallGeneric.h"
-#include "FunctionCallOrMethod.h"
-#include "FunctionCall.h"
-
-#include "Statement.h"
-#include "StatementList.h"
-#include "SwitchStatement.h"
-#include "SwitchStatementList.h"
-#include "CaseLabel.h"
-#include "Condition.h"
-#include "ConditionOpt.h"
-#include "Declaration.h"
-#include "DeclarationStatement.h"
-#include "SimpleStatement.h"
-#include "SelectionRestStatement.h"
-#include "SelectionStatement.h"
-#include "ExpressionStatement.h"
-
-#include "CompoundStatement.h"
-#include "CompoundStatementNoNewScope.h"
-#include "StatementNoNewScope.h"
-#include "ForInitStatement.h"
-#include "ForRestStatement.h"
-#include "JumpStatement.h"
-#include "IterationStatement.h"
-
-#include "StructDeclarator.h"
-#include "StructDeclaratorList.h"
-#include "StructDeclaration.h"
-#include "StructDeclarationList.h"
-#include "StructSpecifier.h"
-
-
 #include "ParserReturnValue.h"
 #include "HandlerReturn.h"
 #include "IStateHandler.h"
 
-#include "FunctionHeader.h"
-#include "FunctionHeaderWithParams.h"
-#include "ParameterDeclaration.h"
-#include "ParameterDeclarator.h"
-#include "ParameterQualifier.h"
-#include "ParameterTypeQualifier.h"
-#include "FunctionDeclarator.h"
-#include "FunctionPrototype.h"
-#include "FunctionDefinition.h"
-
-#include "LayoutQualifier.h"
-#include "LayoutQualifierId.h"
-#include "LayoutQualifierIdList.h"
-
 namespace Ceng
 {
+	class AdditiveExpression;
+	class AndExpression;
+	class AssignmentExpression;
+	class AssignmentOperator;
+
+	class CaseLabel;
+	class CompoundStatement;
+	class CompoundStatementNoNewScope;
+	class Condition;
+	class ConditionalExpression;
+	class ConditionOpt;
+	class ConstantExpression;
+
+	class Declaration;
+	class DeclarationStatement;
+
+	class EqualityExpression;
+	class Expression;
+	class ExpressionStatement;
+
+	class ForInitStatement;
+	class ForRestStatement;
+	class FullySpecifiedType;
+	class FuncCallHeaderNoParams;
+	class FuncCallHeaderParams;
+	class FunctionCall;
+	class FunctionCallGeneric;
+	class FunctionCallHeader;
+	class FunctionCallOrMethod;
+	class FunctionDeclarator;
+	class FunctionDefinition;
+	class FunctionHeader;
+	class FunctionHeaderWithParams;
+	class FunctionIdentifier;
+	class FunctionPrototype;
+
+	class InitDeclaratorList;
+	class Initializer;
+	class IntegerExpression;
+	class InterpolationQualifier;
+	class IterationStatement;
+
+	class JumpStatement;
+
+	class LayoutQualifier;
+	class LayoutQualifierId;
+	class LayoutQualifierIdList;
+	class LogicalAndExpression;
+	class LogicalOrExpression;
+	class LogicalXorExpression;
+
+	class MultiplicativeExpression;
+
+	class OrExpression;
+
+	class ParameterDeclaration;
+	class ParameterDeclarator;
+	class ParameterQualifier;
+	class ParameterTypeQualifier;
+	class PostfixExpression;
+	class PrecisionQualifier;
+	class PrimaryExpression;
+
+	class RelationalExpression;
+
+	class SelectionRestStatement;
+	class SelectionStatement;
+	class ShiftExpression;
+	class SimpleStatement;
+	class SingleDeclaration;
+	class Statement;
+	class StatementList;
+	class StatementNoNewScope;
+	class StorageQualifier;
+	class StructDeclaration;
+	class StructDeclarationList;
+	class StructDeclarator;
+	class StructDeclaratorList;
+	class StructSpecifier;
+	class SwitchStatement;
+	class SwitchStatementList;
+
+	class TranslationUnit;
+	class TypeQualifier;
+	class TypeSpecifier;
+	class TypeSpecifierNoArray;
+	class TypeSpecifierNoPrec;
+
+	class UnaryExpression;
+	class UnaryOperator;
+	class XorExpression;
+
 	class GLSL_Parser : public GLSL::IParser
 	{
 	public:
