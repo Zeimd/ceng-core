@@ -33,7 +33,7 @@ namespace Ceng
 	{
 	public:
 
-		DeclarationType::value type;
+		DeclarationType::value declarationType;
 
 		std::shared_ptr<FunctionPrototype> prototype;
 
@@ -82,6 +82,10 @@ namespace Ceng
 		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
 
 		void AcceptVisitor(NonTerminalVisitor& visitor) override;
+
+		Ceng::UINT32 NumSymbols() const;
+
+		Ceng::StringUtf8 GetSymbolName(Ceng::UINT32 n) const;
 
 	};
 }
