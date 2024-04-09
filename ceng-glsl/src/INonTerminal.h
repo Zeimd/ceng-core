@@ -26,7 +26,7 @@ namespace Ceng
 	public:
 
 		INonTerminal(NonTerminalType::value type)
-			: type(type)
+			: type(type), isInteger(false), isConst(false)
 		{
 
 		}
