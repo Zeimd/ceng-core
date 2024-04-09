@@ -89,6 +89,7 @@ using namespace Ceng;
 
 GLSL_Parser::GLSL_Parser()
 {
+	symbolDatabase = std::make_shared<SymbolDatabase>();
 }
 
 void GLSL_Parser::Release()
@@ -112,11 +113,15 @@ CRESULT GLSL_Parser::Parse(const std::vector<Token>& in_tokens, GLSL::AbstractSy
 
 	log.Debug("Parsing start");
 
+	symbolDatabase->StartScope();
+
 	double start = Ceng_HighPrecisionTimer();
 
 	ParserReturnValue retVal = S_TranslationUnit();
 
 	double end = Ceng_HighPrecisionTimer();
+
+	symbolDatabase->EndScope();
 
 	log.Debug("Parsing end");
 	
@@ -1505,7 +1510,11 @@ ParserReturnValue GLSL_Parser::S_StructToken_IdentifierToken_LBrace_StructDeclar
 
 	AddCustomType(structName.name);
 
-	return ParserReturnValue(std::make_shared<StructSpecifier>(structName.name,list), 5);
+	auto temp = std::make_shared<StructSpecifier>(structName.name, list);
+
+	symbolDatabase->Add(temp);
+	
+	return { temp, 5 };
 }
 
 ParserReturnValue GLSL_Parser::S_StructSpecifier(std::shared_ptr<StructSpecifier>& structSpec)
@@ -2196,7 +2205,12 @@ ParserReturnValue GLSL_Parser::S_TypeQualifier_Identifier_LBrace_StructDeclarati
 	const Token& interfaceName, std::shared_ptr<StructDeclarationList>& list)
 {
 	log.Debug(__func__);
-	return { std::make_shared<Declaration>(typeQ, interfaceName.name, list), 6 };
+
+	auto temp = std::make_shared<Declaration>(typeQ, interfaceName.name, list);
+
+	symbolDatabase->Add(temp);
+
+	return {temp , 6 };
 }
 
 class Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier : public IStateHandler
@@ -2258,7 +2272,12 @@ ParserReturnValue GLSL_Parser::S_TypeQualifier_Identifier_LBrace_StructDeclarati
 	const Token& interfaceName, std::shared_ptr<StructDeclarationList>& list, const Token& instanceName)
 {
 	log.Debug(__func__);
-	return { std::make_shared<Declaration>(typeQ,interfaceName.name, list, instanceName.name), 7 };
+
+	auto temp = std::make_shared<Declaration>(typeQ, interfaceName.name, list, instanceName.name);
+
+	symbolDatabase->Add(temp);
+
+	return {temp , 7 };
 }
 
 class Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket : public IStateHandler
@@ -2388,7 +2407,12 @@ ParserReturnValue GLSL_Parser::S_TypeQualifier_Identifier_LBrace_StructDeclarati
 	const Token& interfaceName, std::shared_ptr<StructDeclarationList>& list, const Token& instanceName)
 {
 	log.Debug(__func__);
-	return { std::make_shared<Declaration>(typeQ, interfaceName.name, list, instanceName.name, true), 9};
+
+	auto temp = std::make_shared<Declaration>(typeQ, interfaceName.name, list, instanceName.name, true);
+
+	symbolDatabase->Add(temp);
+
+	return {temp , 9};
 }
 
 class Handler_S_TypeQualifier_Identifier_LBrace_StructDeclarationList_RBrace_Identifier_LBracket_Expression : public IStateHandler
@@ -2509,7 +2533,12 @@ ParserReturnValue GLSL_Parser::S_TypeQualifier_Identifier_LBrace_StructDeclarati
 	const Token& interfaceName, std::shared_ptr<StructDeclarationList>& list, const Token& instanceName, std::shared_ptr<Expression>& expression)
 {
 	log.Debug(__func__);
-	return { std::make_shared<Declaration>(typeQ, interfaceName.name, list, instanceName.name, expression), 10 };
+
+	auto temp = std::make_shared<Declaration>(typeQ, interfaceName.name, list, instanceName.name, expression);
+
+	symbolDatabase->Add(temp);
+
+	return {temp, 10 };
 }
 
 
@@ -4693,7 +4722,11 @@ ParserReturnValue GLSL_Parser::S_FunctionPrototype_Semicolon(std::shared_ptr<Fun
 {
 	log.Debug(__func__);
 
-	return { std::make_shared<Declaration>(prototype),2 };
+	auto temp = std::make_shared<Declaration>(prototype);
+
+	symbolDatabase->Add(temp);
+
+	return {temp ,2 };
 }
 
 class Handler_FunctionPrototype_LBrace : public IStateHandler
@@ -4762,6 +4795,8 @@ public:
 
 ParserReturnValue GLSL_Parser::S_FunctionPrototype_LBrace(std::shared_ptr<FunctionPrototype>& prototype)
 {
+	symbolDatabase->StartFunction(prototype);
+
 	Handler_FunctionPrototype_LBrace temp(prototype);
 
 	return StateFuncSkeleton(__func__, temp);
@@ -4871,7 +4906,11 @@ ParserReturnValue GLSL_Parser::S_FunctionPrototype_CompoundStatementNoNewScope(s
 {
 	log.Debug(__func__);
 
-	return { std::make_shared<FunctionDefinition>(prototype, statement),2 };
+	auto temp = std::make_shared<FunctionDefinition>(prototype, statement);
+
+	symbolDatabase->EndScope();
+
+	return {temp ,2 };
 }
 
 class Handler_LBrace : public IStateHandler
@@ -9233,14 +9272,20 @@ public:
 	HandlerReturn Reduction(GLSL_Parser* parser) override
 	{
 		parser->log.Debug(__FUNCTION__);
-		
+		return { ParserReturnValue(),false };
+		/*
 		switch (parser->PeekToken().type)
 		{
 		case TokenType::comma:
 			return { ParserReturnValue(),false };
 		default:
-			return { ParserReturnValue(std::make_shared<Declaration>(list),1) };
+			auto temp = std::make_shared<Declaration>(list);
+
+			parser->symbolDatabase->Add(temp);
+
+			return { ParserReturnValue(temp,1), true };
 		}
+		*/
 	}
 
 	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
@@ -9276,7 +9321,12 @@ ParserReturnValue GLSL_Parser::S_InitDeclaratorList(std::shared_ptr<InitDeclarat
 ParserReturnValue GLSL_Parser::S_InitDeclaratorList_Semicolon(std::shared_ptr<InitDeclaratorList>& initList)
 {
 	log.Debug(__func__);
-	return { std::make_shared<Declaration>(initList),2 };
+
+	auto temp = std::make_shared<Declaration>(initList);
+
+	symbolDatabase->Add(temp);
+
+	return {temp ,2 };
 }
 
 class Handler_InitDeclaratorList_Comma : public IStateHandler

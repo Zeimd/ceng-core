@@ -11,6 +11,9 @@
 #include "HandlerReturn.h"
 #include "IStateHandler.h"
 
+#include "Symbol.h"
+#include "SymbolDatabase.h"
+
 namespace Ceng
 {
 	class AdditiveExpression;
@@ -116,6 +119,8 @@ namespace Ceng
 		std::vector<Ceng::StringUtf8> customTypeNames;
 
 		Log log;
+
+		std::shared_ptr<SymbolDatabase> symbolDatabase;
 
 		typedef HandlerReturn (GLSL_Parser::* ReductionHandler)(const Token& next);
 		typedef HandlerReturn (GLSL_Parser::* ShiftHandler)(const Token& next);
