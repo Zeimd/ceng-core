@@ -182,46 +182,46 @@ Ceng::UINT32 Declaration::NumSymbols() const
 	}
 }
 
-Ceng::StringUtf8 Declaration::GetSymbolName(Ceng::UINT32 n) const
+const Ceng::StringUtf8* Declaration::GetSymbolName(Ceng::UINT32 n) const
 {
 	switch (declarationType)
 	{
 	case DeclarationType::function_prototype:
-		return prototype->decl->header->name;
+		return &prototype->decl->header->name;
 	case DeclarationType::init_list:
-		return declList->list[n].name;
+		return &declList->list[n].name;
 		break;
 	case DeclarationType::precision:
-		return "";
+		return nullptr;
 	case DeclarationType::global_interface_block:
-		return interfaceName;
+		return &interfaceName;
 	case DeclarationType::scoped_interface_block:
 		if (n == 0)
 		{
-			return interfaceName;
+			return &interfaceName;
 		}
 		else if (n == 1)
 		{
-			return variableName;
+			return &variableName;
 		}
 		else
 		{
-			return "<INVALID N>";
+			return nullptr;
 		}
 	case DeclarationType::scoped_interface_block_array:
 		if (n == 0)
 		{
-			return interfaceName;
+			return &interfaceName;
 		}
 		else if (n == 1)
 		{
-			return variableName;
+			return &variableName;
 		}
 		else
 		{
-			return "<INVALID N>";
+			return nullptr;
 		}
 	default:
-		return "<UNHANDLED DECLARATION TYPE>";
+		return nullptr;
 	}
 }

@@ -3,6 +3,9 @@
 #include "FunctionDeclarator.h"
 
 #include "NonTerminalVisitor.h"
+#include "FunctionHeaderWithParams.h"
+#include "ParameterDeclaration.h"
+#include "ParameterDeclarator.h"
 
 using namespace Ceng;
 
@@ -35,4 +38,24 @@ Ceng::StringUtf8 FunctionPrototype::ToString(unsigned int indentLevel) const
 void FunctionPrototype::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_FunctionPrototype(*this);
+}
+
+Ceng::UINT32 FunctionPrototype::GetParamCount() const
+{
+	if (!decl->params)
+	{
+		return 0;
+	}
+
+	return decl->withParams->params.size();
+}
+
+const Ceng::StringUtf8* FunctionPrototype::GetParameterName(Ceng::UINT32 index) const
+{
+	if (index > GetParamCount())
+	{
+		return nullptr;
+	}
+
+	return &decl->withParams->params[index]->decl->name;
 }

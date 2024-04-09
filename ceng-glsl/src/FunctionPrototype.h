@@ -26,6 +26,10 @@ namespace Ceng
 		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
 
 		void AcceptVisitor(NonTerminalVisitor& visitor) override;
+
+		Ceng::UINT32 GetParamCount() const;
+
+		const Ceng::StringUtf8* GetParameterName(Ceng::UINT32 index) const;
 	};
 }
 
