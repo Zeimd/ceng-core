@@ -9,10 +9,9 @@
 
 namespace Ceng
 {
-	class TypeSpecifierNoArray : public INonTerminal
+	namespace TypeSelector
 	{
-	public:
-		enum TypeSelector
+		enum value
 		{
 			ts_void,
 			ts_float,
@@ -83,8 +82,13 @@ namespace Ceng
 			type_name,
 			invalid,
 		};
+	}
 
-		TypeSelector datatype;
+	class TypeSpecifierNoArray : public INonTerminal
+	{
+	public:
+
+		TypeSelector::value datatype;
 
 		std::shared_ptr<StructSpecifier> structSpec;
 
@@ -93,13 +97,13 @@ namespace Ceng
 		
 		void Release() override;
 
-		TypeSpecifierNoArray(TypeSpecifierNoArray::TypeSelector datatype);
+		TypeSpecifierNoArray(TypeSelector::value datatype);
 		TypeSpecifierNoArray(TokenType::value tokenType);
 
 		TypeSpecifierNoArray(const Ceng::StringUtf8& name);
 		TypeSpecifierNoArray(std::shared_ptr<StructSpecifier>& structSpec);
 
-		static TypeSelector FromTokenType(TokenType::value tokenType);
+		static TypeSelector::value FromTokenType(TokenType::value tokenType);
 
 		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
 

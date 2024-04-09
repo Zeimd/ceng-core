@@ -9,7 +9,7 @@ void TypeSpecifierNoArray::Release()
 	delete this;
 }
 
-TypeSpecifierNoArray::TypeSpecifierNoArray(TypeSpecifierNoArray::TypeSelector datatype)
+TypeSpecifierNoArray::TypeSpecifierNoArray(TypeSelector::Value datatype)
 	: INonTerminal(NonTerminalType::type_specifier_nonarray), datatype(datatype)
 {
 
@@ -33,7 +33,7 @@ TypeSpecifierNoArray::TypeSpecifierNoArray(std::shared_ptr<StructSpecifier>& str
 
 }
 
-TypeSpecifierNoArray::TypeSelector TypeSpecifierNoArray::FromTokenType(TokenType::value tokenType)
+TypeSelector::value TypeSpecifierNoArray::FromTokenType(TokenType::value tokenType)
 {
 	switch (tokenType)
 	{
@@ -154,15 +154,15 @@ Ceng::StringUtf8 TypeSpecifierNoArray::ToString(unsigned int indentLevel) const
 {
 	switch (datatype)
 	{
-	case ts_void:
+	case TypeSelector::ts_void:
 		return "void";
-	case ts_float:
+	case TypeSelector::ts_float:
 		return "float";
-	case ts_int:
+	case TypeSelector::ts_int:
 		return "int";
-	case ts_uint:
+	case TypeSelector::ts_uint:
 		return "uint";
-	case ts_bool:
+	case TypeSelector::ts_bool:
 		return "bool";
 		CASE_TO_TEXT(vec2);
 		CASE_TO_TEXT(vec3);
@@ -225,9 +225,9 @@ Ceng::StringUtf8 TypeSpecifierNoArray::ToString(unsigned int indentLevel) const
 		CASE_TO_TEXT(isampler2DMSArray);
 		CASE_TO_TEXT(usampler2DMSArray);
 		CASE_TO_TEXT(invalid);
-	case type_name:
+	case TypeSelector::type_name:
 		return name;
-	case struct_specifier:
+	case TypeSelector::struct_specifier:
 		return structSpec->ToString(indentLevel);		
 	default:
 		return "TypeSpecifierNoArray::unhandled case";
