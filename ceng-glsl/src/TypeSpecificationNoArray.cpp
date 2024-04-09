@@ -240,3 +240,15 @@ void TypeSpecifierNoArray::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_TypeSpecifierNoArray(*this);
 }
+
+bool TypeSpecifierNoArray::IsIntegerType() const
+{
+	switch (datatype)
+	{
+	case TypeSelector::ts_int:
+	case TypeSelector::ts_uint:
+		return true;
+	default:
+		return false;
+	}
+}
