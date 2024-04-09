@@ -3,6 +3,12 @@
 #include "Declaration.h"
 #include "InitDeclaratorList.h"
 
+#include "FunctionDefinition.h"
+#include "FunctionDeclarator.h"
+#include "FunctionPrototype.h"
+#include "ParameterDeclaration.h"
+#include "FunctionHeaderWithParams.h"
+
 using namespace Ceng;
 
 SymbolDatabase::SymbolDatabase()
@@ -41,9 +47,24 @@ Symbol& SymbolDatabase::Top()
 	return *top;
 }
 
-Symbol& SymbolDatabase::StartFunction(std::shared_ptr<FunctionDefinition>& functionDef)
+Symbol& SymbolDatabase::StartFunction(std::shared_ptr<FunctionPrototype>& prototype)
 {
+	top->scope.emplace_back(top, top->scope.size(), prototype);
 
+	auto functionScope = top->scope.back();
+
+	auto paramCount = prototype->GetParamCount();
+
+	for (auto k = 0; k < paramCount; k++)
+	{
+		functionScope.scope.emplace_back(&functionScope, functionScope.scope.size(),
+			prototype->GetParameter(k));
+			
+	}
+	
+	top = &functionScope;
+
+	return *top;
 }
 
 Ceng::INT32 SymbolDatabase::Add(std::shared_ptr<Declaration>& decl)
@@ -55,8 +76,7 @@ Ceng::INT32 SymbolDatabase::Add(std::shared_ptr<Declaration>& decl)
 	case DeclarationType::function_prototype:
 		top->scope.emplace_back(top, top->scope.size(),decl,0);
 		return 0;
-	case DeclarationType::init_list:
-		
+	case DeclarationType::init_list:		
 		for (auto& x : decl->declList->list)
 		{
 			top->scope.emplace_back(top, top->scope.size(), decl, index);

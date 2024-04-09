@@ -22,9 +22,12 @@ namespace Ceng
 		};
 	}
 
+	const char* ToString(SymbolType::value type);
+
 	class Declaration;
-	class FunctionDefinition;
+	class FunctionPrototype;
 	class StructSpecifier;
+	class ParameterDeclaration;
 
 	class Symbol
 	{
@@ -50,8 +53,8 @@ namespace Ceng
 	
 		std::shared_ptr<Declaration> decl;
 		std::shared_ptr<StructSpecifier> structSpec;
-		std::shared_ptr<FunctionDefinition> functionDef;
-
+		std::shared_ptr<FunctionPrototype> prototype;
+		std::shared_ptr<ParameterDeclaration> param;
 
 		std::vector<Symbol> scope;
 
@@ -63,7 +66,9 @@ namespace Ceng
 
 		Symbol(Symbol* parent, Ceng::UINT32 childIndex, std::shared_ptr<StructSpecifier>& structSpec);
 
-		Symbol(Symbol* parent, Ceng::UINT32 childIndex, std::shared_ptr<FunctionDefinition>& functionDef);
+		Symbol(Symbol* parent, Ceng::UINT32 childIndex, std::shared_ptr<FunctionPrototype>& prototype);
+
+		Symbol(Symbol* parent, Ceng::UINT32 childIndex, std::shared_ptr<ParameterDeclaration> param);
 
 		const Ceng::StringUtf8* Name() const;
 

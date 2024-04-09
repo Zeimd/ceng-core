@@ -5,7 +5,7 @@
 
 namespace Ceng
 {
-	class FunctionDefinition;
+	class FunctionPrototype;
 
 	class SymbolDatabase
 	{
@@ -22,7 +22,7 @@ namespace Ceng
 		Symbol& StartScope();
 		Symbol& EndScope();
 
-		Symbol& StartFunction(std::shared_ptr<FunctionDefinition>& functionDef);
+		Symbol& StartFunction(std::shared_ptr<FunctionPrototype>& prototype);
 
 		Symbol& Top();
 

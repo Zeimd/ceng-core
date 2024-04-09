@@ -13,8 +13,39 @@
 #include "FunctionHeaderWithParams.h"
 #include "ParameterDeclaration.h"
 #include "ParameterDeclarator.h"
+#include "FullySpecifiedType.h"
 
 using namespace Ceng;
+
+namespace Ceng
+{
+	const char* ToString(SymbolType::value type)
+	{
+		switch (type)
+		{
+		case SymbolType::function:
+			return "function";
+		case SymbolType::function_parameter:
+			return "parameter";
+		case SymbolType::function_prototype:
+			return "function prototype";
+		case SymbolType::interface_block:
+			return "interface block";
+		case SymbolType::interface_block_instance:
+			return "interface block instance";
+		case SymbolType::scope:
+			return "scope";
+		case SymbolType::struct_declaration:
+			return "struct";
+		case SymbolType::variable:
+			return "variable";
+		}
+
+		return "<UNHANDLED SYMBOL TYPE>";
+	}
+
+}
+
 
 Symbol::Symbol(Symbol* parent, Ceng::UINT32 childIndex)
 	: symbolType(SymbolType::scope), parent(parent), childIndex(childIndex)
@@ -37,14 +68,12 @@ Symbol::Symbol(Symbol* parent, Ceng::UINT32 childIndex, std::shared_ptr<Declarat
 
 		break;
 	case DeclarationType::init_list:
-
 		symbolType = SymbolType::variable;
 
 		declIndex = index;
 
-		isConst = decl->typeQ->storage.qualifier == StorageQualifierType::sq_const;
-
-		isInteger = decl->spec->typeSpec->IsIntegerType();
+		isConst = decl->IsConst();
+		isInteger = decl->IsInteger();
 
 		this->decl = decl;
 
@@ -73,8 +102,14 @@ Symbol::Symbol(Symbol* parent, Ceng::UINT32 childIndex, std::shared_ptr<StructSp
 	
 }
 
-Symbol::Symbol(Symbol* parent, Ceng::UINT32 childIndex, std::shared_ptr<FunctionDefinition>& functionDef)
-	: parent(parent), childIndex(childIndex), symbolType(SymbolType::function), functionDef(functionDef)
+Symbol::Symbol(Symbol* parent, Ceng::UINT32 childIndex, std::shared_ptr<FunctionPrototype>& prototype)
+	: parent(parent), childIndex(childIndex), symbolType(SymbolType::function), prototype(prototype)
+{
+
+}
+
+Symbol::Symbol(Symbol* parent, Ceng::UINT32 childIndex, std::shared_ptr<ParameterDeclaration> param)
+	: parent(parent), childIndex(childIndex), symbolType(SymbolType::function_parameter), param(param)
 {
 
 }
@@ -86,7 +121,7 @@ const Ceng::StringUtf8* Symbol::Name() const
 	case SymbolType::function:
 		return decl->GetSymbolName(0);;
 	case SymbolType::function_parameter:
-		return functionDef->prototype->GetParameterName(declIndex);
+		return prototype->GetParameterName(declIndex);
 	case SymbolType::function_prototype:
 		return &decl->prototype->decl->header->name;
 	case SymbolType::variable:
