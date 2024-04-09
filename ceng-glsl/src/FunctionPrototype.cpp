@@ -59,3 +59,13 @@ const Ceng::StringUtf8* FunctionPrototype::GetParameterName(Ceng::UINT32 index) 
 
 	return &decl->withParams->params[index]->decl->name;
 }
+
+std::shared_ptr<ParameterDeclaration> FunctionPrototype::GetParameter(Ceng::UINT32 index) 
+{
+	if (index > GetParamCount())
+	{
+		return nullptr;
+	}
+
+	return decl->withParams->params[index];
+}

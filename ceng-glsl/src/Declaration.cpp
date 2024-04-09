@@ -225,3 +225,25 @@ const Ceng::StringUtf8* Declaration::GetSymbolName(Ceng::UINT32 n) const
 		return nullptr;
 	}
 }
+
+bool Declaration::IsConst() const
+{
+	switch (declarationType)
+	{
+	case DeclarationType::init_list:
+		return declList->fullType->qualifier.storage.qualifier == StorageQualifierType::sq_const;
+	default:
+		return false;
+	}
+}
+
+bool Declaration::IsInteger() const
+{
+	switch (declarationType)
+	{
+	case DeclarationType::init_list:
+		return declList->fullType->typeSpec.typeSpec.typeSpec->IsIntegerType();
+	default:
+		return false;
+	}
+}

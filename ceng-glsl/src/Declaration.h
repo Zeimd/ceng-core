@@ -87,6 +87,9 @@ namespace Ceng
 
 		const Ceng::StringUtf8* GetSymbolName(Ceng::UINT32 n) const;
 
+		bool IsConst() const;
+		bool IsInteger() const;
+
 	};
 }
 
