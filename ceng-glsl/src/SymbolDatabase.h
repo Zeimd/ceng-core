@@ -31,6 +31,8 @@ namespace Ceng
 		Ceng::INT32 Add(std::shared_ptr<StructSpecifier>& structSpec);
 
 		Symbol* Find(const Ceng::StringUtf8& name) const;
+
+		Ceng::StringUtf8 ToString() const;
 	};
 }
 

@@ -136,3 +136,8 @@ Symbol* SymbolDatabase::Find(const Ceng::StringUtf8& name) const
 
 	return nullptr;
 }
+
+Ceng::StringUtf8 SymbolDatabase::ToString() const
+{
+	return root.ToString(0);
+}

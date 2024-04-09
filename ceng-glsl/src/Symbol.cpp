@@ -141,3 +141,28 @@ bool Symbol::IsTypeName() const
 {
 	return symbolType == SymbolType::struct_declaration;
 }
+
+Ceng::StringUtf8 Symbol::ToString(Ceng::UINT32 indentLevel) const
+{
+	Ceng::StringUtf8 out;
+
+	out += INonTerminal::GetIndent(indentLevel);
+
+	out += Ceng::ToString(symbolType);
+
+	auto name = Name();
+
+	if (name != nullptr)
+	{
+		out += ' ';
+		out += *name;
+	}
+	out += '\n';	
+
+	for (auto& x : scope)
+	{
+		out += x.ToString(indentLevel + 1);
+	}
+
+	return out;
+}

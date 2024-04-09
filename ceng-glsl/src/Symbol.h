@@ -73,6 +73,8 @@ namespace Ceng
 		const Ceng::StringUtf8* Name() const;
 
 		bool IsTypeName() const;
+
+		Ceng::StringUtf8 ToString(Ceng::UINT32 indentLevel) const;
 	};
 	
 }

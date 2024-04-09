@@ -140,6 +140,9 @@ CRESULT GLSL_Parser::Parse(const std::vector<Token>& in_tokens, GLSL::AbstractSy
 	log.Nominal(text);
 
 	log.Debug("****************************************************************************");
+	log.Debug("Symbol database:");
+
+	log.Nominal(symbolDatabase->ToString());
 
 	return CE_OK;
 }
