@@ -23,12 +23,18 @@ namespace Ceng
 	}
 
 	class Declaration;
-	class FunctionPrototype;
+	class FunctionDefinition;
 	class StructSpecifier;
 
 	class Symbol
 	{
 	public:
+
+		Symbol* parent;
+
+		// Index of this symbol in parent's scope
+		Ceng::UINT32 childIndex;
+
 		FilePosition declarePosition;
 		FilePosition lastUse;
 		FilePosition endOfScope;
@@ -44,17 +50,22 @@ namespace Ceng
 	
 		std::shared_ptr<Declaration> decl;
 		std::shared_ptr<StructSpecifier> structSpec;
+		std::shared_ptr<FunctionDefinition> functionDef;
+
 
 		std::vector<Symbol> scope;
 
 	public:
 
-		// Used for scope
-		Symbol();
+		Symbol(Symbol* parent, Ceng::UINT32 childIndex);
 
-		Symbol(std::shared_ptr<Declaration>& decl, Ceng::UINT32 index);
+		Symbol(Symbol* parent, Ceng::UINT32 childIndex, std::shared_ptr<Declaration>& decl, Ceng::UINT32 index);
 
-		Symbol(std::shared_ptr<StructSpecifier>& structSpec);
+		Symbol(Symbol* parent, Ceng::UINT32 childIndex, std::shared_ptr<StructSpecifier>& structSpec);
+
+		Symbol(Symbol* parent, Ceng::UINT32 childIndex, std::shared_ptr<FunctionDefinition>& functionDef);
+
+		const Ceng::StringUtf8* Name() const;
 
 		bool IsTypeName() const;
 	};
