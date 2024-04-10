@@ -147,31 +147,36 @@ Ceng::INT32 SymbolDatabase::Add(std::shared_ptr<StructSpecifier>& structSpec)
 
 Symbol* SymbolDatabase::Find(const Ceng::StringUtf8& name) const
 {
-	printf(__func__);
-	printf("\n");
-
 	Symbol* current = top;
 	Ceng::INT32 startIndex = current->scope.size()-1;
 
 	while (current != nullptr)
 	{
-		if (startIndex > 0)
+		const Ceng::StringUtf8* symbolName = symbolName = current->Name();;
+
+		if (symbolName != nullptr)
 		{
-			for (int k = startIndex; k >= 0; --k)
+			if (*symbolName == name)
 			{
-				auto symbolName = current->scope[k].Name();
-
-				if (symbolName == nullptr)
-				{
-					continue;
-				}
-
-				if (*current->scope[k].Name() == name)
-				{
-					return current;
-				}
+				return current;
 			}
+
 		}
+
+		for (int k = startIndex; k >= 0; --k)
+		{
+			symbolName = current->scope[k].Name();
+
+			if (symbolName == nullptr)
+			{
+				continue;
+			}
+
+			if (*symbolName == name)
+			{
+				return &current->scope[k];
+			}
+		}	
 	
 		startIndex = current->childIndex;
 		current = current->parent;		
