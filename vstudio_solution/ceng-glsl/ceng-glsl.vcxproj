@@ -20,6 +20,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AbstractSyntaxTree.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_BinaryOperation.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_Expression.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_NodeType.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_UnaryOperation.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\FilePosition.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\IASTNode.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\IParser.h" />
@@ -34,6 +38,8 @@
     <ClInclude Include="..\..\ceng-glsl\src\AndExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\AssignmentExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\AssignmentOperator.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\AST_Generator.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\NonTerminalProcessor.h" />
     <ClInclude Include="..\..\ceng-glsl\src\NonTerminalVisitor.h" />
     <ClInclude Include="..\..\ceng-glsl\src\CaseLabel.h" />
     <ClInclude Include="..\..\ceng-glsl\src\CompoundStatement.h" />
@@ -129,6 +135,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\AndExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AssignmentExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AssignmentOperator.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\AST_Generator.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\CaseLabel.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\ceng_GLSL.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\CompoundStatement.cpp" />

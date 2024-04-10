@@ -3,14 +3,30 @@
 
 #include <ceng/datatypes/ce-string.h>
 
+#include "AST_NodeType.h"
+
 namespace Ceng
 {
 	class IASTNode
 	{
 	public:
 
+		AST_NodeType::value nodeType;
 
-		virtual Ceng::StringUtf8 ToString() const = 0;
+	public:
+
+		IASTNode(AST_NodeType::value nodeType)
+			: nodeType(nodeType)
+		{
+
+		}
+
+		virtual ~IASTNode()
+		{
+
+		}
+
+		virtual Ceng::StringUtf8 ToString(Ceng::UINT32 indentLevel) const = 0;
 
 	};
 }
