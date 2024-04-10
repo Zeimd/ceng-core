@@ -5086,6 +5086,172 @@ ParserReturnValue GLSL_Parser::S_LBrace_StatementList_RBrace(std::shared_ptr<Sta
 	return { std::make_shared<CompoundStatement>(list),3 };
 }
 
+class Handler_NoScope_LBrace : public IStateHandler
+{
+public:
+
+public:
+
+	Handler_NoScope_LBrace()
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::right_brace:
+			return { parser->S_NoScope_LBrace_RBrace(),true };
+		default:
+			return DefaultExpressionShift(parser, next);
+		}
+
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::statement:
+		{
+			std::shared_ptr<Statement> temp = std::static_pointer_cast<Statement>(nonTerminal);
+			retVal = parser->S_NoScope_LBrace_Statement(temp);
+		}
+		break;
+		case NonTerminalType::statement_list:
+		{
+			std::shared_ptr<StatementList> temp = std::static_pointer_cast<StatementList>(nonTerminal);
+			retVal = parser->S_NoScope_LBrace_StatementList(temp);
+		}
+		break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+		return { retVal, valid };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_NoScope_LBrace()
+{
+	Handler_NoScope_LBrace temp;
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+ParserReturnValue GLSL_Parser::S_NoScope_LBrace_RBrace()
+{
+	log.Debug(__func__);
+
+	return { std::make_shared<CompoundStatement>(),2 };
+}
+
+ParserReturnValue GLSL_Parser::S_NoScope_LBrace_Statement(std::shared_ptr<Statement>& statement)
+{
+	log.Debug(__func__);
+
+	return { std::make_shared<StatementList>(statement),1 };
+}
+
+class Handler_NoScope_LBrace_StatementList : public IStateHandler
+{
+public:
+	std::shared_ptr<StatementList>& list;
+
+public:
+
+	Handler_NoScope_LBrace_StatementList(std::shared_ptr<StatementList>& list)
+		: list(list)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::right_brace:
+			return { parser->S_NoScope_LBrace_StatementList_RBrace(list),true };
+		default:
+			return DefaultExpressionShift(parser, next);
+		}
+
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		ParserReturnValue retVal;
+		bool valid = true;
+
+		switch (nonTerminal->type)
+		{
+		case NonTerminalType::statement:
+		{
+			std::shared_ptr<Statement> temp = std::static_pointer_cast<Statement>(nonTerminal);
+			retVal = parser->S_NoScope_LBrace_StatementList_Statement(list, temp);
+		}
+		break;
+		default:
+			return DefaultExpressionGoto(parser, nonTerminal);
+		}
+		return { retVal, valid };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_NoScope_LBrace_StatementList(std::shared_ptr<StatementList>& list)
+{
+	Handler_NoScope_LBrace_StatementList temp(list);
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+ParserReturnValue GLSL_Parser::S_NoScope_LBrace_StatementList_Statement(std::shared_ptr<StatementList>& list, std::shared_ptr<Statement>& statement)
+{
+	log.Debug(__func__);
+
+	list->Append(statement);
+
+	return { list, 2 };
+}
+
+ParserReturnValue GLSL_Parser::S_NoScope_LBrace_StatementList_RBrace(std::shared_ptr<StatementList>& list)
+{
+	log.Debug(__func__);
+
+
+	return { std::make_shared<CompoundStatement>(list),3 };
+}
+
+
 ParserReturnValue GLSL_Parser::S_ParamBuilder_ParameterTypeQualifierToken(const Token& token)
 {
 	log.Debug(__func__);
@@ -12047,6 +12213,8 @@ public:
 
 ParserReturnValue GLSL_Parser::S_ForToken_LParen()
 {
+	symbolDatabase->StartScope();
+
 	Handler_ForToken_LParen temp;
 
 	return StateFuncSkeleton(__func__, temp);
@@ -12399,6 +12567,12 @@ public:
 	{
 		parser->log.Debug(__FUNCTION__);
 
+		switch (next.type)
+		{
+		case TokenType::left_brace:
+			return { parser->S_NoScope_LBrace(),true };
+		}
+
 		return DefaultExpressionShift(parser, next);
 	}
 
@@ -12449,6 +12623,9 @@ ParserReturnValue GLSL_Parser::S_ForToken_LParen_ForInitStatement_ForRestStateme
 	std::shared_ptr<ForRestStatement>& rest, std::shared_ptr<StatementNoNewScope>& block)
 {
 	log.Debug(__func__);
+
+	symbolDatabase->EndScope();
+
 	return { std::make_shared<IterationStatement>(init, rest, block),6 };
 }
 

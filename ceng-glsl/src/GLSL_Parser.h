@@ -735,6 +735,21 @@ namespace Ceng
 		// compound_statement end
 		ParserReturnValue S_LBrace_StatementList_RBrace(std::shared_ptr<StatementList>& list);
 
+		// compound_statement_no_new_scope start
+		ParserReturnValue S_NoScope_LBrace();
+
+		// compound_statement_no_new_scope end
+		ParserReturnValue S_NoScope_LBrace_RBrace();
+
+		ParserReturnValue S_NoScope_LBrace_Statement(std::shared_ptr<Statement>& statement);
+
+		ParserReturnValue S_NoScope_LBrace_StatementList(std::shared_ptr<StatementList>& list);
+
+		ParserReturnValue S_NoScope_LBrace_StatementList_Statement(std::shared_ptr<StatementList>& list, std::shared_ptr<Statement>& statement);
+
+		// compound_statement_no_new_scope end
+		ParserReturnValue S_NoScope_LBrace_StatementList_RBrace(std::shared_ptr<StatementList>& list);
+
 		// reduction: expression -> assignment_expression
 		ParserReturnValue S_Expression(std::shared_ptr<Expression>& ex);
 
