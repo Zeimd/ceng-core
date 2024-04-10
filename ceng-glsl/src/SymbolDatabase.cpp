@@ -180,6 +180,18 @@ Symbol* SymbolDatabase::Find(const Ceng::StringUtf8& name) const
 	return nullptr;
 }
 
+bool SymbolDatabase::IsCustomType(const Ceng::StringUtf8& name) const
+{
+	Symbol* result = Find(name);
+
+	if (result == nullptr)
+	{
+		return false;
+	}
+
+	return result->IsTypeName();
+}
+
 Ceng::StringUtf8 SymbolDatabase::ToString() const
 {
 	return root.ToString(0);

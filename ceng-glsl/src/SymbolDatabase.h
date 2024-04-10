@@ -35,6 +35,8 @@ namespace Ceng
 
 		Symbol* Find(const Ceng::StringUtf8& name) const;
 
+		bool IsCustomType(const Ceng::StringUtf8& name) const;
+
 		Ceng::StringUtf8 ToString() const;
 	};
 }
