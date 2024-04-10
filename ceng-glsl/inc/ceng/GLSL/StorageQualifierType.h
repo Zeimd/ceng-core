@@ -3,23 +3,26 @@
 
 namespace Ceng
 {
-	namespace StorageQualifierType
+	namespace GLSL
 	{
-		enum value
+		namespace StorageQualifierType
 		{
-			sq_const,
-			sq_attribute,
-			sq_varying,
-			sq_centroid_varying,
-			sq_in,
-			sq_out,
-			sq_centroid_in,
-			sq_centroid_out,
-			sq_uniform,
+			enum value
+			{
+				sq_const,
+				sq_attribute,
+				sq_varying,
+				sq_centroid_varying,
+				sq_in,
+				sq_out,
+				sq_centroid_in,
+				sq_centroid_out,
+				sq_uniform,
 
-			unused,
-		};
-	}
+				unused,
+			};
+		}
+	}	
 }
 
 #endif

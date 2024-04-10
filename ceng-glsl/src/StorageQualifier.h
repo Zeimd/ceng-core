@@ -13,7 +13,7 @@ namespace Ceng
 	{
 	public:
 
-		StorageQualifierType::value qualifier;
+		GLSL::StorageQualifierType::value qualifier;
 
 	protected:
 
@@ -23,9 +23,9 @@ namespace Ceng
 
 		StorageQualifier();
 		StorageQualifier(TokenType::value type);
-		StorageQualifier(StorageQualifierType::value qualifier);
+		StorageQualifier(GLSL::StorageQualifierType::value qualifier);
 
-		static StorageQualifierType::value FromTokenType(TokenType::value type);
+		static GLSL::StorageQualifierType::value FromTokenType(TokenType::value type);
 
 		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
 

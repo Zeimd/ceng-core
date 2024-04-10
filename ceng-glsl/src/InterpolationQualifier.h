@@ -2,7 +2,7 @@
 #define CENG_GLSL_INTERPOLATION_QUALIFIER_H
 
 #include "INonTerminal.h"
-#include "InterpolationQualifierType.h"
+#include <ceng/GLSL/InterpolationQualifierType.h>
 
 namespace Ceng
 {
@@ -12,7 +12,7 @@ namespace Ceng
 	{
 	public:
 
-		InterpolationQualifierType::value interpolation;
+		GLSL::InterpolationQualifierType::value interpolation;
 
 	public:
 
@@ -24,7 +24,7 @@ namespace Ceng
 
 		InterpolationQualifier(const Token& token);
 	
-		InterpolationQualifier(InterpolationQualifierType::value interpolation);
+		InterpolationQualifier(GLSL::InterpolationQualifierType::value interpolation);
 
 		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
 

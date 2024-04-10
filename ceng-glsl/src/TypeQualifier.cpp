@@ -81,13 +81,13 @@ Ceng::StringUtf8 TypeQualifier::ToString(unsigned int indentLevel) const
 		out += "invariant ";
 	}
 
-	if (interpolation.interpolation != InterpolationQualifierType::unused)
+	if (interpolation.interpolation != GLSL::InterpolationQualifierType::unused)
 	{
 		out += interpolation.ToString(indentLevel);
 		out += ' ';
 	}
 
-	if (storage.qualifier != StorageQualifierType::unused)
+	if (storage.qualifier != GLSL::StorageQualifierType::unused)
 	{
 		out += storage.ToString(indentLevel);
 		out += ' ';

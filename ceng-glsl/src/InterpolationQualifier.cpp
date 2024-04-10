@@ -17,7 +17,7 @@ void InterpolationQualifier::Release()
 }
 
 InterpolationQualifier::InterpolationQualifier()
-	: INonTerminal(NonTerminalType::interpolation_qualifier),interpolation(InterpolationQualifierType::unused)
+	: INonTerminal(NonTerminalType::interpolation_qualifier),interpolation(GLSL::InterpolationQualifierType::unused)
 {
 
 }
@@ -28,21 +28,21 @@ InterpolationQualifier::InterpolationQualifier(const Token& token)
 	switch (token.type)
 	{
 	case TokenType::keyword_smooth:
-		interpolation = InterpolationQualifierType::smooth;
+		interpolation = GLSL::InterpolationQualifierType::smooth;
 		break;
 	case TokenType::keyword_noperspective:
-		interpolation = InterpolationQualifierType::noperspective;
+		interpolation = GLSL::InterpolationQualifierType::noperspective;
 		break;
 	case TokenType::keyword_flat:
-		interpolation = InterpolationQualifierType::flat;
+		interpolation = GLSL::InterpolationQualifierType::flat;
 		break;
 	default:
-		interpolation = InterpolationQualifierType::invalid_value;
+		interpolation = GLSL::InterpolationQualifierType::invalid_value;
 		break;
 	}
 }
 
-InterpolationQualifier::InterpolationQualifier(InterpolationQualifierType::value interpolation)
+InterpolationQualifier::InterpolationQualifier(GLSL::InterpolationQualifierType::value interpolation)
 	: INonTerminal(NonTerminalType::interpolation_qualifier), interpolation(interpolation)
 {
 
@@ -52,13 +52,13 @@ Ceng::StringUtf8 InterpolationQualifier::ToString(unsigned int indentLevel) cons
 {
 	switch (interpolation)
 	{
-	case InterpolationQualifierType::flat:
+	case GLSL::InterpolationQualifierType::flat:
 		return "flat";
-	case InterpolationQualifierType::noperspective:
+	case GLSL::InterpolationQualifierType::noperspective:
 		return "noperspective";
-	case InterpolationQualifierType::smooth:
+	case GLSL::InterpolationQualifierType::smooth:
 		return "smooth";
-	case InterpolationQualifierType::unused:
+	case GLSL::InterpolationQualifierType::unused:
 		return "";
 	default:
 		return "InterpolationQualifierType::unhandled";
