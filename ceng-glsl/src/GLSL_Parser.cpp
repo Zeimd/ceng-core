@@ -4980,6 +4980,8 @@ public:
 
 ParserReturnValue GLSL_Parser::S_LBrace()
 {
+	symbolDatabase->StartScope();
+
 	Handler_LBrace temp;
 
 	return StateFuncSkeleton(__func__, temp);
@@ -4988,6 +4990,8 @@ ParserReturnValue GLSL_Parser::S_LBrace()
 ParserReturnValue GLSL_Parser::S_LBrace_RBrace()
 {
 	log.Debug(__func__);
+
+	symbolDatabase->EndScope();
 
 	return { std::make_shared<CompoundStatement>(),2 };
 }
@@ -5076,6 +5080,8 @@ ParserReturnValue GLSL_Parser::S_LBrace_StatementList_Statement(std::shared_ptr<
 ParserReturnValue GLSL_Parser::S_LBrace_StatementList_RBrace(std::shared_ptr<StatementList>& list)
 {
 	log.Debug(__func__);
+
+	symbolDatabase->EndScope();
 
 	return { std::make_shared<CompoundStatement>(list),3 };
 }
