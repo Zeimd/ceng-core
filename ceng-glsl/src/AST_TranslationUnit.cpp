@@ -15,5 +15,14 @@ AST_TranslationUnit::~AST_TranslationUnit()
 
 Ceng::StringUtf8 AST_TranslationUnit::ToString(Ceng::UINT32 indentLevel) const
 {
-	return "";
+	printf(__FUNCTION__);
+
+	Ceng::StringUtf8 out;
+
+	for (auto& x : children)
+	{
+		out += x->ToString(indentLevel);
+	}
+
+	return out;
 }

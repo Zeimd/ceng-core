@@ -3,6 +3,8 @@
 
 #include "IASTNode.h"
 
+#include "AST_TranslationUnit.h"
+
 namespace Ceng
 {
 	namespace GLSL
@@ -10,8 +12,14 @@ namespace Ceng
 		class AbstractSyntaxTree
 		{
 		public:
+			AST_TranslationUnit root;
+		public:
+
+			AbstractSyntaxTree();
+
+			AbstractSyntaxTree(AST_TranslationUnit& root);
 			
-			//virtual Ceng::StringUtf8 ToString() const = 0;
+			Ceng::StringUtf8 ToString() const;
 		};
 	}
 }

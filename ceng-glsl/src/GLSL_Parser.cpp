@@ -83,6 +83,7 @@
 #include "LayoutQualifierId.h"
 #include "LayoutQualifierIdList.h"
 
+#include "AST_Generator.h"
 
 using namespace Ceng;
 
@@ -142,6 +143,14 @@ CRESULT GLSL_Parser::Parse(const std::vector<Token>& in_tokens, GLSL::AbstractSy
 	log.Debug("Symbol database:");
 
 	log.Nominal(symbolDatabase->ToString());
+
+	auto temp = std::static_pointer_cast<TranslationUnit>(retVal.nonTerminal);
+
+	GLSL::AbstractSyntaxTree out = AST_Generator::GenerateTree(temp);
+	log.Debug("****************************************************************************");
+	log.Debug("AST print:");
+
+	log.Nominal(out.ToString());
 
 	return CE_OK;
 }

@@ -84,7 +84,7 @@ GLSL::AbstractSyntaxTree AST_Generator::GenerateTree(std::shared_ptr<Translation
 
 	unit->AcceptVisitor(generator);
 	
-	return GLSL::AbstractSyntaxTree();
+	return GLSL::AbstractSyntaxTree(generator.root);
 }
 
 AST_Generator::return_type AST_Generator::V_TranslationUnit(TranslationUnit& item)
