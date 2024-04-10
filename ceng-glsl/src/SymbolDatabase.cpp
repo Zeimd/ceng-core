@@ -84,7 +84,7 @@ Symbol& SymbolDatabase::StartFunction(std::shared_ptr<FunctionPrototype>& protot
 
 	//printf("paramCount = %i\n", paramCount);
 
-	for (auto k = 0; k < paramCount; k++)
+	for (Ceng::UINT32 k = 0; k < paramCount; k++)
 	{
 		//printf("add param : %s\n", prototype->GetParameterName(k)->ToCString());
 
@@ -130,6 +130,12 @@ Ceng::INT32 SymbolDatabase::Add(std::shared_ptr<Declaration>& decl)
 		return 1;
 	}
 
+	return 0;
+}
+
+Ceng::INT32 SymbolDatabase::Add(std::shared_ptr<Condition>& condition)
+{
+	top->scope.emplace_back(top, top->scope.size(), condition);
 	return 0;
 }
 

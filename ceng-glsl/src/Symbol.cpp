@@ -14,35 +14,40 @@
 #include "ParameterDeclaration.h"
 #include "ParameterDeclarator.h"
 #include "FullySpecifiedType.h"
+#include "Condition.h"
 
 using namespace Ceng;
 
 namespace Ceng
 {
-	const char* SymbolTypeToString(SymbolType::value type)
+	namespace SymbolType
 	{
-		switch (type)
+		const char* ToString(SymbolType::value type)
 		{
-		case SymbolType::function:
-			return "function";
-		case SymbolType::function_parameter:
-			return "parameter";
-		case SymbolType::function_prototype:
-			return "function prototype";
-		case SymbolType::interface_block:
-			return "interface block";
-		case SymbolType::interface_block_instance:
-			return "interface block instance";
-		case SymbolType::scope:
-			return "scope";
-		case SymbolType::struct_declaration:
-			return "struct";
-		case SymbolType::variable:
-			return "variable";
-		}
+			switch (type)
+			{
+			case SymbolType::function:
+				return "function";
+			case SymbolType::function_parameter:
+				return "parameter";
+			case SymbolType::function_prototype:
+				return "function prototype";
+			case SymbolType::interface_block:
+				return "interface block";
+			case SymbolType::interface_block_instance:
+				return "interface block instance";
+			case SymbolType::scope:
+				return "scope";
+			case SymbolType::struct_declaration:
+				return "struct";
+			case SymbolType::variable:
+				return "variable";
+			}
 
-		return "<UNHANDLED SYMBOL TYPE>";
+			return "<UNHANDLED SYMBOL TYPE>";
+		}
 	}
+	
 
 }
 
@@ -58,6 +63,7 @@ Symbol::Symbol(Symbol* parent, Ceng::UINT32 childIndex, std::shared_ptr<Declarat
 {
 	isInteger = false;
 	isConst = false;
+	variableIsCondition = false;
 
 	switch (decl->declarationType)
 	{
@@ -68,6 +74,7 @@ Symbol::Symbol(Symbol* parent, Ceng::UINT32 childIndex, std::shared_ptr<Declarat
 
 		break;
 	case DeclarationType::init_list:
+		
 		symbolType = SymbolType::variable;
 
 		declIndex = index;
@@ -114,6 +121,13 @@ Symbol::Symbol(Symbol* parent, Ceng::UINT32 childIndex, std::shared_ptr<Paramete
 
 }
 
+Symbol::Symbol(Symbol* parent, Ceng::UINT32 childIndex, std::shared_ptr<Condition>& condition)
+	: parent(parent), childIndex(childIndex), symbolType(SymbolType::variable), condition(condition),
+	variableIsCondition(true)
+{
+
+}
+
 const Ceng::StringUtf8* Symbol::Name() const
 {
 	/*
@@ -131,13 +145,20 @@ const Ceng::StringUtf8* Symbol::Name() const
 	case SymbolType::function_prototype:
 		return &decl->prototype->decl->header->name;
 	case SymbolType::variable:
-		return decl->GetSymbolName(declIndex);
+		if (variableIsCondition)
+		{
+			return &condition->identifier;
+		}
+		else
+		{
+			return decl->GetSymbolName(declIndex);
+		}
 	case SymbolType::interface_block:
 		return decl->GetSymbolName(0);
 	case SymbolType::interface_block_instance:
 		return decl->GetSymbolName(1);
 	case SymbolType::struct_declaration:
-		return &structSpec->name;
+		return &structSpec->name;		
 	}
 
 	return nullptr;
@@ -160,7 +181,7 @@ Ceng::StringUtf8 Symbol::ToString(Ceng::UINT32 indentLevel) const
 
 	out += INonTerminal::GetIndent(indentLevel);
 
-	out += SymbolTypeToString(symbolType);
+	out += SymbolType::ToString(symbolType);
 
 	const Ceng::StringUtf8* name = Name();
 

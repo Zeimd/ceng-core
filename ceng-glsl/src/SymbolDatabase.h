@@ -6,6 +6,7 @@
 namespace Ceng
 {
 	class FunctionPrototype;
+	class Condition;
 
 	class SymbolDatabase
 	{
@@ -29,6 +30,8 @@ namespace Ceng
 		Ceng::INT32 Add(std::shared_ptr<Declaration>& decl);
 
 		Ceng::INT32 Add(std::shared_ptr<StructSpecifier>& structSpec);
+
+		Ceng::INT32 Add(std::shared_ptr<Condition>& condition);
 
 		Symbol* Find(const Ceng::StringUtf8& name) const;
 

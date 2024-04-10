@@ -20,14 +20,17 @@ namespace Ceng
 			interface_block_instance,
 			scope,
 		};
+
+		const char* ToString(SymbolType::value type);
 	}
 
-	const char* SymbolTypeToString(SymbolType::value type);
+	
 
 	class Declaration;
 	class FunctionPrototype;
 	class StructSpecifier;
 	class ParameterDeclaration;
+	class Condition;
 
 	class Symbol
 	{
@@ -47,6 +50,8 @@ namespace Ceng
 		bool isConst;
 		bool isInteger;
 
+		bool variableIsCondition;
+
 		// If declaration statement provides multiple variables,
 		// which one is it
 		Ceng::UINT32 declIndex;
@@ -55,6 +60,7 @@ namespace Ceng
 		std::shared_ptr<StructSpecifier> structSpec;
 		std::shared_ptr<FunctionPrototype> prototype;
 		std::shared_ptr<ParameterDeclaration> param;
+		std::shared_ptr<Condition> condition;
 
 		std::vector<Symbol> scope;
 
@@ -69,6 +75,8 @@ namespace Ceng
 		Symbol(Symbol* parent, Ceng::UINT32 childIndex, std::shared_ptr<FunctionPrototype>& prototype);
 
 		Symbol(Symbol* parent, Ceng::UINT32 childIndex, std::shared_ptr<ParameterDeclaration> param);
+
+		Symbol(Symbol* parent, Ceng::UINT32 childIndex, std::shared_ptr<Condition>& condition);
 
 		const Ceng::StringUtf8* Name() const;
 

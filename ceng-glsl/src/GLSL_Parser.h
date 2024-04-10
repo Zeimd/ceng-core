@@ -933,7 +933,7 @@ namespace Ceng
 
 		ParserReturnValue S_ForWhile_SimpleStatement(std::shared_ptr<SimpleStatement>& statement);
 
-		ParserReturnValue S_ForWhile_CompoundStatement(std::shared_ptr<CompoundStatement>& statement);
+		ParserReturnValue S_ForWhile_CompoundStatementNoNewScope(std::shared_ptr<CompoundStatementNoNewScope>& statement);
 
 		ParserReturnValue S_DoToken();
 

@@ -5159,7 +5159,7 @@ ParserReturnValue GLSL_Parser::S_NoScope_LBrace_RBrace()
 {
 	log.Debug(__func__);
 
-	return { std::make_shared<CompoundStatement>(),2 };
+	return { std::make_shared<CompoundStatementNoNewScope>(),2 };
 }
 
 ParserReturnValue GLSL_Parser::S_NoScope_LBrace_Statement(std::shared_ptr<Statement>& statement)
@@ -5248,7 +5248,7 @@ ParserReturnValue GLSL_Parser::S_NoScope_LBrace_StatementList_RBrace(std::shared
 	log.Debug(__func__);
 
 
-	return { std::make_shared<CompoundStatement>(list),3 };
+	return { std::make_shared<CompoundStatementNoNewScope>(list),3 };
 }
 
 
@@ -11459,6 +11459,8 @@ public:
 
 ParserReturnValue GLSL_Parser::S_WhileToken_LParen()
 {
+	symbolDatabase->StartScope();
+
 	Handler_WhileToken_LParen temp;
 
 	return StateFuncSkeleton(__func__, temp);
@@ -11644,7 +11646,12 @@ ParserReturnValue GLSL_Parser::S_ConditionBuilder_FullType_Identifier_Equal_Init
 	std::shared_ptr<Initializer>& initializer)
 {
 	log.Debug(__func__);
-	return { std::make_shared<Condition>(fullType,id.name, initializer),4 };
+
+	auto temp = std::make_shared<Condition>(fullType, id.name, initializer);
+
+	symbolDatabase->Add(temp);
+
+	return {temp ,4 };
 }
 
 class Handler_WhileToken_LParen_Condition : public IStateHandler
@@ -11719,6 +11726,12 @@ public:
 	{
 		parser->log.Debug(__FUNCTION__);
 
+		switch (next.type)
+		{
+		case TokenType::left_brace:
+			return { parser->S_NoScope_LBrace(), true };
+		}
+
 		return DefaultExpressionShift(parser, next);
 	}
 
@@ -11737,10 +11750,10 @@ public:
 			retVal = parser->S_ForWhile_SimpleStatement(temp);
 		}
 		break;
-		case NonTerminalType::compound_statement:
+		case NonTerminalType::compound_statement_no_new_scope:
 		{
-			std::shared_ptr<CompoundStatement> temp = std::static_pointer_cast<CompoundStatement>(nonTerminal);
-			retVal = parser->S_ForWhile_CompoundStatement(temp);
+			std::shared_ptr<CompoundStatementNoNewScope> temp = std::static_pointer_cast<CompoundStatementNoNewScope>(nonTerminal);
+			retVal = parser->S_ForWhile_CompoundStatementNoNewScope(temp);
 		}
 		break;
 		case NonTerminalType::statement_no_new_scope:
@@ -11764,7 +11777,7 @@ ParserReturnValue GLSL_Parser::S_WhileToken_LParen_Condition_RParen(std::shared_
 	return StateFuncSkeleton(__func__, temp);
 }
 
-ParserReturnValue GLSL_Parser::S_ForWhile_CompoundStatement(std::shared_ptr<CompoundStatement>& statement)
+ParserReturnValue GLSL_Parser::S_ForWhile_CompoundStatementNoNewScope(std::shared_ptr<CompoundStatementNoNewScope>& statement)
 {
 	log.Debug(__func__);
 	return { std::make_shared<StatementNoNewScope>(statement), 1 };
@@ -11780,6 +11793,9 @@ ParserReturnValue GLSL_Parser::S_WhileToken_LParen_Condition_RParen_StatementNoN
 	std::shared_ptr<StatementNoNewScope>& block)
 {
 	log.Debug(__func__);
+
+	symbolDatabase->EndScope();
+
 	return { std::make_shared<IterationStatement>(condition, block), 5};
 }
 
@@ -12591,10 +12607,10 @@ public:
 			retVal = parser->S_ForWhile_SimpleStatement(temp);
 		}
 		break;
-		case NonTerminalType::compound_statement:
+		case NonTerminalType::compound_statement_no_new_scope:
 		{
-			std::shared_ptr<CompoundStatement> temp = std::static_pointer_cast<CompoundStatement>(nonTerminal);
-			retVal = parser->S_ForWhile_CompoundStatement(temp);
+			std::shared_ptr<CompoundStatementNoNewScope> temp = std::static_pointer_cast<CompoundStatementNoNewScope>(nonTerminal);
+			retVal = parser->S_ForWhile_CompoundStatementNoNewScope(temp);
 		}
 		break;
 		case NonTerminalType::statement_no_new_scope:
