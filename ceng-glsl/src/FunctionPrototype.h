@@ -30,6 +30,8 @@ namespace Ceng
 
 		Ceng::UINT32 GetParamCount() const;
 
+		const Ceng::StringUtf8& GetName() const;
+
 		const Ceng::StringUtf8* GetParameterName(Ceng::UINT32 index) const;
 
 		std::shared_ptr<ParameterDeclaration> GetParameter(Ceng::UINT32 index);

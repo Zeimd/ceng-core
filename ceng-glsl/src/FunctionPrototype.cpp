@@ -6,6 +6,7 @@
 #include "FunctionHeaderWithParams.h"
 #include "ParameterDeclaration.h"
 #include "ParameterDeclarator.h"
+#include "FunctionHeader.h"
 
 using namespace Ceng;
 
@@ -58,6 +59,16 @@ const Ceng::StringUtf8* FunctionPrototype::GetParameterName(Ceng::UINT32 index) 
 	}
 
 	return &decl->withParams->params[index]->decl->name;
+}
+
+const Ceng::StringUtf8& FunctionPrototype::GetName() const
+{
+	if (decl->params)
+	{
+		return decl->withParams->header->name;
+	}
+
+	return decl->header->name;
 }
 
 std::shared_ptr<ParameterDeclaration> FunctionPrototype::GetParameter(Ceng::UINT32 index) 
