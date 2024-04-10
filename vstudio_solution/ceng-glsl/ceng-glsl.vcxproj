@@ -25,6 +25,7 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_NodeType.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_TranslationUnit.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_UnaryOperation.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_VariableDeclaration.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\DataType.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\FilePosition.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\IASTNode.h" />
@@ -33,6 +34,7 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\Log.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\LogEntry.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\LogLevel.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\PrecisionQualifierType.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\StorageQualifierType.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\TokenCategory.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\Tokenizer.h" />
@@ -100,7 +102,6 @@
     <ClInclude Include="..\..\ceng-glsl\src\ParserReturnValue.h" />
     <ClInclude Include="..\..\ceng-glsl\src\PostfixExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\PrecisionQualifier.h" />
-    <ClInclude Include="..\..\ceng-glsl\src\PrecisionQualifierType.h" />
     <ClInclude Include="..\..\ceng-glsl\src\PrimaryExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\RelationalExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\SelectionRestStatement.h" />
@@ -143,6 +144,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\AST_NodeType.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_TranslationUnit.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_UnaryOperation.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\AST_VariableDeclaration.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\CaseLabel.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\ceng_GLSL.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\CompoundStatement.cpp" />

@@ -25,7 +25,7 @@ Ceng::StringUtf8 TypeSpecifier::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
-	if (precision.precision != PrecisionQualifierType::unassigned)
+	if (precision.precision != GLSL::PrecisionQualifierType::unassigned)
 	{
 		out += precision.ToString(indentLevel);
 		out += ' ';

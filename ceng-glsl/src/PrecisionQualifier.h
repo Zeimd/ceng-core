@@ -2,7 +2,7 @@
 #define CENG_GLSL_PRECISION_QUALIFIER_H
 
 #include "INonTerminal.h"
-#include "PrecisionQualifierType.h"
+#include <ceng/GLSL/PrecisionQualifierType.h>
 
 namespace Ceng
 {
@@ -12,7 +12,7 @@ namespace Ceng
 	{
 	public:
 
-		PrecisionQualifierType::value precision;
+		GLSL::PrecisionQualifierType::value precision;
 
 	public:
 
@@ -22,7 +22,7 @@ namespace Ceng
 
 		PrecisionQualifier();
 		PrecisionQualifier(const Token& token);
-		PrecisionQualifier(PrecisionQualifierType::value precision);
+		PrecisionQualifier(GLSL::PrecisionQualifierType::value precision);
 
 		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
 

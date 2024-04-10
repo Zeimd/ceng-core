@@ -17,7 +17,7 @@ void PrecisionQualifier::Release()
 }
 
 PrecisionQualifier::PrecisionQualifier()
-	: INonTerminal(NonTerminalType::precision_qualifier), precision(PrecisionQualifierType::unassigned)
+	: INonTerminal(NonTerminalType::precision_qualifier), precision(GLSL::PrecisionQualifierType::unassigned)
 {
 
 }
@@ -28,26 +28,26 @@ PrecisionQualifier::PrecisionQualifier(const Token& token)
 	switch (token.type)
 	{
 	case TokenType::keyword_low_precision:
-		precision = PrecisionQualifierType::low;
+		precision = GLSL::PrecisionQualifierType::low;
 		break;
 	case TokenType::keyword_medium_precision:
-		precision = PrecisionQualifierType::medium;
+		precision = GLSL::PrecisionQualifierType::medium;
 		break;
 	case TokenType::keyword_high_precision:
-		precision = PrecisionQualifierType::high;
+		precision = GLSL::PrecisionQualifierType::high;
 		break;
 	default:
-		precision = PrecisionQualifierType::invalid_value;
+		precision = GLSL::PrecisionQualifierType::invalid_value;
 	}
 }
 
-PrecisionQualifier::PrecisionQualifier(PrecisionQualifierType::value precision)
+PrecisionQualifier::PrecisionQualifier(GLSL::PrecisionQualifierType::value precision)
 	: INonTerminal(NonTerminalType::precision_qualifier), precision(precision)
 {
 
 }
 
-#define CASE_TO_TEXT(x) case PrecisionQualifierType::x: out += #x; break;
+#define CASE_TO_TEXT(x) case GLSL::PrecisionQualifierType::x: out += #x; break;
 
 Ceng::StringUtf8 PrecisionQualifier::ToString(unsigned int indentLevel) const
 {
@@ -58,7 +58,7 @@ Ceng::StringUtf8 PrecisionQualifier::ToString(unsigned int indentLevel) const
 		CASE_TO_TEXT(high);
 		CASE_TO_TEXT(medium);
 		CASE_TO_TEXT(low);
-	case PrecisionQualifierType::invalid_value:
+	case GLSL::PrecisionQualifierType::invalid_value:
 		return "<INVALID PRECISION TYPE>";
 	default:
 		return "<UNHANDLED PRECISION TYPE>";
