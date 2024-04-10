@@ -21,26 +21,26 @@ void ParameterDeclaration::Release()
 
 ParameterDeclaration::ParameterDeclaration(std::shared_ptr<ParameterTypeQualifier>& typeQ, std::shared_ptr<ParameterQualifier>& paramQ,
 	std::shared_ptr<ParameterDeclarator>& decl)
-	: INonTerminal(NonTerminalType::parameter_declaration), typeQ(typeQ), paramQ(paramQ), typeOnly(false), decl(decl), type(nullptr)
+	: INonTerminal(NonTerminalType::parameter_declaration), typeQ(typeQ), paramQ(paramQ), typeOnly(false), decl(decl), typeSpec(nullptr)
 {
 
 }
 
 ParameterDeclaration::ParameterDeclaration(std::shared_ptr<ParameterQualifier>& paramQ, std::shared_ptr<ParameterDeclarator>& decl)
-	: INonTerminal(NonTerminalType::parameter_declaration), typeQ(nullptr), paramQ(paramQ), typeOnly(false), decl(decl), type(nullptr)
+	: INonTerminal(NonTerminalType::parameter_declaration), typeQ(nullptr), paramQ(paramQ), typeOnly(false), decl(decl), typeSpec(nullptr)
 {
 
 }
 
 ParameterDeclaration::ParameterDeclaration(std::shared_ptr<ParameterTypeQualifier>& typeQ, std::shared_ptr<ParameterQualifier>& paramQ,
 	std::shared_ptr<TypeSpecifier>& type)
-	: INonTerminal(NonTerminalType::parameter_declaration), typeQ(typeQ), paramQ(paramQ), typeOnly(true), decl(nullptr), type(type)
+	: INonTerminal(NonTerminalType::parameter_declaration), typeQ(typeQ), paramQ(paramQ), typeOnly(true), decl(nullptr), typeSpec(typeSpec)
 {
 
 }
 
-ParameterDeclaration::ParameterDeclaration(std::shared_ptr<ParameterQualifier>& paramQ, std::shared_ptr<TypeSpecifier>& type)
-	: INonTerminal(NonTerminalType::parameter_declaration), typeQ(nullptr), paramQ(paramQ), typeOnly(true), decl(nullptr), type(type)
+ParameterDeclaration::ParameterDeclaration(std::shared_ptr<ParameterQualifier>& paramQ, std::shared_ptr<TypeSpecifier>& typeSpec)
+	: INonTerminal(NonTerminalType::parameter_declaration), typeQ(nullptr), paramQ(paramQ), typeOnly(true), decl(nullptr), typeSpec(typeSpec)
 {
 
 }
@@ -60,7 +60,7 @@ Ceng::StringUtf8 ParameterDeclaration::ToString(unsigned int indentLevel) const
 
 	if (typeOnly)
 	{
-		out += type->ToString(indentLevel);
+		out += typeSpec->ToString(indentLevel);
 	}
 	else
 	{

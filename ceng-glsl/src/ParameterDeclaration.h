@@ -22,7 +22,7 @@ namespace Ceng
 		bool typeOnly;
 
 		std::shared_ptr<ParameterDeclarator> decl;
-		std::shared_ptr<TypeSpecifier> type;
+		std::shared_ptr<TypeSpecifier> typeSpec;
 
 	public:
 
@@ -36,9 +36,9 @@ namespace Ceng
 		ParameterDeclaration(std::shared_ptr<ParameterQualifier>& paramQ,std::shared_ptr<ParameterDeclarator>& decl);
 
 		ParameterDeclaration(std::shared_ptr<ParameterTypeQualifier>& typeQ, std::shared_ptr<ParameterQualifier>& paramQ,
-			std::shared_ptr<TypeSpecifier>& type);
+			std::shared_ptr<TypeSpecifier>& typeSpec);
 
-		ParameterDeclaration(std::shared_ptr<ParameterQualifier>& paramQ, std::shared_ptr<TypeSpecifier>& type);
+		ParameterDeclaration(std::shared_ptr<ParameterQualifier>& paramQ, std::shared_ptr<TypeSpecifier>& typeSpec);
 
 		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
 
