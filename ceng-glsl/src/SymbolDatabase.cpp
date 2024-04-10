@@ -100,9 +100,6 @@ Symbol& SymbolDatabase::StartFunction(std::shared_ptr<FunctionPrototype>& protot
 
 Ceng::INT32 SymbolDatabase::Add(std::shared_ptr<Declaration>& decl)
 {
-	printf(__func__);
-	printf("\n");
-
 	Ceng::INT32 index = 0;
 
 	switch (decl->declarationType)
