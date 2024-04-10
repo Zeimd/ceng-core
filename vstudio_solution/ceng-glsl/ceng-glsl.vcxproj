@@ -139,6 +139,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\AST_BinaryOperation.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_Expression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_Generator.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\AST_NodeType.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_TranslationUnit.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_UnaryOperation.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\CaseLabel.cpp" />

@@ -632,5 +632,8 @@
     <ClCompile Include="..\..\ceng-glsl\src\AST_Expression.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\ceng-glsl\src\AST_NodeType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
