@@ -21,6 +21,8 @@ namespace Ceng
 				// -
 				negation,				
 			};
+
+			const char* ToString(UnaryOperation::value operation);
 		}
 
 		class AST_UnaryOperation : public IASTNode
@@ -34,6 +36,8 @@ namespace Ceng
 			AST_Expression input;
 
 		public:
+
+			AST_UnaryOperation(const Ceng::StringUtf8& lhs, UnaryOperation::value operation, AST_Expression& input);
 
 			~AST_UnaryOperation() override;
 
