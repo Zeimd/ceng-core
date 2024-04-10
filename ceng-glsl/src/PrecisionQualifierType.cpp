@@ -11,6 +11,8 @@ const char* PrecisionQualifierType::ToString(PrecisionQualifierType::value type)
 		CASE_TO_TEXT(high);
 		CASE_TO_TEXT(medium);
 		CASE_TO_TEXT(low);
+	case GLSL::PrecisionQualifierType::unassigned:
+		return "";
 	case GLSL::PrecisionQualifierType::invalid_value:
 		return "<INVALID PRECISION TYPE>";
 	default:
