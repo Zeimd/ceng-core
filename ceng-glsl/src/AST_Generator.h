@@ -14,6 +14,8 @@ namespace Ceng
 
 		GLSL::AST_TranslationUnit root;
 
+		GLSL::IASTNode* context;
+
 	public:
 
 		~AST_Generator() override;
@@ -27,6 +29,8 @@ namespace Ceng
 		return_type V_Declaration(Declaration& item) override;
 
 		return_type V_FunctionDefinition(FunctionDefinition& item) override;
+
+		return_type V_InitDeclaratorList(InitDeclaratorList& item) override;
 
 		
 	};

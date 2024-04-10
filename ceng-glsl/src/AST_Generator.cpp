@@ -1,3 +1,5 @@
+#include <ceng/GLSL/AST_VariableDeclaration.h>
+
 #include "AST_Generator.h"
 
 #include "AdditiveExpression.h"
@@ -73,7 +75,7 @@ AST_Generator::~AST_Generator()
 
 AST_Generator::AST_Generator()
 {
-
+	context = &root;
 }
 
 GLSL::AbstractSyntaxTree AST_Generator::GenerateTree(std::shared_ptr<TranslationUnit>& unit)
@@ -107,6 +109,79 @@ AST_Generator::return_type AST_Generator::V_Declaration(Declaration& decl)
 		break;
 	case DeclarationType::type_qualifier:
 		break;
+	}
+
+	return 0;
+}
+
+AST_Generator::return_type AST_Generator::V_InitDeclaratorList(InitDeclaratorList& item)
+{
+	for (auto& entry : item.list)
+	{
+		std::vector<GLSL::LayoutData> layout;
+
+		for (auto& layoutItem : item.fullType->qualifier.layout->list->list)
+		{
+			layout.emplace_back(layoutItem->identifier, layoutItem->hasValue, layoutItem->value);
+		}
+
+		// TODO: take array size info and 
+
+		std::shared_ptr<GLSL::AST_VariableDeclaration> output;
+
+		if (entry.arraySizeExpression == nullptr)
+		{
+			if (entry.isArray)
+			{
+				output = std::make_shared<GLSL::AST_VariableDeclaration>(
+					item.invariant,
+					layout,
+					item.fullType->qualifier.storage.qualifier,
+					item.fullType->qualifier.interpolation.interpolation,
+					item.fullType->typeSpec.precision.precision,
+					item.fullType->typeSpec.typeSpec.typeSpec->datatype,
+					&item.fullType->typeSpec.typeSpec.typeSpec->name,
+					entry.name,
+					true
+					);
+			}
+			else
+			{
+				output = std::make_shared<GLSL::AST_VariableDeclaration>(
+					item.invariant,
+					layout,
+					item.fullType->qualifier.storage.qualifier,
+					item.fullType->qualifier.interpolation.interpolation,
+					item.fullType->typeSpec.precision.precision,
+					item.fullType->typeSpec.typeSpec.typeSpec->datatype,
+					&item.fullType->typeSpec.typeSpec.typeSpec->name,
+					entry.name
+					);
+			}
+		}
+		else
+		{
+			// TODO: evaluate array size expression
+
+			Ceng::UINT32 arraySize = 0;
+
+			output = std::make_shared<GLSL::AST_VariableDeclaration>(
+				item.invariant,
+				layout,
+				item.fullType->qualifier.storage.qualifier,
+				item.fullType->qualifier.interpolation.interpolation,
+				item.fullType->typeSpec.precision.precision,
+				item.fullType->typeSpec.typeSpec.typeSpec->datatype,
+				&item.fullType->typeSpec.typeSpec.typeSpec->name,
+				entry.name,
+				arraySize
+				);
+		}
+
+	
+
+
+		context->children.push_back(output);
 	}
 
 	return 0;
