@@ -34,7 +34,9 @@ Symbol& SymbolDatabase::StartScope()
 
 	top->scope.emplace_back(top, top->scope.size());
 
-	return top->scope.back();
+	top = &top->scope.back();
+
+	return *top;
 }
 
 Symbol& SymbolDatabase::EndScope()
