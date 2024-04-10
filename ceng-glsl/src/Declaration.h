@@ -77,6 +77,7 @@ namespace Ceng
 		Declaration(std::shared_ptr<TypeQualifier>& typeQ, const Ceng::StringUtf8& interfaceName, std::shared_ptr<StructDeclarationList>& list,
 			const Ceng::StringUtf8& variableName, std::shared_ptr<Expression>& arraySize);
 
+		// Used for geometry shader input in the form "layout(layout_type) in;"
 		Declaration(std::shared_ptr<TypeQualifier>& typeQ);
 
 		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
