@@ -9,7 +9,7 @@ void TypeSpecifierNoArray::Release()
 	delete this;
 }
 
-TypeSpecifierNoArray::TypeSpecifierNoArray(TypeSelector::value datatype)
+TypeSpecifierNoArray::TypeSpecifierNoArray(GLSL::DataType::value datatype)
 	: INonTerminal(NonTerminalType::type_specifier_nonarray), datatype(datatype)
 {
 
@@ -22,219 +22,144 @@ TypeSpecifierNoArray::TypeSpecifierNoArray(TokenType::value tokenType)
 }
 
 TypeSpecifierNoArray::TypeSpecifierNoArray(const Ceng::StringUtf8& name)
-	: INonTerminal(NonTerminalType::type_specifier_nonarray), datatype(TypeSelector::type_name), name(name)
+	: INonTerminal(NonTerminalType::type_specifier_nonarray), datatype(GLSL::DataType::type_name), name(name)
 {
 
 }
 
 TypeSpecifierNoArray::TypeSpecifierNoArray(std::shared_ptr<StructSpecifier>& structSpec)
-	: INonTerminal(NonTerminalType::type_specifier_nonarray), datatype(TypeSelector::struct_specifier), structSpec(structSpec)
+	: INonTerminal(NonTerminalType::type_specifier_nonarray), datatype(GLSL::DataType::struct_specifier), structSpec(structSpec)
 {
 
 }
 
-TypeSelector::value TypeSpecifierNoArray::FromTokenType(TokenType::value tokenType)
+GLSL::DataType::value TypeSpecifierNoArray::FromTokenType(TokenType::value tokenType)
 {
 	switch (tokenType)
 	{
 	case TokenType::keyword_void:
-		return TypeSelector::ts_void;
+		return GLSL::DataType::ts_void;
 	case TokenType::type_bool:
-		return TypeSelector::ts_bool;
+		return GLSL::DataType::ts_bool;
 	case TokenType::type_bvec2:
-		return TypeSelector::bvec2;
+		return GLSL::DataType::bvec2;
 	case TokenType::type_bvec3:
-		return TypeSelector::bvec3;
+		return GLSL::DataType::bvec3;
 	case TokenType::type_bvec4:
-		return TypeSelector::bvec4;
+		return GLSL::DataType::bvec4;
 	case TokenType::type_int:
-		return TypeSelector::ts_int;
+		return GLSL::DataType::ts_int;
 	case TokenType::type_ivec2:
-		return TypeSelector::ivec2;
+		return GLSL::DataType::ivec2;
 	case TokenType::type_ivec3:
-		return TypeSelector::ivec3;
+		return GLSL::DataType::ivec3;
 	case TokenType::type_ivec4:
-		return TypeSelector::ivec4;
+		return GLSL::DataType::ivec4;
 	case TokenType::type_uint:
-		return TypeSelector::ts_uint;
+		return GLSL::DataType::ts_uint;
 	case TokenType::type_uvec2:
-		return TypeSelector::uvec2;
+		return GLSL::DataType::uvec2;
 	case TokenType::type_uvec3:
-		return TypeSelector::uvec3;
+		return GLSL::DataType::uvec3;
 	case TokenType::type_uvec4:
-		return TypeSelector::uvec4;
+		return GLSL::DataType::uvec4;
 	case TokenType::type_float:
-		return TypeSelector::ts_float;
+		return GLSL::DataType::ts_float;
 	case TokenType::type_vec2:
-		return TypeSelector::vec2;
+		return GLSL::DataType::vec2;
 	case TokenType::type_vec3:
-		return TypeSelector::vec3;
+		return GLSL::DataType::vec3;
 	case TokenType::type_vec4:
-		return TypeSelector::vec4;
+		return GLSL::DataType::vec4;
 	case TokenType::type_isampler1D:
-		return TypeSelector::isampler1D;
+		return GLSL::DataType::isampler1D;
 	case TokenType::type_isampler1DArray:
-		return TypeSelector::isampler1DArray;
+		return GLSL::DataType::isampler1DArray;
 	case TokenType::type_isampler2D:
-		return TypeSelector::isampler2D;
+		return GLSL::DataType::isampler2D;
 	case TokenType::type_isampler2DArray:
-		return TypeSelector::isampler2DArray;
+		return GLSL::DataType::isampler2DArray;
 	case TokenType::type_isampler2DMS:
-		return TypeSelector::isampler2DMS;
+		return GLSL::DataType::isampler2DMS;
 	case TokenType::type_isampler2DMSArray:
-		return TypeSelector::isampler2DMSArray;
+		return GLSL::DataType::isampler2DMSArray;
 	case TokenType::type_isampler2DRect:
-		return TypeSelector::isampler2DRect;
+		return GLSL::DataType::isampler2DRect;
 	case TokenType::type_isampler3D:
-		return TypeSelector::isampler3D;
+		return GLSL::DataType::isampler3D;
 	case TokenType::type_isamplerCube:
-		return TypeSelector::isamplerCube;
+		return GLSL::DataType::isamplerCube;
 	case TokenType::type_isamplerBuffer:
-		return TypeSelector::isamplerBuffer;
+		return GLSL::DataType::isamplerBuffer;
 	case TokenType::type_sampler1D:
-		return TypeSelector::sampler1D;
+		return GLSL::DataType::sampler1D;
 	case TokenType::type_sampler1DArray:
-		return TypeSelector::sampler1DArray;
+		return GLSL::DataType::sampler1DArray;
 	case TokenType::type_sampler1DArrayShadow:
-		return TypeSelector::sampler1DArrayShadow;
+		return GLSL::DataType::sampler1DArrayShadow;
 	case TokenType::type_sampler1DShadow:
-		return TypeSelector::sampler1DShadow;
+		return GLSL::DataType::sampler1DShadow;
 	case TokenType::type_sampler2D:
-		return TypeSelector::sampler2D;
+		return GLSL::DataType::sampler2D;
 	case TokenType::type_sampler2DArray:
-		return TypeSelector::sampler2DArray;
+		return GLSL::DataType::sampler2DArray;
 	case TokenType::type_sampler2DArrayShadow:
-		return TypeSelector::sampler2DArrayShadow;
+		return GLSL::DataType::sampler2DArrayShadow;
 	case TokenType::type_sampler2DMS:
-		return TypeSelector::sampler2DMS;
+		return GLSL::DataType::sampler2DMS;
 	case TokenType::type_sampler2DMSArray:
-		return TypeSelector::sampler2DMSArray;
+		return GLSL::DataType::sampler2DMSArray;
 	case TokenType::type_sampler2DRect:
-		return TypeSelector::sampler2DRect;
+		return GLSL::DataType::sampler2DRect;
 	case TokenType::type_sampler2DRectShadow:
-		return TypeSelector::sampler2DRectShadow;
+		return GLSL::DataType::sampler2DRectShadow;
 	case TokenType::type_sampler2DShadow:
-		return TypeSelector::sampler2DShadow;
+		return GLSL::DataType::sampler2DShadow;
 	case TokenType::type_sampler3D:
-		return TypeSelector::sampler3D;
+		return GLSL::DataType::sampler3D;
 	case TokenType::type_samplerCube:
-		return TypeSelector::samplerCube;
+		return GLSL::DataType::samplerCube;
 	case TokenType::type_samplerCubeShadow:
-		return TypeSelector::samplerCubeShadow;
+		return GLSL::DataType::samplerCubeShadow;
 	case TokenType::type_samplerBuffer:
-		return TypeSelector::samplerBuffer;
+		return GLSL::DataType::samplerBuffer;
 	case TokenType::type_usampler1D:
-		return TypeSelector::usampler1D;
+		return GLSL::DataType::usampler1D;
 	case TokenType::type_usampler1DArray:
-		return TypeSelector::usampler1DArray;
+		return GLSL::DataType::usampler1DArray;
 	case TokenType::type_usampler2D:
-		return TypeSelector::usampler2D;
+		return GLSL::DataType::usampler2D;
 	case TokenType::type_usampler2DArray:
-		return TypeSelector::usampler2DArray;
+		return GLSL::DataType::usampler2DArray;
 	case TokenType::type_usampler2DMS:
-		return TypeSelector::usampler2DMS;
+		return GLSL::DataType::usampler2DMS;
 	case TokenType::type_usampler2DMSArray:
-		return TypeSelector::usampler2DMSArray;
+		return GLSL::DataType::usampler2DMSArray;
 	case TokenType::type_usampler2DRect:
-		return TypeSelector::usampler2DRect;
+		return GLSL::DataType::usampler2DRect;
 	case TokenType::type_usampler3D:
-		return TypeSelector::usampler3D;
+		return GLSL::DataType::usampler3D;
 	case TokenType::type_usamplerCube:
-		return TypeSelector::usamplerCube;
+		return GLSL::DataType::usamplerCube;
 	case TokenType::type_usamplerBuffer:
-		return TypeSelector::usamplerBuffer;
+		return GLSL::DataType::usamplerBuffer;
 	};
 
-	return TypeSelector::invalid;
+	return GLSL::DataType::invalid;
 }
-
-#define CASE_TO_TEXT(x) case TypeSelector::x: return #x;
 
 Ceng::StringUtf8 TypeSpecifierNoArray::ToString(unsigned int indentLevel) const
 {
 	switch (datatype)
 	{
-	case TypeSelector::ts_void:
-		return "void";
-	case TypeSelector::ts_float:
-		return "float";
-	case TypeSelector::ts_int:
-		return "int";
-	case TypeSelector::ts_uint:
-		return "uint";
-	case TypeSelector::ts_bool:
-		return "bool";
-		CASE_TO_TEXT(vec2);
-		CASE_TO_TEXT(vec3);
-		CASE_TO_TEXT(vec4);
-		CASE_TO_TEXT(bvec2);
-		CASE_TO_TEXT(bvec3);
-		CASE_TO_TEXT(bvec4);
-		CASE_TO_TEXT(ivec2);
-		CASE_TO_TEXT(ivec3);
-		CASE_TO_TEXT(ivec4);
-		CASE_TO_TEXT(uvec2);
-		CASE_TO_TEXT(uvec3);
-		CASE_TO_TEXT(uvec4);
-		CASE_TO_TEXT(mat2);
-		CASE_TO_TEXT(mat3);
-		CASE_TO_TEXT(mat4);
-		CASE_TO_TEXT(mat2x2);
-		CASE_TO_TEXT(mat2x3);
-		CASE_TO_TEXT(mat2x4);
-		CASE_TO_TEXT(mat3x2);
-		CASE_TO_TEXT(mat3x3);
-		CASE_TO_TEXT(mat3x4);
-		CASE_TO_TEXT(mat4x2);
-		CASE_TO_TEXT(mat4x3);
-		CASE_TO_TEXT(mat4x4);
-		CASE_TO_TEXT(sampler1D);
-		CASE_TO_TEXT(sampler2D);
-		CASE_TO_TEXT(sampler3D);
-		CASE_TO_TEXT(samplerCube);
-		CASE_TO_TEXT(sampler1DShadow);
-		CASE_TO_TEXT(sampler2DShadow);
-		CASE_TO_TEXT(samplerCubeShadow);
-		CASE_TO_TEXT(sampler1DArray);
-		CASE_TO_TEXT(sampler2DArray);
-		CASE_TO_TEXT(sampler1DArrayShadow);
-		CASE_TO_TEXT(sampler2DArrayShadow);
-		CASE_TO_TEXT(isampler1D);
-		CASE_TO_TEXT(isampler2D);
-		CASE_TO_TEXT(isampler3D);
-		CASE_TO_TEXT(isamplerCube);
-		CASE_TO_TEXT(isampler1DArray);
-		CASE_TO_TEXT(isampler2DArray);
-		CASE_TO_TEXT(usampler1D);
-		CASE_TO_TEXT(usampler2D);
-		CASE_TO_TEXT(usampler3D);
-		CASE_TO_TEXT(usamplerCube);
-		CASE_TO_TEXT(usampler1DArray);
-		CASE_TO_TEXT(usampler2DArray);
-		CASE_TO_TEXT(sampler2DRect);
-		CASE_TO_TEXT(sampler2DRectShadow);
-		CASE_TO_TEXT(isampler2DRect);
-		CASE_TO_TEXT(usampler2DRect);
-		CASE_TO_TEXT(samplerBuffer);
-		CASE_TO_TEXT(isamplerBuffer);
-		CASE_TO_TEXT(usamplerBuffer);
-		CASE_TO_TEXT(sampler2DMS);
-		CASE_TO_TEXT(isampler2DMS);
-		CASE_TO_TEXT(usampler2DMS);
-		CASE_TO_TEXT(sampler2DMSArray);
-		CASE_TO_TEXT(isampler2DMSArray);
-		CASE_TO_TEXT(usampler2DMSArray);
-		CASE_TO_TEXT(invalid);
-	case TypeSelector::type_name:
+	case GLSL::DataType::type_name:
 		return name;
-	case TypeSelector::struct_specifier:
+	case GLSL::DataType::struct_specifier:
 		return structSpec->ToString(indentLevel);		
 	default:
-		return "TypeSpecifierNoArray::unhandled case";
+		return GLSL::DataType::ToString(datatype);
 	}
 }
-
-#undef CASE_TO_TEXT
 
 void TypeSpecifierNoArray::AcceptVisitor(NonTerminalVisitor& visitor)
 {
@@ -245,8 +170,8 @@ bool TypeSpecifierNoArray::IsIntegerType() const
 {
 	switch (datatype)
 	{
-	case TypeSelector::ts_int:
-	case TypeSelector::ts_uint:
+	case GLSL::DataType::ts_int:
+	case GLSL::DataType::ts_uint:
 		return true;
 	default:
 		return false;

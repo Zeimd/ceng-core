@@ -108,9 +108,6 @@
     <ClInclude Include="..\..\ceng-glsl\src\NonTerminalType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\ceng-glsl\src\StorageQualifierType.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\ceng-glsl\src\InterpolationQualifierType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -349,6 +346,12 @@
       <Filter>Header Files\public_interface</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_TranslationUnit.h">
+      <Filter>Header Files\public_interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\StorageQualifierType.h">
+      <Filter>Header Files\public_interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\DataType.h">
       <Filter>Header Files\public_interface</Filter>
     </ClInclude>
   </ItemGroup>
@@ -633,6 +636,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ceng-glsl\src\AST_NodeType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ceng-glsl\src\DataType.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

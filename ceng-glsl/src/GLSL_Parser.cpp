@@ -13,7 +13,6 @@
 #include "SingleDeclaration.h"
 #include "InitDeclaratorList.h"
 #include "Declaration.h"
-#include "StorageQualifierType.h"
 #include "PrimaryExpression.h"
 #include "Expression.h"
 #include "PostfixExpression.h"

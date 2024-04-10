@@ -25,12 +25,14 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_NodeType.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_TranslationUnit.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_UnaryOperation.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\DataType.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\FilePosition.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\IASTNode.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\IParser.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\Log.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\LogEntry.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\LogLevel.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\StorageQualifierType.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\TokenCategory.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\Tokenizer.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\TokenType.h" />
@@ -111,7 +113,6 @@
     <ClInclude Include="..\..\ceng-glsl\src\StatementList.h" />
     <ClInclude Include="..\..\ceng-glsl\src\StatementNoNewScope.h" />
     <ClInclude Include="..\..\ceng-glsl\src\StorageQualifier.h" />
-    <ClInclude Include="..\..\ceng-glsl\src\StorageQualifierType.h" />
     <ClInclude Include="..\..\ceng-glsl\src\StructDeclaration.h" />
     <ClInclude Include="..\..\ceng-glsl\src\StructDeclarationList.h" />
     <ClInclude Include="..\..\ceng-glsl\src\StructDeclarator.h" />
@@ -148,6 +149,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\CompoundStatementNoNewScope.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\Condition.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\ConditionalExpression.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\DataType.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\Declaration.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\DeclarationData.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\DeclarationStatement.cpp" />

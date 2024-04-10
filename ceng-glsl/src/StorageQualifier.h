@@ -5,7 +5,7 @@
 
 #include "INonTerminal.h"
 
-#include "StorageQualifierType.h"
+#include <ceng/GLSL/StorageQualifierType.h>
 
 namespace Ceng
 {
