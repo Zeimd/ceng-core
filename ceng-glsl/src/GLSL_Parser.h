@@ -116,8 +116,6 @@ namespace Ceng
 
 		std::vector<Token>::const_iterator tokenIter;
 
-		std::vector<Ceng::StringUtf8> customTypeNames;
-
 		Log log;
 
 		std::shared_ptr<SymbolDatabase> symbolDatabase;
@@ -145,10 +143,6 @@ namespace Ceng
 
 		// Used when PeekToken() has been used to deduce next parser action
 		void DiscardNext();
-
-		bool IsCustomType(const Ceng::StringUtf8& name);
-
-		void AddCustomType(const Ceng::StringUtf8& name);
 
 	public:
 

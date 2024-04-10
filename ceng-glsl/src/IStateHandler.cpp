@@ -103,7 +103,7 @@ HandlerReturn IStateHandler::DefaultExpressionShift(GLSL_Parser* parser, const T
 		switch (next.type)
 		{
 		case TokenType::identifier:
-			if (parser->IsCustomType(next.name))
+			if (parser->symbolDatabase->IsCustomType(next.name))
 			{
 				retVal = parser->S_CustomTypeToken(next);
 			}
