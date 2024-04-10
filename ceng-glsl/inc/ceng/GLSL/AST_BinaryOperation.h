@@ -42,6 +42,8 @@ namespace Ceng
 				logical_or,
 				logical_xor,
 			};
+
+			const char* ToString(BinaryOperator::value operation);
 		}
 
 		class AST_BinaryOperation : public IASTNode
@@ -56,6 +58,8 @@ namespace Ceng
 			AST_Expression b;
 
 		public:
+
+			AST_BinaryOperation(Ceng::StringUtf8& lhs, AST_Expression& a, BinaryOperator::value operation, AST_Expression& b);
 
 			~AST_BinaryOperation() override;
 

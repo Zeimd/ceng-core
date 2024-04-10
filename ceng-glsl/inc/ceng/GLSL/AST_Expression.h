@@ -39,6 +39,8 @@ namespace Ceng
 
 			~AST_Expression();
 
+			Ceng::StringUtf8 ToString(Ceng::UINT32 indentLevel) const;
+
 		};
 	}
 }
