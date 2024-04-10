@@ -23,24 +23,6 @@ namespace Ceng
 
 		using AST_ExpressionContent = std::variant<bool, Ceng::INT32, Ceng::UINT32, Ceng::FLOAT32, Ceng::StringUtf8>;
 
-		/*
-		union AST_ExpressionContent
-		{
-			bool boolValue;
-						
-			Ceng::INT32 intValue;
-			Ceng::UINT32 uintValue;
-			Ceng::FLOAT32 floatValue;
-
-			Ceng::StringUtf8 name;
-
-			~AST_ExpressionContent()
-			{
-
-			}
-		};
-		*/
-
 		class AST_Expression
 		{
 		public:
