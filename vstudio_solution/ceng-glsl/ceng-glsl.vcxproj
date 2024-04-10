@@ -23,6 +23,7 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_BinaryOperation.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_Expression.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_NodeType.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_TranslationUnit.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_UnaryOperation.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\FilePosition.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\IASTNode.h" />
@@ -135,7 +136,11 @@
     <ClCompile Include="..\..\ceng-glsl\src\AndExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AssignmentExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AssignmentOperator.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\AST_BinaryOperation.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\AST_Expression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_Generator.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\AST_TranslationUnit.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\AST_UnaryOperation.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\CaseLabel.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\ceng_GLSL.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\CompoundStatement.cpp" />

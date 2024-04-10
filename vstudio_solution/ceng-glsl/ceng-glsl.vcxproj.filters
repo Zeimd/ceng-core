@@ -348,6 +348,9 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_UnaryOperation.h">
       <Filter>Header Files\public_interface</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_TranslationUnit.h">
+      <Filter>Header Files\public_interface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\ceng-glsl\src\TypeSpecifier.cpp">
@@ -615,6 +618,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ceng-glsl\src\AST_Generator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ceng-glsl\src\AST_TranslationUnit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ceng-glsl\src\AST_UnaryOperation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ceng-glsl\src\AST_BinaryOperation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ceng-glsl\src\AST_Expression.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
