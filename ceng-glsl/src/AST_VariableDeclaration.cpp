@@ -50,8 +50,6 @@ AST_VariableDeclaration::~AST_VariableDeclaration()
 
 Ceng::StringUtf8 AST_VariableDeclaration::ToString(Ceng::UINT32 indentLevel) const
 {
-	printf(__FUNCTION__);
-
 	Ceng::StringUtf8 out;
 
 	if (invariant)

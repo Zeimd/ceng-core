@@ -120,10 +120,15 @@ AST_Generator::return_type AST_Generator::V_InitDeclaratorList(InitDeclaratorLis
 	{
 		std::vector<GLSL::LayoutData> layout;
 
-		for (auto& layoutItem : item.fullType->qualifier.layout->list->list)
+		if (item.fullType->qualifier.layout != nullptr)
 		{
-			layout.emplace_back(layoutItem->identifier, layoutItem->hasValue, layoutItem->value);
-		}
+			printf("num layout = %i\n", item.fullType->qualifier.layout->list->list.size());
+
+			for (auto& layoutItem : item.fullType->qualifier.layout->list->list)
+			{
+				layout.emplace_back(layoutItem->identifier, layoutItem->hasValue, layoutItem->value);
+			}
+		}	
 
 		// TODO: take array size info and 
 
