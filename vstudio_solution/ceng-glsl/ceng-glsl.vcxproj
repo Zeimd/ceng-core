@@ -31,6 +31,7 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\IASTNode.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\InterpolationQualifierType.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\IParser.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\LayoutData.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\Log.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\LogEntry.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\LogLevel.h" />
