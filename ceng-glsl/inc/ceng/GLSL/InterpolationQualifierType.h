@@ -15,6 +15,8 @@ namespace Ceng
 				unused,
 				invalid_value,
 			};
+
+			const char* ToString(InterpolationQualifierType::value type);
 		}
 	}	
 }

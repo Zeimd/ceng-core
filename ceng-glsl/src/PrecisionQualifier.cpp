@@ -47,27 +47,14 @@ PrecisionQualifier::PrecisionQualifier(GLSL::PrecisionQualifierType::value preci
 
 }
 
-#define CASE_TO_TEXT(x) case GLSL::PrecisionQualifierType::x: out += #x; break;
+
 
 Ceng::StringUtf8 PrecisionQualifier::ToString(unsigned int indentLevel) const
 {
-	Ceng::StringUtf8 out;
-
-	switch (precision)
-	{
-		CASE_TO_TEXT(high);
-		CASE_TO_TEXT(medium);
-		CASE_TO_TEXT(low);
-	case GLSL::PrecisionQualifierType::invalid_value:
-		return "<INVALID PRECISION TYPE>";
-	default:
-		return "<UNHANDLED PRECISION TYPE>";
-	}
-
-	return out;
+	return GLSL::PrecisionQualifierType::ToString(precision);
 }
 
-#undef CASE_TO_TEXT
+
 
 void PrecisionQualifier::AcceptVisitor(NonTerminalVisitor& visitor)
 {

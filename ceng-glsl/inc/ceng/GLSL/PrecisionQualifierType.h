@@ -15,6 +15,8 @@ namespace Ceng
 				unassigned,
 				invalid_value,
 			};
+
+			const char* ToString(PrecisionQualifierType::value type);
 		}
 	}
 	

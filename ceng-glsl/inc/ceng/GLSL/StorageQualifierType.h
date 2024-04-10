@@ -21,6 +21,8 @@ namespace Ceng
 
 				unused,
 			};
+
+			const char* ToString(StorageQualifierType::value type);
 		}
 	}	
 }

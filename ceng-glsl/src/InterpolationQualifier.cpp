@@ -50,20 +50,7 @@ InterpolationQualifier::InterpolationQualifier(GLSL::InterpolationQualifierType:
 
 Ceng::StringUtf8 InterpolationQualifier::ToString(unsigned int indentLevel) const
 {
-	switch (interpolation)
-	{
-	case GLSL::InterpolationQualifierType::flat:
-		return "flat";
-	case GLSL::InterpolationQualifierType::noperspective:
-		return "noperspective";
-	case GLSL::InterpolationQualifierType::smooth:
-		return "smooth";
-	case GLSL::InterpolationQualifierType::unused:
-		return "";
-	default:
-		return "InterpolationQualifierType::unhandled";
-	}
-
+	return GLSL::InterpolationQualifierType::ToString(interpolation);
 }
 
 void InterpolationQualifier::AcceptVisitor(NonTerminalVisitor& visitor)

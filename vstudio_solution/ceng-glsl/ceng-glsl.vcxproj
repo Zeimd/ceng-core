@@ -135,6 +135,7 @@
     <ClInclude Include="..\..\ceng-glsl\src\XorExpression.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\ceng-glsl\src\AbstractSyntaxTree.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AdditiveExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AndExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AssignmentExpression.cpp" />
@@ -179,6 +180,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\Initializer.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\IntegerExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\InterpolationQualifier.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\InterpolationQualifierType.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\IStateHandler.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\IterationStatement.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\JumpStatement.cpp" />
@@ -201,6 +203,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\ParserReturnValue.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\PostfixExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\PrecisionQualifier.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\PrecisionQualifierType.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\PrimaryExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\RelationalExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\SelectionRestStatement.cpp" />
@@ -212,6 +215,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\StatementList.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\StatementNoNewScope.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\StorageQualifier.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\StorageQualifierType.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\StructDeclaration.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\StructDeclarationList.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\StructDeclarator.cpp" />
