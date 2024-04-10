@@ -5939,6 +5939,9 @@ public:
 
 		switch (parser->PeekToken().type)
 		{
+		case TokenType::identifier:
+		case TokenType::left_bracket:
+			return { ParserReturnValue(std::make_shared<TypeSpecifierNoArray>(id.name), 1), true };
 		case TokenType::left_paren:
 			return { ParserReturnValue(std::make_shared<FunctionIdentifier>(id.name),1), true };
 		default:
