@@ -22,7 +22,7 @@ namespace Ceng
 		};
 	}
 
-	const char* ToString(SymbolType::value type);
+	const char* SymbolTypeToString(SymbolType::value type);
 
 	class Declaration;
 	class FunctionPrototype;

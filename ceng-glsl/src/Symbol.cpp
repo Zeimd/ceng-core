@@ -19,7 +19,7 @@ using namespace Ceng;
 
 namespace Ceng
 {
-	const char* ToString(SymbolType::value type)
+	const char* SymbolTypeToString(SymbolType::value type)
 	{
 		switch (type)
 		{
@@ -116,12 +116,18 @@ Symbol::Symbol(Symbol* parent, Ceng::UINT32 childIndex, std::shared_ptr<Paramete
 
 const Ceng::StringUtf8* Symbol::Name() const
 {
+	/*
+	printf(__func__);
+	printf("\n");
+	printf("symbol type = %s\n", SymbolTypeToString(symbolType));
+	*/
+
 	switch (symbolType)
 	{
 	case SymbolType::function:
-		return decl->GetSymbolName(0);;
+		return &prototype->GetName();
 	case SymbolType::function_parameter:
-		return prototype->GetParameterName(declIndex);
+		return &param->decl->name;
 	case SymbolType::function_prototype:
 		return &decl->prototype->decl->header->name;
 	case SymbolType::variable:
@@ -144,19 +150,26 @@ bool Symbol::IsTypeName() const
 
 Ceng::StringUtf8 Symbol::ToString(Ceng::UINT32 indentLevel) const
 {
+	/*
+	printf(__func__);
+	printf("\n");
+	printf("symbol type = %s\n", SymbolTypeToString(symbolType));
+	*/
+
 	Ceng::StringUtf8 out;
 
 	out += INonTerminal::GetIndent(indentLevel);
 
-	out += Ceng::ToString(symbolType);
+	out += SymbolTypeToString(symbolType);
 
-	auto name = Name();
+	const Ceng::StringUtf8* name = Name();
 
 	if (name != nullptr)
 	{
 		out += ' ';
 		out += *name;
 	}
+
 	out += '\n';	
 
 	for (auto& x : scope)

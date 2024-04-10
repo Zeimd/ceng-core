@@ -6,6 +6,7 @@
 #include "FunctionDefinition.h"
 #include "FunctionDeclarator.h"
 #include "FunctionPrototype.h"
+#include "FunctionHeader.h"
 #include "ParameterDeclaration.h"
 #include "FunctionHeaderWithParams.h"
 
@@ -19,9 +20,15 @@ SymbolDatabase::SymbolDatabase()
 
 Symbol& SymbolDatabase::StartScope()
 {
+	//printf(__func__);
+	//printf("\n");
+
 	if (top == nullptr)
 	{
 		top = &root;
+
+		//printf("top type = %s\n", SymbolTypeToString(top->symbolType));
+
 		return *top;
 	}
 
@@ -32,6 +39,13 @@ Symbol& SymbolDatabase::StartScope()
 
 Symbol& SymbolDatabase::EndScope()
 {
+	/*
+	printf(__func__);
+	printf("\n");
+	printf("top type = %s\n", SymbolTypeToString(top->symbolType));
+	*/
+	//top->ToString(0);
+
 	top = top->parent;
 
 	if (top == nullptr)
@@ -39,6 +53,9 @@ Symbol& SymbolDatabase::EndScope()
 		top = &root;
 	}
 
+	//printf("top type = %s\n", SymbolTypeToString(top->symbolType));
+	//top->ToString(0);
+	
 	return *top;
 }
 
@@ -49,14 +66,26 @@ Symbol& SymbolDatabase::Top()
 
 Symbol& SymbolDatabase::StartFunction(std::shared_ptr<FunctionPrototype>& prototype)
 {
+	/*
+	printf(__func__);
+	printf("\n");
+	printf("top type = %s\n", SymbolTypeToString(top->symbolType));
+	*/
+
 	top->scope.emplace_back(top, top->scope.size(), prototype);
 
-	auto functionScope = top->scope.back();
+	Symbol& functionScope = top->scope.back();
+
+	//printf("new type = %s\n", SymbolTypeToString(functionScope.symbolType));
 
 	auto paramCount = prototype->GetParamCount();
 
+	//printf("paramCount = %i\n", paramCount);
+
 	for (auto k = 0; k < paramCount; k++)
 	{
+		//printf("add param : %s\n", prototype->GetParameterName(k)->ToCString());
+
 		functionScope.scope.emplace_back(&functionScope, functionScope.scope.size(),
 			prototype->GetParameter(k));
 			
@@ -69,6 +98,9 @@ Symbol& SymbolDatabase::StartFunction(std::shared_ptr<FunctionPrototype>& protot
 
 Ceng::INT32 SymbolDatabase::Add(std::shared_ptr<Declaration>& decl)
 {
+	printf(__func__);
+	printf("\n");
+
 	Ceng::INT32 index = 0;
 
 	switch (decl->declarationType)
@@ -107,6 +139,9 @@ Ceng::INT32 SymbolDatabase::Add(std::shared_ptr<StructSpecifier>& structSpec)
 
 Symbol* SymbolDatabase::Find(const Ceng::StringUtf8& name) const
 {
+	printf(__func__);
+	printf("\n");
+
 	Symbol* current = top;
 	Ceng::INT32 startIndex = current->scope.size()-1;
 
