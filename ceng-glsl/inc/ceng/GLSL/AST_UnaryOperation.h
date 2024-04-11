@@ -2,6 +2,7 @@
 #define CENG_GLSL_AST_UNARY_OPERATION_H
 
 #include "IASTNode.h"
+#include "Lvalue.h"
 #include "AST_Expression.h"
 
 namespace Ceng
@@ -29,7 +30,7 @@ namespace Ceng
 		{
 		public:
 
-			Ceng::StringUtf8 lhs;
+			Lvalue lhs;
 
 			UnaryOperation::value operation;
 
@@ -37,7 +38,7 @@ namespace Ceng
 
 		public:
 
-			AST_UnaryOperation(const Ceng::StringUtf8& lhs, UnaryOperation::value operation, AST_Expression& input);
+			AST_UnaryOperation(Lvalue& lhs, UnaryOperation::value operation, AST_Expression& input);
 
 			~AST_UnaryOperation() override;
 

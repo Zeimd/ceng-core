@@ -3,6 +3,7 @@
 
 #include "IASTNode.h"
 
+#include "Lvalue.h"
 #include "AST_Expression.h"
 
 namespace Ceng
@@ -49,7 +50,7 @@ namespace Ceng
 		class AST_BinaryOperation : public IASTNode
 		{
 		public:
-			Ceng::StringUtf8 lhs;
+			Lvalue lhs;
 
 			AST_Expression a;
 
@@ -59,7 +60,7 @@ namespace Ceng
 
 		public:
 
-			AST_BinaryOperation(Ceng::StringUtf8& lhs, AST_Expression& a, BinaryOperator::value operation, AST_Expression& b);
+			AST_BinaryOperation(Lvalue& lhs, AST_Expression& a, BinaryOperator::value operation, AST_Expression& b);
 
 			~AST_BinaryOperation() override;
 

@@ -20,8 +20,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AbstractSyntaxTree.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\ArrayIndex.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_BinaryOperation.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_Expression.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_FunctionDefinition.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_FunctionPrototype.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\Lvalue.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_NodeType.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_Return.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_TranslationUnit.h" />
@@ -139,6 +143,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\AbstractSyntaxTree.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AdditiveExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AndExpression.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\ArrayIndex.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AssignmentExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AssignmentOperator.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_BinaryOperation.cpp" />
@@ -195,6 +200,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\LogicalAndExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\LogicalOrExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\LogicalXorExpression.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\Lvalue.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\MultiplicativeExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\NonTerminalType.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\OrExpression.cpp" />

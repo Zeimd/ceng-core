@@ -21,7 +21,7 @@ namespace Ceng::GLSL::UnaryOperation
 	}
 }
 
-AST_UnaryOperation::AST_UnaryOperation(const Ceng::StringUtf8& lhs, UnaryOperation::value operation, AST_Expression& input)
+AST_UnaryOperation::AST_UnaryOperation(Lvalue& lhs, UnaryOperation::value operation, AST_Expression& input)
 	: IASTNode(AST_NodeType::unary_operation), lhs(lhs), operation(operation), input(input)
 {
 
@@ -36,7 +36,7 @@ Ceng::StringUtf8 AST_UnaryOperation::ToString(Ceng::UINT32 indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
-	out = lhs;
+	out = lhs.ToString(indentLevel);
 	out += UnaryOperation::ToString(operation);
 	out += input.ToString(indentLevel);
 	out += ';';
