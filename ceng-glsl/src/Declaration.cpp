@@ -231,7 +231,7 @@ bool Declaration::IsConst() const
 	switch (declarationType)
 	{
 	case DeclarationType::init_list:
-		return declList->fullType->qualifier.storage.qualifier == StorageQualifierType::sq_const;
+		return declList->fullType->qualifier.storage.qualifier == GLSL::StorageQualifierType::sq_const;
 	default:
 		return false;
 	}
