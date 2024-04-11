@@ -32,7 +32,7 @@ AST_VariableDeclaration::AST_VariableDeclaration(bool invariant, std::vector<Lay
 
 AST_VariableDeclaration::AST_VariableDeclaration(bool invariant, std::vector<LayoutData>& layout, StorageQualifierType::value storage,
 	InterpolationQualifierType::value interpolation, PrecisionQualifierType::value precision,
-	const Ceng::StringUtf8& typeName, const Ceng::StringUtf8* customTypeName, Ceng::UINT32 arraySize)
+	DataType::value dataType, const Ceng::StringUtf8* customTypeName, const Ceng::StringUtf8& name, Ceng::UINT32 arraySize)
 	: IASTNode(AST_NodeType::variable_declaration), invariant(invariant), layout(layout), storage(storage), interpolation(interpolation),
 	precision(precision), dataType(dataType), name(name), implicitArray(false), arraySize(arraySize)
 {

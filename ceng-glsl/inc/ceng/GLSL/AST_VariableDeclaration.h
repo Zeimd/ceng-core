@@ -46,7 +46,7 @@ namespace Ceng
 
 			AST_VariableDeclaration(bool invariant, std::vector<LayoutData>& layout, StorageQualifierType::value storage,
 				InterpolationQualifierType::value interpolation, PrecisionQualifierType::value precision,
-				const Ceng::StringUtf8& typeName, const Ceng::StringUtf8* customTypeName, Ceng::UINT32 arraySize);
+				DataType::value dataType, const Ceng::StringUtf8* customTypeName, const Ceng::StringUtf8& name, Ceng::UINT32 arraySize);
 
 			~AST_VariableDeclaration() override;
 
