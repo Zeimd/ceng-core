@@ -2,6 +2,13 @@
 
 using namespace Ceng::GLSL;
 
+AST_Expression::AST_Expression()
+	: expressionType(AST_ExpressionType::unused), value(false)
+{
+
+}
+
+
 AST_Expression::AST_Expression(bool value)
 	: expressionType(AST_ExpressionType::bool_literal), value(value)
 {

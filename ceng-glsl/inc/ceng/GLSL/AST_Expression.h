@@ -12,6 +12,7 @@ namespace Ceng
 		{
 			enum value
 			{
+				unused,
 				int_literal,
 				uint_literal,
 				float_literal,
@@ -31,6 +32,7 @@ namespace Ceng
 
 			AST_ExpressionContent value;
 
+			AST_Expression();
 			AST_Expression(bool value);
 			AST_Expression(Ceng::INT32 value);
 			AST_Expression(Ceng::UINT32 value);

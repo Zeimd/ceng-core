@@ -56,6 +56,8 @@ namespace Ceng
 
 				// while(a)
 				do_while,
+
+				return_statement,
 			};
 
 			const char* ToString(AST_NodeType::value type);

@@ -48,6 +48,8 @@ const char* AST_NodeType::ToString(AST_NodeType::value type)
 		return "do_block";
 	case do_while:
 		return "do_while";
+	case return_statement:
+		return "return";
 	default:
 		return "<UNHANDLED AST NODE TYPE>";
 	}
