@@ -27,6 +27,7 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_FunctionDefinition.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_FunctionPrototype.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_ReturnType.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\FunctionParameter.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\Lvalue.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_NodeType.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_ReturnStatement.h" />
@@ -187,6 +188,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\FunctionHeader.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\FunctionHeaderWithParams.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\FunctionIdentifier.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\FunctionParameter.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\FunctionPrototype.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\GLSL_Parser.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\InitDeclaratorList.cpp" />
