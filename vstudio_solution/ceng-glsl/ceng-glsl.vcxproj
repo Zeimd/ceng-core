@@ -25,6 +25,7 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_BinaryOperation.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_ConditionalOperation.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_Datatype.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_IncDecOperation.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\Rvalue.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_FunctionDefinition.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_FunctionPrototype.h" />
@@ -157,6 +158,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\AST_BinaryOperation.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_ConditionalOperation.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_Datatype.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\AST_IncDecOperation.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\Rvalue.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_FunctionPrototype.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_Generator.cpp" />

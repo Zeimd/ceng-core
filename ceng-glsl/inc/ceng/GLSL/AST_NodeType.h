@@ -27,6 +27,9 @@ namespace Ceng
 
 				invariant_identifier,
 
+				// Either ++ or --
+				inc_dec,
+
 				// a = b
 				assignment_operation,
 
