@@ -1,25 +1,25 @@
-#include <ceng/GLSL/AST_Return.h>
+#include <ceng/GLSL/AST_ReturnStatement.h>
 
 using namespace Ceng::GLSL;
 
-AST_Return::AST_Return()
+AST_ReturnStatement::AST_ReturnStatement()
 	: IASTNode(AST_NodeType::return_statement), empty(true)
 {
 
 }
 
-AST_Return::AST_Return(AST_Expression& expression)
+AST_ReturnStatement::AST_ReturnStatement(AST_Expression& expression)
 	: IASTNode(AST_NodeType::return_statement), empty(false), expression(expression)
 {
 
 }
 
-AST_Return::~AST_Return()
+AST_ReturnStatement::~AST_ReturnStatement()
 {
 
 }
 
-Ceng::StringUtf8 AST_Return::ToString(Ceng::UINT32 indentLevel) const
+Ceng::StringUtf8 AST_ReturnStatement::ToString(Ceng::UINT32 indentLevel) const
 {
 	Ceng::StringUtf8 out;
 

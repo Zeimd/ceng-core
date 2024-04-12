@@ -360,7 +360,7 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\LayoutData.h">
       <Filter>Header Files\public_interface</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_Return.h">
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_ReturnStatement.h">
       <Filter>Header Files\public_interface</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_FunctionDefinition.h">
@@ -683,7 +683,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\StorageQualifierType.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\ceng-glsl\src\AST_Return.cpp">
+    <ClCompile Include="..\..\ceng-glsl\src\AST_ReturnStatement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ceng-glsl\src\ArrayIndex.cpp">

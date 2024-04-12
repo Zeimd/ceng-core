@@ -28,7 +28,7 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_FunctionPrototype.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\Lvalue.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_NodeType.h" />
-    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_Return.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_ReturnStatement.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_TranslationUnit.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_UnaryOperation.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_VariableDeclaration.h" />
@@ -153,7 +153,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\AST_Expression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_Generator.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_NodeType.cpp" />
-    <ClCompile Include="..\..\ceng-glsl\src\AST_Return.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\AST_ReturnStatement.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_TranslationUnit.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_UnaryOperation.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_VariableDeclaration.cpp" />

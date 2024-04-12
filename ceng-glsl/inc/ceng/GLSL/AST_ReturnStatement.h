@@ -9,7 +9,7 @@ namespace Ceng
 {
 	namespace GLSL
 	{
-		class AST_Return : public IASTNode
+		class AST_ReturnStatement : public IASTNode
 		{
 		public:
 
@@ -18,10 +18,10 @@ namespace Ceng
 
 		public:
 
-			AST_Return();
-			AST_Return(AST_Expression& expression);
+			AST_ReturnStatement();
+			AST_ReturnStatement(AST_Expression& expression);
 
-			~AST_Return() override;
+			~AST_ReturnStatement() override;
 
 			Ceng::StringUtf8 ToString(Ceng::UINT32 indentLevel) const override;
 
