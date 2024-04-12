@@ -219,6 +219,77 @@ GLSL::BinaryOperator::value AST_Generator::ConvertAssignmentOperator(AssignOpTyp
 	}
 }
 
+AST_Generator::return_type AST_Generator::V_LogicalOrExpression(LogicalOrExpression& item)
+{
+	return 0;
+}
+
+AST_Generator::return_type AST_Generator::V_LogicalXorExpression(LogicalXorExpression& item)
+{
+	return 0;
+}
+
+AST_Generator::return_type AST_Generator::V_LogicalAndExpression(LogicalAndExpression& item)
+{
+	return 0;
+}
+
+AST_Generator::return_type AST_Generator::V_OrExpression(OrExpression& item)
+{
+	return 0;
+}
+
+AST_Generator::return_type AST_Generator::V_XorExpression(XorExpression& item)
+{
+	return 0;
+}
+
+AST_Generator::return_type AST_Generator::V_AndExpression(AndExpression& item)
+{
+	return 0;
+}
+
+AST_Generator::return_type AST_Generator::V_EqualityExpression(EqualityExpression& item)
+{
+	return 0;
+}
+
+AST_Generator::return_type AST_Generator::V_RelationalExpression(RelationalExpression& item)
+{
+	return 0;
+}
+
+AST_Generator::return_type AST_Generator::V_ShiftExpression(ShiftExpression& item)
+{
+	return 0;
+}
+
+AST_Generator::return_type AST_Generator::V_AdditiveExpression(AdditiveExpression& item)
+{
+	return 0;
+}
+
+AST_Generator::return_type AST_Generator::V_MultiplicativeExpression(MultiplicativeExpression& item)
+{
+	return 0;
+}
+
+AST_Generator::return_type AST_Generator::V_UnaryExpression(UnaryExpression& item)
+{
+	return 0;
+}
+
+AST_Generator::return_type AST_Generator::V_PostfixExpression(PostfixExpression& item)
+{
+	return 0;
+}
+
+AST_Generator::return_type AST_Generator::V_PrimaryExpression(PrimaryExpression& item)
+{
+	return 0;
+}
+
+
 AST_Generator::return_type AST_Generator::V_TranslationUnit(TranslationUnit& item)
 {
 	for (auto& x : item.items)

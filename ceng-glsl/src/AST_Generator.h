@@ -57,6 +57,21 @@ namespace Ceng
 		static GLSL::AbstractSyntaxTree GenerateTree(std::shared_ptr<TranslationUnit>& unit);
 
 		return_type V_AssignmentExpression(AssignmentExpression& item);
+		return_type V_ConditionalExpression(ConditionalExpression& item);
+		return_type V_LogicalOrExpression(LogicalOrExpression& item);
+		return_type V_LogicalXorExpression(LogicalXorExpression& item);
+		return_type V_LogicalAndExpression(LogicalAndExpression& item);
+		return_type V_OrExpression(OrExpression& item);
+		return_type V_XorExpression(XorExpression& item);
+		return_type V_AndExpression(AndExpression& item);
+		return_type V_EqualityExpression(EqualityExpression& item);
+		return_type V_RelationalExpression(RelationalExpression& item);
+		return_type V_ShiftExpression(ShiftExpression& item);
+		return_type V_AdditiveExpression(AdditiveExpression& item);
+		return_type V_MultiplicativeExpression(MultiplicativeExpression& item);
+		return_type V_UnaryExpression(UnaryExpression& item);
+		return_type V_PostfixExpression(PostfixExpression& item);
+		return_type V_PrimaryExpression(PrimaryExpression& item);
 
 		return_type V_TranslationUnit(TranslationUnit& item) override;
 
