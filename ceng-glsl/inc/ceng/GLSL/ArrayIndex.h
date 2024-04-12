@@ -17,6 +17,7 @@ namespace Ceng
 			implicit,
 			uint_literal,
 			variable,
+			invalid_value,
 		};
 
 		class ArrayIndex
@@ -28,8 +29,10 @@ namespace Ceng
 
 			ArrayIndex(bool implicit);
 
+			ArrayIndex(Ceng::INT32 value);
 			ArrayIndex(Ceng::UINT32 value);
 			ArrayIndex(Ceng::StringUtf8 variable);
+			ArrayIndex(Ceng::StringUtf8 variable, bool invalid);
 
 			Ceng::StringUtf8 ToString(Ceng::UINT32 indentLevel) const;
 		};

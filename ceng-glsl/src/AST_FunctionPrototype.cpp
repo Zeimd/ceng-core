@@ -2,19 +2,19 @@
 
 using namespace Ceng::GLSL;
 
-AST_FunctionPrototype::AST_FunctionPrototype(Ceng::StringUtf8& name)
+AST_FunctionPrototype::AST_FunctionPrototype(const Ceng::StringUtf8& name)
 	: IASTNode(AST_NodeType::function_prototype), returnType(AST_ReturnType()), name(name)
 {
 
 }
 
-AST_FunctionPrototype::AST_FunctionPrototype(AST_ReturnType& returnType, Ceng::StringUtf8& name)
+AST_FunctionPrototype::AST_FunctionPrototype(AST_ReturnType& returnType, const Ceng::StringUtf8& name)
 	: IASTNode(AST_NodeType::function_prototype), returnType(returnType), name(name)
 {
 
 }
 
-AST_FunctionPrototype::AST_FunctionPrototype(AST_ReturnType& returnType, Ceng::StringUtf8& name, std::vector<FunctionParameter>&& params)
+AST_FunctionPrototype::AST_FunctionPrototype(AST_ReturnType& returnType, const Ceng::StringUtf8& name, std::vector<FunctionParameter>&& params)
 	: IASTNode(AST_NodeType::function_prototype), returnType(returnType), name(name), params(std::move(params))
 {
 

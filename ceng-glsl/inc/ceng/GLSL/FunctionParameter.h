@@ -21,9 +21,13 @@ namespace Ceng
 			AST_Datatype datatype;
 			ArrayIndex index;
 
+			bool anonymous;
 			Ceng::StringUtf8 name;
 
 		public:
+
+			FunctionParameter(bool isConst, ParameterQualifierType::value qualifier, AST_Datatype& datatype,
+				ArrayIndex& index);
 
 			FunctionParameter(bool isConst, ParameterQualifierType::value qualifier, AST_Datatype& datatype,
 				ArrayIndex& index, Ceng::StringUtf8& name);

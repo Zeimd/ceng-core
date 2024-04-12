@@ -23,11 +23,11 @@ namespace Ceng
 
 		public:
 
-			AST_FunctionPrototype(Ceng::StringUtf8& name);
+			AST_FunctionPrototype(const Ceng::StringUtf8& name);
 
-			AST_FunctionPrototype(AST_ReturnType& returnType, Ceng::StringUtf8& name);
+			AST_FunctionPrototype(AST_ReturnType& returnType, const Ceng::StringUtf8& name);
 
-			AST_FunctionPrototype(AST_ReturnType& returnType, Ceng::StringUtf8& name, std::vector<FunctionParameter>&& params);
+			AST_FunctionPrototype(AST_ReturnType& returnType, const Ceng::StringUtf8& name, std::vector<FunctionParameter>&& params);
 
 			~AST_FunctionPrototype() override;
 

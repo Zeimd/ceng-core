@@ -15,7 +15,7 @@ namespace Ceng
 	{
 	public:
 
-		std::shared_ptr<FullySpecifiedType> type;
+		std::shared_ptr<FullySpecifiedType> returnType;
 
 		Ceng::StringUtf8 name;
 
@@ -25,7 +25,7 @@ namespace Ceng
 
 		void Release() override;
 
-		FunctionHeader(std::shared_ptr<FullySpecifiedType>& type, const Ceng::StringUtf8& name);
+		FunctionHeader(std::shared_ptr<FullySpecifiedType>& returnType, const Ceng::StringUtf8& name);
 
 		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
 

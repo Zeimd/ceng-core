@@ -15,6 +15,13 @@ ArrayIndex::ArrayIndex(bool implicit)
 	}
 }
 
+ArrayIndex::ArrayIndex(Ceng::INT32 value)
+	: indexType(ArrayIndexType::uint_literal), value(value)
+{
+
+}
+
+
 ArrayIndex::ArrayIndex(Ceng::UINT32 value)
 	: indexType(ArrayIndexType::uint_literal), value(value)
 {
@@ -23,6 +30,12 @@ ArrayIndex::ArrayIndex(Ceng::UINT32 value)
 
 ArrayIndex::ArrayIndex(Ceng::StringUtf8 variable)
 	: indexType(ArrayIndexType::variable), value(variable)
+{
+
+}
+
+ArrayIndex::ArrayIndex(Ceng::StringUtf8 expression, bool invalid)
+	: indexType(ArrayIndexType::invalid_value), value(expression)
 {
 
 }
@@ -43,6 +56,7 @@ Ceng::StringUtf8 ArrayIndex::ToString(Ceng::UINT32 indentLevel) const
 		out += ']';
 		return out;
 	case ArrayIndexType::variable:
+	case ArrayIndexType::invalid_value:
 		out = '[';
 		out += std::get<Ceng::StringUtf8>(value);
 		out += ']';

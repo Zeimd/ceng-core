@@ -7,11 +7,20 @@
 #include <ceng/GLSL/AST_TranslationUnit.h>
 
 #include <ceng/GLSL/AST_Datatype.h>
+#include <ceng/GLSL/AST_ReturnType.h>
+#include <ceng/GLSL/ArrayIndex.h>
+
+#include <ceng/GLSL/Rvalue.h>
 
 #include "NonTerminalVisitor.h"
 
 namespace Ceng
 {
+	struct GeneratorReturn
+	{
+		GLSL::Rvalue rvalue;
+	};
+
 	class AST_Generator : public NonTerminalVisitor
 	{
 	public:
@@ -21,6 +30,8 @@ namespace Ceng
 		GLSL::IASTNode* context;
 
 		std::vector<Ceng::UINT32> tempCounter;
+
+		GeneratorReturn returnValue;
 
 	public:
 
@@ -40,9 +51,23 @@ namespace Ceng
 
 		return_type V_InitDeclaratorList(InitDeclaratorList& item) override;
 
-		static GLSL::AST_Datatype GetDatatype(std::shared_ptr<FullySpecifiedType>& item);
+		GLSL::AST_Datatype GetDatatype(std::shared_ptr<FullySpecifiedType>& item);
 
-		static Ceng::StringUtf8 RegisterAnonymousStruct(std::shared_ptr<StructSpecifier>& structSpec);
+		GLSL::ArrayIndex GetArrayIndex(std::shared_ptr<FullySpecifiedType>& item);
+
+		GLSL::AST_Datatype GetDatatype(std::shared_ptr<TypeSpecifier>& item);
+
+		GLSL::ArrayIndex GetArrayIndex(std::shared_ptr<TypeSpecifier>& item);
+
+		GLSL::ArrayIndex GetArrayIndex(std::shared_ptr<ParameterDeclarator>& item);
+
+		GLSL::AST_Datatype GetDatatype(TypeSpecifier& item);
+
+		GLSL::ArrayIndex GetArrayIndex(TypeSpecifier& item);
+
+		GLSL::AST_ReturnType GetReturnType(FunctionPrototype& item);
+
+		Ceng::StringUtf8 RegisterAnonymousStruct(std::shared_ptr<StructSpecifier>& structSpec);
 	};
 
 }
