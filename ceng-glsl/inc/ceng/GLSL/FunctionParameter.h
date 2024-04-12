@@ -19,18 +19,18 @@ namespace Ceng
 			ParameterQualifierType::value qualifier;
 
 			AST_Datatype datatype;
-			ArrayIndex index;
 
 			bool anonymous;
 			Ceng::StringUtf8 name;
 
+			ArrayIndex index;
+
 		public:
 
-			FunctionParameter(bool isConst, ParameterQualifierType::value qualifier, AST_Datatype& datatype,
-				ArrayIndex& index);
+			FunctionParameter(bool isConst, ParameterQualifierType::value qualifier, AST_Datatype& datatype);
 
 			FunctionParameter(bool isConst, ParameterQualifierType::value qualifier, AST_Datatype& datatype,
-				ArrayIndex& index, Ceng::StringUtf8& name);
+				Ceng::StringUtf8& name, ArrayIndex& index);
 
 			Ceng::StringUtf8 ToString() const;
 		};

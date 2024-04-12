@@ -2,15 +2,14 @@
 
 using namespace Ceng::GLSL;
 
-FunctionParameter::FunctionParameter(bool isConst, ParameterQualifierType::value qualifier, AST_Datatype& datatype,
-	ArrayIndex& index)
-	: isConst(isConst), qualifier(qualifier), datatype(datatype), index(index), name(name), anonymous(true)
+FunctionParameter::FunctionParameter(bool isConst, ParameterQualifierType::value qualifier, AST_Datatype& datatype)
+	: isConst(isConst), qualifier(qualifier), datatype(datatype), index(false), name(name), anonymous(true)
 {
 
 }
 
 FunctionParameter::FunctionParameter(bool isConst, ParameterQualifierType::value qualifier, AST_Datatype& datatype,
-	ArrayIndex& index, Ceng::StringUtf8& name)
+	Ceng::StringUtf8& name, ArrayIndex& index)
 	: isConst(isConst), qualifier(qualifier), datatype(datatype), index(index), name(name), anonymous(false)
 {
 
@@ -25,8 +24,11 @@ Ceng::StringUtf8 FunctionParameter::ToString() const
 		out += "const ";
 	}
 
-	out += ParameterQualifierType::ToString(qualifier);
-	out += ' ';
+	if (qualifier != ParameterQualifierType::empty)
+	{
+		out += ParameterQualifierType::ToString(qualifier);
+		out += ' ';
+	}	
 
 	out += datatype.ToString();
 
@@ -34,7 +36,8 @@ Ceng::StringUtf8 FunctionParameter::ToString() const
 	{
 		out += ' ';
 		out += name;
+		out += index.ToString(0);
 	}
-	out += index.ToString(0);
+
 	return out;
 }

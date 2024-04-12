@@ -5,6 +5,8 @@
 #include "BasicType.h"
 #include "TypenameCategory.h"
 
+#include "ArrayIndex.h"
+
 namespace Ceng
 {
 	namespace GLSL
@@ -17,13 +19,17 @@ namespace Ceng
 			BasicType::value basicType;
 			Ceng::StringUtf8 customTypeName;
 
+			ArrayIndex index;
+
 		public:
 
 			AST_Datatype();
 
 			AST_Datatype(BasicType::value basicType);
 
-			AST_Datatype(const Ceng::StringUtf8& customTypeName);
+			AST_Datatype(BasicType::value basicType, ArrayIndex& index);
+
+			AST_Datatype(const Ceng::StringUtf8& customTypeName, ArrayIndex& index);
 
 			Ceng::StringUtf8 ToString() const;
 

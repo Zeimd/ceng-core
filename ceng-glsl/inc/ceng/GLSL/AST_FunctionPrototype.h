@@ -5,7 +5,7 @@
 
 #include "IASTNode.h"
 
-#include "AST_ReturnType.h"
+#include "AST_Datatype.h"
 #include "FunctionParameter.h"
 
 namespace Ceng
@@ -15,7 +15,7 @@ namespace Ceng
 		class AST_FunctionPrototype : public IASTNode
 		{
 		public:
-			AST_ReturnType returnType;
+			AST_Datatype returnType;
 
 			Ceng::StringUtf8 name;
 
@@ -25,9 +25,9 @@ namespace Ceng
 
 			AST_FunctionPrototype(const Ceng::StringUtf8& name);
 
-			AST_FunctionPrototype(AST_ReturnType& returnType, const Ceng::StringUtf8& name);
+			AST_FunctionPrototype(AST_Datatype& returnType, const Ceng::StringUtf8& name);
 
-			AST_FunctionPrototype(AST_ReturnType& returnType, const Ceng::StringUtf8& name, std::vector<FunctionParameter>&& params);
+			AST_FunctionPrototype(AST_Datatype& returnType, const Ceng::StringUtf8& name, std::vector<FunctionParameter>&& params);
 
 			~AST_FunctionPrototype() override;
 

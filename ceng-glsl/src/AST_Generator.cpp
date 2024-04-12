@@ -145,14 +145,16 @@ GLSL::ArrayIndex AST_Generator::GetArrayIndex(std::shared_ptr<TypeSpecifier>& it
 
 GLSL::AST_Datatype AST_Generator::GetDatatype(TypeSpecifier& item)
 {
+	GLSL::ArrayIndex index = GetArrayIndex(item);
+
 	switch (item.typeSpec.typeSpec->dataType)
 	{
 	case TypeSelector::basic_type:
-		return GLSL::AST_Datatype(item.typeSpec.typeSpec->basicType);
+		return GLSL::AST_Datatype(item.typeSpec.typeSpec->basicType, index);
 	case TypeSelector::type_name:
-		return GLSL::AST_Datatype(item.typeSpec.typeSpec->name);
+		return GLSL::AST_Datatype(item.typeSpec.typeSpec->name, index);
 	case TypeSelector::struct_specifier:
-		return GLSL::AST_Datatype(RegisterAnonymousStruct(item.typeSpec.typeSpec->structSpec));
+		return GLSL::AST_Datatype(RegisterAnonymousStruct(item.typeSpec.typeSpec->structSpec), index);
 	}
 
 	return GLSL::AST_Datatype();
@@ -214,20 +216,17 @@ GLSL::ArrayIndex AST_Generator::GetArrayIndex(std::shared_ptr<ParameterDeclarato
 	}
 }
 
-GLSL::AST_ReturnType AST_Generator::GetReturnType(FunctionPrototype& item)
+GLSL::AST_Datatype AST_Generator::GetReturnType(FunctionPrototype& item)
 {
+	printf(__FUNCTION__);
+	printf("\n");
+
 	if (item.GetParamCount() == 0)
 	{
-		GLSL::AST_Datatype type = GetDatatype(item.decl->header->returnType->typeSpec);
-		GLSL::ArrayIndex index = GetArrayIndex(item.decl->header->returnType->typeSpec);
-
-		return { type,index };
+		return GetDatatype(item.decl->header->returnType);
 	}
 	
-	GLSL::AST_Datatype type = GetDatatype(item.decl->withParams->header->returnType);
-	GLSL::ArrayIndex index = GetArrayIndex(item.decl->withParams->header->returnType);
-
-	return { type,index };	
+	return GetDatatype(item.decl->withParams->header->returnType);
 }
 
 Ceng::StringUtf8 AST_Generator::RegisterAnonymousStruct(std::shared_ptr<StructSpecifier>& structSpec)
@@ -237,9 +236,8 @@ Ceng::StringUtf8 AST_Generator::RegisterAnonymousStruct(std::shared_ptr<StructSp
 
 AST_Generator::return_type AST_Generator::V_FunctionPrototype(FunctionPrototype& item)
 {
-	std::shared_ptr<GLSL::AST_FunctionPrototype> output;
 
-	GLSL::AST_ReturnType returnType = GetReturnType(item);
+	GLSL::AST_Datatype returnType = GetReturnType(item);
 
 	std::vector<GLSL::FunctionParameter> params;
 
@@ -252,8 +250,7 @@ AST_Generator::return_type AST_Generator::V_FunctionPrototype(FunctionPrototype&
 
 			params.emplace_back(item.GetParameter(k)->typeQ->qualifier == ParamTypeQualifiers::const_qual,
 				item.GetParameter(k)->paramQ->qualifier,
-				datatype,
-				index				
+				datatype
 			);
 		}
 		else
@@ -264,11 +261,13 @@ AST_Generator::return_type AST_Generator::V_FunctionPrototype(FunctionPrototype&
 			params.emplace_back(item.GetParameter(k)->typeQ->qualifier == ParamTypeQualifiers::const_qual,
 				item.GetParameter(k)->paramQ->qualifier,
 				datatype,
-				index,
-				item.GetParameter(k)->decl->name
+				item.GetParameter(k)->decl->name,
+				index				
 			);
 		}
 	}
+
+	std::shared_ptr<GLSL::AST_FunctionPrototype> output;
 
 	if (item.GetParamCount() > 0)
 	{

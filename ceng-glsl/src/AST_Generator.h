@@ -65,7 +65,7 @@ namespace Ceng
 
 		GLSL::ArrayIndex GetArrayIndex(TypeSpecifier& item);
 
-		GLSL::AST_ReturnType GetReturnType(FunctionPrototype& item);
+		GLSL::AST_Datatype GetReturnType(FunctionPrototype& item);
 
 		Ceng::StringUtf8 RegisterAnonymousStruct(std::shared_ptr<StructSpecifier>& structSpec);
 	};
