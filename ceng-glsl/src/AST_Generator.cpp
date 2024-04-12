@@ -248,7 +248,7 @@ AST_Generator::return_type AST_Generator::V_FunctionPrototype(FunctionPrototype&
 			GLSL::AST_Datatype datatype = GetDatatype(item.GetParameter(k)->typeSpec);
 			GLSL::ArrayIndex index = GetArrayIndex(item.GetParameter(k)->typeSpec);
 
-			params.emplace_back(item.GetParameter(k)->typeQ->qualifier == ParamTypeQualifiers::const_qual,
+			params.emplace_back(item.GetParameter(k)->IsConst(),
 				item.GetParameter(k)->paramQ->qualifier,
 				datatype
 			);
@@ -257,8 +257,8 @@ AST_Generator::return_type AST_Generator::V_FunctionPrototype(FunctionPrototype&
 		{
 			GLSL::AST_Datatype datatype = GetDatatype(item.GetParameter(k)->decl->typeSpec);
 			GLSL::ArrayIndex index = GetArrayIndex(item.GetParameter(k)->decl);
-
-			params.emplace_back(item.GetParameter(k)->typeQ->qualifier == ParamTypeQualifiers::const_qual,
+		
+			params.emplace_back(item.GetParameter(k)->IsConst(),
 				item.GetParameter(k)->paramQ->qualifier,
 				datatype,
 				item.GetParameter(k)->decl->name,

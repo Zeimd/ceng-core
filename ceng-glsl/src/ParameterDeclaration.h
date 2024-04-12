@@ -43,6 +43,8 @@ namespace Ceng
 		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
 
 		void AcceptVisitor(NonTerminalVisitor& visitor) override;
+
+		bool IsConst() const;
 	};
 }
 

@@ -45,6 +45,16 @@ ParameterDeclaration::ParameterDeclaration(std::shared_ptr<ParameterQualifier>& 
 
 }
 
+bool ParameterDeclaration::IsConst() const
+{
+	if (typeQ == nullptr)
+	{
+		return false;
+	}
+
+	return typeQ->qualifier == ParamTypeQualifiers::const_qual;
+}
+
 Ceng::StringUtf8 ParameterDeclaration::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
