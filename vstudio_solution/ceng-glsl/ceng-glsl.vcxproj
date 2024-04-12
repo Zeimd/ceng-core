@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AbstractSyntaxTree.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\ArrayIndex.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_AssignmentOperation.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_BinaryOperation.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_Datatype.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\Rvalue.h" />
@@ -151,6 +152,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\ArrayIndex.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AssignmentExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AssignmentOperator.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\AST_AssignmentOperation.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_BinaryOperation.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_Datatype.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\Rvalue.cpp" />

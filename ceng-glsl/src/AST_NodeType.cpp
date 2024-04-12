@@ -28,7 +28,7 @@ const char* AST_NodeType::ToString(AST_NodeType::value type)
 		return "geometry_shader_input_layout";
 	case invariant_identifier:
 		return "invariant_identifier";
-	case simple_assignment:
+	case assignment_operation:
 		return "simple_assignment";
 	case unary_operation:
 		return "unary_operation";

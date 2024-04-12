@@ -28,7 +28,7 @@ namespace Ceng
 				invariant_identifier,
 
 				// a = b
-				simple_assignment,
+				assignment_operation,
 
 				// a = {unary_op} b
 				unary_operation,

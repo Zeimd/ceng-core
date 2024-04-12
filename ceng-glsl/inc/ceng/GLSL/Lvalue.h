@@ -28,6 +28,8 @@ namespace Ceng
 
 		public:
 
+			Lvalue();
+
 			Lvalue(const Ceng::StringUtf8& variable, ArrayIndex& variableIndex,
 				bool memberAccess, const Ceng::StringUtf8& memberName,
 				ArrayIndex& memberIndex);

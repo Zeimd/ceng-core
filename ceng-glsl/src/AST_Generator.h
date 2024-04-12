@@ -10,14 +10,18 @@
 #include <ceng/GLSL/AST_ReturnType.h>
 #include <ceng/GLSL/ArrayIndex.h>
 
+#include <ceng/GLSL/Lvalue.h>
 #include <ceng/GLSL/Rvalue.h>
+#include <ceng/GLSL/AST_BinaryOperation.h>
 
 #include "NonTerminalVisitor.h"
+#include "AssignmentOperator.h"
 
 namespace Ceng
 {
 	struct GeneratorReturn
 	{
+		GLSL::Lvalue lvalue;
 		GLSL::Rvalue rvalue;
 	};
 
@@ -40,6 +44,8 @@ namespace Ceng
 		AST_Generator();
 
 		static GLSL::AbstractSyntaxTree GenerateTree(std::shared_ptr<TranslationUnit>& unit);
+
+		return_type V_AssignmentExpression(AssignmentExpression& item);
 
 		return_type V_TranslationUnit(TranslationUnit& item) override;
 
@@ -66,6 +72,8 @@ namespace Ceng
 		GLSL::ArrayIndex GetArrayIndex(TypeSpecifier& item);
 
 		GLSL::AST_Datatype GetReturnType(FunctionPrototype& item);
+
+		GLSL::BinaryOperator::value ConvertAssignmentOperator(AssignOpType::value op);
 
 		Ceng::StringUtf8 RegisterAnonymousStruct(std::shared_ptr<StructSpecifier>& structSpec);
 	};

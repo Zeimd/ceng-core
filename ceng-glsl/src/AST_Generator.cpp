@@ -73,6 +73,8 @@
 
 #include <ceng/GLSL/AST_Datatype.h>
 #include <ceng/GLSL/AST_FunctionPrototype.h>
+#include <ceng/GLSL/AST_BinaryOperation.h>
+#include <ceng/GLSL/AST_AssignmentOperation.h>
 
 using namespace Ceng;
 
@@ -94,6 +96,69 @@ GLSL::AbstractSyntaxTree AST_Generator::GenerateTree(std::shared_ptr<Translation
 	unit->AcceptVisitor(generator);
 	
 	return GLSL::AbstractSyntaxTree(generator.root);
+}
+
+AST_Generator::return_type AST_Generator::V_AssignmentExpression(AssignmentExpression& item)
+{
+	if (item.full)
+	{
+		item.unaryEx->AcceptVisitor(*this);
+		GLSL::Lvalue lhs = returnValue.lvalue;
+		GLSL::Rvalue a = returnValue.rvalue;
+
+		item.assignEx->AcceptVisitor(*this);
+		GLSL::Rvalue b = returnValue.rvalue;
+
+		std::shared_ptr<GLSL::AST_BinaryOperation> output;
+
+		switch (item.op->operation)
+		{
+		case AssignOpType::equal:
+			context->children.push_back(std::make_shared< GLSL::AST_AssignmentOperation>(
+				lhs, b
+				));
+			return 0;
+		default:
+
+			GLSL::BinaryOperator::value op = ConvertAssignmentOperator(item.op->operation);
+			context->children.push_back(std::make_shared< GLSL::AST_BinaryOperation>(
+				lhs, a, op, b
+				));
+			return 0;		
+		}
+	}
+	else
+	{
+		item.cond->AcceptVisitor(*this);
+		return 0;
+	}
+}
+
+GLSL::BinaryOperator::value AST_Generator::ConvertAssignmentOperator(AssignOpType::value op)
+{
+	switch (op)
+	{
+	case AssignOpType::add:
+		return GLSL::BinaryOperator::add;
+	case AssignOpType::sub:
+		return GLSL::BinaryOperator::sub;
+	case AssignOpType::mul:
+		return GLSL::BinaryOperator::mul;
+	case AssignOpType::div:
+		return GLSL::BinaryOperator::div;
+	case AssignOpType::mod:
+		return GLSL::BinaryOperator::mod;
+	case AssignOpType::left:
+		return GLSL::BinaryOperator::left_shift;
+	case AssignOpType::right:
+		return GLSL::BinaryOperator::right_shift;
+	case AssignOpType::and_op:
+		return GLSL::BinaryOperator::bitwise_and;
+	case AssignOpType::or_op:
+		return GLSL::BinaryOperator::bitwise_or;
+	case AssignOpType::xor_op:
+		return GLSL::BinaryOperator::bitwise_xor;
+	}
 }
 
 AST_Generator::return_type AST_Generator::V_TranslationUnit(TranslationUnit& item)
