@@ -8,7 +8,7 @@ AST_Datatype::AST_Datatype()
 
 }
 
-AST_Datatype::AST_Datatype(BasicType::value dataType)
+AST_Datatype::AST_Datatype(BasicType::value basicType)
 	: category(TypenameCategory::basic_type), basicType(basicType)
 {
 
