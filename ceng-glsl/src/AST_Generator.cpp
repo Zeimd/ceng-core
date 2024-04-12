@@ -103,6 +103,12 @@ GLSL::AbstractSyntaxTree AST_Generator::GenerateTree(std::shared_ptr<Translation
 	return GLSL::AbstractSyntaxTree(generator.root);
 }
 
+AST_Generator::return_type AST_Generator::V_Expression(Expression& item)
+{
+	item.assignEx[0]->AcceptVisitor(*this);
+	return 0;
+}
+
 AST_Generator::return_type AST_Generator::V_AssignmentExpression(AssignmentExpression& item)
 {
 	if (item.full)
@@ -221,61 +227,458 @@ GLSL::BinaryOperator::value AST_Generator::ConvertAssignmentOperator(AssignOpTyp
 
 AST_Generator::return_type AST_Generator::V_LogicalOrExpression(LogicalOrExpression& item)
 {
+	if (item.full)
+	{
+		item.lhs->AcceptVisitor(*this);
+		GLSL::Rvalue a = returnValue.rvalue;
+		GLSL::AST_Datatype& resultType = returnValue.rvalueType;
+
+		item.rhs->AcceptVisitor(*this);
+		GLSL::Rvalue b = returnValue.rvalue;
+
+		GLSL::Lvalue lhs = GenerateTemporary(resultType);
+
+		context.parent->children.emplace_back(
+			std::make_shared<GLSL::AST_BinaryOperation>
+			(
+				lhs,
+				a,
+				GLSL::BinaryOperator::logical_or,
+				b
+				)
+		);
+		
+		return 0;
+	}
+	else
+	{
+		item.rhs->AcceptVisitor(*this);
+	}
+
 	return 0;
 }
 
 AST_Generator::return_type AST_Generator::V_LogicalXorExpression(LogicalXorExpression& item)
 {
+	if (item.full)
+	{
+		item.lhs->AcceptVisitor(*this);
+		GLSL::Rvalue a = returnValue.rvalue;
+		GLSL::AST_Datatype& resultType = returnValue.rvalueType;
+
+		item.rhs->AcceptVisitor(*this);
+		GLSL::Rvalue b = returnValue.rvalue;
+
+		GLSL::Lvalue lhs = GenerateTemporary(resultType);
+
+		context.parent->children.emplace_back(
+			std::make_shared<GLSL::AST_BinaryOperation>
+			(
+				lhs,
+				a,
+				GLSL::BinaryOperator::logical_xor,
+				b
+				)
+		);
+
+		return 0;
+	}
+	else
+	{
+		item.rhs->AcceptVisitor(*this);
+	}
+
 	return 0;
 }
 
 AST_Generator::return_type AST_Generator::V_LogicalAndExpression(LogicalAndExpression& item)
 {
+	if (item.full)
+	{
+		item.lhs->AcceptVisitor(*this);
+		GLSL::Rvalue a = returnValue.rvalue;
+		GLSL::AST_Datatype& resultType = returnValue.rvalueType;
+
+		item.rhs->AcceptVisitor(*this);
+		GLSL::Rvalue b = returnValue.rvalue;
+
+		GLSL::Lvalue lhs = GenerateTemporary(resultType);
+
+		context.parent->children.emplace_back(
+			std::make_shared<GLSL::AST_BinaryOperation>
+			(
+				lhs,
+				a,
+				GLSL::BinaryOperator::logical_and,
+				b
+				)
+		);
+
+		return 0;
+	}
+	else
+	{
+		item.rhs->AcceptVisitor(*this);
+	}
+
 	return 0;
 }
 
 AST_Generator::return_type AST_Generator::V_OrExpression(OrExpression& item)
 {
+	if (item.full)
+	{
+		item.lhs->AcceptVisitor(*this);
+		GLSL::Rvalue a = returnValue.rvalue;
+		GLSL::AST_Datatype& resultType = returnValue.rvalueType;
+
+		item.rhs->AcceptVisitor(*this);
+		GLSL::Rvalue b = returnValue.rvalue;
+
+		GLSL::Lvalue lhs = GenerateTemporary(resultType);
+
+		context.parent->children.emplace_back(
+			std::make_shared<GLSL::AST_BinaryOperation>
+			(
+				lhs,
+				a,
+				GLSL::BinaryOperator::bitwise_or,
+				b
+				)
+		);
+
+		return 0;
+	}
+	else
+	{
+		item.rhs->AcceptVisitor(*this);
+	}
+
 	return 0;
 }
 
 AST_Generator::return_type AST_Generator::V_XorExpression(XorExpression& item)
 {
+	if (item.full)
+	{
+		item.lhs->AcceptVisitor(*this);
+		GLSL::Rvalue a = returnValue.rvalue;
+		GLSL::AST_Datatype& resultType = returnValue.rvalueType;
+
+		item.rhs->AcceptVisitor(*this);
+		GLSL::Rvalue b = returnValue.rvalue;
+
+		GLSL::Lvalue lhs = GenerateTemporary(resultType);
+
+		context.parent->children.emplace_back(
+			std::make_shared<GLSL::AST_BinaryOperation>
+			(
+				lhs,
+				a,
+				GLSL::BinaryOperator::bitwise_xor,
+				b
+				)
+		);
+
+		return 0;
+	}
+	else
+	{
+		item.rhs->AcceptVisitor(*this);
+	}
+
 	return 0;
 }
 
 AST_Generator::return_type AST_Generator::V_AndExpression(AndExpression& item)
 {
+	if (item.full)
+	{
+		item.lhs->AcceptVisitor(*this);
+		GLSL::Rvalue a = returnValue.rvalue;
+		GLSL::AST_Datatype& resultType = returnValue.rvalueType;
+
+		item.rhs->AcceptVisitor(*this);
+		GLSL::Rvalue b = returnValue.rvalue;
+
+		GLSL::Lvalue lhs = GenerateTemporary(resultType);
+
+		context.parent->children.emplace_back(
+			std::make_shared<GLSL::AST_BinaryOperation>
+			(
+				lhs,
+				a,
+				GLSL::BinaryOperator::bitwise_and,
+				b
+				)
+		);
+
+		return 0;
+	}
+	else
+	{
+		item.rhs->AcceptVisitor(*this);
+	}
+
 	return 0;
 }
 
 AST_Generator::return_type AST_Generator::V_EqualityExpression(EqualityExpression& item)
 {
+	if (item.operation != EqualityOp::unassigned)
+	{
+		item.lhs->AcceptVisitor(*this);
+		GLSL::Rvalue a = returnValue.rvalue;
+		GLSL::AST_Datatype& resultType = returnValue.rvalueType;
+
+		item.rhs->AcceptVisitor(*this);
+		GLSL::Rvalue b = returnValue.rvalue;
+
+		GLSL::Lvalue lhs = GenerateTemporary(resultType);
+
+		GLSL::BinaryOperator::value binaryOp;
+
+		switch (item.operation)
+		{
+		case EqualityOp::equal:
+			binaryOp = GLSL::BinaryOperator::equal;
+			break;
+		case EqualityOp::not_equal:
+			binaryOp = GLSL::BinaryOperator::not_equal;
+			break;
+		}
+
+		context.parent->children.emplace_back(
+			std::make_shared<GLSL::AST_BinaryOperation>
+			(
+				lhs,
+				a,
+				binaryOp,
+				b
+				)
+		);
+
+		return 0;
+	}
+	else
+	{
+		item.rhs->AcceptVisitor(*this);
+	}
+
 	return 0;
 }
 
 AST_Generator::return_type AST_Generator::V_RelationalExpression(RelationalExpression& item)
 {
+	if (item.operation != EqualityOp::unassigned)
+	{
+		item.lhs->AcceptVisitor(*this);
+		GLSL::Rvalue a = returnValue.rvalue;
+		GLSL::AST_Datatype& resultType = returnValue.rvalueType;
+
+		item.rhs->AcceptVisitor(*this);
+		GLSL::Rvalue b = returnValue.rvalue;
+
+		GLSL::Lvalue lhs = GenerateTemporary(resultType);
+
+		GLSL::BinaryOperator::value binaryOp;
+
+		switch (item.operation)
+		{
+		case RelativeOp::less:
+			binaryOp = GLSL::BinaryOperator::less;
+			break;
+		case RelativeOp::less_or_equal:
+			binaryOp = GLSL::BinaryOperator::less_eq;
+			break;
+		case RelativeOp::greater:
+			binaryOp = GLSL::BinaryOperator::greater;
+			break;
+		case RelativeOp::greater_or_equal:
+			binaryOp = GLSL::BinaryOperator::greater_eq;
+			break;
+		}
+
+		context.parent->children.emplace_back(
+			std::make_shared<GLSL::AST_BinaryOperation>
+			(
+				lhs,
+				a,
+				binaryOp,
+				b
+				)
+		);
+
+		return 0;
+	}
+	else
+	{
+		item.rhs->AcceptVisitor(*this);
+	}
+
 	return 0;
 }
 
 AST_Generator::return_type AST_Generator::V_ShiftExpression(ShiftExpression& item)
 {
+	if (item.operation != EqualityOp::unassigned)
+	{
+		item.lhs->AcceptVisitor(*this);
+		GLSL::Rvalue a = returnValue.rvalue;
+		GLSL::AST_Datatype& resultType = returnValue.rvalueType;
+
+		item.rhs->AcceptVisitor(*this);
+		GLSL::Rvalue b = returnValue.rvalue;
+
+		GLSL::Lvalue lhs = GenerateTemporary(resultType);
+
+		GLSL::BinaryOperator::value binaryOp;
+
+		switch (item.operation)
+		{
+		case ShiftOp::left:
+			binaryOp = GLSL::BinaryOperator::left_shift;
+			break;
+		case ShiftOp::right:
+			binaryOp = GLSL::BinaryOperator::right_shift;
+			break;
+		}
+
+		context.parent->children.emplace_back(
+			std::make_shared<GLSL::AST_BinaryOperation>
+			(
+				lhs,
+				a,
+				binaryOp,
+				b
+				)
+		);
+
+		return 0;
+	}
+	else
+	{
+		item.rhs->AcceptVisitor(*this);
+	}
+
 	return 0;
 }
 
 AST_Generator::return_type AST_Generator::V_AdditiveExpression(AdditiveExpression& item)
 {
+	if (item.operation != EqualityOp::unassigned)
+	{
+		item.lhs->AcceptVisitor(*this);
+		GLSL::Rvalue a = returnValue.rvalue;
+		GLSL::AST_Datatype& resultType = returnValue.rvalueType;
+
+		item.rhs->AcceptVisitor(*this);
+		GLSL::Rvalue b = returnValue.rvalue;
+
+		GLSL::Lvalue lhs = GenerateTemporary(resultType);
+
+		GLSL::BinaryOperator::value binaryOp;
+
+		switch (item.operation)
+		{
+		case AdditiveOp::add:
+			binaryOp = GLSL::BinaryOperator::add;
+			break;
+		case AdditiveOp::sub:
+			binaryOp = GLSL::BinaryOperator::sub;
+			break;
+		}
+
+		context.parent->children.emplace_back(
+			std::make_shared<GLSL::AST_BinaryOperation>
+			(
+				lhs,
+				a,
+				binaryOp,
+				b
+				)
+		);
+
+		return 0;
+	}
+	else
+	{
+		item.rhs->AcceptVisitor(*this);
+	}
+
 	return 0;
 }
 
 AST_Generator::return_type AST_Generator::V_MultiplicativeExpression(MultiplicativeExpression& item)
 {
+	if (item.operation != EqualityOp::unassigned)
+	{
+		item.lhs->AcceptVisitor(*this);
+		GLSL::Rvalue a = returnValue.rvalue;
+		GLSL::AST_Datatype& resultType = returnValue.rvalueType;
+
+		item.rhs->AcceptVisitor(*this);
+		GLSL::Rvalue b = returnValue.rvalue;
+
+		GLSL::Lvalue lhs = GenerateTemporary(resultType);
+
+		GLSL::BinaryOperator::value binaryOp;
+
+		switch (item.operation)
+		{
+		case MultiplicativeOp::div:
+			binaryOp = GLSL::BinaryOperator::div;
+			break;
+		case MultiplicativeOp::mul:
+			binaryOp = GLSL::BinaryOperator::mul;
+			break;
+		case MultiplicativeOp::mod:
+			binaryOp = GLSL::BinaryOperator::mod;
+			break;
+		}
+
+		context.parent->children.emplace_back(
+			std::make_shared<GLSL::AST_BinaryOperation>
+			(
+				lhs,
+				a,
+				binaryOp,
+				b
+				)
+		);
+
+		return 0;
+	}
+	else
+	{
+		item.rhs->AcceptVisitor(*this);
+	}
+
 	return 0;
 }
 
 AST_Generator::return_type AST_Generator::V_UnaryExpression(UnaryExpression& item)
 {
+	if (item.unaryType != UnaryExpressionType::postfix_expression)
+	{
+		item.unaryExpression->AcceptVisitor(*this);
+		GLSL::Rvalue a = returnValue.rvalue;
+		GLSL::AST_Datatype& resultType = returnValue.rvalueType;
+
+		switch (item.unaryType)
+		{
+		case UnaryExpressionType::inc_op:
+			break;
+		case UnaryExpressionType::dec_op:
+			break;
+		}
+
+	}
+	else
+	{
+		item.postfixExpression->AcceptVisitor(*this);
+	}
+
 	return 0;
 }
 
