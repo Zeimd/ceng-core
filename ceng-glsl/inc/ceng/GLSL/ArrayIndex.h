@@ -14,6 +14,7 @@ namespace Ceng
 		enum class ArrayIndexType
 		{
 			unused,
+			implicit,
 			uint_literal,
 			variable,
 		};
@@ -25,7 +26,7 @@ namespace Ceng
 
 			ArrayIndexContent value;
 
-			ArrayIndex();
+			ArrayIndex(bool implicit);
 
 			ArrayIndex(Ceng::UINT32 value);
 			ArrayIndex(Ceng::StringUtf8 variable);

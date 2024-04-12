@@ -2,10 +2,17 @@
 
 using namespace Ceng::GLSL;
 
-ArrayIndex::ArrayIndex()
-	: indexType(ArrayIndexType::unused), value(0)
+ArrayIndex::ArrayIndex(bool implicit)
+	: value(0)
 {
-
+	if (implicit)
+	{
+		indexType = ArrayIndexType::implicit;
+	}
+	else
+	{
+		indexType = ArrayIndexType::unused;
+	}
 }
 
 ArrayIndex::ArrayIndex(Ceng::UINT32 value)
@@ -22,14 +29,24 @@ ArrayIndex::ArrayIndex(Ceng::StringUtf8 variable)
 
 Ceng::StringUtf8 ArrayIndex::ToString(Ceng::UINT32 indentLevel) const
 {
+	Ceng::StringUtf8 out;
+
 	switch (indexType)
 	{
 	case ArrayIndexType::unused:
 		return "";
+	case ArrayIndexType::implicit:
+		return "[]";
 	case ArrayIndexType::uint_literal:
-		return std::get<Ceng::UINT32>(value);
+		out = '[';
+		out += std::get<Ceng::UINT32>(value);
+		out += ']';
+		return out;
 	case ArrayIndexType::variable:
-		return std::get<Ceng::StringUtf8>(value);
+		out = '[';
+		out += std::get<Ceng::StringUtf8>(value);
+		out += ']';
+		return out;
 	default:
 		return "<UNHANDLED ARRAY INDEX TYPE>";
 	}
