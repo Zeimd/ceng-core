@@ -26,6 +26,8 @@ namespace Ceng
 			// Indicates memberName[memberIndex]
 			ArrayIndex memberIndex;
 
+			bool valid;
+
 		public:
 
 			Lvalue();
