@@ -4407,7 +4407,7 @@ ParserReturnValue GLSL_Parser::S_ParameterDeclarator(std::shared_ptr<ParameterDe
 {
 	log.Debug(__func__);
 
-	auto temp = std::make_shared<ParameterQualifier>(ParameterQualifierType::empty);
+	auto temp = std::make_shared<ParameterQualifier>(GLSL::ParameterQualifierType::empty);
 
 	return ParserReturnValue(std::make_shared<ParameterDeclaration>(temp, decl), 1);
 }
@@ -5269,7 +5269,7 @@ public:
 		{
 		case TokenType::comma:
 		case TokenType::right_paren:
-			auto temp = std::make_shared<ParameterQualifier>(ParameterQualifierType::empty);
+			auto temp = std::make_shared<ParameterQualifier>(GLSL::ParameterQualifierType::empty);
 
 			return { ParserReturnValue(std::make_shared<ParameterDeclaration>(temp, typeSpec),1), true };
 		}
@@ -5535,7 +5535,7 @@ ParserReturnValue GLSL_Parser::S_ParameterTypeQualifier_ParameterDeclarator(std:
 {
 	log.Debug(__func__);
 
-	auto temp = std::make_shared<ParameterQualifier>(ParameterQualifierType::empty);
+	auto temp = std::make_shared<ParameterQualifier>(GLSL::ParameterQualifierType::empty);
 
 	return { std::make_shared<ParameterDeclaration>(typeQ, temp ,decl), 2 };
 }
@@ -5563,7 +5563,7 @@ public:
 		{
 		case TokenType::comma:
 		case TokenType::right_paren:
-			auto temp = std::make_shared<ParameterQualifier>(ParameterQualifierType::empty);
+			auto temp = std::make_shared<ParameterQualifier>(GLSL::ParameterQualifierType::empty);
 			return { ParserReturnValue(std::make_shared<ParameterDeclaration>(typeQ, temp, typeSpec),2), true };
 		}
 

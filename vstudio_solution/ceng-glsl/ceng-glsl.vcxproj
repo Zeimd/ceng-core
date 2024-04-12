@@ -42,6 +42,7 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\Log.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\LogEntry.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\LogLevel.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\ParameterQualifierType.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\PrecisionQualifierType.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\StorageQualifierType.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\TokenCategory.h" />
@@ -212,6 +213,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\ParameterDeclaration.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\ParameterDeclarator.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\ParameterQualifier.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\ParameterQualifierType.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\ParameterTypeQualifier.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\ParserReturnValue.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\PostfixExpression.cpp" />

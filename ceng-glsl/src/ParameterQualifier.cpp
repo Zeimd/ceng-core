@@ -17,7 +17,7 @@ void ParameterQualifier::Release()
 }
 
 ParameterQualifier::ParameterQualifier()
-	: INonTerminal(NonTerminalType::parameter_qualifier), qualifier(ParameterQualifierType::empty)
+	: INonTerminal(NonTerminalType::parameter_qualifier), qualifier(GLSL::ParameterQualifierType::empty)
 {
 
 }
@@ -28,7 +28,7 @@ ParameterQualifier::ParameterQualifier(const Token& token)
 	qualifier = TokenToType(token);
 }
 
-ParameterQualifier::ParameterQualifier(ParameterQualifierType::value qualifier)
+ParameterQualifier::ParameterQualifier(GLSL::ParameterQualifierType::value qualifier)
 	: INonTerminal(NonTerminalType::parameter_qualifier), qualifier(qualifier)
 {
 
@@ -36,36 +36,22 @@ ParameterQualifier::ParameterQualifier(ParameterQualifierType::value qualifier)
 
 Ceng::StringUtf8 ParameterQualifier::ToString(unsigned int indentLevel) const
 {
-	switch (qualifier)
-	{
-	case ParameterQualifierType::empty:
-		return "";
-	case ParameterQualifierType::in:
-		return "in";
-	case ParameterQualifierType::out:
-		return "out";
-	case ParameterQualifierType::inout:
-		return "inout";
-	case ParameterQualifierType::invalid_value:
-		return "<invalid>";
-	default:
-		return "<UNHANDLED PARAMETER QUALIFIER>";
-	}
+	return GLSL::ParameterQualifierType::ToString(qualifier);
 }
 
-ParameterQualifierType::value ParameterQualifier::TokenToType(const Token& token)
+GLSL::ParameterQualifierType::value ParameterQualifier::TokenToType(const Token& token)
 {
 	switch (token.type)
 	{
 	case TokenType::keyword_in:
-		return ParameterQualifierType::in;
+		return GLSL::ParameterQualifierType::in;
 	case TokenType::keyword_out:
-		return ParameterQualifierType::out;
+		return GLSL::ParameterQualifierType::out;
 	case TokenType::keyword_inout:
-		return ParameterQualifierType::inout;
+		return GLSL::ParameterQualifierType::inout;
 	}
 
-	return ParameterQualifierType::invalid_value;
+	return GLSL::ParameterQualifierType::invalid_value;
 }
 
 void ParameterQualifier::AcceptVisitor(NonTerminalVisitor& visitor)
