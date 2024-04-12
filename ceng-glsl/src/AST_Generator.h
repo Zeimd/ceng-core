@@ -36,6 +36,8 @@ namespace Ceng
 
 		return_type V_FunctionDefinition(FunctionDefinition& item) override;
 
+		return_type V_FunctionPrototype(FunctionPrototype& item) override;
+
 		return_type V_InitDeclaratorList(InitDeclaratorList& item) override;
 
 		static GLSL::AST_Datatype GetDatatype(std::shared_ptr<FullySpecifiedType>& item);

@@ -66,6 +66,7 @@
 #include "TypeSpecifierNoPrecision.h"
 
 #include <ceng/GLSL/AST_Datatype.h>
+#include <ceng/GLSL/AST_FunctionPrototype.h>
 
 using namespace Ceng;
 
@@ -128,7 +129,7 @@ GLSL::AST_Datatype AST_Generator::GetDatatype(std::shared_ptr<FullySpecifiedType
 		return GLSL::AST_Datatype(RegisterAnonymousStruct(item->typeSpec.typeSpec.typeSpec->structSpec));
 	}
 
-
+	return GLSL::AST_Datatype();
 }
 
 Ceng::StringUtf8 AST_Generator::RegisterAnonymousStruct(std::shared_ptr<StructSpecifier>& structSpec)
@@ -204,6 +205,15 @@ AST_Generator::return_type AST_Generator::V_InitDeclaratorList(InitDeclaratorLis
 
 		context->children.push_back(output);
 	}
+
+	return 0;
+}
+
+AST_Generator::return_type AST_Generator::V_FunctionPrototype(FunctionPrototype& item)
+{
+	std::shared_ptr<GLSL::AST_FunctionPrototype> output;
+
+	context->children.push_back(output);
 
 	return 0;
 }
