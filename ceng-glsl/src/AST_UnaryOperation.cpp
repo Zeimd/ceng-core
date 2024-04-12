@@ -21,7 +21,7 @@ namespace Ceng::GLSL::UnaryOperation
 	}
 }
 
-AST_UnaryOperation::AST_UnaryOperation(Lvalue& lhs, UnaryOperation::value operation, AST_Expression& input)
+AST_UnaryOperation::AST_UnaryOperation(Lvalue& lhs, UnaryOperation::value operation, Rvalue& input)
 	: IASTNode(AST_NodeType::unary_operation), lhs(lhs), operation(operation), input(input)
 {
 

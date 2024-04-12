@@ -330,7 +330,7 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_NodeType.h">
       <Filter>Header Files\public_interface</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_Expression.h">
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\Rvalue.h">
       <Filter>Header Files\public_interface</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_BinaryOperation.h">
@@ -668,7 +668,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\AST_BinaryOperation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\ceng-glsl\src\AST_Expression.cpp">
+    <ClCompile Include="..\..\ceng-glsl\src\Rvalue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ceng-glsl\src\AST_NodeType.cpp">

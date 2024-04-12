@@ -54,7 +54,7 @@ namespace Ceng::GLSL::BinaryOperator
 	}
 }
 
-AST_BinaryOperation::AST_BinaryOperation(Lvalue& lhs, AST_Expression& a, BinaryOperator::value operation, AST_Expression& b)
+AST_BinaryOperation::AST_BinaryOperation(Lvalue& lhs, Rvalue& a, BinaryOperator::value operation, Rvalue& b)
 	: IASTNode(AST_NodeType::binary_operation), lhs(lhs), a(a), operation(operation), b(b)
 {
 

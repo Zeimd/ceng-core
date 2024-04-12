@@ -4,7 +4,7 @@
 #include "IASTNode.h"
 
 #include "Lvalue.h"
-#include "AST_Expression.h"
+#include "Rvalue.h"
 
 namespace Ceng
 {
@@ -52,15 +52,15 @@ namespace Ceng
 		public:
 			Lvalue lhs;
 
-			AST_Expression a;
+			Rvalue a;
 
 			BinaryOperator::value operation;
 
-			AST_Expression b;
+			Rvalue b;
 
 		public:
 
-			AST_BinaryOperation(Lvalue& lhs, AST_Expression& a, BinaryOperator::value operation, AST_Expression& b);
+			AST_BinaryOperation(Lvalue& lhs, Rvalue& a, BinaryOperator::value operation, Rvalue& b);
 
 			~AST_BinaryOperation() override;
 

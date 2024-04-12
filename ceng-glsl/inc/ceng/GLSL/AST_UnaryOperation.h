@@ -3,7 +3,7 @@
 
 #include "IASTNode.h"
 #include "Lvalue.h"
-#include "AST_Expression.h"
+#include "Rvalue.h"
 
 namespace Ceng
 {
@@ -34,11 +34,11 @@ namespace Ceng
 
 			UnaryOperation::value operation;
 
-			AST_Expression input;
+			Rvalue input;
 
 		public:
 
-			AST_UnaryOperation(Lvalue& lhs, UnaryOperation::value operation, AST_Expression& input);
+			AST_UnaryOperation(Lvalue& lhs, UnaryOperation::value operation, Rvalue& input);
 
 			~AST_UnaryOperation() override;
 

@@ -3,7 +3,7 @@
 
 #include "IASTNode.h"
 
-#include "AST_Expression.h"
+#include "Rvalue.h"
 
 namespace Ceng
 {
@@ -14,12 +14,12 @@ namespace Ceng
 		public:
 
 			bool empty;
-			AST_Expression expression;
+			Rvalue expression;
 
 		public:
 
 			AST_ReturnStatement();
-			AST_ReturnStatement(AST_Expression& expression);
+			AST_ReturnStatement(Rvalue& expression);
 
 			~AST_ReturnStatement() override;
 

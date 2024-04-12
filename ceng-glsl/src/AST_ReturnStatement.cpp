@@ -8,7 +8,7 @@ AST_ReturnStatement::AST_ReturnStatement()
 
 }
 
-AST_ReturnStatement::AST_ReturnStatement(AST_Expression& expression)
+AST_ReturnStatement::AST_ReturnStatement(Rvalue& expression)
 	: IASTNode(AST_NodeType::return_statement), empty(false), expression(expression)
 {
 
