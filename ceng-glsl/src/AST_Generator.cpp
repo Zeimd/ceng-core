@@ -65,6 +65,8 @@
 #include "TypeSpecifierNoArray.h"
 #include "TypeSpecifierNoPrecision.h"
 
+#include <ceng/GLSL/AST_Datatype.h>
+
 using namespace Ceng;
 
 
@@ -114,6 +116,26 @@ AST_Generator::return_type AST_Generator::V_Declaration(Declaration& decl)
 	return 0;
 }
 
+GLSL::AST_Datatype AST_Generator::GetDatatype(std::shared_ptr<FullySpecifiedType>& item)
+{
+	switch (item->typeSpec.typeSpec.typeSpec->dataType)
+	{
+	case TypeSelector::basic_type:
+		return GLSL::AST_Datatype(item->typeSpec.typeSpec.typeSpec->basicType);
+	case TypeSelector::type_name:
+		return GLSL::AST_Datatype(item->typeSpec.typeSpec.typeSpec->name);
+	case TypeSelector::struct_specifier:
+		return GLSL::AST_Datatype(RegisterAnonymousStruct(item->typeSpec.typeSpec.typeSpec->structSpec));
+	}
+
+
+}
+
+Ceng::StringUtf8 AST_Generator::RegisterAnonymousStruct(std::shared_ptr<StructSpecifier>& structSpec)
+{
+	return "";
+}
+
 AST_Generator::return_type AST_Generator::V_InitDeclaratorList(InitDeclaratorList& item)
 {
 	for (auto& entry : item.list)
@@ -122,7 +144,7 @@ AST_Generator::return_type AST_Generator::V_InitDeclaratorList(InitDeclaratorLis
 
 		if (item.fullType->qualifier.layout != nullptr)
 		{
-			printf("num layout = %i\n", item.fullType->qualifier.layout->list->list.size());
+			//printf("num layout = %i\n", item.fullType->qualifier.layout->list->list.size());
 
 			for (auto& layoutItem : item.fullType->qualifier.layout->list->list)
 			{
@@ -130,7 +152,7 @@ AST_Generator::return_type AST_Generator::V_InitDeclaratorList(InitDeclaratorLis
 			}
 		}	
 
-		// TODO: take array size info and 
+		GLSL::AST_Datatype datatype{GetDatatype(item.fullType)};
 
 		std::shared_ptr<GLSL::AST_VariableDeclaration> output;
 
@@ -144,8 +166,7 @@ AST_Generator::return_type AST_Generator::V_InitDeclaratorList(InitDeclaratorLis
 					item.fullType->qualifier.storage.qualifier,
 					item.fullType->qualifier.interpolation.interpolation,
 					item.fullType->typeSpec.precision.precision,
-					item.fullType->typeSpec.typeSpec.typeSpec->datatype,
-					&item.fullType->typeSpec.typeSpec.typeSpec->name,
+					datatype,
 					entry.name,
 					true
 					);
@@ -158,8 +179,7 @@ AST_Generator::return_type AST_Generator::V_InitDeclaratorList(InitDeclaratorLis
 					item.fullType->qualifier.storage.qualifier,
 					item.fullType->qualifier.interpolation.interpolation,
 					item.fullType->typeSpec.precision.precision,
-					item.fullType->typeSpec.typeSpec.typeSpec->datatype,
-					&item.fullType->typeSpec.typeSpec.typeSpec->name,
+					datatype,
 					entry.name
 					);
 			}
@@ -176,15 +196,11 @@ AST_Generator::return_type AST_Generator::V_InitDeclaratorList(InitDeclaratorLis
 				item.fullType->qualifier.storage.qualifier,
 				item.fullType->qualifier.interpolation.interpolation,
 				item.fullType->typeSpec.precision.precision,
-				item.fullType->typeSpec.typeSpec.typeSpec->datatype,
-				&item.fullType->typeSpec.typeSpec.typeSpec->name,
+				datatype,
 				entry.name,
 				arraySize
 				);
 		}
-
-	
-
 
 		context->children.push_back(output);
 	}

@@ -22,6 +22,7 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AbstractSyntaxTree.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\ArrayIndex.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_BinaryOperation.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_Datatype.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_Expression.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_FunctionDefinition.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_FunctionPrototype.h" />
@@ -46,6 +47,7 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\Tokenizer.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\TokenType.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\Token.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\TypenameCategory.h" />
     <ClInclude Include="..\..\ceng-glsl\src\AdditiveExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\AndExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\AssignmentExpression.h" />
@@ -147,6 +149,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\AssignmentExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AssignmentOperator.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_BinaryOperation.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\AST_Datatype.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_Expression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_Generator.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_NodeType.cpp" />

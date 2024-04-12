@@ -7,7 +7,9 @@
 #include "StorageQualifierType.h"
 #include "PrecisionQualifierType.h"
 #include "LayoutData.h"
-#include "DataType.h"
+#include "BasicType.h"
+
+#include "AST_Datatype.h"
 
 namespace Ceng
 {
@@ -24,8 +26,7 @@ namespace Ceng
 			InterpolationQualifierType::value interpolation;
 			PrecisionQualifierType::value precision;
 
-			DataType::value dataType;
-			Ceng::StringUtf8 customTypeName;
+			AST_Datatype datatype;
 
 			Ceng::StringUtf8 name;			
 
@@ -38,15 +39,15 @@ namespace Ceng
 
 			AST_VariableDeclaration(bool invariant, std::vector<LayoutData>& layout, StorageQualifierType::value storage, 
 				InterpolationQualifierType::value interpolation, PrecisionQualifierType::value precision,
-				DataType::value dataType, const Ceng::StringUtf8* customTypeName, const Ceng::StringUtf8& name);
+				AST_Datatype& datatype, const Ceng::StringUtf8& name);
 
 			AST_VariableDeclaration(bool invariant, std::vector<LayoutData>& layout, StorageQualifierType::value storage,
 				InterpolationQualifierType::value interpolation, PrecisionQualifierType::value precision,
-				DataType::value dataType, const Ceng::StringUtf8* customTypeName, const Ceng::StringUtf8& name, bool implicitArray);
+				AST_Datatype& datatype, const Ceng::StringUtf8& name, bool implicitArray);
 
 			AST_VariableDeclaration(bool invariant, std::vector<LayoutData>& layout, StorageQualifierType::value storage,
 				InterpolationQualifierType::value interpolation, PrecisionQualifierType::value precision,
-				DataType::value dataType, const Ceng::StringUtf8* customTypeName, const Ceng::StringUtf8& name, Ceng::UINT32 arraySize);
+				AST_Datatype& datatype, const Ceng::StringUtf8& name, Ceng::UINT32 arraySize);
 
 			~AST_VariableDeclaration() override;
 

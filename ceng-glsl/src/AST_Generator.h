@@ -1,8 +1,12 @@
 #ifndef CENG_GLSL_AST_GENERATOR_H
 #define CENG_GLSL_AST_GENERATOR_H
 
+#include <vector>
+
 #include <ceng/GLSL/AbstractSyntaxTree.h>
 #include <ceng/GLSL/AST_TranslationUnit.h>
+
+#include <ceng/GLSL/AST_Datatype.h>
 
 #include "NonTerminalVisitor.h"
 
@@ -15,6 +19,8 @@ namespace Ceng
 		GLSL::AST_TranslationUnit root;
 
 		GLSL::IASTNode* context;
+
+		std::vector<Ceng::UINT32> tempCounter;
 
 	public:
 
@@ -32,7 +38,9 @@ namespace Ceng
 
 		return_type V_InitDeclaratorList(InitDeclaratorList& item) override;
 
-		
+		static GLSL::AST_Datatype GetDatatype(std::shared_ptr<FullySpecifiedType>& item);
+
+		static Ceng::StringUtf8 RegisterAnonymousStruct(std::shared_ptr<StructSpecifier>& structSpec);
 	};
 
 }
