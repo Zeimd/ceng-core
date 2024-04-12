@@ -154,6 +154,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\AST_BinaryOperation.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_Datatype.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_Expression.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\AST_FunctionPrototype.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_Generator.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_NodeType.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_ReturnStatement.cpp" />

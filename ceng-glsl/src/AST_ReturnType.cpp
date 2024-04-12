@@ -2,6 +2,12 @@
 
 using namespace Ceng::GLSL;
 
+AST_ReturnType::AST_ReturnType()
+	: datatype(AST_Datatype(BasicType::ts_void)), index(false)
+{
+
+}
+
 AST_ReturnType::AST_ReturnType(AST_Datatype& datatype)
 	: datatype(datatype), index(false)
 {

@@ -17,6 +17,8 @@ namespace Ceng
 
 		public:
 
+			AST_ReturnType();
+
 			AST_ReturnType(AST_Datatype& datatype);
 
 			AST_ReturnType(AST_Datatype& datatype, ArrayIndex& index);
