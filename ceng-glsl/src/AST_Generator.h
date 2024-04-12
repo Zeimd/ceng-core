@@ -22,7 +22,18 @@ namespace Ceng
 	struct GeneratorReturn
 	{
 		GLSL::Lvalue lvalue;
+
+		GLSL::AST_Datatype lvalueType;
+
 		GLSL::Rvalue rvalue;
+
+		GLSL::AST_Datatype rvalueType;
+	};
+
+	struct Context
+	{
+		GLSL::IASTNode* parent;
+		Ceng::UINT32* tempCounter;
 	};
 
 	class AST_Generator : public NonTerminalVisitor
@@ -31,7 +42,7 @@ namespace Ceng
 
 		GLSL::AST_TranslationUnit root;
 
-		GLSL::IASTNode* context;
+		Context context;
 
 		std::vector<Ceng::UINT32> tempCounter;
 
@@ -72,6 +83,8 @@ namespace Ceng
 		GLSL::ArrayIndex GetArrayIndex(TypeSpecifier& item);
 
 		GLSL::AST_Datatype GetReturnType(FunctionPrototype& item);
+
+		GLSL::Lvalue GenerateTemporary(GLSL::AST_Datatype& type);
 
 		GLSL::BinaryOperator::value ConvertAssignmentOperator(AssignOpType::value op);
 

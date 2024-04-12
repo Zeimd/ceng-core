@@ -75,6 +75,7 @@
 #include <ceng/GLSL/AST_FunctionPrototype.h>
 #include <ceng/GLSL/AST_BinaryOperation.h>
 #include <ceng/GLSL/AST_AssignmentOperation.h>
+#include <ceng/GLSL/AST_ConditionalOperation.h>
 
 using namespace Ceng;
 
@@ -86,7 +87,11 @@ AST_Generator::~AST_Generator()
 
 AST_Generator::AST_Generator()
 {
-	context = &root;
+	context.parent = &root;
+
+	tempCounter.push_back(0);
+
+	context.tempCounter = &tempCounter.back();
 }
 
 GLSL::AbstractSyntaxTree AST_Generator::GenerateTree(std::shared_ptr<TranslationUnit>& unit)
@@ -114,14 +119,14 @@ AST_Generator::return_type AST_Generator::V_AssignmentExpression(AssignmentExpre
 		switch (item.op->operation)
 		{
 		case AssignOpType::equal:
-			context->children.push_back(std::make_shared< GLSL::AST_AssignmentOperation>(
+			context.parent->children.push_back(std::make_shared< GLSL::AST_AssignmentOperation>(
 				lhs, b
 				));
 			return 0;
 		default:
 
 			GLSL::BinaryOperator::value op = ConvertAssignmentOperator(item.op->operation);
-			context->children.push_back(std::make_shared< GLSL::AST_BinaryOperation>(
+			context.parent->children.push_back(std::make_shared< GLSL::AST_BinaryOperation>(
 				lhs, a, op, b
 				));
 			return 0;		
@@ -132,6 +137,59 @@ AST_Generator::return_type AST_Generator::V_AssignmentExpression(AssignmentExpre
 		item.cond->AcceptVisitor(*this);
 		return 0;
 	}
+}
+
+GLSL::Lvalue AST_Generator::GenerateTemporary(GLSL::AST_Datatype& type)
+{
+	Ceng::StringUtf8 name = "_temp";
+	name += (*context.tempCounter)++;
+
+	std::vector<GLSL::LayoutData> layout;
+
+	context.parent->children.emplace_back(
+		std::make_shared<GLSL::AST_VariableDeclaration>(
+			false, 
+			layout, 
+			GLSL::StorageQualifierType::sq_const,
+			GLSL::InterpolationQualifierType::unused,
+			GLSL::PrecisionQualifierType::unassigned,
+			type,
+			name
+	));
+
+	return { name };
+}
+
+AST_Generator::return_type AST_Generator::V_ConditionalExpression(ConditionalExpression& item)
+{
+	if (item.full)
+	{
+		item.a->AcceptVisitor(*this);
+		GLSL::Rvalue a = returnValue.rvalue;
+
+		item.b->AcceptVisitor(*this);
+		GLSL::Rvalue b = returnValue.rvalue;
+		GLSL::AST_Datatype& resultType = returnValue.rvalueType;
+
+		item.c->AcceptVisitor(*this);
+		GLSL::Rvalue c = returnValue.rvalue;
+
+		GLSL::Lvalue lhs = GenerateTemporary(resultType);
+
+		context.parent->children.emplace_back(
+			std::make_shared<GLSL::AST_ConditionalOperation>
+			(
+				lhs,
+				a,
+				b,
+				c
+			)
+		);
+		return 0;
+	}
+	
+	item.a->AcceptVisitor(*this);
+	return 0;
 }
 
 GLSL::BinaryOperator::value AST_Generator::ConvertAssignmentOperator(AssignOpType::value op)
@@ -336,22 +394,26 @@ AST_Generator::return_type AST_Generator::V_FunctionPrototype(FunctionPrototype&
 
 	if (item.GetParamCount() > 0)
 	{
+
 		output = std::make_shared<GLSL::AST_FunctionPrototype>(
 			returnType,
 			item.GetName(),
 			std::move(params)
 			);
+
+
 	}
 	else
 	{
+		
 		output = std::make_shared<GLSL::AST_FunctionPrototype>(
 			returnType,
 			item.GetName()
 			);
+			
 	}
 
-
-	context->children.push_back(output);
+	context.parent->children.push_back(output);
 
 	return 0;
 }
@@ -423,7 +485,7 @@ AST_Generator::return_type AST_Generator::V_InitDeclaratorList(InitDeclaratorLis
 				);
 		}
 
-		context->children.push_back(output);
+		context.parent->children.push_back(output);
 	}
 
 	return 0;
