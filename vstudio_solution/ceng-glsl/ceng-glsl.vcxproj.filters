@@ -345,7 +345,7 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\StorageQualifierType.h">
       <Filter>Header Files\public_interface</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\DataType.h">
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\BasicType.h">
       <Filter>Header Files\public_interface</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\InterpolationQualifierType.h">
@@ -659,7 +659,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\AST_NodeType.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\ceng-glsl\src\DataType.cpp">
+    <ClCompile Include="..\..\ceng-glsl\src\BasicType.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ceng-glsl\src\AST_VariableDeclaration.cpp">

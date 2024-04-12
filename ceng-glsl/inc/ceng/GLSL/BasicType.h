@@ -5,7 +5,7 @@ namespace Ceng
 {
 	namespace GLSL
 	{
-		namespace DataType
+		namespace BasicType
 		{
 			enum value
 			{
@@ -74,12 +74,10 @@ namespace Ceng
 				sampler2DMSArray,
 				isampler2DMSArray,
 				usampler2DMSArray,
-				struct_specifier,
-				type_name,
 				invalid,
 			};
 
-			const char* ToString(DataType::value type);
+			const char* ToString(BasicType::value type);
 		}
 	}
 }

@@ -1,22 +1,22 @@
-#include <ceng/GLSL/DataType.h>
+#include <ceng/GLSL/BasicType.h>
 
 using namespace Ceng::GLSL;
 
-#define CASE_TO_TEXT(x) case GLSL::DataType::x: return #x;
+#define CASE_TO_TEXT(x) case GLSL::BasicType::x: return #x;
 
-const char* DataType::ToString(DataType::value type)
+const char* BasicType::ToString(BasicType::value type)
 {
 	switch (type)
 	{
-	case GLSL::DataType::ts_void:
+	case GLSL::BasicType::ts_void:
 		return "void";
-	case GLSL::DataType::ts_float:
+	case GLSL::BasicType::ts_float:
 		return "float";
-	case GLSL::DataType::ts_int:
+	case GLSL::BasicType::ts_int:
 		return "int";
-	case GLSL::DataType::ts_uint:
+	case GLSL::BasicType::ts_uint:
 		return "uint";
-	case GLSL::DataType::ts_bool:
+	case GLSL::BasicType::ts_bool:
 		return "bool";
 		CASE_TO_TEXT(vec2);
 		CASE_TO_TEXT(vec3);
@@ -79,10 +79,6 @@ const char* DataType::ToString(DataType::value type)
 		CASE_TO_TEXT(isampler2DMSArray);
 		CASE_TO_TEXT(usampler2DMSArray);
 		CASE_TO_TEXT(invalid);
-	case GLSL::DataType::type_name:
-		return "type_name";
-	case GLSL::DataType::struct_specifier:
-		return "struct_specifier";
 	default:
 		return "<UNHANDLED DATA TYPE>";
 	}
