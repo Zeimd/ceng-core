@@ -28,10 +28,13 @@ Ceng::StringUtf8 AST_Datatype::ToString() const
 	{
 	case TypenameCategory::basic_type:
 		out += BasicType::ToString(basicType);
+		break;
 	case TypenameCategory::custom_type:
 		out += customTypeName;
+		break;
 	default:
 		out += "<UNHANDLED TYPENAME CATEGORY>";
+		break;
 	}
 
 	out += index.ToString(0);
