@@ -143,7 +143,7 @@ const Ceng::StringUtf8* Symbol::Name() const
 	case SymbolType::function_parameter:
 		return &param->decl->name;
 	case SymbolType::function_prototype:
-		return &decl->prototype->decl->header->name;
+		return &decl->prototype->GetName();
 	case SymbolType::variable:
 		if (variableIsCondition)
 		{
