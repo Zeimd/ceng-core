@@ -8,6 +8,19 @@ Lvalue::Lvalue()
 
 }
 
+Lvalue::Lvalue(const Ceng::StringUtf8& variable)
+	: variable(variable), variableIndex(false), memberAccess(false), memberIndex(false)
+{
+
+}
+
+Lvalue::Lvalue(const Ceng::StringUtf8& variable, ArrayIndex& variableIndex)
+	: variable(variable), variableIndex(variableIndex), memberAccess(false), memberIndex(false)
+{
+
+}
+
+
 Lvalue::Lvalue(const Ceng::StringUtf8& variable, ArrayIndex& variableIndex,
 	bool memberAccess, const Ceng::StringUtf8& memberName,ArrayIndex& memberIndex)
 	: variable(variable), variableIndex(variableIndex), memberAccess(memberAccess), memberName(memberName), memberIndex(memberIndex)
