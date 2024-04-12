@@ -20,7 +20,8 @@ Ceng::StringUtf8 AST_ReturnType::ToString() const
 
 	out += datatype.ToString();
 
-	if (datatype.basicType != BasicType::ts_void)
+	if (datatype.category == TypenameCategory::basic_type &&
+		datatype.basicType != BasicType::ts_void)
 	{
 		out += index.ToString(0);
 	}	
