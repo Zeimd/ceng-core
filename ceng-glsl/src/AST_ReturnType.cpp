@@ -19,7 +19,11 @@ Ceng::StringUtf8 AST_ReturnType::ToString() const
 	Ceng::StringUtf8 out;
 
 	out += datatype.ToString();
-	out += index.ToString(0);
+
+	if (datatype.basicType != BasicType::ts_void)
+	{
+		out += index.ToString(0);
+	}	
 
 	return out;
 }
