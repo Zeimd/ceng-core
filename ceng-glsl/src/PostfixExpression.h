@@ -45,7 +45,7 @@ namespace Ceng
 		std::shared_ptr<PostfixExpression> postfixExpression;
 		Ceng::StringUtf8 fieldName;
 
-		PostfixType::value type;
+		PostfixType::value postfixType;
 	public:
 
 		void Release() override;

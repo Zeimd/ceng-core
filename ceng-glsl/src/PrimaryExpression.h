@@ -37,7 +37,7 @@ namespace Ceng
 		Ceng::UINT32 uintValue;
 		Ceng::FLOAT32 floatValue;
 
-		ExpressionType::value type;
+		ExpressionType::value valuetype;
 
 	public:
 

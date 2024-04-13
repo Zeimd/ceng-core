@@ -10,60 +10,66 @@ PrimaryExpression::PrimaryExpression(const Token& token)
 	switch (token.type)
 	{
 	case TokenType::int_constant:
-		type = ExpressionType::int_const;
+		valuetype = ExpressionType::int_const;
 		intValue = token.value.intVal;
+		isInteger = true;
+		isConst = true;
 		break;
 	case TokenType::uint_constant:
-		type = ExpressionType::uint_const;
+		valuetype = ExpressionType::uint_const;
 		uintValue = token.value.intVal;
+		isInteger = true;
+		isConst = true;
 		break;
 	case TokenType::float_constant:
-		type = ExpressionType::float_const;
+		valuetype = ExpressionType::float_const;
 		floatValue = token.value.floatVal;
+		isConst = true;
 		break;
 	case TokenType::bool_constant:
-		type = ExpressionType::bool_const;
+		valuetype = ExpressionType::bool_const;
 		boolValue = token.value.boolVal;
+		isConst = true;
 		break;
 	case TokenType::identifier:
-		type = ExpressionType::identifier;
+		valuetype = ExpressionType::identifier;
 		name = token.name;
 		break;
 	}
 }
 
 PrimaryExpression::PrimaryExpression(bool value)
-	: INonTerminal(NonTerminalType::primary_expression),type(ExpressionType::bool_const),boolValue(value)
+	: INonTerminal(NonTerminalType::primary_expression), valuetype(ExpressionType::bool_const),boolValue(value)
 {
 	
 }
 
 PrimaryExpression::PrimaryExpression(const Ceng::INT32 value)
-	: INonTerminal(NonTerminalType::primary_expression), type(ExpressionType::int_const), intValue(value)
+	: INonTerminal(NonTerminalType::primary_expression), valuetype(ExpressionType::int_const), intValue(value)
 {
 
 }
 
 PrimaryExpression::PrimaryExpression(const Ceng::UINT32 value)
-	: INonTerminal(NonTerminalType::primary_expression), type(ExpressionType::uint_const), uintValue(value)
+	: INonTerminal(NonTerminalType::primary_expression), valuetype(ExpressionType::uint_const), uintValue(value)
 {
 
 }
 
 PrimaryExpression::PrimaryExpression(const Ceng::FLOAT32 value)
-	: INonTerminal(NonTerminalType::primary_expression), type(ExpressionType::float_const), floatValue(value)
+	: INonTerminal(NonTerminalType::primary_expression), valuetype(ExpressionType::float_const), floatValue(value)
 {
 
 }
 
 PrimaryExpression::PrimaryExpression(const Ceng::StringUtf8& identifier)
-	: INonTerminal(NonTerminalType::primary_expression), type(ExpressionType::identifier), name(identifier)
+	: INonTerminal(NonTerminalType::primary_expression), valuetype(ExpressionType::identifier), name(identifier)
 {
 
 }
 
 PrimaryExpression::PrimaryExpression(std::shared_ptr<Expression>& expression)
-	: INonTerminal(NonTerminalType::primary_expression), type(ExpressionType::expression), expression(expression)
+	: INonTerminal(NonTerminalType::primary_expression), valuetype(ExpressionType::expression), expression(expression)
 {
 
 }
