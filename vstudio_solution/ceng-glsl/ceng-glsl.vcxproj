@@ -26,6 +26,7 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_ConditionalOperation.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_Datatype.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_IncDecOperation.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_UnaryOperator.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\Rvalue.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_FunctionDefinition.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_FunctionPrototype.h" />

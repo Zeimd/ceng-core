@@ -5,27 +5,12 @@
 #include "Lvalue.h"
 #include "Rvalue.h"
 
+#include "AST_UnaryOperator.h"
+
 namespace Ceng
 {
 	namespace GLSL
 	{
-		namespace UnaryOperation
-		{
-			enum value
-			{
-				// !
-				logical_not,
-
-				// ~
-				bitwise_not,
-
-				// -
-				negation,				
-			};
-
-			const char* ToString(UnaryOperation::value operation);
-		}
-
 		class AST_UnaryOperation : public IASTNode
 		{
 		public:

@@ -399,6 +399,9 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_IncDecOperation.h">
       <Filter>Header Files\public_interface</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_UnaryOperator.h">
+      <Filter>Header Files\public_interface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\ceng-glsl\src\TypeSpecifier.cpp">
