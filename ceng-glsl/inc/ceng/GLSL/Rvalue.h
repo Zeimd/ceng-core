@@ -4,6 +4,8 @@
 #include <variant>
 #include <ceng/datatypes/ce-string.h>
 
+#include "AST_UnaryOperator.h"
+
 namespace Ceng
 {
 	namespace GLSL
@@ -40,6 +42,15 @@ namespace Ceng
 			~Rvalue();
 
 			Ceng::StringUtf8 ToString(Ceng::UINT32 indentLevel) const;
+
+			bool IsLiteral() const;
+
+			
+			void PreIncr();
+
+			void PreDec();
+
+			void UnaryOp(UnaryOperation::value op);
 
 		};
 	}

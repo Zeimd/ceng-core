@@ -44,6 +44,20 @@ Rvalue::~Rvalue()
 
 }
 
+bool Rvalue::IsLiteral() const
+{
+	switch (valueType)
+	{
+	case RvalueType::bool_literal:
+	case RvalueType::int_literal:
+	case RvalueType::uint_literal:
+	case RvalueType::float_literal:
+		return true;
+	}
+
+	return false;
+}
+
 Ceng::StringUtf8 Rvalue::ToString(Ceng::UINT32 indentLevel) const
 {
 	Ceng::StringUtf8 out;
@@ -77,4 +91,118 @@ Ceng::StringUtf8 Rvalue::ToString(Ceng::UINT32 indentLevel) const
 	}
 
 	return out;
+}
+
+void Rvalue::PreIncr()
+{
+	switch (valueType)
+	{
+	case RvalueType::int_literal:
+		{
+			Ceng::INT32 in = std::get<Ceng::INT32>(value);
+			value = in + 1;
+		}	
+		break;
+	case RvalueType::uint_literal:
+		{
+			Ceng::UINT32 in = std::get<Ceng::UINT32>(value);
+			value = in + 1;
+		}
+		break;
+	case RvalueType::float_literal:
+		{
+			Ceng::FLOAT32 in = std::get<Ceng::FLOAT32>(value);
+			value = in + 1.0f;
+		}
+		break;		
+	}
+}
+
+void Rvalue::PreDec()
+{
+	switch (valueType)
+	{
+	case RvalueType::int_literal:
+	{
+		Ceng::INT32 in = std::get<Ceng::INT32>(value);
+		value = in - 1;
+	}
+	break;
+	case RvalueType::uint_literal:
+	{
+		Ceng::UINT32 in = std::get<Ceng::UINT32>(value);
+		value = in - 1;
+	}
+	break;
+	case RvalueType::float_literal:
+	{
+		Ceng::FLOAT32 in = std::get<Ceng::FLOAT32>(value);
+		value = in - 1.0f;
+	}
+	break;
+	}
+}
+
+void Rvalue::UnaryOp(UnaryOperation::value op)
+{
+	switch (op)
+	{
+	case UnaryOperation::negation:
+		switch (valueType)
+		{
+		case RvalueType::int_literal:
+			{
+				Ceng::INT32 in = std::get<Ceng::INT32>(value);
+				value = -in;
+			}
+			break;
+		case RvalueType::uint_literal:
+			{
+				Ceng::UINT32 in = std::get<Ceng::UINT32>(value);
+				value = -Ceng::INT32(in);
+			}
+			break;
+		case RvalueType::float_literal:
+			{
+				Ceng::FLOAT32 in = std::get<Ceng::FLOAT32>(value);
+				value = -in;
+			}
+			break;
+		}
+		return;
+	case UnaryOperation::bitwise_not:
+		switch (valueType)
+		{
+		case RvalueType::int_literal:
+		{
+			Ceng::INT32 in = std::get<Ceng::INT32>(value);
+			value = ~in;
+		}
+		break;
+		case RvalueType::uint_literal:
+		{
+			Ceng::UINT32 in = std::get<Ceng::UINT32>(value);
+			value = ~in;
+		}
+		break;
+		}
+		return;
+	case UnaryOperation::logical_not:
+		switch (valueType)
+		{
+		case RvalueType::int_literal:
+		{
+			Ceng::INT32 in = std::get<Ceng::INT32>(value);
+			value = !in;
+		}
+		break;
+		case RvalueType::uint_literal:
+		{
+			Ceng::UINT32 in = std::get<Ceng::UINT32>(value);
+			value = !in;
+		}
+		break;
+		}
+		return;
+	}
 }
