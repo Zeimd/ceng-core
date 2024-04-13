@@ -19,7 +19,7 @@ namespace Ceng
 			plus,
 			negation,
 			logical_not,
-			two_complement,
+			bit_flip,
 			invalid_value,
 		};
 	}

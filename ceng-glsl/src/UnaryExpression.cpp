@@ -41,7 +41,7 @@ UnaryExpression::UnaryExpression(std::shared_ptr<UnaryOperator>& op, std::shared
 		unaryType = UnaryExpressionType::logical_not;
 		break;
 	case UnaryOperatorType::two_complement:
-		unaryType = UnaryExpressionType::two_complement;
+		unaryType = UnaryExpressionType::bit_flip;
 		break;
 	case UnaryOperatorType::plus:
 		unaryType = UnaryExpressionType::plus;
@@ -85,7 +85,7 @@ Ceng::StringUtf8 UnaryExpression::ToString(unsigned int indentLevel) const
 		out = "!";
 		out += unaryExpression->ToString(indentLevel);
 		return out;
-	case UnaryExpressionType::two_complement:
+	case UnaryExpressionType::bit_flip:
 		out = "~";
 		out += unaryExpression->ToString(indentLevel);
 		return out;
