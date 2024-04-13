@@ -76,6 +76,8 @@
 #include <ceng/GLSL/AST_BinaryOperation.h>
 #include <ceng/GLSL/AST_AssignmentOperation.h>
 #include <ceng/GLSL/AST_ConditionalOperation.h>
+#include <ceng/GLSL/AST_UnaryOperation.h>
+#include <ceng/GLSL/AST_IncDecOperation.h>
 
 using namespace Ceng;
 
@@ -85,7 +87,8 @@ AST_Generator::~AST_Generator()
 
 }
 
-AST_Generator::AST_Generator()
+AST_Generator::AST_Generator(std::shared_ptr<SymbolDatabase>& symbolDatabase)
+	: symbolDatabase(symbolDatabase)
 {
 	context.parent = &root;
 
@@ -94,9 +97,9 @@ AST_Generator::AST_Generator()
 	context.tempCounter = &tempCounter.back();
 }
 
-GLSL::AbstractSyntaxTree AST_Generator::GenerateTree(std::shared_ptr<TranslationUnit>& unit)
+GLSL::AbstractSyntaxTree AST_Generator::GenerateTree(std::shared_ptr<SymbolDatabase>& symbolDatabase, std::shared_ptr<TranslationUnit>& unit)
 {
-	AST_Generator generator;
+	AST_Generator generator{ symbolDatabase };
 
 	unit->AcceptVisitor(generator);
 	
@@ -665,12 +668,66 @@ AST_Generator::return_type AST_Generator::V_UnaryExpression(UnaryExpression& ite
 		GLSL::Rvalue a = returnValue.rvalue;
 		GLSL::AST_Datatype& resultType = returnValue.rvalueType;
 
+		GLSL::UnaryOperation::value op;
+
 		switch (item.unaryType)
 		{
 		case UnaryExpressionType::inc_op:
+
+			if (a.IsLiteral())
+			{
+				a.PreIncr();
+			}
+			else
+			{
+				context.parent->children.emplace_back(
+					std::make_shared<GLSL::AST_IncDecOperation>(
+						returnValue.lvalue,false
+						)
+				);
+			}
+
 			break;
 		case UnaryExpressionType::dec_op:
+
+			if (a.IsLiteral())
+			{
+				a.PreDec();
+			}
+			else
+			{
+				context.parent->children.emplace_back(
+					std::make_shared<GLSL::AST_IncDecOperation>(
+						returnValue.lvalue, true
+						)
+				);
+			}
+
 			break;
+		case UnaryExpressionType::logical_not:
+			op = GLSL::UnaryOperation::logical_not;
+			break;
+		case UnaryExpressionType::negation:
+			op = GLSL::UnaryOperation::negation;
+			break;
+		case UnaryExpressionType::bit_flip:
+			op = GLSL::UnaryOperation::bitwise_not;
+			break;
+		}
+
+		if (a.IsLiteral())
+		{
+			a.UnaryOp(op);
+		}
+		else
+		{
+			GLSL::Lvalue lhs = GenerateTemporary(resultType);
+
+			context.parent->children.emplace_back(
+				std::make_shared<GLSL::AST_UnaryOperation>(
+					lhs, op, a
+					)
+			);
 		}
 
 	}
@@ -684,11 +741,57 @@ AST_Generator::return_type AST_Generator::V_UnaryExpression(UnaryExpression& ite
 
 AST_Generator::return_type AST_Generator::V_PostfixExpression(PostfixExpression& item)
 {
+	if (item.postfixType != PostfixType::primary_expression)
+	{
+
+	}
+	else
+	{
+		item.primaryExpression->AcceptVisitor(*this);
+	}
+
 	return 0;
 }
 
 AST_Generator::return_type AST_Generator::V_PrimaryExpression(PrimaryExpression& item)
 {
+	switch (item.valuetype)
+	{
+	case ExpressionType::identifier:
+		returnValue.rvalue = { item.name };
+		returnValue.rvalueType = GetDatatype(item.name);
+		returnValue.lvalue = { item.name };
+		returnValue.lvalueType = returnValue.rvalueType;
+		break;
+	case ExpressionType::bool_const:
+		returnValue.rvalue = { item.boolValue };
+		returnValue.rvalueType = GLSL::AST_Datatype(GLSL::BasicType::ts_bool);
+		returnValue.lvalue = GLSL::Lvalue();
+		returnValue.lvalueType = GLSL::AST_Datatype();
+		break;
+	case ExpressionType::int_const:
+		returnValue.rvalue = { item.intValue };
+		returnValue.rvalueType = GLSL::AST_Datatype(GLSL::BasicType::ts_int);
+		returnValue.lvalue = GLSL::Lvalue();
+		returnValue.lvalueType = GLSL::AST_Datatype();
+		break;
+	case ExpressionType::uint_const:
+		returnValue.rvalue = { item.uintValue };
+		returnValue.rvalueType = GLSL::AST_Datatype(GLSL::BasicType::ts_uint);
+		returnValue.lvalue = GLSL::Lvalue();
+		returnValue.lvalueType = GLSL::AST_Datatype();
+		break;
+	case ExpressionType::float_const:
+		returnValue.rvalue = { item.floatValue };
+		returnValue.rvalueType = GLSL::AST_Datatype(GLSL::BasicType::ts_float);
+		returnValue.lvalue = GLSL::Lvalue();
+		returnValue.lvalueType = GLSL::AST_Datatype();
+		break;
+	case ExpressionType::expression:
+		item.expression->AcceptVisitor(*this);
+		break;
+	}
+
 	return 0;
 }
 
@@ -718,6 +821,36 @@ AST_Generator::return_type AST_Generator::V_Declaration(Declaration& decl)
 	}
 
 	return 0;
+}
+
+GLSL::AST_Datatype AST_Generator::GetDatatype(const Ceng::StringUtf8& name)
+{
+	Symbol* symbol = symbolDatabase->Find(name);
+
+	if (symbol == nullptr)
+	{
+		return GLSL::AST_Datatype();
+	}
+
+	switch (symbol->symbolType)
+	{
+	case SymbolType::function_prototype:
+		return GetReturnType(*symbol->decl->prototype);
+	case SymbolType::variable:
+		return GetDatatype(symbol->decl->declList->fullType);
+	case SymbolType::function:
+		return GetReturnType(*symbol->prototype);
+	case SymbolType::function_parameter:
+		return GetDatatype(symbol->param->typeSpec);
+	case SymbolType::struct_declaration:		
+		{
+			GLSL::ArrayIndex index{ false };
+			return GLSL::AST_Datatype(symbol->structSpec->name, index);
+		}
+		break;
+	default:
+		return GLSL::AST_Datatype();
+	}
 }
 
 GLSL::AST_Datatype AST_Generator::GetDatatype(std::shared_ptr<FullySpecifiedType>& item)
@@ -751,7 +884,11 @@ GLSL::AST_Datatype AST_Generator::GetDatatype(TypeSpecifier& item)
 	case TypeSelector::type_name:
 		return GLSL::AST_Datatype(item.typeSpec.typeSpec->name, index);
 	case TypeSelector::struct_specifier:
-		return GLSL::AST_Datatype(RegisterAnonymousStruct(item.typeSpec.typeSpec->structSpec), index);
+		{
+			Ceng::StringUtf8 name = RegisterAnonymousStruct(item.typeSpec.typeSpec->structSpec);
+			return GLSL::AST_Datatype(name, index);
+		}
+		break;
 	}
 
 	return GLSL::AST_Datatype();

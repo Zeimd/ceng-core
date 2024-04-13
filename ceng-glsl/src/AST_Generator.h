@@ -17,6 +17,8 @@
 #include "NonTerminalVisitor.h"
 #include "AssignmentOperator.h"
 
+#include "SymbolDatabase.h"
+
 namespace Ceng
 {
 	struct GeneratorReturn
@@ -40,6 +42,8 @@ namespace Ceng
 	{
 	public:
 
+		std::shared_ptr<SymbolDatabase>& symbolDatabase;
+
 		GLSL::AST_TranslationUnit root;
 
 		Context context;
@@ -52,9 +56,9 @@ namespace Ceng
 
 		~AST_Generator() override;
 
-		AST_Generator();
+		AST_Generator(std::shared_ptr<SymbolDatabase>& symbolDatabase);
 
-		static GLSL::AbstractSyntaxTree GenerateTree(std::shared_ptr<TranslationUnit>& unit);
+		static GLSL::AbstractSyntaxTree GenerateTree(std::shared_ptr<SymbolDatabase>& symbolDatabase, std::shared_ptr<TranslationUnit>& unit);
 
 		return_type V_Expression(Expression& item);
 		return_type V_AssignmentExpression(AssignmentExpression& item);
@@ -83,6 +87,8 @@ namespace Ceng
 		return_type V_FunctionPrototype(FunctionPrototype& item) override;
 
 		return_type V_InitDeclaratorList(InitDeclaratorList& item) override;
+
+		GLSL::AST_Datatype GetDatatype(const Ceng::StringUtf8& name);
 
 		GLSL::AST_Datatype GetDatatype(std::shared_ptr<FullySpecifiedType>& item);
 
