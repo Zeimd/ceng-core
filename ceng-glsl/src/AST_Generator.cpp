@@ -475,7 +475,7 @@ AST_Generator::return_type AST_Generator::V_EqualityExpression(EqualityExpressio
 
 AST_Generator::return_type AST_Generator::V_RelationalExpression(RelationalExpression& item)
 {
-	if (item.operation != EqualityOp::unassigned)
+	if (item.operation != RelativeOp::unassigned)
 	{
 		item.lhs->AcceptVisitor(*this);
 		GLSL::Rvalue a = returnValue.value;
@@ -520,13 +520,14 @@ AST_Generator::return_type AST_Generator::V_RelationalExpression(RelationalExpre
 	{
 		item.rhs->AcceptVisitor(*this);
 	}
+	
 
 	return 0;
 }
 
 AST_Generator::return_type AST_Generator::V_ShiftExpression(ShiftExpression& item)
 {
-	if (item.operation != EqualityOp::unassigned)
+	if (item.operation != ShiftOp::unassigned)
 	{
 		item.lhs->AcceptVisitor(*this);
 		GLSL::Rvalue a = returnValue.value;
@@ -571,7 +572,7 @@ AST_Generator::return_type AST_Generator::V_ShiftExpression(ShiftExpression& ite
 
 AST_Generator::return_type AST_Generator::V_AdditiveExpression(AdditiveExpression& item)
 {
-	if (item.operation != EqualityOp::unassigned)
+	if (item.operation != AdditiveOp::unassigned)
 	{
 		item.lhs->AcceptVisitor(*this);
 		GLSL::Rvalue a = returnValue.value;
@@ -616,7 +617,7 @@ AST_Generator::return_type AST_Generator::V_AdditiveExpression(AdditiveExpressio
 
 AST_Generator::return_type AST_Generator::V_MultiplicativeExpression(MultiplicativeExpression& item)
 {
-	if (item.operation != EqualityOp::unassigned)
+	if (item.operation != MultiplicativeOp::unassigned)
 	{
 		item.lhs->AcceptVisitor(*this);
 		GLSL::Rvalue a = returnValue.value;
