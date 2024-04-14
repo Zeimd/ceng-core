@@ -201,6 +201,10 @@ AST_Generator::return_type AST_Generator::V_ConditionalExpression(ConditionalExp
 				c
 			)
 		);
+
+		returnValue.value = lhs;
+		returnValue.valueType = resultType;
+
 		return 0;
 	}
 	
@@ -257,6 +261,9 @@ AST_Generator::return_type AST_Generator::V_LogicalOrExpression(LogicalOrExpress
 				b
 				)
 		);
+
+		returnValue.value = lhs;
+		returnValue.valueType = resultType;
 		
 		return 0;
 	}
@@ -291,6 +298,9 @@ AST_Generator::return_type AST_Generator::V_LogicalXorExpression(LogicalXorExpre
 				)
 		);
 
+		returnValue.value = lhs;
+		returnValue.valueType = resultType;
+
 		return 0;
 	}
 	else
@@ -323,6 +333,9 @@ AST_Generator::return_type AST_Generator::V_LogicalAndExpression(LogicalAndExpre
 				b
 				)
 		);
+
+		returnValue.value = lhs;
+		returnValue.valueType = resultType;
 
 		return 0;
 	}
@@ -357,6 +370,9 @@ AST_Generator::return_type AST_Generator::V_OrExpression(OrExpression& item)
 				)
 		);
 
+		returnValue.value = lhs;
+		returnValue.valueType = resultType;
+
 		return 0;
 	}
 	else
@@ -390,6 +406,9 @@ AST_Generator::return_type AST_Generator::V_XorExpression(XorExpression& item)
 				)
 		);
 
+		returnValue.value = lhs;
+		returnValue.valueType = resultType;
+
 		return 0;
 	}
 	else
@@ -422,6 +441,9 @@ AST_Generator::return_type AST_Generator::V_AndExpression(AndExpression& item)
 				b
 				)
 		);
+
+		returnValue.value = lhs;
+		returnValue.valueType = resultType;
 
 		return 0;
 	}
@@ -467,6 +489,9 @@ AST_Generator::return_type AST_Generator::V_EqualityExpression(EqualityExpressio
 				b
 				)
 		);
+
+		returnValue.value = lhs;
+		returnValue.valueType = resultType;
 
 		return 0;
 	}
@@ -519,6 +544,9 @@ AST_Generator::return_type AST_Generator::V_RelationalExpression(RelationalExpre
 				)
 		);
 
+		returnValue.value = lhs;
+		returnValue.valueType = resultType;
+
 		return 0;
 	}
 	else
@@ -565,6 +593,9 @@ AST_Generator::return_type AST_Generator::V_ShiftExpression(ShiftExpression& ite
 				)
 		);
 
+		returnValue.value = lhs;
+		returnValue.valueType = resultType;
+
 		return 0;
 	}
 	else
@@ -609,6 +640,9 @@ AST_Generator::return_type AST_Generator::V_AdditiveExpression(AdditiveExpressio
 				b
 				)
 		);
+
+		returnValue.value = lhs;
+		returnValue.valueType = resultType;
 
 		return 0;
 	}
@@ -658,6 +692,9 @@ AST_Generator::return_type AST_Generator::V_MultiplicativeExpression(Multiplicat
 				)
 		);
 
+		returnValue.value = lhs;
+		returnValue.valueType = resultType;
+
 		return 0;
 	}
 	else
@@ -685,6 +722,9 @@ AST_Generator::return_type AST_Generator::V_UnaryExpression(UnaryExpression& ite
 			if (a.IsLiteral())
 			{
 				a.PreIncr();
+
+				returnValue.value = a;
+				returnValue.valueType = resultType;
 			}
 			else
 			{
@@ -695,7 +735,12 @@ AST_Generator::return_type AST_Generator::V_UnaryExpression(UnaryExpression& ite
 						lhs,false
 						)
 				);
-			}
+
+				returnValue.value = lhs;
+				returnValue.valueType = resultType;
+			}		
+
+			return 0;
 
 			break;
 		case UnaryExpressionType::dec_op:
@@ -703,6 +748,10 @@ AST_Generator::return_type AST_Generator::V_UnaryExpression(UnaryExpression& ite
 			if (a.IsLiteral())
 			{
 				a.PreDec();
+
+
+				returnValue.value = a;
+				returnValue.valueType = resultType;
 			}
 			else
 			{
@@ -713,7 +762,12 @@ AST_Generator::return_type AST_Generator::V_UnaryExpression(UnaryExpression& ite
 						lhs, true
 						)
 				);
+
+				returnValue.value = lhs;
+				returnValue.valueType = resultType;
 			}
+
+			return 0;
 
 			break;
 		case UnaryExpressionType::logical_not:
@@ -730,6 +784,9 @@ AST_Generator::return_type AST_Generator::V_UnaryExpression(UnaryExpression& ite
 		if (a.IsLiteral())
 		{
 			a.UnaryOp(op);
+
+			returnValue.value = a;
+			returnValue.valueType = resultType;
 		}
 		else
 		{
@@ -766,37 +823,67 @@ AST_Generator::return_type AST_Generator::V_PostfixExpression(PostfixExpression&
 		return 0;
 	case PostfixType::array_index:
 		return 0;
+	case PostfixType::field_select:
+		return 0;
 	case PostfixType::function_call:
 		item.functionCall->AcceptVisitor(*this);
 		return 0;
 	case PostfixType::dec_op:
+		{
+			item.postfixExpression->AcceptVisitor(*this);
 
-		item.postfixExpression->AcceptVisitor(*this);
+			GLSL::Rvalue input = returnValue.value;
+			GLSL::AST_Datatype inputType = returnValue.valueType;
 
-		GLSL::Rvalue input = returnValue.value;
-		GLSL::AST_Datatype inputType = returnValue.valueType;
+			GLSL::Lvalue lhs = GenerateTemporary(inputType);
 
-		GLSL::Lvalue lhs = GenerateTemporary(inputType);
+			context.parent->children.emplace_back(
+				std::make_shared<GLSL::AST_AssignmentOperation>(
+					lhs, input
+					)
+			);
 
-		context.parent->children.emplace_back(
-			std::make_shared<GLSL::AST_AssignmentOperation>(
-				lhs, input
-				)
-		);
+			lhs = input.ToLvalue();
 
-		lhs = input.ToLvalue();
+			context.parent->children.emplace_back(
+				std::make_shared<GLSL::AST_IncDecOperation>(
+					lhs, true
+					)
+			);
 
-		context.parent->children.emplace_back(
-			std::make_shared<GLSL::AST_IncDecOperation>(
-				lhs, true
-				)
-		);
+			returnValue.value = lhs;
+			returnValue.valueType = inputType;
 
-		returnValue.value = lhs;
-		returnValue.valueType = inputType;
+			return 0;
+		}	
+	case PostfixType::inc_op:
+		{
+			item.postfixExpression->AcceptVisitor(*this);
 
-		return 0;
+			GLSL::Rvalue input = returnValue.value;
+			GLSL::AST_Datatype inputType = returnValue.valueType;
 
+			GLSL::Lvalue lhs = GenerateTemporary(inputType);
+
+			context.parent->children.emplace_back(
+				std::make_shared<GLSL::AST_AssignmentOperation>(
+					lhs, input
+					)
+			);
+
+			lhs = input.ToLvalue();
+
+			context.parent->children.emplace_back(
+				std::make_shared<GLSL::AST_IncDecOperation>(
+					lhs, false
+					)
+			);
+
+			returnValue.value = lhs;
+			returnValue.valueType = inputType;
+
+			return 0;
+		}
 	}
 
 	return 0;
