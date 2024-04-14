@@ -20,6 +20,6 @@ Ceng::StringUtf8 AST_AssignmentOperation::ToString(Ceng::UINT32 indentLevel) con
 	out += lhs.ToString(indentLevel);
 	out += " = ";
 	out += rhs.ToString(indentLevel);
-	out += ';';
+	out += ";\n";
 	return out;
 }

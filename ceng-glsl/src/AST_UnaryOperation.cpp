@@ -39,7 +39,7 @@ Ceng::StringUtf8 AST_UnaryOperation::ToString(Ceng::UINT32 indentLevel) const
 	out = lhs.ToString(indentLevel);
 	out += UnaryOperation::ToString(operation);
 	out += input.ToString(indentLevel);
-	out += ';';
+	out += ";\n";
 
 	return out;
 }

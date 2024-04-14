@@ -74,7 +74,7 @@ Ceng::StringUtf8 AST_BinaryOperation::ToString(Ceng::UINT32 indentLevel) const
 	out += a.ToString(indentLevel);
 	out += BinaryOperator::ToString(operation);
 	out += b.ToString(indentLevel);
-	out += ';';
+	out += ";\n";
 
 	return out;
 }

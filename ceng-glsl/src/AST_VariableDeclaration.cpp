@@ -106,7 +106,7 @@ Ceng::StringUtf8 AST_VariableDeclaration::ToString(Ceng::UINT32 indentLevel) con
 		out += "[]";
 	}
 
-	out += ';';
+	out += ";\n";
 
 	return out;	
 }

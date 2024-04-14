@@ -24,7 +24,7 @@ Ceng::StringUtf8 AST_ConditionalOperation::ToString(Ceng::UINT32 indentLevel) co
 	out += b.ToString(indentLevel);
 	out += " : ";
 	out += c.ToString(indentLevel);
-	out += ';';
+	out += ";\n";
 
 	return out;		
 }

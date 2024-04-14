@@ -27,6 +27,7 @@ Ceng::StringUtf8 AST_IncDecOperation::ToString(Ceng::UINT32 indentLevel) const
 	}
 
 	out += target.ToString(indentLevel);
+	out += ";\n";
 
 	return out;
 }
