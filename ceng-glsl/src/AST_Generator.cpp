@@ -19,6 +19,7 @@
 
 #include "ForInitStatement.h"
 #include "ForRestStatement.h"
+#include "FunctionCall.h"
 #include "FuncCallHeaderNoParams.h"
 #include "FuncCallHeaderParams.h"
 #include "FunctionCallGeneric.h"
@@ -117,11 +118,12 @@ AST_Generator::return_type AST_Generator::V_AssignmentExpression(AssignmentExpre
 	if (item.full)
 	{
 		item.unaryEx->AcceptVisitor(*this);
-		GLSL::Lvalue lhs = returnValue.lvalue;
-		GLSL::Rvalue a = returnValue.rvalue;
+		GLSL::Rvalue a = returnValue.value;
+
+		GLSL::Lvalue lhs = a.ToLvalue();
 
 		item.assignEx->AcceptVisitor(*this);
-		GLSL::Rvalue b = returnValue.rvalue;
+		GLSL::Rvalue b = returnValue.value;
 
 		std::shared_ptr<GLSL::AST_BinaryOperation> output;
 
@@ -174,14 +176,14 @@ AST_Generator::return_type AST_Generator::V_ConditionalExpression(ConditionalExp
 	if (item.full)
 	{
 		item.a->AcceptVisitor(*this);
-		GLSL::Rvalue a = returnValue.rvalue;
+		GLSL::Rvalue a = returnValue.value;
 
 		item.b->AcceptVisitor(*this);
-		GLSL::Rvalue b = returnValue.rvalue;
-		GLSL::AST_Datatype& resultType = returnValue.rvalueType;
+		GLSL::Rvalue b = returnValue.value;
+		GLSL::AST_Datatype resultType = returnValue.valueType;
 
 		item.c->AcceptVisitor(*this);
-		GLSL::Rvalue c = returnValue.rvalue;
+		GLSL::Rvalue c = returnValue.value;
 
 		GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
@@ -233,11 +235,11 @@ AST_Generator::return_type AST_Generator::V_LogicalOrExpression(LogicalOrExpress
 	if (item.full)
 	{
 		item.lhs->AcceptVisitor(*this);
-		GLSL::Rvalue a = returnValue.rvalue;
-		GLSL::AST_Datatype& resultType = returnValue.rvalueType;
+		GLSL::Rvalue a = returnValue.value;
+		GLSL::AST_Datatype resultType = returnValue.valueType;
 
 		item.rhs->AcceptVisitor(*this);
-		GLSL::Rvalue b = returnValue.rvalue;
+		GLSL::Rvalue b = returnValue.value;
 
 		GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
@@ -266,11 +268,11 @@ AST_Generator::return_type AST_Generator::V_LogicalXorExpression(LogicalXorExpre
 	if (item.full)
 	{
 		item.lhs->AcceptVisitor(*this);
-		GLSL::Rvalue a = returnValue.rvalue;
-		GLSL::AST_Datatype& resultType = returnValue.rvalueType;
+		GLSL::Rvalue a = returnValue.value;
+		GLSL::AST_Datatype resultType = returnValue.valueType;
 
 		item.rhs->AcceptVisitor(*this);
-		GLSL::Rvalue b = returnValue.rvalue;
+		GLSL::Rvalue b = returnValue.value;
 
 		GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
@@ -299,11 +301,11 @@ AST_Generator::return_type AST_Generator::V_LogicalAndExpression(LogicalAndExpre
 	if (item.full)
 	{
 		item.lhs->AcceptVisitor(*this);
-		GLSL::Rvalue a = returnValue.rvalue;
-		GLSL::AST_Datatype& resultType = returnValue.rvalueType;
+		GLSL::Rvalue a = returnValue.value;
+		GLSL::AST_Datatype resultType = returnValue.valueType;
 
 		item.rhs->AcceptVisitor(*this);
-		GLSL::Rvalue b = returnValue.rvalue;
+		GLSL::Rvalue b = returnValue.value;
 
 		GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
@@ -332,11 +334,11 @@ AST_Generator::return_type AST_Generator::V_OrExpression(OrExpression& item)
 	if (item.full)
 	{
 		item.lhs->AcceptVisitor(*this);
-		GLSL::Rvalue a = returnValue.rvalue;
-		GLSL::AST_Datatype& resultType = returnValue.rvalueType;
+		GLSL::Rvalue a = returnValue.value;
+		GLSL::AST_Datatype resultType = returnValue.valueType;
 
 		item.rhs->AcceptVisitor(*this);
-		GLSL::Rvalue b = returnValue.rvalue;
+		GLSL::Rvalue b = returnValue.value;
 
 		GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
@@ -365,11 +367,11 @@ AST_Generator::return_type AST_Generator::V_XorExpression(XorExpression& item)
 	if (item.full)
 	{
 		item.lhs->AcceptVisitor(*this);
-		GLSL::Rvalue a = returnValue.rvalue;
-		GLSL::AST_Datatype& resultType = returnValue.rvalueType;
+		GLSL::Rvalue a = returnValue.value;
+		GLSL::AST_Datatype resultType = returnValue.valueType;
 
 		item.rhs->AcceptVisitor(*this);
-		GLSL::Rvalue b = returnValue.rvalue;
+		GLSL::Rvalue b = returnValue.value;
 
 		GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
@@ -398,11 +400,11 @@ AST_Generator::return_type AST_Generator::V_AndExpression(AndExpression& item)
 	if (item.full)
 	{
 		item.lhs->AcceptVisitor(*this);
-		GLSL::Rvalue a = returnValue.rvalue;
-		GLSL::AST_Datatype& resultType = returnValue.rvalueType;
+		GLSL::Rvalue a = returnValue.value;
+		GLSL::AST_Datatype resultType = returnValue.valueType;
 
 		item.rhs->AcceptVisitor(*this);
-		GLSL::Rvalue b = returnValue.rvalue;
+		GLSL::Rvalue b = returnValue.value;
 
 		GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
@@ -431,11 +433,11 @@ AST_Generator::return_type AST_Generator::V_EqualityExpression(EqualityExpressio
 	if (item.operation != EqualityOp::unassigned)
 	{
 		item.lhs->AcceptVisitor(*this);
-		GLSL::Rvalue a = returnValue.rvalue;
-		GLSL::AST_Datatype& resultType = returnValue.rvalueType;
+		GLSL::Rvalue a = returnValue.value;
+		GLSL::AST_Datatype resultType = returnValue.valueType;
 
 		item.rhs->AcceptVisitor(*this);
-		GLSL::Rvalue b = returnValue.rvalue;
+		GLSL::Rvalue b = returnValue.value;
 
 		GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
@@ -476,11 +478,11 @@ AST_Generator::return_type AST_Generator::V_RelationalExpression(RelationalExpre
 	if (item.operation != EqualityOp::unassigned)
 	{
 		item.lhs->AcceptVisitor(*this);
-		GLSL::Rvalue a = returnValue.rvalue;
-		GLSL::AST_Datatype& resultType = returnValue.rvalueType;
+		GLSL::Rvalue a = returnValue.value;
+		GLSL::AST_Datatype resultType = returnValue.valueType;
 
 		item.rhs->AcceptVisitor(*this);
-		GLSL::Rvalue b = returnValue.rvalue;
+		GLSL::Rvalue b = returnValue.value;
 
 		GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
@@ -527,11 +529,11 @@ AST_Generator::return_type AST_Generator::V_ShiftExpression(ShiftExpression& ite
 	if (item.operation != EqualityOp::unassigned)
 	{
 		item.lhs->AcceptVisitor(*this);
-		GLSL::Rvalue a = returnValue.rvalue;
-		GLSL::AST_Datatype& resultType = returnValue.rvalueType;
+		GLSL::Rvalue a = returnValue.value;
+		GLSL::AST_Datatype resultType = returnValue.valueType;
 
 		item.rhs->AcceptVisitor(*this);
-		GLSL::Rvalue b = returnValue.rvalue;
+		GLSL::Rvalue b = returnValue.value;
 
 		GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
@@ -572,11 +574,11 @@ AST_Generator::return_type AST_Generator::V_AdditiveExpression(AdditiveExpressio
 	if (item.operation != EqualityOp::unassigned)
 	{
 		item.lhs->AcceptVisitor(*this);
-		GLSL::Rvalue a = returnValue.rvalue;
-		GLSL::AST_Datatype& resultType = returnValue.rvalueType;
+		GLSL::Rvalue a = returnValue.value;
+		GLSL::AST_Datatype resultType = returnValue.valueType;
 
 		item.rhs->AcceptVisitor(*this);
-		GLSL::Rvalue b = returnValue.rvalue;
+		GLSL::Rvalue b = returnValue.value;
 
 		GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
@@ -617,11 +619,11 @@ AST_Generator::return_type AST_Generator::V_MultiplicativeExpression(Multiplicat
 	if (item.operation != EqualityOp::unassigned)
 	{
 		item.lhs->AcceptVisitor(*this);
-		GLSL::Rvalue a = returnValue.rvalue;
-		GLSL::AST_Datatype& resultType = returnValue.rvalueType;
+		GLSL::Rvalue a = returnValue.value;
+		GLSL::AST_Datatype resultType = returnValue.valueType;
 
 		item.rhs->AcceptVisitor(*this);
-		GLSL::Rvalue b = returnValue.rvalue;
+		GLSL::Rvalue b = returnValue.value;
 
 		GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
@@ -665,8 +667,8 @@ AST_Generator::return_type AST_Generator::V_UnaryExpression(UnaryExpression& ite
 	if (item.unaryType != UnaryExpressionType::postfix_expression)
 	{
 		item.unaryExpression->AcceptVisitor(*this);
-		GLSL::Rvalue a = returnValue.rvalue;
-		GLSL::AST_Datatype& resultType = returnValue.rvalueType;
+		GLSL::Rvalue a = returnValue.value;
+		GLSL::AST_Datatype resultType = returnValue.valueType;
 
 		GLSL::UnaryOperation::value op;
 
@@ -680,9 +682,11 @@ AST_Generator::return_type AST_Generator::V_UnaryExpression(UnaryExpression& ite
 			}
 			else
 			{
+				GLSL::Lvalue lhs = a.ToLvalue();
+
 				context.parent->children.emplace_back(
 					std::make_shared<GLSL::AST_IncDecOperation>(
-						returnValue.lvalue,false
+						lhs,false
 						)
 				);
 			}
@@ -696,9 +700,11 @@ AST_Generator::return_type AST_Generator::V_UnaryExpression(UnaryExpression& ite
 			}
 			else
 			{
+				GLSL::Lvalue lhs = a.ToLvalue();
+
 				context.parent->children.emplace_back(
 					std::make_shared<GLSL::AST_IncDecOperation>(
-						returnValue.lvalue, true
+						lhs, true
 						)
 				);
 			}
@@ -728,7 +734,12 @@ AST_Generator::return_type AST_Generator::V_UnaryExpression(UnaryExpression& ite
 					lhs, op, a
 					)
 			);
+
+			returnValue.value = lhs;
+			returnValue.valueType = resultType;
 		}
+
+		
 
 	}
 	else
@@ -741,13 +752,45 @@ AST_Generator::return_type AST_Generator::V_UnaryExpression(UnaryExpression& ite
 
 AST_Generator::return_type AST_Generator::V_PostfixExpression(PostfixExpression& item)
 {
-	if (item.postfixType != PostfixType::primary_expression)
-	{
 
-	}
-	else
+	switch (item.postfixType)
 	{
+	case PostfixType::primary_expression:
 		item.primaryExpression->AcceptVisitor(*this);
+		return 0;
+	case PostfixType::array_index:
+		return 0;
+	case PostfixType::function_call:
+		item.functionCall->AcceptVisitor(*this);
+		return 0;
+	case PostfixType::dec_op:
+
+		item.postfixExpression->AcceptVisitor(*this);
+
+		GLSL::Rvalue input = returnValue.value;
+		GLSL::AST_Datatype inputType = returnValue.valueType;
+
+		GLSL::Lvalue lhs = GenerateTemporary(inputType);
+
+		context.parent->children.emplace_back(
+			std::make_shared<GLSL::AST_AssignmentOperation>(
+				lhs, input
+				)
+		);
+
+		lhs = input.ToLvalue();
+
+		context.parent->children.emplace_back(
+			std::make_shared<GLSL::AST_IncDecOperation>(
+				lhs, true
+				)
+		);
+
+		returnValue.value = lhs;
+		returnValue.valueType = inputType;
+
+		return 0;
+
 	}
 
 	return 0;
@@ -758,34 +801,24 @@ AST_Generator::return_type AST_Generator::V_PrimaryExpression(PrimaryExpression&
 	switch (item.valuetype)
 	{
 	case ExpressionType::identifier:
-		returnValue.rvalue = { item.name };
-		returnValue.rvalueType = GetDatatype(item.name);
-		returnValue.lvalue = { item.name };
-		returnValue.lvalueType = returnValue.rvalueType;
+		returnValue.value = { item.name };
+		returnValue.valueType = GetDatatype(item.name);
 		break;
 	case ExpressionType::bool_const:
-		returnValue.rvalue = { item.boolValue };
-		returnValue.rvalueType = GLSL::AST_Datatype(GLSL::BasicType::ts_bool);
-		returnValue.lvalue = GLSL::Lvalue();
-		returnValue.lvalueType = GLSL::AST_Datatype();
+		returnValue.value = { item.boolValue };
+		returnValue.valueType = GLSL::AST_Datatype(GLSL::BasicType::ts_bool);
 		break;
 	case ExpressionType::int_const:
-		returnValue.rvalue = { item.intValue };
-		returnValue.rvalueType = GLSL::AST_Datatype(GLSL::BasicType::ts_int);
-		returnValue.lvalue = GLSL::Lvalue();
-		returnValue.lvalueType = GLSL::AST_Datatype();
+		returnValue.value = { item.intValue };
+		returnValue.valueType = GLSL::AST_Datatype(GLSL::BasicType::ts_int);
 		break;
 	case ExpressionType::uint_const:
-		returnValue.rvalue = { item.uintValue };
-		returnValue.rvalueType = GLSL::AST_Datatype(GLSL::BasicType::ts_uint);
-		returnValue.lvalue = GLSL::Lvalue();
-		returnValue.lvalueType = GLSL::AST_Datatype();
+		returnValue.value = { item.uintValue };
+		returnValue.valueType = GLSL::AST_Datatype(GLSL::BasicType::ts_uint);
 		break;
 	case ExpressionType::float_const:
-		returnValue.rvalue = { item.floatValue };
-		returnValue.rvalueType = GLSL::AST_Datatype(GLSL::BasicType::ts_float);
-		returnValue.lvalue = GLSL::Lvalue();
-		returnValue.lvalueType = GLSL::AST_Datatype();
+		returnValue.value = { item.floatValue };
+		returnValue.valueType = GLSL::AST_Datatype(GLSL::BasicType::ts_float);
 		break;
 	case ExpressionType::expression:
 		item.expression->AcceptVisitor(*this);
@@ -907,7 +940,7 @@ GLSL::ArrayIndex AST_Generator::GetArrayIndex(TypeSpecifier& item)
 		{
 			item.typeSpec.elementExpression->AcceptVisitor(*this);
 
-			GLSL::Rvalue& out = returnValue.rvalue;
+			GLSL::Rvalue& out = returnValue.value;
 
 			switch (out.valueType)
 			{
@@ -915,10 +948,13 @@ GLSL::ArrayIndex AST_Generator::GetArrayIndex(TypeSpecifier& item)
 				return { std::get<Ceng::INT32>(out.value) };
 			case GLSL::RvalueType::uint_literal:
 				return { std::get<Ceng::UINT32>(out.value) };
-			case GLSL::RvalueType::identifier:
-				return { std::get<Ceng::StringUtf8>(out.value) };
+			case GLSL::RvalueType::variable:
+				return { std::get<GLSL::VariableExpression>(out.value)};
 			default:
-				return { item.typeSpec.elementExpression->ToString(0), true };
+
+				//GLSL::VariableExpression expr{GLSL::FieldExpression(item.typeSpec.elementExpression->ToString(0))};
+
+				return GLSL::VariableExpression();
 			}			
 		}
 	}
@@ -935,7 +971,7 @@ GLSL::ArrayIndex AST_Generator::GetArrayIndex(std::shared_ptr<ParameterDeclarato
 
 	item->arraySize->AcceptVisitor(*this);
 
-	GLSL::Rvalue& out = returnValue.rvalue;
+	GLSL::Rvalue& out = returnValue.value;
 
 	switch (out.valueType)
 	{
@@ -943,10 +979,13 @@ GLSL::ArrayIndex AST_Generator::GetArrayIndex(std::shared_ptr<ParameterDeclarato
 		return { std::get<Ceng::INT32>(out.value) };
 	case GLSL::RvalueType::uint_literal:
 		return { std::get<Ceng::UINT32>(out.value) };
-	case GLSL::RvalueType::identifier:
-		return { std::get<Ceng::StringUtf8>(out.value) };
+	case GLSL::RvalueType::variable:
+		return { std::get<GLSL::VariableExpression>(out.value) };
 	default:
-		return { item->arraySize->ToString(0), true };
+
+		//GLSL::VariableExpression expr = { GLSL::FieldExpression(item->arraySize->ToString(0)) };
+
+		return GLSL::VariableExpression();
 	}
 }
 

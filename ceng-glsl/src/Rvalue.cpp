@@ -34,7 +34,19 @@ Rvalue::Rvalue(Ceng::FLOAT32 value)
 }
 
 Rvalue::Rvalue(Ceng::StringUtf8& name)
-	: valueType(RvalueType::identifier), value(name)
+	: valueType(RvalueType::variable), value(FieldExpression(name))
+{
+
+}
+
+Rvalue::Rvalue(std::vector<FieldExpression>&& expression)
+	: valueType(RvalueType::variable), value(VariableExpression(std::move(expression)))
+{
+
+}
+
+Rvalue::Rvalue(const Lvalue& lvalue)
+	: valueType(RvalueType::variable), value(lvalue.expression)
 {
 
 }
@@ -42,6 +54,18 @@ Rvalue::Rvalue(Ceng::StringUtf8& name)
 Rvalue::~Rvalue()
 {
 
+}
+
+Lvalue Rvalue::ToLvalue() const
+{
+	switch (valueType)
+	{
+	case RvalueType::variable:
+		return { std::get<VariableExpression>(value) };
+
+	default:
+		return Lvalue();
+	}
 }
 
 bool Rvalue::IsLiteral() const
@@ -83,8 +107,11 @@ Ceng::StringUtf8 Rvalue::ToString(Ceng::UINT32 indentLevel) const
 	case RvalueType::float_literal:
 		out = std::get<Ceng::FLOAT32>(value);
 		break;
-	case RvalueType::identifier:
-		out = std::get<Ceng::StringUtf8>(value);
+	case RvalueType::variable:
+		{
+			auto& temp = std::get<VariableExpression>(value);
+			out = temp.ToString();
+		}
 		break;
 	default:
 		out = "<UNHANDLED AST EXPRESSION TYPE>";

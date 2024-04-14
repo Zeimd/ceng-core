@@ -402,6 +402,12 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_UnaryOperator.h">
       <Filter>Header Files\public_interface</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\VariableExpression.h">
+      <Filter>Header Files\public_interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\FieldExpression.h">
+      <Filter>Header Files\public_interface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\ceng-glsl\src\TypeSpecifier.cpp">
@@ -735,6 +741,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ceng-glsl\src\AST_IncDecOperation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ceng-glsl\src\VariableExpression.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ceng-glsl\src\FieldExpression.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,6 +1,7 @@
 #ifndef CENG_GLSL_ARRAY_INDEX_H
 #define CENG_GLSL_ARRAY_INDEX_H
 
+#include <memory>
 #include <variant>
 
 #include <ceng/datatypes/ce-string.h>
@@ -9,7 +10,9 @@ namespace Ceng
 {
 	namespace GLSL
 	{
-		using ArrayIndexContent = std::variant<Ceng::UINT32, Ceng::StringUtf8>;
+		class VariableExpression;
+
+		using ArrayIndexContent = std::variant<Ceng::UINT32, std::shared_ptr<VariableExpression>>;
 
 		enum class ArrayIndexType
 		{
@@ -27,12 +30,13 @@ namespace Ceng
 
 			ArrayIndexContent value;
 
+			//ArrayIndex(const ArrayIndex& source);
+
 			ArrayIndex(bool implicit);
 
 			ArrayIndex(Ceng::INT32 value);
 			ArrayIndex(Ceng::UINT32 value);
-			ArrayIndex(Ceng::StringUtf8 variable);
-			ArrayIndex(Ceng::StringUtf8 variable, bool invalid);
+			ArrayIndex(const VariableExpression& expression);
 
 			Ceng::StringUtf8 ToString(Ceng::UINT32 indentLevel) const;
 		};

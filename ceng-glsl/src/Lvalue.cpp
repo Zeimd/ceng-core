@@ -3,33 +3,40 @@
 using namespace Ceng::GLSL;
 
 Lvalue::Lvalue()
-	: variableIndex(false), memberIndex(false), valid(false)
+	: valid(false)
 {
 
 }
 
 Lvalue::Lvalue(const Ceng::StringUtf8& variable)
-	: variable(variable), variableIndex(false), memberAccess(false), memberIndex(false), valid(true)
+	: valid(true), expression(FieldExpression(variable))
 {
 
 }
 
-Lvalue::Lvalue(const Ceng::StringUtf8& variable, ArrayIndex& variableIndex)
-	: variable(variable), variableIndex(variableIndex), memberAccess(false), memberIndex(false), valid(true)
+Lvalue::Lvalue(const Ceng::StringUtf8& variable, ArrayIndex& index)
+	: valid(true), expression(FieldExpression(variable, index))
 {
 
 }
 
+Lvalue::Lvalue(const VariableExpression& expression)
+	: expression(expression)
+{
 
-Lvalue::Lvalue(const Ceng::StringUtf8& variable, ArrayIndex& variableIndex,
-	bool memberAccess, const Ceng::StringUtf8& memberName,ArrayIndex& memberIndex)
-	: variable(variable), variableIndex(variableIndex), memberAccess(memberAccess), memberName(memberName), memberIndex(memberIndex), valid(true)
+}
+
+Lvalue::Lvalue(VariableExpression&& expression)
+	: expression(std::move(expression))
 {
 
 }
 
 Ceng::StringUtf8 Lvalue::ToString(Ceng::UINT32 indentLevel) const
 {
+	return expression.ToString();
+
+	/*
 	Ceng::StringUtf8 out;
 
 	out += variable;
@@ -42,4 +49,5 @@ Ceng::StringUtf8 Lvalue::ToString(Ceng::UINT32 indentLevel) const
 	}
 
 	return out;	
+	*/
 }

@@ -4,6 +4,7 @@
 #include <ceng/datatypes/ce-string.h>
 
 #include "ArrayIndex.h"
+#include "VariableExpression.h"
 
 namespace Ceng
 {
@@ -13,18 +14,7 @@ namespace Ceng
 		{
 		public:
 
-			Ceng::StringUtf8 variable;
-
-			// variable[variableIndex]
-			ArrayIndex variableIndex;
-
-			// Indicates variable.memberName
-			bool memberAccess;
-
-			Ceng::StringUtf8 memberName;
-
-			// Indicates memberName[memberIndex]
-			ArrayIndex memberIndex;
+			VariableExpression expression;
 
 			bool valid;
 
@@ -34,11 +24,11 @@ namespace Ceng
 
 			Lvalue(const Ceng::StringUtf8& variable);
 
-			Lvalue(const Ceng::StringUtf8& variable, ArrayIndex& variableIndex);
+			Lvalue(const Ceng::StringUtf8& variable, ArrayIndex& index);
 
-			Lvalue(const Ceng::StringUtf8& variable, ArrayIndex& variableIndex,
-				bool memberAccess, const Ceng::StringUtf8& memberName,
-				ArrayIndex& memberIndex);
+			Lvalue(const VariableExpression& expression);
+
+			Lvalue(VariableExpression&& expression);
 				
 			Ceng::StringUtf8 ToString(Ceng::UINT32 indentLevel) const;
 		};

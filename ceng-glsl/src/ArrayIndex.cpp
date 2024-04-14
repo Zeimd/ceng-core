@@ -1,5 +1,7 @@
 #include <ceng/GLSL/ArrayIndex.h>
 
+#include <ceng/GLSL/VariableExpression.h>
+
 using namespace Ceng::GLSL;
 
 ArrayIndex::ArrayIndex(bool implicit)
@@ -28,14 +30,8 @@ ArrayIndex::ArrayIndex(Ceng::UINT32 value)
 
 }
 
-ArrayIndex::ArrayIndex(Ceng::StringUtf8 variable)
-	: indexType(ArrayIndexType::variable), value(variable)
-{
-
-}
-
-ArrayIndex::ArrayIndex(Ceng::StringUtf8 expression, bool invalid)
-	: indexType(ArrayIndexType::invalid_value), value(expression)
+ArrayIndex::ArrayIndex(const VariableExpression& expression)
+	: indexType(ArrayIndexType::variable), value(std::make_unique<VariableExpression>(expression))
 {
 
 }
@@ -56,9 +52,13 @@ Ceng::StringUtf8 ArrayIndex::ToString(Ceng::UINT32 indentLevel) const
 		out += ']';
 		return out;
 	case ArrayIndexType::variable:
+		out += '[';
+		out += std::get<std::shared_ptr<VariableExpression>>(value)->ToString();
+		out += ']';
+		return out;
 	case ArrayIndexType::invalid_value:
 		out = '[';
-		out += std::get<Ceng::StringUtf8>(value);
+		out += "<ERROR>";
 		out += ']';
 		return out;
 	default:

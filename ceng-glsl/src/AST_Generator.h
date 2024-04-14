@@ -23,13 +23,9 @@ namespace Ceng
 {
 	struct GeneratorReturn
 	{
-		GLSL::Lvalue lvalue;
+		GLSL::Rvalue value;
 
-		GLSL::AST_Datatype lvalueType;
-
-		GLSL::Rvalue rvalue;
-
-		GLSL::AST_Datatype rvalueType;
+		GLSL::AST_Datatype valueType;		
 	};
 
 	struct Context

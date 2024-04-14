@@ -27,6 +27,7 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_Datatype.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_IncDecOperation.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_UnaryOperator.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\FieldExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\Rvalue.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_FunctionDefinition.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_FunctionPrototype.h" />
@@ -55,6 +56,7 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\TokenType.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\Token.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\TypenameCategory.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\VariableExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\AdditiveExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\AndExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\AssignmentExpression.h" />
@@ -160,6 +162,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\AST_ConditionalOperation.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_Datatype.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_IncDecOperation.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\FieldExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\Rvalue.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_FunctionPrototype.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_Generator.cpp" />
@@ -259,6 +262,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\TypeSpecifier.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\UnaryExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\UnaryOperator.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\VariableExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\XorExpression.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

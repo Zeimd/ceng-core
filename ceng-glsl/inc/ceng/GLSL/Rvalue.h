@@ -5,6 +5,8 @@
 #include <ceng/datatypes/ce-string.h>
 
 #include "AST_UnaryOperator.h"
+#include "VariableExpression.h"
+#include "Lvalue.h"
 
 namespace Ceng
 {
@@ -18,11 +20,11 @@ namespace Ceng
 			float_literal,
 			bool_literal,
 
-			identifier,
+			variable,
 		};
 		
 
-		using RvalueData = std::variant<bool, Ceng::INT32, Ceng::UINT32, Ceng::FLOAT32, Ceng::StringUtf8>;
+		using RvalueData = std::variant<bool, Ceng::INT32, Ceng::UINT32, Ceng::FLOAT32, VariableExpression>;
 
 		class Rvalue
 		{
@@ -38,6 +40,8 @@ namespace Ceng
 			Rvalue(Ceng::UINT32 value);
 			Rvalue(Ceng::FLOAT32 value);
 			Rvalue(Ceng::StringUtf8& name);
+			Rvalue(std::vector<FieldExpression>&& expression);
+			Rvalue(const Lvalue& lvalue);
 
 			~Rvalue();
 
@@ -51,6 +55,8 @@ namespace Ceng
 			void PreDec();
 
 			void UnaryOp(UnaryOperation::value op);
+
+			Lvalue ToLvalue() const;
 
 		};
 	}
