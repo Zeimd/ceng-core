@@ -104,6 +104,8 @@ namespace Ceng
 
 		GLSL::AST_Datatype GetDatatype(const GLSL::Lvalue& lvalue);
 
+		GLSL::AST_Datatype GetDatatype(const GLSL::VariableExpression& expression);
+
 		GLSL::ArrayIndex GetArrayIndex(TypeSpecifier& item);
 
 		GLSL::AST_Datatype GetReturnType(FunctionPrototype& item);

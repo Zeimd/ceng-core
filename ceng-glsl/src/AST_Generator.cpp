@@ -933,6 +933,32 @@ GLSL::AST_Datatype AST_Generator::GetDatatype(TypeSpecifier& item)
 	return GLSL::AST_Datatype();
 }
 
+GLSL::AST_Datatype AST_Generator::GetDatatype(const GLSL::VariableExpression& expression)
+{
+	GLSL::AST_Datatype previousType = GetDatatype(expression.chain[0].name);
+
+	if (expression.chain[0].index.indexType != GLSL::ArrayIndexType::unused)
+	{
+		previousType = previousType.DiscardArray();
+	}
+
+	GLSL::AST_Datatype currentType;
+
+	for (int k = 1; k < expression.chain.size(); k++)
+	{
+		currentType = GetMemberType(previousType, expression.chain[k].name);
+
+		if (expression.chain[k].index.indexType != GLSL::ArrayIndexType::unused)
+		{
+			currentType = currentType.DiscardArray();
+		}
+
+		previousType = currentType;
+	}
+
+	return currentType;
+}
+
 GLSL::AST_Datatype AST_Generator::GetDatatype(const GLSL::Lvalue& lvalue)
 {
 	if (lvalue.valid == false)
@@ -940,28 +966,7 @@ GLSL::AST_Datatype AST_Generator::GetDatatype(const GLSL::Lvalue& lvalue)
 		return GLSL::AST_Datatype();
 	}
 
-	GLSL::AST_Datatype previousType = GetDatatype(lvalue.expression.chain[0].name);
-
-	if (lvalue.expression.chain[0].index.indexType != GLSL::ArrayIndexType::unused)
-	{
-		previousType = previousType.DiscardArray();
-	}
-
-	GLSL::AST_Datatype currentType;
-
-	for (int k = 1; k < lvalue.expression.chain.size(); k++)
-	{
-		currentType = GetMemberType(previousType, lvalue.expression.chain[k].name);
-
-		if (lvalue.expression.chain[k].index.indexType != GLSL::ArrayIndexType::unused)
-		{
-			currentType = currentType.DiscardArray();
-		}
-
-		previousType = currentType;
-	}	
-
-	return currentType;
+	return GetDatatype(lvalue.expression);
 }
 
 GLSL::AST_Datatype AST_Generator::GetMemberType(const GLSL::AST_Datatype& baseType, const Ceng::StringUtf8& memberName)
