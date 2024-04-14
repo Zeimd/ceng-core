@@ -83,7 +83,7 @@ Ceng::StringUtf8 PrimaryExpression::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
-	switch (type)
+	switch (valuetype)
 	{
 	case ExpressionType::identifier:
 		return name;
