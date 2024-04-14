@@ -29,12 +29,13 @@ namespace Ceng
 
 			AST_Datatype(BasicType::value basicType, ArrayIndex& index);
 
-			AST_Datatype(Ceng::StringUtf8& customTypeName);
+			AST_Datatype(const Ceng::StringUtf8& customTypeName);
 
-			AST_Datatype(Ceng::StringUtf8& customTypeName, ArrayIndex& index);
+			AST_Datatype(const Ceng::StringUtf8& customTypeName, ArrayIndex& index);
 
 			Ceng::StringUtf8 ToString() const;
 
+			AST_Datatype DiscardArray() const;
 		};
 	}
 }

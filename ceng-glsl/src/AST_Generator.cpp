@@ -133,15 +133,20 @@ AST_Generator::return_type AST_Generator::V_AssignmentExpression(AssignmentExpre
 			context.parent->children.push_back(std::make_shared< GLSL::AST_AssignmentOperation>(
 				lhs, b
 				));
-			return 0;
+			break;
 		default:
 
 			GLSL::BinaryOperator::value op = ConvertAssignmentOperator(item.op->operation);
 			context.parent->children.push_back(std::make_shared< GLSL::AST_BinaryOperation>(
 				lhs, a, op, b
 				));
-			return 0;		
+
+			break;
 		}
+
+		returnValue.value = lhs;
+		returnValue.valueType = GetDatatype(lhs);
+		return 0;
 	}
 	else
 	{
@@ -925,6 +930,42 @@ GLSL::AST_Datatype AST_Generator::GetDatatype(TypeSpecifier& item)
 		break;
 	}
 
+	return GLSL::AST_Datatype();
+}
+
+GLSL::AST_Datatype AST_Generator::GetDatatype(const GLSL::Lvalue& lvalue)
+{
+	if (lvalue.valid == false)
+	{
+		return GLSL::AST_Datatype();
+	}
+
+	GLSL::AST_Datatype previousType = GetDatatype(lvalue.expression.chain[0].name);
+
+	if (lvalue.expression.chain[0].index.indexType != GLSL::ArrayIndexType::unused)
+	{
+		previousType = previousType.DiscardArray();
+	}
+
+	GLSL::AST_Datatype currentType;
+
+	for (int k = 1; k < lvalue.expression.chain.size(); k++)
+	{
+		currentType = GetMemberType(previousType, lvalue.expression.chain[k].name);
+
+		if (lvalue.expression.chain[k].index.indexType != GLSL::ArrayIndexType::unused)
+		{
+			currentType = currentType.DiscardArray();
+		}
+
+		previousType = currentType;
+	}	
+
+	return currentType;
+}
+
+GLSL::AST_Datatype AST_Generator::GetMemberType(const GLSL::AST_Datatype& baseType, const Ceng::StringUtf8& memberName)
+{
 	return GLSL::AST_Datatype();
 }
 

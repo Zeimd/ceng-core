@@ -20,17 +20,28 @@ AST_Datatype::AST_Datatype(BasicType::value basicType, ArrayIndex& index)
 
 }
 
-AST_Datatype::AST_Datatype(Ceng::StringUtf8& customTypeName)
+AST_Datatype::AST_Datatype(const Ceng::StringUtf8& customTypeName)
 	: category(TypenameCategory::custom_type), customTypeName(customTypeName), index(false)
 {
 
 }
 
 
-AST_Datatype::AST_Datatype(Ceng::StringUtf8& customTypeName, ArrayIndex& index)
+AST_Datatype::AST_Datatype(const Ceng::StringUtf8& customTypeName, ArrayIndex& index)
 	: category(TypenameCategory::custom_type), customTypeName(customTypeName), index(index)
 {
 
+}
+
+AST_Datatype AST_Datatype::DiscardArray() const
+{
+	switch (category)
+	{
+	case TypenameCategory::basic_type:
+		return { basicType };
+	case TypenameCategory::custom_type:
+		return { customTypeName };
+	}
 }
 
 Ceng::StringUtf8 AST_Datatype::ToString() const

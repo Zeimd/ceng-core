@@ -14,6 +14,8 @@
 #include <ceng/GLSL/Rvalue.h>
 #include <ceng/GLSL/AST_BinaryOperation.h>
 
+#include <ceng/GLSL/Lvalue.h>
+
 #include "NonTerminalVisitor.h"
 #include "AssignmentOperator.h"
 
@@ -97,6 +99,10 @@ namespace Ceng
 		GLSL::ArrayIndex GetArrayIndex(std::shared_ptr<ParameterDeclarator>& item);
 
 		GLSL::AST_Datatype GetDatatype(TypeSpecifier& item);
+
+		GLSL::AST_Datatype GetMemberType(const GLSL::AST_Datatype& baseType, const Ceng::StringUtf8& memberName);
+
+		GLSL::AST_Datatype GetDatatype(const GLSL::Lvalue& lvalue);
 
 		GLSL::ArrayIndex GetArrayIndex(TypeSpecifier& item);
 
