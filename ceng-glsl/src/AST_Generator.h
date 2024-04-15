@@ -115,6 +115,46 @@ namespace Ceng
 		GLSL::BinaryOperator::value ConvertAssignmentOperator(AssignOpType::value op);
 
 		Ceng::StringUtf8 RegisterAnonymousStruct(std::shared_ptr<StructSpecifier>& structSpec);
+
+		static GeneratorReturn LiteralBinaryOp(GLSL::Rvalue& a, GLSL::BinaryOperator::value op, GLSL::Rvalue& b);
+
+		static GeneratorReturn LiteralAdd(GLSL::Rvalue& a, GLSL::Rvalue& b);
+
+		static GeneratorReturn LiteralSub(GLSL::Rvalue& a, GLSL::Rvalue& b);
+
+		static GeneratorReturn LiteralMul(GLSL::Rvalue& a, GLSL::Rvalue& b);
+
+		static GeneratorReturn LiteralDiv(GLSL::Rvalue& a, GLSL::Rvalue& b);
+
+		static GeneratorReturn LiteralMod(GLSL::Rvalue& a, GLSL::Rvalue& b);
+
+		static GeneratorReturn LiteralLeftShift(GLSL::Rvalue& a, GLSL::Rvalue& b);
+
+		static GeneratorReturn LiteralRightShift(GLSL::Rvalue& a, GLSL::Rvalue& b);
+
+		static GeneratorReturn LiteralLogicalAnd(GLSL::Rvalue& a, GLSL::Rvalue& b);
+
+		static GeneratorReturn LiteralLogicalOr(GLSL::Rvalue& a, GLSL::Rvalue& b);
+
+		static GeneratorReturn LiteralLogicalXor(GLSL::Rvalue& a, GLSL::Rvalue& b);
+
+		static GeneratorReturn LiteralBitwiseAnd(GLSL::Rvalue& a, GLSL::Rvalue& b);
+
+		static GeneratorReturn LiteralBitwiseOr(GLSL::Rvalue& a, GLSL::Rvalue& b);
+
+		static GeneratorReturn LiteralBitwiseXor(GLSL::Rvalue& a, GLSL::Rvalue& b);
+
+		static GeneratorReturn LiteralLess(GLSL::Rvalue& a, GLSL::Rvalue& b);
+
+		static GeneratorReturn LiteralLessEqual(GLSL::Rvalue& a, GLSL::Rvalue& b);
+
+		static GeneratorReturn LiteralGreater(GLSL::Rvalue& a, GLSL::Rvalue& b);
+
+		static GeneratorReturn LiteralGreaterEqual(GLSL::Rvalue& a, GLSL::Rvalue& b);
+
+		static GeneratorReturn LiteralEqual(GLSL::Rvalue& a, GLSL::Rvalue& b);
+
+		static GeneratorReturn LiteralNotEqual(GLSL::Rvalue& a, GLSL::Rvalue& b);
 	};
 
 }
