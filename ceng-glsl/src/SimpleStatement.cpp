@@ -23,50 +23,50 @@ void SimpleStatement::Release()
 }
 
 SimpleStatement::SimpleStatement(std::shared_ptr<DeclarationStatement>& declaration)
-	: INonTerminal(NonTerminalType::simple_statement), type(StatementType::declaration), declaration(declaration)
+	: INonTerminal(NonTerminalType::simple_statement), statementType(StatementType::declaration), declaration(declaration)
 {
 
 }
 
 SimpleStatement::SimpleStatement(std::shared_ptr<ExpressionStatement>& expression)
-	: INonTerminal(NonTerminalType::simple_statement), type(StatementType::expression), expression(expression)
+	: INonTerminal(NonTerminalType::simple_statement), statementType(StatementType::expression), expression(expression)
 {
 
 }
 
 SimpleStatement::SimpleStatement(std::shared_ptr<SelectionStatement>& selection)
-	: INonTerminal(NonTerminalType::simple_statement), type(StatementType::selection), selection(selection)
+	: INonTerminal(NonTerminalType::simple_statement), statementType(StatementType::selection), selection(selection)
 {
 
 }
 
 SimpleStatement::SimpleStatement(std::shared_ptr<SwitchStatement>& switchStatement)
-	: INonTerminal(NonTerminalType::simple_statement), type(StatementType::switch_statement), switchStatement(switchStatement)
+	: INonTerminal(NonTerminalType::simple_statement), statementType(StatementType::switch_statement), switchStatement(switchStatement)
 {
 
 }
 
 SimpleStatement::SimpleStatement(std::shared_ptr<CaseLabel>& caseLabel)
-	: INonTerminal(NonTerminalType::simple_statement), type(StatementType::case_label), caseLabel(caseLabel)
+	: INonTerminal(NonTerminalType::simple_statement), statementType(StatementType::case_label), caseLabel(caseLabel)
 {
 
 }
 
 SimpleStatement::SimpleStatement(std::shared_ptr<IterationStatement>& iteration)
-	: INonTerminal(NonTerminalType::simple_statement), type(StatementType::iteration), iteration(iteration)
+	: INonTerminal(NonTerminalType::simple_statement), statementType(StatementType::iteration), iteration(iteration)
 {
 
 }
 
 SimpleStatement::SimpleStatement(std::shared_ptr<JumpStatement>& jump)
-	: INonTerminal(NonTerminalType::simple_statement), type(StatementType::jump), jump(jump)
+	: INonTerminal(NonTerminalType::simple_statement), statementType(StatementType::jump), jump(jump)
 {
 
 }
 
 Ceng::StringUtf8 SimpleStatement::ToString(unsigned int indentLevel) const
 {
-	switch (type)
+	switch (statementType)
 	{
 	case StatementType::expression:
 		return expression->ToString(indentLevel);

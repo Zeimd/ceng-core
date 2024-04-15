@@ -31,7 +31,7 @@ namespace Ceng
 	{
 	public:
 
-		StatementType::value type;
+		StatementType::value statementType;
 
 		std::shared_ptr<DeclarationStatement> declaration;
 		std::shared_ptr<ExpressionStatement> expression;
