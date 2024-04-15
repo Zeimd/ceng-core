@@ -3077,6 +3077,18 @@ AST_Generator::return_type AST_Generator::V_InitDeclaratorList(InitDeclaratorLis
 
 		GLSL::AST_Datatype datatype{GetDatatype(item.fullType)};
 
+
+		GLSL::Rvalue initializer;
+		GLSL::AST_Datatype initializerType;
+
+		if (entry.initializer != nullptr)
+		{
+			entry.initializer->AcceptVisitor(*this);
+
+			initializer = returnValue.value;
+			initializerType = returnValue.valueType;
+		}
+
 		std::shared_ptr<GLSL::AST_VariableDeclaration> output;
 
 		if (entry.arraySizeExpression == nullptr)
@@ -3091,7 +3103,8 @@ AST_Generator::return_type AST_Generator::V_InitDeclaratorList(InitDeclaratorLis
 					item.fullType->typeSpec.precision.precision,
 					datatype,
 					entry.name,
-					true
+					true,
+					initializer
 					);
 			}
 			else
@@ -3103,7 +3116,8 @@ AST_Generator::return_type AST_Generator::V_InitDeclaratorList(InitDeclaratorLis
 					item.fullType->qualifier.interpolation.interpolation,
 					item.fullType->typeSpec.precision.precision,
 					datatype,
-					entry.name
+					entry.name,
+					initializer
 					);
 			}
 		}
@@ -3123,27 +3137,12 @@ AST_Generator::return_type AST_Generator::V_InitDeclaratorList(InitDeclaratorLis
 				item.fullType->typeSpec.precision.precision,
 				datatype,
 				entry.name,
-				intSize
+				intSize,
+				initializer
 				);
 		}
 
 		CurrentContext().parent->children.push_back(output);
-
-		NewestChildToContext();
-
-		GLSL::Rvalue initializer;
-		GLSL::AST_Datatype initializerType;
-
-		if (entry.initializer != nullptr)
-		{
-			entry.initializer->AcceptVisitor(*this);
-
-			initializer = returnValue.value;
-			initializerType = returnValue.valueType;
-		}
-
-		PopContext();
-
 	}
 
 	return 0;

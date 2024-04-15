@@ -102,6 +102,8 @@ namespace Ceng
 
 		return_type V_InitDeclaratorList(InitDeclaratorList& item) override;
 
+		return_type V_Initializer(Initializer& item);
+
 		GLSL::AST_Datatype GetDatatype(const Ceng::StringUtf8& name);
 
 		GLSL::AST_Datatype GetDatatype(std::shared_ptr<FullySpecifiedType>& item);

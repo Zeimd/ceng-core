@@ -35,7 +35,7 @@ namespace Ceng
 			bool implicitArray;
 			Ceng::UINT32 arraySize;
 
-			std::shared_ptr<IASTNode> initializer;
+			Rvalue initializer;
 
 		public:
 
@@ -45,7 +45,7 @@ namespace Ceng
 
 			AST_VariableDeclaration(bool invariant, std::vector<LayoutData>& layout, StorageQualifierType::value storage,
 				InterpolationQualifierType::value interpolation, PrecisionQualifierType::value precision,
-				AST_Datatype& datatype, const Ceng::StringUtf8& name, std::shared_ptr<IASTNode>& initializer);
+				AST_Datatype& datatype, const Ceng::StringUtf8& name, const Rvalue& initializer);
 
 			AST_VariableDeclaration(bool invariant, std::vector<LayoutData>& layout, StorageQualifierType::value storage,
 				InterpolationQualifierType::value interpolation, PrecisionQualifierType::value precision,
@@ -53,7 +53,7 @@ namespace Ceng
 
 			AST_VariableDeclaration(bool invariant, std::vector<LayoutData>& layout, StorageQualifierType::value storage,
 				InterpolationQualifierType::value interpolation, PrecisionQualifierType::value precision,
-				AST_Datatype& datatype, const Ceng::StringUtf8& name, bool implicitArray, std::shared_ptr<IASTNode>& initializer);
+				AST_Datatype& datatype, const Ceng::StringUtf8& name, bool implicitArray, const Rvalue& initializer);
 
 			AST_VariableDeclaration(bool invariant, std::vector<LayoutData>& layout, StorageQualifierType::value storage,
 				InterpolationQualifierType::value interpolation, PrecisionQualifierType::value precision,
@@ -61,7 +61,7 @@ namespace Ceng
 
 			AST_VariableDeclaration(bool invariant, std::vector<LayoutData>& layout, StorageQualifierType::value storage,
 				InterpolationQualifierType::value interpolation, PrecisionQualifierType::value precision,
-				AST_Datatype& datatype, const Ceng::StringUtf8& name, Ceng::UINT32 arraySize, std::shared_ptr<IASTNode>& initializer);
+				AST_Datatype& datatype, const Ceng::StringUtf8& name, Ceng::UINT32 arraySize, const Rvalue& initializer);
 
 			~AST_VariableDeclaration() override;
 
