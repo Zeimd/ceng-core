@@ -233,3 +233,24 @@ void Rvalue::UnaryOp(UnaryOperation::value op)
 		return;
 	}
 }
+
+bool Rvalue::IsZero() const
+{
+	switch (valueType)
+	{
+	case RvalueType::variable:
+		return false;
+	case RvalueType::bool_literal:
+		return false;
+	case RvalueType::int_literal:
+		return std::get<Ceng::INT32>(value) == 0;
+	case RvalueType::uint_literal:
+		return std::get<Ceng::UINT32>(value) == 0;
+	case RvalueType::float_literal:
+		return std::get<Ceng::FLOAT32>(value) == 0.0f;
+	case RvalueType::unused:
+		return false;
+	}
+
+	return false;
+}

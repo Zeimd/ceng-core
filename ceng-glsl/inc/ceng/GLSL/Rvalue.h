@@ -58,6 +58,8 @@ namespace Ceng
 
 			Lvalue ToLvalue() const;
 
+			bool IsZero() const;
+
 		};
 	}
 }

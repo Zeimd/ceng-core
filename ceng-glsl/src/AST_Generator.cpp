@@ -1366,6 +1366,11 @@ GeneratorReturn AST_Generator::LiteralMul(GLSL::Rvalue& a, GLSL::Rvalue& b)
 
 GeneratorReturn AST_Generator::LiteralDiv(GLSL::Rvalue& a, GLSL::Rvalue& b)
 {
+	if (b.IsZero())
+	{
+		return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+	}
+
 	if (a.valueType == b.valueType)
 	{
 		switch (a.valueType)
@@ -1461,6 +1466,11 @@ GeneratorReturn AST_Generator::LiteralDiv(GLSL::Rvalue& a, GLSL::Rvalue& b)
 
 GeneratorReturn AST_Generator::LiteralMod(GLSL::Rvalue& a, GLSL::Rvalue& b)
 {
+	if (b.IsZero())
+	{
+		return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+	}
+
 	if (a.valueType == b.valueType)
 	{
 		switch (a.valueType)
