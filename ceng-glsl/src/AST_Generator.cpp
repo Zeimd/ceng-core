@@ -3273,23 +3273,26 @@ AST_Generator::return_type AST_Generator::V_JumpStatement(JumpStatement& item)
 {
 	printf(__FUNCTION__);
 	printf("\n");
-	printf("<unimplemented>\n");
 
 	switch (item.jumpType)
 	{
 	case JumpType::returnStatement:
-		item.returnExpression->AcceptVisitor(*this);
+		{
+			item.returnExpression->AcceptVisitor(*this);
 
-		GLSL::Rvalue result = returnValue.value;
-		GLSL::AST_Datatype resultType = returnValue.valueType;
+			GLSL::Rvalue result = returnValue.value;
+			GLSL::AST_Datatype resultType = returnValue.valueType;
 
-		// TODO: check against function return type
+			// TODO: check against function return type
 
-		CurrentContext().parent->children.emplace_back(
-			std::make_shared<GLSL::AST_ReturnStatement>(result)
+			CurrentContext().parent->children.emplace_back(
+				std::make_shared<GLSL::AST_ReturnStatement>(result)
 
-		);
-
+			);
+		}
+		break;		
+	default:
+		printf("<UNIMPLEMENTED JUMP STATEMENT CASE>");
 	}
 
 	return 0;
