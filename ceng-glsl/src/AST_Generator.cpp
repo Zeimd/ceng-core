@@ -704,8 +704,6 @@ AST_Generator::return_type AST_Generator::V_AdditiveExpression(AdditiveExpressio
 		item.rhs->AcceptVisitor(*this);
 		GLSL::Rvalue b = returnValue.value;
 
-		GLSL::Lvalue lhs = GenerateTemporary(resultType);
-
 		GLSL::BinaryOperator::value binaryOp;
 
 		switch (item.operation)
