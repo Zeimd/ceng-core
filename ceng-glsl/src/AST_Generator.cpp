@@ -53,6 +53,8 @@
 #include "SelectionStatement.h"
 #include "SimpleStatement.h"
 #include "ShiftExpression.h"
+#include "StatementList.h"
+#include "Statement.h"
 
 #include "StorageQualifier.h"
 #include "StructDeclaration.h"
@@ -79,6 +81,7 @@
 #include <ceng/GLSL/AST_ConditionalOperation.h>
 #include <ceng/GLSL/AST_UnaryOperation.h>
 #include <ceng/GLSL/AST_IncDecOperation.h>
+#include <ceng/GLSL/AST_ReturnStatement.h>
 
 using namespace Ceng;
 
@@ -105,12 +108,18 @@ GLSL::AbstractSyntaxTree AST_Generator::GenerateTree(std::shared_ptr<SymbolDatab
 
 AST_Generator::return_type AST_Generator::V_Expression(Expression& item)
 {
+	printf(__FUNCTION__);
+	printf("\n");
+
 	item.assignEx[0]->AcceptVisitor(*this);
 	return 0;
 }
 
 AST_Generator::return_type AST_Generator::V_AssignmentExpression(AssignmentExpression& item)
 {
+	printf(__FUNCTION__);
+	printf("\n");
+
 	if (item.full)
 	{
 		item.unaryEx->AcceptVisitor(*this);
@@ -159,8 +168,13 @@ AST_Generator::return_type AST_Generator::V_AssignmentExpression(AssignmentExpre
 
 GLSL::Lvalue AST_Generator::GenerateTemporary(GLSL::AST_Datatype& type)
 {
+	printf(__FUNCTION__);
+	printf("\n");
+
 	Ceng::StringUtf8 name = "_temp";
 	name += CurrentContext().tempCounter++;
+
+	printf("variable = %s\n", name.ToCString());
 
 	std::vector<GLSL::LayoutData> layout;
 
@@ -180,6 +194,9 @@ GLSL::Lvalue AST_Generator::GenerateTemporary(GLSL::AST_Datatype& type)
 
 AST_Generator::return_type AST_Generator::V_ConditionalExpression(ConditionalExpression& item)
 {
+	printf(__FUNCTION__);
+	printf("\n");
+
 	if (item.full)
 	{
 		item.a->AcceptVisitor(*this);
@@ -243,6 +260,9 @@ GLSL::BinaryOperator::value AST_Generator::ConvertAssignmentOperator(AssignOpTyp
 
 AST_Generator::return_type AST_Generator::V_LogicalOrExpression(LogicalOrExpression& item)
 {
+	printf(__FUNCTION__);
+	printf("\n");
+
 	if (item.full)
 	{
 		item.lhs->AcceptVisitor(*this);
@@ -288,6 +308,9 @@ AST_Generator::return_type AST_Generator::V_LogicalOrExpression(LogicalOrExpress
 
 AST_Generator::return_type AST_Generator::V_LogicalXorExpression(LogicalXorExpression& item)
 {
+	printf(__FUNCTION__);
+	printf("\n");
+
 	if (item.full)
 	{
 		item.lhs->AcceptVisitor(*this);
@@ -333,6 +356,9 @@ AST_Generator::return_type AST_Generator::V_LogicalXorExpression(LogicalXorExpre
 
 AST_Generator::return_type AST_Generator::V_LogicalAndExpression(LogicalAndExpression& item)
 {
+	printf(__FUNCTION__);
+	printf("\n");
+
 	if (item.full)
 	{
 		item.lhs->AcceptVisitor(*this);
@@ -378,6 +404,9 @@ AST_Generator::return_type AST_Generator::V_LogicalAndExpression(LogicalAndExpre
 
 AST_Generator::return_type AST_Generator::V_OrExpression(OrExpression& item)
 {
+	printf(__FUNCTION__);
+	printf("\n");
+
 	if (item.full)
 	{
 		item.lhs->AcceptVisitor(*this);
@@ -423,6 +452,9 @@ AST_Generator::return_type AST_Generator::V_OrExpression(OrExpression& item)
 
 AST_Generator::return_type AST_Generator::V_XorExpression(XorExpression& item)
 {
+	printf(__FUNCTION__);
+	printf("\n");
+
 	if (item.full)
 	{
 		item.lhs->AcceptVisitor(*this);
@@ -468,6 +500,9 @@ AST_Generator::return_type AST_Generator::V_XorExpression(XorExpression& item)
 
 AST_Generator::return_type AST_Generator::V_AndExpression(AndExpression& item)
 {
+	printf(__FUNCTION__);
+	printf("\n");
+
 	if (item.full)
 	{
 		item.lhs->AcceptVisitor(*this);
@@ -513,6 +548,9 @@ AST_Generator::return_type AST_Generator::V_AndExpression(AndExpression& item)
 
 AST_Generator::return_type AST_Generator::V_EqualityExpression(EqualityExpression& item)
 {
+	printf(__FUNCTION__);
+	printf("\n");
+
 	if (item.operation != EqualityOp::unassigned)
 	{
 		item.lhs->AcceptVisitor(*this);
@@ -570,6 +608,9 @@ AST_Generator::return_type AST_Generator::V_EqualityExpression(EqualityExpressio
 
 AST_Generator::return_type AST_Generator::V_RelationalExpression(RelationalExpression& item)
 {
+	printf(__FUNCTION__);
+	printf("\n");
+
 	if (item.operation != RelativeOp::unassigned)
 	{
 		item.lhs->AcceptVisitor(*this);
@@ -634,6 +675,9 @@ AST_Generator::return_type AST_Generator::V_RelationalExpression(RelationalExpre
 
 AST_Generator::return_type AST_Generator::V_ShiftExpression(ShiftExpression& item)
 {
+	printf(__FUNCTION__);
+	printf("\n");
+
 	if (item.operation != ShiftOp::unassigned)
 	{
 		item.lhs->AcceptVisitor(*this);
@@ -691,6 +735,9 @@ AST_Generator::return_type AST_Generator::V_ShiftExpression(ShiftExpression& ite
 
 AST_Generator::return_type AST_Generator::V_AdditiveExpression(AdditiveExpression& item)
 {
+	printf(__FUNCTION__);
+	printf("\n");
+
 	if (item.operation != AdditiveOp::unassigned)
 	{
 		item.lhs->AcceptVisitor(*this);
@@ -748,6 +795,9 @@ AST_Generator::return_type AST_Generator::V_AdditiveExpression(AdditiveExpressio
 
 AST_Generator::return_type AST_Generator::V_MultiplicativeExpression(MultiplicativeExpression& item)
 {
+	printf(__FUNCTION__);
+	printf("\n");
+
 	if (item.operation != MultiplicativeOp::unassigned)
 	{
 		item.lhs->AcceptVisitor(*this);
@@ -807,6 +857,9 @@ AST_Generator::return_type AST_Generator::V_MultiplicativeExpression(Multiplicat
 
 AST_Generator::return_type AST_Generator::V_UnaryExpression(UnaryExpression& item)
 {
+	printf(__FUNCTION__);
+	printf("\n");
+
 	if (item.unaryType != UnaryExpressionType::postfix_expression)
 	{
 		item.unaryExpression->AcceptVisitor(*this);
@@ -915,6 +968,8 @@ AST_Generator::return_type AST_Generator::V_UnaryExpression(UnaryExpression& ite
 
 AST_Generator::return_type AST_Generator::V_PostfixExpression(PostfixExpression& item)
 {
+	printf(__FUNCTION__);
+	printf("\n");
 
 	switch (item.postfixType)
 	{
@@ -991,6 +1046,9 @@ AST_Generator::return_type AST_Generator::V_PostfixExpression(PostfixExpression&
 
 AST_Generator::return_type AST_Generator::V_PrimaryExpression(PrimaryExpression& item)
 {
+	printf(__FUNCTION__);
+	printf("\n");
+
 	switch (item.valuetype)
 	{
 	case ExpressionType::identifier:
@@ -1023,6 +1081,9 @@ AST_Generator::return_type AST_Generator::V_PrimaryExpression(PrimaryExpression&
 
 GeneratorReturn AST_Generator::LiteralBinaryOp(GLSL::Rvalue& a, GLSL::BinaryOperator::value op, GLSL::Rvalue& b)
 {
+	printf(__FUNCTION__);
+	printf("\n");
+
 	if (a.valueType == GLSL::RvalueType::variable || b.valueType == GLSL::RvalueType::variable)
 	{
 		return { GLSL::Rvalue(),GLSL::AST_Datatype() };
@@ -1265,6 +1326,9 @@ GeneratorReturn AST_Generator::LiteralSub(GLSL::Rvalue& a, GLSL::Rvalue& b)
 
 GeneratorReturn AST_Generator::LiteralMul(GLSL::Rvalue& a, GLSL::Rvalue& b)
 {
+	printf(__FUNCTION__);
+	printf("\n");
+
 	if (a.valueType == b.valueType)
 	{
 		switch (a.valueType)
@@ -1360,6 +1424,9 @@ GeneratorReturn AST_Generator::LiteralMul(GLSL::Rvalue& a, GLSL::Rvalue& b)
 
 GeneratorReturn AST_Generator::LiteralDiv(GLSL::Rvalue& a, GLSL::Rvalue& b)
 {
+	printf(__FUNCTION__);
+	printf("\n");
+
 	if (b.IsZero())
 	{
 		return { GLSL::Rvalue(),GLSL::AST_Datatype() };
@@ -2857,6 +2924,9 @@ GLSL::ArrayIndex AST_Generator::GetArrayIndex(std::shared_ptr<TypeSpecifier>& it
 
 GLSL::AST_Datatype AST_Generator::GetDatatype(TypeSpecifier& item)
 {
+	printf(__FUNCTION__);
+	printf("\n");
+
 	GLSL::ArrayIndex index = GetArrayIndex(item);
 
 	switch (item.typeSpec.typeSpec->dataType)
@@ -2920,6 +2990,9 @@ GLSL::AST_Datatype AST_Generator::GetMemberType(const GLSL::AST_Datatype& baseTy
 
 GLSL::ArrayIndex AST_Generator::GetArrayIndex(TypeSpecifier& item)
 {
+	printf(__FUNCTION__);
+	printf("\n");
+
 	if (item.typeSpec.isArray)
 	{
 		if (item.typeSpec.elementExpression == nullptr)
@@ -2954,6 +3027,9 @@ GLSL::ArrayIndex AST_Generator::GetArrayIndex(TypeSpecifier& item)
 
 GLSL::ArrayIndex AST_Generator::GetArrayIndex(std::shared_ptr<ParameterDeclarator>& item)
 {
+	printf(__FUNCTION__);
+	printf("\n");
+
 	if (item->arraySize == nullptr)
 	{
 		return { false };
@@ -2999,13 +3075,21 @@ Ceng::StringUtf8 AST_Generator::RegisterAnonymousStruct(std::shared_ptr<StructSp
 
 AST_Generator::return_type AST_Generator::V_FunctionPrototype(FunctionPrototype& item)
 {
+	printf(__FUNCTION__);
+	printf("\n");
 
 	GLSL::AST_Datatype returnType = GetReturnType(item);
 
 	std::vector<GLSL::FunctionParameter> params;
 
+	//printf("paramcount = %i\n", item.GetParamCount());
+
 	for (int k = 0; k < item.GetParamCount(); k++)
 	{
+		//printf("param %i\n", k);
+
+		//printf("typeonly = %i\n", item.GetParameter(k)->typeOnly);
+
 		if (item.GetParameter(k)->typeOnly)
 		{
 			GLSL::AST_Datatype datatype = GetDatatype(item.GetParameter(k)->typeSpec);
@@ -3058,9 +3142,184 @@ AST_Generator::return_type AST_Generator::V_FunctionPrototype(FunctionPrototype&
 	return 0;
 }
 
+AST_Generator::return_type AST_Generator::V_FunctionDefinition(FunctionDefinition& item)
+{
+	printf(__FUNCTION__);
+	printf("\n");
+
+	item.prototype->AcceptVisitor(*this);
+
+	NewestChildToContext();
+
+	CurrentContext().parent->nodeType = GLSL::AST_NodeType::function_definition;
+
+	item.body->AcceptVisitor(*this);
+
+	PopContext();
+
+	return 0;
+}
+
+AST_Generator::return_type AST_Generator::V_CompoundStatementNoNewScope(CompoundStatementNoNewScope& item)
+{
+	printf(__FUNCTION__);
+	printf("\n");
+
+	item.list->AcceptVisitor(*this);
+	return 0;
+}
+
+AST_Generator::return_type AST_Generator::V_StatementList(StatementList& item)
+{
+	printf(__FUNCTION__);
+	printf("\n");
+
+	for (auto& x : item.list)
+	{
+		x->AcceptVisitor(*this);
+	}
+
+	return 0;
+}
+
+AST_Generator::return_type AST_Generator::V_Statement(Statement& item)
+{
+	printf(__FUNCTION__);
+	printf("\n");
+
+	switch (item.category)
+	{
+	case StatementCategory::compound:
+		item.compoundStatement->AcceptVisitor(*this);
+		break;
+	case StatementCategory::simple:
+		item.simpleStatement->AcceptVisitor(*this);
+		break;
+	}
+
+	return 0;
+}
+
+AST_Generator::return_type AST_Generator::V_SimpleStatement(SimpleStatement& item)
+{
+	printf(__FUNCTION__);
+	printf("\n");
+
+	switch (item.statementType)
+	{
+	case StatementType::case_label:
+		item.caseLabel->AcceptVisitor(*this);
+		break;
+	case StatementType::declaration:
+		item.declaration->AcceptVisitor(*this);
+		break;
+	case StatementType::expression:
+		item.expression->AcceptVisitor(*this);
+		break;
+	case StatementType::iteration:
+		item.iteration->AcceptVisitor(*this);
+		break;
+	case StatementType::jump:
+		item.jump->AcceptVisitor(*this);
+		break;
+	case StatementType::selection:
+		item.selection->AcceptVisitor(*this);
+		break;
+	case StatementType::switch_statement:
+		item.switchStatement->AcceptVisitor(*this);
+		break;
+	}
+
+	return 0;
+}
+
+AST_Generator::return_type AST_Generator::V_DeclarationStatement(DeclarationStatement& item)
+{
+	printf(__FUNCTION__);
+	printf("\n");
+
+	item.declaration->AcceptVisitor(*this);
+	return 0;
+}
+
+AST_Generator::return_type AST_Generator::V_CaseLabel(CaseLabel& item)
+{
+	printf(__FUNCTION__);
+	printf("\n");
+	printf("<unimplemented>\n");
+
+	return 0;
+}
+
+AST_Generator::return_type AST_Generator::V_ExpressionStatement(ExpressionStatement& item)
+{
+	printf(__FUNCTION__);
+	printf("\n");
+
+	item.ex->AcceptVisitor(*this);
+	return 0;
+}
+
+AST_Generator::return_type AST_Generator::V_IterationStatement(IterationStatement& item)
+{
+	printf(__FUNCTION__);
+	printf("\n");
+	printf("<unimplemented>\n");
+
+	return 0;
+}
+
+AST_Generator::return_type AST_Generator::V_JumpStatement(JumpStatement& item)
+{
+	printf(__FUNCTION__);
+	printf("\n");
+	printf("<unimplemented>\n");
+
+	switch (item.jumpType)
+	{
+	case JumpType::returnStatement:
+		item.returnExpression->AcceptVisitor(*this);
+
+		GLSL::Rvalue result = returnValue.value;
+		GLSL::AST_Datatype resultType = returnValue.valueType;
+
+		// TODO: check against function return type
+
+		CurrentContext().parent->children.emplace_back(
+			std::make_shared<GLSL::AST_ReturnStatement>(result)
+
+		);
+
+	}
+
+	return 0;
+}
+
+AST_Generator::return_type AST_Generator::V_SelectionStatement(SelectionStatement& item)
+{
+	printf(__FUNCTION__);
+	printf("\n");
+	printf("<unimplemented>\n");
+
+	return 0;
+}
+
+AST_Generator::return_type AST_Generator::V_SwitchStatementList(SwitchStatementList& item)
+{
+	printf(__FUNCTION__);
+	printf("\n");
+	printf("<unimplemented>\n");
+
+	return 0;
+}
+
+
 
 AST_Generator::return_type AST_Generator::V_InitDeclaratorList(InitDeclaratorList& item)
 {
+	printf(__FUNCTION__);
+	printf("\n");
+
 	for (auto& entry : item.list)
 	{
 		std::vector<GLSL::LayoutData> layout;
@@ -3174,7 +3433,4 @@ void AST_Generator::PopContext()
 	contextStack.pop_back();
 }
 
-AST_Generator::return_type AST_Generator::V_FunctionDefinition(FunctionDefinition& item)
-{
-	return 0;
-}
+

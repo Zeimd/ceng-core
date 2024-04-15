@@ -100,6 +100,22 @@ namespace Ceng
 
 		return_type V_FunctionPrototype(FunctionPrototype& item) override;
 
+		return_type V_CompoundStatementNoNewScope(CompoundStatementNoNewScope& item) override;
+
+		return_type V_Statement(Statement& item);
+
+		return_type V_StatementList(StatementList& item);
+
+		return_type V_SimpleStatement(SimpleStatement& item);
+
+		return_type V_CaseLabel(CaseLabel& item);
+		return_type V_DeclarationStatement(DeclarationStatement& item);
+		return_type V_ExpressionStatement(ExpressionStatement& item);
+		return_type V_IterationStatement(IterationStatement& item);
+		return_type V_JumpStatement(JumpStatement& item);
+		return_type V_SelectionStatement(SelectionStatement& item);
+		return_type V_SwitchStatementList(SwitchStatementList& item);
+
 		return_type V_InitDeclaratorList(InitDeclaratorList& item) override;
 
 		return_type V_Initializer(Initializer& item);

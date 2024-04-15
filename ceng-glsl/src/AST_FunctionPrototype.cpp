@@ -44,7 +44,23 @@ Ceng::StringUtf8 AST_FunctionPrototype::ToString(Ceng::UINT32 indentLevel) const
 		}
 	}
 
-	out += ");";
+	out += ')';
+
+	if (children.size() == 0)
+	{
+		out += ';';
+	}
+	else
+	{
+		out += "{\n";
+
+		for (auto& x : children)
+		{
+			out += x->ToString(indentLevel + 1);
+		}
+
+		out += "}\n";
+	}
 	
 	return out;
 }
