@@ -60,6 +60,8 @@ namespace Ceng
 
 			bool IsZero() const;
 
+			bool IsInteger() const;
+
 		};
 	}
 }

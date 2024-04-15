@@ -155,6 +155,8 @@ namespace Ceng
 		static GeneratorReturn LiteralEqual(GLSL::Rvalue& a, GLSL::Rvalue& b);
 
 		static GeneratorReturn LiteralNotEqual(GLSL::Rvalue& a, GLSL::Rvalue& b);
+
+		static bool LogicalXor(bool a, bool b);
 	};
 
 }

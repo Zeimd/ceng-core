@@ -254,3 +254,15 @@ bool Rvalue::IsZero() const
 
 	return false;
 }
+
+bool Rvalue::IsInteger() const
+{
+	switch (valueType)
+	{
+	case RvalueType::int_literal:
+	case RvalueType::uint_literal:
+		return true;
+	}
+
+	return false;
+}

@@ -1577,11 +1577,238 @@ GeneratorReturn AST_Generator::LiteralMod(GLSL::Rvalue& a, GLSL::Rvalue& b)
 
 GeneratorReturn AST_Generator::LiteralLeftShift(GLSL::Rvalue& a, GLSL::Rvalue& b)
 {
+	if (!a.IsInteger() || !b.IsInteger())
+	{
+		return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+	}
+
+	if (a.valueType == b.valueType)
+	{
+		switch (a.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		case GLSL::RvalueType::float_literal:
+
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+
+		case GLSL::RvalueType::int_literal:
+			{
+				Ceng::INT32 bVal = std::get<Ceng::INT32>(b.value);
+
+				if (bVal < 0)
+				{
+					return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+				}
+
+				return { GLSL::Rvalue(
+					std::get<Ceng::INT32>(a.value) << bVal
+				), GLSL::AST_Datatype(GLSL::BasicType::ts_int) };
+			}
+		case GLSL::RvalueType::uint_literal:
+
+			return { GLSL::Rvalue(
+				std::get<Ceng::UINT32>(a.value) << std::get<Ceng::UINT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_uint) };
+		}
+	}
+
+	if (a.valueType == GLSL::RvalueType::float_literal)
+	{
+		return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		/*
+		Ceng::FLOAT32 aVal = std::get<Ceng::FLOAT32>(a.value);
+
+		switch (b.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		case GLSL::RvalueType::int_literal:
+
+			return { GLSL::Rvalue(
+				aVal + Ceng::FLOAT32(std::get<Ceng::INT32>(b.value))
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_float) };
+
+		case GLSL::RvalueType::uint_literal:
+
+			return { GLSL::Rvalue(
+				aVal + Ceng::FLOAT32(std::get<Ceng::UINT32>(b.value))
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_float) };
+		}
+		*/
+	}
+	else if (a.valueType == GLSL::RvalueType::int_literal)
+	{
+		Ceng::INT32 aVal = std::get<Ceng::INT32>(a.value);
+
+		switch (b.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		case GLSL::RvalueType::float_literal:
+
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+
+		case GLSL::RvalueType::uint_literal:
+
+			Ceng::INT32 bVal = Ceng::INT32(std::get<Ceng::UINT32>(b.value));
+
+			if (bVal < 0)
+			{
+				return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+			}
+
+			return { GLSL::Rvalue(
+				aVal << bVal
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_int) };
+		}
+	}
+	else if (a.valueType == GLSL::RvalueType::uint_literal)
+	{
+		Ceng::UINT32 aVal = std::get<Ceng::UINT32>(a.value);
+
+		switch (b.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		case GLSL::RvalueType::float_literal:
+
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+
+		case GLSL::RvalueType::int_literal:
+
+			Ceng::INT32 bVal = std::get<Ceng::INT32>(b.value);
+
+			if (bVal < 0)
+			{
+				return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+			}
+
+			return { GLSL::Rvalue(
+				Ceng::INT32(aVal) << bVal
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_int) };
+		}
+	}
+
 	return { GLSL::Rvalue(),GLSL::AST_Datatype() };
 }
 
 GeneratorReturn AST_Generator::LiteralRightShift(GLSL::Rvalue& a, GLSL::Rvalue& b)
 {
+	if (!a.IsInteger() || !b.IsInteger())
+	{
+		return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+	}
+
+	if (a.valueType == b.valueType)
+	{
+		switch (a.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		case GLSL::RvalueType::float_literal:
+
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+
+		case GLSL::RvalueType::int_literal:
+			{
+				Ceng::INT32 bVal = std::get<Ceng::INT32>(b.value);
+
+				if (bVal < 0)
+				{
+					return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+				}
+
+				return { GLSL::Rvalue(
+					std::get<Ceng::INT32>(a.value) >> bVal
+				), GLSL::AST_Datatype(GLSL::BasicType::ts_int) };
+
+			}
+		case GLSL::RvalueType::uint_literal:
+
+			return { GLSL::Rvalue(
+				std::get<Ceng::UINT32>(a.value) >> std::get<Ceng::UINT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_uint) };
+		}
+	}
+
+	if (a.valueType == GLSL::RvalueType::float_literal)
+	{
+		return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		/*
+		Ceng::FLOAT32 aVal = std::get<Ceng::FLOAT32>(a.value);
+
+		switch (b.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		case GLSL::RvalueType::int_literal:
+
+			return { GLSL::Rvalue(
+				aVal + Ceng::FLOAT32(std::get<Ceng::INT32>(b.value))
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_float) };
+
+		case GLSL::RvalueType::uint_literal:
+
+			return { GLSL::Rvalue(
+				aVal + Ceng::FLOAT32(std::get<Ceng::UINT32>(b.value))
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_float) };
+		}
+		*/
+	}
+	else if (a.valueType == GLSL::RvalueType::int_literal)
+	{
+		Ceng::INT32 aVal = std::get<Ceng::INT32>(a.value);
+
+		switch (b.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		case GLSL::RvalueType::float_literal:
+
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+
+		case GLSL::RvalueType::uint_literal:
+
+			Ceng::INT32 bVal = Ceng::INT32(std::get<Ceng::UINT32>(b.value));
+
+			if (bVal < 0)
+			{
+				return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+			}
+
+			return { GLSL::Rvalue(
+				aVal >> bVal
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_int) };
+		}
+	}
+	else if (a.valueType == GLSL::RvalueType::uint_literal)
+	{
+		Ceng::UINT32 aVal = std::get<Ceng::UINT32>(a.value);
+
+		switch (b.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		case GLSL::RvalueType::float_literal:
+
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+
+		case GLSL::RvalueType::int_literal:
+
+			Ceng::INT32 bVal = std::get<Ceng::INT32>(b.value);
+
+			if (bVal < 0)
+			{
+				return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+			}
+
+			return { GLSL::Rvalue(
+				Ceng::INT32(aVal) >> bVal
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_int) };
+		}
+	}
+
 	return { GLSL::Rvalue(),GLSL::AST_Datatype() };
 }
 
@@ -1602,52 +1829,958 @@ GeneratorReturn AST_Generator::LiteralBitwiseXor(GLSL::Rvalue& a, GLSL::Rvalue& 
 
 GeneratorReturn AST_Generator::LiteralLogicalAnd(GLSL::Rvalue& a, GLSL::Rvalue& b)
 {
+	if (a.valueType == b.valueType)
+	{
+		switch (a.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(
+				std::get<bool>(a.value) && std::get<bool>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::float_literal:
+
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+
+			/*
+			return { GLSL::Rvalue(
+				std::get<Ceng::FLOAT32>(a.value) < std::get<Ceng::FLOAT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+			*/
+
+		case GLSL::RvalueType::int_literal:
+
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+
+			/*
+			return { GLSL::Rvalue(
+				std::get<Ceng::INT32>(a.value) < std::get<Ceng::INT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+			*/
+
+		case GLSL::RvalueType::uint_literal:
+
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+
+			/*
+			return { GLSL::Rvalue(
+				std::get<Ceng::UINT32>(a.value) < std::get<Ceng::UINT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+			*/
+		}
+	}
+
+	if (a.valueType == GLSL::RvalueType::float_literal)
+	{
+		return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		/*
+		Ceng::FLOAT32 aVal = std::get<Ceng::FLOAT32>(a.value);
+
+		switch (b.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		case GLSL::RvalueType::int_literal:
+
+			return { GLSL::Rvalue(
+				aVal < Ceng::FLOAT32(std::get<Ceng::INT32>(b.value))
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::uint_literal:
+
+			return { GLSL::Rvalue(
+				aVal < Ceng::FLOAT32(std::get<Ceng::UINT32>(b.value))
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+		}
+		*/
+	}
+	else if (a.valueType == GLSL::RvalueType::int_literal)
+	{
+		return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+
+		/*
+		Ceng::INT32 aVal = std::get<Ceng::INT32>(a.value);
+
+		switch (b.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		case GLSL::RvalueType::float_literal:
+
+			return { GLSL::Rvalue(
+				Ceng::FLOAT32(aVal) < std::get<Ceng::FLOAT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::uint_literal:
+
+			return { GLSL::Rvalue(
+				aVal < Ceng::INT32(std::get<Ceng::UINT32>(b.value))
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+		}
+		*/
+	}
+	else if (a.valueType == GLSL::RvalueType::uint_literal)
+	{
+		return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+
+		/*
+		Ceng::UINT32 aVal = std::get<Ceng::UINT32>(a.value);
+
+		switch (b.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		case GLSL::RvalueType::float_literal:
+
+			return { GLSL::Rvalue(
+				Ceng::FLOAT32(aVal) < std::get<Ceng::FLOAT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::int_literal:
+
+			return { GLSL::Rvalue(
+				Ceng::INT32(aVal) < std::get<Ceng::INT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+		}
+		*/
+	}
+
 	return { GLSL::Rvalue(),GLSL::AST_Datatype() };
 }
 
 GeneratorReturn AST_Generator::LiteralLogicalOr(GLSL::Rvalue& a, GLSL::Rvalue& b)
 {
+	if (a.valueType == b.valueType)
+	{
+		switch (a.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(
+				std::get<bool>(a.value) || std::get<bool>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::float_literal:
+
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+
+			/*
+			return { GLSL::Rvalue(
+				std::get<Ceng::FLOAT32>(a.value) < std::get<Ceng::FLOAT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+			*/
+
+		case GLSL::RvalueType::int_literal:
+
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+
+			/*
+			return { GLSL::Rvalue(
+				std::get<Ceng::INT32>(a.value) < std::get<Ceng::INT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+			*/
+
+		case GLSL::RvalueType::uint_literal:
+
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+
+			/*
+			return { GLSL::Rvalue(
+				std::get<Ceng::UINT32>(a.value) < std::get<Ceng::UINT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+			*/
+		}
+	}
+
+	if (a.valueType == GLSL::RvalueType::float_literal)
+	{
+		return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		/*
+		Ceng::FLOAT32 aVal = std::get<Ceng::FLOAT32>(a.value);
+
+		switch (b.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		case GLSL::RvalueType::int_literal:
+
+			return { GLSL::Rvalue(
+				aVal < Ceng::FLOAT32(std::get<Ceng::INT32>(b.value))
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::uint_literal:
+
+			return { GLSL::Rvalue(
+				aVal < Ceng::FLOAT32(std::get<Ceng::UINT32>(b.value))
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+		}
+		*/
+	}
+	else if (a.valueType == GLSL::RvalueType::int_literal)
+	{
+		return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+
+		/*
+		Ceng::INT32 aVal = std::get<Ceng::INT32>(a.value);
+
+		switch (b.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		case GLSL::RvalueType::float_literal:
+
+			return { GLSL::Rvalue(
+				Ceng::FLOAT32(aVal) < std::get<Ceng::FLOAT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::uint_literal:
+
+			return { GLSL::Rvalue(
+				aVal < Ceng::INT32(std::get<Ceng::UINT32>(b.value))
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+		}
+		*/
+	}
+	else if (a.valueType == GLSL::RvalueType::uint_literal)
+	{
+		return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+
+		/*
+		Ceng::UINT32 aVal = std::get<Ceng::UINT32>(a.value);
+
+		switch (b.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		case GLSL::RvalueType::float_literal:
+
+			return { GLSL::Rvalue(
+				Ceng::FLOAT32(aVal) < std::get<Ceng::FLOAT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::int_literal:
+
+			return { GLSL::Rvalue(
+				Ceng::INT32(aVal) < std::get<Ceng::INT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+		}
+		*/
+	}
+
 	return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+}
+
+bool AST_Generator::LogicalXor(bool a, bool b)
+{
+	return a != b;
 }
 
 GeneratorReturn AST_Generator::LiteralLogicalXor(GLSL::Rvalue& a, GLSL::Rvalue& b)
 {
+	if (a.valueType == b.valueType)
+	{
+		switch (a.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(
+				LogicalXor(std::get<bool>(a.value),std::get<bool>(b.value))
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::float_literal:
+
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+
+			/*
+			return { GLSL::Rvalue(
+				std::get<Ceng::FLOAT32>(a.value) < std::get<Ceng::FLOAT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+			*/
+
+		case GLSL::RvalueType::int_literal:
+
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+
+			/*
+			return { GLSL::Rvalue(
+				std::get<Ceng::INT32>(a.value) < std::get<Ceng::INT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+			*/
+
+		case GLSL::RvalueType::uint_literal:
+
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+
+			/*
+			return { GLSL::Rvalue(
+				std::get<Ceng::UINT32>(a.value) < std::get<Ceng::UINT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+			*/
+		}
+	}
+
+	if (a.valueType == GLSL::RvalueType::float_literal)
+	{
+		return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		/*
+		Ceng::FLOAT32 aVal = std::get<Ceng::FLOAT32>(a.value);
+
+		switch (b.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		case GLSL::RvalueType::int_literal:
+
+			return { GLSL::Rvalue(
+				aVal < Ceng::FLOAT32(std::get<Ceng::INT32>(b.value))
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::uint_literal:
+
+			return { GLSL::Rvalue(
+				aVal < Ceng::FLOAT32(std::get<Ceng::UINT32>(b.value))
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+		}
+		*/
+	}
+	else if (a.valueType == GLSL::RvalueType::int_literal)
+	{
+		return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+
+		/*
+		Ceng::INT32 aVal = std::get<Ceng::INT32>(a.value);
+
+		switch (b.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		case GLSL::RvalueType::float_literal:
+
+			return { GLSL::Rvalue(
+				Ceng::FLOAT32(aVal) < std::get<Ceng::FLOAT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::uint_literal:
+
+			return { GLSL::Rvalue(
+				aVal < Ceng::INT32(std::get<Ceng::UINT32>(b.value))
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+		}
+		*/
+	}
+	else if (a.valueType == GLSL::RvalueType::uint_literal)
+	{
+		return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+
+		/*
+		Ceng::UINT32 aVal = std::get<Ceng::UINT32>(a.value);
+
+		switch (b.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		case GLSL::RvalueType::float_literal:
+
+			return { GLSL::Rvalue(
+				Ceng::FLOAT32(aVal) < std::get<Ceng::FLOAT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::int_literal:
+
+			return { GLSL::Rvalue(
+				Ceng::INT32(aVal) < std::get<Ceng::INT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+		}
+		*/
+	}
+
 	return { GLSL::Rvalue(),GLSL::AST_Datatype() };
 }
 
 GeneratorReturn AST_Generator::LiteralLess(GLSL::Rvalue& a, GLSL::Rvalue& b)
 {
+	if (a.valueType == b.valueType)
+	{
+		switch (a.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+
+		case GLSL::RvalueType::float_literal:
+
+			return { GLSL::Rvalue(
+				std::get<Ceng::FLOAT32>(a.value) < std::get<Ceng::FLOAT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::int_literal:
+
+			return { GLSL::Rvalue(
+				std::get<Ceng::INT32>(a.value) < std::get<Ceng::INT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::uint_literal:
+
+			return { GLSL::Rvalue(
+				std::get<Ceng::UINT32>(a.value) < std::get<Ceng::UINT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+		}
+	}
+
+	if (a.valueType == GLSL::RvalueType::float_literal)
+	{
+		Ceng::FLOAT32 aVal = std::get<Ceng::FLOAT32>(a.value);
+
+		switch (b.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		case GLSL::RvalueType::int_literal:
+
+			return { GLSL::Rvalue(
+				aVal < Ceng::FLOAT32(std::get<Ceng::INT32>(b.value))
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::uint_literal:
+
+			return { GLSL::Rvalue(
+				aVal < Ceng::FLOAT32(std::get<Ceng::UINT32>(b.value))
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+		}
+	}
+	else if (a.valueType == GLSL::RvalueType::int_literal)
+	{
+		Ceng::INT32 aVal = std::get<Ceng::INT32>(a.value);
+
+		switch (b.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		case GLSL::RvalueType::float_literal:
+
+			return { GLSL::Rvalue(
+				Ceng::FLOAT32(aVal) < std::get<Ceng::FLOAT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::uint_literal:
+
+			return { GLSL::Rvalue(
+				aVal < Ceng::INT32(std::get<Ceng::UINT32>(b.value))
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+		}
+	}
+	else if (a.valueType == GLSL::RvalueType::uint_literal)
+	{
+		Ceng::UINT32 aVal = std::get<Ceng::UINT32>(a.value);
+
+		switch (b.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		case GLSL::RvalueType::float_literal:
+
+			return { GLSL::Rvalue(
+				Ceng::FLOAT32(aVal) < std::get<Ceng::FLOAT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::int_literal:
+
+			return { GLSL::Rvalue(
+				Ceng::INT32(aVal) < std::get<Ceng::INT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+		}
+	}
+
 	return { GLSL::Rvalue(),GLSL::AST_Datatype() };
 }
 
 GeneratorReturn AST_Generator::LiteralLessEqual(GLSL::Rvalue& a, GLSL::Rvalue& b)
 {
+	if (a.valueType == b.valueType)
+	{
+		switch (a.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+
+		case GLSL::RvalueType::float_literal:
+
+			return { GLSL::Rvalue(
+				std::get<Ceng::FLOAT32>(a.value) <= std::get<Ceng::FLOAT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::int_literal:
+
+			return { GLSL::Rvalue(
+				std::get<Ceng::INT32>(a.value) <= std::get<Ceng::INT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::uint_literal:
+
+			return { GLSL::Rvalue(
+				std::get<Ceng::UINT32>(a.value) <= std::get<Ceng::UINT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+		}
+	}
+
+	if (a.valueType == GLSL::RvalueType::float_literal)
+	{
+		Ceng::FLOAT32 aVal = std::get<Ceng::FLOAT32>(a.value);
+
+		switch (b.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		case GLSL::RvalueType::int_literal:
+
+			return { GLSL::Rvalue(
+				aVal <= Ceng::FLOAT32(std::get<Ceng::INT32>(b.value))
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::uint_literal:
+
+			return { GLSL::Rvalue(
+				aVal <= Ceng::FLOAT32(std::get<Ceng::UINT32>(b.value))
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+		}
+	}
+	else if (a.valueType == GLSL::RvalueType::int_literal)
+	{
+		Ceng::INT32 aVal = std::get<Ceng::INT32>(a.value);
+
+		switch (b.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		case GLSL::RvalueType::float_literal:
+
+			return { GLSL::Rvalue(
+				Ceng::FLOAT32(aVal) <= std::get<Ceng::FLOAT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::uint_literal:
+
+			return { GLSL::Rvalue(
+				aVal <= Ceng::INT32(std::get<Ceng::UINT32>(b.value))
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+		}
+	}
+	else if (a.valueType == GLSL::RvalueType::uint_literal)
+	{
+		Ceng::UINT32 aVal = std::get<Ceng::UINT32>(a.value);
+
+		switch (b.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		case GLSL::RvalueType::float_literal:
+
+			return { GLSL::Rvalue(
+				Ceng::FLOAT32(aVal) <= std::get<Ceng::FLOAT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::int_literal:
+
+			return { GLSL::Rvalue(
+				Ceng::INT32(aVal) <= std::get<Ceng::INT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+		}
+	}
+
 	return { GLSL::Rvalue(),GLSL::AST_Datatype() };
 }
 
 GeneratorReturn AST_Generator::LiteralGreater(GLSL::Rvalue& a, GLSL::Rvalue& b)
 {
+	if (a.valueType == b.valueType)
+	{
+		switch (a.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+
+		case GLSL::RvalueType::float_literal:
+
+			return { GLSL::Rvalue(
+				std::get<Ceng::FLOAT32>(a.value) > std::get<Ceng::FLOAT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::int_literal:
+
+			return { GLSL::Rvalue(
+				std::get<Ceng::INT32>(a.value) > std::get<Ceng::INT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::uint_literal:
+
+			return { GLSL::Rvalue(
+				std::get<Ceng::UINT32>(a.value) > std::get<Ceng::UINT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+		}
+	}
+
+	if (a.valueType == GLSL::RvalueType::float_literal)
+	{
+		Ceng::FLOAT32 aVal = std::get<Ceng::FLOAT32>(a.value);
+
+		switch (b.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		case GLSL::RvalueType::int_literal:
+
+			return { GLSL::Rvalue(
+				aVal > Ceng::FLOAT32(std::get<Ceng::INT32>(b.value))
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::uint_literal:
+
+			return { GLSL::Rvalue(
+				aVal > Ceng::FLOAT32(std::get<Ceng::UINT32>(b.value))
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+		}
+	}
+	else if (a.valueType == GLSL::RvalueType::int_literal)
+	{
+		Ceng::INT32 aVal = std::get<Ceng::INT32>(a.value);
+
+		switch (b.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		case GLSL::RvalueType::float_literal:
+
+			return { GLSL::Rvalue(
+				Ceng::FLOAT32(aVal) > std::get<Ceng::FLOAT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::uint_literal:
+
+			return { GLSL::Rvalue(
+				aVal > Ceng::INT32(std::get<Ceng::UINT32>(b.value))
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+		}
+	}
+	else if (a.valueType == GLSL::RvalueType::uint_literal)
+	{
+		Ceng::UINT32 aVal = std::get<Ceng::UINT32>(a.value);
+
+		switch (b.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		case GLSL::RvalueType::float_literal:
+
+			return { GLSL::Rvalue(
+				Ceng::FLOAT32(aVal) > std::get<Ceng::FLOAT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::int_literal:
+
+			return { GLSL::Rvalue(
+				Ceng::INT32(aVal) > std::get<Ceng::INT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+		}
+	}
+
 	return { GLSL::Rvalue(),GLSL::AST_Datatype() };
 }
 
 GeneratorReturn AST_Generator::LiteralGreaterEqual(GLSL::Rvalue& a, GLSL::Rvalue& b)
 {
+	if (a.valueType == b.valueType)
+	{
+		switch (a.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+
+		case GLSL::RvalueType::float_literal:
+
+			return { GLSL::Rvalue(
+				std::get<Ceng::FLOAT32>(a.value) >= std::get<Ceng::FLOAT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::int_literal:
+
+			return { GLSL::Rvalue(
+				std::get<Ceng::INT32>(a.value) >= std::get<Ceng::INT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::uint_literal:
+
+			return { GLSL::Rvalue(
+				std::get<Ceng::UINT32>(a.value) >= std::get<Ceng::UINT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+		}
+	}
+
+	if (a.valueType == GLSL::RvalueType::float_literal)
+	{
+		Ceng::FLOAT32 aVal = std::get<Ceng::FLOAT32>(a.value);
+
+		switch (b.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		case GLSL::RvalueType::int_literal:
+
+			return { GLSL::Rvalue(
+				aVal >= Ceng::FLOAT32(std::get<Ceng::INT32>(b.value))
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::uint_literal:
+
+			return { GLSL::Rvalue(
+				aVal >= Ceng::FLOAT32(std::get<Ceng::UINT32>(b.value))
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+		}
+	}
+	else if (a.valueType == GLSL::RvalueType::int_literal)
+	{
+		Ceng::INT32 aVal = std::get<Ceng::INT32>(a.value);
+
+		switch (b.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		case GLSL::RvalueType::float_literal:
+
+			return { GLSL::Rvalue(
+				Ceng::FLOAT32(aVal) >= std::get<Ceng::FLOAT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::uint_literal:
+
+			return { GLSL::Rvalue(
+				aVal >= Ceng::INT32(std::get<Ceng::UINT32>(b.value))
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+		}
+	}
+	else if (a.valueType == GLSL::RvalueType::uint_literal)
+	{
+		Ceng::UINT32 aVal = std::get<Ceng::UINT32>(a.value);
+
+		switch (b.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		case GLSL::RvalueType::float_literal:
+
+			return { GLSL::Rvalue(
+				Ceng::FLOAT32(aVal) >= std::get<Ceng::FLOAT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::int_literal:
+
+			return { GLSL::Rvalue(
+				Ceng::INT32(aVal) >= std::get<Ceng::INT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+		}
+	}
+
 	return { GLSL::Rvalue(),GLSL::AST_Datatype() };
 }
 
 GeneratorReturn AST_Generator::LiteralEqual(GLSL::Rvalue& a, GLSL::Rvalue& b)
 {
+	if (a.valueType == b.valueType)
+	{
+		switch (a.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(
+				std::get<bool>(a.value) == std::get<bool>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::float_literal:
+
+			return { GLSL::Rvalue(
+				std::get<Ceng::FLOAT32>(a.value) == std::get<Ceng::FLOAT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::int_literal:
+
+			return { GLSL::Rvalue(
+				std::get<Ceng::INT32>(a.value) == std::get<Ceng::INT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::uint_literal:
+
+			return { GLSL::Rvalue(
+				std::get<Ceng::UINT32>(a.value) == std::get<Ceng::UINT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+		}
+	}
+
+	if (a.valueType == GLSL::RvalueType::float_literal)
+	{
+		Ceng::FLOAT32 aVal = std::get<Ceng::FLOAT32>(a.value);
+
+		switch (b.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		case GLSL::RvalueType::int_literal:
+
+			return { GLSL::Rvalue(
+				aVal == Ceng::FLOAT32(std::get<Ceng::INT32>(b.value))
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::uint_literal:
+
+			return { GLSL::Rvalue(
+				aVal == Ceng::FLOAT32(std::get<Ceng::UINT32>(b.value))
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+		}
+	}
+	else if (a.valueType == GLSL::RvalueType::int_literal)
+	{
+		Ceng::INT32 aVal = std::get<Ceng::INT32>(a.value);
+
+		switch (b.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		case GLSL::RvalueType::float_literal:
+
+			return { GLSL::Rvalue(
+				Ceng::FLOAT32(aVal) == std::get<Ceng::FLOAT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::uint_literal:
+
+			return { GLSL::Rvalue(
+				aVal == Ceng::INT32(std::get<Ceng::UINT32>(b.value))
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+		}
+	}
+	else if (a.valueType == GLSL::RvalueType::uint_literal)
+	{
+		Ceng::UINT32 aVal = std::get<Ceng::UINT32>(a.value);
+
+		switch (b.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		case GLSL::RvalueType::float_literal:
+
+			return { GLSL::Rvalue(
+				Ceng::FLOAT32(aVal) == std::get<Ceng::FLOAT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::int_literal:
+
+			return { GLSL::Rvalue(
+				Ceng::INT32(aVal) == std::get<Ceng::INT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+		}
+	}
+
 	return { GLSL::Rvalue(),GLSL::AST_Datatype() };
 }
 
 GeneratorReturn AST_Generator::LiteralNotEqual(GLSL::Rvalue& a, GLSL::Rvalue& b)
 {
+	if (a.valueType == b.valueType)
+	{
+		switch (a.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(
+				std::get<bool>(a.value) != std::get<bool>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::float_literal:
+
+			return { GLSL::Rvalue(
+				std::get<Ceng::FLOAT32>(a.value) != std::get<Ceng::FLOAT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::int_literal:
+
+			return { GLSL::Rvalue(
+				std::get<Ceng::INT32>(a.value) != std::get<Ceng::INT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::uint_literal:
+
+			return { GLSL::Rvalue(
+				std::get<Ceng::UINT32>(a.value) != std::get<Ceng::UINT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+		}
+	}
+
+	if (a.valueType == GLSL::RvalueType::float_literal)
+	{
+		Ceng::FLOAT32 aVal = std::get<Ceng::FLOAT32>(a.value);
+
+		switch (b.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		case GLSL::RvalueType::int_literal:
+
+			return { GLSL::Rvalue(
+				aVal != Ceng::FLOAT32(std::get<Ceng::INT32>(b.value))
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::uint_literal:
+
+			return { GLSL::Rvalue(
+				aVal != Ceng::FLOAT32(std::get<Ceng::UINT32>(b.value))
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+		}
+	}
+	else if (a.valueType == GLSL::RvalueType::int_literal)
+	{
+		Ceng::INT32 aVal = std::get<Ceng::INT32>(a.value);
+
+		switch (b.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		case GLSL::RvalueType::float_literal:
+
+			return { GLSL::Rvalue(
+				Ceng::FLOAT32(aVal) != std::get<Ceng::FLOAT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::uint_literal:
+
+			return { GLSL::Rvalue(
+				aVal != Ceng::INT32(std::get<Ceng::UINT32>(b.value))
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+		}
+	}
+	else if (a.valueType == GLSL::RvalueType::uint_literal)
+	{
+		Ceng::UINT32 aVal = std::get<Ceng::UINT32>(a.value);
+
+		switch (b.valueType)
+		{
+		case GLSL::RvalueType::bool_literal:
+			return { GLSL::Rvalue(),GLSL::AST_Datatype() };
+		case GLSL::RvalueType::float_literal:
+
+			return { GLSL::Rvalue(
+				Ceng::FLOAT32(aVal) != std::get<Ceng::FLOAT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+
+		case GLSL::RvalueType::int_literal:
+
+			return { GLSL::Rvalue(
+				Ceng::INT32(aVal) != std::get<Ceng::INT32>(b.value)
+			), GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
+		}
+	}
+
 	return { GLSL::Rvalue(),GLSL::AST_Datatype() };
 }
 
 
 AST_Generator::return_type AST_Generator::V_TranslationUnit(TranslationUnit& item)
 {
+	printf(__FUNCTION__);
+	printf("\n");
+
 	for (auto& x : item.items)
 	{
 		x->AcceptVisitor(*this);
@@ -1658,6 +2791,9 @@ AST_Generator::return_type AST_Generator::V_TranslationUnit(TranslationUnit& ite
 
 AST_Generator::return_type AST_Generator::V_Declaration(Declaration& decl)
 {
+	printf(__FUNCTION__);
+	printf("\n");
+
 	switch (decl.declarationType)
 	{
 	case DeclarationType::function_prototype:
