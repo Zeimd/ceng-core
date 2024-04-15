@@ -33,7 +33,13 @@ namespace Ceng
 	struct Context
 	{
 		GLSL::IASTNode* parent;
-		Ceng::UINT32* tempCounter;
+		Ceng::UINT32 tempCounter;
+
+		Context(GLSL::IASTNode* parent)
+			: parent(parent), tempCounter(0)
+		{
+
+		}
 	};
 
 	class AST_Generator : public NonTerminalVisitor
@@ -44,11 +50,13 @@ namespace Ceng
 
 		GLSL::AST_TranslationUnit root;
 
-		Context context;
+		//Context context;
 
-		std::vector<Ceng::UINT32> tempCounter;
+		//std::vector<Ceng::UINT32> tempCounter;
 
 		GeneratorReturn returnValue;
+
+		std::vector<Context> contextStack;
 
 	public:
 
@@ -57,6 +65,14 @@ namespace Ceng
 		AST_Generator(std::shared_ptr<SymbolDatabase>& symbolDatabase);
 
 		static GLSL::AbstractSyntaxTree GenerateTree(std::shared_ptr<SymbolDatabase>& symbolDatabase, std::shared_ptr<TranslationUnit>& unit);
+
+		Context& CurrentContext();
+
+		void NewestChildToContext();
+
+		void StartContext(GLSL::IASTNode* parent);
+
+		void PopContext();
 
 		return_type V_Expression(Expression& item);
 		return_type V_AssignmentExpression(AssignmentExpression& item);

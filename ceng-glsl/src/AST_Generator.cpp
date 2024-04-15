@@ -91,11 +91,7 @@ AST_Generator::~AST_Generator()
 AST_Generator::AST_Generator(std::shared_ptr<SymbolDatabase>& symbolDatabase)
 	: symbolDatabase(symbolDatabase)
 {
-	context.parent = &root;
-
-	tempCounter.push_back(0);
-
-	context.tempCounter = &tempCounter.back();
+	contextStack.emplace_back(&root);
 }
 
 GLSL::AbstractSyntaxTree AST_Generator::GenerateTree(std::shared_ptr<SymbolDatabase>& symbolDatabase, std::shared_ptr<TranslationUnit>& unit)
@@ -130,7 +126,7 @@ AST_Generator::return_type AST_Generator::V_AssignmentExpression(AssignmentExpre
 		switch (item.op->operation)
 		{
 		case AssignOpType::equal:
-			context.parent->children.push_back(std::make_shared< GLSL::AST_AssignmentOperation>(
+			CurrentContext().parent->children.push_back(std::make_shared< GLSL::AST_AssignmentOperation>(
 				lhs, b
 				));
 
@@ -141,7 +137,7 @@ AST_Generator::return_type AST_Generator::V_AssignmentExpression(AssignmentExpre
 
 			GLSL::BinaryOperator::value op = ConvertAssignmentOperator(item.op->operation);
 
-			context.parent->children.push_back(std::make_shared< GLSL::AST_BinaryOperation>(
+			CurrentContext().parent->children.push_back(std::make_shared< GLSL::AST_BinaryOperation>(
 				lhs, a, op, b
 				));
 
@@ -164,11 +160,11 @@ AST_Generator::return_type AST_Generator::V_AssignmentExpression(AssignmentExpre
 GLSL::Lvalue AST_Generator::GenerateTemporary(GLSL::AST_Datatype& type)
 {
 	Ceng::StringUtf8 name = "_temp";
-	name += (*context.tempCounter)++;
+	name += CurrentContext().tempCounter++;
 
 	std::vector<GLSL::LayoutData> layout;
 
-	context.parent->children.emplace_back(
+	CurrentContext().parent->children.emplace_back(
 		std::make_shared<GLSL::AST_VariableDeclaration>(
 			false, 
 			layout, 
@@ -198,7 +194,7 @@ AST_Generator::return_type AST_Generator::V_ConditionalExpression(ConditionalExp
 
 		GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
-		context.parent->children.emplace_back(
+		CurrentContext().parent->children.emplace_back(
 			std::make_shared<GLSL::AST_ConditionalOperation>
 			(
 				lhs,
@@ -264,7 +260,7 @@ AST_Generator::return_type AST_Generator::V_LogicalOrExpression(LogicalOrExpress
 		{
 			GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
-			context.parent->children.emplace_back(
+			CurrentContext().parent->children.emplace_back(
 				std::make_shared<GLSL::AST_BinaryOperation>
 				(
 					lhs,
@@ -309,7 +305,7 @@ AST_Generator::return_type AST_Generator::V_LogicalXorExpression(LogicalXorExpre
 		{
 			GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
-			context.parent->children.emplace_back(
+			CurrentContext().parent->children.emplace_back(
 				std::make_shared<GLSL::AST_BinaryOperation>
 				(
 					lhs,
@@ -354,7 +350,7 @@ AST_Generator::return_type AST_Generator::V_LogicalAndExpression(LogicalAndExpre
 		{
 			GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
-			context.parent->children.emplace_back(
+			CurrentContext().parent->children.emplace_back(
 				std::make_shared<GLSL::AST_BinaryOperation>
 				(
 					lhs,
@@ -399,7 +395,7 @@ AST_Generator::return_type AST_Generator::V_OrExpression(OrExpression& item)
 		{
 			GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
-			context.parent->children.emplace_back(
+			CurrentContext().parent->children.emplace_back(
 				std::make_shared<GLSL::AST_BinaryOperation>
 				(
 					lhs,
@@ -444,7 +440,7 @@ AST_Generator::return_type AST_Generator::V_XorExpression(XorExpression& item)
 		{
 			GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
-			context.parent->children.emplace_back(
+			CurrentContext().parent->children.emplace_back(
 				std::make_shared<GLSL::AST_BinaryOperation>
 				(
 					lhs,
@@ -489,7 +485,7 @@ AST_Generator::return_type AST_Generator::V_AndExpression(AndExpression& item)
 		{
 			GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
-			context.parent->children.emplace_back(
+			CurrentContext().parent->children.emplace_back(
 				std::make_shared<GLSL::AST_BinaryOperation>
 				(
 					lhs,
@@ -546,7 +542,7 @@ AST_Generator::return_type AST_Generator::V_EqualityExpression(EqualityExpressio
 		{
 			GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
-			context.parent->children.emplace_back(
+			CurrentContext().parent->children.emplace_back(
 				std::make_shared<GLSL::AST_BinaryOperation>
 				(
 					lhs,
@@ -609,7 +605,7 @@ AST_Generator::return_type AST_Generator::V_RelationalExpression(RelationalExpre
 		{
 			GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
-			context.parent->children.emplace_back(
+			CurrentContext().parent->children.emplace_back(
 				std::make_shared<GLSL::AST_BinaryOperation>
 				(
 					lhs,
@@ -667,7 +663,7 @@ AST_Generator::return_type AST_Generator::V_ShiftExpression(ShiftExpression& ite
 		{
 			GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
-			context.parent->children.emplace_back(
+			CurrentContext().parent->children.emplace_back(
 				std::make_shared<GLSL::AST_BinaryOperation>
 				(
 					lhs,
@@ -724,7 +720,7 @@ AST_Generator::return_type AST_Generator::V_AdditiveExpression(AdditiveExpressio
 		{
 			GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
-			context.parent->children.emplace_back(
+			CurrentContext().parent->children.emplace_back(
 				std::make_shared<GLSL::AST_BinaryOperation>
 				(
 					lhs,
@@ -784,7 +780,7 @@ AST_Generator::return_type AST_Generator::V_MultiplicativeExpression(Multiplicat
 		{
 			GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
-			context.parent->children.emplace_back(
+			CurrentContext().parent->children.emplace_back(
 				std::make_shared<GLSL::AST_BinaryOperation>
 				(
 					lhs,
@@ -834,7 +830,7 @@ AST_Generator::return_type AST_Generator::V_UnaryExpression(UnaryExpression& ite
 			{
 				GLSL::Lvalue lhs = a.ToLvalue();
 
-				context.parent->children.emplace_back(
+				CurrentContext().parent->children.emplace_back(
 					std::make_shared<GLSL::AST_IncDecOperation>(
 						lhs,false
 						)
@@ -861,7 +857,7 @@ AST_Generator::return_type AST_Generator::V_UnaryExpression(UnaryExpression& ite
 			{
 				GLSL::Lvalue lhs = a.ToLvalue();
 
-				context.parent->children.emplace_back(
+				CurrentContext().parent->children.emplace_back(
 					std::make_shared<GLSL::AST_IncDecOperation>(
 						lhs, true
 						)
@@ -896,7 +892,7 @@ AST_Generator::return_type AST_Generator::V_UnaryExpression(UnaryExpression& ite
 		{
 			GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
-			context.parent->children.emplace_back(
+			CurrentContext().parent->children.emplace_back(
 				std::make_shared<GLSL::AST_UnaryOperation>(
 					lhs, op, a
 					)
@@ -941,7 +937,7 @@ AST_Generator::return_type AST_Generator::V_PostfixExpression(PostfixExpression&
 
 			GLSL::Lvalue lhs = GenerateTemporary(inputType);
 
-			context.parent->children.emplace_back(
+			CurrentContext().parent->children.emplace_back(
 				std::make_shared<GLSL::AST_AssignmentOperation>(
 					lhs, input
 					)
@@ -949,7 +945,7 @@ AST_Generator::return_type AST_Generator::V_PostfixExpression(PostfixExpression&
 
 			lhs = input.ToLvalue();
 
-			context.parent->children.emplace_back(
+			CurrentContext().parent->children.emplace_back(
 				std::make_shared<GLSL::AST_IncDecOperation>(
 					lhs, true
 					)
@@ -969,7 +965,7 @@ AST_Generator::return_type AST_Generator::V_PostfixExpression(PostfixExpression&
 
 			GLSL::Lvalue lhs = GenerateTemporary(inputType);
 
-			context.parent->children.emplace_back(
+			CurrentContext().parent->children.emplace_back(
 				std::make_shared<GLSL::AST_AssignmentOperation>(
 					lhs, input
 					)
@@ -977,7 +973,7 @@ AST_Generator::return_type AST_Generator::V_PostfixExpression(PostfixExpression&
 
 			lhs = input.ToLvalue();
 
-			context.parent->children.emplace_back(
+			CurrentContext().parent->children.emplace_back(
 				std::make_shared<GLSL::AST_IncDecOperation>(
 					lhs, false
 					)
@@ -3057,7 +3053,7 @@ AST_Generator::return_type AST_Generator::V_FunctionPrototype(FunctionPrototype&
 			
 	}
 
-	context.parent->children.push_back(output);
+	CurrentContext().parent->children.push_back(output);
 
 	return 0;
 }
@@ -3113,9 +3109,11 @@ AST_Generator::return_type AST_Generator::V_InitDeclaratorList(InitDeclaratorLis
 		}
 		else
 		{
-			// TODO: evaluate array size expression
+			entry.arraySizeExpression->AcceptVisitor(*this);
 
-			Ceng::UINT32 arraySize = 0;
+			GLSL::Rvalue arraySize = returnValue.value;
+
+			Ceng::UINT32 intSize = std::get<Ceng::UINT32>(arraySize.value);
 
 			output = std::make_shared<GLSL::AST_VariableDeclaration>(
 				item.invariant,
@@ -3125,14 +3123,56 @@ AST_Generator::return_type AST_Generator::V_InitDeclaratorList(InitDeclaratorLis
 				item.fullType->typeSpec.precision.precision,
 				datatype,
 				entry.name,
-				arraySize
+				intSize
 				);
 		}
 
-		context.parent->children.push_back(output);
+		CurrentContext().parent->children.push_back(output);
+
+		NewestChildToContext();
+
+		GLSL::Rvalue initializer;
+		GLSL::AST_Datatype initializerType;
+
+		if (entry.initializer != nullptr)
+		{
+			entry.initializer->AcceptVisitor(*this);
+
+			initializer = returnValue.value;
+			initializerType = returnValue.valueType;
+		}
+
+		PopContext();
+
 	}
 
 	return 0;
+}
+
+AST_Generator::return_type AST_Generator::V_Initializer(Initializer& item)
+{
+	item.assignEx->AcceptVisitor(*this);
+	return 0;
+}
+
+Context& AST_Generator::CurrentContext()
+{
+	return contextStack.back();
+}
+
+void AST_Generator::NewestChildToContext()
+{
+	contextStack.emplace_back(CurrentContext().parent->children.back().get());
+}
+
+void AST_Generator::StartContext(GLSL::IASTNode* parent)
+{
+	contextStack.emplace_back(parent);
+}
+
+void AST_Generator::PopContext()
+{
+	contextStack.pop_back();
 }
 
 AST_Generator::return_type AST_Generator::V_FunctionDefinition(FunctionDefinition& item)
