@@ -133,20 +133,26 @@ AST_Generator::return_type AST_Generator::V_AssignmentExpression(AssignmentExpre
 			context.parent->children.push_back(std::make_shared< GLSL::AST_AssignmentOperation>(
 				lhs, b
 				));
-			break;
+
+			returnValue.value = lhs;
+			returnValue.valueType = GetDatatype(lhs);
+			return 0;
 		default:
 
 			GLSL::BinaryOperator::value op = ConvertAssignmentOperator(item.op->operation);
+
 			context.parent->children.push_back(std::make_shared< GLSL::AST_BinaryOperation>(
 				lhs, a, op, b
 				));
 
-			break;
+			returnValue.value = lhs;
+			returnValue.valueType = GetDatatype(lhs);
+		
+			return 0;
 		}
 
-		returnValue.value = lhs;
-		returnValue.valueType = GetDatatype(lhs);
-		return 0;
+		
+		
 	}
 	else
 	{
@@ -250,20 +256,29 @@ AST_Generator::return_type AST_Generator::V_LogicalOrExpression(LogicalOrExpress
 		item.rhs->AcceptVisitor(*this);
 		GLSL::Rvalue b = returnValue.value;
 
-		GLSL::Lvalue lhs = GenerateTemporary(resultType);
+		if (a.IsLiteral() && b.IsLiteral())
+		{
+			returnValue = LiteralBinaryOp(a, GLSL::BinaryOperator::logical_or, b);
+		}
+		else
+		{
+			GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
-		context.parent->children.emplace_back(
-			std::make_shared<GLSL::AST_BinaryOperation>
-			(
-				lhs,
-				a,
-				GLSL::BinaryOperator::logical_or,
-				b
-				)
-		);
+			context.parent->children.emplace_back(
+				std::make_shared<GLSL::AST_BinaryOperation>
+				(
+					lhs,
+					a,
+					GLSL::BinaryOperator::logical_or,
+					b
+					)
+			);
 
-		returnValue.value = lhs;
-		returnValue.valueType = resultType;
+			returnValue.value = lhs;
+			returnValue.valueType = resultType;
+
+
+		}
 		
 		return 0;
 	}
@@ -286,20 +301,29 @@ AST_Generator::return_type AST_Generator::V_LogicalXorExpression(LogicalXorExpre
 		item.rhs->AcceptVisitor(*this);
 		GLSL::Rvalue b = returnValue.value;
 
-		GLSL::Lvalue lhs = GenerateTemporary(resultType);
+		if (a.IsLiteral() && b.IsLiteral())
+		{
+			returnValue = LiteralBinaryOp(a, GLSL::BinaryOperator::logical_xor, b);
+		}
+		else
+		{
+			GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
-		context.parent->children.emplace_back(
-			std::make_shared<GLSL::AST_BinaryOperation>
-			(
-				lhs,
-				a,
-				GLSL::BinaryOperator::logical_xor,
-				b
-				)
-		);
+			context.parent->children.emplace_back(
+				std::make_shared<GLSL::AST_BinaryOperation>
+				(
+					lhs,
+					a,
+					GLSL::BinaryOperator::logical_xor,
+					b
+					)
+			);
 
-		returnValue.value = lhs;
-		returnValue.valueType = resultType;
+			returnValue.value = lhs;
+			returnValue.valueType = resultType;
+
+
+		}
 
 		return 0;
 	}
@@ -322,20 +346,29 @@ AST_Generator::return_type AST_Generator::V_LogicalAndExpression(LogicalAndExpre
 		item.rhs->AcceptVisitor(*this);
 		GLSL::Rvalue b = returnValue.value;
 
-		GLSL::Lvalue lhs = GenerateTemporary(resultType);
+		if (a.IsLiteral() && b.IsLiteral())
+		{
+			returnValue = LiteralBinaryOp(a, GLSL::BinaryOperator::logical_and, b);
+		}
+		else
+		{
+			GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
-		context.parent->children.emplace_back(
-			std::make_shared<GLSL::AST_BinaryOperation>
-			(
-				lhs,
-				a,
-				GLSL::BinaryOperator::logical_and,
-				b
-				)
-		);
+			context.parent->children.emplace_back(
+				std::make_shared<GLSL::AST_BinaryOperation>
+				(
+					lhs,
+					a,
+					GLSL::BinaryOperator::logical_and,
+					b
+					)
+			);
 
-		returnValue.value = lhs;
-		returnValue.valueType = resultType;
+			returnValue.value = lhs;
+			returnValue.valueType = resultType;
+
+
+		}
 
 		return 0;
 	}
@@ -358,20 +391,29 @@ AST_Generator::return_type AST_Generator::V_OrExpression(OrExpression& item)
 		item.rhs->AcceptVisitor(*this);
 		GLSL::Rvalue b = returnValue.value;
 
-		GLSL::Lvalue lhs = GenerateTemporary(resultType);
+		if (a.IsLiteral() && b.IsLiteral())
+		{
+			returnValue = LiteralBinaryOp(a, GLSL::BinaryOperator::bitwise_or, b);
+		}
+		else
+		{
+			GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
-		context.parent->children.emplace_back(
-			std::make_shared<GLSL::AST_BinaryOperation>
-			(
-				lhs,
-				a,
-				GLSL::BinaryOperator::bitwise_or,
-				b
-				)
-		);
+			context.parent->children.emplace_back(
+				std::make_shared<GLSL::AST_BinaryOperation>
+				(
+					lhs,
+					a,
+					GLSL::BinaryOperator::bitwise_or,
+					b
+					)
+			);
 
-		returnValue.value = lhs;
-		returnValue.valueType = resultType;
+			returnValue.value = lhs;
+			returnValue.valueType = resultType;
+
+
+		}
 
 		return 0;
 	}
@@ -394,20 +436,29 @@ AST_Generator::return_type AST_Generator::V_XorExpression(XorExpression& item)
 		item.rhs->AcceptVisitor(*this);
 		GLSL::Rvalue b = returnValue.value;
 
-		GLSL::Lvalue lhs = GenerateTemporary(resultType);
+		if (a.IsLiteral() && b.IsLiteral())
+		{
+			returnValue = LiteralBinaryOp(a, GLSL::BinaryOperator::bitwise_xor, b);
+		}
+		else
+		{
+			GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
-		context.parent->children.emplace_back(
-			std::make_shared<GLSL::AST_BinaryOperation>
-			(
-				lhs,
-				a,
-				GLSL::BinaryOperator::bitwise_xor,
-				b
-				)
-		);
+			context.parent->children.emplace_back(
+				std::make_shared<GLSL::AST_BinaryOperation>
+				(
+					lhs,
+					a,
+					GLSL::BinaryOperator::bitwise_xor,
+					b
+					)
+			);
 
-		returnValue.value = lhs;
-		returnValue.valueType = resultType;
+			returnValue.value = lhs;
+			returnValue.valueType = resultType;
+
+
+		}
 
 		return 0;
 	}
@@ -430,20 +481,29 @@ AST_Generator::return_type AST_Generator::V_AndExpression(AndExpression& item)
 		item.rhs->AcceptVisitor(*this);
 		GLSL::Rvalue b = returnValue.value;
 
-		GLSL::Lvalue lhs = GenerateTemporary(resultType);
+		if (a.IsLiteral() && b.IsLiteral())
+		{
+			returnValue = LiteralBinaryOp(a, GLSL::BinaryOperator::bitwise_and, b);
+		}
+		else
+		{
+			GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
-		context.parent->children.emplace_back(
-			std::make_shared<GLSL::AST_BinaryOperation>
-			(
-				lhs,
-				a,
-				GLSL::BinaryOperator::bitwise_and,
-				b
-				)
-		);
+			context.parent->children.emplace_back(
+				std::make_shared<GLSL::AST_BinaryOperation>
+				(
+					lhs,
+					a,
+					GLSL::BinaryOperator::bitwise_and,
+					b
+					)
+			);
 
-		returnValue.value = lhs;
-		returnValue.valueType = resultType;
+			returnValue.value = lhs;
+			returnValue.valueType = resultType;
+
+
+		}
 
 		return 0;
 	}
@@ -466,8 +526,6 @@ AST_Generator::return_type AST_Generator::V_EqualityExpression(EqualityExpressio
 		item.rhs->AcceptVisitor(*this);
 		GLSL::Rvalue b = returnValue.value;
 
-		GLSL::Lvalue lhs = GenerateTemporary(resultType);
-
 		GLSL::BinaryOperator::value binaryOp;
 
 		switch (item.operation)
@@ -480,18 +538,29 @@ AST_Generator::return_type AST_Generator::V_EqualityExpression(EqualityExpressio
 			break;
 		}
 
-		context.parent->children.emplace_back(
-			std::make_shared<GLSL::AST_BinaryOperation>
-			(
-				lhs,
-				a,
-				binaryOp,
-				b
-				)
-		);
+		if (a.IsLiteral() && b.IsLiteral())
+		{
+			returnValue = LiteralBinaryOp(a, binaryOp, b);
+		}
+		else
+		{
+			GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
-		returnValue.value = lhs;
-		returnValue.valueType = resultType;
+			context.parent->children.emplace_back(
+				std::make_shared<GLSL::AST_BinaryOperation>
+				(
+					lhs,
+					a,
+					binaryOp,
+					b
+					)
+			);
+
+			returnValue.value = lhs;
+			returnValue.valueType = resultType;
+
+
+		}
 
 		return 0;
 	}
@@ -514,8 +583,6 @@ AST_Generator::return_type AST_Generator::V_RelationalExpression(RelationalExpre
 		item.rhs->AcceptVisitor(*this);
 		GLSL::Rvalue b = returnValue.value;
 
-		GLSL::Lvalue lhs = GenerateTemporary(resultType);
-
 		GLSL::BinaryOperator::value binaryOp;
 
 		switch (item.operation)
@@ -534,18 +601,29 @@ AST_Generator::return_type AST_Generator::V_RelationalExpression(RelationalExpre
 			break;
 		}
 
-		context.parent->children.emplace_back(
-			std::make_shared<GLSL::AST_BinaryOperation>
-			(
-				lhs,
-				a,
-				binaryOp,
-				b
-				)
-		);
+		if (a.IsLiteral() && b.IsLiteral())
+		{
+			returnValue = LiteralBinaryOp(a, binaryOp, b);
+		}
+		else
+		{
+			GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
-		returnValue.value = lhs;
-		returnValue.valueType = resultType;
+			context.parent->children.emplace_back(
+				std::make_shared<GLSL::AST_BinaryOperation>
+				(
+					lhs,
+					a,
+					binaryOp,
+					b
+					)
+			);
+
+			returnValue.value = lhs;
+			returnValue.valueType = resultType;
+
+
+		}
 
 		return 0;
 	}
@@ -569,8 +647,6 @@ AST_Generator::return_type AST_Generator::V_ShiftExpression(ShiftExpression& ite
 		item.rhs->AcceptVisitor(*this);
 		GLSL::Rvalue b = returnValue.value;
 
-		GLSL::Lvalue lhs = GenerateTemporary(resultType);
-
 		GLSL::BinaryOperator::value binaryOp;
 
 		switch (item.operation)
@@ -583,18 +659,29 @@ AST_Generator::return_type AST_Generator::V_ShiftExpression(ShiftExpression& ite
 			break;
 		}
 
-		context.parent->children.emplace_back(
-			std::make_shared<GLSL::AST_BinaryOperation>
-			(
-				lhs,
-				a,
-				binaryOp,
-				b
-				)
-		);
+		if (a.IsLiteral() && b.IsLiteral())
+		{
+			returnValue = LiteralBinaryOp(a, binaryOp, b);
+		}
+		else
+		{
+			GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
-		returnValue.value = lhs;
-		returnValue.valueType = resultType;
+			context.parent->children.emplace_back(
+				std::make_shared<GLSL::AST_BinaryOperation>
+				(
+					lhs,
+					a,
+					binaryOp,
+					b
+					)
+			);
+
+			returnValue.value = lhs;
+			returnValue.valueType = resultType;
+
+
+		}
 
 		return 0;
 	}
@@ -631,18 +718,29 @@ AST_Generator::return_type AST_Generator::V_AdditiveExpression(AdditiveExpressio
 			break;
 		}
 
-		context.parent->children.emplace_back(
-			std::make_shared<GLSL::AST_BinaryOperation>
-			(
-				lhs,
-				a,
-				binaryOp,
-				b
-				)
-		);
+		if (a.IsLiteral() && b.IsLiteral())
+		{
+			returnValue = LiteralBinaryOp(a, binaryOp, b);
+		}
+		else
+		{
+			GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
-		returnValue.value = lhs;
-		returnValue.valueType = resultType;
+			context.parent->children.emplace_back(
+				std::make_shared<GLSL::AST_BinaryOperation>
+				(
+					lhs,
+					a,
+					binaryOp,
+					b
+					)
+			);
+
+			returnValue.value = lhs;
+			returnValue.valueType = resultType;
+
+
+		}
 
 		return 0;
 	}
