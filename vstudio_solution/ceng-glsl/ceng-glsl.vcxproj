@@ -23,6 +23,7 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\ArrayIndex.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_AssignmentOperation.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_BinaryOperation.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_BinaryOperator.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_ConditionalOperation.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_Datatype.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_IncDecOperation.h" />
