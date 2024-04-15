@@ -33,3 +33,8 @@ Ceng::StringUtf8 AST_ReturnStatement::ToString(Ceng::UINT32 indentLevel) const
 
 	return ";\n";
 }
+
+Ceng::StringUtf8 AST_ReturnStatement::RhsToString(Ceng::UINT32 indentLevel) const
+{
+	return "";
+}

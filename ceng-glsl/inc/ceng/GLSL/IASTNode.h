@@ -35,6 +35,8 @@ namespace Ceng
 
 			virtual Ceng::StringUtf8 ToString(Ceng::UINT32 indentLevel) const = 0;
 
+			virtual Ceng::StringUtf8 RhsToString(Ceng::UINT32 indentLevel) const = 0;
+
 		};
 	}	
 }

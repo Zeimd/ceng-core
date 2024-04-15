@@ -25,6 +25,8 @@ namespace Ceng
 
 			Ceng::StringUtf8 ToString(Ceng::UINT32 indentLevel) const override;
 
+			Ceng::StringUtf8 RhsToString(Ceng::UINT32 indentLevel) const override;
+
 		};
 	}
 }

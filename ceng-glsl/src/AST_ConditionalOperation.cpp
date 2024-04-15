@@ -19,12 +19,22 @@ Ceng::StringUtf8 AST_ConditionalOperation::ToString(Ceng::UINT32 indentLevel) co
 
 	out += lhs.ToString(indentLevel);
 	out += " = ";
+	out += RhsToString(indentLevel);
+
+	out += ";\n";
+
+	return out;		
+}
+
+Ceng::StringUtf8 AST_ConditionalOperation::RhsToString(Ceng::UINT32 indentLevel) const
+{
+	Ceng::StringUtf8 out;
+
 	out += a.ToString(indentLevel);
 	out += " ? ";
 	out += b.ToString(indentLevel);
 	out += " : ";
 	out += c.ToString(indentLevel);
-	out += ";\n";
 
-	return out;		
+	return out;
 }

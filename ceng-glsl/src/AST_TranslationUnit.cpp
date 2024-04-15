@@ -24,3 +24,8 @@ Ceng::StringUtf8 AST_TranslationUnit::ToString(Ceng::UINT32 indentLevel) const
 
 	return out;
 }
+
+Ceng::StringUtf8 AST_TranslationUnit::RhsToString(Ceng::UINT32 indentLevel) const
+{
+	return "";
+}

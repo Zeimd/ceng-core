@@ -71,10 +71,19 @@ Ceng::StringUtf8 AST_BinaryOperation::ToString(Ceng::UINT32 indentLevel) const
 
 	out += lhs.ToString(indentLevel);
 	out += " = ";
+	out += RhsToString(indentLevel);
+	out += ";\n";
+
+	return out;
+}
+
+Ceng::StringUtf8 AST_BinaryOperation::RhsToString(Ceng::UINT32 indentLevel) const
+{
+	Ceng::StringUtf8 out;
+
 	out += a.ToString(indentLevel);
 	out += BinaryOperator::ToString(operation);
 	out += b.ToString(indentLevel);
-	out += ";\n";
 
 	return out;
 }

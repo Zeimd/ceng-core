@@ -31,3 +31,8 @@ Ceng::StringUtf8 AST_IncDecOperation::ToString(Ceng::UINT32 indentLevel) const
 
 	return out;
 }
+
+Ceng::StringUtf8 AST_IncDecOperation::RhsToString(Ceng::UINT32 indentLevel) const
+{
+	return "";
+}

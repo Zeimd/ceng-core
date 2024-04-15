@@ -19,7 +19,17 @@ Ceng::StringUtf8 AST_AssignmentOperation::ToString(Ceng::UINT32 indentLevel) con
 
 	out += lhs.ToString(indentLevel);
 	out += " = ";
-	out += rhs.ToString(indentLevel);
+	out += RhsToString(indentLevel);
+	
 	out += ";\n";
+	return out;
+}
+
+Ceng::StringUtf8 AST_AssignmentOperation::RhsToString(Ceng::UINT32 indentLevel) const
+{
+	Ceng::StringUtf8 out;
+
+	out += rhs.ToString(indentLevel);
+
 	return out;
 }

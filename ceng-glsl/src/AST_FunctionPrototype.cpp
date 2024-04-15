@@ -48,3 +48,8 @@ Ceng::StringUtf8 AST_FunctionPrototype::ToString(Ceng::UINT32 indentLevel) const
 	
 	return out;
 }
+
+Ceng::StringUtf8 AST_FunctionPrototype::RhsToString(Ceng::UINT32 indentLevel) const
+{
+	return "";
+}

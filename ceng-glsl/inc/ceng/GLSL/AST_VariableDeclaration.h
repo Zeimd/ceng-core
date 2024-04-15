@@ -11,6 +11,8 @@
 
 #include "AST_Datatype.h"
 
+#include "Rvalue.h"
+
 namespace Ceng
 {
 	namespace GLSL
@@ -33,7 +35,7 @@ namespace Ceng
 			bool implicitArray;
 			Ceng::UINT32 arraySize;
 
-			// TODO: initializer
+			std::shared_ptr<IASTNode> initializer;
 
 		public:
 
@@ -43,15 +45,29 @@ namespace Ceng
 
 			AST_VariableDeclaration(bool invariant, std::vector<LayoutData>& layout, StorageQualifierType::value storage,
 				InterpolationQualifierType::value interpolation, PrecisionQualifierType::value precision,
+				AST_Datatype& datatype, const Ceng::StringUtf8& name, std::shared_ptr<IASTNode>& initializer);
+
+			AST_VariableDeclaration(bool invariant, std::vector<LayoutData>& layout, StorageQualifierType::value storage,
+				InterpolationQualifierType::value interpolation, PrecisionQualifierType::value precision,
 				AST_Datatype& datatype, const Ceng::StringUtf8& name, bool implicitArray);
+
+			AST_VariableDeclaration(bool invariant, std::vector<LayoutData>& layout, StorageQualifierType::value storage,
+				InterpolationQualifierType::value interpolation, PrecisionQualifierType::value precision,
+				AST_Datatype& datatype, const Ceng::StringUtf8& name, bool implicitArray, std::shared_ptr<IASTNode>& initializer);
 
 			AST_VariableDeclaration(bool invariant, std::vector<LayoutData>& layout, StorageQualifierType::value storage,
 				InterpolationQualifierType::value interpolation, PrecisionQualifierType::value precision,
 				AST_Datatype& datatype, const Ceng::StringUtf8& name, Ceng::UINT32 arraySize);
 
+			AST_VariableDeclaration(bool invariant, std::vector<LayoutData>& layout, StorageQualifierType::value storage,
+				InterpolationQualifierType::value interpolation, PrecisionQualifierType::value precision,
+				AST_Datatype& datatype, const Ceng::StringUtf8& name, Ceng::UINT32 arraySize, std::shared_ptr<IASTNode>& initializer);
+
 			~AST_VariableDeclaration() override;
 
 			Ceng::StringUtf8 ToString(Ceng::UINT32 indentLevel) const override;
+
+			Ceng::StringUtf8 RhsToString(Ceng::UINT32 indentLevel) const override;
 
 		};
 	}

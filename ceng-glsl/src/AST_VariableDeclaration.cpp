@@ -10,28 +10,56 @@ AST_VariableDeclaration::AST_VariableDeclaration(bool invariant, std::vector<Lay
 	InterpolationQualifierType::value interpolation, PrecisionQualifierType::value precision,
 	AST_Datatype& datatype, const Ceng::StringUtf8& name)
 	: IASTNode(AST_NodeType::variable_declaration), invariant(invariant), layout(layout), storage(storage), interpolation(interpolation),
-	precision(precision), datatype(datatype), name(name), implicitArray(false), arraySize(0)
+	precision(precision), datatype(datatype), name(name), implicitArray(false), arraySize(0), initializer(nullptr)
 {
 	
+}
+
+AST_VariableDeclaration::AST_VariableDeclaration(bool invariant, std::vector<LayoutData>& layout, StorageQualifierType::value storage,
+	InterpolationQualifierType::value interpolation, PrecisionQualifierType::value precision,
+	AST_Datatype& datatype, const Ceng::StringUtf8& name, std::shared_ptr<IASTNode>& initializer)
+	: IASTNode(AST_NodeType::variable_declaration), invariant(invariant), layout(layout), storage(storage), interpolation(interpolation),
+	precision(precision), datatype(datatype), name(name), implicitArray(false), arraySize(0), initializer(initializer)
+{
+
 }
 
 AST_VariableDeclaration::AST_VariableDeclaration(bool invariant, std::vector<LayoutData>& layout, StorageQualifierType::value storage,
 	InterpolationQualifierType::value interpolation, PrecisionQualifierType::value precision,
 	AST_Datatype& datatype, const Ceng::StringUtf8& name, bool implicitArray)
 	: IASTNode(AST_NodeType::variable_declaration), invariant(invariant), layout(layout), storage(storage), interpolation(interpolation),
-	precision(precision), datatype(datatype), name(name), implicitArray(true), arraySize(0)
+	precision(precision), datatype(datatype), name(name), implicitArray(true), arraySize(0), initializer(nullptr)
 {
 	
 }
 
 AST_VariableDeclaration::AST_VariableDeclaration(bool invariant, std::vector<LayoutData>& layout, StorageQualifierType::value storage,
 	InterpolationQualifierType::value interpolation, PrecisionQualifierType::value precision,
+	AST_Datatype& datatype, const Ceng::StringUtf8& name, bool implicitArray, std::shared_ptr<IASTNode>& initializer)
+	: IASTNode(AST_NodeType::variable_declaration), invariant(invariant), layout(layout), storage(storage), interpolation(interpolation),
+	precision(precision), datatype(datatype), name(name), implicitArray(true), arraySize(0), initializer(initializer)
+{
+
+}
+
+AST_VariableDeclaration::AST_VariableDeclaration(bool invariant, std::vector<LayoutData>& layout, StorageQualifierType::value storage,
+	InterpolationQualifierType::value interpolation, PrecisionQualifierType::value precision,
 	AST_Datatype& datatype, const Ceng::StringUtf8& name, Ceng::UINT32 arraySize)
 	: IASTNode(AST_NodeType::variable_declaration), invariant(invariant), layout(layout), storage(storage), interpolation(interpolation),
-	precision(precision), datatype(datatype), name(name), implicitArray(false), arraySize(arraySize)
+	precision(precision), datatype(datatype), name(name), implicitArray(false), arraySize(arraySize), initializer(nullptr)
 {
 	
 }
+
+AST_VariableDeclaration::AST_VariableDeclaration(bool invariant, std::vector<LayoutData>& layout, StorageQualifierType::value storage,
+	InterpolationQualifierType::value interpolation, PrecisionQualifierType::value precision,
+	AST_Datatype& datatype, const Ceng::StringUtf8& name, Ceng::UINT32 arraySize, std::shared_ptr<IASTNode>& initializer)
+	: IASTNode(AST_NodeType::variable_declaration), invariant(invariant), layout(layout), storage(storage), interpolation(interpolation),
+	precision(precision), datatype(datatype), name(name), implicitArray(false), arraySize(arraySize), initializer(initializer)
+{
+
+}
+
 
 
 AST_VariableDeclaration::~AST_VariableDeclaration()
@@ -106,7 +134,17 @@ Ceng::StringUtf8 AST_VariableDeclaration::ToString(Ceng::UINT32 indentLevel) con
 		out += "[]";
 	}
 
+	if (initializer != nullptr)
+	{
+		out += initializer->RhsToString(indentLevel);
+	}
+
 	out += ";\n";
 
 	return out;	
+}
+
+Ceng::StringUtf8 AST_VariableDeclaration::RhsToString(Ceng::UINT32 indentLevel) const
+{
+	return "";
 }
