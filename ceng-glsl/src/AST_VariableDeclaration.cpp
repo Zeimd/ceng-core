@@ -44,7 +44,7 @@ AST_VariableDeclaration::AST_VariableDeclaration(bool invariant, std::vector<Lay
 
 AST_VariableDeclaration::AST_VariableDeclaration(bool invariant, std::vector<LayoutData>& layout, StorageQualifierType::value storage,
 	InterpolationQualifierType::value interpolation, PrecisionQualifierType::value precision,
-	AST_Datatype& datatype, const Ceng::StringUtf8& name, Ceng::UINT32 arraySize)
+	AST_Datatype& datatype, const Ceng::StringUtf8& name, const Rvalue& arraySize, bool filler)
 	: IASTNode(AST_NodeType::variable_declaration), invariant(invariant), layout(layout), storage(storage), interpolation(interpolation),
 	precision(precision), datatype(datatype), name(name), implicitArray(false), arraySize(arraySize)
 {
@@ -53,7 +53,7 @@ AST_VariableDeclaration::AST_VariableDeclaration(bool invariant, std::vector<Lay
 
 AST_VariableDeclaration::AST_VariableDeclaration(bool invariant, std::vector<LayoutData>& layout, StorageQualifierType::value storage,
 	InterpolationQualifierType::value interpolation, PrecisionQualifierType::value precision,
-	AST_Datatype& datatype, const Ceng::StringUtf8& name, Ceng::UINT32 arraySize, const Rvalue& initializer)
+	AST_Datatype& datatype, const Ceng::StringUtf8& name, const Rvalue& arraySize, const Rvalue& initializer)
 	: IASTNode(AST_NodeType::variable_declaration), invariant(invariant), layout(layout), storage(storage), interpolation(interpolation),
 	precision(precision), datatype(datatype), name(name), implicitArray(false), arraySize(arraySize), initializer(initializer)
 {
@@ -123,10 +123,10 @@ Ceng::StringUtf8 AST_VariableDeclaration::ToString(Ceng::UINT32 indentLevel) con
 
 	out += name;
 
-	if (arraySize > 0)
+	if (arraySize.valueType != RvalueType::unused)
 	{
 		out += '[';
-		out += arraySize;
+		out += arraySize.ToString(indentLevel);
 		out += ']';
 	}
 	else if (implicitArray)

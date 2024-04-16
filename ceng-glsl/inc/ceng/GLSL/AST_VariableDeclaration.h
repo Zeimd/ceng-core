@@ -33,7 +33,7 @@ namespace Ceng
 			Ceng::StringUtf8 name;			
 
 			bool implicitArray;
-			Ceng::UINT32 arraySize;
+			Rvalue arraySize;
 
 			Rvalue initializer;
 
@@ -57,11 +57,11 @@ namespace Ceng
 
 			AST_VariableDeclaration(bool invariant, std::vector<LayoutData>& layout, StorageQualifierType::value storage,
 				InterpolationQualifierType::value interpolation, PrecisionQualifierType::value precision,
-				AST_Datatype& datatype, const Ceng::StringUtf8& name, Ceng::UINT32 arraySize);
+				AST_Datatype& datatype, const Ceng::StringUtf8& name, const Rvalue& arraySize, bool filler);
 
 			AST_VariableDeclaration(bool invariant, std::vector<LayoutData>& layout, StorageQualifierType::value storage,
 				InterpolationQualifierType::value interpolation, PrecisionQualifierType::value precision,
-				AST_Datatype& datatype, const Ceng::StringUtf8& name, Ceng::UINT32 arraySize, const Rvalue& initializer);
+				AST_Datatype& datatype, const Ceng::StringUtf8& name, const Rvalue& arraySize, const Rvalue& initializer);
 
 			~AST_VariableDeclaration() override;
 

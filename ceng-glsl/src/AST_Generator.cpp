@@ -3388,9 +3388,7 @@ AST_Generator::return_type AST_Generator::V_InitDeclaratorList(InitDeclaratorLis
 			entry.arraySizeExpression->AcceptVisitor(*this);
 
 			GLSL::Rvalue arraySize = returnValue.value;
-
-			Ceng::UINT32 intSize = std::get<Ceng::UINT32>(arraySize.value);
-
+			
 			output = std::make_shared<GLSL::AST_VariableDeclaration>(
 				item.invariant,
 				layout,
@@ -3399,7 +3397,7 @@ AST_Generator::return_type AST_Generator::V_InitDeclaratorList(InitDeclaratorLis
 				item.fullType->typeSpec.precision.precision,
 				datatype,
 				entry.name,
-				intSize,
+				arraySize,
 				initializer
 				);
 		}
