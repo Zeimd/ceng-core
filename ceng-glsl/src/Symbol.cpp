@@ -51,15 +51,13 @@ namespace Ceng
 
 }
 
-
-Symbol::Symbol(Symbol* parent, Ceng::UINT32 childIndex)
-	: symbolType(SymbolType::scope), parent(parent), childIndex(childIndex)
+Symbol::Symbol()
+	: symbolType(SymbolType::scope)
 {
 
 }
 
-Symbol::Symbol(Symbol* parent, Ceng::UINT32 childIndex, std::shared_ptr<Declaration>& decl, Ceng::UINT32 index)
-	: parent(parent), childIndex(childIndex)
+Symbol::Symbol(std::shared_ptr<Declaration>& decl, Ceng::UINT32 index)
 {
 	isInteger = false;
 	isConst = false;
@@ -103,26 +101,26 @@ Symbol::Symbol(Symbol* parent, Ceng::UINT32 childIndex, std::shared_ptr<Declarat
 	}
 }
 
-Symbol::Symbol(Symbol* parent, Ceng::UINT32 childIndex, std::shared_ptr<StructSpecifier>& structSpec)
-	: parent(parent), childIndex(childIndex), symbolType(SymbolType::struct_declaration), structSpec(structSpec)
+Symbol::Symbol(std::shared_ptr<StructSpecifier>& structSpec)
+	: symbolType(SymbolType::struct_declaration), structSpec(structSpec)
 {
 	
 }
 
-Symbol::Symbol(Symbol* parent, Ceng::UINT32 childIndex, std::shared_ptr<FunctionPrototype>& prototype)
-	: parent(parent), childIndex(childIndex), symbolType(SymbolType::function), prototype(prototype)
+Symbol::Symbol(std::shared_ptr<FunctionPrototype>& prototype)
+	: symbolType(SymbolType::function), prototype(prototype)
 {
 
 }
 
-Symbol::Symbol(Symbol* parent, Ceng::UINT32 childIndex, std::shared_ptr<ParameterDeclaration> param)
-	: parent(parent), childIndex(childIndex), symbolType(SymbolType::function_parameter), param(param)
+Symbol::Symbol(std::shared_ptr<ParameterDeclaration> param)
+	: symbolType(SymbolType::function_parameter), param(param)
 {
 
 }
 
-Symbol::Symbol(Symbol* parent, Ceng::UINT32 childIndex, std::shared_ptr<Condition>& condition)
-	: parent(parent), childIndex(childIndex), symbolType(SymbolType::variable), condition(condition),
+Symbol::Symbol(std::shared_ptr<Condition>& condition)
+	: symbolType(SymbolType::variable), condition(condition),
 	variableIsCondition(true)
 {
 
@@ -177,26 +175,5 @@ Ceng::StringUtf8 Symbol::ToString(Ceng::UINT32 indentLevel) const
 	printf("symbol type = %s\n", SymbolTypeToString(symbolType));
 	*/
 
-	Ceng::StringUtf8 out;
-
-	out += INonTerminal::GetIndent(indentLevel);
-
-	out += SymbolType::ToString(symbolType);
-
-	const Ceng::StringUtf8* name = Name();
-
-	if (name != nullptr)
-	{
-		out += ' ';
-		out += *name;
-	}
-
-	out += '\n';	
-
-	for (auto& x : scope)
-	{
-		out += x.ToString(indentLevel + 1);
-	}
-
-	return out;
+	return "";
 }

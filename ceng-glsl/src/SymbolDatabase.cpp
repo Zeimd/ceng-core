@@ -13,12 +13,16 @@
 using namespace Ceng;
 
 SymbolDatabase::SymbolDatabase()
-	: root(nullptr,0), top(nullptr)
+	: root(SymbolLink(&data, 0),nullptr,0), top(nullptr)
 {
+	// translation unit scope
 
+	data.emplace_back();
+
+	top = nullptr;
 }
 
-Symbol& SymbolDatabase::StartScope()
+void SymbolDatabase::StartScope()
 {
 	//printf(__func__);
 	//printf("\n");
@@ -27,19 +31,27 @@ Symbol& SymbolDatabase::StartScope()
 	{
 		top = &root;
 
+
+
 		//printf("top type = %s\n", SymbolTypeToString(top->symbolType));
 
-		return *top;
+		//return *top;
+		return;
 	}
+	
 
-	top->scope.emplace_back(top, top->scope.size());
+	data.emplace_back();
+
+	AddNode();
+
+	//top->scope.emplace_back(top, top->scope.size());
 
 	top = &top->scope.back();
 
-	return *top;
+	//return top;
 }
 
-Symbol& SymbolDatabase::EndScope()
+void SymbolDatabase::EndScope()
 {
 	/*
 	printf(__func__);
@@ -58,15 +70,17 @@ Symbol& SymbolDatabase::EndScope()
 	//printf("top type = %s\n", SymbolTypeToString(top->symbolType));
 	//top->ToString(0);
 	
-	return *top;
+	//return *top;
 }
 
+/*
 Symbol& SymbolDatabase::Top()
 {
 	return *top;
 }
+*/
 
-Symbol& SymbolDatabase::StartFunction(std::shared_ptr<FunctionPrototype>& prototype)
+void SymbolDatabase::StartFunction(std::shared_ptr<FunctionPrototype>& prototype)
 {
 	/*
 	printf(__func__);
@@ -74,9 +88,11 @@ Symbol& SymbolDatabase::StartFunction(std::shared_ptr<FunctionPrototype>& protot
 	printf("top type = %s\n", SymbolTypeToString(top->symbolType));
 	*/
 
-	top->scope.emplace_back(top, top->scope.size(), prototype);
+	data.emplace_back(prototype);
 
-	Symbol& functionScope = top->scope.back();
+	AddNode();
+
+	SymbolNode& functionScope = top->scope.back();
 
 	//printf("new type = %s\n", SymbolTypeToString(functionScope.symbolType));
 
@@ -84,18 +100,23 @@ Symbol& SymbolDatabase::StartFunction(std::shared_ptr<FunctionPrototype>& protot
 
 	//printf("paramCount = %i\n", paramCount);
 
+	top = &functionScope;
+
 	for (Ceng::UINT32 k = 0; k < paramCount; k++)
 	{
 		//printf("add param : %s\n", prototype->GetParameterName(k)->ToCString());
 
-		functionScope.scope.emplace_back(&functionScope, functionScope.scope.size(),
-			prototype->GetParameter(k));
+		data.emplace_back(prototype->GetParameter(k));
+
+		AddNode();
+
+		//functionScope.scope.emplace_back(data.size()-1,functionScope, functionScope.scope.size());
 			
 	}
 	
-	top = &functionScope;
+	
 
-	return *top;
+	//return *top;
 }
 
 Ceng::INT32 SymbolDatabase::Add(std::shared_ptr<Declaration>& decl)
@@ -105,22 +126,29 @@ Ceng::INT32 SymbolDatabase::Add(std::shared_ptr<Declaration>& decl)
 	switch (decl->declarationType)
 	{
 	case DeclarationType::function_prototype:
-		top->scope.emplace_back(top, top->scope.size(),decl,0);
+		data.emplace_back(decl, 0);
+
+		AddNode();
 		return 0;
 	case DeclarationType::init_list:		
 		for (auto& x : decl->declList->list)
 		{
-			top->scope.emplace_back(top, top->scope.size(), decl, index);
+			data.emplace_back(decl, index);
+
+			AddNode();
 			++index;
 		}
 		return 0;
 	case DeclarationType::global_interface_block:
-		top->scope.emplace_back(top, top->scope.size(), decl,0);
+		data.emplace_back(decl, 0);
+		AddNode();
 		return 0;
 	case DeclarationType::scoped_interface_block:
 	case DeclarationType::scoped_interface_block_array:
-		top->scope.emplace_back(top, top->scope.size(), decl, 0);
-		top->scope.emplace_back(top, top->scope.size(), decl, 1);
+		data.emplace_back(decl, 0);
+		AddNode();
+		data.emplace_back(decl, 1);
+		AddNode();
 		return 0;
 	case DeclarationType::precision:
 	case DeclarationType::type_qualifier:
@@ -130,39 +158,51 @@ Ceng::INT32 SymbolDatabase::Add(std::shared_ptr<Declaration>& decl)
 	return 0;
 }
 
+void SymbolDatabase::AddNode()
+{
+	top->scope.emplace_back(SymbolLink(&data, data.size() - 1), top, top->scope.size());
+}
+
 Ceng::INT32 SymbolDatabase::Add(std::shared_ptr<Condition>& condition)
 {
-	top->scope.emplace_back(top, top->scope.size(), condition);
+	data.emplace_back(condition);
+	AddNode();
+	
 	return 0;
 }
 
 Ceng::INT32 SymbolDatabase::Add(std::shared_ptr<StructSpecifier>& structSpec)
 {
-	top->scope.emplace_back(top, top->scope.size(), structSpec);
+	data.emplace_back(structSpec);
+	AddNode();
 	return 0;
 }
 
-Symbol* SymbolDatabase::Find(const Ceng::StringUtf8& name) const
+SymbolLink SymbolDatabase::Find(const Ceng::StringUtf8& name) const
 {
-	Symbol* current = top;
+	SymbolNode* current = top;
 	Ceng::INT32 startIndex = current->scope.size()-1;
 
 	while (current != nullptr)
 	{
-		const Ceng::StringUtf8* symbolName = symbolName = current->Name();;
+		Symbol& symbol = current->link.Get();
+
+		const Ceng::StringUtf8* symbolName = symbolName = symbol.Name();
 
 		if (symbolName != nullptr)
 		{
 			if (*symbolName == name)
 			{
-				return current;
+				return current->link;
 			}
 
 		}
 
 		for (int k = startIndex; k >= 0; --k)
 		{
-			symbolName = current->scope[k].Name();
+			symbol = current->scope[k].link.Get();
+
+			symbolName = symbol.Name();
 
 			if (symbolName == nullptr)
 			{
@@ -171,7 +211,7 @@ Symbol* SymbolDatabase::Find(const Ceng::StringUtf8& name) const
 
 			if (*symbolName == name)
 			{
-				return &current->scope[k];
+				return current->scope[k].link;
 			}
 		}	
 	
@@ -179,19 +219,19 @@ Symbol* SymbolDatabase::Find(const Ceng::StringUtf8& name) const
 		current = current->parent;		
 	}
 
-	return nullptr;
+	return SymbolLink();
 }
 
 bool SymbolDatabase::IsCustomType(const Ceng::StringUtf8& name) const
 {
-	Symbol* result = Find(name);
+	SymbolLink result = Find(name);
 
-	if (result == nullptr)
+	if (result.Valid())
 	{
-		return false;
+		return result.Get().IsTypeName();
 	}
 
-	return result->IsTypeName();
+	return false;
 }
 
 Ceng::StringUtf8 SymbolDatabase::ToString() const

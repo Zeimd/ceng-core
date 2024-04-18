@@ -1,6 +1,9 @@
 #ifndef CENG_GLSL_SYMBOL_H
 #define CENG_GLSL_SYMBOL_H
 
+#include <memory>
+#include <vector>
+
 #include <ceng/datatypes/ce-string.h>
 
 #include <ceng/GLSL/FilePosition.h>
@@ -35,12 +38,6 @@ namespace Ceng
 	class Symbol
 	{
 	public:
-
-		Symbol* parent;
-
-		// Index of this symbol in parent's scope
-		Ceng::UINT32 childIndex;
-
 		FilePosition declarePosition;
 		FilePosition lastUse;
 		FilePosition endOfScope;
@@ -62,21 +59,19 @@ namespace Ceng
 		std::shared_ptr<ParameterDeclaration> param;
 		std::shared_ptr<Condition> condition;
 
-		std::vector<Symbol> scope;
-
 	public:
 
-		Symbol(Symbol* parent, Ceng::UINT32 childIndex);
+		Symbol();
 
-		Symbol(Symbol* parent, Ceng::UINT32 childIndex, std::shared_ptr<Declaration>& decl, Ceng::UINT32 index);
+		Symbol(std::shared_ptr<Declaration>& decl, Ceng::UINT32 index);
 
-		Symbol(Symbol* parent, Ceng::UINT32 childIndex, std::shared_ptr<StructSpecifier>& structSpec);
+		Symbol(std::shared_ptr<StructSpecifier>& structSpec);
 
-		Symbol(Symbol* parent, Ceng::UINT32 childIndex, std::shared_ptr<FunctionPrototype>& prototype);
+		Symbol(std::shared_ptr<FunctionPrototype>& prototype);
 
-		Symbol(Symbol* parent, Ceng::UINT32 childIndex, std::shared_ptr<ParameterDeclaration> param);
+		Symbol(std::shared_ptr<ParameterDeclaration> param);
 
-		Symbol(Symbol* parent, Ceng::UINT32 childIndex, std::shared_ptr<Condition>& condition);
+		Symbol(std::shared_ptr<Condition>& condition);
 
 		const Ceng::StringUtf8* Name() const;
 

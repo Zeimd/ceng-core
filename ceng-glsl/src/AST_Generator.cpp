@@ -2874,27 +2874,29 @@ AST_Generator::return_type AST_Generator::V_Declaration(Declaration& decl)
 
 GLSL::AST_Datatype AST_Generator::GetDatatype(const Ceng::StringUtf8& name)
 {
-	Symbol* symbol = symbolDatabase->Find(name);
+	SymbolLink link = symbolDatabase->Find(name);
 
-	if (symbol == nullptr)
+	if (!link.Valid())
 	{
 		return GLSL::AST_Datatype();
 	}
 
-	switch (symbol->symbolType)
+	Symbol& symbol = link.Get();
+
+	switch (symbol.symbolType)
 	{
 	case SymbolType::function_prototype:
-		return GetReturnType(*symbol->decl->prototype);
+		return GetReturnType(*symbol.decl->prototype);
 	case SymbolType::variable:
-		return GetDatatype(symbol->decl->declList->fullType);
+		return GetDatatype(symbol.decl->declList->fullType);
 	case SymbolType::function:
-		return GetReturnType(*symbol->prototype);
+		return GetReturnType(*symbol.prototype);
 	case SymbolType::function_parameter:
-		return GetDatatype(symbol->param->typeSpec);
+		return GetDatatype(symbol.param->typeSpec);
 	case SymbolType::struct_declaration:		
 		{
 			GLSL::ArrayIndex index{ false };
-			return GLSL::AST_Datatype(symbol->structSpec->name, index);
+			return GLSL::AST_Datatype(symbol.structSpec->name, index);
 		}
 		break;
 	default:
