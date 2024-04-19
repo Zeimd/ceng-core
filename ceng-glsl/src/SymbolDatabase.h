@@ -71,6 +71,11 @@ namespace Ceng
 
 			out += INonTerminal::GetIndent(indentLevel);
 
+			if (symbol->undefined)
+			{
+				out += "undefined ";
+			}
+
 			out += SymbolType::ToString(symbol->symbolType);
 
 			const Ceng::StringUtf8* name = symbol->Name();
