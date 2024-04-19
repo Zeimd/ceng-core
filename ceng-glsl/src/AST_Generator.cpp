@@ -1052,8 +1052,8 @@ AST_Generator::return_type AST_Generator::V_PrimaryExpression(PrimaryExpression&
 	switch (item.valuetype)
 	{
 	case ExpressionType::identifier:
-		returnValue.value = { item.name };
-		returnValue.valueType = GetDatatype(item.name);
+		returnValue.value = { *item.identifier.Get()->Name() };
+		returnValue.valueType = GetDatatype(item.identifier);
 		break;
 	case ExpressionType::bool_const:
 		returnValue.value = { item.boolValue };
@@ -2872,15 +2872,8 @@ AST_Generator::return_type AST_Generator::V_Declaration(Declaration& decl)
 	return 0;
 }
 
-GLSL::AST_Datatype AST_Generator::GetDatatype(const Ceng::StringUtf8& name)
+GLSL::AST_Datatype AST_Generator::GetDatatype(const SymbolLink& link)
 {
-	SymbolLink link = symbolDatabase->Find(name);
-
-	if (!link.Valid())
-	{
-		return GLSL::AST_Datatype();
-	}
-
 	Symbol* symbol = link.Get();
 
 	switch (symbol->symbolType)
@@ -2893,15 +2886,27 @@ GLSL::AST_Datatype AST_Generator::GetDatatype(const Ceng::StringUtf8& name)
 		return GetReturnType(*symbol->prototype);
 	case SymbolType::function_parameter:
 		return GetDatatype(symbol->param->typeSpec);
-	case SymbolType::struct_declaration:		
-		{
-			GLSL::ArrayIndex index{ false };
-			return GLSL::AST_Datatype(symbol->structSpec->name, index);
-		}
-		break;
+	case SymbolType::struct_declaration:
+	{
+		GLSL::ArrayIndex index{ false };
+		return GLSL::AST_Datatype(symbol->structSpec->name, index);
+	}
+	break;
 	default:
 		return GLSL::AST_Datatype();
 	}
+}
+
+GLSL::AST_Datatype AST_Generator::GetDatatype(const Ceng::StringUtf8& name)
+{
+	SymbolLink link = symbolDatabase->Find(name);
+
+	if (!link.Valid())
+	{
+		return GLSL::AST_Datatype();
+	}
+
+	return GetDatatype(link);
 }
 
 GLSL::AST_Datatype AST_Generator::GetDatatype(std::shared_ptr<FullySpecifiedType>& item)

@@ -8,6 +8,7 @@
 
 #include "INonTerminal.h"
 #include "Expression.h"
+#include "SymbolLink.h"
 
 namespace Ceng
 {
@@ -30,7 +31,7 @@ namespace Ceng
 
 	
 
-		Ceng::StringUtf8 name;
+		SymbolLink identifier;
 		std::shared_ptr<Expression> expression;
 		bool boolValue;
 		Ceng::INT32 intValue;
@@ -50,7 +51,7 @@ namespace Ceng
 		PrimaryExpression(const Ceng::UINT32 value);
 		PrimaryExpression(const Ceng::FLOAT32 value);
 
-		PrimaryExpression(const Ceng::StringUtf8& identifier);
+		PrimaryExpression(const SymbolLink& identifier);
 		PrimaryExpression(std::shared_ptr<Expression>& expression);
 
 		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;

@@ -31,10 +31,12 @@ PrimaryExpression::PrimaryExpression(const Token& token)
 		boolValue = token.value.boolVal;
 		isConst = true;
 		break;
+		/*
 	case TokenType::identifier:
 		valuetype = ExpressionType::identifier;
 		name = token.name;
 		break;
+		*/
 	}
 }
 
@@ -62,8 +64,8 @@ PrimaryExpression::PrimaryExpression(const Ceng::FLOAT32 value)
 
 }
 
-PrimaryExpression::PrimaryExpression(const Ceng::StringUtf8& identifier)
-	: INonTerminal(NonTerminalType::primary_expression), valuetype(ExpressionType::identifier), name(identifier)
+PrimaryExpression::PrimaryExpression(const SymbolLink& identifier)
+	: INonTerminal(NonTerminalType::primary_expression), valuetype(ExpressionType::identifier), identifier(identifier)
 {
 
 }
@@ -86,7 +88,7 @@ Ceng::StringUtf8 PrimaryExpression::ToString(unsigned int indentLevel) const
 	switch (valuetype)
 	{
 	case ExpressionType::identifier:
-		return name;
+		return *identifier.Get()->Name();
 	case ExpressionType::int_const:
 		return intValue;
 	case ExpressionType::uint_const:

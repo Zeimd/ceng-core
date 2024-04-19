@@ -5964,7 +5964,16 @@ public:
 		case TokenType::left_paren:
 			return { ParserReturnValue(std::make_shared<FunctionIdentifier>(id.name),1), true };
 		default:
-			return { ParserReturnValue(std::make_shared<PrimaryExpression>(id.name),1), true };
+			{
+				SymbolLink link = parser->symbolDatabase->Find(id.name);
+
+				if (!link.Valid())
+				{
+					link = parser->symbolDatabase->AddUndefined(SymbolType::variable, id.name);
+				}
+
+				return { ParserReturnValue(std::make_shared<PrimaryExpression>(link),1), true };
+			}			
 		}
 	}
 

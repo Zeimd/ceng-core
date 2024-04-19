@@ -122,6 +122,8 @@ namespace Ceng
 
 		GLSL::AST_Datatype GetDatatype(const Ceng::StringUtf8& name);
 
+		GLSL::AST_Datatype GetDatatype(const SymbolLink& link);
+
 		GLSL::AST_Datatype GetDatatype(std::shared_ptr<FullySpecifiedType>& item);
 
 		GLSL::ArrayIndex GetArrayIndex(std::shared_ptr<FullySpecifiedType>& item);
