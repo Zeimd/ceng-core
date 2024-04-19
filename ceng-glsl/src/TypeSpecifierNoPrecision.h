@@ -11,7 +11,7 @@ namespace Ceng
 	class TypeSpecifierNoPrec : public INonTerminal
 	{
 	public:
-		std::shared_ptr<TypeSpecifierNoArray> typeSpec;
+		std::shared_ptr<TypeSpecifierNoArray> baseType;
 
 		bool isArray;
 		std::shared_ptr<Expression> elementExpression;
@@ -20,11 +20,11 @@ namespace Ceng
 
 		void Release() override;
 
-		TypeSpecifierNoPrec(std::shared_ptr<TypeSpecifierNoArray>& typeSpec);
+		TypeSpecifierNoPrec(std::shared_ptr<TypeSpecifierNoArray>& baseType);
 
-		TypeSpecifierNoPrec(std::shared_ptr<TypeSpecifierNoArray>& typeSpec, bool undefinedArray);
+		TypeSpecifierNoPrec(std::shared_ptr<TypeSpecifierNoArray>& baseType, bool undefinedArray);
 
-		TypeSpecifierNoPrec(std::shared_ptr<TypeSpecifierNoArray>& typeSpec, std::shared_ptr<Expression>& elementExpression);
+		TypeSpecifierNoPrec(std::shared_ptr<TypeSpecifierNoArray>& baseType, std::shared_ptr<Expression>& elementExpression);
 
 		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
 

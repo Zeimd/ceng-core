@@ -13,14 +13,14 @@ namespace Ceng
 
 		PrecisionQualifier precision;
 
-		TypeSpecifierNoPrec typeSpec;
+		TypeSpecifierNoPrec arrayType;
 
 	public:
 
 		void Release() override;
 
-		TypeSpecifier(const TypeSpecifierNoPrec& typeSpec);
-		TypeSpecifier(const PrecisionQualifier& precision, const TypeSpecifierNoPrec& typeSpec);
+		TypeSpecifier(const TypeSpecifierNoPrec& arrayType);
+		TypeSpecifier(const PrecisionQualifier& precision, const TypeSpecifierNoPrec& arrayType);
 
 		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
 

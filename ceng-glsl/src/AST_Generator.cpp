@@ -2936,15 +2936,15 @@ GLSL::AST_Datatype AST_Generator::GetDatatype(TypeSpecifier& item)
 
 	GLSL::ArrayIndex index = GetArrayIndex(item);
 
-	switch (item.typeSpec.typeSpec->dataType)
+	switch (item.arrayType.baseType->dataType)
 	{
 	case TypeSelector::basic_type:
-		return GLSL::AST_Datatype(item.typeSpec.typeSpec->basicType, index);
+		return GLSL::AST_Datatype(item.arrayType.baseType->basicType, index);
 	case TypeSelector::type_name:
-		return GLSL::AST_Datatype(*item.typeSpec.typeSpec->link.Get()->Name(), index);
+		return GLSL::AST_Datatype(*item.arrayType.baseType->link.Get()->Name(), index);
 	case TypeSelector::struct_specifier:
 		{
-			Ceng::StringUtf8 name = RegisterAnonymousStruct(item.typeSpec.typeSpec->structSpec);
+			Ceng::StringUtf8 name = RegisterAnonymousStruct(item.arrayType.baseType->structSpec);
 			return GLSL::AST_Datatype(name, index);
 		}
 		break;
@@ -3000,15 +3000,15 @@ GLSL::ArrayIndex AST_Generator::GetArrayIndex(TypeSpecifier& item)
 	printf(__FUNCTION__);
 	printf("\n");
 
-	if (item.typeSpec.isArray)
+	if (item.arrayType.isArray)
 	{
-		if (item.typeSpec.elementExpression == nullptr)
+		if (item.arrayType.elementExpression == nullptr)
 		{
 			return { true };
 		}
 		else
 		{
-			item.typeSpec.elementExpression->AcceptVisitor(*this);
+			item.arrayType.elementExpression->AcceptVisitor(*this);
 
 			GLSL::Rvalue& out = returnValue.value;
 

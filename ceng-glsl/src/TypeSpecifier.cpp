@@ -9,14 +9,14 @@ void TypeSpecifier::Release()
 	delete this;
 }
 
-TypeSpecifier::TypeSpecifier(const TypeSpecifierNoPrec& typeSpec)
-	: INonTerminal(NonTerminalType::type_specifier), typeSpec(typeSpec),precision()
+TypeSpecifier::TypeSpecifier(const TypeSpecifierNoPrec& arrayType)
+	: INonTerminal(NonTerminalType::type_specifier), arrayType(arrayType),precision()
 {
 
 }
 
 TypeSpecifier::TypeSpecifier(const PrecisionQualifier& precision, const TypeSpecifierNoPrec& typeSpec)
-	: INonTerminal(NonTerminalType::type_specifier), typeSpec(typeSpec),precision(precision)
+	: INonTerminal(NonTerminalType::type_specifier), arrayType(arrayType),precision(precision)
 {
 
 }
@@ -30,7 +30,7 @@ Ceng::StringUtf8 TypeSpecifier::ToString(unsigned int indentLevel) const
 		out += precision.ToString(indentLevel);
 		out += ' ';
 	}
-	out += typeSpec.ToString(indentLevel);
+	out += arrayType.ToString(indentLevel);
 
 	return out;
 }

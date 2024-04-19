@@ -242,7 +242,7 @@ bool Declaration::IsInteger() const
 	switch (declarationType)
 	{
 	case DeclarationType::init_list:
-		return declList->fullType->typeSpec.typeSpec.typeSpec->IsIntegerType();
+		return declList->fullType->typeSpec.arrayType.baseType->IsIntegerType();
 	default:
 		return false;
 	}
