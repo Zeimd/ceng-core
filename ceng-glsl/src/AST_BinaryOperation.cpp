@@ -1,5 +1,7 @@
 #include <ceng/GLSL/AST_BinaryOperation.h>
 
+#include "INonTerminal.h"
+
 using namespace Ceng::GLSL;
 
 namespace Ceng::GLSL::BinaryOperator
@@ -68,6 +70,8 @@ AST_BinaryOperation::~AST_BinaryOperation()
 Ceng::StringUtf8 AST_BinaryOperation::ToString(Ceng::UINT32 indentLevel) const
 {
 	Ceng::StringUtf8 out;
+
+	out += INonTerminal::GetIndent(indentLevel);
 
 	out += lhs.ToString(indentLevel);
 	out += " = ";

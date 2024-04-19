@@ -4,6 +4,8 @@
 #include <ceng/GLSL/InterpolationQualifierType.h>
 #include <ceng/GLSL/PrecisionQualifierType.h>
 
+#include "INonTerminal.h"
+
 using namespace Ceng::GLSL;
 
 AST_VariableDeclaration::AST_VariableDeclaration(bool invariant, std::vector<LayoutData>& layout, StorageQualifierType::value storage,
@@ -70,6 +72,8 @@ AST_VariableDeclaration::~AST_VariableDeclaration()
 Ceng::StringUtf8 AST_VariableDeclaration::ToString(Ceng::UINT32 indentLevel) const
 {
 	Ceng::StringUtf8 out;
+
+	out += INonTerminal::GetIndent(indentLevel);
 
 	if (invariant)
 	{
