@@ -65,3 +65,20 @@ Ceng::StringUtf8 ArrayIndex::ToString(Ceng::UINT32 indentLevel) const
 		return "<UNHANDLED ARRAY INDEX TYPE>";
 	}
 }
+
+bool ArrayIndex::operator == (const ArrayIndex& other) const
+{
+	switch (indexType)
+	{
+	case ArrayIndexType::unused:		
+	case ArrayIndexType::implicit:
+		return indexType == other.indexType;
+	case ArrayIndexType::uint_literal:
+		return std::get<Ceng::UINT32>(value) == std::get<Ceng::UINT32>(other.value);
+	case ArrayIndexType::variable:
+		return *std::get<std::shared_ptr<VariableExpression>>(value) == 
+			*std::get<std::shared_ptr<VariableExpression>>(other.value);
+	}
+
+	return false;
+}

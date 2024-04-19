@@ -47,3 +47,8 @@ Ceng::StringUtf8 VariableExpression::ToString() const
 
 	return out;
 }
+
+bool VariableExpression::operator == (const VariableExpression& other) const
+{
+	return chain == other.chain;
+}

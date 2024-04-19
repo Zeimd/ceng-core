@@ -9,6 +9,7 @@
 #include "FunctionHeader.h"
 #include "ParameterDeclaration.h"
 #include "FunctionHeaderWithParams.h"
+#include "FunctionCallOrMethod.h"
 
 using namespace Ceng;
 
@@ -228,6 +229,50 @@ SymbolLink SymbolDatabase::Find(const Ceng::StringUtf8& name) const
 	}
 
 	return SymbolLink();
+}
+
+std::vector<SymbolLink> SymbolDatabase::FindFunctions(const Ceng::StringUtf8& name)
+{
+	SymbolNode* current = top;
+	Ceng::INT32 startIndex = current->scope.size() - 1;
+
+	std::vector<SymbolLink> output;
+
+	while (current != nullptr)
+	{
+		Symbol* symbol = current->link.Get();
+
+		if (symbol->symbolType == SymbolType::function || 
+			symbol->symbolType == SymbolType::function_prototype)
+		{
+			if (*symbol->Name() == name)
+			{
+				output.push_back(current->link);
+			}
+
+		}
+		else
+		{
+			for (int k = startIndex; k >= 0; --k)
+			{
+				symbol = current->scope[k].link.Get();
+
+				if (symbol->symbolType == SymbolType::function ||
+					symbol->symbolType == SymbolType::function_prototype)
+				{
+					if (*symbol->Name() == name)
+					{
+						output.push_back(current->scope[k].link);
+					}
+				}
+			}
+		}	
+
+		startIndex = current->childIndex;
+		current = current->parent;
+	}
+
+	return output;
 }
 
 bool SymbolDatabase::IsCustomType(const Ceng::StringUtf8& name) const

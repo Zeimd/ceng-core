@@ -10,6 +10,7 @@
 namespace Ceng
 {
 	class FunctionPrototype;
+	class FunctionCallOrMethod;
 	class Condition;
 
 	class SymbolDatabase
@@ -31,8 +32,6 @@ namespace Ceng
 
 		void StartFunction(std::shared_ptr<FunctionPrototype>& prototype);
 
-		//Symbol& Top();
-
 		SymbolLink AddUndefined(SymbolType::value type, const Ceng::StringUtf8& name);
 
 		Ceng::INT32 Add(std::shared_ptr<Declaration>& decl);
@@ -42,6 +41,10 @@ namespace Ceng
 		Ceng::INT32 Add(std::shared_ptr<Condition>& condition);
 
 		SymbolLink Find(const Ceng::StringUtf8& name) const;
+
+		// Finds all functions with the given name. AST generation stage can use this
+		// information to match function calls.
+		std::vector<SymbolLink> FindFunctions(const Ceng::StringUtf8& name);
 
 		bool IsCustomType(const Ceng::StringUtf8& name) const;
 

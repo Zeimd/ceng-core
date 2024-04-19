@@ -39,6 +39,8 @@ namespace Ceng
 			ArrayIndex(const VariableExpression& expression);
 
 			Ceng::StringUtf8 ToString(Ceng::UINT32 indentLevel) const;
+
+			bool operator == (const ArrayIndex& other) const;
 		};
 	}
 }

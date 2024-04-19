@@ -9420,7 +9420,9 @@ ParserReturnValue GLSL_Parser::S_FunctionCallOrMethod(std::shared_ptr<FunctionCa
 {
 	log.Debug(__func__);
 
-	return { std::make_shared<FunctionCall>(funcCall),1 };
+	std::vector<SymbolLink> functions = symbolDatabase->FindFunctions(funcCall->FunctionName());
+
+	return { std::make_shared<FunctionCall>(funcCall, std::move(functions)),1 };
 }
 
 ParserReturnValue GLSL_Parser::S_FunctionCall(std::shared_ptr<FunctionCall>& funcCall)

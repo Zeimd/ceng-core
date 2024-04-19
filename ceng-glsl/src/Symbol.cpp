@@ -15,6 +15,7 @@
 #include "ParameterDeclarator.h"
 #include "FullySpecifiedType.h"
 #include "Condition.h"
+#include "FunctionCallOrMethod.h"
 
 using namespace Ceng;
 

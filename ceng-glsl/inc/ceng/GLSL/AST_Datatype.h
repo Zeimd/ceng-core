@@ -36,6 +36,10 @@ namespace Ceng
 			Ceng::StringUtf8 ToString() const;
 
 			AST_Datatype DiscardArray() const;
+
+			bool operator == (const AST_Datatype& other) const;
+
+			bool operator != (const AST_Datatype& other) const;
 		};
 	}
 }

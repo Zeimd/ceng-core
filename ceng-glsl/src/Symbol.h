@@ -34,6 +34,7 @@ namespace Ceng
 	class StructSpecifier;
 	class ParameterDeclaration;
 	class Condition;
+	class FunctionCallOrMethod;
 
 	class Symbol
 	{
@@ -66,6 +67,7 @@ namespace Ceng
 
 	public:
 
+		// Scope
 		Symbol();
 
 		Symbol(SymbolType::value type, const Ceng::StringUtf8& undefinedName);

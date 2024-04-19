@@ -4,6 +4,8 @@
 #include "INonTerminal.h"
 #include "FunctionCallOrMethod.h"
 
+#include "SymbolLink.h"
+
 namespace Ceng
 {
 	class FunctionCall : public INonTerminal
@@ -11,15 +13,19 @@ namespace Ceng
 	public:
 		std::shared_ptr<FunctionCallOrMethod> call;
 
+		std::vector<SymbolLink> functions;
+
 	public:
 
 		void Release() override;
 
-		FunctionCall(std::shared_ptr<FunctionCallOrMethod>& call);
+		FunctionCall(std::shared_ptr<FunctionCallOrMethod>& call, std::vector<SymbolLink>&& functions);
 
 		Ceng::StringUtf8 ToString(unsigned int indentLevel) const override;
 
 		void AcceptVisitor(NonTerminalVisitor& visitor) override;
+
+	
 	};
 }
 

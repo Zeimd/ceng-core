@@ -33,3 +33,18 @@ Ceng::StringUtf8 FieldExpression::ToString() const
 
 	return out;
 }
+
+bool FieldExpression::operator == (const FieldExpression& other) const
+{
+	if (empty || other.empty)
+	{
+		return false;
+	}
+
+	if (name != other.name)
+	{
+		return false;
+	}
+
+	return index == other.index;
+}

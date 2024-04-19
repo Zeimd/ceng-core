@@ -82,6 +82,7 @@
 #include <ceng/GLSL/AST_UnaryOperation.h>
 #include <ceng/GLSL/AST_IncDecOperation.h>
 #include <ceng/GLSL/AST_ReturnStatement.h>
+#include <ceng/GLSL/AST_FunctionCall.h>
 
 using namespace Ceng;
 
@@ -105,6 +106,263 @@ GLSL::AbstractSyntaxTree AST_Generator::GenerateTree(std::shared_ptr<SymbolDatab
 	
 	return GLSL::AbstractSyntaxTree(generator.root);
 }
+
+Context& AST_Generator::CurrentContext()
+{
+	return contextStack.back();
+}
+
+void AST_Generator::NewestChildToContext()
+{
+	contextStack.emplace_back(CurrentContext().parent->children.back().get());
+}
+
+void AST_Generator::StartContext(GLSL::IASTNode* parent)
+{
+	contextStack.emplace_back(parent);
+}
+
+void AST_Generator::PopContext()
+{
+	contextStack.pop_back();
+}
+
+GLSL::Lvalue AST_Generator::GenerateTemporary(GLSL::AST_Datatype& type)
+{
+	printf(__FUNCTION__);
+	printf("\n");
+
+	Ceng::StringUtf8 name = "_temp";
+	name += CurrentContext().tempCounter++;
+
+	printf("variable = %s\n", name.ToCString());
+
+	std::vector<GLSL::LayoutData> layout;
+
+	CurrentContext().parent->children.emplace_back(
+		std::make_shared<GLSL::AST_VariableDeclaration>(
+			false,
+			layout,
+			GLSL::StorageQualifierType::sq_const,
+			GLSL::InterpolationQualifierType::unused,
+			GLSL::PrecisionQualifierType::unassigned,
+			type,
+			name
+			));
+
+	return { name };
+}
+
+GLSL::AST_Datatype AST_Generator::GetDatatype(const SymbolLink& link)
+{
+	Symbol* symbol = link.Get();
+
+	switch (symbol->symbolType)
+	{
+	case SymbolType::function_prototype:
+		return GetReturnType(*symbol->decl->prototype);
+	case SymbolType::variable:
+		return GetDatatype(symbol->decl->declList->fullType);
+	case SymbolType::function:
+		return GetReturnType(*symbol->prototype);
+	case SymbolType::function_parameter:
+		return GetDatatype(symbol->param->GetType());
+	case SymbolType::struct_declaration:
+	{
+		GLSL::ArrayIndex index{ false };
+		return GLSL::AST_Datatype(symbol->structSpec->name, index);
+	}
+	break;
+	default:
+		return GLSL::AST_Datatype();
+	}
+}
+
+GLSL::AST_Datatype AST_Generator::GetDatatype(const Ceng::StringUtf8& name)
+{
+	SymbolLink link = symbolDatabase->Find(name);
+
+	if (!link.Valid())
+	{
+		return GLSL::AST_Datatype();
+	}
+
+	return GetDatatype(link);
+}
+
+GLSL::AST_Datatype AST_Generator::GetDatatype(std::shared_ptr<FullySpecifiedType>& item)
+{
+	return GetDatatype(item->typeSpec);
+}
+
+GLSL::ArrayIndex AST_Generator::GetArrayIndex(std::shared_ptr<FullySpecifiedType>& item)
+{
+	return GetArrayIndex(item->typeSpec);
+}
+
+GLSL::AST_Datatype AST_Generator::GetDatatype(std::shared_ptr<TypeSpecifier>& item)
+{
+	return GetDatatype(*item);
+}
+
+GLSL::ArrayIndex AST_Generator::GetArrayIndex(std::shared_ptr<TypeSpecifier>& item)
+{
+	return GetArrayIndex(*item);
+}
+
+GLSL::AST_Datatype AST_Generator::GetDatatype(TypeSpecifier& item)
+{
+	printf(__FUNCTION__);
+	printf("\n");
+
+	GLSL::ArrayIndex index = GetArrayIndex(item);
+
+	switch (item.arrayType.baseType->dataType)
+	{
+	case TypeSelector::basic_type:
+		return GLSL::AST_Datatype(item.arrayType.baseType->basicType, index);
+	case TypeSelector::type_name:
+		return GLSL::AST_Datatype(*item.arrayType.baseType->link.Get()->Name(), index);
+	case TypeSelector::struct_specifier:
+	{
+		Ceng::StringUtf8 name = RegisterAnonymousStruct(item.arrayType.baseType->structSpec);
+		return GLSL::AST_Datatype(name, index);
+	}
+	break;
+	}
+
+	return GLSL::AST_Datatype();
+}
+
+GLSL::AST_Datatype AST_Generator::GetDatatype(const GLSL::VariableExpression& expression)
+{
+	GLSL::AST_Datatype previousType = GetDatatype(expression.chain[0].name);
+
+	if (expression.chain[0].index.indexType != GLSL::ArrayIndexType::unused)
+	{
+		previousType = previousType.DiscardArray();
+	}
+
+	GLSL::AST_Datatype currentType;
+
+	for (int k = 1; k < expression.chain.size(); k++)
+	{
+		currentType = GetMemberType(previousType, expression.chain[k].name);
+
+		if (expression.chain[k].index.indexType != GLSL::ArrayIndexType::unused)
+		{
+			currentType = currentType.DiscardArray();
+		}
+
+		previousType = currentType;
+	}
+
+	return currentType;
+}
+
+GLSL::AST_Datatype AST_Generator::GetDatatype(const GLSL::Lvalue& lvalue)
+{
+	if (lvalue.valid == false)
+	{
+		return GLSL::AST_Datatype();
+	}
+
+	return GetDatatype(lvalue.expression);
+}
+
+GLSL::AST_Datatype AST_Generator::GetMemberType(const GLSL::AST_Datatype& baseType, const Ceng::StringUtf8& memberName)
+{
+	return GLSL::AST_Datatype();
+}
+
+
+GLSL::ArrayIndex AST_Generator::GetArrayIndex(TypeSpecifier& item)
+{
+	printf(__FUNCTION__);
+	printf("\n");
+
+	if (item.arrayType.isArray)
+	{
+		if (item.arrayType.elementExpression == nullptr)
+		{
+			return { true };
+		}
+		else
+		{
+			item.arrayType.elementExpression->AcceptVisitor(*this);
+
+			GLSL::Rvalue& out = returnValue.value;
+
+			switch (out.valueType)
+			{
+			case GLSL::RvalueType::int_literal:
+				return { std::get<Ceng::INT32>(out.value) };
+			case GLSL::RvalueType::uint_literal:
+				return { std::get<Ceng::UINT32>(out.value) };
+			case GLSL::RvalueType::variable:
+				return { std::get<GLSL::VariableExpression>(out.value) };
+			default:
+
+				//GLSL::VariableExpression expr{GLSL::FieldExpression(item.typeSpec.elementExpression->ToString(0))};
+
+				return GLSL::VariableExpression();
+			}
+		}
+	}
+
+	return { false };
+}
+
+GLSL::ArrayIndex AST_Generator::GetArrayIndex(std::shared_ptr<ParameterDeclarator>& item)
+{
+	printf(__FUNCTION__);
+	printf("\n");
+
+	if (item->arraySize == nullptr)
+	{
+		return { false };
+	}
+
+	item->arraySize->AcceptVisitor(*this);
+
+	GLSL::Rvalue& out = returnValue.value;
+
+	switch (out.valueType)
+	{
+	case GLSL::RvalueType::int_literal:
+		return { std::get<Ceng::INT32>(out.value) };
+	case GLSL::RvalueType::uint_literal:
+		return { std::get<Ceng::UINT32>(out.value) };
+	case GLSL::RvalueType::variable:
+		return { std::get<GLSL::VariableExpression>(out.value) };
+	default:
+
+		//GLSL::VariableExpression expr = { GLSL::FieldExpression(item->arraySize->ToString(0)) };
+
+		return GLSL::VariableExpression();
+	}
+}
+
+GLSL::AST_Datatype AST_Generator::GetReturnType(FunctionPrototype& item)
+{
+	printf(__FUNCTION__);
+	printf("\n");
+
+	if (item.GetParamCount() == 0)
+	{
+		return GetDatatype(item.decl->header->returnType);
+	}
+
+	return GetDatatype(item.decl->withParams->header->returnType);
+}
+
+Ceng::StringUtf8 AST_Generator::RegisterAnonymousStruct(std::shared_ptr<StructSpecifier>& structSpec)
+{
+	return "";
+}
+
+
+
 
 AST_Generator::return_type AST_Generator::V_Expression(Expression& item)
 {
@@ -164,32 +422,6 @@ AST_Generator::return_type AST_Generator::V_AssignmentExpression(AssignmentExpre
 		item.cond->AcceptVisitor(*this);
 		return 0;
 	}
-}
-
-GLSL::Lvalue AST_Generator::GenerateTemporary(GLSL::AST_Datatype& type)
-{
-	printf(__FUNCTION__);
-	printf("\n");
-
-	Ceng::StringUtf8 name = "_temp";
-	name += CurrentContext().tempCounter++;
-
-	printf("variable = %s\n", name.ToCString());
-
-	std::vector<GLSL::LayoutData> layout;
-
-	CurrentContext().parent->children.emplace_back(
-		std::make_shared<GLSL::AST_VariableDeclaration>(
-			false, 
-			layout, 
-			GLSL::StorageQualifierType::sq_const,
-			GLSL::InterpolationQualifierType::unused,
-			GLSL::PrecisionQualifierType::unassigned,
-			type,
-			name
-	));
-
-	return { name };
 }
 
 AST_Generator::return_type AST_Generator::V_ConditionalExpression(ConditionalExpression& item)
@@ -2872,214 +3104,6 @@ AST_Generator::return_type AST_Generator::V_Declaration(Declaration& decl)
 	return 0;
 }
 
-GLSL::AST_Datatype AST_Generator::GetDatatype(const SymbolLink& link)
-{
-	Symbol* symbol = link.Get();
-
-	switch (symbol->symbolType)
-	{
-	case SymbolType::function_prototype:
-		return GetReturnType(*symbol->decl->prototype);
-	case SymbolType::variable:
-		return GetDatatype(symbol->decl->declList->fullType);
-	case SymbolType::function:
-		return GetReturnType(*symbol->prototype);
-	case SymbolType::function_parameter:
-		return GetDatatype(symbol->param->GetType());
-	case SymbolType::struct_declaration:
-	{
-		GLSL::ArrayIndex index{ false };
-		return GLSL::AST_Datatype(symbol->structSpec->name, index);
-	}
-	break;
-	default:
-		return GLSL::AST_Datatype();
-	}
-}
-
-GLSL::AST_Datatype AST_Generator::GetDatatype(const Ceng::StringUtf8& name)
-{
-	SymbolLink link = symbolDatabase->Find(name);
-
-	if (!link.Valid())
-	{
-		return GLSL::AST_Datatype();
-	}
-
-	return GetDatatype(link);
-}
-
-GLSL::AST_Datatype AST_Generator::GetDatatype(std::shared_ptr<FullySpecifiedType>& item)
-{
-	return GetDatatype(item->typeSpec);
-}
-
-GLSL::ArrayIndex AST_Generator::GetArrayIndex(std::shared_ptr<FullySpecifiedType>& item)
-{
-	return GetArrayIndex(item->typeSpec);
-}
-
-GLSL::AST_Datatype AST_Generator::GetDatatype(std::shared_ptr<TypeSpecifier>& item)
-{
-	return GetDatatype(*item);
-}
-
-GLSL::ArrayIndex AST_Generator::GetArrayIndex(std::shared_ptr<TypeSpecifier>& item)
-{
-	return GetArrayIndex(*item);
-}
-
-GLSL::AST_Datatype AST_Generator::GetDatatype(TypeSpecifier& item)
-{
-	printf(__FUNCTION__);
-	printf("\n");
-
-	GLSL::ArrayIndex index = GetArrayIndex(item);
-
-	switch (item.arrayType.baseType->dataType)
-	{
-	case TypeSelector::basic_type:
-		return GLSL::AST_Datatype(item.arrayType.baseType->basicType, index);
-	case TypeSelector::type_name:
-		return GLSL::AST_Datatype(*item.arrayType.baseType->link.Get()->Name(), index);
-	case TypeSelector::struct_specifier:
-		{
-			Ceng::StringUtf8 name = RegisterAnonymousStruct(item.arrayType.baseType->structSpec);
-			return GLSL::AST_Datatype(name, index);
-		}
-		break;
-	}
-
-	return GLSL::AST_Datatype();
-}
-
-GLSL::AST_Datatype AST_Generator::GetDatatype(const GLSL::VariableExpression& expression)
-{
-	GLSL::AST_Datatype previousType = GetDatatype(expression.chain[0].name);
-
-	if (expression.chain[0].index.indexType != GLSL::ArrayIndexType::unused)
-	{
-		previousType = previousType.DiscardArray();
-	}
-
-	GLSL::AST_Datatype currentType;
-
-	for (int k = 1; k < expression.chain.size(); k++)
-	{
-		currentType = GetMemberType(previousType, expression.chain[k].name);
-
-		if (expression.chain[k].index.indexType != GLSL::ArrayIndexType::unused)
-		{
-			currentType = currentType.DiscardArray();
-		}
-
-		previousType = currentType;
-	}
-
-	return currentType;
-}
-
-GLSL::AST_Datatype AST_Generator::GetDatatype(const GLSL::Lvalue& lvalue)
-{
-	if (lvalue.valid == false)
-	{
-		return GLSL::AST_Datatype();
-	}
-
-	return GetDatatype(lvalue.expression);
-}
-
-GLSL::AST_Datatype AST_Generator::GetMemberType(const GLSL::AST_Datatype& baseType, const Ceng::StringUtf8& memberName)
-{
-	return GLSL::AST_Datatype();
-}
-
-
-GLSL::ArrayIndex AST_Generator::GetArrayIndex(TypeSpecifier& item)
-{
-	printf(__FUNCTION__);
-	printf("\n");
-
-	if (item.arrayType.isArray)
-	{
-		if (item.arrayType.elementExpression == nullptr)
-		{
-			return { true };
-		}
-		else
-		{
-			item.arrayType.elementExpression->AcceptVisitor(*this);
-
-			GLSL::Rvalue& out = returnValue.value;
-
-			switch (out.valueType)
-			{
-			case GLSL::RvalueType::int_literal:
-				return { std::get<Ceng::INT32>(out.value) };
-			case GLSL::RvalueType::uint_literal:
-				return { std::get<Ceng::UINT32>(out.value) };
-			case GLSL::RvalueType::variable:
-				return { std::get<GLSL::VariableExpression>(out.value)};
-			default:
-
-				//GLSL::VariableExpression expr{GLSL::FieldExpression(item.typeSpec.elementExpression->ToString(0))};
-
-				return GLSL::VariableExpression();
-			}			
-		}
-	}
-
-	return { false };
-}
-
-GLSL::ArrayIndex AST_Generator::GetArrayIndex(std::shared_ptr<ParameterDeclarator>& item)
-{
-	printf(__FUNCTION__);
-	printf("\n");
-
-	if (item->arraySize == nullptr)
-	{
-		return { false };
-	}
-
-	item->arraySize->AcceptVisitor(*this);
-
-	GLSL::Rvalue& out = returnValue.value;
-
-	switch (out.valueType)
-	{
-	case GLSL::RvalueType::int_literal:
-		return { std::get<Ceng::INT32>(out.value) };
-	case GLSL::RvalueType::uint_literal:
-		return { std::get<Ceng::UINT32>(out.value) };
-	case GLSL::RvalueType::variable:
-		return { std::get<GLSL::VariableExpression>(out.value) };
-	default:
-
-		//GLSL::VariableExpression expr = { GLSL::FieldExpression(item->arraySize->ToString(0)) };
-
-		return GLSL::VariableExpression();
-	}
-}
-
-GLSL::AST_Datatype AST_Generator::GetReturnType(FunctionPrototype& item)
-{
-	printf(__FUNCTION__);
-	printf("\n");
-
-	if (item.GetParamCount() == 0)
-	{
-		return GetDatatype(item.decl->header->returnType);
-	}
-	
-	return GetDatatype(item.decl->withParams->header->returnType);
-}
-
-Ceng::StringUtf8 AST_Generator::RegisterAnonymousStruct(std::shared_ptr<StructSpecifier>& structSpec)
-{
-	return "";
-}
-
 AST_Generator::return_type AST_Generator::V_FunctionPrototype(FunctionPrototype& item)
 {
 	printf(__FUNCTION__);
@@ -3421,24 +3445,69 @@ AST_Generator::return_type AST_Generator::V_Initializer(Initializer& item)
 	return 0;
 }
 
-Context& AST_Generator::CurrentContext()
+AST_Generator::return_type AST_Generator::V_FunctionCall(FunctionCall& item)
 {
-	return contextStack.back();
+	printf(__FUNCTION__);
+	printf("\n");
+
+	std::vector<GLSL::Rvalue> callParams;
+	std::vector<GLSL::AST_Datatype> signatureTypes;
+
+	for (size_t k = 0; k < item.call->GetParamCount(); k++)
+	{
+		auto param = item.call->GetParameter(k);
+
+		param->AcceptVisitor(*this);
+
+		callParams.push_back(returnValue.value);
+		signatureTypes.push_back(returnValue.valueType);
+	}
+
+	SymbolLink link = MatchFunctionSignature(item.functions, signatureTypes);
+
+	GLSL::AST_Datatype returnType = GetDatatype(link);
+
+	GLSL::Lvalue lhs = GenerateTemporary(returnType);
+
+	auto sharedLink = std::make_shared<SymbolLink>(link);
+
+	CurrentContext().parent->children.push_back(
+		std::make_shared<GLSL::AST_FunctionCall>(lhs, sharedLink, std::move(callParams))
+	);
+
+	returnValue.value = lhs;
+	returnValue.valueType = returnType;
+
+	return 0;
 }
 
-void AST_Generator::NewestChildToContext()
+SymbolLink AST_Generator::MatchFunctionSignature(const std::vector<SymbolLink>& functions, 
+	std::vector<GLSL::AST_Datatype>& signatureTypes)
 {
-	contextStack.emplace_back(CurrentContext().parent->children.back().get());
+	for (auto& func : functions)
+	{
+		auto& prototype = func.Get()->prototype;
+
+		if (prototype->GetParamCount() != signatureTypes.size())
+		{
+			continue;
+		}
+
+		for (size_t k = 0; k < prototype->GetParamCount(); k++)
+		{
+			auto param = prototype->GetParameter(k);
+
+			GLSL::AST_Datatype paramType = GetDatatype(param->GetType());
+
+			if (paramType != signatureTypes[k])
+			{
+				continue;
+			}
+		}
+
+		return func;
+	}
 }
 
-void AST_Generator::StartContext(GLSL::IASTNode* parent)
-{
-	contextStack.emplace_back(parent);
-}
-
-void AST_Generator::PopContext()
-{
-	contextStack.pop_back();
-}
 
 

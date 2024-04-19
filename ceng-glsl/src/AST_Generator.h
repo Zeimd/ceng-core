@@ -74,6 +74,38 @@ namespace Ceng
 
 		void PopContext();
 
+		GLSL::AST_Datatype GetDatatype(const Ceng::StringUtf8& name);
+
+		GLSL::AST_Datatype GetDatatype(const SymbolLink& link);
+
+		GLSL::AST_Datatype GetDatatype(std::shared_ptr<FullySpecifiedType>& item);
+
+		GLSL::ArrayIndex GetArrayIndex(std::shared_ptr<FullySpecifiedType>& item);
+
+		GLSL::AST_Datatype GetDatatype(std::shared_ptr<TypeSpecifier>& item);
+
+		GLSL::ArrayIndex GetArrayIndex(std::shared_ptr<TypeSpecifier>& item);
+
+		GLSL::ArrayIndex GetArrayIndex(std::shared_ptr<ParameterDeclarator>& item);
+
+		GLSL::AST_Datatype GetDatatype(TypeSpecifier& item);
+
+		GLSL::AST_Datatype GetMemberType(const GLSL::AST_Datatype& baseType, const Ceng::StringUtf8& memberName);
+
+		GLSL::AST_Datatype GetDatatype(const GLSL::Lvalue& lvalue);
+
+		GLSL::AST_Datatype GetDatatype(const GLSL::VariableExpression& expression);
+
+		GLSL::ArrayIndex GetArrayIndex(TypeSpecifier& item);
+
+		GLSL::AST_Datatype GetReturnType(FunctionPrototype& item);
+
+		GLSL::Lvalue GenerateTemporary(GLSL::AST_Datatype& type);
+
+		Ceng::StringUtf8 RegisterAnonymousStruct(std::shared_ptr<StructSpecifier>& structSpec);
+
+		SymbolLink MatchFunctionSignature(const std::vector<SymbolLink>& functions, std::vector<GLSL::AST_Datatype>& signatureTypes);
+
 		return_type V_Expression(Expression& item);
 		return_type V_AssignmentExpression(AssignmentExpression& item);
 		return_type V_ConditionalExpression(ConditionalExpression& item);
@@ -120,37 +152,9 @@ namespace Ceng
 
 		return_type V_Initializer(Initializer& item);
 
-		GLSL::AST_Datatype GetDatatype(const Ceng::StringUtf8& name);
-
-		GLSL::AST_Datatype GetDatatype(const SymbolLink& link);
-
-		GLSL::AST_Datatype GetDatatype(std::shared_ptr<FullySpecifiedType>& item);
-
-		GLSL::ArrayIndex GetArrayIndex(std::shared_ptr<FullySpecifiedType>& item);
-
-		GLSL::AST_Datatype GetDatatype(std::shared_ptr<TypeSpecifier>& item);
-
-		GLSL::ArrayIndex GetArrayIndex(std::shared_ptr<TypeSpecifier>& item);
-
-		GLSL::ArrayIndex GetArrayIndex(std::shared_ptr<ParameterDeclarator>& item);
-
-		GLSL::AST_Datatype GetDatatype(TypeSpecifier& item);
-
-		GLSL::AST_Datatype GetMemberType(const GLSL::AST_Datatype& baseType, const Ceng::StringUtf8& memberName);
-
-		GLSL::AST_Datatype GetDatatype(const GLSL::Lvalue& lvalue);
-
-		GLSL::AST_Datatype GetDatatype(const GLSL::VariableExpression& expression);
-
-		GLSL::ArrayIndex GetArrayIndex(TypeSpecifier& item);
-
-		GLSL::AST_Datatype GetReturnType(FunctionPrototype& item);
-
-		GLSL::Lvalue GenerateTemporary(GLSL::AST_Datatype& type);
+		return_type V_FunctionCall(FunctionCall& item) override;
 
 		GLSL::BinaryOperator::value ConvertAssignmentOperator(AssignOpType::value op);
-
-		Ceng::StringUtf8 RegisterAnonymousStruct(std::shared_ptr<StructSpecifier>& structSpec);
 
 		static GeneratorReturn LiteralBinaryOp(GLSL::Rvalue& a, GLSL::BinaryOperator::value op, GLSL::Rvalue& b);
 

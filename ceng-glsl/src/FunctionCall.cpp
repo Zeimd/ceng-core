@@ -9,8 +9,8 @@ void FunctionCall::Release()
 	delete this;
 }
 
-FunctionCall::FunctionCall(std::shared_ptr<FunctionCallOrMethod>& call)
-	: INonTerminal(NonTerminalType::function_call), call(call)
+FunctionCall::FunctionCall(std::shared_ptr<FunctionCallOrMethod>& call, std::vector<SymbolLink>&& functions)
+	: INonTerminal(NonTerminalType::function_call), call(call), functions(std::move(functions))
 {
 
 }

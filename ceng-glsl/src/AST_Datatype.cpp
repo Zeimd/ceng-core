@@ -42,6 +42,8 @@ AST_Datatype AST_Datatype::DiscardArray() const
 	case TypenameCategory::custom_type:
 		return { customTypeName };
 	}
+
+	return AST_Datatype();
 }
 
 Ceng::StringUtf8 AST_Datatype::ToString() const
@@ -64,4 +66,36 @@ Ceng::StringUtf8 AST_Datatype::ToString() const
 	out += index.ToString(0);
 
 	return out;
+}
+
+bool AST_Datatype::operator == (const AST_Datatype& other) const
+{
+	if (category != other.category)
+	{
+		return false;
+	}
+
+	bool typeMatch = false;
+
+	switch (category)
+	{
+	case TypenameCategory::basic_type:
+		typeMatch = basicType == other.basicType;
+		break;
+	case TypenameCategory::custom_type:
+		typeMatch = customTypeName == other.customTypeName;
+		break;
+	}
+
+	if (typeMatch == false)
+	{
+		return false;
+	}
+
+	return index == other.index;
+}
+
+bool AST_Datatype::operator != (const AST_Datatype& other) const
+{
+	return !(*this == other);
 }

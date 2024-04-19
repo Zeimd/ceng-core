@@ -25,6 +25,8 @@ namespace Ceng
 			FieldExpression(const Ceng::StringUtf8& name, ArrayIndex& index);
 
 			Ceng::StringUtf8 ToString() const;
+
+			bool operator == (const FieldExpression& other) const;
 		};
 	}
 }

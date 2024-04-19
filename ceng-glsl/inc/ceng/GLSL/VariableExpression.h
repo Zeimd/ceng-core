@@ -30,7 +30,9 @@ namespace Ceng
 
 			void Append(FieldExpression& access);
 
-			Ceng::StringUtf8 ToString() const;			
+			Ceng::StringUtf8 ToString() const;
+
+			bool operator == (const VariableExpression& other) const;
 		};
 	}
 }
