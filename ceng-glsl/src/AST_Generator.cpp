@@ -84,6 +84,7 @@
 #include <ceng/GLSL/AST_ReturnStatement.h>
 #include <ceng/GLSL/AST_FunctionCall.h>
 #include <ceng/GLSL/AST_Scope.h>
+#include <ceng/GLSL/AST_IfBlock.h>
 
 using namespace Ceng;
 
@@ -3350,6 +3351,45 @@ AST_Generator::return_type AST_Generator::V_SelectionStatement(SelectionStatemen
 	printf(__FUNCTION__);
 	printf("\n");
 	printf("<unimplemented>\n");
+
+	item.condition->AcceptVisitor(*this);
+
+	GLSL::Rvalue condition = returnValue.value;
+	GLSL::AST_Datatype conditiontype = returnValue.valueType;
+
+	// TODO: convert to bool if necessary
+
+	CurrentContext().parent->children.emplace_back(
+		std::make_shared<GLSL::AST_IfBlock>(condition)
+	);
+
+	NewestChildToContext();
+
+	CurrentContext().parent->children.emplace_back(
+		std::make_shared<GLSL::AST_Scope>()
+	);
+
+	NewestChildToContext();
+
+	item.rest->main->AcceptVisitor(*this);
+
+	PopContext();
+
+	if (item.rest->elseBlock != nullptr)
+	{
+		CurrentContext().parent->children.emplace_back(
+			std::make_shared<GLSL::AST_Scope>()
+		);
+
+		NewestChildToContext();
+
+		item.rest->elseBlock->AcceptVisitor(*this);
+
+		PopContext();
+	}
+
+	PopContext();
+
 
 	return 0;
 }
