@@ -1,5 +1,7 @@
 #include <ceng/GLSL/AST_AssignmentOperation.h>
 
+#include "INonTerminal.h"
+
 using namespace Ceng::GLSL;
 
 AST_AssignmentOperation::AST_AssignmentOperation(Lvalue& lhs, Rvalue& rhs)
@@ -16,6 +18,8 @@ AST_AssignmentOperation::~AST_AssignmentOperation()
 Ceng::StringUtf8 AST_AssignmentOperation::ToString(Ceng::UINT32 indentLevel) const
 {
 	Ceng::StringUtf8 out;
+
+	out += INonTerminal::GetIndent(indentLevel);
 
 	out += lhs.ToString(indentLevel);
 	out += " = ";
