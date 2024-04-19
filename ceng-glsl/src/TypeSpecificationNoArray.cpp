@@ -21,8 +21,8 @@ TypeSpecifierNoArray::TypeSpecifierNoArray(TokenType::value tokenType)
 	basicType = FromTokenType(tokenType);
 }
 
-TypeSpecifierNoArray::TypeSpecifierNoArray(const Ceng::StringUtf8& name)
-	: INonTerminal(NonTerminalType::type_specifier_nonarray), dataType(TypeSelector::type_name), name(name)
+TypeSpecifierNoArray::TypeSpecifierNoArray(const SymbolLink& link)
+	: INonTerminal(NonTerminalType::type_specifier_nonarray), dataType(TypeSelector::type_name), link(link)
 {
 
 }
@@ -153,7 +153,7 @@ Ceng::StringUtf8 TypeSpecifierNoArray::ToString(unsigned int indentLevel) const
 	switch (dataType)
 	{
 	case TypeSelector::type_name:
-		return name;
+		return *link.Get()->Name();
 	case TypeSelector::struct_specifier:
 		return structSpec->ToString(indentLevel);		
 	default:

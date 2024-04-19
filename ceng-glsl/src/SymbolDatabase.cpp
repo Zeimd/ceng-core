@@ -163,6 +163,14 @@ void SymbolDatabase::AddNode()
 	top->scope.emplace_back(SymbolLink(&data, data.size() - 1), top, top->scope.size());
 }
 
+SymbolLink SymbolDatabase::AddUndefined(SymbolType::value type, const Ceng::StringUtf8& name)
+{
+	data.emplace_back(type, name);
+	AddNode();
+
+	return SymbolLink(&data, data.size() - 1);
+}
+
 Ceng::INT32 SymbolDatabase::Add(std::shared_ptr<Condition>& condition)
 {
 	data.emplace_back(condition);
@@ -185,9 +193,9 @@ SymbolLink SymbolDatabase::Find(const Ceng::StringUtf8& name) const
 
 	while (current != nullptr)
 	{
-		Symbol& symbol = current->link.Get();
+		Symbol* symbol = current->link.Get();
 
-		const Ceng::StringUtf8* symbolName = symbolName = symbol.Name();
+		const Ceng::StringUtf8* symbolName = symbolName = symbol->Name();
 
 		if (symbolName != nullptr)
 		{
@@ -202,7 +210,7 @@ SymbolLink SymbolDatabase::Find(const Ceng::StringUtf8& name) const
 		{
 			symbol = current->scope[k].link.Get();
 
-			symbolName = symbol.Name();
+			symbolName = symbol->Name();
 
 			if (symbolName == nullptr)
 			{
@@ -228,7 +236,7 @@ bool SymbolDatabase::IsCustomType(const Ceng::StringUtf8& name) const
 
 	if (result.Valid())
 	{
-		return result.Get().IsTypeName();
+		return result.Get()->IsTypeName();
 	}
 
 	return false;

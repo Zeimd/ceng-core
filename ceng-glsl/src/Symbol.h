@@ -47,6 +47,9 @@ namespace Ceng
 		bool isConst;
 		bool isInteger;
 
+		bool undefined;
+
+		// Variable declaration can be found under condition instead of the usual declaration.
 		bool variableIsCondition;
 
 		// If declaration statement provides multiple variables,
@@ -59,9 +62,13 @@ namespace Ceng
 		std::shared_ptr<ParameterDeclaration> param;
 		std::shared_ptr<Condition> condition;
 
+		Ceng::StringUtf8 undefinedName;
+
 	public:
 
 		Symbol();
+
+		Symbol(SymbolType::value type, const Ceng::StringUtf8& undefinedName);
 
 		Symbol(std::shared_ptr<Declaration>& decl, Ceng::UINT32 index);
 

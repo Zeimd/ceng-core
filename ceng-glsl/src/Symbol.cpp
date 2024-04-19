@@ -52,12 +52,19 @@ namespace Ceng
 }
 
 Symbol::Symbol()
-	: symbolType(SymbolType::scope)
+	: symbolType(SymbolType::scope), undefined(false)
+{
+
+}
+
+Symbol::Symbol(SymbolType::value type, const Ceng::StringUtf8& undefinedName)
+	: symbolType(type), undefined(true), undefinedName(undefinedName)
 {
 
 }
 
 Symbol::Symbol(std::shared_ptr<Declaration>& decl, Ceng::UINT32 index)
+	: undefined(false)
 {
 	isInteger = false;
 	isConst = false;
@@ -102,26 +109,26 @@ Symbol::Symbol(std::shared_ptr<Declaration>& decl, Ceng::UINT32 index)
 }
 
 Symbol::Symbol(std::shared_ptr<StructSpecifier>& structSpec)
-	: symbolType(SymbolType::struct_declaration), structSpec(structSpec)
+	: symbolType(SymbolType::struct_declaration), structSpec(structSpec), undefined(false)
 {
 	
 }
 
 Symbol::Symbol(std::shared_ptr<FunctionPrototype>& prototype)
-	: symbolType(SymbolType::function), prototype(prototype)
+	: symbolType(SymbolType::function), prototype(prototype), undefined(false)
 {
 
 }
 
 Symbol::Symbol(std::shared_ptr<ParameterDeclaration> param)
-	: symbolType(SymbolType::function_parameter), param(param)
+	: symbolType(SymbolType::function_parameter), param(param), undefined(false)
 {
 
 }
 
 Symbol::Symbol(std::shared_ptr<Condition>& condition)
 	: symbolType(SymbolType::variable), condition(condition),
-	variableIsCondition(true)
+	variableIsCondition(true), undefined(false)
 {
 
 }
@@ -133,6 +140,11 @@ const Ceng::StringUtf8* Symbol::Name() const
 	printf("\n");
 	printf("symbol type = %s\n", SymbolTypeToString(symbolType));
 	*/
+
+	if (undefined)
+	{
+		return &undefinedName;
+	}
 
 	switch (symbolType)
 	{

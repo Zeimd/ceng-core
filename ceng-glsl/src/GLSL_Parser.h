@@ -275,7 +275,7 @@ namespace Ceng
 
 		ParserReturnValue S_DatatypeToken(TokenType::value value);
 
-		ParserReturnValue S_CustomTypeToken(const Token& typeName);
+		//ParserReturnValue S_CustomTypeToken(const Token& typeName);
 
 		ParserReturnValue S_LayoutToken();
 

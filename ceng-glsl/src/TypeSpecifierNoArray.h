@@ -8,6 +8,8 @@
 #include <ceng/GLSL/TokenType.h>
 #include <ceng/GLSL/BasicType.h>
 
+#include "SymbolDatabase.h"
+
 namespace Ceng
 {
 	enum class TypeSelector
@@ -27,7 +29,8 @@ namespace Ceng
 
 		std::shared_ptr<StructSpecifier> structSpec;
 
-		Ceng::StringUtf8 name;
+		SymbolLink link;
+
 	public:
 		
 		void Release() override;
@@ -35,7 +38,7 @@ namespace Ceng
 		TypeSpecifierNoArray(GLSL::BasicType::value basicType);
 		TypeSpecifierNoArray(TokenType::value tokenType);
 
-		TypeSpecifierNoArray(const Ceng::StringUtf8& name);
+		TypeSpecifierNoArray(const SymbolLink& link);
 		TypeSpecifierNoArray(std::shared_ptr<StructSpecifier>& structSpec);
 
 		static GLSL::BasicType::value FromTokenType(TokenType::value tokenType);

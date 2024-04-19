@@ -2531,15 +2531,17 @@ ParserReturnValue GLSL_Parser::S_DatatypeToken(TokenType::value value)
 {
 	log.Debug(__func__);
 
-	return { std::make_unique<TypeSpecifierNoArray>(value), 1 };
+	return { std::make_shared<TypeSpecifierNoArray>(value), 1 };
 }
 
+/*
 ParserReturnValue GLSL_Parser::S_CustomTypeToken(const Token& typeName)
 {
 	log.Debug(__func__);
 
-	return { std::make_unique<TypeSpecifierNoArray>(typeName.name), 1 };
+	return { std::make_shared<TypeSpecifierNoArray>(typeName.name), 1 };
 }
+*/
 
 class Handler_LayoutToken : public IStateHandler
 {
@@ -5949,7 +5951,16 @@ public:
 		{
 		case TokenType::identifier:
 		case TokenType::left_bracket:
-			return { ParserReturnValue(std::make_shared<TypeSpecifierNoArray>(id.name), 1), true };
+			{
+				SymbolLink link = parser->symbolDatabase->Find(id.name);
+
+				if (!link.Valid())
+				{
+					link = parser->symbolDatabase->AddUndefined(SymbolType::struct_declaration, id.name);
+				}
+
+				return { ParserReturnValue(std::make_shared<TypeSpecifierNoArray>(link), 1), true };
+			}			
 		case TokenType::left_paren:
 			return { ParserReturnValue(std::make_shared<FunctionIdentifier>(id.name),1), true };
 		default:

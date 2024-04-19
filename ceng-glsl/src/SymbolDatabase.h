@@ -29,9 +29,9 @@ namespace Ceng
 
 		}
 
-		Symbol& Get() const
+		Symbol* Get() const
 		{
-			return (*data)[index];
+			return &(*data)[index];
 		}
 
 		bool Valid() const
@@ -65,15 +65,15 @@ namespace Ceng
 
 		Ceng::StringUtf8 ToString(Ceng::UINT32 indentLevel) const
 		{
-			Symbol& symbol = link.Get();
+			Symbol* symbol = link.Get();
 
 			Ceng::StringUtf8 out;
 
 			out += INonTerminal::GetIndent(indentLevel);
 
-			out += SymbolType::ToString(symbol.symbolType);
+			out += SymbolType::ToString(symbol->symbolType);
 
-			const Ceng::StringUtf8* name = symbol.Name();
+			const Ceng::StringUtf8* name = symbol->Name();
 
 			if (name != nullptr)
 			{
@@ -112,6 +112,8 @@ namespace Ceng
 		void StartFunction(std::shared_ptr<FunctionPrototype>& prototype);
 
 		//Symbol& Top();
+
+		SymbolLink AddUndefined(SymbolType::value type, const Ceng::StringUtf8& name);
 
 		Ceng::INT32 Add(std::shared_ptr<Declaration>& decl);
 
