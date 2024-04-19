@@ -31,7 +31,8 @@ Ceng::StringUtf8 AST_ReturnStatement::ToString(Ceng::UINT32 indentLevel) const
 		out += expression.ToString(indentLevel);
 	}
 
-	return ";\n";
+	out += ";\n";
+	return out;
 }
 
 Ceng::StringUtf8 AST_ReturnStatement::RhsToString(Ceng::UINT32 indentLevel) const
