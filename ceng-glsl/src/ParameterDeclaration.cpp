@@ -55,6 +55,18 @@ bool ParameterDeclaration::IsConst() const
 	return typeQ->qualifier == ParamTypeQualifiers::const_qual;
 }
 
+TypeSpecifier& ParameterDeclaration::GetType() const
+{
+	if (typeOnly)
+	{
+		return *typeSpec;
+	}
+	else
+	{
+		return *decl->typeSpec;
+	}
+}
+
 Ceng::StringUtf8 ParameterDeclaration::ToString(unsigned int indentLevel) const
 {
 	Ceng::StringUtf8 out;

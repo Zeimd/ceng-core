@@ -45,6 +45,8 @@ namespace Ceng
 		void AcceptVisitor(NonTerminalVisitor& visitor) override;
 
 		bool IsConst() const;
+
+		TypeSpecifier& GetType() const;
 	};
 }
 

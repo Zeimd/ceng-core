@@ -2885,7 +2885,7 @@ GLSL::AST_Datatype AST_Generator::GetDatatype(const SymbolLink& link)
 	case SymbolType::function:
 		return GetReturnType(*symbol->prototype);
 	case SymbolType::function_parameter:
-		return GetDatatype(symbol->param->typeSpec);
+		return GetDatatype(symbol->param->GetType());
 	case SymbolType::struct_declaration:
 	{
 		GLSL::ArrayIndex index{ false };
