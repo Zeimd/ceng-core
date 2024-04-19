@@ -497,11 +497,12 @@ AST_Generator::return_type AST_Generator::V_LogicalOrExpression(LogicalOrExpress
 	printf(__FUNCTION__);
 	printf("\n");
 
+	GLSL::AST_Datatype resultType = GLSL::BasicType::ts_bool;
+
 	if (item.full)
 	{
 		item.lhs->AcceptVisitor(*this);
 		GLSL::Rvalue a = returnValue.value;
-		GLSL::AST_Datatype resultType = returnValue.valueType;
 
 		item.rhs->AcceptVisitor(*this);
 		GLSL::Rvalue b = returnValue.value;
@@ -545,11 +546,12 @@ AST_Generator::return_type AST_Generator::V_LogicalXorExpression(LogicalXorExpre
 	printf(__FUNCTION__);
 	printf("\n");
 
+	GLSL::AST_Datatype resultType = GLSL::BasicType::ts_bool;
+
 	if (item.full)
 	{
 		item.lhs->AcceptVisitor(*this);
 		GLSL::Rvalue a = returnValue.value;
-		GLSL::AST_Datatype resultType = returnValue.valueType;
 
 		item.rhs->AcceptVisitor(*this);
 		GLSL::Rvalue b = returnValue.value;
@@ -593,11 +595,12 @@ AST_Generator::return_type AST_Generator::V_LogicalAndExpression(LogicalAndExpre
 	printf(__FUNCTION__);
 	printf("\n");
 
+	GLSL::AST_Datatype resultType = GLSL::BasicType::ts_bool;
+
 	if (item.full)
 	{
 		item.lhs->AcceptVisitor(*this);
 		GLSL::Rvalue a = returnValue.value;
-		GLSL::AST_Datatype resultType = returnValue.valueType;
 
 		item.rhs->AcceptVisitor(*this);
 		GLSL::Rvalue b = returnValue.value;
@@ -785,11 +788,13 @@ AST_Generator::return_type AST_Generator::V_EqualityExpression(EqualityExpressio
 	printf(__FUNCTION__);
 	printf("\n");
 
+	GLSL::AST_Datatype resultType = GLSL::BasicType::ts_bool;
+
 	if (item.operation != EqualityOp::unassigned)
 	{
 		item.lhs->AcceptVisitor(*this);
 		GLSL::Rvalue a = returnValue.value;
-		GLSL::AST_Datatype resultType = returnValue.valueType;
+		
 
 		item.rhs->AcceptVisitor(*this);
 		GLSL::Rvalue b = returnValue.value;
@@ -845,11 +850,12 @@ AST_Generator::return_type AST_Generator::V_RelationalExpression(RelationalExpre
 	printf(__FUNCTION__);
 	printf("\n");
 
+	GLSL::AST_Datatype resultType = GLSL::BasicType::ts_bool;
+
 	if (item.operation != RelativeOp::unassigned)
 	{
 		item.lhs->AcceptVisitor(*this);
 		GLSL::Rvalue a = returnValue.value;
-		GLSL::AST_Datatype resultType = returnValue.valueType;
 
 		item.rhs->AcceptVisitor(*this);
 		GLSL::Rvalue b = returnValue.value;
