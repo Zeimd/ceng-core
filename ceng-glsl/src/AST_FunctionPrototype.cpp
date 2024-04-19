@@ -52,7 +52,7 @@ Ceng::StringUtf8 AST_FunctionPrototype::ToString(Ceng::UINT32 indentLevel) const
 	}
 	else
 	{
-		out += "{\n";
+		out += "\n{\n";
 
 		for (auto& x : children)
 		{
