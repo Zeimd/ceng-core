@@ -10,7 +10,7 @@ AST_VariableDeclaration::AST_VariableDeclaration(bool invariant, std::vector<Lay
 	InterpolationQualifierType::value interpolation, PrecisionQualifierType::value precision,
 	AST_Datatype& datatype, const Ceng::StringUtf8& name)
 	: IASTNode(AST_NodeType::variable_declaration), invariant(invariant), layout(layout), storage(storage), interpolation(interpolation),
-	precision(precision), datatype(datatype), name(name), implicitArray(false), arraySize(0)
+	precision(precision), datatype(datatype), name(name), implicitArray(false), arraySize()
 {
 	
 }
@@ -19,7 +19,7 @@ AST_VariableDeclaration::AST_VariableDeclaration(bool invariant, std::vector<Lay
 	InterpolationQualifierType::value interpolation, PrecisionQualifierType::value precision,
 	AST_Datatype& datatype, const Ceng::StringUtf8& name, const Rvalue& initializer)
 	: IASTNode(AST_NodeType::variable_declaration), invariant(invariant), layout(layout), storage(storage), interpolation(interpolation),
-	precision(precision), datatype(datatype), name(name), implicitArray(false), arraySize(0), initializer(initializer)
+	precision(precision), datatype(datatype), name(name), implicitArray(false), arraySize(), initializer(initializer)
 {
 
 }
@@ -28,7 +28,7 @@ AST_VariableDeclaration::AST_VariableDeclaration(bool invariant, std::vector<Lay
 	InterpolationQualifierType::value interpolation, PrecisionQualifierType::value precision,
 	AST_Datatype& datatype, const Ceng::StringUtf8& name, bool implicitArray)
 	: IASTNode(AST_NodeType::variable_declaration), invariant(invariant), layout(layout), storage(storage), interpolation(interpolation),
-	precision(precision), datatype(datatype), name(name), implicitArray(true), arraySize(0)
+	precision(precision), datatype(datatype), name(name), implicitArray(true), arraySize()
 {
 	
 }
@@ -37,7 +37,7 @@ AST_VariableDeclaration::AST_VariableDeclaration(bool invariant, std::vector<Lay
 	InterpolationQualifierType::value interpolation, PrecisionQualifierType::value precision,
 	AST_Datatype& datatype, const Ceng::StringUtf8& name, bool implicitArray, const Rvalue& initializer)
 	: IASTNode(AST_NodeType::variable_declaration), invariant(invariant), layout(layout), storage(storage), interpolation(interpolation),
-	precision(precision), datatype(datatype), name(name), implicitArray(true), arraySize(0), initializer(initializer)
+	precision(precision), datatype(datatype), name(name), implicitArray(true), arraySize(), initializer(initializer)
 {
 
 }
