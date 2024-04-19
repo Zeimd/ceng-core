@@ -28,6 +28,7 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_Datatype.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_FunctionCall.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_IncDecOperation.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_Scope.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_UnaryOperator.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\FieldExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\Rvalue.h" />
@@ -167,6 +168,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\AST_Datatype.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_FunctionCall.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_IncDecOperation.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\AST_Scope.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\FieldExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\Rvalue.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_FunctionPrototype.cpp" />

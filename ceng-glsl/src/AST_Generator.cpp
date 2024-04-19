@@ -83,6 +83,7 @@
 #include <ceng/GLSL/AST_IncDecOperation.h>
 #include <ceng/GLSL/AST_ReturnStatement.h>
 #include <ceng/GLSL/AST_FunctionCall.h>
+#include <ceng/GLSL/AST_Scope.h>
 
 using namespace Ceng;
 
@@ -3227,6 +3228,21 @@ AST_Generator::return_type AST_Generator::V_Statement(Statement& item)
 		item.simpleStatement->AcceptVisitor(*this);
 		break;
 	}
+
+	return 0;
+}
+
+AST_Generator::return_type AST_Generator::V_CompoundStatement(CompoundStatement& item)
+{
+	CurrentContext().parent->children.emplace_back(
+		std::make_shared<GLSL::AST_Scope>()
+	);
+
+	NewestChildToContext();
+
+	item.list->AcceptVisitor(*this);
+
+	PopContext();
 
 	return 0;
 }

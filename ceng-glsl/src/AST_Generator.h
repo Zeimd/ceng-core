@@ -136,6 +136,8 @@ namespace Ceng
 
 		return_type V_Statement(Statement& item);
 
+		return_type V_CompoundStatement(CompoundStatement& item) override;
+
 		return_type V_StatementList(StatementList& item);
 
 		return_type V_SimpleStatement(SimpleStatement& item);
