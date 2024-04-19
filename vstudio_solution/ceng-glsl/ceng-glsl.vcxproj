@@ -141,6 +141,8 @@
     <ClInclude Include="..\..\ceng-glsl\src\SwitchStatementList.h" />
     <ClInclude Include="..\..\ceng-glsl\src\Symbol.h" />
     <ClInclude Include="..\..\ceng-glsl\src\SymbolDatabase.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\SymbolLink.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\SymbolNode.h" />
     <ClInclude Include="..\..\ceng-glsl\src\TokenInfo.h" />
     <ClInclude Include="..\..\ceng-glsl\src\TranslationUnit.h" />
     <ClInclude Include="..\..\ceng-glsl\src\TypeQualifier.h" />

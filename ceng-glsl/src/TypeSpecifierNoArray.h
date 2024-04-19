@@ -8,7 +8,7 @@
 #include <ceng/GLSL/TokenType.h>
 #include <ceng/GLSL/BasicType.h>
 
-#include "SymbolDatabase.h"
+#include "SymbolLink.h"
 
 namespace Ceng
 {
