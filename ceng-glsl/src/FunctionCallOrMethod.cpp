@@ -40,3 +40,38 @@ void FunctionCallOrMethod::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_FunctionCallOrMethod(*this);
 }
+
+Ceng::StringUtf8& FunctionCallOrMethod::FunctionName() const
+{
+	if (func->noParams != nullptr)
+	{
+		return func->noParams->header->identifier->name;
+	}
+
+	return func->withParams->header->identifier->name;
+}
+
+Ceng::UINT32 FunctionCallOrMethod::GetParamCount() const
+{
+	if (func->noParams != nullptr)
+	{
+		return 0;
+	}
+
+	return func->withParams->params.size();
+}
+
+std::shared_ptr<AssignmentExpression> FunctionCallOrMethod::GetParameter(Ceng::UINT32 k) const
+{
+	if (func->noParams != nullptr)
+	{
+		return nullptr;
+	}
+
+	if (k > GetParamCount())
+	{
+		return nullptr;
+	}
+
+	return func->withParams->params[k];
+}

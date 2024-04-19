@@ -30,6 +30,12 @@ namespace Ceng
 
 		void AcceptVisitor(NonTerminalVisitor& visitor) override;
 
+		Ceng::StringUtf8& FunctionName() const;
+
+		Ceng::UINT32 GetParamCount() const;
+
+		std::shared_ptr<AssignmentExpression> GetParameter(Ceng::UINT32 k) const;
+
 	};
 }
 
