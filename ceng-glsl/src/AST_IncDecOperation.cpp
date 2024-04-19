@@ -1,5 +1,7 @@
 #include <ceng/GLSL/AST_IncDecOperation.h>
 
+#include "INonTerminal.h"
+
 using namespace Ceng::GLSL;
 
 AST_IncDecOperation::AST_IncDecOperation(Lvalue& target, bool dec)
@@ -16,6 +18,8 @@ AST_IncDecOperation::~AST_IncDecOperation()
 Ceng::StringUtf8 AST_IncDecOperation::ToString(Ceng::UINT32 indentLevel) const
 {
 	Ceng::StringUtf8 out;
+
+	out += INonTerminal::GetIndent(indentLevel);
 
 	if (dec)
 	{
