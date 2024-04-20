@@ -40,12 +40,12 @@ const char* AST_NodeType::ToString(AST_NodeType::value type)
 		return "function_call";
 	case if_block:
 		return "if_block";
-	case else_block:
-		return "else_block";
-	case while_block:
-		return "while_block";
-	case do_block:
-		return "do_block";
+	case switch_block:
+		return "switch_block";
+	case case_label:
+		return "case_label";
+	case break_statement:
+		return "break_statement";
 	case do_while:
 		return "do_while";
 	case return_statement:

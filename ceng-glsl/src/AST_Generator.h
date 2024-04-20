@@ -142,13 +142,15 @@ namespace Ceng
 
 		return_type V_SimpleStatement(SimpleStatement& item);
 
-		return_type V_CaseLabel(CaseLabel& item);
 		return_type V_DeclarationStatement(DeclarationStatement& item);
 		return_type V_ExpressionStatement(ExpressionStatement& item);
 		return_type V_IterationStatement(IterationStatement& item);
 		return_type V_JumpStatement(JumpStatement& item);
 		return_type V_SelectionStatement(SelectionStatement& item);
+
+		return_type V_SwitchStatement(SwitchStatement& item);
 		return_type V_SwitchStatementList(SwitchStatementList& item);
+		return_type V_CaseLabel(CaseLabel& item);
 
 		return_type V_InitDeclaratorList(InitDeclaratorList& item) override;
 

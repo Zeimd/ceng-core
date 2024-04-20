@@ -48,17 +48,17 @@ namespace Ceng
 				// if (a) {}
 				if_block,
 
-				// else {}
-				else_block,
-
 				// while(a) {}
 				while_block,
 
-				// do {}
-				do_block,
-
 				// while(a)
 				do_while,
+
+				switch_block,
+
+				case_label,
+
+				break_statement,
 
 				return_statement,
 			};

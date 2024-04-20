@@ -85,6 +85,9 @@
 #include <ceng/GLSL/AST_FunctionCall.h>
 #include <ceng/GLSL/AST_Scope.h>
 #include <ceng/GLSL/AST_IfBlock.h>
+#include <ceng/GLSL/AST_SwitchBlock.h>
+#include <ceng/GLSL/AST_CaseLabel.h>
+#include <ceng/GLSL/AST_Break.h>
 
 using namespace Ceng;
 
@@ -3296,15 +3299,6 @@ AST_Generator::return_type AST_Generator::V_DeclarationStatement(DeclarationStat
 	return 0;
 }
 
-AST_Generator::return_type AST_Generator::V_CaseLabel(CaseLabel& item)
-{
-	printf(__FUNCTION__);
-	printf("\n");
-	printf("<unimplemented>\n");
-
-	return 0;
-}
-
 AST_Generator::return_type AST_Generator::V_ExpressionStatement(ExpressionStatement& item)
 {
 	printf(__FUNCTION__);
@@ -3330,6 +3324,11 @@ AST_Generator::return_type AST_Generator::V_JumpStatement(JumpStatement& item)
 
 	switch (item.jumpType)
 	{
+	case JumpType::breakStatement:
+		CurrentContext().parent->children.emplace_back(
+			std::make_shared<GLSL::AST_Break>()
+		);
+		break;
 	case JumpType::returnStatement:
 		{
 			item.returnExpression->AcceptVisitor(*this);
@@ -3400,14 +3399,79 @@ AST_Generator::return_type AST_Generator::V_SelectionStatement(SelectionStatemen
 	return 0;
 }
 
+AST_Generator::return_type AST_Generator::V_SwitchStatement(SwitchStatement& item)
+{
+	printf(__FUNCTION__);
+	printf("\n");
+
+	item.expression->AcceptVisitor(*this);
+
+	GLSL::Rvalue input = returnValue.value;
+	GLSL::AST_Datatype inputType = returnValue.valueType;
+	
+	CurrentContext().parent->children.emplace_back(
+		std::make_shared<GLSL::AST_SwitchBlock>(input)
+
+	);
+
+	NewestChildToContext();
+
+	item.list->AcceptVisitor(*this);
+
+	if (CurrentContext().parent->nodeType == GLSL::AST_NodeType::case_label)
+	{
+		PopContext();
+	}
+
+	PopContext();
+
+	return 0;
+}
+
 AST_Generator::return_type AST_Generator::V_SwitchStatementList(SwitchStatementList& item)
 {
 	printf(__FUNCTION__);
 	printf("\n");
-	printf("<unimplemented>\n");
+	
+	item.list->AcceptVisitor(*this);
 
 	return 0;
 }
+
+AST_Generator::return_type AST_Generator::V_CaseLabel(CaseLabel& item)
+{
+	printf(__FUNCTION__);
+	printf("\n");
+
+	if (CurrentContext().parent->nodeType == GLSL::AST_NodeType::case_label)
+	{
+		PopContext();
+	}
+
+	if (item.defaultCase)
+	{
+		CurrentContext().parent->children.emplace_back(
+			std::make_shared<GLSL::AST_CaseLabel>()
+		);
+	}
+	else
+	{
+		item.expression->AcceptVisitor(*this);
+
+		GLSL::Rvalue expression = returnValue.value;
+		GLSL::AST_Datatype exprType = returnValue.valueType;
+
+		CurrentContext().parent->children.emplace_back(
+			std::make_shared<GLSL::AST_CaseLabel>(expression)
+		);
+
+	}
+
+	NewestChildToContext();
+
+	return 0;
+}
+
 
 
 
