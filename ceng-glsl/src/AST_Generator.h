@@ -144,7 +144,12 @@ namespace Ceng
 
 		return_type V_DeclarationStatement(DeclarationStatement& item);
 		return_type V_ExpressionStatement(ExpressionStatement& item);
+		
 		return_type V_IterationStatement(IterationStatement& item);
+
+		return_type WhileLoop(IterationStatement& item);
+
+
 		return_type V_JumpStatement(JumpStatement& item);
 		return_type V_SelectionStatement(SelectionStatement& item);
 

@@ -34,6 +34,7 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_Scope.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_SwitchBlock.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_UnaryOperator.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_WhileLoop.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\FieldExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\Rvalue.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_FunctionDefinition.h" />

@@ -88,6 +88,7 @@
 #include <ceng/GLSL/AST_SwitchBlock.h>
 #include <ceng/GLSL/AST_CaseLabel.h>
 #include <ceng/GLSL/AST_Break.h>
+#include <ceng/GLSL/AST_WhileLoop.h>
 
 using namespace Ceng;
 
@@ -3312,7 +3313,37 @@ AST_Generator::return_type AST_Generator::V_IterationStatement(IterationStatemen
 {
 	printf(__FUNCTION__);
 	printf("\n");
-	printf("<unimplemented>\n");
+
+	switch (item.iterationType)
+	{
+	case IterationType::whileLoop:
+		return WhileLoop(item);
+	}
+
+	return 0;
+}
+
+AST_Generator::return_type AST_Generator::WhileLoop(IterationStatement& item)
+{
+	/*
+	CurrentContext().parent->children.emplace_back(
+		std::make_shared<GLSL::AST_Scope>()
+
+	);
+
+	NewestChildToContext();
+
+	item.whileCondition->AcceptVisitor(*this);
+
+	GLSL::Rvalue condition = returnValue.value;
+
+	CurrentContext().parent->children.emplace_back(
+		std::make_shared<GLSL::AST_WhileLoop>(condition)
+
+	);
+
+	PopContext();
+	*/
 
 	return 0;
 }
