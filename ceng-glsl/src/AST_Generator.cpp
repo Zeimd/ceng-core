@@ -391,6 +391,11 @@ AST_Generator::return_type AST_Generator::V_AssignmentExpression(AssignmentExpre
 
 		GLSL::Lvalue lhs = a.ToLvalue();
 
+		if (IsAssignable(lhs) == false)
+		{
+			// TODO
+		}
+
 		item.assignEx->AcceptVisitor(*this);
 		GLSL::Rvalue b = returnValue.value;
 
@@ -3664,6 +3669,16 @@ SymbolLink AST_Generator::MatchFunctionSignature(const std::vector<SymbolLink>& 
 
 		return func;
 	}
+}
+
+bool AST_Generator::IsAssignable(const GLSL::Lvalue& lvalue)
+{
+	if (lvalue.valid == false)
+	{
+		return false;
+	}
+
+	return true;
 }
 
 

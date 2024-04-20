@@ -106,6 +106,8 @@ namespace Ceng
 
 		SymbolLink MatchFunctionSignature(const std::vector<SymbolLink>& functions, std::vector<GLSL::AST_Datatype>& signatureTypes);
 
+		bool IsAssignable(const GLSL::Lvalue& lvalue);
+
 		return_type V_Expression(Expression& item);
 		return_type V_AssignmentExpression(AssignmentExpression& item);
 		return_type V_ConditionalExpression(ConditionalExpression& item);
