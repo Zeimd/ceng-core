@@ -30,6 +30,15 @@ namespace Ceng
 		GLSL::AST_Datatype valueType;		
 	};
 
+	struct StatementContext
+	{
+		std::vector<std::shared_ptr<GLSL::IASTNode>> prefixOperations;
+
+		std::vector<std::shared_ptr<GLSL::IASTNode>> normalOperations;
+
+		std::vector<std::shared_ptr<GLSL::IASTNode>> postfixOperations;
+	};
+
 	struct Context
 	{
 		GLSL::IASTNode* parent;
@@ -72,6 +81,8 @@ namespace Ceng
 
 		void PopContext();
 
+		void AddStatementContext(const StatementContext& statementContext);
+
 		GLSL::AST_Datatype GetDatatype(const Ceng::StringUtf8& name);
 
 		GLSL::AST_Datatype GetDatatype(const SymbolLink& link);
@@ -106,24 +117,28 @@ namespace Ceng
 
 		bool IsAssignable(const GLSL::Lvalue& lvalue);
 
-		ExpressionReturn Handler_Expression(GLSL::Lvalue* destination, Expression& item);
+		ExpressionReturn Handler_Expression(GLSL::Lvalue* destination, StatementContext& statementContext, Expression& item);
 
-		ExpressionReturn Handler_AssignmentExpression(GLSL::Lvalue* destination, AssignmentExpression& item);
-		ExpressionReturn Handler_ConditionalExpression(GLSL::Lvalue* destination, ConditionalExpression& item);
-		ExpressionReturn Handler_LogicalOrExpression(GLSL::Lvalue* destination, LogicalOrExpression& item);
-		ExpressionReturn Handler_LogicalXorExpression(GLSL::Lvalue* destination, LogicalXorExpression& item);
-		ExpressionReturn Handler_LogicalAndExpression(GLSL::Lvalue* destination, LogicalAndExpression& item);
-		ExpressionReturn Handler_OrExpression(GLSL::Lvalue* destination, OrExpression& item);
-		ExpressionReturn Handler_XorExpression(GLSL::Lvalue* destination, XorExpression& item);
-		ExpressionReturn Handler_AndExpression(GLSL::Lvalue* destination, AndExpression& item);
-		ExpressionReturn Handler_EqualityExpression(GLSL::Lvalue* destination, EqualityExpression& item);
-		ExpressionReturn Handler_RelationalExpression(GLSL::Lvalue* destination, RelationalExpression& item);
-		ExpressionReturn Handler_ShiftExpression(GLSL::Lvalue* destination, ShiftExpression& item);
-		ExpressionReturn Handler_AdditiveExpression(GLSL::Lvalue* destination, AdditiveExpression& item);
-		ExpressionReturn Handler_MultiplicativeExpression(GLSL::Lvalue* destination, MultiplicativeExpression& item);
-		ExpressionReturn Handler_UnaryExpression(GLSL::Lvalue* destination, UnaryExpression& item);
-		ExpressionReturn Handler_PostfixExpression(GLSL::Lvalue* destination, PostfixExpression& item);
-		ExpressionReturn Handler_PrimaryExpression(GLSL::Lvalue* destination, PrimaryExpression& item);
+		ExpressionReturn Handler_AssignmentExpression(GLSL::Lvalue* destination, StatementContext& statementContext, AssignmentExpression& item);
+		ExpressionReturn Handler_ConditionalExpression(GLSL::Lvalue* destination, StatementContext& statementContext, ConditionalExpression& item);
+		ExpressionReturn Handler_LogicalOrExpression(GLSL::Lvalue* destination, StatementContext& statementContext, LogicalOrExpression& item);
+		ExpressionReturn Handler_LogicalXorExpression(GLSL::Lvalue* destination, StatementContext& statementContext, LogicalXorExpression& item);
+		ExpressionReturn Handler_LogicalAndExpression(GLSL::Lvalue* destination, StatementContext& statementContext, LogicalAndExpression& item);
+		ExpressionReturn Handler_OrExpression(GLSL::Lvalue* destination, StatementContext& statementContext, OrExpression& item);
+		ExpressionReturn Handler_XorExpression(GLSL::Lvalue* destination, StatementContext& statementContext, XorExpression& item);
+		ExpressionReturn Handler_AndExpression(GLSL::Lvalue* destination, StatementContext& statementContext, AndExpression& item);
+		ExpressionReturn Handler_EqualityExpression(GLSL::Lvalue* destination, StatementContext& statementContext, EqualityExpression& item);
+		ExpressionReturn Handler_RelationalExpression(GLSL::Lvalue* destination, StatementContext& statementContext, RelationalExpression& item);
+		ExpressionReturn Handler_ShiftExpression(GLSL::Lvalue* destination, StatementContext& statementContext, ShiftExpression& item);
+		ExpressionReturn Handler_AdditiveExpression(GLSL::Lvalue* destination, StatementContext& statementContext, AdditiveExpression& item);
+		ExpressionReturn Handler_MultiplicativeExpression(GLSL::Lvalue* destination, StatementContext& statementContext, MultiplicativeExpression& item);
+		ExpressionReturn Handler_UnaryExpression(GLSL::Lvalue* destination, StatementContext& statementContext, UnaryExpression& item);
+		ExpressionReturn Handler_PostfixExpression(GLSL::Lvalue* destination, StatementContext& statementContext, PostfixExpression& item);
+		ExpressionReturn Handler_PrimaryExpression(GLSL::Lvalue* destination, StatementContext& statementContext, PrimaryExpression& item);
+
+		ExpressionReturn Handler_Initializer(GLSL::Lvalue* destination, StatementContext& statementContext, Initializer& item);
+
+		ExpressionReturn Handler_FunctionCall(GLSL::Lvalue* destination, StatementContext& statementContext, FunctionCall& item);
 
 		return_type V_TranslationUnit(TranslationUnit& item) override;
 
@@ -159,10 +174,6 @@ namespace Ceng
 		return_type V_CaseLabel(CaseLabel& item);
 
 		return_type V_InitDeclaratorList(InitDeclaratorList& item) override;
-
-		ExpressionReturn Handler_Initializer(GLSL::Lvalue* destination, Initializer& item);
-
-		ExpressionReturn Handler_FunctionCall(GLSL::Lvalue* destination, FunctionCall& item);
 
 		GLSL::BinaryOperator::value ConvertAssignmentOperator(AssignOpType::value op);
 
