@@ -207,6 +207,11 @@ GLSL::Lvalue AST_Generator::GenerateTemporary(StatementContext& statementContext
 
 GLSL::AST_Datatype AST_Generator::GetDatatype(const SymbolLink& link)
 {
+	if (link.Valid() == false)
+	{
+		return GLSL::AST_Datatype();
+	}
+
 	Symbol* symbol = link.Get();
 
 	if (symbol->undefined)
@@ -3242,6 +3247,8 @@ SymbolLink AST_Generator::MatchFunctionSignature(const std::vector<SymbolLink>& 
 
 		return func;
 	}
+
+	return SymbolLink();
 }
 
 bool AST_Generator::IsAssignable(const GLSL::Lvalue& lvalue)
