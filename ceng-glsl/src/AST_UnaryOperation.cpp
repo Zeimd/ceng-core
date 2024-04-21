@@ -1,5 +1,7 @@
 #include <ceng/GLSL/AST_UnaryOperation.h>
 
+#include "INonTerminal.h"
+
 using namespace Ceng::GLSL;
 
 namespace Ceng::GLSL::UnaryOperation
@@ -36,7 +38,9 @@ Ceng::StringUtf8 AST_UnaryOperation::ToString(Ceng::UINT32 indentLevel) const
 {
 	Ceng::StringUtf8 out;
 
-	out = lhs.ToString(indentLevel);
+	out += INonTerminal::GetIndent(indentLevel);
+
+	out += lhs.ToString(indentLevel);
 	out += " = ";
 	out += RhsToString(indentLevel);
 	out += ";\n";
