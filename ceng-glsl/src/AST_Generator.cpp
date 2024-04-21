@@ -151,6 +151,7 @@ void AST_Generator::AddStatementContext(const StatementContext& statementContext
 	}
 }
 
+/*
 GLSL::Lvalue AST_Generator::GenerateTemporary(GLSL::AST_Datatype& type)
 {
 	printf(__FUNCTION__);
@@ -164,6 +165,33 @@ GLSL::Lvalue AST_Generator::GenerateTemporary(GLSL::AST_Datatype& type)
 	std::vector<GLSL::LayoutData> layout;
 
 	CurrentContext().parent->children.emplace_back(
+		std::make_shared<GLSL::AST_VariableDeclaration>(
+			false,
+			layout,
+			GLSL::StorageQualifierType::sq_const,
+			GLSL::InterpolationQualifierType::unused,
+			GLSL::PrecisionQualifierType::unassigned,
+			type,
+			name
+			));
+
+	return { name };
+}
+*/
+
+GLSL::Lvalue AST_Generator::GenerateTemporary(StatementContext& statementContext, GLSL::AST_Datatype& type)
+{
+	printf(__FUNCTION__);
+	printf("\n");
+
+	Ceng::StringUtf8 name = "@temp";
+	name += CurrentContext().tempCounter++;
+
+	printf("variable = %s\n", name.ToCString());
+
+	std::vector<GLSL::LayoutData> layout;
+
+	statementContext.normalOperations.emplace_back(
 		std::make_shared<GLSL::AST_VariableDeclaration>(
 			false,
 			layout,
@@ -474,7 +502,7 @@ ExpressionReturn AST_Generator::Handler_ConditionalExpression(GLSL::Lvalue* dest
 
 		if (destination == nullptr)
 		{
-			GLSL::Lvalue lhs = GenerateTemporary(a.valueType);
+			GLSL::Lvalue lhs = GenerateTemporary(statementContext, a.valueType);
 
 			statementContext.normalOperations.emplace_back(
 				std::make_shared<GLSL::AST_ConditionalOperation>
@@ -555,7 +583,7 @@ ExpressionReturn AST_Generator::Handler_LogicalOrExpression(GLSL::Lvalue* destin
 		{
 			if (destination == nullptr)
 			{
-				GLSL::Lvalue lhs = GenerateTemporary(resultType);
+				GLSL::Lvalue lhs = GenerateTemporary(statementContext, resultType);
 
 				statementContext.normalOperations.emplace_back(
 					std::make_shared<GLSL::AST_BinaryOperation>
@@ -610,7 +638,7 @@ ExpressionReturn AST_Generator::Handler_LogicalXorExpression(GLSL::Lvalue* desti
 		{
 			if (destination == nullptr)
 			{
-				GLSL::Lvalue lhs = GenerateTemporary(resultType);
+				GLSL::Lvalue lhs = GenerateTemporary(statementContext, resultType);
 
 				statementContext.normalOperations.emplace_back(
 					std::make_shared<GLSL::AST_BinaryOperation>
@@ -665,7 +693,7 @@ ExpressionReturn AST_Generator::Handler_LogicalAndExpression(GLSL::Lvalue* desti
 		{
 			if (destination == nullptr)
 			{
-				GLSL::Lvalue lhs = GenerateTemporary(resultType);
+				GLSL::Lvalue lhs = GenerateTemporary(statementContext, resultType);
 
 				statementContext.normalOperations.emplace_back(
 					std::make_shared<GLSL::AST_BinaryOperation>
@@ -719,7 +747,7 @@ ExpressionReturn AST_Generator::Handler_OrExpression(GLSL::Lvalue* destination, 
 		{
 			if (destination == nullptr)
 			{
-				GLSL::Lvalue lhs = GenerateTemporary(a.valueType);
+				GLSL::Lvalue lhs = GenerateTemporary(statementContext, a.valueType);
 
 				statementContext.normalOperations.emplace_back(
 					std::make_shared<GLSL::AST_BinaryOperation>
@@ -772,7 +800,7 @@ ExpressionReturn AST_Generator::Handler_XorExpression(GLSL::Lvalue* destination,
 		{
 			if (destination == nullptr)
 			{
-				GLSL::Lvalue lhs = GenerateTemporary(a.valueType);
+				GLSL::Lvalue lhs = GenerateTemporary(statementContext, a.valueType);
 
 				statementContext.normalOperations.emplace_back(
 					std::make_shared<GLSL::AST_BinaryOperation>
@@ -825,7 +853,7 @@ ExpressionReturn AST_Generator::Handler_AndExpression(GLSL::Lvalue* destination,
 		{
 			if (destination == nullptr)
 			{
-				GLSL::Lvalue lhs = GenerateTemporary(a.valueType);
+				GLSL::Lvalue lhs = GenerateTemporary(statementContext, a.valueType);
 
 				statementContext.normalOperations.emplace_back(
 					std::make_shared<GLSL::AST_BinaryOperation>
@@ -892,7 +920,7 @@ ExpressionReturn AST_Generator::Handler_EqualityExpression(GLSL::Lvalue* destina
 		{
 			if (destination == nullptr)
 			{
-				GLSL::Lvalue lhs = GenerateTemporary(resultType);
+				GLSL::Lvalue lhs = GenerateTemporary(statementContext, resultType);
 
 				statementContext.normalOperations.emplace_back(
 					std::make_shared<GLSL::AST_BinaryOperation>
@@ -965,7 +993,7 @@ ExpressionReturn AST_Generator::Handler_RelationalExpression(GLSL::Lvalue* desti
 		{
 			if (destination == nullptr)
 			{
-				GLSL::Lvalue lhs = GenerateTemporary(resultType);
+				GLSL::Lvalue lhs = GenerateTemporary(statementContext, resultType);
 
 				statementContext.normalOperations.emplace_back(
 					std::make_shared<GLSL::AST_BinaryOperation>
@@ -1030,7 +1058,7 @@ ExpressionReturn AST_Generator::Handler_ShiftExpression(GLSL::Lvalue* destinatio
 		{
 			if (destination == nullptr)
 			{
-				GLSL::Lvalue lhs = GenerateTemporary(a.valueType);
+				GLSL::Lvalue lhs = GenerateTemporary(statementContext, a.valueType);
 
 				statementContext.normalOperations.emplace_back(
 					std::make_shared<GLSL::AST_BinaryOperation>
@@ -1095,7 +1123,7 @@ ExpressionReturn AST_Generator::Handler_AdditiveExpression(GLSL::Lvalue* destina
 		{
 			if (destination == nullptr)
 			{
-				GLSL::Lvalue lhs = GenerateTemporary(a.valueType);
+				GLSL::Lvalue lhs = GenerateTemporary(statementContext, a.valueType);
 
 				statementContext.normalOperations.emplace_back(
 					std::make_shared<GLSL::AST_BinaryOperation>
@@ -1163,7 +1191,7 @@ ExpressionReturn AST_Generator::Handler_MultiplicativeExpression(GLSL::Lvalue* d
 		{
 			if (destination == nullptr)
 			{
-				GLSL::Lvalue lhs = GenerateTemporary(a.valueType);
+				GLSL::Lvalue lhs = GenerateTemporary(statementContext, a.valueType);
 
 				statementContext.normalOperations.emplace_back(
 					std::make_shared<GLSL::AST_BinaryOperation>
@@ -1269,7 +1297,7 @@ ExpressionReturn AST_Generator::Handler_UnaryExpression(GLSL::Lvalue* destinatio
 		}
 		else
 		{
-			GLSL::Lvalue lhs = GenerateTemporary(a.valueType);
+			GLSL::Lvalue lhs = GenerateTemporary(statementContext, a.valueType);
 
 			statementContext.normalOperations.emplace_back(
 				std::make_shared<GLSL::AST_UnaryOperation>(
@@ -1304,49 +1332,49 @@ ExpressionReturn AST_Generator::Handler_PostfixExpression(GLSL::Lvalue* destinat
 		{
 			ExpressionReturn a = Handler_PostfixExpression(nullptr, statementContext , *item.postfixExpression);
 
-			/*
-			GLSL::Lvalue lhs = GenerateTemporary(a.valueType);
+			
+			GLSL::Lvalue lhs = GenerateTemporary(statementContext, a.valueType);
 
 			statementContext.normalOperations.emplace_back(
 				std::make_shared<GLSL::AST_AssignmentOperation>(
 					lhs, a.value
 					)
 			);
-			*/
+			
 
 			GLSL::Lvalue inputLhs = a.value.ToLvalue();
 
-			statementContext.postfixOperations.emplace_back(
+			statementContext.normalOperations.emplace_back(
 				std::make_shared<GLSL::AST_IncDecOperation>(
 					inputLhs, true
 					)
 			);
 
-			return { a.value, a.valueType };
+			return { lhs, a.valueType };
 		}	
 	case PostfixType::inc_op:
 		{
 			ExpressionReturn a = Handler_PostfixExpression(nullptr, statementContext , *item.postfixExpression);
 
-			/*
-			GLSL::Lvalue lhs = GenerateTemporary(a.valueType);
+			
+			GLSL::Lvalue lhs = GenerateTemporary(statementContext, a.valueType);
 
 			statementContext.normalOperations.emplace_back(
 				std::make_shared<GLSL::AST_AssignmentOperation>(
 					lhs, a.value
 					)
 			);
-			*/
+			
 
 			GLSL::Lvalue inputLhs = a.value.ToLvalue();
 
-			statementContext.postfixOperations.emplace_back(
+			statementContext.normalOperations.emplace_back(
 				std::make_shared<GLSL::AST_IncDecOperation>(
 					inputLhs, false
 					)
 			);
 
-			return { a.value, a.valueType };
+			return { lhs, a.valueType };
 		}
 	}
 
@@ -3166,7 +3194,7 @@ ExpressionReturn AST_Generator::Handler_FunctionCall(GLSL::Lvalue* destination, 
 
 	if (destination == nullptr)
 	{
-		GLSL::Lvalue lhs = GenerateTemporary(returnType);
+		GLSL::Lvalue lhs = GenerateTemporary(statementContext, returnType);
 
 		auto sharedLink = std::make_shared<SymbolLink>(link);
 
@@ -3513,6 +3541,8 @@ AST_Generator::return_type AST_Generator::V_JumpStatement(JumpStatement& item)
 		{
 			StatementContext context;
 			ExpressionReturn a = Handler_Expression(nullptr, context , *item.returnExpression);
+
+			AddStatementContext(context);
 
 			// TODO: check against function return type
 

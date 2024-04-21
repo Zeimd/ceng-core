@@ -109,7 +109,9 @@ namespace Ceng
 
 		GLSL::AST_Datatype GetReturnType(FunctionPrototype& item);
 
-		GLSL::Lvalue GenerateTemporary(GLSL::AST_Datatype& type);
+		//GLSL::Lvalue GenerateTemporary(GLSL::AST_Datatype& type);
+
+		GLSL::Lvalue GenerateTemporary(StatementContext& statementContext, GLSL::AST_Datatype& type);
 
 		Ceng::StringUtf8 RegisterAnonymousStruct(std::shared_ptr<StructSpecifier>& structSpec);
 
