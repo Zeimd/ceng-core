@@ -1,5 +1,7 @@
 #include <ceng/GLSL/Lvalue.h>
 
+#include <ceng/GLSL/Rvalue.h>
+
 using namespace Ceng::GLSL;
 
 Lvalue::Lvalue()
@@ -50,4 +52,19 @@ Ceng::StringUtf8 Lvalue::ToString(Ceng::UINT32 indentLevel) const
 
 	return out;	
 	*/
+}
+
+bool Lvalue::operator == (const Rvalue& other) const
+{
+	if (other.valueType != RvalueType::variable)
+	{
+		return false;
+	}
+
+	return expression == std::get<VariableExpression>(other.value);
+}
+
+bool Lvalue::operator != (const Rvalue& other) const
+{
+	return !(*this == other);
 }

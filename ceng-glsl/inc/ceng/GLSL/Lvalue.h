@@ -10,6 +10,8 @@ namespace Ceng
 {
 	namespace GLSL
 	{
+		class Rvalue;
+
 		class Lvalue
 		{
 		public:
@@ -31,6 +33,10 @@ namespace Ceng
 			Lvalue(VariableExpression&& expression);
 				
 			Ceng::StringUtf8 ToString(Ceng::UINT32 indentLevel) const;
+
+			bool operator == (const Rvalue& other) const;
+
+			bool operator != (const Rvalue& other) const;
 		};
 	}
 }
