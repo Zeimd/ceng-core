@@ -35,12 +35,12 @@ UnaryExpression::UnaryExpression(std::shared_ptr<UnaryExpression>& unaryExpressi
 UnaryExpression::UnaryExpression(std::shared_ptr<UnaryOperator>& op, std::shared_ptr<UnaryExpression>& unaryExpression)
 	: INonTerminal(NonTerminalType::unary_expression), unaryExpression(unaryExpression)
 {
-	switch (op->type)
+	switch (op->operatorType)
 	{
 	case UnaryOperatorType::logical_not:
 		unaryType = UnaryExpressionType::logical_not;
 		break;
-	case UnaryOperatorType::two_complement:
+	case UnaryOperatorType::bit_flip:
 		unaryType = UnaryExpressionType::bit_flip;
 		break;
 	case UnaryOperatorType::plus:

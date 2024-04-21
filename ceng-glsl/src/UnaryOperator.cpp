@@ -9,8 +9,8 @@ void UnaryOperator::Release()
 	delete this;
 }
 
-UnaryOperator::UnaryOperator(UnaryOperatorType::value type)
-	: INonTerminal(NonTerminalType::unary_operator), operatorType(type)
+UnaryOperator::UnaryOperator(UnaryOperatorType::value operatorType)
+	: INonTerminal(NonTerminalType::unary_operator), operatorType(operatorType)
 {
 
 }
@@ -27,7 +27,7 @@ UnaryOperator::UnaryOperator(const Token& token)
 		operatorType = UnaryOperatorType::negation;
 		break;
 	case TokenType::tilde:
-		operatorType = UnaryOperatorType::two_complement;
+		operatorType = UnaryOperatorType::bit_flip;
 		break;
 	case TokenType::bang:
 		operatorType = UnaryOperatorType::logical_not;
@@ -42,7 +42,7 @@ UnaryOperator::UnaryOperator(const Token& token)
 
 Ceng::StringUtf8 UnaryOperator::ToString(unsigned int indentLevel) const
 {
-	switch (type)
+	switch (operatorType)
 	{
 	case UnaryOperatorType::plus:
 		return "+";
@@ -50,7 +50,7 @@ Ceng::StringUtf8 UnaryOperator::ToString(unsigned int indentLevel) const
 		return "!";
 	case UnaryOperatorType::negation:
 		return "-";
-	case UnaryOperatorType::two_complement:
+	case UnaryOperatorType::bit_flip:
 		return "~";
 	default:
 		return "UnaryOperator: unhandled case";

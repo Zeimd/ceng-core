@@ -14,7 +14,7 @@ namespace Ceng
 			plus,
 			negation,
 			logical_not,
-			two_complement,
+			bit_flip,
 			invalid_value
 		};
 	}
@@ -29,7 +29,7 @@ namespace Ceng
 
 		void Release() override;
 
-		UnaryOperator(UnaryOperatorType::value type);
+		UnaryOperator(UnaryOperatorType::value operatorType);
 
 		UnaryOperator(const Token& token);
 
