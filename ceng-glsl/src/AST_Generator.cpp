@@ -102,10 +102,6 @@ AST_Generator::AST_Generator(std::shared_ptr<SymbolDatabase>& symbolDatabase)
 	: symbolDatabase(symbolDatabase)
 {
 	contextStack.emplace_back(&root);
-
-	// Needed for declaration initializers which start from right side of assignment
-	// operation
-	lhsStack.push_back(nullptr);
 }
 
 GLSL::AbstractSyntaxTree AST_Generator::GenerateTree(std::shared_ptr<SymbolDatabase>& symbolDatabase, std::shared_ptr<TranslationUnit>& unit)
@@ -304,18 +300,18 @@ GLSL::ArrayIndex AST_Generator::GetArrayIndex(TypeSpecifier& item)
 		}
 		else
 		{
-			item.arrayType.elementExpression->AcceptVisitor(*this);
+			ExpressionReturn out = Handler_Expression(nullptr, *item.arrayType.elementExpression);
 
-			GLSL::Rvalue& out = returnValue.value;
+			GLSL::Rvalue rvalue = &out.value;
 
-			switch (out.valueType)
+			switch (rvalue.valueType)
 			{
 			case GLSL::RvalueType::int_literal:
-				return { std::get<Ceng::INT32>(out.value) };
+				return { std::get<Ceng::INT32>(rvalue.value) };
 			case GLSL::RvalueType::uint_literal:
-				return { std::get<Ceng::UINT32>(out.value) };
+				return { std::get<Ceng::UINT32>(rvalue.value) };
 			case GLSL::RvalueType::variable:
-				return { std::get<GLSL::VariableExpression>(out.value) };
+				return { std::get<GLSL::VariableExpression>(rvalue.value) };
 			default:
 
 				//GLSL::VariableExpression expr{GLSL::FieldExpression(item.typeSpec.elementExpression->ToString(0))};
@@ -338,9 +334,13 @@ GLSL::ArrayIndex AST_Generator::GetArrayIndex(std::shared_ptr<ParameterDeclarato
 		return { false };
 	}
 
-	item->arraySize->AcceptVisitor(*this);
+	ExpressionReturn result = Handler_Expression(nullptr, *item->arraySize);
 
-	GLSL::Rvalue& out = returnValue.value;
+
+
+	//item->arraySize->AcceptVisitor(*this);
+
+	GLSL::Rvalue& out = result.value;
 
 	switch (out.valueType)
 	{
@@ -379,38 +379,32 @@ Ceng::StringUtf8 AST_Generator::RegisterAnonymousStruct(std::shared_ptr<StructSp
 
 
 
-AST_Generator::return_type AST_Generator::V_Expression(Expression& item)
+ExpressionReturn AST_Generator::Handler_Expression(GLSL::Lvalue* destination, Expression& item)
 {
 	printf(__FUNCTION__);
 	printf("\n");
 
-	item.assignEx[0]->AcceptVisitor(*this);
-	return 0;
+	return Handler_AssignmentExpression(nullptr, *item.assignEx[0]);
 }
 
-AST_Generator::return_type AST_Generator::V_AssignmentExpression(AssignmentExpression& item)
+ExpressionReturn AST_Generator::Handler_AssignmentExpression(GLSL::Lvalue* destination, AssignmentExpression& item)
 {
 	printf(__FUNCTION__);
 	printf("\n");
 
 	if (item.full)
 	{
-		item.unaryEx->AcceptVisitor(*this);
-		GLSL::Rvalue a = returnValue.value;
+		ExpressionReturn a = Handler_UnaryExpression(nullptr, *item.unaryEx);
 
-		GLSL::Lvalue lhs = a.ToLvalue();
+		GLSL::Lvalue lhs = a.value.ToLvalue();
 
 		if (IsAssignable(lhs) == false)
 		{
 			// TODO
 		}
 
-		lhsStack.push_back(&lhs);
-
-		item.assignEx->AcceptVisitor(*this);
-		GLSL::Rvalue b = returnValue.value;
-
-		lhsStack.pop_back();
+		ExpressionReturn b = Handler_AssignmentExpression(&lhs, *item.assignEx);
+		//GLSL::Rvalue b = returnValue.value;
 
 		std::shared_ptr<GLSL::AST_BinaryOperation> output;
 
@@ -418,100 +412,76 @@ AST_Generator::return_type AST_Generator::V_AssignmentExpression(AssignmentExpre
 		{
 		case AssignOpType::equal:
 
-			if (lhs != b)
+			if (lhs != b.value)
 			{
 				CurrentContext().parent->children.push_back(std::make_shared< GLSL::AST_AssignmentOperation>(
-					lhs, b
+					lhs, b.value
 					));
 
-				returnValue.value = lhs;
-				returnValue.valueType = GetDatatype(lhs);
+				
 			}
-			
-			return 0;
+			return { lhs, GetDatatype(lhs) };
 		default:
 
 			GLSL::BinaryOperator::value op = ConvertAssignmentOperator(item.op->operation);
 
 			CurrentContext().parent->children.push_back(std::make_shared< GLSL::AST_BinaryOperation>(
-				lhs, a, op, b
+				lhs, a.value, op, b.value
 				));
 
-			returnValue.value = lhs;
-			returnValue.valueType = GetDatatype(lhs);
-		
-			return 0;
+			return { lhs, GetDatatype(lhs) };
 		}
+	}
 
-		
-		
-	}
-	else
-	{
-		item.cond->AcceptVisitor(*this);
-		return 0;
-	}
+	return Handler_ConditionalExpression(destination, *item.cond);
 }
 
-AST_Generator::return_type AST_Generator::V_ConditionalExpression(ConditionalExpression& item)
+ExpressionReturn AST_Generator::Handler_ConditionalExpression(GLSL::Lvalue* destination, ConditionalExpression& item)
 {
 	printf(__FUNCTION__);
 	printf("\n");
 
 	if (item.full)
 	{
-		lhsStack.push_back(nullptr);
+		ExpressionReturn a = Handler_LogicalOrExpression(nullptr, *item.a);
+			
+		ExpressionReturn b = Handler_Expression(nullptr, *item.b);
+		
+		ExpressionReturn c = Handler_AssignmentExpression(nullptr, *item.c);
 
-		item.a->AcceptVisitor(*this);
-		GLSL::Rvalue a = returnValue.value;
-
-		item.b->AcceptVisitor(*this);
-		GLSL::Rvalue b = returnValue.value;
-		GLSL::AST_Datatype resultType = returnValue.valueType;
-
-		item.c->AcceptVisitor(*this);
-		GLSL::Rvalue c = returnValue.value;
-
-		lhsStack.pop_back();
-
-		if (lhsStack.back() == nullptr)
+		if (destination == nullptr)
 		{
-			GLSL::Lvalue lhs = GenerateTemporary(resultType);
+			GLSL::Lvalue lhs = GenerateTemporary(a.valueType);
 
 			CurrentContext().parent->children.emplace_back(
 				std::make_shared<GLSL::AST_ConditionalOperation>
 				(
 					lhs,
-					a,
-					b,
-					c
+					a.value,
+					b.value,
+					c.value
 					)
 			);
 
-			returnValue.value = lhs;
+			return { lhs, a.valueType };
 		}
 		else
 		{
 			CurrentContext().parent->children.emplace_back(
 				std::make_shared<GLSL::AST_ConditionalOperation>
 				(
-					*lhsStack.back(),
-					a,
-					b,
-					c
+					*destination,
+					a.value,
+					b.value,
+					c.value
 					)
 			);
 
-			returnValue.value = *lhsStack.back();
+			return { *destination, a.valueType };
 		}
-
-		returnValue.valueType = resultType;
-
-		return 0;
 	}
 	
-	item.a->AcceptVisitor(*this);
-	return 0;
+	return Handler_LogicalOrExpression(destination, *item.a);
 }
 
 GLSL::BinaryOperator::value AST_Generator::ConvertAssignmentOperator(AssignOpType::value op)
@@ -541,7 +511,7 @@ GLSL::BinaryOperator::value AST_Generator::ConvertAssignmentOperator(AssignOpTyp
 	}
 }
 
-AST_Generator::return_type AST_Generator::V_LogicalOrExpression(LogicalOrExpression& item)
+ExpressionReturn AST_Generator::Handler_LogicalOrExpression(GLSL::Lvalue* destination, LogicalOrExpression& item)
 {
 	printf(__FUNCTION__);
 	printf("\n");
@@ -550,67 +520,53 @@ AST_Generator::return_type AST_Generator::V_LogicalOrExpression(LogicalOrExpress
 
 	if (item.full)
 	{
-		lhsStack.push_back(nullptr);
-
-		item.lhs->AcceptVisitor(*this);
-		GLSL::Rvalue a = returnValue.value;
-
-		item.rhs->AcceptVisitor(*this);
-		GLSL::Rvalue b = returnValue.value;
-
-		lhsStack.pop_back();
-
-		if (a.IsLiteral() && b.IsLiteral())
-		{
-			returnValue = LiteralBinaryOp(a, GLSL::BinaryOperator::logical_or, b);
-		}
-		else
-		{
-			if (lhsStack.back() == nullptr)
-			{
-				GLSL::Lvalue lhs = GenerateTemporary(resultType);
-
-				CurrentContext().parent->children.emplace_back(
-					std::make_shared<GLSL::AST_BinaryOperation>
-					(
-						lhs,
-						a,
-						GLSL::BinaryOperator::logical_or,
-						b
-						)
-				);
-
-				returnValue.value = lhs;
-			}
-			else
-			{
-				CurrentContext().parent->children.emplace_back(
-					std::make_shared<GLSL::AST_BinaryOperation>
-					(
-						*lhsStack.back(),
-						a,
-						GLSL::BinaryOperator::logical_or,
-						b
-						)
-				);
-
-				returnValue.value = *lhsStack.back();
-			}
-
-			returnValue.valueType = resultType;
-		}
+		ExpressionReturn a = Handler_LogicalOrExpression(nullptr, *item.lhs);
 		
-		return 0;
-	}
-	else
-	{
-		item.rhs->AcceptVisitor(*this);
-	}
+		ExpressionReturn b = Handler_LogicalXorExpression(nullptr, *item.rhs);
 
-	return 0;
+		if (a.value.IsLiteral() && b.value.IsLiteral())
+		{
+			return LiteralBinaryOp(a.value, GLSL::BinaryOperator::logical_or, b.value);
+		}
+		else
+		{
+			if (destination == nullptr)
+			{
+				GLSL::Lvalue lhs = GenerateTemporary(resultType);
+
+				CurrentContext().parent->children.emplace_back(
+					std::make_shared<GLSL::AST_BinaryOperation>
+					(
+						lhs,
+						a.value,
+						GLSL::BinaryOperator::logical_or,
+						b.value
+						)
+				);
+
+				return { lhs, resultType };
+			}
+			else
+			{
+				CurrentContext().parent->children.emplace_back(
+					std::make_shared<GLSL::AST_BinaryOperation>
+					(
+						*destination,
+						a.value,
+						GLSL::BinaryOperator::logical_or,
+						b.value
+						)
+				);
+
+				return { *destination, resultType };
+			}
+		}
+	}
+	
+	return Handler_LogicalXorExpression(destination, *item.rhs);	
 }
 
-AST_Generator::return_type AST_Generator::V_LogicalXorExpression(LogicalXorExpression& item)
+ExpressionReturn AST_Generator::Handler_LogicalXorExpression(GLSL::Lvalue* destination, LogicalXorExpression& item)
 {
 	printf(__FUNCTION__);
 	printf("\n");
@@ -619,23 +575,17 @@ AST_Generator::return_type AST_Generator::V_LogicalXorExpression(LogicalXorExpre
 
 	if (item.full)
 	{
-		lhsStack.push_back(nullptr);
+		ExpressionReturn a = Handler_LogicalXorExpression(nullptr, *item.lhs);
 
-		item.lhs->AcceptVisitor(*this);
-		GLSL::Rvalue a = returnValue.value;
+		ExpressionReturn b = Handler_LogicalAndExpression(nullptr, *item.rhs);
 
-		item.rhs->AcceptVisitor(*this);
-		GLSL::Rvalue b = returnValue.value;
-
-		lhsStack.pop_back();
-
-		if (a.IsLiteral() && b.IsLiteral())
+		if (a.value.IsLiteral() && b.value.IsLiteral())
 		{
-			returnValue = LiteralBinaryOp(a, GLSL::BinaryOperator::logical_xor, b);
+			return LiteralBinaryOp(a.value, GLSL::BinaryOperator::logical_xor, b.value);
 		}
 		else
 		{
-			if (lhsStack.back() == nullptr)
+			if (destination == nullptr)
 			{
 				GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
@@ -643,43 +593,35 @@ AST_Generator::return_type AST_Generator::V_LogicalXorExpression(LogicalXorExpre
 					std::make_shared<GLSL::AST_BinaryOperation>
 					(
 						lhs,
-						a,
+						a.value,
 						GLSL::BinaryOperator::logical_xor,
-						b
+						b.value
 						)
 				);
 
-				returnValue.value = lhs;
+				return { lhs, resultType };
 			}
 			else
 			{
 				CurrentContext().parent->children.emplace_back(
 					std::make_shared<GLSL::AST_BinaryOperation>
 					(
-						*lhsStack.back(),
-						a,
+						*destination,
+						a.value,
 						GLSL::BinaryOperator::logical_xor,
-						b
+						b.value
 						)
 				);
 
-				returnValue.value = *lhsStack.back();
+				return { *destination, resultType };
 			}
-
-			returnValue.valueType = resultType;
 		}
-
-		return 0;
-	}
-	else
-	{
-		item.rhs->AcceptVisitor(*this);
 	}
 
-	return 0;
+	return Handler_LogicalAndExpression(destination, *item.rhs);
 }
 
-AST_Generator::return_type AST_Generator::V_LogicalAndExpression(LogicalAndExpression& item)
+ExpressionReturn AST_Generator::Handler_LogicalAndExpression(GLSL::Lvalue* destination, LogicalAndExpression& item)
 {
 	printf(__FUNCTION__);
 	printf("\n");
@@ -688,23 +630,17 @@ AST_Generator::return_type AST_Generator::V_LogicalAndExpression(LogicalAndExpre
 
 	if (item.full)
 	{
-		lhsStack.push_back(nullptr);
+		ExpressionReturn a = Handler_LogicalAndExpression(nullptr, *item.lhs);
 
-		item.lhs->AcceptVisitor(*this);
-		GLSL::Rvalue a = returnValue.value;
+		ExpressionReturn b = Handler_OrExpression(nullptr, *item.rhs);
 
-		item.rhs->AcceptVisitor(*this);
-		GLSL::Rvalue b = returnValue.value;
-
-		lhsStack.pop_back();
-
-		if (a.IsLiteral() && b.IsLiteral())
+		if (a.value.IsLiteral() && b.value.IsLiteral())
 		{
-			returnValue = LiteralBinaryOp(a, GLSL::BinaryOperator::logical_and, b);
+			return LiteralBinaryOp(a.value, GLSL::BinaryOperator::logical_and, b.value);
 		}
 		else
 		{
-			if (lhsStack.back() == nullptr)
+			if (destination == nullptr)
 			{
 				GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
@@ -712,247 +648,195 @@ AST_Generator::return_type AST_Generator::V_LogicalAndExpression(LogicalAndExpre
 					std::make_shared<GLSL::AST_BinaryOperation>
 					(
 						lhs,
-						a,
+						a.value,
 						GLSL::BinaryOperator::logical_and,
-						b
+						b.value
 						)
 				);
 
-				returnValue.value = lhs;
+				return { lhs, resultType };
 			}
 			else
 			{
 				CurrentContext().parent->children.emplace_back(
 					std::make_shared<GLSL::AST_BinaryOperation>
 					(
-						*lhsStack.back(),
-						a,
+						*destination,
+						a.value,
 						GLSL::BinaryOperator::logical_and,
-						b
+						b.value
 						)
 				);
 
-				returnValue.value = *lhsStack.back();
+				return { *destination, resultType };
 			}
-
-			returnValue.valueType = resultType;
 		}
-
-		return 0;
-	}
-	else
-	{
-		item.rhs->AcceptVisitor(*this);
 	}
 
-	return 0;
+	return Handler_OrExpression(destination, *item.rhs);
+
 }
 
-AST_Generator::return_type AST_Generator::V_OrExpression(OrExpression& item)
+ExpressionReturn AST_Generator::Handler_OrExpression(GLSL::Lvalue* destination, OrExpression& item)
 {
 	printf(__FUNCTION__);
 	printf("\n");
 
 	if (item.full)
 	{
-		lhsStack.push_back(nullptr);
+		ExpressionReturn a = Handler_OrExpression(nullptr, *item.lhs);
 
-		item.lhs->AcceptVisitor(*this);
-		GLSL::Rvalue a = returnValue.value;
-		GLSL::AST_Datatype resultType = returnValue.valueType;
+		ExpressionReturn b = Handler_XorExpression(nullptr, *item.rhs);
 
-		item.rhs->AcceptVisitor(*this);
-		GLSL::Rvalue b = returnValue.value;
-
-		lhsStack.pop_back();
-
-		if (a.IsLiteral() && b.IsLiteral())
+		if (a.value.IsLiteral() && b.value.IsLiteral())
 		{
-			returnValue = LiteralBinaryOp(a, GLSL::BinaryOperator::bitwise_or, b);
+			return LiteralBinaryOp(a.value, GLSL::BinaryOperator::bitwise_or, b.value);
 		}
 		else
 		{
-			if (lhsStack.back() == nullptr)
+			if (destination == nullptr)
 			{
-				GLSL::Lvalue lhs = GenerateTemporary(resultType);
+				GLSL::Lvalue lhs = GenerateTemporary(a.valueType);
 
 				CurrentContext().parent->children.emplace_back(
 					std::make_shared<GLSL::AST_BinaryOperation>
 					(
 						lhs,
-						a,
+						a.value,
 						GLSL::BinaryOperator::bitwise_or,
-						b
+						b.value
 						)
 				);
 
-				returnValue.value = lhs;
+				return { lhs, a.valueType };
 			}
 			else
 			{
 				CurrentContext().parent->children.emplace_back(
 					std::make_shared<GLSL::AST_BinaryOperation>
 					(
-						*lhsStack.back(),
-						a,
+						*destination,
+						a.value,
 						GLSL::BinaryOperator::bitwise_or,
-						b
+						b.value
 						)
 				);
 
-				returnValue.value = *lhsStack.back();
+				return { *destination, a.valueType };
 			}
-
-			returnValue.valueType = resultType;
 		}
-
-		return 0;
 	}
-	else
-	{
-		item.rhs->AcceptVisitor(*this);
-	}
-
-	return 0;
+		
+	return Handler_XorExpression(destination, *item.rhs);
 }
 
-AST_Generator::return_type AST_Generator::V_XorExpression(XorExpression& item)
+ExpressionReturn AST_Generator::Handler_XorExpression(GLSL::Lvalue* destination, XorExpression& item)
 {
 	printf(__FUNCTION__);
 	printf("\n");
 
 	if (item.full)
 	{
-		lhsStack.push_back(nullptr);
+		ExpressionReturn a = Handler_XorExpression(nullptr, *item.lhs);
 
-		item.lhs->AcceptVisitor(*this);
-		GLSL::Rvalue a = returnValue.value;
-		GLSL::AST_Datatype resultType = returnValue.valueType;
+		ExpressionReturn b = Handler_AndExpression(nullptr, *item.rhs);
 
-		item.rhs->AcceptVisitor(*this);
-		GLSL::Rvalue b = returnValue.value;
-
-		lhsStack.pop_back();
-
-		if (a.IsLiteral() && b.IsLiteral())
+		if (a.value.IsLiteral() && b.value.IsLiteral())
 		{
-			returnValue = LiteralBinaryOp(a, GLSL::BinaryOperator::bitwise_xor, b);
+			return LiteralBinaryOp(a.value, GLSL::BinaryOperator::bitwise_xor, b.value);
 		}
 		else
 		{
-			if (lhsStack.back() == nullptr)
+			if (destination == nullptr)
 			{
-				GLSL::Lvalue lhs = GenerateTemporary(resultType);
+				GLSL::Lvalue lhs = GenerateTemporary(a.valueType);
 
 				CurrentContext().parent->children.emplace_back(
 					std::make_shared<GLSL::AST_BinaryOperation>
 					(
 						lhs,
-						a,
+						a.value,
 						GLSL::BinaryOperator::bitwise_xor,
-						b
+						b.value
 						)
 				);
 
-				returnValue.value = lhs;
+				return { lhs, a.valueType };
 			}
 			else
 			{
 				CurrentContext().parent->children.emplace_back(
 					std::make_shared<GLSL::AST_BinaryOperation>
 					(
-						*lhsStack.back(),
-						a,
+						*destination,
+						a.value,
 						GLSL::BinaryOperator::bitwise_xor,
-						b
+						b.value
 						)
 				);
 
-				returnValue.value = *lhsStack.back();
+				return { *destination, a.valueType };
 			}
-
-			returnValue.valueType = resultType;
 		}
-
-		return 0;
 	}
-	else
-	{
-		item.rhs->AcceptVisitor(*this);
-	}
-
-	return 0;
+	
+	return Handler_AndExpression(destination,*item.rhs);	
 }
 
-AST_Generator::return_type AST_Generator::V_AndExpression(AndExpression& item)
+ExpressionReturn AST_Generator::Handler_AndExpression(GLSL::Lvalue* destination, AndExpression& item)
 {
 	printf(__FUNCTION__);
 	printf("\n");
 
 	if (item.full)
 	{
-		lhsStack.push_back(nullptr);
+		ExpressionReturn a = Handler_AndExpression(nullptr, *item.lhs);
 
-		item.lhs->AcceptVisitor(*this);
-		GLSL::Rvalue a = returnValue.value;
-		GLSL::AST_Datatype resultType = returnValue.valueType;
+		ExpressionReturn b = Handler_EqualityExpression(nullptr, *item.rhs);
 
-		item.rhs->AcceptVisitor(*this);
-		GLSL::Rvalue b = returnValue.value;
-
-		lhsStack.pop_back();
-
-		if (a.IsLiteral() && b.IsLiteral())
+		if (a.value.IsLiteral() && b.value.IsLiteral())
 		{
-			returnValue = LiteralBinaryOp(a, GLSL::BinaryOperator::bitwise_and, b);
+			return LiteralBinaryOp(a.value, GLSL::BinaryOperator::bitwise_and, b.value);
 		}
 		else
 		{
-			if (lhsStack.back() == nullptr)
+			if (destination == nullptr)
 			{
-				GLSL::Lvalue lhs = GenerateTemporary(resultType);
+				GLSL::Lvalue lhs = GenerateTemporary(a.valueType);
 
 				CurrentContext().parent->children.emplace_back(
 					std::make_shared<GLSL::AST_BinaryOperation>
 					(
 						lhs,
-						a,
+						a.value,
 						GLSL::BinaryOperator::bitwise_and,
-						b
+						b.value
 						)
 				);
 
-				returnValue.value = lhs;
+				return { lhs, a.valueType };
 			}
 			else
 			{
 				CurrentContext().parent->children.emplace_back(
 					std::make_shared<GLSL::AST_BinaryOperation>
 					(
-						*lhsStack.back(),
-						a,
+						*destination,
+						a.value,
 						GLSL::BinaryOperator::bitwise_and,
-						b
+						b.value
 						)
 				);
 
-				returnValue.value = *lhsStack.back();
+				return { *destination, a.valueType };
 			}
-
-			returnValue.valueType = resultType;
 		}
-
-		return 0;
 	}
-	else
-	{
-		item.rhs->AcceptVisitor(*this);
-	}
-
-	return 0;
+	
+	return Handler_EqualityExpression(destination, *item.rhs);
 }
 
-AST_Generator::return_type AST_Generator::V_EqualityExpression(EqualityExpression& item)
+ExpressionReturn AST_Generator::Handler_EqualityExpression(GLSL::Lvalue* destination, EqualityExpression& item)
 {
 	printf(__FUNCTION__);
 	printf("\n");
@@ -961,15 +845,9 @@ AST_Generator::return_type AST_Generator::V_EqualityExpression(EqualityExpressio
 
 	if (item.operation != EqualityOp::unassigned)
 	{
-		lhsStack.push_back(nullptr);
+		ExpressionReturn a = Handler_EqualityExpression(nullptr, *item.lhs);
 
-		item.lhs->AcceptVisitor(*this);
-		GLSL::Rvalue a = returnValue.value;		
-
-		item.rhs->AcceptVisitor(*this);
-		GLSL::Rvalue b = returnValue.value;
-
-		lhsStack.pop_back();
+		ExpressionReturn b = Handler_RelationalExpression(nullptr, *item.rhs);
 
 		GLSL::BinaryOperator::value binaryOp;
 
@@ -983,13 +861,13 @@ AST_Generator::return_type AST_Generator::V_EqualityExpression(EqualityExpressio
 			break;
 		}
 
-		if (a.IsLiteral() && b.IsLiteral())
+		if (a.value.IsLiteral() && b.value.IsLiteral())
 		{
-			returnValue = LiteralBinaryOp(a, binaryOp, b);
+			return LiteralBinaryOp(a.value, binaryOp, b.value);
 		}
 		else
 		{
-			if (lhsStack.back() == nullptr)
+			if (destination == nullptr)
 			{
 				GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
@@ -997,43 +875,35 @@ AST_Generator::return_type AST_Generator::V_EqualityExpression(EqualityExpressio
 					std::make_shared<GLSL::AST_BinaryOperation>
 					(
 						lhs,
-						a,
+						a.value,
 						binaryOp,
-						b
+						b.value
 						)
 				);
 
-				returnValue.value = lhs;
+				return { lhs, resultType };
 			}
 			else
 			{
 				CurrentContext().parent->children.emplace_back(
 					std::make_shared<GLSL::AST_BinaryOperation>
 					(
-						*lhsStack.back(),
-						a,
+						*destination,
+						a.value,
 						binaryOp,
-						b
+						b.value
 						)
 				);
 
-				returnValue.value = *lhsStack.back();
+				return { *destination, resultType };
 			}
-
-			returnValue.valueType = resultType;
 		}
-
-		return 0;
 	}
-	else
-	{
-		item.rhs->AcceptVisitor(*this);
-	}
-
-	return 0;
+	
+	return Handler_RelationalExpression(destination,*item.rhs);
 }
 
-AST_Generator::return_type AST_Generator::V_RelationalExpression(RelationalExpression& item)
+ExpressionReturn AST_Generator::Handler_RelationalExpression(GLSL::Lvalue* destination, RelationalExpression& item)
 {
 	printf(__FUNCTION__);
 	printf("\n");
@@ -1042,15 +912,9 @@ AST_Generator::return_type AST_Generator::V_RelationalExpression(RelationalExpre
 
 	if (item.operation != RelativeOp::unassigned)
 	{
-		lhsStack.push_back(nullptr);
+		ExpressionReturn a = Handler_RelationalExpression(nullptr, *item.lhs);
 
-		item.lhs->AcceptVisitor(*this);
-		GLSL::Rvalue a = returnValue.value;
-
-		item.rhs->AcceptVisitor(*this);
-		GLSL::Rvalue b = returnValue.value;
-
-		lhsStack.pop_back();
+		ExpressionReturn b = Handler_ShiftExpression(nullptr, *item.rhs);
 
 		GLSL::BinaryOperator::value binaryOp;
 
@@ -1070,13 +934,13 @@ AST_Generator::return_type AST_Generator::V_RelationalExpression(RelationalExpre
 			break;
 		}
 
-		if (a.IsLiteral() && b.IsLiteral())
+		if (a.value.IsLiteral() && b.value.IsLiteral())
 		{
-			returnValue = LiteralBinaryOp(a, binaryOp, b);
+			return LiteralBinaryOp(a.value, binaryOp, b.value);
 		}
 		else
 		{
-			if (lhsStack.back() == nullptr)
+			if (destination == nullptr)
 			{
 				GLSL::Lvalue lhs = GenerateTemporary(resultType);
 
@@ -1084,60 +948,44 @@ AST_Generator::return_type AST_Generator::V_RelationalExpression(RelationalExpre
 					std::make_shared<GLSL::AST_BinaryOperation>
 					(
 						lhs,
-						a,
+						a.value,
 						binaryOp,
-						b
+						b.value
 						)
 				);
 
-				returnValue.value = lhs;
+				return { lhs, resultType };
 			}
 			else
 			{
 				CurrentContext().parent->children.emplace_back(
 					std::make_shared<GLSL::AST_BinaryOperation>
 					(
-						*lhsStack.back(),
-						a,
+						*destination,
+						a.value,
 						binaryOp,
-						b
+						b.value
 						)
 				);
 
-				returnValue.value = *lhsStack.back();
+				return { *destination, resultType };
 			}
-
-			returnValue.valueType = resultType;
 		}
-
-		return 0;
 	}
-	else
-	{
-		item.rhs->AcceptVisitor(*this);
-	}
-	
 
-	return 0;
+	return Handler_ShiftExpression(destination, *item.rhs);
 }
 
-AST_Generator::return_type AST_Generator::V_ShiftExpression(ShiftExpression& item)
+ExpressionReturn AST_Generator::Handler_ShiftExpression(GLSL::Lvalue* destination, ShiftExpression& item)
 {
 	printf(__FUNCTION__);
 	printf("\n");
 
 	if (item.operation != ShiftOp::unassigned)
 	{
-		lhsStack.push_back(nullptr);
+		ExpressionReturn a = Handler_ShiftExpression(nullptr, *item.lhs);
 
-		item.lhs->AcceptVisitor(*this);
-		GLSL::Rvalue a = returnValue.value;
-		GLSL::AST_Datatype resultType = returnValue.valueType;
-
-		item.rhs->AcceptVisitor(*this);
-		GLSL::Rvalue b = returnValue.value;
-
-		lhsStack.pop_back();
+		ExpressionReturn b = Handler_AdditiveExpression(nullptr, *item.rhs);
 
 		GLSL::BinaryOperator::value binaryOp;
 
@@ -1151,73 +999,58 @@ AST_Generator::return_type AST_Generator::V_ShiftExpression(ShiftExpression& ite
 			break;
 		}
 
-		if (a.IsLiteral() && b.IsLiteral())
+		if (a.value.IsLiteral() && b.value.IsLiteral())
 		{
-			returnValue = LiteralBinaryOp(a, binaryOp, b);
+			return LiteralBinaryOp(a.value, binaryOp, b.value);
 		}
 		else
 		{
-			if (lhsStack.back() == nullptr)
+			if (destination == nullptr)
 			{
-				GLSL::Lvalue lhs = GenerateTemporary(resultType);
+				GLSL::Lvalue lhs = GenerateTemporary(a.valueType);
 
 				CurrentContext().parent->children.emplace_back(
 					std::make_shared<GLSL::AST_BinaryOperation>
 					(
 						lhs,
-						a,
+						a.value,
 						binaryOp,
-						b
+						b.value
 						)
 				);
 
-				returnValue.value = lhs;
+				return { lhs, a.valueType };
 			}
 			else
 			{
 				CurrentContext().parent->children.emplace_back(
 					std::make_shared<GLSL::AST_BinaryOperation>
 					(
-						*lhsStack.back(),
-						a,
+						*destination,
+						a.value,
 						binaryOp,
-						b
+						b.value
 						)
 				);
 
-				returnValue.value = *lhsStack.back();
+				return { *destination, a.valueType };
 			}
-
-			returnValue.valueType = resultType;
 		}
-
-		return 0;
-	}
-	else
-	{
-		item.rhs->AcceptVisitor(*this);
 	}
 
-	return 0;
+	return Handler_AdditiveExpression(destination, *item.rhs);
 }
 
-AST_Generator::return_type AST_Generator::V_AdditiveExpression(AdditiveExpression& item)
+ExpressionReturn AST_Generator::Handler_AdditiveExpression(GLSL::Lvalue* destination, AdditiveExpression& item)
 {
 	printf(__FUNCTION__);
 	printf("\n");
 
 	if (item.operation != AdditiveOp::unassigned)
 	{
-		lhsStack.push_back(nullptr);
+		ExpressionReturn a = Handler_AdditiveExpression(nullptr, *item.lhs);
 
-		item.lhs->AcceptVisitor(*this);
-		GLSL::Rvalue a = returnValue.value;
-		GLSL::AST_Datatype resultType = returnValue.valueType;
-
-		item.rhs->AcceptVisitor(*this);
-		GLSL::Rvalue b = returnValue.value;
-
-		lhsStack.pop_back();
+		ExpressionReturn b = Handler_MultiplicativeExpression(nullptr, *item.rhs);
 
 		GLSL::BinaryOperator::value binaryOp;
 
@@ -1231,73 +1064,58 @@ AST_Generator::return_type AST_Generator::V_AdditiveExpression(AdditiveExpressio
 			break;
 		}
 
-		if (a.IsLiteral() && b.IsLiteral())
+		if (a.value.IsLiteral() && b.value.IsLiteral())
 		{
-			returnValue = LiteralBinaryOp(a, binaryOp, b);
+			return LiteralBinaryOp(a.value, binaryOp, b.value);
 		}
 		else
 		{
-			if (lhsStack.back() == nullptr)
+			if (destination == nullptr)
 			{
-				GLSL::Lvalue lhs = GenerateTemporary(resultType);
+				GLSL::Lvalue lhs = GenerateTemporary(a.valueType);
 
 				CurrentContext().parent->children.emplace_back(
 					std::make_shared<GLSL::AST_BinaryOperation>
 					(
 						lhs,
-						a,
+						a.value,
 						binaryOp,
-						b
+						b.value
 						)
 				);
 
-				returnValue.value = lhs;
+				return { lhs, a.valueType };
 			}
 			else
 			{
 				CurrentContext().parent->children.emplace_back(
 					std::make_shared<GLSL::AST_BinaryOperation>
 					(
-						*lhsStack.back(),
-						a,
+						*destination,
+						a.value,
 						binaryOp,
-						b
+						b.value
 						)
 				);
 
-				returnValue.value = *lhsStack.back();
+				return { *destination, a.valueType };
 			}
-			
-			returnValue.valueType = resultType;
 		}
-
-		return 0;
-	}
-	else
-	{
-		item.rhs->AcceptVisitor(*this);
 	}
 
-	return 0;
+	return Handler_MultiplicativeExpression(destination,*item.rhs);
 }
 
-AST_Generator::return_type AST_Generator::V_MultiplicativeExpression(MultiplicativeExpression& item)
+ExpressionReturn AST_Generator::Handler_MultiplicativeExpression(GLSL::Lvalue* destination, MultiplicativeExpression& item)
 {
 	printf(__FUNCTION__);
 	printf("\n");
 
 	if (item.operation != MultiplicativeOp::unassigned)
 	{
-		lhsStack.push_back(nullptr);
+		ExpressionReturn a = Handler_MultiplicativeExpression(nullptr, *item.lhs);
 
-		item.lhs->AcceptVisitor(*this);
-		GLSL::Rvalue a = returnValue.value;
-		GLSL::AST_Datatype resultType = returnValue.valueType;
-
-		item.rhs->AcceptVisitor(*this);
-		GLSL::Rvalue b = returnValue.value;
-
-		lhsStack.pop_back();
+		ExpressionReturn b = Handler_UnaryExpression(nullptr, *item.rhs);
 
 		GLSL::BinaryOperator::value binaryOp;
 
@@ -1314,70 +1132,56 @@ AST_Generator::return_type AST_Generator::V_MultiplicativeExpression(Multiplicat
 			break;
 		}
 
-		if (a.IsLiteral() && b.IsLiteral())
+		if (a.value.IsLiteral() && b.value.IsLiteral())
 		{
-			returnValue = LiteralBinaryOp(a, binaryOp,b);
+			return LiteralBinaryOp(a.value, binaryOp,b.value);
 		}
 		else
 		{
-			if (lhsStack.back() == nullptr)
+			if (destination == nullptr)
 			{
-				GLSL::Lvalue lhs = GenerateTemporary(resultType);
+				GLSL::Lvalue lhs = GenerateTemporary(a.valueType);
 
 				CurrentContext().parent->children.emplace_back(
 					std::make_shared<GLSL::AST_BinaryOperation>
 					(
 						lhs,
-						a,
+						a.value,
 						binaryOp,
-						b
+						b.value
 						)
 				);
 
-				returnValue.value = lhs;
+				return { lhs, a.valueType };
 			}
 			else
 			{
 				CurrentContext().parent->children.emplace_back(
 					std::make_shared<GLSL::AST_BinaryOperation>
 					(
-						*lhsStack.back(),
-						a,
+						*destination,
+						a.value,
 						binaryOp,
-						b
+						b.value
 						)
 				);
 
-				returnValue.value = *lhsStack.back();
+				return { *destination, a.valueType };
 			}
-
-			returnValue.valueType = resultType;
 		}
-		return 0;
 	}
-	else
-	{
-		item.rhs->AcceptVisitor(*this);
-	}
-
-	return 0;
+	
+	return Handler_UnaryExpression(destination,*item.rhs);
 }
 
-AST_Generator::return_type AST_Generator::V_UnaryExpression(UnaryExpression& item)
+ExpressionReturn AST_Generator::Handler_UnaryExpression(GLSL::Lvalue* destination, UnaryExpression& item)
 {
 	printf(__FUNCTION__);
 	printf("\n");
 
 	if (item.unaryType != UnaryExpressionType::postfix_expression)
 	{
-		lhsStack.push_back(nullptr);
-
-		item.unaryExpression->AcceptVisitor(*this);
-
-		lhsStack.pop_back();
-
-		GLSL::Rvalue a = returnValue.value;
-		GLSL::AST_Datatype resultType = returnValue.valueType;
+		ExpressionReturn a = Handler_UnaryExpression(nullptr, *item.unaryExpression);
 
 		GLSL::UnaryOperation::value op;
 
@@ -1385,16 +1189,15 @@ AST_Generator::return_type AST_Generator::V_UnaryExpression(UnaryExpression& ite
 		{
 		case UnaryExpressionType::inc_op:
 
-			if (a.IsLiteral())
+			if (a.value.IsLiteral())
 			{
-				a.PreIncr();
+				a.value.PreIncr();
 
-				returnValue.value = a;
-				returnValue.valueType = resultType;
+				return a;
 			}
 			else
 			{
-				GLSL::Lvalue lhs = a.ToLvalue();
+				GLSL::Lvalue lhs = a.value.ToLvalue();
 
 				CurrentContext().parent->children.emplace_back(
 					std::make_shared<GLSL::AST_IncDecOperation>(
@@ -1402,26 +1205,19 @@ AST_Generator::return_type AST_Generator::V_UnaryExpression(UnaryExpression& ite
 						)
 				);
 
-				returnValue.value = lhs;
-				returnValue.valueType = resultType;
+				return { lhs, a.valueType };
 			}		
-
-			return 0;
-
-			break;
 		case UnaryExpressionType::dec_op:
 
-			if (a.IsLiteral())
+			if (a.value.IsLiteral())
 			{
-				a.PreDec();
+				a.value.PreDec();
 
-
-				returnValue.value = a;
-				returnValue.valueType = resultType;
+				return a;
 			}
 			else
 			{
-				GLSL::Lvalue lhs = a.ToLvalue();
+				GLSL::Lvalue lhs = a.value.ToLvalue();
 
 				CurrentContext().parent->children.emplace_back(
 					std::make_shared<GLSL::AST_IncDecOperation>(
@@ -1429,13 +1225,8 @@ AST_Generator::return_type AST_Generator::V_UnaryExpression(UnaryExpression& ite
 						)
 				);
 
-				returnValue.value = lhs;
-				returnValue.valueType = resultType;
+				return { lhs, a.valueType };
 			}
-
-			return 0;
-
-			break;
 		case UnaryExpressionType::logical_not:
 			op = GLSL::UnaryOperation::logical_not;
 			break;
@@ -1447,39 +1238,31 @@ AST_Generator::return_type AST_Generator::V_UnaryExpression(UnaryExpression& ite
 			break;
 		}
 
-		if (a.IsLiteral())
+		if (a.value.IsLiteral())
 		{
-			a.UnaryOp(op);
+			a.value.UnaryOp(op);
 
-			returnValue.value = a;
-			returnValue.valueType = resultType;
+			return a;
 		}
 		else
 		{
-			GLSL::Lvalue lhs = GenerateTemporary(resultType);
+			GLSL::Lvalue lhs = GenerateTemporary(a.valueType);
 
 			CurrentContext().parent->children.emplace_back(
 				std::make_shared<GLSL::AST_UnaryOperation>(
-					lhs, op, a
+					lhs, op, a.value
 					)
 			);
 
-			returnValue.value = lhs;
-			returnValue.valueType = resultType;
+			return { lhs, a.valueType };
 		}
 
-		
-
-	}
-	else
-	{
-		item.postfixExpression->AcceptVisitor(*this);
 	}
 
-	return 0;
+	return Handler_PostfixExpression(destination,*item.postfixExpression);
 }
 
-AST_Generator::return_type AST_Generator::V_PostfixExpression(PostfixExpression& item)
+ExpressionReturn AST_Generator::Handler_PostfixExpression(GLSL::Lvalue* destination, PostfixExpression& item)
 {
 	printf(__FUNCTION__);
 	printf("\n");
@@ -1487,31 +1270,26 @@ AST_Generator::return_type AST_Generator::V_PostfixExpression(PostfixExpression&
 	switch (item.postfixType)
 	{
 	case PostfixType::primary_expression:
-		item.primaryExpression->AcceptVisitor(*this);
-		return 0;
+		return Handler_PrimaryExpression(destination, *item.primaryExpression);
 	case PostfixType::array_index:
-		return 0;
+		return ExpressionReturn();
 	case PostfixType::field_select:
-		return 0;
+		return ExpressionReturn();
 	case PostfixType::function_call:
-		item.functionCall->AcceptVisitor(*this);
-		return 0;
+		return Handler_FunctionCall(destination, *item.functionCall);
 	case PostfixType::dec_op:
 		{
-			item.postfixExpression->AcceptVisitor(*this);
+			ExpressionReturn a = Handler_PostfixExpression(nullptr, *item.postfixExpression);
 
-			GLSL::Rvalue input = returnValue.value;
-			GLSL::AST_Datatype inputType = returnValue.valueType;
-
-			GLSL::Lvalue lhs = GenerateTemporary(inputType);
+			GLSL::Lvalue lhs = GenerateTemporary(a.valueType);
 
 			CurrentContext().parent->children.emplace_back(
 				std::make_shared<GLSL::AST_AssignmentOperation>(
-					lhs, input
+					lhs, a.value
 					)
 			);
 
-			GLSL::Lvalue inputLhs = input.ToLvalue();
+			GLSL::Lvalue inputLhs = a.value.ToLvalue();
 
 			CurrentContext().parent->children.emplace_back(
 				std::make_shared<GLSL::AST_IncDecOperation>(
@@ -1519,27 +1297,21 @@ AST_Generator::return_type AST_Generator::V_PostfixExpression(PostfixExpression&
 					)
 			);
 
-			returnValue.value = lhs;
-			returnValue.valueType = inputType;
-
-			return 0;
+			return { lhs, a.valueType };
 		}	
 	case PostfixType::inc_op:
 		{
-			item.postfixExpression->AcceptVisitor(*this);
+			ExpressionReturn a = Handler_PostfixExpression(nullptr, *item.postfixExpression);
 
-			GLSL::Rvalue input = returnValue.value;
-			GLSL::AST_Datatype inputType = returnValue.valueType;
-
-			GLSL::Lvalue lhs = GenerateTemporary(inputType);
+			GLSL::Lvalue lhs = GenerateTemporary(a.valueType);
 
 			CurrentContext().parent->children.emplace_back(
 				std::make_shared<GLSL::AST_AssignmentOperation>(
-					lhs, input
+					lhs, a.value
 					)
 			);
 
-			GLSL::Lvalue inputLhs = input.ToLvalue();
+			GLSL::Lvalue inputLhs = a.value.ToLvalue();
 
 			CurrentContext().parent->children.emplace_back(
 				std::make_shared<GLSL::AST_IncDecOperation>(
@@ -1547,17 +1319,14 @@ AST_Generator::return_type AST_Generator::V_PostfixExpression(PostfixExpression&
 					)
 			);
 
-			returnValue.value = lhs;
-			returnValue.valueType = inputType;
-
-			return 0;
+			return { lhs, a.valueType };
 		}
 	}
 
-	return 0;
+	return ExpressionReturn();
 }
 
-AST_Generator::return_type AST_Generator::V_PrimaryExpression(PrimaryExpression& item)
+ExpressionReturn AST_Generator::Handler_PrimaryExpression(GLSL::Lvalue* destination, PrimaryExpression& item)
 {
 	printf(__FUNCTION__);
 	printf("\n");
@@ -1565,34 +1334,24 @@ AST_Generator::return_type AST_Generator::V_PrimaryExpression(PrimaryExpression&
 	switch (item.valuetype)
 	{
 	case ExpressionType::identifier:
-		returnValue.value = { *item.identifier.Get()->Name() };
-		returnValue.valueType = GetDatatype(item.identifier);
-		break;
+		printf("identifier: %s\n", item.identifier.Get()->Name()->ToCString());
+		return { GLSL::Rvalue(*item.identifier.Get()->Name()) , GetDatatype(item.identifier) };
 	case ExpressionType::bool_const:
-		returnValue.value = { item.boolValue };
-		returnValue.valueType = GLSL::AST_Datatype(GLSL::BasicType::ts_bool);
-		break;
+		return { item.boolValue , GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
 	case ExpressionType::int_const:
-		returnValue.value = { item.intValue };
-		returnValue.valueType = GLSL::AST_Datatype(GLSL::BasicType::ts_int);
-		break;
+		return { item.intValue , GLSL::AST_Datatype(GLSL::BasicType::ts_int) };
 	case ExpressionType::uint_const:
-		returnValue.value = { item.uintValue };
-		returnValue.valueType = GLSL::AST_Datatype(GLSL::BasicType::ts_uint);
-		break;
+		return { item.uintValue, GLSL::AST_Datatype(GLSL::BasicType::ts_uint) };
 	case ExpressionType::float_const:
-		returnValue.value = { item.floatValue };
-		returnValue.valueType = GLSL::AST_Datatype(GLSL::BasicType::ts_float);
-		break;
+		return { item.floatValue, GLSL::AST_Datatype(GLSL::BasicType::ts_float) };
 	case ExpressionType::expression:
-		item.expression->AcceptVisitor(*this);
-		break;
+		return Handler_Expression(nullptr, *item.expression);
 	}
 
-	return 0;
+	return ExpressionReturn();
 }
 
-GeneratorReturn AST_Generator::LiteralBinaryOp(GLSL::Rvalue& a, GLSL::BinaryOperator::value op, GLSL::Rvalue& b)
+ExpressionReturn AST_Generator::LiteralBinaryOp(GLSL::Rvalue& a, GLSL::BinaryOperator::value op, GLSL::Rvalue& b)
 {
 	printf(__FUNCTION__);
 	printf("\n");
@@ -1647,7 +1406,7 @@ GeneratorReturn AST_Generator::LiteralBinaryOp(GLSL::Rvalue& a, GLSL::BinaryOper
 	return { GLSL::Rvalue(),GLSL::AST_Datatype() };
 }
 
-GeneratorReturn AST_Generator::LiteralAdd(GLSL::Rvalue& a, GLSL::Rvalue& b)
+ExpressionReturn AST_Generator::LiteralAdd(GLSL::Rvalue& a, GLSL::Rvalue& b)
 {
 	if (a.valueType == b.valueType)
 	{
@@ -1742,7 +1501,7 @@ GeneratorReturn AST_Generator::LiteralAdd(GLSL::Rvalue& a, GLSL::Rvalue& b)
 	return { GLSL::Rvalue(),GLSL::AST_Datatype() };
 }
 
-GeneratorReturn AST_Generator::LiteralSub(GLSL::Rvalue& a, GLSL::Rvalue& b)
+ExpressionReturn AST_Generator::LiteralSub(GLSL::Rvalue& a, GLSL::Rvalue& b)
 {
 	if (a.valueType == b.valueType)
 	{
@@ -1837,7 +1596,7 @@ GeneratorReturn AST_Generator::LiteralSub(GLSL::Rvalue& a, GLSL::Rvalue& b)
 	return { GLSL::Rvalue(),GLSL::AST_Datatype() };
 }
 
-GeneratorReturn AST_Generator::LiteralMul(GLSL::Rvalue& a, GLSL::Rvalue& b)
+ExpressionReturn AST_Generator::LiteralMul(GLSL::Rvalue& a, GLSL::Rvalue& b)
 {
 	printf(__FUNCTION__);
 	printf("\n");
@@ -1935,7 +1694,7 @@ GeneratorReturn AST_Generator::LiteralMul(GLSL::Rvalue& a, GLSL::Rvalue& b)
 	return { GLSL::Rvalue(),GLSL::AST_Datatype() };
 }
 
-GeneratorReturn AST_Generator::LiteralDiv(GLSL::Rvalue& a, GLSL::Rvalue& b)
+ExpressionReturn AST_Generator::LiteralDiv(GLSL::Rvalue& a, GLSL::Rvalue& b)
 {
 	printf(__FUNCTION__);
 	printf("\n");
@@ -2038,7 +1797,7 @@ GeneratorReturn AST_Generator::LiteralDiv(GLSL::Rvalue& a, GLSL::Rvalue& b)
 	return { GLSL::Rvalue(),GLSL::AST_Datatype() };
 }
 
-GeneratorReturn AST_Generator::LiteralMod(GLSL::Rvalue& a, GLSL::Rvalue& b)
+ExpressionReturn AST_Generator::LiteralMod(GLSL::Rvalue& a, GLSL::Rvalue& b)
 {
 	if (b.IsZero())
 	{
@@ -2151,7 +1910,7 @@ GeneratorReturn AST_Generator::LiteralMod(GLSL::Rvalue& a, GLSL::Rvalue& b)
 	return { GLSL::Rvalue(),GLSL::AST_Datatype() };
 }
 
-GeneratorReturn AST_Generator::LiteralLeftShift(GLSL::Rvalue& a, GLSL::Rvalue& b)
+ExpressionReturn AST_Generator::LiteralLeftShift(GLSL::Rvalue& a, GLSL::Rvalue& b)
 {
 	if (!a.IsInteger() || !b.IsInteger())
 	{
@@ -2269,7 +2028,7 @@ GeneratorReturn AST_Generator::LiteralLeftShift(GLSL::Rvalue& a, GLSL::Rvalue& b
 	return { GLSL::Rvalue(),GLSL::AST_Datatype() };
 }
 
-GeneratorReturn AST_Generator::LiteralRightShift(GLSL::Rvalue& a, GLSL::Rvalue& b)
+ExpressionReturn AST_Generator::LiteralRightShift(GLSL::Rvalue& a, GLSL::Rvalue& b)
 {
 	if (!a.IsInteger() || !b.IsInteger())
 	{
@@ -2388,22 +2147,22 @@ GeneratorReturn AST_Generator::LiteralRightShift(GLSL::Rvalue& a, GLSL::Rvalue& 
 	return { GLSL::Rvalue(),GLSL::AST_Datatype() };
 }
 
-GeneratorReturn AST_Generator::LiteralBitwiseAnd(GLSL::Rvalue& a, GLSL::Rvalue& b)
+ExpressionReturn AST_Generator::LiteralBitwiseAnd(GLSL::Rvalue& a, GLSL::Rvalue& b)
 {
 	return { GLSL::Rvalue(),GLSL::AST_Datatype() };
 }
 
-GeneratorReturn AST_Generator::LiteralBitwiseOr(GLSL::Rvalue& a, GLSL::Rvalue& b)
+ExpressionReturn AST_Generator::LiteralBitwiseOr(GLSL::Rvalue& a, GLSL::Rvalue& b)
 {
 	return { GLSL::Rvalue(),GLSL::AST_Datatype() };
 }
 
-GeneratorReturn AST_Generator::LiteralBitwiseXor(GLSL::Rvalue& a, GLSL::Rvalue& b)
+ExpressionReturn AST_Generator::LiteralBitwiseXor(GLSL::Rvalue& a, GLSL::Rvalue& b)
 {
 	return { GLSL::Rvalue(),GLSL::AST_Datatype() };
 }
 
-GeneratorReturn AST_Generator::LiteralLogicalAnd(GLSL::Rvalue& a, GLSL::Rvalue& b)
+ExpressionReturn AST_Generator::LiteralLogicalAnd(GLSL::Rvalue& a, GLSL::Rvalue& b)
 {
 	if (a.valueType == b.valueType)
 	{
@@ -2524,7 +2283,7 @@ GeneratorReturn AST_Generator::LiteralLogicalAnd(GLSL::Rvalue& a, GLSL::Rvalue& 
 	return { GLSL::Rvalue(),GLSL::AST_Datatype() };
 }
 
-GeneratorReturn AST_Generator::LiteralLogicalOr(GLSL::Rvalue& a, GLSL::Rvalue& b)
+ExpressionReturn AST_Generator::LiteralLogicalOr(GLSL::Rvalue& a, GLSL::Rvalue& b)
 {
 	if (a.valueType == b.valueType)
 	{
@@ -2650,7 +2409,7 @@ bool AST_Generator::LogicalXor(bool a, bool b)
 	return a != b;
 }
 
-GeneratorReturn AST_Generator::LiteralLogicalXor(GLSL::Rvalue& a, GLSL::Rvalue& b)
+ExpressionReturn AST_Generator::LiteralLogicalXor(GLSL::Rvalue& a, GLSL::Rvalue& b)
 {
 	if (a.valueType == b.valueType)
 	{
@@ -2771,7 +2530,7 @@ GeneratorReturn AST_Generator::LiteralLogicalXor(GLSL::Rvalue& a, GLSL::Rvalue& 
 	return { GLSL::Rvalue(),GLSL::AST_Datatype() };
 }
 
-GeneratorReturn AST_Generator::LiteralLess(GLSL::Rvalue& a, GLSL::Rvalue& b)
+ExpressionReturn AST_Generator::LiteralLess(GLSL::Rvalue& a, GLSL::Rvalue& b)
 {
 	if (a.valueType == b.valueType)
 	{
@@ -2867,7 +2626,7 @@ GeneratorReturn AST_Generator::LiteralLess(GLSL::Rvalue& a, GLSL::Rvalue& b)
 	return { GLSL::Rvalue(),GLSL::AST_Datatype() };
 }
 
-GeneratorReturn AST_Generator::LiteralLessEqual(GLSL::Rvalue& a, GLSL::Rvalue& b)
+ExpressionReturn AST_Generator::LiteralLessEqual(GLSL::Rvalue& a, GLSL::Rvalue& b)
 {
 	if (a.valueType == b.valueType)
 	{
@@ -2963,7 +2722,7 @@ GeneratorReturn AST_Generator::LiteralLessEqual(GLSL::Rvalue& a, GLSL::Rvalue& b
 	return { GLSL::Rvalue(),GLSL::AST_Datatype() };
 }
 
-GeneratorReturn AST_Generator::LiteralGreater(GLSL::Rvalue& a, GLSL::Rvalue& b)
+ExpressionReturn AST_Generator::LiteralGreater(GLSL::Rvalue& a, GLSL::Rvalue& b)
 {
 	if (a.valueType == b.valueType)
 	{
@@ -3059,7 +2818,7 @@ GeneratorReturn AST_Generator::LiteralGreater(GLSL::Rvalue& a, GLSL::Rvalue& b)
 	return { GLSL::Rvalue(),GLSL::AST_Datatype() };
 }
 
-GeneratorReturn AST_Generator::LiteralGreaterEqual(GLSL::Rvalue& a, GLSL::Rvalue& b)
+ExpressionReturn AST_Generator::LiteralGreaterEqual(GLSL::Rvalue& a, GLSL::Rvalue& b)
 {
 	if (a.valueType == b.valueType)
 	{
@@ -3155,7 +2914,7 @@ GeneratorReturn AST_Generator::LiteralGreaterEqual(GLSL::Rvalue& a, GLSL::Rvalue
 	return { GLSL::Rvalue(),GLSL::AST_Datatype() };
 }
 
-GeneratorReturn AST_Generator::LiteralEqual(GLSL::Rvalue& a, GLSL::Rvalue& b)
+ExpressionReturn AST_Generator::LiteralEqual(GLSL::Rvalue& a, GLSL::Rvalue& b)
 {
 	if (a.valueType == b.valueType)
 	{
@@ -3253,7 +3012,7 @@ GeneratorReturn AST_Generator::LiteralEqual(GLSL::Rvalue& a, GLSL::Rvalue& b)
 	return { GLSL::Rvalue(),GLSL::AST_Datatype() };
 }
 
-GeneratorReturn AST_Generator::LiteralNotEqual(GLSL::Rvalue& a, GLSL::Rvalue& b)
+ExpressionReturn AST_Generator::LiteralNotEqual(GLSL::Rvalue& a, GLSL::Rvalue& b)
 {
 	if (a.valueType == b.valueType)
 	{
@@ -3574,7 +3333,7 @@ AST_Generator::return_type AST_Generator::V_ExpressionStatement(ExpressionStatem
 	printf(__FUNCTION__);
 	printf("\n");
 
-	item.ex->AcceptVisitor(*this);
+	ExpressionReturn a = Handler_Expression(nullptr, *item.ex);
 	return 0;
 }
 
@@ -3631,16 +3390,12 @@ AST_Generator::return_type AST_Generator::V_JumpStatement(JumpStatement& item)
 		break;
 	case JumpType::returnStatement:
 		{
-			item.returnExpression->AcceptVisitor(*this);
-
-			GLSL::Rvalue result = returnValue.value;
-			GLSL::AST_Datatype resultType = returnValue.valueType;
+			ExpressionReturn a = Handler_Expression(nullptr, *item.returnExpression);
 
 			// TODO: check against function return type
 
 			CurrentContext().parent->children.emplace_back(
-				std::make_shared<GLSL::AST_ReturnStatement>(result)
-
+				std::make_shared<GLSL::AST_ReturnStatement>(a.value)
 			);
 		}
 		break;		
@@ -3657,15 +3412,12 @@ AST_Generator::return_type AST_Generator::V_SelectionStatement(SelectionStatemen
 	printf("\n");
 	printf("<unimplemented>\n");
 
-	item.condition->AcceptVisitor(*this);
-
-	GLSL::Rvalue condition = returnValue.value;
-	GLSL::AST_Datatype conditiontype = returnValue.valueType;
+	ExpressionReturn a = Handler_Expression(nullptr, *item.condition);
 
 	// TODO: convert to bool if necessary
 
 	CurrentContext().parent->children.emplace_back(
-		std::make_shared<GLSL::AST_IfBlock>(condition)
+		std::make_shared<GLSL::AST_IfBlock>(a.value)
 	);
 
 	NewestChildToContext();
@@ -3704,13 +3456,10 @@ AST_Generator::return_type AST_Generator::V_SwitchStatement(SwitchStatement& ite
 	printf(__FUNCTION__);
 	printf("\n");
 
-	item.expression->AcceptVisitor(*this);
-
-	GLSL::Rvalue input = returnValue.value;
-	GLSL::AST_Datatype inputType = returnValue.valueType;
+	ExpressionReturn a = Handler_Expression(nullptr, *item.expression);
 	
 	CurrentContext().parent->children.emplace_back(
-		std::make_shared<GLSL::AST_SwitchBlock>(input)
+		std::make_shared<GLSL::AST_SwitchBlock>(a.value)
 
 	);
 
@@ -3756,13 +3505,10 @@ AST_Generator::return_type AST_Generator::V_CaseLabel(CaseLabel& item)
 	}
 	else
 	{
-		item.expression->AcceptVisitor(*this);
-
-		GLSL::Rvalue expression = returnValue.value;
-		GLSL::AST_Datatype exprType = returnValue.valueType;
+		ExpressionReturn a = Handler_Expression(nullptr, *item.expression);
 
 		CurrentContext().parent->children.emplace_back(
-			std::make_shared<GLSL::AST_CaseLabel>(expression)
+			std::make_shared<GLSL::AST_CaseLabel>(a.value)
 		);
 
 	}
@@ -3802,10 +3548,10 @@ AST_Generator::return_type AST_Generator::V_InitDeclaratorList(InitDeclaratorLis
 
 		if (entry.initializer != nullptr)
 		{
-			entry.initializer->AcceptVisitor(*this);
+			ExpressionReturn a = Handler_Initializer(nullptr, *entry.initializer);
 
-			initializer = returnValue.value;
-			initializerType = returnValue.valueType;
+			initializer = a.value;
+			initializerType = a.valueType;
 		}
 
 		std::shared_ptr<GLSL::AST_VariableDeclaration> output;
@@ -3842,9 +3588,9 @@ AST_Generator::return_type AST_Generator::V_InitDeclaratorList(InitDeclaratorLis
 		}
 		else
 		{
-			entry.arraySizeExpression->AcceptVisitor(*this);
-
-			GLSL::Rvalue arraySize = returnValue.value;
+			ExpressionReturn a = Handler_Expression(nullptr, *entry.arraySizeExpression);
+			
+			GLSL::Rvalue arraySize = a.value;
 			
 			output = std::make_shared<GLSL::AST_VariableDeclaration>(
 				item.invariant,
@@ -3865,13 +3611,12 @@ AST_Generator::return_type AST_Generator::V_InitDeclaratorList(InitDeclaratorLis
 	return 0;
 }
 
-AST_Generator::return_type AST_Generator::V_Initializer(Initializer& item)
+ExpressionReturn AST_Generator::Handler_Initializer(GLSL::Lvalue* destination, Initializer& item)
 {
-	item.assignEx->AcceptVisitor(*this);
-	return 0;
+	return Handler_AssignmentExpression(nullptr, *item.assignEx);
 }
 
-AST_Generator::return_type AST_Generator::V_FunctionCall(FunctionCall& item)
+ExpressionReturn AST_Generator::Handler_FunctionCall(GLSL::Lvalue* destination, FunctionCall& item)
 {
 	printf(__FUNCTION__);
 	printf("\n");
@@ -3883,28 +3628,38 @@ AST_Generator::return_type AST_Generator::V_FunctionCall(FunctionCall& item)
 	{
 		auto param = item.call->GetParameter(k);
 
-		param->AcceptVisitor(*this);
+		ExpressionReturn a = Handler_AssignmentExpression(nullptr, *param);
 
-		callParams.push_back(returnValue.value);
-		signatureTypes.push_back(returnValue.valueType);
+		callParams.push_back(a.value);
+		signatureTypes.push_back(a.valueType);
 	}
 
 	SymbolLink link = MatchFunctionSignature(item.functions, signatureTypes);
 
 	GLSL::AST_Datatype returnType = GetDatatype(link);
 
-	GLSL::Lvalue lhs = GenerateTemporary(returnType);
+	if (destination == nullptr)
+	{
+		GLSL::Lvalue lhs = GenerateTemporary(returnType);
 
-	auto sharedLink = std::make_shared<SymbolLink>(link);
+		auto sharedLink = std::make_shared<SymbolLink>(link);
 
-	CurrentContext().parent->children.push_back(
-		std::make_shared<GLSL::AST_FunctionCall>(lhs, sharedLink, std::move(callParams))
-	);
+		CurrentContext().parent->children.push_back(
+			std::make_shared<GLSL::AST_FunctionCall>(lhs, sharedLink, std::move(callParams))
+		);
 
-	returnValue.value = lhs;
-	returnValue.valueType = returnType;
+		return { lhs, returnType };
+	}
+	else
+	{
+		auto sharedLink = std::make_shared<SymbolLink>(link);
 
-	return 0;
+		CurrentContext().parent->children.push_back(
+			std::make_shared<GLSL::AST_FunctionCall>(*destination, sharedLink, std::move(callParams))
+		);
+
+		return { *destination, returnType };
+	}	
 }
 
 SymbolLink AST_Generator::MatchFunctionSignature(const std::vector<SymbolLink>& functions, 

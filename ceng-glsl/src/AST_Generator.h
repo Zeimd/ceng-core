@@ -23,7 +23,7 @@
 
 namespace Ceng
 {
-	struct GeneratorReturn
+	struct ExpressionReturn
 	{
 		GLSL::Rvalue value;
 
@@ -54,11 +54,7 @@ namespace Ceng
 
 		//std::vector<Ceng::UINT32> tempCounter;
 
-		GeneratorReturn returnValue;
-
 		std::vector<Context> contextStack;
-
-		std::vector<GLSL::Lvalue*> lhsStack;
 
 	public:
 
@@ -110,23 +106,24 @@ namespace Ceng
 
 		bool IsAssignable(const GLSL::Lvalue& lvalue);
 
-		return_type V_Expression(Expression& item);
-		return_type V_AssignmentExpression(AssignmentExpression& item);
-		return_type V_ConditionalExpression(ConditionalExpression& item);
-		return_type V_LogicalOrExpression(LogicalOrExpression& item);
-		return_type V_LogicalXorExpression(LogicalXorExpression& item);
-		return_type V_LogicalAndExpression(LogicalAndExpression& item);
-		return_type V_OrExpression(OrExpression& item);
-		return_type V_XorExpression(XorExpression& item);
-		return_type V_AndExpression(AndExpression& item);
-		return_type V_EqualityExpression(EqualityExpression& item);
-		return_type V_RelationalExpression(RelationalExpression& item);
-		return_type V_ShiftExpression(ShiftExpression& item);
-		return_type V_AdditiveExpression(AdditiveExpression& item);
-		return_type V_MultiplicativeExpression(MultiplicativeExpression& item);
-		return_type V_UnaryExpression(UnaryExpression& item);
-		return_type V_PostfixExpression(PostfixExpression& item);
-		return_type V_PrimaryExpression(PrimaryExpression& item);
+		ExpressionReturn Handler_Expression(GLSL::Lvalue* destination, Expression& item);
+
+		ExpressionReturn Handler_AssignmentExpression(GLSL::Lvalue* destination, AssignmentExpression& item);
+		ExpressionReturn Handler_ConditionalExpression(GLSL::Lvalue* destination, ConditionalExpression& item);
+		ExpressionReturn Handler_LogicalOrExpression(GLSL::Lvalue* destination, LogicalOrExpression& item);
+		ExpressionReturn Handler_LogicalXorExpression(GLSL::Lvalue* destination, LogicalXorExpression& item);
+		ExpressionReturn Handler_LogicalAndExpression(GLSL::Lvalue* destination, LogicalAndExpression& item);
+		ExpressionReturn Handler_OrExpression(GLSL::Lvalue* destination, OrExpression& item);
+		ExpressionReturn Handler_XorExpression(GLSL::Lvalue* destination, XorExpression& item);
+		ExpressionReturn Handler_AndExpression(GLSL::Lvalue* destination, AndExpression& item);
+		ExpressionReturn Handler_EqualityExpression(GLSL::Lvalue* destination, EqualityExpression& item);
+		ExpressionReturn Handler_RelationalExpression(GLSL::Lvalue* destination, RelationalExpression& item);
+		ExpressionReturn Handler_ShiftExpression(GLSL::Lvalue* destination, ShiftExpression& item);
+		ExpressionReturn Handler_AdditiveExpression(GLSL::Lvalue* destination, AdditiveExpression& item);
+		ExpressionReturn Handler_MultiplicativeExpression(GLSL::Lvalue* destination, MultiplicativeExpression& item);
+		ExpressionReturn Handler_UnaryExpression(GLSL::Lvalue* destination, UnaryExpression& item);
+		ExpressionReturn Handler_PostfixExpression(GLSL::Lvalue* destination, PostfixExpression& item);
+		ExpressionReturn Handler_PrimaryExpression(GLSL::Lvalue* destination, PrimaryExpression& item);
 
 		return_type V_TranslationUnit(TranslationUnit& item) override;
 
@@ -163,51 +160,51 @@ namespace Ceng
 
 		return_type V_InitDeclaratorList(InitDeclaratorList& item) override;
 
-		return_type V_Initializer(Initializer& item);
+		ExpressionReturn Handler_Initializer(GLSL::Lvalue* destination, Initializer& item);
 
-		return_type V_FunctionCall(FunctionCall& item) override;
+		ExpressionReturn Handler_FunctionCall(GLSL::Lvalue* destination, FunctionCall& item);
 
 		GLSL::BinaryOperator::value ConvertAssignmentOperator(AssignOpType::value op);
 
-		static GeneratorReturn LiteralBinaryOp(GLSL::Rvalue& a, GLSL::BinaryOperator::value op, GLSL::Rvalue& b);
+		static ExpressionReturn LiteralBinaryOp(GLSL::Rvalue& a, GLSL::BinaryOperator::value op, GLSL::Rvalue& b);
 
-		static GeneratorReturn LiteralAdd(GLSL::Rvalue& a, GLSL::Rvalue& b);
+		static ExpressionReturn LiteralAdd(GLSL::Rvalue& a, GLSL::Rvalue& b);
 
-		static GeneratorReturn LiteralSub(GLSL::Rvalue& a, GLSL::Rvalue& b);
+		static ExpressionReturn LiteralSub(GLSL::Rvalue& a, GLSL::Rvalue& b);
 
-		static GeneratorReturn LiteralMul(GLSL::Rvalue& a, GLSL::Rvalue& b);
+		static ExpressionReturn LiteralMul(GLSL::Rvalue& a, GLSL::Rvalue& b);
 
-		static GeneratorReturn LiteralDiv(GLSL::Rvalue& a, GLSL::Rvalue& b);
+		static ExpressionReturn LiteralDiv(GLSL::Rvalue& a, GLSL::Rvalue& b);
 
-		static GeneratorReturn LiteralMod(GLSL::Rvalue& a, GLSL::Rvalue& b);
+		static ExpressionReturn LiteralMod(GLSL::Rvalue& a, GLSL::Rvalue& b);
 
-		static GeneratorReturn LiteralLeftShift(GLSL::Rvalue& a, GLSL::Rvalue& b);
+		static ExpressionReturn LiteralLeftShift(GLSL::Rvalue& a, GLSL::Rvalue& b);
 
-		static GeneratorReturn LiteralRightShift(GLSL::Rvalue& a, GLSL::Rvalue& b);
+		static ExpressionReturn LiteralRightShift(GLSL::Rvalue& a, GLSL::Rvalue& b);
 
-		static GeneratorReturn LiteralLogicalAnd(GLSL::Rvalue& a, GLSL::Rvalue& b);
+		static ExpressionReturn LiteralLogicalAnd(GLSL::Rvalue& a, GLSL::Rvalue& b);
 
-		static GeneratorReturn LiteralLogicalOr(GLSL::Rvalue& a, GLSL::Rvalue& b);
+		static ExpressionReturn LiteralLogicalOr(GLSL::Rvalue& a, GLSL::Rvalue& b);
 
-		static GeneratorReturn LiteralLogicalXor(GLSL::Rvalue& a, GLSL::Rvalue& b);
+		static ExpressionReturn LiteralLogicalXor(GLSL::Rvalue& a, GLSL::Rvalue& b);
 
-		static GeneratorReturn LiteralBitwiseAnd(GLSL::Rvalue& a, GLSL::Rvalue& b);
+		static ExpressionReturn LiteralBitwiseAnd(GLSL::Rvalue& a, GLSL::Rvalue& b);
 
-		static GeneratorReturn LiteralBitwiseOr(GLSL::Rvalue& a, GLSL::Rvalue& b);
+		static ExpressionReturn LiteralBitwiseOr(GLSL::Rvalue& a, GLSL::Rvalue& b);
 
-		static GeneratorReturn LiteralBitwiseXor(GLSL::Rvalue& a, GLSL::Rvalue& b);
+		static ExpressionReturn LiteralBitwiseXor(GLSL::Rvalue& a, GLSL::Rvalue& b);
 
-		static GeneratorReturn LiteralLess(GLSL::Rvalue& a, GLSL::Rvalue& b);
+		static ExpressionReturn LiteralLess(GLSL::Rvalue& a, GLSL::Rvalue& b);
 
-		static GeneratorReturn LiteralLessEqual(GLSL::Rvalue& a, GLSL::Rvalue& b);
+		static ExpressionReturn LiteralLessEqual(GLSL::Rvalue& a, GLSL::Rvalue& b);
 
-		static GeneratorReturn LiteralGreater(GLSL::Rvalue& a, GLSL::Rvalue& b);
+		static ExpressionReturn LiteralGreater(GLSL::Rvalue& a, GLSL::Rvalue& b);
 
-		static GeneratorReturn LiteralGreaterEqual(GLSL::Rvalue& a, GLSL::Rvalue& b);
+		static ExpressionReturn LiteralGreaterEqual(GLSL::Rvalue& a, GLSL::Rvalue& b);
 
-		static GeneratorReturn LiteralEqual(GLSL::Rvalue& a, GLSL::Rvalue& b);
+		static ExpressionReturn LiteralEqual(GLSL::Rvalue& a, GLSL::Rvalue& b);
 
-		static GeneratorReturn LiteralNotEqual(GLSL::Rvalue& a, GLSL::Rvalue& b);
+		static ExpressionReturn LiteralNotEqual(GLSL::Rvalue& a, GLSL::Rvalue& b);
 
 		static bool LogicalXor(bool a, bool b);
 	};
