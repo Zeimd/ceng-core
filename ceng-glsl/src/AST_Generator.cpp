@@ -89,6 +89,7 @@
 #include <ceng/GLSL/AST_CaseLabel.h>
 #include <ceng/GLSL/AST_Break.h>
 #include <ceng/GLSL/AST_WhileLoop.h>
+#include <ceng/GLSL/AST_EmptyNode.h>
 
 using namespace Ceng;
 
@@ -3378,6 +3379,13 @@ AST_Generator::return_type AST_Generator::V_FunctionDefinition(FunctionDefinitio
 
 	item.body->AcceptVisitor(*this);
 
+	if (CurrentContext().parent->children.size() == 0)
+	{
+		CurrentContext().parent->children.emplace_back(
+			std::make_shared<GLSL::AST_EmptyNode>()
+		);
+	}
+
 	PopContext();
 
 	return 0;
@@ -3387,6 +3395,11 @@ AST_Generator::return_type AST_Generator::V_CompoundStatementNoNewScope(Compound
 {
 	printf(__FUNCTION__);
 	printf("\n");
+
+	if (item.list == nullptr)
+	{
+		return 0;
+	}
 
 	item.list->AcceptVisitor(*this);
 	return 0;

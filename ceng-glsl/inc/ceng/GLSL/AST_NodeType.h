@@ -9,6 +9,10 @@ namespace Ceng
 		{
 			enum value
 			{
+				// Used when a node is necessary but there isn't a proper node to place,
+				// such as empty function body
+				empty,
+
 				translation_unit,
 				scope,
 

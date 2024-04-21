@@ -438,6 +438,9 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_WhileLoop.h">
       <Filter>Header Files\public_interface</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_EmptyNode.h">
+      <Filter>Header Files\public_interface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\ceng-glsl\src\TypeSpecifier.cpp">

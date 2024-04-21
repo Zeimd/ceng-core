@@ -28,6 +28,7 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_CaseLabel.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_ConditionalOperation.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_Datatype.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_EmptyNode.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_FunctionCall.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_IfBlock.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_IncDecOperation.h" />
