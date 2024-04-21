@@ -58,6 +58,8 @@ namespace Ceng
 
 		std::vector<Context> contextStack;
 
+		std::vector<GLSL::Lvalue*> lhsStack;
+
 	public:
 
 		~AST_Generator() override;
