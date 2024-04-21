@@ -1247,11 +1247,11 @@ AST_Generator::return_type AST_Generator::V_PostfixExpression(PostfixExpression&
 					)
 			);
 
-			lhs = input.ToLvalue();
+			GLSL::Lvalue inputLhs = input.ToLvalue();
 
 			CurrentContext().parent->children.emplace_back(
 				std::make_shared<GLSL::AST_IncDecOperation>(
-					lhs, true
+					inputLhs, true
 					)
 			);
 
@@ -1275,11 +1275,11 @@ AST_Generator::return_type AST_Generator::V_PostfixExpression(PostfixExpression&
 					)
 			);
 
-			lhs = input.ToLvalue();
+			GLSL::Lvalue inputLhs = input.ToLvalue();
 
 			CurrentContext().parent->children.emplace_back(
 				std::make_shared<GLSL::AST_IncDecOperation>(
-					lhs, false
+					inputLhs, false
 					)
 			);
 
