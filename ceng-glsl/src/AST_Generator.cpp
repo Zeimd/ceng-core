@@ -167,6 +167,11 @@ GLSL::AST_Datatype AST_Generator::GetDatatype(const SymbolLink& link)
 {
 	Symbol* symbol = link.Get();
 
+	if (symbol->undefined)
+	{
+		return GLSL::AST_Datatype();
+	}
+
 	switch (symbol->symbolType)
 	{
 	case SymbolType::function_prototype:
