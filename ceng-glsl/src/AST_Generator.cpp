@@ -142,7 +142,7 @@ GLSL::Lvalue AST_Generator::GenerateTemporary(GLSL::AST_Datatype& type)
 	printf(__FUNCTION__);
 	printf("\n");
 
-	Ceng::StringUtf8 name = "_temp";
+	Ceng::StringUtf8 name = "@temp";
 	name += CurrentContext().tempCounter++;
 
 	printf("variable = %s\n", name.ToCString());
