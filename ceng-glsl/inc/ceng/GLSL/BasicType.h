@@ -1,6 +1,8 @@
 #ifndef CENG_GLSL_DATATYPE_H
 #define CENG_GLSL_DATATYPE_H
 
+#include <ceng/datatypes/basic-types.h>
+
 namespace Ceng
 {
 	namespace GLSL
@@ -79,6 +81,55 @@ namespace Ceng
 
 			const char* ToString(BasicType::value type);
 		}
+
+		enum class BasicTypeCategory
+		{
+			invalid,
+			scalar,
+			vector,
+			matrix,
+			sampler,
+		};
+
+		enum class TextureType
+		{
+			none,
+
+			normal,
+			normal_shadow,
+			
+			rect,
+			rect_shadow,
+
+			cube,
+			cube_shadow,
+
+			array,
+			array_shadow,
+
+			buffer,
+
+			multisample,
+			multisample_array,
+		};
+
+		struct BasicTypeInfo
+		{
+			BasicTypeCategory category;
+
+			// One of: bool, int, uint, float
+			BasicType::value baseType;
+
+			// Vector size, matrix columns, texture dimension
+			Ceng::UINT32 width;
+
+			// Matrix columns
+			Ceng::UINT32 height;
+
+			TextureType texture;
+		};
+
+		const BasicTypeInfo& GetTypeInfo(BasicType::value type);
 	}
 }
 
