@@ -120,6 +120,7 @@
     <ClInclude Include="..\..\ceng-glsl\src\LogicalXorExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\MultiplicativeExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\NonTerminalType.h" />
+    <ClInclude Include="..\..\ceng-glsl\src\OperatorDatabase.h" />
     <ClInclude Include="..\..\ceng-glsl\src\OrExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\src\ParameterDeclaration.h" />
     <ClInclude Include="..\..\ceng-glsl\src\ParameterDeclarator.h" />
@@ -180,6 +181,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\AST_Scope.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_SwitchBlock.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\FieldExpression.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\OperatorDatabase.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\Rvalue.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_FunctionPrototype.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_Generator.cpp" />
