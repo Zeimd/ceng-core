@@ -83,6 +83,8 @@ namespace Ceng
 
 		void AddStatementContext(const StatementContext& statementContext);
 
+		static void AddParenthesisContext(StatementContext& statementContext, StatementContext& parenthesis);
+
 		GLSL::AST_Datatype GetDatatype(const Ceng::StringUtf8& name);
 
 		GLSL::AST_Datatype GetDatatype(const SymbolLink& link);

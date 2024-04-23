@@ -152,6 +152,24 @@ void AST_Generator::AddStatementContext(const StatementContext& statementContext
 	}
 }
 
+void AST_Generator::AddParenthesisContext(StatementContext& statementContext, StatementContext& parenthesis)
+{
+	for (auto& x : parenthesis.prefixOperations)
+	{
+		statementContext.prefixOperations.push_back(x);
+	}
+
+	for (auto& x : parenthesis.normalOperations)
+	{
+		statementContext.prefixOperations.push_back(x);
+	}
+
+	for (auto& x : parenthesis.postfixOperations)
+	{
+		statementContext.postfixOperations.push_back(x);
+	}
+}
+
 /*
 GLSL::Lvalue AST_Generator::GenerateTemporary(GLSL::AST_Datatype& type)
 {
@@ -1406,7 +1424,16 @@ ExpressionReturn AST_Generator::Handler_PrimaryExpression(GLSL::Lvalue* destinat
 	case ExpressionType::float_const:
 		return { item.floatValue, GLSL::AST_Datatype(GLSL::BasicType::ts_float) };
 	case ExpressionType::expression:
-		return Handler_Expression(nullptr, statementContext , *item.expression);
+		{
+			StatementContext parenthesis;
+
+			ExpressionReturn result = Handler_Expression(nullptr, parenthesis, *item.expression);
+
+			AddParenthesisContext(statementContext, parenthesis);
+
+			return result;
+		}
+		
 	}
 
 	return ExpressionReturn();
