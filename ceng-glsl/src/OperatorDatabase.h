@@ -51,17 +51,17 @@ namespace Ceng
 
 			using keytype = std::tuple<int, int, int>;
 
-			std::unordered_map<keytype, OperationInfo, TupleHash<int,int,int>> database;
+			std::unordered_map<keytype, OperationInfo, TupleHash<int,int,int>> binaryOperations;
 
 			std::unordered_map<keytype, OperationInfo, TupleHash<int, int, int>> unaryOperations;
 
 		public:
 
-			OperatorDatabase(std::unordered_map<keytype, OperationInfo, TupleHash<int, int, int>> database,
+			OperatorDatabase(std::unordered_map<keytype, OperationInfo, TupleHash<int, int, int>> binaryOperations,
 				std::unordered_map<keytype, OperationInfo, TupleHash<int, int, int>> unaryOperations);
 
 
-			OperationInfo Find(BasicType::value first, BinaryOperator::value op, BasicType::value second);
+			OperationInfo Check(BasicType::value first, BinaryOperator::value op, BasicType::value second);
 		};
 
 		extern const OperatorDatabase operatorDatabase;
