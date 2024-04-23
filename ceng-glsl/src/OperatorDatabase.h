@@ -32,8 +32,20 @@ namespace Ceng
 			OperationValidity status;
 		};
 
+		template<class T1, class T2>
+		struct TupleHash2
+		{
+			size_t operator() (const std::tuple<T1, T2>& x) const
+			{
+				std::hash<T1> a;
+				std::hash<T2> b;
+	
+				return a(std::get<0>(x)) ^ b(std::get<1>(x));
+			}
+		};
+
 		template<class T1, class T2, class T3>
-		struct TupleHash
+		struct TupleHash3
 		{			
 			size_t operator() (const std::tuple<T1,T2,T3>& x) const
 			{
@@ -45,20 +57,43 @@ namespace Ceng
 			}
 		};
 
+		class ConversionTable
+		{
+		public:
+
+			using keytype = std::tuple<int, int>;
+
+			std::unordered_map<keytype, bool, TupleHash2<int, int>> table;
+
+			ConversionTable(std::unordered_map<keytype, bool,TupleHash2<int, int>> table_)
+				: table(table_)
+			{
+
+			}
+
+			bool CheckPromotion(BasicType::value source, BasicType::value dest)
+			{
+				auto item = table.find({ source,dest });
+
+				return item != table.end();
+			}
+		};
+
+		extern const ConversionTable implicitConversions;
+
 		class OperatorDatabase
 		{
 		public:
 
-			using keytype = std::tuple<int, int, int>;
+			using keytype = std::tuple<int, int>;
 
-			std::unordered_map<keytype, OperationInfo, TupleHash<int,int,int>> binaryOperations;
+			std::unordered_map<keytype, bool, TupleHash2<int,int>> binaryOperations;
 
-			std::unordered_map<keytype, OperationInfo, TupleHash<int, int, int>> unaryOperations;
+			//std::unordered_map<keytype, OperationInfo, TupleHash2<int, int>> unaryOperations;
 
 		public:
 
-			OperatorDatabase(std::unordered_map<keytype, OperationInfo, TupleHash<int, int, int>> binaryOperations,
-				std::unordered_map<keytype, OperationInfo, TupleHash<int, int, int>> unaryOperations);
+			OperatorDatabase(std::unordered_map<keytype, bool, TupleHash2<int, int>> binaryOperations);
 
 
 			OperationInfo Check(BasicType::value first, BinaryOperator::value op, BasicType::value second);

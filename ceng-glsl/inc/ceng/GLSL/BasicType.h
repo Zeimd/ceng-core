@@ -127,6 +127,41 @@ namespace Ceng
 			Ceng::UINT32 height;
 
 			TextureType texture;
+
+			bool operator == (const BasicTypeInfo& x) const
+			{
+				if (category != x.category)
+				{
+					return false;
+				}
+
+				if (baseType != x.baseType)
+				{
+					return false;
+				}
+
+				if (width != x.width)
+				{
+					return false;
+				}
+
+				if (height != x.height)
+				{
+					return false;
+				}
+
+				if (texture != x.texture)
+				{
+					return false;
+				}
+
+				return true;
+			}
+
+			bool operator != (const BasicTypeInfo& x) const
+			{
+				return !(*this == x);
+			}
 		};
 
 		const BasicTypeInfo& GetTypeInfo(BasicType::value type);

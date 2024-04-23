@@ -4,74 +4,364 @@ namespace Ceng
 {
 	namespace GLSL
 	{
+		const ConversionTable implicitConversions
+		{
+			{
+				{
+					{BasicType::ts_bool, BasicType::ts_bool},	true
+				},
+				{
+					{BasicType::ts_int, BasicType::ts_int},	true
+				},
+				{
+					{BasicType::ts_uint, BasicType::ts_uint}, true
+				},
+				{
+					{BasicType::ts_float, BasicType::ts_float},true
+				},
+				{
+					{BasicType::ts_int, BasicType::ts_float},true
+				},
+				{
+					{BasicType::ts_uint, BasicType::ts_int}, true
+				},
+				{
+					{BasicType::ts_uint, BasicType::ts_float}, false
+				},
+			}
+		};
+
 		const OperatorDatabase operatorDatabase
 		{
 			// Binary operators
-			{		
+			{	
+				// int-int
+
 				{
-					{BasicType::ts_int, BinaryOperator::add, BasicType::ts_int},
-					{OperationValidity::valid}
+					{BasicType::ts_int, BinaryOperator::add}, true
+				},
+				
+				{
+					{BasicType::ts_int, BinaryOperator::sub}, true
+				},
+			
+				
+				{
+					{BasicType::ts_int, BinaryOperator::mul}, true
 				},
 		
 				{
-					{BasicType::ts_int, BinaryOperator::sub, BasicType::ts_int},
-					{OperationValidity::valid}
+					{BasicType::ts_int, BinaryOperator::div}, true
+				},
+		
+				{
+					{BasicType::ts_int, BinaryOperator::mod}, true
+				},
+		
+				{
+					{BasicType::ts_int, BinaryOperator::left_shift}, true
+				},
+		
+				{
+					{BasicType::ts_int, BinaryOperator::right_shift}, true
+				},
+		
+				{
+					{BasicType::ts_int, BinaryOperator::bitwise_and}, true
+				},
+
+				{
+					{BasicType::ts_int, BinaryOperator::bitwise_or}, true
 				},
 			
 				{
-					{BasicType::ts_int, BinaryOperator::mul, BasicType::ts_int},
-					{OperationValidity::valid}
+					{BasicType::ts_int, BinaryOperator::bitwise_xor}, true
+				},
+
+				{
+					{BasicType::ts_int, BinaryOperator::less}, true
+				},
+
+				{
+					{BasicType::ts_int, BinaryOperator::less_eq}, true
+				},
+
+				{
+					{BasicType::ts_int, BinaryOperator::greater}, true
+				},
+			
+				{
+					{BasicType::ts_int, BinaryOperator::greater_eq}, true
+				},
+
+				{
+					{BasicType::ts_int, BinaryOperator::equal}, true
+				},
+
+				{
+					{BasicType::ts_int, BinaryOperator::not_equal}, true
+				},
+
+				
+				{
+					{BasicType::ts_int, BinaryOperator::logical_and}, true
 				},
 		
 				{
-					{BasicType::ts_int, BinaryOperator::div, BasicType::ts_int},
-					{OperationValidity::valid}
+					{BasicType::ts_int, BinaryOperator::logical_or}, true
 				},
-		
+				
 				{
-					{BasicType::ts_int, BinaryOperator::mod, BasicType::ts_int},
-					{OperationValidity::valid}
+					{BasicType::ts_int, BinaryOperator::logical_xor}, true
 				},
-		
+				
+				
+
+				// uint
+
 				{
-					{BasicType::ts_int, BinaryOperator::left_shift, BasicType::ts_int},
-					{OperationValidity::valid}
-				},
-		
-				{
-					{BasicType::ts_int, BinaryOperator::right_shift, BasicType::ts_int},
-					{OperationValidity::valid}
+					{BasicType::ts_uint, BinaryOperator::add}, true
 				},
 
 				{
-					{BasicType::ts_int, BinaryOperator::bitwise_and, BasicType::ts_int},
-					{OperationValidity::valid}
+					{BasicType::ts_uint, BinaryOperator::sub}, true
 				},
 
 				{
-					{BasicType::ts_int, BinaryOperator::bitwise_or, BasicType::ts_int},
-					{OperationValidity::valid}
+					{BasicType::ts_uint, BinaryOperator::mul}, true
 				},
 
 				{
-					{BasicType::ts_int, BinaryOperator::bitwise_xor, BasicType::ts_int},
-					{OperationValidity::valid}
+					{BasicType::ts_uint, BinaryOperator::div}, true
 				},
 
-			},
+				{
+					{BasicType::ts_uint, BinaryOperator::mod}, true
+				},
 
-			// Unary operators
-			{
+				{
+					{BasicType::ts_uint, BinaryOperator::left_shift}, true
+				},
+
+				{
+					{BasicType::ts_uint, BinaryOperator::right_shift}, true
+				},
+
+				{
+					{BasicType::ts_uint, BinaryOperator::bitwise_and}, true
+				},
+
+				{
+					{BasicType::ts_uint, BinaryOperator::bitwise_or}, true
+				},
+
+				{
+					{BasicType::ts_uint, BinaryOperator::bitwise_xor}, true
+				},
+
+				{
+					{BasicType::ts_uint, BinaryOperator::less}, true
+				},
+
+				{
+					{BasicType::ts_uint, BinaryOperator::less_eq}, true
+				},
+
+				{
+					{BasicType::ts_uint, BinaryOperator::greater}, true
+				},
+
+				{
+					{BasicType::ts_uint, BinaryOperator::greater_eq}, true
+				},
+
+				{
+					{BasicType::ts_uint, BinaryOperator::equal}, true
+				},
+
+				{
+					{BasicType::ts_uint, BinaryOperator::not_equal}, true
+				},
+
+				{
+					{BasicType::ts_uint, BinaryOperator::logical_and}, true
+				},
+
+				{
+					{BasicType::ts_uint, BinaryOperator::logical_or}, true
+				},
+
+				{
+					{BasicType::ts_uint, BinaryOperator::logical_xor}, true
+				},
+
+				// float
+
+				{
+					{BasicType::ts_float, BinaryOperator::add}, true
+				},
+
+				{
+					{BasicType::ts_float, BinaryOperator::sub}, true
+				},
+
+				{
+					{BasicType::ts_float, BinaryOperator::mul}, true
+				},
+
+				{
+					{BasicType::ts_float, BinaryOperator::div}, true
+				},
+
+				{
+					{BasicType::ts_float, BinaryOperator::mod}, true
+				},
+
+				{
+					{BasicType::ts_float, BinaryOperator::left_shift}, false
+				},
+
+				{
+					{BasicType::ts_float, BinaryOperator::right_shift}, false
+				},
+
+				{
+					{BasicType::ts_float, BinaryOperator::bitwise_and}, false
+				},
+
+				{
+					{BasicType::ts_float, BinaryOperator::bitwise_or}, false
+				},
+
+				{
+					{BasicType::ts_float, BinaryOperator::bitwise_xor}, false
+				},
+
+				{
+					{BasicType::ts_float, BinaryOperator::less}, true
+				},
+
+				{
+					{BasicType::ts_float, BinaryOperator::less_eq}, true
+				},
+
+				{
+					{BasicType::ts_float, BinaryOperator::greater}, true
+				},
+
+				{
+					{BasicType::ts_float, BinaryOperator::greater_eq}, true
+				},
+
+				{
+					{BasicType::ts_float, BinaryOperator::equal}, true
+				},
+
+				{
+					{BasicType::ts_float, BinaryOperator::not_equal}, true
+				},
+
+				{
+					{BasicType::ts_float, BinaryOperator::logical_and}, true
+				},
+
+				{
+					{BasicType::ts_float, BinaryOperator::logical_or}, true
+				},
+
+				{
+					{BasicType::ts_float, BinaryOperator::logical_xor}, true
+				},
+
+				// bool
+
+				{
+					{BasicType::ts_bool, BinaryOperator::add}, false
+				},
+
+				{
+					{BasicType::ts_bool, BinaryOperator::sub}, false
+				},
+
+				{
+					{BasicType::ts_bool, BinaryOperator::mul}, false
+				},
+
+				{
+					{BasicType::ts_bool, BinaryOperator::div}, false
+				},
+
+				{
+					{BasicType::ts_bool, BinaryOperator::mod}, false
+				},
+
+				{
+					{BasicType::ts_bool, BinaryOperator::left_shift}, false
+				},
+
+				{
+					{BasicType::ts_bool, BinaryOperator::right_shift}, false
+				},
+
+				{
+					{BasicType::ts_bool, BinaryOperator::bitwise_and}, false
+				},
+
+				{
+					{BasicType::ts_bool, BinaryOperator::bitwise_or}, false
+				},
+
+				{
+					{BasicType::ts_bool, BinaryOperator::bitwise_xor}, false
+				},
+
+				{
+					{BasicType::ts_bool, BinaryOperator::less}, false
+				},
+
+				{
+					{BasicType::ts_bool, BinaryOperator::less_eq}, false
+				},
+
+				{
+					{BasicType::ts_bool, BinaryOperator::greater}, false
+				},
+
+				{
+					{BasicType::ts_bool, BinaryOperator::greater_eq}, false
+				},
+
+				{
+					{BasicType::ts_bool, BinaryOperator::equal}, true
+				},
+
+				{
+					{BasicType::ts_bool, BinaryOperator::not_equal}, true
+				},
+
+				{
+					{BasicType::ts_bool, BinaryOperator::logical_and}, true
+				},
+
+				{
+					{BasicType::ts_bool, BinaryOperator::logical_or}, true
+				},
+
+				{
+					{BasicType::ts_bool, BinaryOperator::logical_xor}, true
+				},
+				
+				
 			}
+					
 		};
 	}
 }
 
 using namespace Ceng::GLSL;
 
-OperatorDatabase::OperatorDatabase(std::unordered_map<keytype, OperationInfo, TupleHash<int, int, int>> binaryOperations,
-	std::unordered_map<keytype, OperationInfo, TupleHash<int, int, int>> unaryOperations)
-	: binaryOperations(binaryOperations), unaryOperations(unaryOperations)
+OperatorDatabase::OperatorDatabase(std::unordered_map<keytype, bool, TupleHash2<int, int>> binaryOperations)
+	: binaryOperations(binaryOperations)
 {
 
 }
