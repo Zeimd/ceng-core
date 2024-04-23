@@ -460,7 +460,7 @@ ExpressionReturn AST_Generator::Handler_Expression(GLSL::Lvalue* destination, St
 	printf(__FUNCTION__);
 	printf("\n");
 
-	return Handler_AssignmentExpression(nullptr, statementContext, *item.assignEx[0]);
+	return Handler_AssignmentExpression(destination, statementContext, *item.assignEx[0]);
 }
 
 ExpressionReturn AST_Generator::Handler_AssignmentExpression(GLSL::Lvalue* destination, StatementContext& statementContext, AssignmentExpression& item)
@@ -1427,7 +1427,7 @@ ExpressionReturn AST_Generator::Handler_PrimaryExpression(GLSL::Lvalue* destinat
 		{
 			StatementContext parenthesis;
 
-			ExpressionReturn result = Handler_Expression(nullptr, parenthesis, *item.expression);
+			ExpressionReturn result = Handler_Expression(destination, parenthesis, *item.expression);
 
 			AddParenthesisContext(statementContext, parenthesis);
 
