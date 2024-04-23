@@ -366,8 +366,40 @@ OperatorDatabase::OperatorDatabase(std::unordered_map<keytype, bool, TupleHash2<
 
 }
 
+OperationInfo OperatorDatabase::CheckScalarOperation(BasicTypeInfo& a, BinaryOperator::value op, BasicTypeInfo& b) const
+{
+	OperationValidity validity = OperationValidity::invalid;
 
-OperationInfo OperatorDatabase::Check(BasicType::value first, BinaryOperator::value op, BasicType::value second)
+	bool leftConversion = implicitConversions.CheckPromotion(a.baseType, b.baseType);
+
+	if (leftConversion)
+	{
+		validity = OperationValidity::left_promotion;
+	}
+
+	bool rightConversion = implicitConversions.CheckPromotion(b.baseType, a.baseType);
+
+	if (leftConversion == false && rightConversion)
+	{
+		validity = OperationValidity::right_promotion;
+	}
+
+	if (validity == OperationValidity::invalid)
+	{
+		return { OperationValidity::invalid };
+	}
+
+	auto item = binaryOperations.find({ a.baseType, op });
+
+	if (item == binaryOperations.end())
+	{
+		return { OperationValidity::invalid };
+	}
+
+	return { validity };
+}
+
+OperationInfo OperatorDatabase::Check(BasicType::value first, BinaryOperator::value op, BasicType::value second) const
 {
 	BasicTypeInfo a = GetTypeInfo(first);
 	BasicTypeInfo b = GetTypeInfo(second);
@@ -458,7 +490,7 @@ OperationInfo OperatorDatabase::Check(BasicType::value first, BinaryOperator::va
 	{
 		if (b.category == BasicTypeCategory::scalar)
 		{
-			return { OperationValidity::valid };
+			return CheckScalarOperation(a, op, b);
 		}
 
 		if (b.category == BasicTypeCategory::vector || b.category == BasicTypeCategory::matrix)

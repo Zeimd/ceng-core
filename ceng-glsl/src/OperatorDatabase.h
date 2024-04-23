@@ -71,7 +71,7 @@ namespace Ceng
 
 			}
 
-			bool CheckPromotion(BasicType::value source, BasicType::value dest)
+			bool CheckPromotion(BasicType::value source, BasicType::value dest) const
 			{
 				auto item = table.find({ source,dest });
 
@@ -95,8 +95,9 @@ namespace Ceng
 
 			OperatorDatabase(std::unordered_map<keytype, bool, TupleHash2<int, int>> binaryOperations);
 
+			OperationInfo CheckScalarOperation(BasicTypeInfo& a, BinaryOperator::value op, BasicTypeInfo& b) const;
 
-			OperationInfo Check(BasicType::value first, BinaryOperator::value op, BasicType::value second);
+			OperationInfo Check(BasicType::value first, BinaryOperator::value op, BasicType::value second) const;
 		};
 
 		extern const OperatorDatabase operatorDatabase;
