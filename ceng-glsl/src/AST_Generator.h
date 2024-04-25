@@ -119,7 +119,12 @@ namespace Ceng
 
 		SymbolLink MatchFunctionSignature(const std::vector<SymbolLink>& functions, std::vector<GLSL::AST_Datatype>& signatureTypes);
 
+		SymbolLink MatchFunctionSignature(GLSL::BasicType::value destType, std::vector<GLSL::AST_Datatype>& signatureTypes);
+
 		bool IsAssignable(const GLSL::Lvalue& lvalue);
+
+		ExpressionReturn GetImplicitConversion(GLSL::Lvalue* destination, StatementContext& statementContext, GLSL::Rvalue& in, 
+			GLSL::BasicType::value sourceType, GLSL::BasicType::value destType);
 
 		ExpressionReturn Handler_Expression(GLSL::Lvalue* destination, StatementContext& statementContext, Expression& item);
 

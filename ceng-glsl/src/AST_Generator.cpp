@@ -91,6 +91,8 @@
 #include <ceng/GLSL/AST_WhileLoop.h>
 #include <ceng/GLSL/AST_EmptyNode.h>
 
+#include "OperatorDatabase.h"
+
 using namespace Ceng;
 
 
@@ -452,8 +454,45 @@ Ceng::StringUtf8 AST_Generator::RegisterAnonymousStruct(std::shared_ptr<StructSp
 	return "";
 }
 
+ExpressionReturn AST_Generator::GetImplicitConversion(GLSL::Lvalue* destination, StatementContext& statementContext, GLSL::Rvalue& in, 
+	GLSL::BasicType::value sourceType, GLSL::BasicType::value destType)
+{
+	printf(__FUNCTION__);
+	printf("\n");
 
+	std::vector<GLSL::Rvalue> callParams;
+	std::vector<GLSL::AST_Datatype> signatureTypes;
 
+	callParams.push_back(in);
+	signatureTypes.push_back(sourceType);
+
+	SymbolLink link = MatchFunctionSignature(destType, signatureTypes);
+
+	GLSL::AST_Datatype returnType = destType;
+
+	if (destination == nullptr)
+	{
+		GLSL::Lvalue lhs = GenerateTemporary(statementContext, returnType);
+
+		auto sharedLink = std::make_shared<SymbolLink>(link);
+
+		statementContext.normalOperations.emplace_back(
+			std::make_shared<GLSL::AST_FunctionCall>(lhs, sharedLink, std::move(callParams))
+		);
+
+		return { lhs, returnType };
+	}
+	else
+	{
+		auto sharedLink = std::make_shared<SymbolLink>(link);
+
+		statementContext.normalOperations.emplace_back(
+			std::make_shared<GLSL::AST_FunctionCall>(*destination, sharedLink, std::move(callParams))
+		);
+
+		return { *destination, returnType };
+	}
+}
 
 ExpressionReturn AST_Generator::Handler_Expression(GLSL::Lvalue* destination, StatementContext& statementContext, Expression& item)
 {
@@ -489,11 +528,23 @@ ExpressionReturn AST_Generator::Handler_AssignmentExpression(GLSL::Lvalue* desti
 
 			if (lhs != b.value)
 			{
-				statementContext.normalOperations.push_back(std::make_shared< GLSL::AST_AssignmentOperation>(
-					lhs, b.value
-					));
+				GLSL::OperationInfo info = GLSL::operatorDatabase.CheckAssignment(a.valueType.basicType, b.valueType.basicType);
 
-				
+				switch (info.status)
+				{
+				case GLSL::OperationValidity::invalid:
+					break;
+				case GLSL::OperationValidity::valid:
+					statementContext.normalOperations.push_back(std::make_shared< GLSL::AST_AssignmentOperation>(
+						lhs, b.value
+						));
+					break;
+				case GLSL::OperationValidity::right_promotion:
+
+					GetImplicitConversion(&lhs, statementContext, b.value, a.valueType.basicType, b.valueType.basicType);
+
+					break;
+				}
 			}
 			return { lhs, GetDatatype(lhs) };
 		default:
@@ -3277,6 +3328,37 @@ SymbolLink AST_Generator::MatchFunctionSignature(const std::vector<SymbolLink>& 
 	}
 
 	return SymbolLink();
+}
+
+SymbolLink AST_Generator::MatchFunctionSignature(GLSL::BasicType::value destType, std::vector<GLSL::AST_Datatype>& signatureTypes)
+{
+	/*
+	for (auto& func : builtInFunctions)
+	{
+		auto& prototype = func.Get()->prototype;
+
+		if (prototype->GetParamCount() != signatureTypes.size())
+		{
+			continue;
+		}
+
+		for (size_t k = 0; k < prototype->GetParamCount(); k++)
+		{
+			auto param = prototype->GetParameter(k);
+
+			GLSL::AST_Datatype paramType = GetDatatype(param->GetType());
+
+			if (paramType != signatureTypes[k])
+			{
+				continue;
+			}
+		}
+
+		return func;
+	}
+	*/
+	return SymbolLink();
+	
 }
 
 bool AST_Generator::IsAssignable(const GLSL::Lvalue& lvalue)
