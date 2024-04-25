@@ -39,3 +39,12 @@ void TypeSpecifier::AcceptVisitor(NonTerminalVisitor& visitor)
 {
 	visitor.V_TypeSpecifier(*this);
 }
+
+std::shared_ptr<TypeSpecifier> TypeSpecifier::GetBasicType(GLSL::BasicType::value basicType)
+{
+	auto noArr = std::make_shared<TypeSpecifierNoArray>(basicType);
+
+	TypeSpecifierNoPrec noPrec{ noArr };
+
+	return std::make_shared<TypeSpecifier>(noPrec);
+}

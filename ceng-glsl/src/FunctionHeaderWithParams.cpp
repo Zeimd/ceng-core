@@ -22,6 +22,12 @@ FunctionHeaderWithParams::FunctionHeaderWithParams(std::shared_ptr<FunctionHeade
 
 }
 
+FunctionHeaderWithParams::FunctionHeaderWithParams(std::shared_ptr<FunctionHeader>& header, std::vector<std::shared_ptr<ParameterDeclaration>>& params)
+	: INonTerminal(NonTerminalType::function_header_with_parameters), header(header), params{ params }
+{
+
+}
+
 void FunctionHeaderWithParams::Append(std::shared_ptr<ParameterDeclaration>& decl)
 {
 	params.push_back(decl);

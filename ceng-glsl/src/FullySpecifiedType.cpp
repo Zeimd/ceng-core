@@ -16,6 +16,17 @@ FullySpecifiedType::FullySpecifiedType(const TypeQualifier& qualifier, const Typ
 
 }
 
+std::shared_ptr<FullySpecifiedType> FullySpecifiedType::GetBasicType(GLSL::BasicType::value basicType)
+{
+	auto noArr = std::make_shared<TypeSpecifierNoArray>(basicType);
+
+	TypeSpecifierNoPrec noPrec{ noArr };
+
+	TypeSpecifier typeSpec{ noPrec };
+
+	return std::make_shared<FullySpecifiedType>(typeSpec);
+}
+
 void FullySpecifiedType::Release()
 {
 	delete this;

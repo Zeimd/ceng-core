@@ -11,6 +11,12 @@
 #include "FunctionHeaderWithParams.h"
 #include "FunctionCallOrMethod.h"
 
+#include <ceng/GLSL/StorageQualifierType.h>
+
+#include <ceng/GLSL/ParameterQualifierType.h>
+#include "ParameterTypeQualifier.h"
+#include "ParameterQualifier.h"
+
 using namespace Ceng;
 
 SymbolDatabase::SymbolDatabase()
@@ -21,6 +27,85 @@ SymbolDatabase::SymbolDatabase()
 	data.emplace_back();
 
 	top = nullptr;
+
+	InitBuiltIns();
+}
+
+void SymbolDatabase::InitBuiltIns()
+{
+	/*
+	StorageQualifier in_sq{GLSL::StorageQualifierType::sq_in};
+	StorageQualifier out_sq{ GLSL::StorageQualifierType::sq_out };
+
+	auto noArr = std::make_shared<TypeSpecifierNoArray>(GLSL::BasicType::ts_int);
+
+	TypeSpecifierNoPrec noPrec{ noArr };
+
+	TypeQualifier typeQ{ in_sq };
+	TypeSpecifier typeSpec{noPrec};
+
+	auto fullSpec = std::make_shared<FullySpecifiedType>(typeQ, typeSpec);
+
+	auto single = std::make_shared<SingleDeclaration>(fullSpec, "gl_VertexID");
+
+	auto declList = std::make_shared<InitDeclaratorList>(single);
+
+	auto decl = std::make_shared<Declaration>(declList);
+
+	builtIns.emplace_back(decl, 0);
+
+	single = std::make_shared<SingleDeclaration>(fullSpec, "gl_InstanceID");
+
+	declList = std::make_shared<InitDeclaratorList>(single);
+
+	decl = std::make_shared<Declaration>(declList);
+
+	builtIns.emplace_back(decl, 0);
+	*/
+
+	//std::shared_ptr<TypeSpecifierNoArray> 
+
+	std::shared_ptr<FullySpecifiedType> returnType;
+
+	std::vector< std::shared_ptr<ParameterDeclaration>> params;
+
+	std::shared_ptr<ParameterDeclaration> paramDecl;
+
+	std::shared_ptr<FunctionHeader> header;
+
+	std::shared_ptr<FunctionHeaderWithParams> headerWithParams;
+
+	std::shared_ptr<FunctionDeclarator> funcDecl;
+
+	std::shared_ptr<ParameterQualifier> paramQ = std::make_shared<ParameterQualifier>(GLSL::ParameterQualifierType::empty);
+	
+	std::shared_ptr<TypeSpecifier> typeSpec;
+
+	std::shared_ptr<FunctionPrototype> prototype;
+
+	std::shared_ptr<Declaration> declaration;
+
+	typeSpec = TypeSpecifier::GetBasicType(GLSL::BasicType::ts_float);
+
+	returnType = std::make_shared<FullySpecifiedType>(*typeSpec);
+
+	header = std::make_shared<FunctionHeader>(returnType, "radians");
+
+	params.clear();
+
+	params.emplace_back(std::make_shared<ParameterDeclaration>(paramQ, typeSpec)
+	);
+
+	headerWithParams = std::make_shared<FunctionHeaderWithParams>(header, params);
+
+	funcDecl = std::make_shared<FunctionDeclarator>(headerWithParams);
+
+	prototype = std::make_shared<FunctionPrototype>(funcDecl);
+
+	declaration = std::make_shared<Declaration>(prototype);
+
+	builtIns.emplace_back(declaration,0);
+
 }
 
 void SymbolDatabase::StartScope()
@@ -270,6 +355,19 @@ std::vector<SymbolLink> SymbolDatabase::FindFunctions(const Ceng::StringUtf8& na
 
 		startIndex = current->childIndex;
 		current = current->parent;
+	}
+
+	for (size_t k=0; k < builtIns.size(); k++)
+	{
+		Symbol& symbol = builtIns[k];
+
+		if (symbol.symbolType == SymbolType::function_prototype)
+		{
+			if (*symbol.Name() == name)
+			{
+				output.emplace_back(&builtIns, k);
+			}
+		}
 	}
 
 	return output;

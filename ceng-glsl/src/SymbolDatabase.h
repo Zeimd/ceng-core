@@ -17,6 +17,8 @@ namespace Ceng
 	{
 	private:
 
+		std::vector<Symbol> builtIns;
+
 		std::vector<Symbol> data;
 
 		SymbolNode root;
@@ -29,6 +31,8 @@ namespace Ceng
 
 		void StartScope();
 		void EndScope();
+
+		void InitBuiltIns();
 
 		void StartFunction(std::shared_ptr<FunctionPrototype>& prototype);
 

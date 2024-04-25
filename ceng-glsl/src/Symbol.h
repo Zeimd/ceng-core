@@ -87,6 +87,8 @@ namespace Ceng
 		bool IsTypeName() const;
 
 		Ceng::StringUtf8 ToString(Ceng::UINT32 indentLevel) const;
+
+		std::shared_ptr<FunctionPrototype> GetPrototype() const;
 	};
 	
 }

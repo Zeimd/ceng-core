@@ -3305,7 +3305,7 @@ SymbolLink AST_Generator::MatchFunctionSignature(const std::vector<SymbolLink>& 
 {
 	for (auto& func : functions)
 	{
-		auto& prototype = func.Get()->prototype;
+		auto prototype = func.Get()->GetPrototype();
 
 		if (prototype->GetParamCount() != signatureTypes.size())
 		{

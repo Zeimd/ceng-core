@@ -190,3 +190,16 @@ Ceng::StringUtf8 Symbol::ToString(Ceng::UINT32 indentLevel) const
 
 	return "";
 }
+
+std::shared_ptr<FunctionPrototype> Symbol::GetPrototype() const
+{
+	switch (symbolType)
+	{
+	case SymbolType::function:
+		return prototype;
+	case SymbolType::function_prototype:
+		return decl->prototype;
+	default:
+		return nullptr;
+	}
+}
