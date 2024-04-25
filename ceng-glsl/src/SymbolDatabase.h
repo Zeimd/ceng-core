@@ -34,14 +34,6 @@ namespace Ceng
 		void StartScope();
 		void EndScope();
 
-		void InitBuiltIns();
-
-		// Add built-in function with one parameter
-		void AddSimpleFunction(const Ceng::StringUtf8&name, std::vector<GLSL::BasicType::value> variants, Ceng::UINT32 numParams);
-
-		void AddSimpleFunction_Ret_Common(const Ceng::StringUtf8& name, GLSL::BasicType::value returnType, 
-			std::vector<GLSL::BasicType::value> variants, Ceng::UINT32 numParams);
-
 		void StartFunction(std::shared_ptr<FunctionPrototype>& prototype);
 
 		SymbolLink AddUndefined(SymbolType::value type, const Ceng::StringUtf8& name);
@@ -65,6 +57,26 @@ namespace Ceng
 	private:
 
 		void AddNode();
+
+		void InitBuiltIns();
+
+		void AddBuiltinFunction(const Ceng::StringUtf8& name, GLSL::BasicType::value returnType, GLSL::BasicType::value paramType);
+
+		void AddBuiltinFunction(const Ceng::StringUtf8& name, GLSL::BasicType::value returnType, std::vector<GLSL::BasicType::value> paramTypes);
+
+		// Add built-in function with one parameter
+		void AddSimpleFunction(const Ceng::StringUtf8& name, std::vector<GLSL::BasicType::value> variants, Ceng::UINT32 numParams);
+
+		// Template for variant name(variant,lastType)
+		void AddSimpleFunction_gentype_type(const Ceng::StringUtf8& name, std::vector<GLSL::BasicType::value> variants, Ceng::UINT32 numVariantParams, GLSL::BasicType::value lastType,
+			Ceng::UINT32 numLastParams);
+
+		// Template for variant name(firstType,variant)
+		void AddSimpleFunction_type_gentype(const Ceng::StringUtf8& name, GLSL::BasicType::value firstType,
+			Ceng::UINT32 numFirstParams, std::vector<GLSL::BasicType::value> variants, Ceng::UINT32 numVariantParams);
+
+		void AddSimpleFunction_Ret_Common(const Ceng::StringUtf8& name, GLSL::BasicType::value returnType,
+			std::vector<GLSL::BasicType::value> variants, Ceng::UINT32 numParams);
 	};
 }
 
