@@ -7,6 +7,8 @@
 #include "SymbolLink.h"
 #include "SymbolNode.h"
 
+#include <ceng/GLSL/BasicType.h>
+
 namespace Ceng
 {
 	class FunctionPrototype;
@@ -33,6 +35,12 @@ namespace Ceng
 		void EndScope();
 
 		void InitBuiltIns();
+
+		// Add built-in function with one parameter
+		void AddSimpleFunction(const Ceng::StringUtf8&name, std::vector<GLSL::BasicType::value> variants, Ceng::UINT32 numParams);
+
+		void AddSimpleFunction_Ret_Common(const Ceng::StringUtf8& name, GLSL::BasicType::value returnType, 
+			std::vector<GLSL::BasicType::value> variants, Ceng::UINT32 numParams);
 
 		void StartFunction(std::shared_ptr<FunctionPrototype>& prototype);
 
