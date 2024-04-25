@@ -23,9 +23,6 @@ namespace Ceng
 					{BasicType::ts_int, BasicType::ts_float},true
 				},
 				{
-					{BasicType::ts_uint, BasicType::ts_int}, true
-				},
-				{
 					{BasicType::ts_uint, BasicType::ts_float}, false
 				},
 			}
