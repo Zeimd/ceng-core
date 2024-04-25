@@ -42,8 +42,6 @@ namespace Ceng::GLSL::BinaryOperator
 			return " == ";
 		case not_equal:
 			return " != ";
-		case field_select:
-			return ".";
 		case logical_and:
 			return " && ";
 		case logical_or:

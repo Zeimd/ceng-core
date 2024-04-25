@@ -9,6 +9,7 @@ namespace Ceng
 		{
 			enum value
 			{
+
 				add,
 				sub,
 
@@ -32,13 +33,11 @@ namespace Ceng
 				equal,
 				not_equal,
 
-				field_select,
-
 				logical_and,
 				logical_or,
 				logical_xor,
-			};
 
+			};
 			const char* ToString(BinaryOperator::value operation);
 		}
 	}
