@@ -369,21 +369,29 @@ OperationInfo OperatorDatabase::CheckScalarOperation(BasicTypeInfo& a, BinaryOpe
 
 	bool leftConversion = implicitConversions.CheckPromotion(a.baseType, b.baseType);
 
-	if (leftConversion)
-	{
-		validity = OperationValidity::left_promotion;
-	}
-
 	bool rightConversion = implicitConversions.CheckPromotion(b.baseType, a.baseType);
 
-	if (leftConversion == false && rightConversion)
+	if (leftConversion == rightConversion)
 	{
-		validity = OperationValidity::right_promotion;
+		if (leftConversion)
+		{
+			validity = OperationValidity::valid;
+		}
+		else
+		{
+			return { OperationValidity::invalid };
+		}
 	}
-
-	if (validity == OperationValidity::invalid)
+	else
 	{
-		return { OperationValidity::invalid };
+		if (leftConversion == true)
+		{
+			validity = OperationValidity::left_promotion;
+		}
+		else
+		{
+			validity = OperationValidity::right_promotion;
+		}
 	}
 
 	auto item = binaryOperations.find({ a.baseType, op });
