@@ -27,6 +27,13 @@ namespace Ceng
 			right_promotion,
 		};
 
+		enum class ConversionResult
+		{
+			yes,
+			no,
+			not_needed,
+		};
+
 		struct OperationInfo
 		{
 			OperationValidity status;
@@ -89,15 +96,21 @@ namespace Ceng
 
 			std::unordered_map<keytype, bool, TupleHash2<int,int>> binaryOperations;
 
-			//std::unordered_map<keytype, OperationInfo, TupleHash2<int, int>> unaryOperations;
-
 		public:
 
+			OperationValidity CheckScalarValidity(BasicType::value a, BasicType::value b) const;
+
 			OperatorDatabase(std::unordered_map<keytype, bool, TupleHash2<int, int>> binaryOperations);
+
+			OperationInfo CheckAssignment(BasicType::value dest, BasicType::value source) const;
 
 			OperationInfo CheckScalarOperation(BasicTypeInfo& a, BinaryOperator::value op, BasicTypeInfo& b) const;
 
 			OperationInfo Check(BasicType::value first, BinaryOperator::value op, BasicType::value second) const;
+
+		private:
+
+			ConversionResult CheckImplicitConversion(BasicType::value source, BasicType::value dest) const;
 		};
 
 		extern const OperatorDatabase operatorDatabase;

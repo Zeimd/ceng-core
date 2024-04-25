@@ -363,37 +363,93 @@ OperatorDatabase::OperatorDatabase(std::unordered_map<keytype, bool, TupleHash2<
 
 }
 
-OperationInfo OperatorDatabase::CheckScalarOperation(BasicTypeInfo& a, BinaryOperator::value op, BasicTypeInfo& b) const
+ConversionResult OperatorDatabase::CheckImplicitConversion(BasicType::value source, BasicType::value dest) const
+{
+	if (source == dest)
+	{
+		return ConversionResult::not_needed;
+	}
+
+	if (source == BasicType::ts_int || source == BasicType::ts_uint)
+	{
+		if (dest == BasicType::ts_float)
+		{
+			return ConversionResult::yes;
+		}
+	}
+
+	if (source == BasicType::ivec2 || source == BasicType::uvec2)
+	{
+		if (dest == BasicType::vec2)
+		{
+			return ConversionResult::yes;
+		}
+	}
+
+	if (source == BasicType::ivec3 || source == BasicType::uvec3)
+	{
+		if (dest == BasicType::vec3)
+		{
+			return ConversionResult::yes;
+		}
+	}
+
+	if (source == BasicType::ivec4 || source == BasicType::uvec4)
+	{
+		if (dest == BasicType::vec4)
+		{
+			return ConversionResult::yes;
+		}
+	}
+
+	return ConversionResult::no;
+}
+
+OperationValidity OperatorDatabase::CheckScalarValidity(BasicType::value a, BasicType::value b) const
 {
 	OperationValidity validity = OperationValidity::invalid;
 
-	bool leftConversion = implicitConversions.CheckPromotion(a.baseType, b.baseType);
+	ConversionResult leftConversion = CheckImplicitConversion(a, b);
 
-	bool rightConversion = implicitConversions.CheckPromotion(b.baseType, a.baseType);
-
-	if (leftConversion == rightConversion)
+	if (leftConversion == ConversionResult::not_needed)
 	{
-		if (leftConversion)
-		{
-			validity = OperationValidity::valid;
-		}
-		else
-		{
-			return { OperationValidity::invalid };
-		}
+		return OperationValidity::valid;
 	}
 	else
 	{
-		if (leftConversion == true)
+		ConversionResult rightConversion = CheckImplicitConversion(b, a);
+
+		if (leftConversion == rightConversion)
 		{
-			validity = OperationValidity::left_promotion;
+			if (leftConversion == ConversionResult::yes)
+			{
+				validity = OperationValidity::valid;
+			}
+			else
+			{
+				return OperationValidity::invalid;
+			}
 		}
 		else
 		{
-			validity = OperationValidity::right_promotion;
+			if (leftConversion == ConversionResult::yes)
+			{
+				validity = OperationValidity::left_promotion;
+			}
+			else
+			{
+				validity = OperationValidity::right_promotion;
+			}
 		}
 	}
 
+	return validity;
+}
+
+OperationInfo OperatorDatabase::CheckScalarOperation(BasicTypeInfo& a, BinaryOperator::value op, BasicTypeInfo& b) const
+{
+	OperationValidity validity = CheckScalarValidity(a.baseType, b.baseType);
+	
 	auto item = binaryOperations.find({ a.baseType, op });
 
 	if (item == binaryOperations.end())
@@ -402,6 +458,77 @@ OperationInfo OperatorDatabase::CheckScalarOperation(BasicTypeInfo& a, BinaryOpe
 	}
 
 	return { validity };
+}
+
+OperationInfo OperatorDatabase::CheckAssignment(BasicType::value dest, BasicType::value source) const
+{
+	BasicTypeInfo a = GetTypeInfo(dest);
+	BasicTypeInfo b = GetTypeInfo(source);
+
+	if (a.category == BasicTypeCategory::matrix)
+	{
+		if (b.category == BasicTypeCategory::matrix)
+		{
+			if (a.width == b.width && a.height == b.height)
+			{
+				return { OperationValidity::valid };
+			}
+		}
+
+		return { OperationValidity::invalid };
+	}
+
+	if (a.category == BasicTypeCategory::vector)
+	{
+		if (b.category != BasicTypeCategory::vector)
+		{
+			return { OperationValidity::invalid };
+		}
+
+		if (a.width != b.width)
+		{
+			return { OperationValidity::invalid };
+		}
+
+		ConversionResult res = CheckImplicitConversion(source, dest);
+
+		if (res == ConversionResult::not_needed)
+		{
+			return { OperationValidity::valid };
+		}
+
+		if (res == ConversionResult::no)
+		{
+			return { OperationValidity::invalid };
+		}
+
+		if (res == ConversionResult::yes)
+		{
+			return { OperationValidity::right_promotion };
+		}
+	}
+
+	if (a.category == BasicTypeCategory::scalar)
+	{
+		ConversionResult res = CheckImplicitConversion(source, dest);
+
+		if (res == ConversionResult::not_needed)
+		{
+			return { OperationValidity::valid };
+		}
+
+		if (res == ConversionResult::no)
+		{
+			return { OperationValidity::invalid };
+		}
+
+		if (res == ConversionResult::yes)
+		{
+			return { OperationValidity::right_promotion };
+		}
+	}
+
+	return { OperationValidity::invalid };
 }
 
 OperationInfo OperatorDatabase::Check(BasicType::value first, BinaryOperator::value op, BasicType::value second) const
