@@ -610,6 +610,95 @@ void SymbolDatabase::InitBuiltIns()
 	funcName = "textureSize";
 	AddSimpleFunction_Ret_Common(funcName, GLSL::BasicType::ivec2, gsampler2DMSArray, 1);
 
+	// Texture sampling
+
+	std::vector<GLSL::BasicType::value> gvec = { GLSL::BasicType::vec4,GLSL::BasicType::ivec4,GLSL::BasicType::uvec4 };
+
+	// vec4 texture(gsampler1D, float)
+	funcName = "texture";
+	AddSimpleFunction(funcName, gvec, gsampler1D, 1, GLSL::BasicType::ts_float, false);
+
+	// vec4 texture(gsampler1D, float, float)
+	funcName = "texture";
+	AddSimpleFunction(funcName, gvec, gsampler1D, 1, GLSL::BasicType::ts_float, true);
+
+	// vec4 texture(gsampler2D, vec2)
+	funcName = "texture";
+	AddSimpleFunction(funcName, gvec, gsampler2D, 1, GLSL::BasicType::vec2, false);
+
+	// vec4 texture(gsampler2D, vec2, float)
+	funcName = "texture";
+	AddSimpleFunction(funcName, gvec, gsampler2D, 1, GLSL::BasicType::vec2, true);
+
+	// vec4 texture(gsampler3D, vec3)
+	funcName = "texture";
+	AddSimpleFunction(funcName, gvec, gsampler3D, 1, GLSL::BasicType::vec3, false);
+
+	// vec4 texture(gsampler3D, vec3, float)
+	funcName = "texture";
+	AddSimpleFunction(funcName, gvec, gsampler3D, 1, GLSL::BasicType::vec3, true);
+
+	// float texture(sampler1DShadow, vec3)
+	funcName = "texture";
+	AddBuiltinFunction(funcName, GLSL::BasicType::ts_float, {GLSL::BasicType::sampler1DShadow, GLSL::BasicType::vec3});
+
+	// float texture(sampler1DShadow, vec3, float)
+	funcName = "texture";
+	AddBuiltinFunction(funcName, GLSL::BasicType::ts_float, { GLSL::BasicType::sampler1DShadow, GLSL::BasicType::vec3, GLSL::BasicType::ts_float });
+
+	// float texture(sampler2DShadow, vec3)
+	funcName = "texture";
+	AddBuiltinFunction(funcName, GLSL::BasicType::ts_float, { GLSL::BasicType::sampler2DShadow, GLSL::BasicType::vec3 });
+
+	// float texture(sampler2DShadow, vec3, float)
+	funcName = "texture";
+	AddBuiltinFunction(funcName, GLSL::BasicType::ts_float, { GLSL::BasicType::sampler2DShadow, GLSL::BasicType::vec3, GLSL::BasicType::ts_float });
+
+	// float texture(samplerCubeShadow, vec4)
+	funcName = "texture";
+	AddBuiltinFunction(funcName, GLSL::BasicType::ts_float, { GLSL::BasicType::samplerCubeShadow, GLSL::BasicType::vec4 });
+
+	// float texture(samplerCubeShadow, vec4, float)
+	funcName = "texture";
+	AddBuiltinFunction(funcName, GLSL::BasicType::ts_float, { GLSL::BasicType::samplerCubeShadow, GLSL::BasicType::vec4, GLSL::BasicType::ts_float });
+
+	// gvec4 texture(gsampler1DArray, float)
+	funcName = "texture";
+	AddSimpleFunction(funcName, gvec, gsampler1DArray, 1, GLSL::BasicType::vec2, false);
+
+	// gvec4 texture(gsampler1DArray, float, float)
+	funcName = "texture";
+	AddSimpleFunction(funcName, gvec, gsampler1DArray, 1, GLSL::BasicType::vec2, true);
+
+	// gvec4 texture(gsampler2DArray, vec3)
+	funcName = "texture";
+	AddSimpleFunction(funcName, gvec, gsampler2DArray, 1, GLSL::BasicType::vec3, false);
+
+	// gvec4 texture(gsampler2DArray, vec3, float)
+	funcName = "texture";
+	AddSimpleFunction(funcName, gvec, gsampler2DArray, 1, GLSL::BasicType::vec3, true);
+
+	// float texture(sampler1DArrayShadow, vec3)
+	funcName = "texture";
+	AddBuiltinFunction(funcName, GLSL::BasicType::ts_float, { GLSL::BasicType::sampler1DArrayShadow, GLSL::BasicType::vec3 });
+
+	// float texture(samplerCubeShadow, vec4, float)
+	funcName = "texture";
+	AddBuiltinFunction(funcName, GLSL::BasicType::ts_float, { GLSL::BasicType::sampler1DArrayShadow, GLSL::BasicType::vec3, GLSL::BasicType::ts_float });
+
+	// float texture(sampler2DArrayShadow, vec4)
+	funcName = "texture";
+	AddBuiltinFunction(funcName, GLSL::BasicType::ts_float, { GLSL::BasicType::sampler2DArrayShadow, GLSL::BasicType::vec4 });
+
+	// gvec4 texture(gsampler2DRect, vec2)
+	funcName = "texture";
+	AddSimpleFunction(funcName, gvec, gsampler2DRect, 1, GLSL::BasicType::vec2, false);
+
+	// float texture(sampler2DRectShadow, vec3)
+	funcName = "texture";
+	AddBuiltinFunction(funcName, GLSL::BasicType::ts_float, { GLSL::BasicType::sampler2DRectShadow, GLSL::BasicType::vec3 });
+
+
 }
 
 void SymbolDatabase::AddBuiltinFunction(const Ceng::StringUtf8& name, GLSL::BasicType::value returnType)
@@ -760,6 +849,71 @@ void SymbolDatabase::AddSimpleFunction_Ret_Common(const Ceng::StringUtf8& name, 
 
 		for (Ceng::UINT32 k = 0; k < numParams; k++)
 		{
+			params.emplace_back(std::make_shared<ParameterDeclaration>(paramQ, typeSpec)
+			);
+
+		}
+
+		headerWithParams = std::make_shared<FunctionHeaderWithParams>(header, params);
+
+		funcDecl = std::make_shared<FunctionDeclarator>(headerWithParams);
+
+		prototype = std::make_shared<FunctionPrototype>(funcDecl);
+
+		declaration = std::make_shared<Declaration>(prototype);
+
+		builtIns.emplace_back(declaration, 0);
+	}
+}
+
+void SymbolDatabase::AddSimpleFunction(const Ceng::StringUtf8& name, std::vector<GLSL::BasicType::value> returnType,
+	std::vector<GLSL::BasicType::value> parameterType, Ceng::UINT32 numParams,
+	GLSL::BasicType::value lastType, bool bias)
+{
+	for (size_t k = 0; k < returnType.size(); k++)
+	{
+		std::shared_ptr<FullySpecifiedType> returnSpec = FullySpecifiedType::GetBasicType(returnType[k]);
+
+		std::vector< std::shared_ptr<ParameterDeclaration>> params;
+
+		std::shared_ptr<ParameterDeclaration> paramDecl;
+
+		std::shared_ptr<FunctionHeader> header;
+
+		std::shared_ptr<FunctionHeaderWithParams> headerWithParams;
+
+		std::shared_ptr<FunctionDeclarator> funcDecl;
+
+		std::shared_ptr<ParameterQualifier> paramQ = std::make_shared<ParameterQualifier>(GLSL::ParameterQualifierType::empty);
+
+		std::shared_ptr<TypeSpecifier> typeSpec;
+
+		std::shared_ptr<FunctionPrototype> prototype;
+
+		std::shared_ptr<Declaration> declaration;
+
+		typeSpec = TypeSpecifier::GetBasicType(parameterType[k]);
+
+		header = std::make_shared<FunctionHeader>(returnSpec, name);
+
+		params.clear();
+
+		for (Ceng::UINT32 i = 0; i < numParams; i++)
+		{
+			params.emplace_back(std::make_shared<ParameterDeclaration>(paramQ, typeSpec)
+			);
+
+		}
+
+		typeSpec = TypeSpecifier::GetBasicType(lastType);
+
+		params.emplace_back(std::make_shared<ParameterDeclaration>(paramQ, typeSpec)
+		);
+
+		if (bias)
+		{
+			typeSpec = TypeSpecifier::GetBasicType(GLSL::BasicType::ts_float);
+
 			params.emplace_back(std::make_shared<ParameterDeclaration>(paramQ, typeSpec)
 			);
 

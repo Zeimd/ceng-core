@@ -70,6 +70,11 @@ namespace Ceng
 		// Add built-in function with one parameter
 		void AddSimpleFunction(const Ceng::StringUtf8& name, std::vector<GLSL::BasicType::value> variants, Ceng::UINT32 numParams);
 
+		// Add built-in function with separate variant list for return type and parameter
+		void AddSimpleFunction(const Ceng::StringUtf8& name, std::vector<GLSL::BasicType::value> returnType, 
+			std::vector<GLSL::BasicType::value> parameterType, Ceng::UINT32 numParams,
+			GLSL::BasicType::value lastType, bool bias);
+
 		// Template for variant name(variant,lastType)
 		void AddSimpleFunction_gentype_type(const Ceng::StringUtf8& name, std::vector<GLSL::BasicType::value> variants, Ceng::UINT32 numVariantParams, GLSL::BasicType::value lastType,
 			Ceng::UINT32 numLastParams);
