@@ -90,6 +90,7 @@
 #include <ceng/GLSL/AST_Break.h>
 #include <ceng/GLSL/AST_WhileLoop.h>
 #include <ceng/GLSL/AST_EmptyNode.h>
+#include <ceng/GLSL/AST_NormalVariable.h>
 
 #include "OperatorDatabase.h"
 
@@ -3950,13 +3951,10 @@ AST_Generator::return_type AST_Generator::V_InitDeclaratorList(InitDeclaratorLis
 			entry.name
 		};
 
-		GLSL::Lvalue dest{ decl };
-
-		GLSL::Rvalue initializer;
-		GLSL::AST_Datatype initializerType;
-
 		if (entry.initializer != nullptr)
 		{
+			GLSL::Lvalue dest{ decl };
+
 			StatementContext statementContext;
 
 			ExpressionReturn a = Handler_Initializer(&dest, statementContext, *entry.initializer);
@@ -3967,85 +3965,13 @@ AST_Generator::return_type AST_Generator::V_InitDeclaratorList(InitDeclaratorLis
 			}
 
 			AddStatementContext(statementContext);
-
-			//initializer = a.value;
-			//initializerType = a.valueType;
-		}
-
-		/*
-		GLSL::Rvalue initializer;
-		GLSL::AST_Datatype initializerType;
-
-		if (entry.initializer != nullptr)
-		{
-			StatementContext statementContext;
-
-			ExpressionReturn a = Handler_Initializer(nullptr, statementContext , *entry.initializer);
-
-			AddStatementContext(statementContext);
-
-			initializer = a.value;
-			initializerType = a.valueType;
-		}
-
-		std::shared_ptr<GLSL::AST_VariableDeclaration> output;
-
-		if (entry.arraySizeExpression == nullptr)
-		{
-			if (entry.isArray)
-			{
-				output = std::make_shared<GLSL::AST_VariableDeclaration>(
-					item.invariant,
-					layout,
-					item.fullType->qualifier.storage.qualifier,
-					item.fullType->qualifier.interpolation.interpolation,
-					item.fullType->typeSpec.precision.precision,
-					datatype,
-					entry.name,
-					true,
-					initializer
-					);
-			}
-			else
-			{
-				output = std::make_shared<GLSL::AST_VariableDeclaration>(
-					item.invariant,
-					layout,
-					item.fullType->qualifier.storage.qualifier,
-					item.fullType->qualifier.interpolation.interpolation,
-					item.fullType->typeSpec.precision.precision,
-					datatype,
-					entry.name,
-					initializer
-					);
-			}
 		}
 		else
 		{
-			StatementContext statementContext;
-
-			ExpressionReturn a = Handler_Expression(nullptr, statementContext , *entry.arraySizeExpression);
-
-			AddStatementContext(statementContext);
-			
-			GLSL::Rvalue arraySize = a.value;
-			
-			output = std::make_shared<GLSL::AST_VariableDeclaration>(
-				item.invariant,
-				layout,
-				item.fullType->qualifier.storage.qualifier,
-				item.fullType->qualifier.interpolation.interpolation,
-				item.fullType->typeSpec.precision.precision,
-				datatype,
-				entry.name,
-				arraySize,
-				initializer
-				);
+			CurrentContext().parent->children.emplace_back(
+				std::make_shared<GLSL::AST_NormalVariable>(decl)
+			);
 		}
-		
-
-		CurrentContext().parent->children.push_back(output);
-		*/
 	}
 
 	return 0;

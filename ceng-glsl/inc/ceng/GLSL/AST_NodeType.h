@@ -21,6 +21,8 @@ namespace Ceng
 
 				function_prototype,
 
+				normal_variable,
+
 				interface_variable,
 
 				struct_declaration,
