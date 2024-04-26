@@ -74,6 +74,11 @@ namespace Ceng
 		void AddSimpleFunction_gentype_type(const Ceng::StringUtf8& name, std::vector<GLSL::BasicType::value> variants, Ceng::UINT32 numVariantParams, GLSL::BasicType::value lastType,
 			Ceng::UINT32 numLastParams);
 
+		// Template for variant name(variant,lastType)
+		void AddSimpleFunction_ret_gentype_type(const Ceng::StringUtf8& name, GLSL::BasicType::value returnType,
+			std::vector<GLSL::BasicType::value> variants, Ceng::UINT32 numVariantParams, GLSL::BasicType::value lastType,
+			Ceng::UINT32 numLastParams);
+
 		// Template for variant name(firstType,variant)
 		void AddSimpleFunction_type_gentype(const Ceng::StringUtf8& name, GLSL::BasicType::value firstType,
 			Ceng::UINT32 numFirstParams, std::vector<GLSL::BasicType::value> variants, Ceng::UINT32 numVariantParams);

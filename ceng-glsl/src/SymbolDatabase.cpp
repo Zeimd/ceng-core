@@ -545,6 +545,71 @@ void SymbolDatabase::InitBuiltIns()
 	funcName = "not";
 	AddSimpleFunction_Ret_Common(funcName, GLSL::BasicType::ts_bool, boolVecs, 1);
 
+	std::vector<GLSL::BasicType::value> gsampler1D = { GLSL::BasicType::sampler1D, GLSL::BasicType::isampler1D, GLSL::BasicType::usampler1D };
+	std::vector<GLSL::BasicType::value> gsampler2D = { GLSL::BasicType::sampler2D, GLSL::BasicType::isampler2D, GLSL::BasicType::usampler2D };
+	std::vector<GLSL::BasicType::value> gsampler3D = { GLSL::BasicType::sampler3D, GLSL::BasicType::isampler3D, GLSL::BasicType::usampler3D };
+
+	std::vector<GLSL::BasicType::value> gsamplerCube = { GLSL::BasicType::samplerCube, GLSL::BasicType::isamplerCube, GLSL::BasicType::usamplerCube };
+
+	std::vector<GLSL::BasicType::value> gsampler2DRect = { GLSL::BasicType::sampler2DRect, GLSL::BasicType::isampler2DRect, GLSL::BasicType::usampler2DRect };
+
+	std::vector<GLSL::BasicType::value> gsampler1DArray = { GLSL::BasicType::sampler1DArray, GLSL::BasicType::isampler1DArray, GLSL::BasicType::usampler1DArray };
+
+	std::vector<GLSL::BasicType::value> gsampler2DArray = { GLSL::BasicType::sampler2DArray, GLSL::BasicType::isampler2DArray, GLSL::BasicType::usampler2DArray };
+
+	std::vector<GLSL::BasicType::value> gsampler2DMS = { GLSL::BasicType::sampler2DMS, GLSL::BasicType::isampler2DMS, GLSL::BasicType::usampler2DMS };
+
+	std::vector<GLSL::BasicType::value> gsampler2DMSArray = { GLSL::BasicType::sampler2DMSArray, GLSL::BasicType::isampler2DMSArray, GLSL::BasicType::usampler2DMSArray };
+
+	// int textureSize(gsampler1D, int)
+	funcName = "textureSize";
+	AddSimpleFunction_ret_gentype_type(funcName, GLSL::BasicType::ts_int, gsampler1D,1,GLSL::BasicType::ts_int, 1);
+
+	funcName = "textureSize";
+	AddSimpleFunction_ret_gentype_type(funcName, GLSL::BasicType::ivec2, gsampler2D, 1, GLSL::BasicType::ts_int, 1);
+
+	funcName = "textureSize";
+	AddSimpleFunction_ret_gentype_type(funcName, GLSL::BasicType::ivec3, gsampler3D, 1, GLSL::BasicType::ts_int, 1);
+
+	funcName = "textureSize";
+	AddSimpleFunction_ret_gentype_type(funcName, GLSL::BasicType::ivec2, gsamplerCube, 1, GLSL::BasicType::ts_int, 1);
+
+	funcName = "textureSize";
+	AddSimpleFunction_ret_gentype_type(funcName, GLSL::BasicType::ts_int, {GLSL::BasicType::sampler1DShadow}, 1, GLSL::BasicType::ts_int, 1);
+
+	funcName = "textureSize";
+	AddSimpleFunction_ret_gentype_type(funcName, GLSL::BasicType::ivec2, { GLSL::BasicType::sampler2DShadow }, 1, GLSL::BasicType::ts_int, 1);
+
+	funcName = "textureSize";
+	AddSimpleFunction_ret_gentype_type(funcName, GLSL::BasicType::ivec2, { GLSL::BasicType::samplerCubeShadow }, 1, GLSL::BasicType::ts_int, 1);
+
+	funcName = "textureSize";
+	AddSimpleFunction_ret_gentype_type(funcName, GLSL::BasicType::ivec2, gsampler2DRect, 1, GLSL::BasicType::ts_int, 1);
+
+	funcName = "textureSize";
+	AddSimpleFunction_ret_gentype_type(funcName, GLSL::BasicType::ivec2, { GLSL::BasicType::sampler2DRectShadow }, 1, GLSL::BasicType::ts_int, 1);
+
+	funcName = "textureSize";
+	AddSimpleFunction_ret_gentype_type(funcName, GLSL::BasicType::ivec2, gsampler1DArray, 1, GLSL::BasicType::ts_int, 1);
+
+	funcName = "textureSize";
+	AddSimpleFunction_ret_gentype_type(funcName, GLSL::BasicType::ivec3, gsampler2DArray, 1, GLSL::BasicType::ts_int, 1);
+
+	funcName = "textureSize";
+	AddSimpleFunction_ret_gentype_type(funcName, GLSL::BasicType::ivec2, { GLSL::BasicType::sampler1DArrayShadow }, 1, GLSL::BasicType::ts_int, 1);
+
+	funcName = "textureSize";
+	AddSimpleFunction_ret_gentype_type(funcName, GLSL::BasicType::ivec3, { GLSL::BasicType::sampler2DArrayShadow }, 1, GLSL::BasicType::ts_int, 1);
+
+	funcName = "textureSize";
+	AddSimpleFunction_Ret_Common(funcName, GLSL::BasicType::ts_int, { GLSL::BasicType::samplerBuffer }, 1);
+
+	funcName = "textureSize";
+	AddSimpleFunction_Ret_Common(funcName, GLSL::BasicType::ivec2, gsampler2DMS, 1);
+
+	funcName = "textureSize";
+	AddSimpleFunction_Ret_Common(funcName, GLSL::BasicType::ivec2, gsampler2DMSArray, 1);
+
 }
 
 void SymbolDatabase::AddBuiltinFunction(const Ceng::StringUtf8& name, GLSL::BasicType::value returnType)
@@ -820,6 +885,63 @@ void SymbolDatabase::AddSimpleFunction_gentype_type(const Ceng::StringUtf8& name
 		builtIns.emplace_back(declaration, 0);
 	}
 }
+
+void SymbolDatabase::AddSimpleFunction_ret_gentype_type(const Ceng::StringUtf8& name, GLSL::BasicType::value returnType,
+	std::vector<GLSL::BasicType::value> variants,
+	Ceng::UINT32 numVariantParams, GLSL::BasicType::value lastType, Ceng::UINT32 numLastParams)
+{
+	std::shared_ptr<FullySpecifiedType> returnSpec = FullySpecifiedType::GetBasicType(returnType);
+
+	for (auto& x : variants)
+	{
+		std::vector< std::shared_ptr<ParameterDeclaration>> params;
+
+		std::shared_ptr<ParameterDeclaration> paramDecl;
+
+		std::shared_ptr<FunctionHeader> header;
+
+		std::shared_ptr<FunctionHeaderWithParams> headerWithParams;
+
+		std::shared_ptr<FunctionDeclarator> funcDecl;
+
+		std::shared_ptr<ParameterQualifier> paramQ = std::make_shared<ParameterQualifier>(GLSL::ParameterQualifierType::empty);
+
+		std::shared_ptr<TypeSpecifier> typeSpec;
+
+		std::shared_ptr<FunctionPrototype> prototype;
+
+		std::shared_ptr<Declaration> declaration;
+
+		header = std::make_shared<FunctionHeader>(returnSpec, name);
+
+		params.clear();
+
+		typeSpec = TypeSpecifier::GetBasicType(x);
+
+		for (size_t k = 0; k < numVariantParams; k++)
+		{
+			params.emplace_back(std::make_shared<ParameterDeclaration>(paramQ, typeSpec));
+		}
+
+		typeSpec = TypeSpecifier::GetBasicType(lastType);
+
+		for (size_t k = 0; k < numLastParams; k++)
+		{
+			params.emplace_back(std::make_shared<ParameterDeclaration>(paramQ, typeSpec));
+		}
+
+		headerWithParams = std::make_shared<FunctionHeaderWithParams>(header, params);
+
+		funcDecl = std::make_shared<FunctionDeclarator>(headerWithParams);
+
+		prototype = std::make_shared<FunctionPrototype>(funcDecl);
+
+		declaration = std::make_shared<Declaration>(prototype);
+
+		builtIns.emplace_back(declaration, 0);
+	}
+}
+
 
 void SymbolDatabase::AddSimpleFunction_type_gentype(const Ceng::StringUtf8& name, GLSL::BasicType::value firstType,
 	Ceng::UINT32 numFirstParams, std::vector<GLSL::BasicType::value> variants, Ceng::UINT32 numVariantParams)
