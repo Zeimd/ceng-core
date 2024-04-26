@@ -182,13 +182,19 @@ bool Symbol::IsTypeName() const
 
 Ceng::StringUtf8 Symbol::ToString(Ceng::UINT32 indentLevel) const
 {
-	/*
-	printf(__func__);
-	printf("\n");
-	printf("symbol type = %s\n", SymbolTypeToString(symbolType));
-	*/
+	Ceng::StringUtf8 out;
 
-	return "";
+	switch (symbolType)
+	{
+	case SymbolType::function:
+		return prototype->ToString(0);
+	case SymbolType::function_prototype:
+		return decl->prototype->ToString(0);
+	default:
+		return "<UNHANDLED SYMBOL TYPE>";
+	}
+
+	return out;
 }
 
 std::shared_ptr<FunctionPrototype> Symbol::GetPrototype() const
