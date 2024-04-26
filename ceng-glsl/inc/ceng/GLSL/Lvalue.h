@@ -3,6 +3,8 @@
 
 #include <ceng/datatypes/ce-string.h>
 
+#include "SimpleDeclaration.h"
+
 #include "ArrayIndex.h"
 #include "VariableExpression.h"
 
@@ -12,13 +14,22 @@ namespace Ceng
 	{
 		class Rvalue;
 
+		enum class LvalueType
+		{
+			invalid,
+			expression,
+			declaration
+		};
+
 		class Lvalue
 		{
 		public:
 
-			VariableExpression expression;
+			using ContentType = std::variant<bool, VariableExpression, SimpleDeclaration>;
 
-			bool valid;
+			ContentType value;
+
+			LvalueType valueType;
 
 		public:
 
@@ -27,6 +38,8 @@ namespace Ceng
 			Lvalue(const Ceng::StringUtf8& variable);
 
 			Lvalue(const Ceng::StringUtf8& variable, ArrayIndex& index);
+
+			Lvalue(const SimpleDeclaration& declaration);
 
 			Lvalue(const VariableExpression& expression);
 
@@ -37,6 +50,10 @@ namespace Ceng
 			bool operator == (const Rvalue& other) const;
 
 			bool operator != (const Rvalue& other) const;
+
+			VariableExpression ToExpression() const;
+
+			bool IsValid() const;
 		};
 	}
 }

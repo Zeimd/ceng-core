@@ -8,6 +8,7 @@
 
 using namespace Ceng::GLSL;
 
+/*
 AST_VariableDeclaration::AST_VariableDeclaration(bool invariant, std::vector<LayoutData>& layout, StorageQualifierType::value storage,
 	InterpolationQualifierType::value interpolation, PrecisionQualifierType::value precision,
 	AST_Datatype& datatype, const Ceng::StringUtf8& name)
@@ -153,3 +154,4 @@ Ceng::StringUtf8 AST_VariableDeclaration::RhsToString(Ceng::UINT32 indentLevel) 
 {
 	return "";
 }
+*/

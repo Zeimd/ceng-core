@@ -200,6 +200,13 @@ GLSL::Lvalue AST_Generator::GenerateTemporary(GLSL::AST_Datatype& type)
 }
 */
 
+GLSL::PrecisionQualifierType::value AST_Generator::GetDefaultPrecision(const GLSL::AST_Datatype& datatype)
+{
+	// TODO
+
+	return GLSL::PrecisionQualifierType::unassigned;
+}
+
 GLSL::Lvalue AST_Generator::GenerateTemporary(StatementContext& statementContext, GLSL::AST_Datatype& type)
 {
 	printf(__FUNCTION__);
@@ -210,6 +217,19 @@ GLSL::Lvalue AST_Generator::GenerateTemporary(StatementContext& statementContext
 
 	printf("variable = %s\n", name.ToCString());
 
+	GLSL::PrecisionQualifierType::value precision = GetDefaultPrecision(type);
+
+	GLSL::SimpleDeclaration decl
+	{
+		true,
+		precision,
+		type,
+		name
+	};
+
+	return { decl };
+
+	/*
 	std::vector<GLSL::LayoutData> layout;
 
 	statementContext.normalOperations.emplace_back(
@@ -224,6 +244,7 @@ GLSL::Lvalue AST_Generator::GenerateTemporary(StatementContext& statementContext
 			));
 
 	return { name };
+	*/
 }
 
 GLSL::AST_Datatype AST_Generator::GetDatatype(const SymbolLink& link)
@@ -345,12 +366,17 @@ GLSL::AST_Datatype AST_Generator::GetDatatype(const GLSL::VariableExpression& ex
 
 GLSL::AST_Datatype AST_Generator::GetDatatype(const GLSL::Lvalue& lvalue)
 {
-	if (lvalue.valid == false)
+	switch (lvalue.valueType)
 	{
+	case GLSL::LvalueType::invalid:
 		return GLSL::AST_Datatype();
-	}
+	case GLSL::LvalueType::expression:
+		return GetDatatype(std::get<GLSL::VariableExpression>(lvalue.value));
+	case GLSL::LvalueType::declaration:
+		return std::get<GLSL::SimpleDeclaration>(lvalue.value).datatype;
+	}	
 
-	return GetDatatype(lvalue.expression);
+	return GLSL::AST_Datatype();
 }
 
 GLSL::AST_Datatype AST_Generator::GetMemberType(const GLSL::AST_Datatype& baseType, const Ceng::StringUtf8& memberName)
@@ -524,6 +550,41 @@ ExpressionReturn AST_Generator::Handler_Expression(GLSL::Lvalue* destination, St
 	printf("\n");
 
 	return Handler_AssignmentExpression(destination, statementContext, *item.assignEx[0]);
+}
+
+ExpressionReturn AST_Generator::Handler_Assignment(StatementContext& statementContext, GLSL::Lvalue& lhs, ExpressionReturn& rhs)
+{
+	printf(__FUNCTION__);
+	printf("\n");
+
+	GLSL::AST_Datatype& destType = std::get<GLSL::SimpleDeclaration>(lhs.value).datatype;
+
+	GLSL::OperationInfo info = GLSL::operatorDatabase.CheckAssignment(destType.basicType, rhs.valueType.basicType);
+
+	switch (info.status)
+	{
+	case GLSL::OperationValidity::invalid:
+		break;
+	case GLSL::OperationValidity::valid:
+		statementContext.normalOperations.push_back(std::make_shared< GLSL::AST_AssignmentOperation>(
+			lhs, rhs.value
+			));
+		break;
+	case GLSL::OperationValidity::right_promotion:
+
+		ExpressionReturn c = GetImplicitConversion(&lhs, statementContext, rhs.value, rhs.valueType.basicType, destType.basicType);
+
+		if (lhs != c.value)
+		{
+			statementContext.normalOperations.push_back(std::make_shared< GLSL::AST_AssignmentOperation>(
+				lhs, c.value
+				));
+		}
+
+		break;
+	}
+
+	return { lhs, destType };
 }
 
 ExpressionReturn AST_Generator::Handler_AssignmentExpression(GLSL::Lvalue* destination, StatementContext& statementContext, AssignmentExpression& item)
@@ -3282,7 +3343,7 @@ ExpressionReturn AST_Generator::LiteralNotEqual(GLSL::Rvalue& a, GLSL::Rvalue& b
 
 ExpressionReturn AST_Generator::Handler_Initializer(GLSL::Lvalue* destination, StatementContext& statementContext, Initializer& item)
 {
-	return Handler_AssignmentExpression(nullptr, statementContext , *item.assignEx);
+	return Handler_AssignmentExpression(destination, statementContext , *item.assignEx);
 }
 
 ExpressionReturn AST_Generator::Handler_FunctionCall(GLSL::Lvalue* destination, StatementContext& statementContext, FunctionCall& item)
@@ -3397,14 +3458,26 @@ SymbolLink AST_Generator::MatchFunctionSignature(GLSL::BasicType::value destType
 
 bool AST_Generator::IsAssignable(const GLSL::Lvalue& lvalue)
 {
-	if (lvalue.valid == false)
+	switch (lvalue.valueType)
 	{
+	case GLSL::LvalueType::invalid:
 		return false;
+	case GLSL::LvalueType::declaration:
+		return true;
+	case GLSL::LvalueType::expression:
+
+		return IsConstant(std::get<GLSL::VariableExpression>(lvalue.value)) == false;
 	}
 
-	return true;
+	return false;
 }
 
+bool AST_Generator::IsConstant(const GLSL::VariableExpression& expression)
+{
+	// TODO: check from symbol database
+
+	return false;
+}
 
 
 AST_Generator::return_type AST_Generator::V_TranslationUnit(TranslationUnit& item)
@@ -3869,7 +3942,37 @@ AST_Generator::return_type AST_Generator::V_InitDeclaratorList(InitDeclaratorLis
 
 		GLSL::AST_Datatype datatype{GetDatatype(item.fullType)};
 
+		GLSL::SimpleDeclaration decl
+		{ 
+			item.fullType->qualifier.storage.qualifier == GLSL::StorageQualifierType::sq_const,
+			item.fullType->typeSpec.precision.precision,
+			datatype,
+			entry.name
+		};
 
+		GLSL::Lvalue dest{ decl };
+
+		GLSL::Rvalue initializer;
+		GLSL::AST_Datatype initializerType;
+
+		if (entry.initializer != nullptr)
+		{
+			StatementContext statementContext;
+
+			ExpressionReturn a = Handler_Initializer(&dest, statementContext, *entry.initializer);
+
+			if (dest != a.value)
+			{
+				Handler_Assignment(statementContext,dest,a);
+			}
+
+			AddStatementContext(statementContext);
+
+			//initializer = a.value;
+			//initializerType = a.valueType;
+		}
+
+		/*
 		GLSL::Rvalue initializer;
 		GLSL::AST_Datatype initializerType;
 
@@ -3939,8 +4042,10 @@ AST_Generator::return_type AST_Generator::V_InitDeclaratorList(InitDeclaratorLis
 				initializer
 				);
 		}
+		
 
 		CurrentContext().parent->children.push_back(output);
+		*/
 	}
 
 	return 0;

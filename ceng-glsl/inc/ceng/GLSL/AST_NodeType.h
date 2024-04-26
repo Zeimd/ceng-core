@@ -14,13 +14,14 @@ namespace Ceng
 				empty,
 
 				translation_unit,
+
 				scope,
 
 				function_definition,
 
 				function_prototype,
 
-				variable_declaration,
+				interface_variable,
 
 				struct_declaration,
 

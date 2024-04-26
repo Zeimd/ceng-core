@@ -14,8 +14,6 @@ const char* AST_NodeType::ToString(AST_NodeType::value type)
 		return "function_definition";
 	case function_prototype:
 		return "function_prototype";
-	case variable_declaration:
-		return "variable_declaration";
 	case struct_declaration:
 		return "struct_declaration";
 	case type_precision:

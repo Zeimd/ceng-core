@@ -46,7 +46,7 @@ Rvalue::Rvalue(std::vector<FieldExpression>&& expression)
 }
 
 Rvalue::Rvalue(const Lvalue& lvalue)
-	: valueType(RvalueType::variable), value(lvalue.expression)
+	: valueType(RvalueType::variable), value(lvalue.ToExpression())
 {
 
 }

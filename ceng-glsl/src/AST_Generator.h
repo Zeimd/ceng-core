@@ -16,6 +16,8 @@
 
 #include <ceng/GLSL/Lvalue.h>
 
+#include <ceng/GLSL/SimpleDeclaration.h>
+
 #include "NonTerminalVisitor.h"
 #include "AssignmentOperator.h"
 
@@ -123,12 +125,18 @@ namespace Ceng
 
 		bool IsAssignable(const GLSL::Lvalue& lvalue);
 
+		bool IsConstant(const GLSL::VariableExpression& expression);
+
+		GLSL::PrecisionQualifierType::value GetDefaultPrecision(const GLSL::AST_Datatype& datatype);
+
 		ExpressionReturn GetImplicitConversion(GLSL::Lvalue* destination, StatementContext& statementContext, GLSL::Rvalue& in, 
 			GLSL::BasicType::value sourceType, GLSL::BasicType::value destType);
 
 		ExpressionReturn ConstructFromLiteral(GLSL::Lvalue* destination, StatementContext& statementContext, GLSL::BasicType::value destType, GLSL::Rvalue& in);
 
 		ExpressionReturn Handler_Expression(GLSL::Lvalue* destination, StatementContext& statementContext, Expression& item);
+
+		ExpressionReturn Handler_Assignment(StatementContext& statementContext, GLSL::Lvalue& lhs, ExpressionReturn& right);
 
 		ExpressionReturn Handler_AssignmentExpression(GLSL::Lvalue* destination, StatementContext& statementContext, AssignmentExpression& item);
 		ExpressionReturn Handler_ConditionalExpression(GLSL::Lvalue* destination, StatementContext& statementContext, ConditionalExpression& item);

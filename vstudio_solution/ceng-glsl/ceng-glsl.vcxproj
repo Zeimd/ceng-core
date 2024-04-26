@@ -59,6 +59,7 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\LogLevel.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\ParameterQualifierType.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\PrecisionQualifierType.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\SimpleDeclaration.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\StorageQualifierType.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\TokenCategory.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\Tokenizer.h" />
@@ -256,6 +257,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\SelectionRestStatement.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\SelectionStatement.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\ShiftExpression.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\SimpleDeclaration.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\SimpleStatement.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\SingleDeclaration.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\Statement.cpp" />
