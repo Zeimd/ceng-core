@@ -72,9 +72,11 @@ void SymbolDatabase::InitBuiltIns()
 	//*************************************************
 	// genType functions
 
-	std::vector<GLSL::BasicType::value> gentype;
+	std::vector<GLSL::BasicType::value> gentype = { GLSL::BasicType::ts_float,GLSL::BasicType::vec2,GLSL::BasicType::vec3,GLSL::BasicType::vec4 };
 
-	gentype = { GLSL::BasicType::ts_float,GLSL::BasicType::vec2,GLSL::BasicType::vec3,GLSL::BasicType::vec4 };
+	std::vector<GLSL::BasicType::value> genItype = { GLSL::BasicType::ts_int,GLSL::BasicType::ivec2,GLSL::BasicType::ivec3,GLSL::BasicType::ivec4 };
+
+	std::vector<GLSL::BasicType::value> genUtype = { GLSL::BasicType::ts_uint,GLSL::BasicType::uvec2,GLSL::BasicType::uvec3,GLSL::BasicType::uvec4 };
 
 	funcName = "radians";
 	AddSimpleFunction(funcName, gentype, 1);
@@ -144,13 +146,21 @@ void SymbolDatabase::InitBuiltIns()
 	funcName = "inversesqrt";
 	AddSimpleFunction(funcName, gentype, 1);
 
-	// abs(genType)
+	// genType abs(genType)
 	funcName = "abs";
 	AddSimpleFunction(funcName, gentype, 1);
 
-	// sign(genType)
+	// genIType abs(genIType)
+	funcName = "abs";
+	AddSimpleFunction(funcName, genItype, 1);
+
+	// genType sign(genType)
 	funcName = "sign";
 	AddSimpleFunction(funcName, gentype, 1);
+
+	// genIType sign(genIType)
+	funcName = "sign";
+	AddSimpleFunction(funcName, genItype, 1);
 
 	funcName = "floor";
 	AddSimpleFunction(funcName, gentype, 1);
@@ -188,6 +198,22 @@ void SymbolDatabase::InitBuiltIns()
 	funcName = "min";
 	AddSimpleFunction_gentype_type(funcName, gentype, 1, GLSL::BasicType::ts_float, 1);
 
+	// genIType min(genIType, genIType)
+	funcName = "min";
+	AddSimpleFunction(funcName, genItype, 2);
+
+	// genIType min(genIType, int)
+	funcName = "min";
+	AddSimpleFunction_gentype_type(funcName, genItype, 1, GLSL::BasicType::ts_int, 1);
+
+	// genUType min(genUType, genUType)
+	funcName = "min";
+	AddSimpleFunction(funcName, genUtype, 2);
+
+	// genUType min(genUType, uint)
+	funcName = "min";
+	AddSimpleFunction_gentype_type(funcName, genUtype, 1, GLSL::BasicType::ts_uint, 1);
+
 	// genType max(genType, genType)
 	funcName = "max";
 	AddSimpleFunction(funcName, gentype, 2);
@@ -195,6 +221,22 @@ void SymbolDatabase::InitBuiltIns()
 	// genType max(genType, float)
 	funcName = "max";
 	AddSimpleFunction_gentype_type(funcName, gentype, 1, GLSL::BasicType::ts_float, 1);
+
+	// genIType max(genIType, genIType)
+	funcName = "max";
+	AddSimpleFunction(funcName, genItype, 2);
+
+	// genIType max(genIType, int)
+	funcName = "max";
+	AddSimpleFunction_gentype_type(funcName, genItype, 1, GLSL::BasicType::ts_int, 1);
+
+	// genUType max(genUType, genUType)
+	funcName = "max";
+	AddSimpleFunction(funcName, genUtype, 2);
+
+	// genUType max(genUType, uint)
+	funcName = "max";
+	AddSimpleFunction_gentype_type(funcName, genUtype, 1, GLSL::BasicType::ts_uint, 1);
 
 	// genType clamp(genType, genType, genType)
 	funcName = "clamp";
@@ -204,12 +246,28 @@ void SymbolDatabase::InitBuiltIns()
 	funcName = "clamp";
 	AddSimpleFunction_gentype_type(funcName, gentype, 1, GLSL::BasicType::ts_float, 2);
 
+	// genIType clamp(genIType, genIType, genIType)
+	funcName = "clamp";
+	AddSimpleFunction(funcName, genItype, 3);
+
+	// genIType clamp(genIType, int, int)
+	funcName = "clamp";
+	AddSimpleFunction_gentype_type(funcName, genItype, 1, GLSL::BasicType::ts_int, 2);
+
+	// genUType clamp(genUType, genUType, genUType)
+	funcName = "clamp";
+	AddSimpleFunction(funcName, genUtype, 3);
+
+	// genUType clamp(genUType, uint, uint)
+	funcName = "clamp";
+	AddSimpleFunction_gentype_type(funcName, genUtype, 1, GLSL::BasicType::ts_uint, 2);
+
 	// genType mix(genType, genType, genType)
 	funcName = "mix";
 	AddSimpleFunction(funcName, gentype, 3);
 
 	// genType mix(genType, genType, float)
-	funcName = "clamp";
+	funcName = "mix";
 	AddSimpleFunction_gentype_type(funcName, gentype, 2, GLSL::BasicType::ts_float, 1);
 
 	// genType mix(genType, genType, genBType)
@@ -298,6 +356,8 @@ void SymbolDatabase::InitBuiltIns()
 	AddSimpleFunction(funcName, gentype, 1);
 
 	// vec4 ftransform()
+	funcName = "ftransform";
+	AddBuiltinFunction(funcName, GLSL::BasicType::vec4);
 
 	// genType faceforward(genType, genType, genType)
 	funcName = "faceforward";
@@ -403,15 +463,121 @@ void SymbolDatabase::InitBuiltIns()
 		}
 	, 1);
 	
+	std::vector<GLSL::BasicType::value> vec2types = { GLSL::BasicType::vec2 , GLSL::BasicType::ivec2,GLSL::BasicType::uvec2 };
+	std::vector<GLSL::BasicType::value> vec3types = { GLSL::BasicType::vec3 , GLSL::BasicType::ivec3,GLSL::BasicType::uvec3 };
+	std::vector<GLSL::BasicType::value> vec4types = { GLSL::BasicType::vec4 , GLSL::BasicType::ivec4,GLSL::BasicType::uvec4 };
 
+	// bvec lessThan(vec,vec)
+	funcName = "lessThan";
+	AddSimpleFunction_Ret_Common(funcName, GLSL::BasicType::bvec2, vec2types, 2);
 
-	//*************************************************
-	// genIType functions
+	funcName = "lessThan";
+	AddSimpleFunction_Ret_Common(funcName, GLSL::BasicType::bvec3, vec3types, 2);
 
-	//*************************************************
-	// genUType functions
+	funcName = "lessThan";
+	AddSimpleFunction_Ret_Common(funcName, GLSL::BasicType::bvec4, vec4types, 2);
 
+	// bvec lessThanEqual(vec,vec)
+	funcName = "lessThanEqual";
+	AddSimpleFunction_Ret_Common(funcName, GLSL::BasicType::bvec2, vec2types, 2);
 
+	funcName = "lessThanEqual";
+	AddSimpleFunction_Ret_Common(funcName, GLSL::BasicType::bvec3, vec3types, 2);
+
+	funcName = "lessThanEqual";
+	AddSimpleFunction_Ret_Common(funcName, GLSL::BasicType::bvec4, vec4types, 2);
+
+	// bvec greaterThan(vec,vec)
+	funcName = "greaterThan";
+	AddSimpleFunction_Ret_Common(funcName, GLSL::BasicType::bvec2, vec2types, 2);
+
+	funcName = "greaterThan";
+	AddSimpleFunction_Ret_Common(funcName, GLSL::BasicType::bvec3, vec3types, 2);
+
+	funcName = "greaterThan";
+	AddSimpleFunction_Ret_Common(funcName, GLSL::BasicType::bvec4, vec4types, 2);
+
+	// bvec greaterThanEqual(vec,vec)
+	funcName = "greaterThanEqual";
+	AddSimpleFunction_Ret_Common(funcName, GLSL::BasicType::bvec2, vec2types, 2);
+
+	funcName = "greaterThanEqual";
+	AddSimpleFunction_Ret_Common(funcName, GLSL::BasicType::bvec3, vec3types, 2);
+
+	funcName = "greaterThanEqual";
+	AddSimpleFunction_Ret_Common(funcName, GLSL::BasicType::bvec4, vec4types, 2);
+
+	vec2types.push_back(GLSL::BasicType::bvec2);
+	vec3types.push_back(GLSL::BasicType::bvec3);
+	vec4types.push_back(GLSL::BasicType::bvec4);
+
+	// bvec equal(vec,vec)
+	funcName = "equal";
+	AddSimpleFunction_Ret_Common(funcName, GLSL::BasicType::bvec2, vec2types, 2);
+
+	funcName = "equal";
+	AddSimpleFunction_Ret_Common(funcName, GLSL::BasicType::bvec3, vec3types, 2);
+
+	funcName = "equal";
+	AddSimpleFunction_Ret_Common(funcName, GLSL::BasicType::bvec4, vec4types, 2);
+
+	// bvec notEqual(vec,vec)
+	funcName = "notEqual";
+	AddSimpleFunction_Ret_Common(funcName, GLSL::BasicType::bvec2, vec2types, 2);
+
+	funcName = "notEqual";
+	AddSimpleFunction_Ret_Common(funcName, GLSL::BasicType::bvec3, vec3types, 2);
+
+	funcName = "notEqual";
+	AddSimpleFunction_Ret_Common(funcName, GLSL::BasicType::bvec4, vec4types, 2);
+
+	std::vector<GLSL::BasicType::value> boolVecs = { GLSL::BasicType::bvec2, GLSL::BasicType::bvec3, GLSL::BasicType::bvec4 };
+
+	// bool any(bvec)
+	funcName = "any";
+	AddSimpleFunction_Ret_Common(funcName, GLSL::BasicType::ts_bool, boolVecs, 1);
+
+	// bool all(bvec)
+	funcName = "all";
+	AddSimpleFunction_Ret_Common(funcName, GLSL::BasicType::ts_bool, boolVecs, 1);
+
+	// bool not(bvec)
+	funcName = "not";
+	AddSimpleFunction_Ret_Common(funcName, GLSL::BasicType::ts_bool, boolVecs, 1);
+
+}
+
+void SymbolDatabase::AddBuiltinFunction(const Ceng::StringUtf8& name, GLSL::BasicType::value returnType)
+{
+	std::shared_ptr<FullySpecifiedType> returnSpec = FullySpecifiedType::GetBasicType(returnType);
+
+	std::vector< std::shared_ptr<ParameterDeclaration>> params;
+
+	std::shared_ptr<ParameterDeclaration> paramDecl;
+
+	std::shared_ptr<FunctionHeader> header;
+
+	std::shared_ptr<FunctionHeaderWithParams> headerWithParams;
+
+	std::shared_ptr<FunctionDeclarator> funcDecl;
+
+	std::shared_ptr<ParameterQualifier> paramQ = std::make_shared<ParameterQualifier>(GLSL::ParameterQualifierType::empty);
+
+	std::shared_ptr<TypeSpecifier> typeSpec;
+
+	std::shared_ptr<FunctionPrototype> prototype;
+
+	std::shared_ptr<Declaration> declaration;
+
+	header = std::make_shared<FunctionHeader>(returnSpec, name);
+
+	funcDecl = std::make_shared<FunctionDeclarator>(header);
+
+	prototype = std::make_shared<FunctionPrototype>(funcDecl);
+
+	declaration = std::make_shared<Declaration>(prototype);
+
+	builtIns.emplace_back(declaration, 0);
 }
 
 void SymbolDatabase::AddBuiltinFunction(const Ceng::StringUtf8& name, GLSL::BasicType::value returnType, GLSL::BasicType::value paramType)
@@ -713,6 +879,33 @@ void SymbolDatabase::AddSimpleFunction_type_gentype(const Ceng::StringUtf8& name
 
 		builtIns.emplace_back(declaration, 0);
 	}
+}
+
+Ceng::StringUtf8 SymbolDatabase::BuiltInToString() const
+{
+	Ceng::StringUtf8 out;
+
+	for (auto& x : builtIns)
+	{
+		out += x.ToString(0);
+		out += '\n';
+
+		/*
+		out += SymbolType::ToString(x.symbolType);
+
+		const Ceng::StringUtf8* name = x.Name();
+
+		if (name != nullptr)
+		{
+			out += ' ';
+			out += *name;
+		}
+
+		out += '\n';
+		*/
+	}
+
+	return out;
 }
 
 void SymbolDatabase::StartScope()

@@ -54,11 +54,14 @@ namespace Ceng
 
 		Ceng::StringUtf8 ToString() const;
 
+		Ceng::StringUtf8 BuiltInToString() const;
 	private:
 
 		void AddNode();
 
 		void InitBuiltIns();
+
+		void AddBuiltinFunction(const Ceng::StringUtf8& name, GLSL::BasicType::value returnType);
 
 		void AddBuiltinFunction(const Ceng::StringUtf8& name, GLSL::BasicType::value returnType, GLSL::BasicType::value paramType);
 
