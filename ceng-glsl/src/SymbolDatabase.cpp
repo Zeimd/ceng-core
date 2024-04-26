@@ -33,44 +33,99 @@ SymbolDatabase::SymbolDatabase()
 
 void SymbolDatabase::InitBuiltIns()
 {
-	/*
-	StorageQualifier in_sq{GLSL::StorageQualifierType::sq_in};
-	StorageQualifier out_sq{ GLSL::StorageQualifierType::sq_out };
-
-	auto noArr = std::make_shared<TypeSpecifierNoArray>(GLSL::BasicType::ts_int);
-
-	TypeSpecifierNoPrec noPrec{ noArr };
-
-	TypeQualifier typeQ{ in_sq };
-	TypeSpecifier typeSpec{noPrec};
-
-	auto fullSpec = std::make_shared<FullySpecifiedType>(typeQ, typeSpec);
-
-	auto single = std::make_shared<SingleDeclaration>(fullSpec, "gl_VertexID");
-
-	auto declList = std::make_shared<InitDeclaratorList>(single);
-
-	auto decl = std::make_shared<Declaration>(declList);
-
-	builtIns.emplace_back(decl, 0);
-
-	single = std::make_shared<SingleDeclaration>(fullSpec, "gl_InstanceID");
-
-	declList = std::make_shared<InitDeclaratorList>(single);
-
-	decl = std::make_shared<Declaration>(declList);
-
-	builtIns.emplace_back(decl, 0);
-	*/
-
-	//std::shared_ptr<TypeSpecifierNoArray> 
-
-
-
 	Ceng::StringUtf8 funcName;
 
 	//*************************************************
-	// genType functions
+	// Constructors
+
+	// NOTE: These are only to get a name link during AST tree construction
+
+	funcName = "int";
+	AddBuiltinFunction(funcName, GLSL::BasicType::ts_int);
+
+	funcName = "uint";
+	AddBuiltinFunction(funcName, GLSL::BasicType::ts_uint);
+
+	funcName = "float";
+	AddBuiltinFunction(funcName, GLSL::BasicType::ts_float);
+
+	funcName = "bool";
+	AddBuiltinFunction(funcName, GLSL::BasicType::ts_bool);
+
+	funcName = "vec2";
+	AddBuiltinFunction(funcName, GLSL::BasicType::vec2);
+
+	funcName = "vec3";
+	AddBuiltinFunction(funcName, GLSL::BasicType::vec3);
+
+	funcName = "vec4";
+	AddBuiltinFunction(funcName, GLSL::BasicType::vec4);
+
+	funcName = "ivec2";
+	AddBuiltinFunction(funcName, GLSL::BasicType::ivec2);
+
+	funcName = "ivec3";
+	AddBuiltinFunction(funcName, GLSL::BasicType::ivec3);
+
+	funcName = "ivec4";
+	AddBuiltinFunction(funcName, GLSL::BasicType::ivec4);
+
+	funcName = "uvec2";
+	AddBuiltinFunction(funcName, GLSL::BasicType::uvec2);
+
+	funcName = "uvec3";
+	AddBuiltinFunction(funcName, GLSL::BasicType::uvec3);
+
+	funcName = "uvec4";
+	AddBuiltinFunction(funcName, GLSL::BasicType::uvec4);
+
+	funcName = "bvec2";
+	AddBuiltinFunction(funcName, GLSL::BasicType::bvec2);
+
+	funcName = "bvec3";
+	AddBuiltinFunction(funcName, GLSL::BasicType::bvec3);
+
+	funcName = "bvec4";
+	AddBuiltinFunction(funcName, GLSL::BasicType::bvec4);
+
+	funcName = "mat2";
+	AddBuiltinFunction(funcName, GLSL::BasicType::mat2);
+
+	funcName = "mat2x2";
+	AddBuiltinFunction(funcName, GLSL::BasicType::mat2x2);
+
+	funcName = "mat2x3";
+	AddBuiltinFunction(funcName, GLSL::BasicType::mat2x3);
+
+	funcName = "mat2x4";
+	AddBuiltinFunction(funcName, GLSL::BasicType::mat2x4);
+
+	funcName = "mat3";
+	AddBuiltinFunction(funcName, GLSL::BasicType::mat3);
+
+	funcName = "mat3x2";
+	AddBuiltinFunction(funcName, GLSL::BasicType::mat3x2);
+
+	funcName = "mat3x3";
+	AddBuiltinFunction(funcName, GLSL::BasicType::mat3x3);
+
+	funcName = "mat3x4";
+	AddBuiltinFunction(funcName, GLSL::BasicType::mat3x4);
+
+	funcName = "mat4";
+	AddBuiltinFunction(funcName, GLSL::BasicType::mat4);
+
+	funcName = "mat4x2";
+	AddBuiltinFunction(funcName, GLSL::BasicType::mat4x2);
+
+	funcName = "mat4x3";
+	AddBuiltinFunction(funcName, GLSL::BasicType::mat4x3);
+
+	funcName = "mat4x4";
+	AddBuiltinFunction(funcName, GLSL::BasicType::mat4x4);
+
+	//*************************************************
+	// built-in functions
 
 	std::vector<GLSL::BasicType::value> gentype = { GLSL::BasicType::ts_float,GLSL::BasicType::vec2,GLSL::BasicType::vec3,GLSL::BasicType::vec4 };
 
@@ -1387,6 +1442,70 @@ SymbolLink SymbolDatabase::Find(const Ceng::StringUtf8& name) const
 	
 		startIndex = current->childIndex;
 		current = current->parent;		
+	}
+
+	return SymbolLink();
+}
+
+SymbolLink SymbolDatabase::FindFunction(const Ceng::StringUtf8& name)
+{
+	SymbolNode* current = top;
+	Ceng::INT32 startIndex = current->scope.size() - 1;
+
+	while (current != nullptr)
+	{
+		Symbol* symbol = current->link.Get();
+
+		const Ceng::StringUtf8* symbolName = symbolName = symbol->Name();
+
+		if (symbol->symbolType == SymbolType::function ||
+			symbol->symbolType == SymbolType::function_prototype)
+		{
+			if (symbolName != nullptr)
+			{
+				if (*symbolName == name)
+				{
+					return current->link;
+				}
+			}
+		}
+
+		for (int k = startIndex; k >= 0; --k)
+		{
+			symbol = current->scope[k].link.Get();
+
+			symbolName = symbol->Name();
+			
+			if (symbol->symbolType == SymbolType::function ||
+				symbol->symbolType == SymbolType::function_prototype)
+			{
+				if (symbolName == nullptr)
+				{
+					continue;
+				}
+
+				if (*symbolName == name)
+				{
+					return current->scope[k].link;
+				}
+			}			
+		}
+
+		startIndex = current->childIndex;
+		current = current->parent;
+	}
+
+	for (size_t k = 0; k < builtIns.size(); k++)
+	{
+		const Symbol& symbol = builtIns[k];
+
+		if (symbol.symbolType == SymbolType::function_prototype)
+		{
+			if (*symbol.Name() == name)
+			{
+				return SymbolLink(&builtIns,k);
+			}
+		}
 	}
 
 	return SymbolLink();

@@ -62,6 +62,14 @@ namespace Ceng
 
 			bool IsInteger() const;
 
+			bool ToBool() const;
+
+			Ceng::INT32 ToInt() const;
+
+			Ceng::UINT32 ToUint() const;
+
+			Ceng::FLOAT32 ToFloat() const;
+
 		};
 	}
 }

@@ -46,6 +46,8 @@ namespace Ceng
 
 		SymbolLink Find(const Ceng::StringUtf8& name) const;
 
+		SymbolLink FindFunction(const Ceng::StringUtf8& name);
+
 		// Finds all functions with the given name. AST generation stage can use this
 		// information to match function calls.
 		std::vector<SymbolLink> FindFunctions(const Ceng::StringUtf8& name);

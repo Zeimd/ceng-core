@@ -126,6 +126,8 @@ namespace Ceng
 		ExpressionReturn GetImplicitConversion(GLSL::Lvalue* destination, StatementContext& statementContext, GLSL::Rvalue& in, 
 			GLSL::BasicType::value sourceType, GLSL::BasicType::value destType);
 
+		ExpressionReturn ConstructFromLiteral(GLSL::Lvalue* destination, StatementContext& statementContext, GLSL::BasicType::value destType, GLSL::Rvalue& in);
+
 		ExpressionReturn Handler_Expression(GLSL::Lvalue* destination, StatementContext& statementContext, Expression& item);
 
 		ExpressionReturn Handler_AssignmentExpression(GLSL::Lvalue* destination, StatementContext& statementContext, AssignmentExpression& item);

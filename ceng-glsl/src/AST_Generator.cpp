@@ -460,13 +460,20 @@ ExpressionReturn AST_Generator::GetImplicitConversion(GLSL::Lvalue* destination,
 	printf(__FUNCTION__);
 	printf("\n");
 
+	ExpressionReturn ret;
+
+	if (in.IsLiteral())
+	{
+		return ConstructFromLiteral(destination, statementContext, destType, in);
+	}
+
 	std::vector<GLSL::Rvalue> callParams;
 	std::vector<GLSL::AST_Datatype> signatureTypes;
 
 	callParams.push_back(in);
 	signatureTypes.push_back(sourceType);
 
-	SymbolLink link = MatchFunctionSignature(destType, signatureTypes);
+	SymbolLink link = symbolDatabase->FindFunction(GLSL::BasicType::ToString(destType));
 
 	GLSL::AST_Datatype returnType = destType;
 
@@ -492,6 +499,23 @@ ExpressionReturn AST_Generator::GetImplicitConversion(GLSL::Lvalue* destination,
 
 		return { *destination, returnType };
 	}
+}
+
+ExpressionReturn AST_Generator::ConstructFromLiteral(GLSL::Lvalue* destination, StatementContext& statementContext, GLSL::BasicType::value destType, GLSL::Rvalue& in)
+{
+	switch (destType)
+	{
+	case GLSL::BasicType::ts_bool:
+		return { in.ToBool() };
+	case GLSL::BasicType::ts_int:		
+		return { in.ToInt() };
+	case GLSL::BasicType::ts_uint:
+		return { in.ToUint() };
+	case GLSL::BasicType::ts_float:
+		return { in.ToFloat() };
+	}
+
+	return ExpressionReturn();
 }
 
 ExpressionReturn AST_Generator::Handler_Expression(GLSL::Lvalue* destination, StatementContext& statementContext, Expression& item)
@@ -541,8 +565,15 @@ ExpressionReturn AST_Generator::Handler_AssignmentExpression(GLSL::Lvalue* desti
 					break;
 				case GLSL::OperationValidity::right_promotion:
 
-					GetImplicitConversion(&lhs, statementContext, b.value, a.valueType.basicType, b.valueType.basicType);
+					ExpressionReturn c = GetImplicitConversion(&lhs, statementContext, b.value, b.valueType.basicType, a.valueType.basicType);
 
+					if (lhs != c.value)
+					{
+						statementContext.normalOperations.push_back(std::make_shared< GLSL::AST_AssignmentOperation>(
+							lhs, c.value
+							));
+					}
+					
 					break;
 				}
 			}
@@ -3330,12 +3361,14 @@ SymbolLink AST_Generator::MatchFunctionSignature(const std::vector<SymbolLink>& 
 	return SymbolLink();
 }
 
+/*
 SymbolLink AST_Generator::MatchFunctionSignature(GLSL::BasicType::value destType, std::vector<GLSL::AST_Datatype>& signatureTypes)
 {
-	/*
-	for (auto& func : builtInFunctions)
+	auto functions = symbolDatabase->FindFunctions(GLSL::BasicType::ToString(destType));
+
+	for (auto& func : functions)
 	{
-		auto& prototype = func.Get()->prototype;
+		auto prototype = func.Get()->GetPrototype();
 
 		if (prototype->GetParamCount() != signatureTypes.size())
 		{
@@ -3356,10 +3389,11 @@ SymbolLink AST_Generator::MatchFunctionSignature(GLSL::BasicType::value destType
 
 		return func;
 	}
-	*/
+	
 	return SymbolLink();
 	
 }
+*/
 
 bool AST_Generator::IsAssignable(const GLSL::Lvalue& lvalue)
 {

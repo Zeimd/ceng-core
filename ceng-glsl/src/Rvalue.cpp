@@ -266,3 +266,71 @@ bool Rvalue::IsInteger() const
 
 	return false;
 }
+
+bool Rvalue::ToBool() const
+{
+	switch (valueType)
+	{
+	case RvalueType::bool_literal:
+		return std::get<bool>(value);
+	case RvalueType::int_literal:
+		return std::get<Ceng::INT32>(value);
+	case RvalueType::uint_literal:
+		return std::get<Ceng::UINT32>(value);
+	case RvalueType::float_literal:
+		return std::get<Ceng::FLOAT32>(value);
+	}
+
+	return false;
+}
+
+Ceng::INT32 Rvalue::ToInt() const
+{
+	switch (valueType)
+	{
+	case RvalueType::bool_literal:
+		return std::get<bool>(value);
+	case RvalueType::int_literal:
+		return std::get<Ceng::INT32>(value);
+	case RvalueType::uint_literal:
+		return std::get<Ceng::UINT32>(value);
+	case RvalueType::float_literal:
+		return std::get<Ceng::FLOAT32>(value);
+	}
+
+	return 0;
+}
+
+Ceng::UINT32 Rvalue::ToUint() const
+{
+	switch (valueType)
+	{
+	case RvalueType::bool_literal:
+		return std::get<bool>(value);
+	case RvalueType::int_literal:
+		return std::get<Ceng::INT32>(value);
+	case RvalueType::uint_literal:
+		return std::get<Ceng::UINT32>(value);
+	case RvalueType::float_literal:
+		return std::get<Ceng::FLOAT32>(value);
+	}
+
+	return 0;
+}
+
+Ceng::FLOAT32 Rvalue::ToFloat() const
+{
+	switch (valueType)
+	{
+	case RvalueType::bool_literal:
+		return std::get<bool>(value);
+	case RvalueType::int_literal:
+		return std::get<Ceng::INT32>(value);
+	case RvalueType::uint_literal:
+		return std::get<Ceng::UINT32>(value);
+	case RvalueType::float_literal:
+		return std::get<Ceng::FLOAT32>(value);
+	}
+
+	return 0.0f;
+}
