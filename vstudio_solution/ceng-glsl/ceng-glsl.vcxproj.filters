@@ -459,6 +459,12 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\ShaderType.h">
       <Filter>Header Files\public_interface</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_GeometryShaderIn.h">
+      <Filter>Header Files\public_interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_GeometryShaderOut.h">
+      <Filter>Header Files\public_interface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\ceng-glsl\src\TypeSpecifier.cpp">
@@ -835,6 +841,12 @@
     </ClCompile>
     <ClCompile Include="..\..\ceng-glsl\src\AST_DefaultPrecision.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ceng-glsl\src\AST_GeometryShaderIn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ceng-glsl\src\AST_GeometryShaderOut.cpp">
+      <Filter>Header Files\public_interface</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -94,6 +94,9 @@
 #include <ceng/GLSL/AST_InvariantStatement.h>
 #include <ceng/GLSL/AST_DefaultPrecision.h>
 
+#include <ceng/GLSL/AST_GeometryShaderIn.h>
+#include <ceng/GLSL/AST_GeometryShaderOut.h>
+
 #include "OperatorDatabase.h"
 
 using namespace Ceng;
@@ -3510,7 +3513,7 @@ AST_Generator::return_type AST_Generator::V_Declaration(Declaration& decl)
 		decl.declList->AcceptVisitor(*this);
 		break;
 	case DeclarationType::type_qualifier:
-		break;
+		return Handler_GeometryShaderLayout(decl);
 	case DeclarationType::global_interface_block:
 		break;
 	case DeclarationType::scoped_interface_block:
@@ -3519,6 +3522,204 @@ AST_Generator::return_type AST_Generator::V_Declaration(Declaration& decl)
 		break;
 	case DeclarationType::precision:
 		return Handler_DefaultPrecision(decl);
+	}
+
+	return 0;
+}
+
+AST_Generator::return_type AST_Generator::Handler_GeometryShaderLayout(Declaration& item)
+{
+	printf(__FUNCTION__);
+	printf("\n");
+
+	if (shader != GLSL::ShaderType::geometry)
+	{
+		// TODO: error
+		return 0;
+	}
+
+	if (item.typeQ->layout == nullptr)
+	{
+		// TODO: error
+		return 0;
+	}
+
+	if (item.typeQ->interpolation.interpolation != GLSL::InterpolationQualifierType::unused)
+	{
+		// TODO: error
+		return 0;
+	}
+
+	if (item.typeQ->storage.qualifier == GLSL::StorageQualifierType::sq_in)
+	{
+		auto& layoutItems = item.typeQ->layout->list->list;
+
+		if (layoutItems.size() != 1)
+		{
+			// TODO: error
+			return 0;
+		}
+
+		if (layoutItems[0]->hasValue)
+		{
+			// TODO: error
+			return 0;
+		}
+
+		Ceng::StringUtf8& name = layoutItems[0]->identifier;
+
+		GLSL::GeometryShaderInputLayout layout;
+
+		if (name == "points")
+		{
+			layout = GLSL::GeometryShaderInputLayout::points;
+		}
+		else if (name == "lines")
+		{
+			layout = GLSL::GeometryShaderInputLayout::lines;
+		}
+		else if (name == "lines_adjacency")
+		{
+			layout = GLSL::GeometryShaderInputLayout::lines_adjacency;
+		}
+		else if (name == "triangles")
+		{
+			layout = GLSL::GeometryShaderInputLayout::triangles;
+		}
+		else if (name == "triangles_adjacency")
+		{
+			layout = GLSL::GeometryShaderInputLayout::triangles_adjacency;
+		}
+		else
+		{
+			// TODO: error
+			return 0;
+		}
+
+		CurrentContext().parent->children.emplace_back(
+			std::make_shared<GLSL::AST_GeometryShaderIn>(layout)
+
+		);
+		
+
+	}
+	else if (item.typeQ->storage.qualifier == GLSL::StorageQualifierType::sq_out)
+	{
+		bool definedPrimitive = false;
+		bool definedVertices = false;
+
+		GLSL::GeometryShaderOutputPrimitive primitive;
+		Ceng::UINT32 maxVertices;
+
+		Ceng::UINT32 counter = 0;
+
+		for (auto& item : item.typeQ->layout->list->list)
+		{
+			++counter;
+
+			if (counter > 2)
+			{
+				// TODO: error (too many values)
+				break;
+			}
+
+			if (item->identifier == "points")
+			{
+				if (definedPrimitive)
+				{
+					// TODO: error (duplicate)
+					continue;
+				}
+
+				if (item->hasValue)
+				{
+					// TODO: error
+					continue;
+				}
+
+				definedPrimitive = true;
+				primitive = GLSL::GeometryShaderOutputPrimitive::points;
+
+			}
+			else if (item->identifier == "line_strip")
+			{
+				if (item->hasValue)
+				{
+					// TODO: error
+					continue;
+				}
+
+				definedPrimitive = true;
+				primitive = GLSL::GeometryShaderOutputPrimitive::line_strip;
+			}
+			else if (item->identifier == "triangle_strip")
+			{
+				if (item->hasValue)
+				{
+					// TODO: error
+					continue;
+				}
+
+				definedPrimitive = true;
+				primitive = GLSL::GeometryShaderOutputPrimitive::triangle_strip;
+			}
+			else if (item->identifier == "max_vertices")
+			{
+				if (definedVertices)
+				{
+					// TODO: error (duplicate)
+					continue;
+				}
+
+				if (item->hasValue == false)
+				{
+					// TODO: error
+					continue;
+				}
+
+				if (item->value < 0)
+				{
+					// TODO: error
+					continue;
+				}
+
+				definedVertices = true;
+				maxVertices = item->value;
+			}
+			else
+			{
+				// TODO: error
+			}
+		}
+
+		if (!definedPrimitive && !definedVertices)
+		{
+			// TODO: error (no inputs)
+			return 0;
+		}
+
+		if (definedPrimitive)
+		{
+			if (definedVertices)
+			{
+				CurrentContext().parent->children.emplace_back(
+					std::make_shared<GLSL::AST_GeometryShaderOut>(primitive, maxVertices)
+				);
+			}
+			else
+			{
+				CurrentContext().parent->children.emplace_back(
+					std::make_shared<GLSL::AST_GeometryShaderOut>(primitive)
+				);
+			}
+			
+		}
+		else
+		{
+			CurrentContext().parent->children.emplace_back(
+				std::make_shared<GLSL::AST_GeometryShaderOut>(maxVertices)
+			);
+		}
 	}
 
 	return 0;

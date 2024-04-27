@@ -32,7 +32,10 @@ namespace Ceng
 
 				interface_block,
 				named_interface_block,
+
 				geometry_shader_input_layout,
+
+				geometry_shader_output_layout,
 
 				// used for invariant type_name {, type_name...}
 				invariant_statement,

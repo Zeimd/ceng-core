@@ -199,6 +199,8 @@ namespace Ceng
 
 		return_type V_InitDeclaratorList(InitDeclaratorList& item) override;
 
+		return_type Handler_GeometryShaderLayout(Declaration& item);
+
 		return_type Handler_NormalDeclaration(InitDeclaratorList& item);
 
 		return_type Handler_InvariantStatement(InitDeclaratorList& item);
