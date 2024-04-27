@@ -16,16 +16,16 @@ const char* AST_NodeType::ToString(AST_NodeType::value type)
 		return "function_prototype";
 	case struct_declaration:
 		return "struct_declaration";
-	case type_precision:
-		return "type_precision";
+	case default_precision:
+		return "default_precision";
 	case interface_block:
 		return "interface_block";
 	case named_interface_block:
 		return "named_interface_block";
 	case geometry_shader_input_layout:
 		return "geometry_shader_input_layout";
-	case invariant_identifier:
-		return "invariant_identifier";
+	case invariant_statement:
+		return "invariant_statement";
 	case assignment_operation:
 		return "simple_assignment";
 	case unary_operation:
@@ -47,7 +47,7 @@ const char* AST_NodeType::ToString(AST_NodeType::value type)
 	case do_while:
 		return "do_while";
 	case return_statement:
-		return "return";
+		return "return_statement";
 	default:
 		return "<UNHANDLED AST NODE TYPE>";
 	}

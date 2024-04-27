@@ -161,8 +161,6 @@ namespace Ceng
 
 		return_type V_TranslationUnit(TranslationUnit& item) override;
 
-		return_type V_Declaration(Declaration& item) override;
-
 		return_type V_FunctionDefinition(FunctionDefinition& item) override;
 
 		return_type V_FunctionPrototype(FunctionPrototype& item) override;
@@ -192,7 +190,17 @@ namespace Ceng
 		return_type V_SwitchStatementList(SwitchStatementList& item);
 		return_type V_CaseLabel(CaseLabel& item);
 
+		return_type V_Declaration(Declaration& item) override;
+
 		return_type V_InitDeclaratorList(InitDeclaratorList& item) override;
+
+		return_type Handler_NormalDeclaration(InitDeclaratorList& item);
+
+		return_type Handler_InvariantStatement(InitDeclaratorList& item);
+
+		return_type Handler_DefaultPrecision(Declaration& item);
+
+		//return_type Handler_ComplexDeclaration(InitDeclaratorList& item, DeclarationData& entry);
 
 		GLSL::BinaryOperator::value ConvertAssignmentOperator(AssignOpType::value op);
 

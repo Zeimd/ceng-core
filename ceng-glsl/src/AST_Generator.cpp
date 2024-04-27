@@ -91,6 +91,7 @@
 #include <ceng/GLSL/AST_WhileLoop.h>
 #include <ceng/GLSL/AST_EmptyNode.h>
 #include <ceng/GLSL/AST_NormalVariable.h>
+#include <ceng/GLSL/AST_InvariantStatement.h>
 
 #include "OperatorDatabase.h"
 
@@ -3509,8 +3510,21 @@ AST_Generator::return_type AST_Generator::V_Declaration(Declaration& decl)
 		break;
 	case DeclarationType::type_qualifier:
 		break;
+	case DeclarationType::global_interface_block:
+		break;
+	case DeclarationType::scoped_interface_block:
+		break;
+	case DeclarationType::scoped_interface_block_array:
+		break;
+	case DeclarationType::precision:
+		return Handler_DefaultPrecision(decl);
 	}
 
+	return 0;
+}
+
+AST_Generator::return_type AST_Generator::Handler_DefaultPrecision(Declaration& item)
+{
 	return 0;
 }
 
@@ -3927,24 +3941,94 @@ AST_Generator::return_type AST_Generator::V_InitDeclaratorList(InitDeclaratorLis
 	printf(__FUNCTION__);
 	printf("\n");
 
+	if (item.invariant)
+	{
+		Handler_InvariantStatement(item);
+		return 0;
+	}
+
+	bool normal = true;
+
+	if (item.fullType->qualifier.layout != nullptr)
+	{
+		normal = false;
+	}
+
+	if (item.fullType->qualifier.interpolation.interpolation != GLSL::InterpolationQualifierType::unused)
+	{
+		normal = false;
+	}
+
+	switch (item.fullType->qualifier.storage.qualifier)
+	{
+	case GLSL::StorageQualifierType::unused:
+	case GLSL::StorageQualifierType::sq_const:
+		break;
+	default:
+		normal = false;
+	}
+
+	if (normal)
+	{
+		Handler_NormalDeclaration(item);
+		return 0;
+	}
+
+	return 0;
+}
+
+AST_Generator::return_type AST_Generator::Handler_InvariantStatement(InitDeclaratorList& item)
+{
+	printf(__FUNCTION__);
+	printf("\n");
+
+	std::vector<Ceng::StringUtf8> names;
+
 	for (auto& entry : item.list)
 	{
-		std::vector<GLSL::LayoutData> layout;
+		names.push_back(entry.name);
+	}
 
-		if (item.fullType->qualifier.layout != nullptr)
+	CurrentContext().parent->children.emplace_back(
+		std::make_shared<GLSL::AST_InvariantStatement>(std::move(names))
+	);
+
+	return 0;
+}
+
+/*
+AST_Generator::return_type AST_Generator::Handler_ComplexDeclaration(InitDeclaratorList& item)
+{
+	
+
+
+	std::vector<GLSL::LayoutData> layout;
+
+	if (item.fullType->qualifier.layout != nullptr)
+	{
+		//printf("num layout = %i\n", item.fullType->qualifier.layout->list->list.size());
+
+		for (auto& layoutItem : item.fullType->qualifier.layout->list->list)
 		{
-			//printf("num layout = %i\n", item.fullType->qualifier.layout->list->list.size());
+			layout.emplace_back(layoutItem->identifier, layoutItem->hasValue, layoutItem->value);
+		}
+	}
 
-			for (auto& layoutItem : item.fullType->qualifier.layout->list->list)
-			{
-				layout.emplace_back(layoutItem->identifier, layoutItem->hasValue, layoutItem->value);
-			}
-		}	
+}
+*/
 
-		GLSL::AST_Datatype datatype{GetDatatype(item.fullType)};
+AST_Generator::return_type AST_Generator::Handler_NormalDeclaration(InitDeclaratorList& item)
+{
+	printf(__FUNCTION__);
+	printf("\n");
+
+	for (auto& entry : item.list)
+	{
+
+		GLSL::AST_Datatype datatype{ GetDatatype(item.fullType) };
 
 		GLSL::SimpleDeclaration decl
-		{ 
+		{
 			item.fullType->qualifier.storage.qualifier == GLSL::StorageQualifierType::sq_const,
 			item.fullType->typeSpec.precision.precision,
 			datatype,
@@ -3961,7 +4045,7 @@ AST_Generator::return_type AST_Generator::V_InitDeclaratorList(InitDeclaratorLis
 
 			if (dest != a.value)
 			{
-				Handler_Assignment(statementContext,dest,a);
+				Handler_Assignment(statementContext, dest, a);
 			}
 
 			AddStatementContext(statementContext);
@@ -3972,11 +4056,14 @@ AST_Generator::return_type AST_Generator::V_InitDeclaratorList(InitDeclaratorLis
 				std::make_shared<GLSL::AST_NormalVariable>(decl)
 			);
 		}
+
+
 	}
+
+	
 
 	return 0;
 }
-
 
 
 

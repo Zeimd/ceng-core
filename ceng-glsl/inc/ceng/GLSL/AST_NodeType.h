@@ -27,12 +27,15 @@ namespace Ceng
 
 				struct_declaration,
 
-				type_precision,
+				// precision precision_qualifier typename
+				default_precision,
+
 				interface_block,
 				named_interface_block,
 				geometry_shader_input_layout,
 
-				invariant_identifier,
+				// used for invariant type_name {, type_name...}
+				invariant_statement,
 
 				// Either ++ or --
 				inc_dec,
