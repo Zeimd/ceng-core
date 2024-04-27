@@ -18,6 +18,8 @@
 
 #include <ceng/GLSL/SimpleDeclaration.h>
 
+#include <ceng/GLSL/ShaderType.h>
+
 #include "NonTerminalVisitor.h"
 #include "AssignmentOperator.h"
 
@@ -57,6 +59,8 @@ namespace Ceng
 	{
 	public:
 
+		GLSL::ShaderType::value shader;
+
 		std::shared_ptr<SymbolDatabase>& symbolDatabase;
 
 		GLSL::AST_TranslationUnit root;
@@ -71,9 +75,10 @@ namespace Ceng
 
 		~AST_Generator() override;
 
-		AST_Generator(std::shared_ptr<SymbolDatabase>& symbolDatabase);
+		AST_Generator(GLSL::ShaderType::value shader, std::shared_ptr<SymbolDatabase>& symbolDatabase);
 
-		static GLSL::AbstractSyntaxTree GenerateTree(std::shared_ptr<SymbolDatabase>& symbolDatabase, std::shared_ptr<TranslationUnit>& unit);
+		static GLSL::AbstractSyntaxTree GenerateTree(GLSL::ShaderType::value shader, 
+			std::shared_ptr<SymbolDatabase>& symbolDatabase, std::shared_ptr<TranslationUnit>& unit);
 
 		Context& CurrentContext();
 

@@ -103,15 +103,15 @@ AST_Generator::~AST_Generator()
 
 }
 
-AST_Generator::AST_Generator(std::shared_ptr<SymbolDatabase>& symbolDatabase)
-	: symbolDatabase(symbolDatabase)
+AST_Generator::AST_Generator(GLSL::ShaderType::value shader, std::shared_ptr<SymbolDatabase>& symbolDatabase)
+	: shader(shader), symbolDatabase(symbolDatabase)
 {
 	contextStack.emplace_back(&root);
 }
 
-GLSL::AbstractSyntaxTree AST_Generator::GenerateTree(std::shared_ptr<SymbolDatabase>& symbolDatabase, std::shared_ptr<TranslationUnit>& unit)
+GLSL::AbstractSyntaxTree AST_Generator::GenerateTree(GLSL::ShaderType::value shader, std::shared_ptr<SymbolDatabase>& symbolDatabase, std::shared_ptr<TranslationUnit>& unit)
 {
-	AST_Generator generator{ symbolDatabase };
+	AST_Generator generator{shader, symbolDatabase };
 
 	unit->AcceptVisitor(generator);
 	

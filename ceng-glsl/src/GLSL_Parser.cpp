@@ -151,7 +151,7 @@ CRESULT GLSL_Parser::Parse(const std::vector<Token>& in_tokens, GLSL::AbstractSy
 
 	auto temp = std::static_pointer_cast<TranslationUnit>(retVal.nonTerminal);
 
-	GLSL::AbstractSyntaxTree out = AST_Generator::GenerateTree(symbolDatabase, temp);
+	GLSL::AbstractSyntaxTree out = AST_Generator::GenerateTree(GLSL::ShaderType::vertex, symbolDatabase, temp);
 	log.Debug("****************************************************************************");
 	log.Debug("AST print:");
 
