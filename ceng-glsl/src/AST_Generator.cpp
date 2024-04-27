@@ -412,7 +412,7 @@ GLSL::ArrayIndex AST_Generator::GetArrayIndex(TypeSpecifier& item)
 
 			AddStatementContext(statementContext);
 
-			GLSL::Rvalue rvalue = &out.value;
+			GLSL::Rvalue& rvalue = out.value;
 
 			switch (rvalue.valueType)
 			{
