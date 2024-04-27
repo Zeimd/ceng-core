@@ -128,6 +128,10 @@ namespace Ceng
 
 			TextureType texture;
 
+			// Number of constructor slots needed to fill the datatype.
+			// Here slot refers to scalars or components of vector or matrix.
+			Ceng::UINT32 constructorSlots;
+
 			bool operator == (const BasicTypeInfo& x) const
 			{
 				if (category != x.category)
@@ -151,6 +155,11 @@ namespace Ceng
 				}
 
 				if (texture != x.texture)
+				{
+					return false;
+				}
+
+				if (constructorSlots != x.constructorSlots)
 				{
 					return false;
 				}

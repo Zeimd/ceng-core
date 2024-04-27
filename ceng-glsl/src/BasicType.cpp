@@ -86,97 +86,97 @@ const char* BasicType::ToString(BasicType::value type)
 
 #undef CASE_TO_TEXT
 
-static BasicTypeInfo info_ts_void{ BasicTypeCategory::scalar, BasicType::ts_void, 1,1, TextureType::none };
-static BasicTypeInfo info_ts_float{ BasicTypeCategory::scalar, BasicType::ts_float, 1,1, TextureType::none };
-static BasicTypeInfo info_ts_int{ BasicTypeCategory::scalar, BasicType::ts_int, 1,1, TextureType::none };
-static BasicTypeInfo info_ts_uint{ BasicTypeCategory::scalar, BasicType::ts_uint, 1,1, TextureType::none };
-static BasicTypeInfo info_ts_bool{ BasicTypeCategory::scalar, BasicType::ts_bool, 1,1, TextureType::none };
+static BasicTypeInfo info_ts_void{ BasicTypeCategory::scalar, BasicType::ts_void, 1,1, TextureType::none, 1 };
+static BasicTypeInfo info_ts_float{ BasicTypeCategory::scalar, BasicType::ts_float, 1,1, TextureType::none, 1 };
+static BasicTypeInfo info_ts_int{ BasicTypeCategory::scalar, BasicType::ts_int, 1,1, TextureType::none, 1 };
+static BasicTypeInfo info_ts_uint{ BasicTypeCategory::scalar, BasicType::ts_uint, 1,1, TextureType::none, 1 };
+static BasicTypeInfo info_ts_bool{ BasicTypeCategory::scalar, BasicType::ts_bool, 1,1, TextureType::none, 1 };
 
-static BasicTypeInfo info_vec2{ BasicTypeCategory::vector, BasicType::ts_float, 2,1, TextureType::none };
-static BasicTypeInfo info_vec3{ BasicTypeCategory::vector, BasicType::ts_float, 3,1, TextureType::none };
-static BasicTypeInfo info_vec4{ BasicTypeCategory::vector, BasicType::ts_float, 4,1, TextureType::none };
+static BasicTypeInfo info_vec2{ BasicTypeCategory::vector, BasicType::ts_float, 2,1, TextureType::none, 2 };
+static BasicTypeInfo info_vec3{ BasicTypeCategory::vector, BasicType::ts_float, 3,1, TextureType::none, 3 };
+static BasicTypeInfo info_vec4{ BasicTypeCategory::vector, BasicType::ts_float, 4,1, TextureType::none, 4 };
 
-static BasicTypeInfo info_bvec2{ BasicTypeCategory::vector, BasicType::ts_bool, 2,1, TextureType::none };
-static BasicTypeInfo info_bvec3{ BasicTypeCategory::vector, BasicType::ts_bool, 3,1, TextureType::none };
-static BasicTypeInfo info_bvec4{ BasicTypeCategory::vector, BasicType::ts_bool, 4,1, TextureType::none };
+static BasicTypeInfo info_bvec2{ BasicTypeCategory::vector, BasicType::ts_bool, 2,1, TextureType::none, 2 };
+static BasicTypeInfo info_bvec3{ BasicTypeCategory::vector, BasicType::ts_bool, 3,1, TextureType::none, 3 };
+static BasicTypeInfo info_bvec4{ BasicTypeCategory::vector, BasicType::ts_bool, 4,1, TextureType::none, 4 };
 
-static BasicTypeInfo info_ivec2{ BasicTypeCategory::vector, BasicType::ts_int, 2,1, TextureType::none };
-static BasicTypeInfo info_ivec3{ BasicTypeCategory::vector, BasicType::ts_int, 3,1, TextureType::none };
-static BasicTypeInfo info_ivec4{ BasicTypeCategory::vector, BasicType::ts_int, 4,1, TextureType::none };
+static BasicTypeInfo info_ivec2{ BasicTypeCategory::vector, BasicType::ts_int, 2,1, TextureType::none, 2 };
+static BasicTypeInfo info_ivec3{ BasicTypeCategory::vector, BasicType::ts_int, 3,1, TextureType::none, 3 };
+static BasicTypeInfo info_ivec4{ BasicTypeCategory::vector, BasicType::ts_int, 4,1, TextureType::none, 4 };
 
-static BasicTypeInfo info_uvec2{ BasicTypeCategory::vector, BasicType::ts_uint, 2,1, TextureType::none };
-static BasicTypeInfo info_uvec3{ BasicTypeCategory::vector, BasicType::ts_uint, 3,1, TextureType::none };
-static BasicTypeInfo info_uvec4{ BasicTypeCategory::vector, BasicType::ts_uint, 4,1, TextureType::none };
+static BasicTypeInfo info_uvec2{ BasicTypeCategory::vector, BasicType::ts_uint, 2,1, TextureType::none, 2 };
+static BasicTypeInfo info_uvec3{ BasicTypeCategory::vector, BasicType::ts_uint, 3,1, TextureType::none, 3 };
+static BasicTypeInfo info_uvec4{ BasicTypeCategory::vector, BasicType::ts_uint, 4,1, TextureType::none, 4 };
 
-static BasicTypeInfo info_mat2{ BasicTypeCategory::matrix, BasicType::ts_float, 2,2 , TextureType::none };
-static BasicTypeInfo info_mat3{ BasicTypeCategory::matrix, BasicType::ts_float, 3,3 , TextureType::none };
-static BasicTypeInfo info_mat4{ BasicTypeCategory::matrix, BasicType::ts_float, 4,4 , TextureType::none };
+static BasicTypeInfo info_mat2{ BasicTypeCategory::matrix, BasicType::ts_float, 2,2 , TextureType::none, 4 };
+static BasicTypeInfo info_mat3{ BasicTypeCategory::matrix, BasicType::ts_float, 3,3 , TextureType::none, 9 };
+static BasicTypeInfo info_mat4{ BasicTypeCategory::matrix, BasicType::ts_float, 4,4 , TextureType::none, 16 };
 
-static BasicTypeInfo info_mat2x2{ BasicTypeCategory::matrix, BasicType::ts_float, 2,2 , TextureType::none };
-static BasicTypeInfo info_mat2x3{ BasicTypeCategory::matrix, BasicType::ts_float, 2,3 , TextureType::none };
-static BasicTypeInfo info_mat2x4{ BasicTypeCategory::matrix, BasicType::ts_float, 2,4 , TextureType::none };
+static BasicTypeInfo info_mat2x2{ BasicTypeCategory::matrix, BasicType::ts_float, 2,2 , TextureType::none, 4 };
+static BasicTypeInfo info_mat2x3{ BasicTypeCategory::matrix, BasicType::ts_float, 2,3 , TextureType::none, 6 };
+static BasicTypeInfo info_mat2x4{ BasicTypeCategory::matrix, BasicType::ts_float, 2,4 , TextureType::none, 8 };
 
-static BasicTypeInfo info_mat3x2{ BasicTypeCategory::matrix, BasicType::ts_float, 3,2 , TextureType::none };
-static BasicTypeInfo info_mat3x3{ BasicTypeCategory::matrix, BasicType::ts_float, 3,3 , TextureType::none };
-static BasicTypeInfo info_mat3x4{ BasicTypeCategory::matrix, BasicType::ts_float, 3,4 , TextureType::none };
+static BasicTypeInfo info_mat3x2{ BasicTypeCategory::matrix, BasicType::ts_float, 3,2 , TextureType::none, 6 };
+static BasicTypeInfo info_mat3x3{ BasicTypeCategory::matrix, BasicType::ts_float, 3,3 , TextureType::none, 9 };
+static BasicTypeInfo info_mat3x4{ BasicTypeCategory::matrix, BasicType::ts_float, 3,4 , TextureType::none, 12 };
 
-static BasicTypeInfo info_mat4x2{ BasicTypeCategory::matrix, BasicType::ts_float, 4,2 , TextureType::none };
-static BasicTypeInfo info_mat4x3{ BasicTypeCategory::matrix, BasicType::ts_float, 4,3 , TextureType::none };
-static BasicTypeInfo info_mat4x4{ BasicTypeCategory::matrix, BasicType::ts_float, 4,4 , TextureType::none };
+static BasicTypeInfo info_mat4x2{ BasicTypeCategory::matrix, BasicType::ts_float, 4,2 , TextureType::none, 8 };
+static BasicTypeInfo info_mat4x3{ BasicTypeCategory::matrix, BasicType::ts_float, 4,3 , TextureType::none, 12 };
+static BasicTypeInfo info_mat4x4{ BasicTypeCategory::matrix, BasicType::ts_float, 4,4 , TextureType::none, 16 };
 
-static BasicTypeInfo info_sampler1D{ BasicTypeCategory::sampler, BasicType::ts_float, 1,1 , TextureType::normal };
-static BasicTypeInfo info_sampler2D{ BasicTypeCategory::sampler, BasicType::ts_float, 2,1 , TextureType::normal };
-static BasicTypeInfo info_sampler3D{ BasicTypeCategory::sampler, BasicType::ts_float, 3,1 , TextureType::normal };
+static BasicTypeInfo info_sampler1D{ BasicTypeCategory::sampler, BasicType::ts_float, 1,1 , TextureType::normal, 1 };
+static BasicTypeInfo info_sampler2D{ BasicTypeCategory::sampler, BasicType::ts_float, 2,1 , TextureType::normal, 1 };
+static BasicTypeInfo info_sampler3D{ BasicTypeCategory::sampler, BasicType::ts_float, 3,1 , TextureType::normal, 1 };
 
-static BasicTypeInfo info_samplerCube{ BasicTypeCategory::sampler, BasicType::ts_float, 1,1 , TextureType::cube };
-static BasicTypeInfo info_samplerCubeShadow{ BasicTypeCategory::sampler, BasicType::ts_float, 1,1 , TextureType::cube_shadow };
+static BasicTypeInfo info_samplerCube{ BasicTypeCategory::sampler, BasicType::ts_float, 1,1 , TextureType::cube, 1 };
+static BasicTypeInfo info_samplerCubeShadow{ BasicTypeCategory::sampler, BasicType::ts_float, 1,1 , TextureType::cube_shadow, 1 };
 
-static BasicTypeInfo info_sampler1DShadow{ BasicTypeCategory::sampler, BasicType::ts_float, 1,1 , TextureType::normal_shadow };
-static BasicTypeInfo info_sampler2DShadow{ BasicTypeCategory::sampler, BasicType::ts_float, 1,1 , TextureType::normal_shadow };
+static BasicTypeInfo info_sampler1DShadow{ BasicTypeCategory::sampler, BasicType::ts_float, 1,1 , TextureType::normal_shadow, 1 };
+static BasicTypeInfo info_sampler2DShadow{ BasicTypeCategory::sampler, BasicType::ts_float, 1,1 , TextureType::normal_shadow, 1 };
 
-static BasicTypeInfo info_sampler1DArray{ BasicTypeCategory::sampler, BasicType::ts_float, 1,1 , TextureType::array };
-static BasicTypeInfo info_sampler2DArray{ BasicTypeCategory::sampler, BasicType::ts_float, 1,1 , TextureType::array };
+static BasicTypeInfo info_sampler1DArray{ BasicTypeCategory::sampler, BasicType::ts_float, 1,1 , TextureType::array, 1 };
+static BasicTypeInfo info_sampler2DArray{ BasicTypeCategory::sampler, BasicType::ts_float, 1,1 , TextureType::array, 1 };
 
-static BasicTypeInfo info_sampler1DArrayShadow{ BasicTypeCategory::sampler, BasicType::ts_float, 1,1 , TextureType::array_shadow };
-static BasicTypeInfo info_sampler2DArrayShadow{ BasicTypeCategory::sampler, BasicType::ts_float, 1,1 , TextureType::array_shadow };
+static BasicTypeInfo info_sampler1DArrayShadow{ BasicTypeCategory::sampler, BasicType::ts_float, 1,1 , TextureType::array_shadow, 1 };
+static BasicTypeInfo info_sampler2DArrayShadow{ BasicTypeCategory::sampler, BasicType::ts_float, 1,1 , TextureType::array_shadow, 1 };
 
-static BasicTypeInfo info_isampler1D{ BasicTypeCategory::sampler, BasicType::ts_int, 1,1 , TextureType::normal };
-static BasicTypeInfo info_isampler2D{ BasicTypeCategory::sampler, BasicType::ts_int, 1,1 , TextureType::normal };
-static BasicTypeInfo info_isampler3D{ BasicTypeCategory::sampler, BasicType::ts_int, 1,1 , TextureType::normal };
+static BasicTypeInfo info_isampler1D{ BasicTypeCategory::sampler, BasicType::ts_int, 1,1 , TextureType::normal, 1 };
+static BasicTypeInfo info_isampler2D{ BasicTypeCategory::sampler, BasicType::ts_int, 1,1 , TextureType::normal, 1 };
+static BasicTypeInfo info_isampler3D{ BasicTypeCategory::sampler, BasicType::ts_int, 1,1 , TextureType::normal, 1 };
 
-static BasicTypeInfo info_isamplerCube{ BasicTypeCategory::sampler, BasicType::ts_int, 1,1 , TextureType::cube };
+static BasicTypeInfo info_isamplerCube{ BasicTypeCategory::sampler, BasicType::ts_int, 1,1 , TextureType::cube, 1 };
 
-static BasicTypeInfo info_isampler1DArray{ BasicTypeCategory::sampler, BasicType::ts_int, 1,1 , TextureType::array };
-static BasicTypeInfo info_isampler2DArray{ BasicTypeCategory::sampler, BasicType::ts_int, 1,1 , TextureType::array };
+static BasicTypeInfo info_isampler1DArray{ BasicTypeCategory::sampler, BasicType::ts_int, 1,1 , TextureType::array, 1 };
+static BasicTypeInfo info_isampler2DArray{ BasicTypeCategory::sampler, BasicType::ts_int, 1,1 , TextureType::array, 1 };
 
-static BasicTypeInfo info_usampler1D{ BasicTypeCategory::sampler, BasicType::ts_uint, 1,1 , TextureType::normal };
-static BasicTypeInfo info_usampler2D{ BasicTypeCategory::sampler, BasicType::ts_uint, 1,1 , TextureType::normal };
-static BasicTypeInfo info_usampler3D{ BasicTypeCategory::sampler, BasicType::ts_uint, 1,1 , TextureType::normal };
+static BasicTypeInfo info_usampler1D{ BasicTypeCategory::sampler, BasicType::ts_uint, 1,1 , TextureType::normal, 1 };
+static BasicTypeInfo info_usampler2D{ BasicTypeCategory::sampler, BasicType::ts_uint, 1,1 , TextureType::normal, 1 };
+static BasicTypeInfo info_usampler3D{ BasicTypeCategory::sampler, BasicType::ts_uint, 1,1 , TextureType::normal, 1 };
 
-static BasicTypeInfo info_usamplerCube{ BasicTypeCategory::sampler, BasicType::ts_uint, 1,1 , TextureType::cube };
+static BasicTypeInfo info_usamplerCube{ BasicTypeCategory::sampler, BasicType::ts_uint, 1,1 , TextureType::cube, 1 };
 
-static BasicTypeInfo info_usampler1DArray{ BasicTypeCategory::sampler, BasicType::ts_uint, 1,1 , TextureType::array };
-static BasicTypeInfo info_usampler2DArray{ BasicTypeCategory::sampler, BasicType::ts_uint, 1,1 , TextureType::array };
+static BasicTypeInfo info_usampler1DArray{ BasicTypeCategory::sampler, BasicType::ts_uint, 1,1 , TextureType::array, 1 };
+static BasicTypeInfo info_usampler2DArray{ BasicTypeCategory::sampler, BasicType::ts_uint, 1,1 , TextureType::array, 1 };
 
-static BasicTypeInfo info_sampler2DRect{ BasicTypeCategory::sampler, BasicType::ts_float, 1,1 , TextureType::rect };
-static BasicTypeInfo info_sampler2DRectShadow{ BasicTypeCategory::sampler, BasicType::ts_float, 1,1 , TextureType::rect_shadow };
+static BasicTypeInfo info_sampler2DRect{ BasicTypeCategory::sampler, BasicType::ts_float, 1,1 , TextureType::rect, 1 };
+static BasicTypeInfo info_sampler2DRectShadow{ BasicTypeCategory::sampler, BasicType::ts_float, 1,1 , TextureType::rect_shadow, 1 };
 
-static BasicTypeInfo info_isampler2DRect{ BasicTypeCategory::sampler, BasicType::ts_int, 1,1 , TextureType::rect };
-static BasicTypeInfo info_usampler2DRect{ BasicTypeCategory::sampler, BasicType::ts_uint, 1,1 , TextureType::rect };
+static BasicTypeInfo info_isampler2DRect{ BasicTypeCategory::sampler, BasicType::ts_int, 1,1 , TextureType::rect, 1 };
+static BasicTypeInfo info_usampler2DRect{ BasicTypeCategory::sampler, BasicType::ts_uint, 1,1 , TextureType::rect, 1 };
 
-static BasicTypeInfo info_samplerBuffer{ BasicTypeCategory::sampler, BasicType::ts_float, 1,1 , TextureType::buffer };
-static BasicTypeInfo info_isamplerBuffer{ BasicTypeCategory::sampler, BasicType::ts_int, 1,1 , TextureType::buffer };
-static BasicTypeInfo info_usamplerBuffer{ BasicTypeCategory::sampler, BasicType::ts_uint, 1,1 , TextureType::buffer };
+static BasicTypeInfo info_samplerBuffer{ BasicTypeCategory::sampler, BasicType::ts_float, 1,1 , TextureType::buffer, 1 };
+static BasicTypeInfo info_isamplerBuffer{ BasicTypeCategory::sampler, BasicType::ts_int, 1,1 , TextureType::buffer, 1 };
+static BasicTypeInfo info_usamplerBuffer{ BasicTypeCategory::sampler, BasicType::ts_uint, 1,1 , TextureType::buffer, 1 };
 
-static BasicTypeInfo info_sampler2DMS{ BasicTypeCategory::sampler, BasicType::ts_float, 1,1 , TextureType::multisample };
-static BasicTypeInfo info_isampler2DMS{ BasicTypeCategory::sampler, BasicType::ts_int, 1,1 , TextureType::multisample };
-static BasicTypeInfo info_usampler2DMS{ BasicTypeCategory::sampler, BasicType::ts_uint, 1,1 , TextureType::multisample };
+static BasicTypeInfo info_sampler2DMS{ BasicTypeCategory::sampler, BasicType::ts_float, 1,1 , TextureType::multisample, 1 };
+static BasicTypeInfo info_isampler2DMS{ BasicTypeCategory::sampler, BasicType::ts_int, 1,1 , TextureType::multisample, 1 };
+static BasicTypeInfo info_usampler2DMS{ BasicTypeCategory::sampler, BasicType::ts_uint, 1,1 , TextureType::multisample, 1 };
 
-static BasicTypeInfo info_sampler2DMSArray{ BasicTypeCategory::sampler, BasicType::ts_float, 1,1 , TextureType::multisample_array };
-static BasicTypeInfo info_isampler2DMSArray{ BasicTypeCategory::sampler, BasicType::ts_int, 1,1 , TextureType::multisample_array };
-static BasicTypeInfo info_usampler2DMSArray{ BasicTypeCategory::sampler, BasicType::ts_uint, 1,1 , TextureType::multisample_array };
+static BasicTypeInfo info_sampler2DMSArray{ BasicTypeCategory::sampler, BasicType::ts_float, 1,1 , TextureType::multisample_array, 1 };
+static BasicTypeInfo info_isampler2DMSArray{ BasicTypeCategory::sampler, BasicType::ts_int, 1,1 , TextureType::multisample_array, 1 };
+static BasicTypeInfo info_usampler2DMSArray{ BasicTypeCategory::sampler, BasicType::ts_uint, 1,1 , TextureType::multisample_array, 1 };
 
-static BasicTypeInfo info_invalid{ BasicTypeCategory::invalid, BasicType::invalid, 1,1 , TextureType::none };
+static BasicTypeInfo info_invalid{ BasicTypeCategory::invalid, BasicType::invalid, 1,1 , TextureType::none, 1 };
 
 const BasicTypeInfo& Ceng::GLSL::GetTypeInfo(BasicType::value type)
 {
