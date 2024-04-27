@@ -2,15 +2,17 @@
 
 using namespace Ceng::GLSL;
 
-#define CASE_TO_TEXT(x) case GLSL::PrecisionQualifierType::x: return #x; break;
 
 const char* PrecisionQualifierType::ToString(PrecisionQualifierType::value type)
 {
 	switch (type)
 	{
-		CASE_TO_TEXT(high);
-		CASE_TO_TEXT(medium);
-		CASE_TO_TEXT(low);
+	case GLSL::PrecisionQualifierType::low:
+		return "lowp";
+	case GLSL::PrecisionQualifierType::medium:
+		return "mediump";
+	case GLSL::PrecisionQualifierType::high:
+		return "highp";
 	case GLSL::PrecisionQualifierType::unassigned:
 		return "";
 	case GLSL::PrecisionQualifierType::invalid_value:
@@ -20,4 +22,3 @@ const char* PrecisionQualifierType::ToString(PrecisionQualifierType::value type)
 	}
 }
 
-#undef CASE_TO_TEXT
