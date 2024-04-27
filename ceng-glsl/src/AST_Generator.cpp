@@ -92,6 +92,7 @@
 #include <ceng/GLSL/AST_EmptyNode.h>
 #include <ceng/GLSL/AST_NormalVariable.h>
 #include <ceng/GLSL/AST_InvariantStatement.h>
+#include <ceng/GLSL/AST_DefaultPrecision.h>
 
 #include "OperatorDatabase.h"
 
@@ -3525,6 +3526,31 @@ AST_Generator::return_type AST_Generator::V_Declaration(Declaration& decl)
 
 AST_Generator::return_type AST_Generator::Handler_DefaultPrecision(Declaration& item)
 {
+	if (item.spec->baseType->dataType != TypeSelector::basic_type)
+	{
+		// TODO: error
+		return 0;
+	}
+
+	GLSL::PrecisionTarget target;
+
+	switch (item.spec->baseType->basicType)
+	{
+	case GLSL::BasicType::ts_int:
+		target = GLSL::PrecisionTarget::integer;
+		break;
+	case GLSL::BasicType::ts_float:
+		target = GLSL::PrecisionTarget::floating;
+		break;
+	default:
+		// TODO: error
+		return 0;
+	}
+
+	CurrentContext().parent->children.emplace_back(
+		std::make_shared<GLSL::AST_DefaultPrecision>(item.precision->precision, target)
+	);
+
 	return 0;
 }
 
