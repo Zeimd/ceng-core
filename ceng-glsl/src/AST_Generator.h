@@ -25,6 +25,8 @@
 
 #include "SymbolDatabase.h"
 
+#include "DeclarationData.h"
+
 namespace Ceng
 {
 	struct ExpressionReturn
@@ -100,11 +102,15 @@ namespace Ceng
 
 		GLSL::ArrayIndex GetArrayIndex(std::shared_ptr<FullySpecifiedType>& item);
 
-		GLSL::AST_Datatype GetDatatype(std::shared_ptr<TypeSpecifier>& item);
+		GLSL::ArrayIndex GetArrayIndex(TypeSpecifier& item);
+
+		GLSL::ArrayIndex GetArrayIndex(DeclarationData& item);
 
 		GLSL::ArrayIndex GetArrayIndex(std::shared_ptr<TypeSpecifier>& item);
 
 		GLSL::ArrayIndex GetArrayIndex(std::shared_ptr<ParameterDeclarator>& item);
+
+		GLSL::AST_Datatype GetDatatype(std::shared_ptr<TypeSpecifier>& item);
 
 		GLSL::AST_Datatype GetDatatype(TypeSpecifier& item);
 
@@ -113,8 +119,6 @@ namespace Ceng
 		GLSL::AST_Datatype GetDatatype(const GLSL::Lvalue& lvalue);
 
 		GLSL::AST_Datatype GetDatatype(const GLSL::VariableExpression& expression);
-
-		GLSL::ArrayIndex GetArrayIndex(TypeSpecifier& item);
 
 		GLSL::AST_Datatype GetReturnType(FunctionPrototype& item);
 

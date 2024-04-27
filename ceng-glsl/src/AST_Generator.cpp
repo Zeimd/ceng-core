@@ -434,6 +434,45 @@ GLSL::ArrayIndex AST_Generator::GetArrayIndex(TypeSpecifier& item)
 	return { false };
 }
 
+GLSL::ArrayIndex AST_Generator::GetArrayIndex(DeclarationData& item)
+{
+	printf(__FUNCTION__);
+	printf("\n");
+
+	if (item.isArray)
+	{
+		if (item.arraySizeExpression == nullptr)
+		{
+			return { true };
+		}
+
+		StatementContext statementContext;
+
+		ExpressionReturn out = Handler_Expression(nullptr, statementContext, *item.arraySizeExpression);
+
+		AddStatementContext(statementContext);
+
+		GLSL::Rvalue& rvalue = out.value;
+
+		switch (rvalue.valueType)
+		{
+		case GLSL::RvalueType::int_literal:
+			return { std::get<Ceng::INT32>(rvalue.value) };
+		case GLSL::RvalueType::uint_literal:
+			return { std::get<Ceng::UINT32>(rvalue.value) };
+		case GLSL::RvalueType::variable:
+			return { std::get<GLSL::VariableExpression>(rvalue.value) };
+		default:
+
+			//GLSL::VariableExpression expr{GLSL::FieldExpression(item.typeSpec.elementExpression->ToString(0))};
+
+			return GLSL::VariableExpression();
+		}
+	}
+
+	return { false };
+}
+
 GLSL::ArrayIndex AST_Generator::GetArrayIndex(std::shared_ptr<ParameterDeclarator>& item)
 {
 	printf(__FUNCTION__);
@@ -4386,6 +4425,21 @@ AST_Generator::return_type AST_Generator::Handler_NormalDeclaration(InitDeclarat
 	{
 
 		GLSL::AST_Datatype datatype{ GetDatatype(item.fullType) };
+
+		GLSL::ArrayIndex index = GetArrayIndex(entry);
+
+		if (datatype.index.indexType != GLSL::ArrayIndexType::unused &&
+			index.indexType != GLSL::ArrayIndexType::unused)
+		{
+			// TODO: error (type and identifier can't both have array)
+
+			continue;
+		}
+
+		if (index.indexType != GLSL::ArrayIndexType::unused)
+		{
+			datatype.index = index;
+		}
 
 		GLSL::SimpleDeclaration decl
 		{
