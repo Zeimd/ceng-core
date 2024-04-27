@@ -145,6 +145,8 @@ Ceng::StringUtf8 Declaration::ToString(unsigned int indentLevel) const
 		}
 
 		out += ']';
+	case DeclarationType::type_qualifier:
+		out += typeQ->ToString(indentLevel);
 		break;
 	default:
 		return "<UNHANDLED DECLARATION TYPE>";
