@@ -48,11 +48,16 @@ Ceng::StringUtf8 AST_GeometryShaderOut::ToString(Ceng::UINT32 indentLevel) const
 			out += "<UNHANDLED GEOMETRY SHADER OUTPUT PRIMITIVE>";
 		}
 
-		out += ",";
+		if (definedMax)
+		{
+			out += ",";
+		}		
 	}
 
 	if (definedMax)
 	{
+		out += "max_vertices=";
+
 		out += maxVertices;
 	}
 
