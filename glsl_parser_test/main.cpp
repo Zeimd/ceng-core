@@ -147,7 +147,7 @@ int main()
 	
 	Ceng::GLSL::AbstractSyntaxTree programTree;
 
-	cresult = parser->Parse(tokens, programTree);
+	cresult = parser->Parse(Ceng::GLSL::ShaderType::geometry,tokens, programTree);
 
 	auto log = parser->GetLog();
 

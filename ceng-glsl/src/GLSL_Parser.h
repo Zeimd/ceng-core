@@ -7,6 +7,8 @@
 #include <ceng/GLSL/Token.h>
 #include <ceng/GLSL/IParser.h>
 
+#include <ceng/GLSL/ShaderType.h>
+
 #include "ParserReturnValue.h"
 #include "HandlerReturn.h"
 #include "IStateHandler.h"
@@ -135,7 +137,7 @@ namespace Ceng
 
 		const Log& GetLog() const override;
 		
-		CRESULT Parse(const std::vector<Token>& in_tokens, GLSL::AbstractSyntaxTree& output) override;
+		CRESULT Parse(GLSL::ShaderType::value shader, const std::vector<Token>& in_tokens, GLSL::AbstractSyntaxTree& output) override;
 
 		const Token& PeekToken();
 

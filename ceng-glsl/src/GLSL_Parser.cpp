@@ -102,7 +102,7 @@ const Log& GLSL_Parser::GetLog() const
 	return log;
 }
 
-CRESULT GLSL_Parser::Parse(const std::vector<Token>& in_tokens, GLSL::AbstractSyntaxTree& output)
+CRESULT GLSL_Parser::Parse(GLSL::ShaderType::value shader, const std::vector<Token>& in_tokens, GLSL::AbstractSyntaxTree& output)
 {
 	log.Clear();
 	log.FlushMode(true);
@@ -151,7 +151,7 @@ CRESULT GLSL_Parser::Parse(const std::vector<Token>& in_tokens, GLSL::AbstractSy
 
 	auto temp = std::static_pointer_cast<TranslationUnit>(retVal.nonTerminal);
 
-	GLSL::AbstractSyntaxTree out = AST_Generator::GenerateTree(GLSL::ShaderType::vertex, symbolDatabase, temp);
+	GLSL::AbstractSyntaxTree out = AST_Generator::GenerateTree(shader, symbolDatabase, temp);
 	log.Debug("****************************************************************************");
 	log.Debug("AST print:");
 

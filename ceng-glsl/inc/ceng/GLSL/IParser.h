@@ -4,6 +4,8 @@
 #include <ceng/datatypes/ce-string.h>
 #include <ceng/datatypes/return-val.h>
 
+#include "ShaderType.h"
+
 #include "Token.h"
 #include "AbstractSyntaxTree.h"
 #include "Log.h"
@@ -29,7 +31,7 @@ namespace Ceng
 
 			virtual const Log& GetLog() const = 0;
 
-			virtual CRESULT Parse(const std::vector<Token>& in_tokens, AbstractSyntaxTree& output) = 0;
+			virtual CRESULT Parse(ShaderType::value shader, const std::vector<Token>& in_tokens, AbstractSyntaxTree& output) = 0;
 		};
 	}
 	
