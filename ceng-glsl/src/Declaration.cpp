@@ -231,6 +231,11 @@ bool Declaration::IsConst() const
 	switch (declarationType)
 	{
 	case DeclarationType::init_list:
+		if (declList->invariant)
+		{
+			return false;
+		}
+
 		return declList->fullType->qualifier.storage.qualifier == GLSL::StorageQualifierType::sq_const;
 	default:
 		return false;
@@ -242,6 +247,11 @@ bool Declaration::IsInteger() const
 	switch (declarationType)
 	{
 	case DeclarationType::init_list:
+		if (declList->invariant)
+		{
+			return false;
+		}
+
 		return declList->fullType->typeSpec.arrayType.baseType->IsIntegerType();
 	default:
 		return false;
