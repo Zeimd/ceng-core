@@ -33,6 +33,8 @@ namespace Ceng
 				interface_block,
 				named_interface_block,
 
+				vertex_shader_input_variable,
+
 				geometry_shader_input_layout,
 
 				geometry_shader_output_layout,

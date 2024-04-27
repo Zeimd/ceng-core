@@ -40,6 +40,7 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_Scope.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_SwitchBlock.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_UnaryOperator.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_VertexShaderIn.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_WhileLoop.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\FieldExpression.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\Rvalue.h" />
@@ -192,6 +193,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\AST_NormalVariable.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_Scope.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_SwitchBlock.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\AST_VertexShaderIn.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\FieldExpression.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\OperatorDatabase.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\Rvalue.cpp" />

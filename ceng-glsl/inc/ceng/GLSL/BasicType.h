@@ -132,6 +132,9 @@ namespace Ceng
 			// Here slot refers to scalars or components of vector or matrix.
 			Ceng::UINT32 constructorSlots;
 
+			// Number of input/output layout vec4 slots required by this type
+			Ceng::UINT32 layoutVectorSlots;
+
 			bool operator == (const BasicTypeInfo& x) const
 			{
 				if (category != x.category)
@@ -160,6 +163,11 @@ namespace Ceng
 				}
 
 				if (constructorSlots != x.constructorSlots)
+				{
+					return false;
+				}
+
+				if (layoutVectorSlots != x.layoutVectorSlots)
 				{
 					return false;
 				}

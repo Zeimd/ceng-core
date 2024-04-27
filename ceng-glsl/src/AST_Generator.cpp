@@ -97,6 +97,8 @@
 #include <ceng/GLSL/AST_GeometryShaderIn.h>
 #include <ceng/GLSL/AST_GeometryShaderOut.h>
 
+#include <ceng/GLSL/AST_VertexShaderIn.h>
+
 #include "OperatorDatabase.h"
 
 using namespace Ceng;
@@ -4204,6 +4206,144 @@ AST_Generator::return_type AST_Generator::V_InitDeclaratorList(InitDeclaratorLis
 		return 0;
 	}
 
+	Handler_InterfaceVariable(item);
+
+	return 0;
+}
+
+AST_Generator::return_type AST_Generator::Handler_InterfaceVariable(InitDeclaratorList& item)
+{
+	printf(__FUNCTION__);
+	printf("\n");
+
+	std::vector<GLSL::LayoutData> layout;
+
+	switch (shader)
+	{
+	case GLSL::ShaderType::vertex:
+		return Handler_VertexShaderInterfaceVariable(item);
+	case GLSL::ShaderType::fragment:
+		return Handler_FragmentShaderInterfaceVariable(item);
+		break;
+	case GLSL::ShaderType::geometry:
+		return 0;
+		break;
+	}
+
+	return 0;
+}
+
+AST_Generator::return_type AST_Generator::Handler_VertexShaderInterfaceVariable(InitDeclaratorList& item)
+{
+	printf(__FUNCTION__);
+	printf("\n");
+
+	if (item.fullType->qualifier.storage.qualifier == GLSL::StorageQualifierType::sq_in)
+	{
+		if (item.fullType->qualifier.interpolation.interpolation != GLSL::InterpolationQualifierType::unused)
+		{
+			// TODO: error (interpolation qualifier not allowed for vertex shader input)
+			return 0;
+		}
+
+		bool hasLocation = false;
+		Ceng::UINT32 location = 0;
+
+		if (item.fullType->qualifier.layout != nullptr)
+		{
+			auto& layout = item.fullType->qualifier.layout->list->list;
+
+			if (layout.size() > 1)
+			{
+				// TODO: error (too many layout items)
+				return 0;
+			}
+
+			if (layout.size() == 1)
+			{
+				if (layout[0]->identifier != "location")
+				{
+					// TODO: error (layout item not allowed)
+					return 0;
+				}
+				
+				if (layout[0]->hasValue == false)
+				{
+					// TODO: error (location not allowed without value)
+					return 0;
+				}
+
+				if (layout[0]->value < 0)
+				{
+					// TODO: value must be >= 0
+					return 0;
+				}
+
+				hasLocation = true;
+				location = layout[0]->value;
+			}
+		}
+
+		GLSL::AST_Datatype datatype = GetDatatype(item.fullType);
+
+		if (datatype.category != GLSL::TypenameCategory::basic_type)
+		{
+			// TODO: error: interface must be basic type
+			return 0;
+		}
+
+		if (datatype.basicType == GLSL::BasicType::ts_void)
+		{
+			// TODO: error: void not allowed
+			return 0;
+		}
+
+		Ceng::UINT32 arraySizeFromType = 1;
+
+		if (datatype.index.indexType == GLSL::ArrayIndexType::variable)
+		{
+			// TODO: check that index evaluates to a constant
+		}
+		else if (datatype.index.indexType == GLSL::ArrayIndexType::uint_literal)
+		{
+			arraySizeFromType = std::get<Ceng::UINT32>(datatype.index.value);
+		}
+
+		GLSL::BasicTypeInfo info = GLSL::GetTypeInfo(datatype.basicType);
+
+		for (auto& x : item.list)
+		{
+			if (hasLocation)
+			{
+				CurrentContext().parent->children.emplace_back(
+					std::make_shared<GLSL::AST_VertexShaderIn>(location, datatype, x.name)
+				);
+			}
+			else
+			{
+				CurrentContext().parent->children.emplace_back(
+					std::make_shared<GLSL::AST_VertexShaderIn>(datatype, x.name)
+				);
+
+			}
+
+			// TODO: get array size from variable
+
+			Ceng::UINT32 arraySize = arraySizeFromType;
+
+			location += info.layoutVectorSlots * arraySize;
+		}
+
+	}
+
+	return 0;
+}
+
+AST_Generator::return_type AST_Generator::Handler_FragmentShaderInterfaceVariable(InitDeclaratorList& item)
+{
+	printf(__FUNCTION__);
+	printf("\n");
+
 	return 0;
 }
 
@@ -4232,17 +4372,7 @@ AST_Generator::return_type AST_Generator::Handler_ComplexDeclaration(InitDeclara
 	
 
 
-	std::vector<GLSL::LayoutData> layout;
-
-	if (item.fullType->qualifier.layout != nullptr)
-	{
-		//printf("num layout = %i\n", item.fullType->qualifier.layout->list->list.size());
-
-		for (auto& layoutItem : item.fullType->qualifier.layout->list->list)
-		{
-			layout.emplace_back(layoutItem->identifier, layoutItem->hasValue, layoutItem->value);
-		}
-	}
+	
 
 }
 */
