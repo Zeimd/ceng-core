@@ -3526,6 +3526,9 @@ AST_Generator::return_type AST_Generator::V_Declaration(Declaration& decl)
 
 AST_Generator::return_type AST_Generator::Handler_DefaultPrecision(Declaration& item)
 {
+	printf(__FUNCTION__);
+	printf("\n");
+
 	if (item.spec->baseType->dataType != TypeSelector::basic_type)
 	{
 		// TODO: error
