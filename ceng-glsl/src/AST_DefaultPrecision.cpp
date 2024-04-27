@@ -35,6 +35,8 @@ Ceng::StringUtf8 AST_DefaultPrecision::ToString(Ceng::UINT32 indentLevel) const
 		break;
 	}
 
+	out += ";\n";
+
 	return out;
 }
 
