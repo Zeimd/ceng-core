@@ -846,7 +846,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ceng-glsl\src\AST_GeometryShaderOut.cpp">
-      <Filter>Header Files\public_interface</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
