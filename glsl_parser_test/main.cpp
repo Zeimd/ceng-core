@@ -31,6 +31,29 @@ int main()
 
 #endif // _MSC_VER
 
+	/*
+	
+	int x = 0;
+	int y = 0;
+
+	x = 1;
+
+	y = x++ + 1 + (x = 3) + (x = 4);
+
+	printf("x = %i, y = %i\n", x, y);
+
+	x = 1;
+
+	y = x + 1 << 2*2;
+
+	printf("x = %i, y = %i\n", x, y);
+
+	return 0;
+	*/
+	
+	
+	
+
 	std::ifstream fileReader;
 
 	const char* shaderFile = "forward.vs";
