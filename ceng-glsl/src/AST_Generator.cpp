@@ -4816,20 +4816,19 @@ AST_Generator::return_type AST_Generator::Handler_NormalDeclaration(InitDeclarat
 	printf(__FUNCTION__);
 	printf("\n");
 
+	GLSL::AST_Datatype datatype{ GetDatatype(item.fullType) };
+
 	for (auto& entry : item.list)
 	{
-
-		GLSL::AST_Datatype datatype{ GetDatatype(item.fullType) };
-
 		GLSL::ArrayIndex index = GetArrayIndex(entry);
 
-		ResolveDeclarationArrayIndex(datatype, index);
+		GLSL::AST_Datatype finaltype = ResolveDeclarationArrayIndex(datatype, index);
 
 		GLSL::SimpleDeclaration decl
 		{
 			item.fullType->qualifier.storage.qualifier == GLSL::StorageQualifierType::sq_const,
 			item.fullType->typeSpec.precision.precision,
-			datatype,
+			finaltype,
 			entry.name
 		};
 
