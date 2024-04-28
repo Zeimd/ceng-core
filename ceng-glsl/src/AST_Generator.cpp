@@ -4337,21 +4337,24 @@ AST_Generator::return_type AST_Generator::Handler_VertexShaderInterfaceVariable(
 			return 0;
 		}
 
-		Ceng::UINT32 arraySizeFromType = 1;
-
-		if (datatype.index.indexType == GLSL::ArrayIndexType::variable)
-		{
-			// TODO: check that index evaluates to a constant
-		}
-		else if (datatype.index.indexType == GLSL::ArrayIndexType::uint_literal)
-		{
-			arraySizeFromType = std::get<Ceng::UINT32>(datatype.index.value);
-		}
-
 		GLSL::BasicTypeInfo info = GLSL::GetTypeInfo(datatype.basicType);
 
 		for (auto& x : item.list)
 		{
+			Ceng::UINT32 arraySize = 1;
+
+			GLSL::ArrayIndex index = GetArrayIndex(x);
+
+			ResolveDeclarationArrayIndex(datatype, index);
+
+			if (datatype.index.HasSize())
+			{
+				if (datatype.index.indexType == GLSL::ArrayIndexType::uint_literal)
+				{
+					arraySize = datatype.index.GetInt();
+				}
+			}
+
 			if (hasLocation)
 			{
 				CurrentContext().parent->children.emplace_back(
@@ -4365,10 +4368,6 @@ AST_Generator::return_type AST_Generator::Handler_VertexShaderInterfaceVariable(
 				);
 
 			}
-
-			// TODO: get array size from variable
-
-			Ceng::UINT32 arraySize = arraySizeFromType;
 
 			location += info.layoutVectorSlots * arraySize;
 		}
