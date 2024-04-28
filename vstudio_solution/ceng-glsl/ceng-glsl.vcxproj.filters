@@ -351,9 +351,6 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\InterpolationQualifierType.h">
       <Filter>Header Files\public_interface</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_VariableDeclaration.h">
-      <Filter>Header Files\public_interface</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\PrecisionQualifierType.h">
       <Filter>Header Files\public_interface</Filter>
     </ClInclude>
@@ -762,9 +759,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ceng-glsl\src\BasicType.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\ceng-glsl\src\AST_VariableDeclaration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ceng-glsl\src\AbstractSyntaxTree.cpp">

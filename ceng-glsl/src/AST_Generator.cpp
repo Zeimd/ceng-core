@@ -1,4 +1,3 @@
-#include <ceng/GLSL/AST_VariableDeclaration.h>
 
 #include "AST_Generator.h"
 
@@ -104,6 +103,8 @@
 #include <ceng/GLSL/AST_FragCoordLayout.h>
 
 #include <ceng/GLSL/AST_FragmentShaderOut.h>
+
+#include <ceng/GLSL/LayoutData.h>
 
 #include "OperatorDatabase.h"
 
