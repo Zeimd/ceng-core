@@ -30,6 +30,7 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_Datatype.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_DefaultPrecision.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_EmptyNode.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_FragCoordLayout.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_FunctionCall.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_GeometryShaderIn.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_GeometryShaderOut.h" />
@@ -185,6 +186,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\AST_ConditionalOperation.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_Datatype.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_DefaultPrecision.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\AST_FragCoordLayout.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_FunctionCall.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_GeometryShaderIn.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_GeometryShaderOut.cpp" />

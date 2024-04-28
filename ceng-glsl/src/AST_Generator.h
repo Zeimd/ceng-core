@@ -215,6 +215,8 @@ namespace Ceng
 
 		return_type Handler_VertexOutFragmentIn(InitDeclaratorList& item);
 
+		return_type Handler_FragCoordLayout(InitDeclaratorList& item);
+
 		return_type Handler_GeometryShaderLayout(Declaration& item);
 
 		return_type Handler_NormalDeclaration(InitDeclaratorList& item);

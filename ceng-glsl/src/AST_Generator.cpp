@@ -101,6 +101,8 @@
 
 #include <ceng/GLSL/AST_VertexOutFragmentIn.h>
 
+#include <ceng/GLSL/AST_FragCoordLayout.h>
+
 #include "OperatorDatabase.h"
 
 using namespace Ceng;
@@ -4537,6 +4539,126 @@ AST_Generator::return_type AST_Generator::Handler_FragmentShaderInterfaceVariabl
 {
 	printf(__FUNCTION__);
 	printf("\n");
+
+	if (item.fullType->qualifier.storage.qualifier == GLSL::StorageQualifierType::sq_in ||
+		item.fullType->qualifier.storage.qualifier == GLSL::StorageQualifierType::sq_centroid_in)
+	{
+		if (item.fullType->qualifier.layout != nullptr)
+		{
+			return Handler_FragCoordLayout(item);
+		}
+
+		return Handler_VertexOutFragmentIn(item);
+	}
+
+	if (item.fullType->qualifier.storage.qualifier == GLSL::StorageQualifierType::sq_out)
+	{
+		switch (item.fullType->typeSpec.arrayType.baseType->dataType)
+		{
+		case Ceng::TypeSelector::basic_type:
+			switch (item.fullType->typeSpec.arrayType.baseType->basicType)
+			{
+			case GLSL::BasicType::ts_int:
+
+			case GLSL::BasicType::ivec2:
+			case GLSL::BasicType::ivec3:
+			case GLSL::BasicType::ivec4:
+
+			case GLSL::BasicType::ts_uint:
+			case GLSL::BasicType::uvec2:
+			case GLSL::BasicType::uvec3:
+			case GLSL::BasicType::uvec4:
+			
+			case GLSL::BasicType::ts_float:
+			case GLSL::BasicType::vec2:
+			case GLSL::BasicType::vec3:
+			case GLSL::BasicType::vec4:
+				break;
+			default:
+
+				// TODO: error (illegal vertex shader input type)
+				return 0;
+			}
+			break;
+		case Ceng::TypeSelector::type_name:
+		case Ceng::TypeSelector::struct_specifier:
+			// TODO: error (illegal type in struct)
+			return 0;
+		}
+
+
+	}
+
+	// TODO: error (invalid storage qualifier)
+
+	return 0;
+}
+
+AST_Generator::return_type AST_Generator::Handler_FragCoordLayout(InitDeclaratorList& item)
+{
+	printf(__FUNCTION__);
+	printf("\n");
+
+	auto& layout = item.fullType->qualifier.layout->list->list;
+
+	bool originUpperLeft = false;
+	bool pixelCenterInt = false;
+
+	Ceng::UINT32 itemCount = 0;
+	
+	for (auto& x : layout)
+	{
+		++itemCount;
+
+		if (itemCount > 2)
+		{
+			// TODO: error (too many layout items)
+			return 0;
+		}
+
+		if (x->hasValue)
+		{
+			// TODO: error (value not allowed)
+			continue;
+		}
+
+		if (x->identifier == "origin_upper_left")
+		{
+			originUpperLeft = true;
+			continue;
+		}
+
+		if (x->identifier == "pixel_center_integer")
+		{
+			pixelCenterInt = true;
+			continue;
+		}
+	}
+
+	if (item.fullType->typeSpec.arrayType.baseType->dataType != Ceng::TypeSelector::basic_type)
+	{
+		// TODO: error (type must be vec4)
+		return 0;
+	}
+
+	if (item.fullType->typeSpec.arrayType.baseType->basicType != GLSL::BasicType::vec4)
+	{
+		// TODO: error (type must be vec4)
+		return 0;
+	}
+
+	for (auto& x : item.list)
+	{
+		if (x.name != "gl_FragCoord")
+		{
+			// TODO: error (layout only allowed for gl_FragCoord)
+			continue;
+		}
+
+		CurrentContext().parent->children.emplace_back(
+			std::make_shared<GLSL::AST_FragCoordLayout>(originUpperLeft, pixelCenterInt)
+		);
+	}
 
 	return 0;
 }
