@@ -207,6 +207,10 @@ namespace Ceng
 
 		return_type Handler_VertexShaderInterfaceVariable(InitDeclaratorList& item);
 
+		bool CheckShaderInterfaceStruct(const SymbolLink& link);
+
+		bool CheckShaderInterfaceStruct(const StructSpecifier& structSpec);
+
 		return_type Handler_FragmentShaderInterfaceVariable(InitDeclaratorList& item);
 
 		return_type Handler_GeometryShaderLayout(Declaration& item);
