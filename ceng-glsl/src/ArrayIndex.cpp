@@ -4,6 +4,12 @@
 
 using namespace Ceng::GLSL;
 
+ArrayIndex::ArrayIndex()
+	: value(0), indexType(ArrayIndexType::invalid_value)
+{
+
+}
+
 ArrayIndex::ArrayIndex(bool implicit)
 	: value(0)
 {
@@ -81,4 +87,35 @@ bool ArrayIndex::operator == (const ArrayIndex& other) const
 	}
 
 	return false;
+}
+
+bool ArrayIndex::HasSize() const
+{
+	switch (indexType)
+	{
+	case ArrayIndexType::uint_literal:
+	case ArrayIndexType::variable:
+		return true;
+	}
+
+	return false;
+}
+
+bool ArrayIndex::IsArray() const
+{
+	switch (indexType)
+	{
+	case ArrayIndexType::implicit:
+	case ArrayIndexType::uint_literal:
+	case ArrayIndexType::variable:
+	case ArrayIndexType::invalid_value:
+		return true;
+	}
+
+	return false;
+}
+
+const std::shared_ptr<VariableExpression>& ArrayIndex::GetVariable() const
+{
+	return std::get< std::shared_ptr<VariableExpression>>(value);
 }

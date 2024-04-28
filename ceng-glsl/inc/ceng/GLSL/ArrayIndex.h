@@ -32,6 +32,8 @@ namespace Ceng
 
 			//ArrayIndex(const ArrayIndex& source);
 
+			ArrayIndex();
+
 			ArrayIndex(bool implicit);
 
 			ArrayIndex(Ceng::INT32 value);
@@ -41,6 +43,14 @@ namespace Ceng
 			Ceng::StringUtf8 ToString(Ceng::UINT32 indentLevel) const;
 
 			bool operator == (const ArrayIndex& other) const;
+
+			// Array with explicit size?
+			bool HasSize() const;
+
+			// Is this considered an array?
+			bool IsArray() const;
+
+			const std::shared_ptr<VariableExpression>& GetVariable() const;
 		};
 	}
 }
