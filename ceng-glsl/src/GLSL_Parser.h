@@ -269,6 +269,12 @@ namespace Ceng
 
 		ParserReturnValue S_StructSpecifier(std::shared_ptr<StructSpecifier>& structSpec);
 
+		ParserReturnValue S_CentroidToken(const Token& centroid);
+
+		ParserReturnValue S_CentroidToken_InToken(const Token& centroid, const Token& in);
+
+		ParserReturnValue S_CentroidToken_OutToken(const Token& centroid, const Token& out);
+
 		ParserReturnValue S_StorageQualifierToken(TokenType::value value);
 
 		ParserReturnValue S_LiteralToken(const Token& token);

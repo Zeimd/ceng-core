@@ -118,6 +118,9 @@ HandlerReturn IStateHandler::DefaultExpressionShift(GLSL_Parser* parser, const T
 		case TokenType::keyword_attribute:
 		case TokenType::keyword_varying:
 		case TokenType::keyword_uniform:
+		case TokenType::keyword_centroid:
+			retVal = parser->S_CentroidToken(next);
+			break;
 		case TokenType::keyword_in:
 		case TokenType::keyword_out:
 			retVal = parser->S_StorageQualifierToken(next.type);

@@ -1685,6 +1685,7 @@ public:
 		case TokenType::keyword_uniform:
 		case TokenType::keyword_in:
 		case TokenType::keyword_out:
+		case TokenType::keyword_centroid:
 			return { ParserReturnValue(), false };
 			break;
 		}
@@ -1744,6 +1745,67 @@ ParserReturnValue GLSL_Parser::S_StorageQualifierToken(TokenType::value value)
 	log.Debug(__func__);
 
 	return { std::make_shared<StorageQualifier>(value), 1 };
+}
+
+class Handler_CentroidToken : public IStateHandler
+{
+public:
+	const Token& centroid;
+
+public:
+
+	Handler_CentroidToken(const Token& centroid)
+		: centroid(centroid)
+	{
+
+	}
+
+	HandlerReturn Reduction(GLSL_Parser* parser) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
+	{
+		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::keyword_in:
+			return { parser->S_CentroidToken_InToken(centroid,next), true };
+		case TokenType::keyword_out:
+			return { parser->S_CentroidToken_OutToken(centroid,next), true };
+		}
+
+		return { ParserReturnValue(), false };
+	}
+
+	HandlerReturn Goto(GLSL_Parser* parser, std::shared_ptr<INonTerminal>& nonTerminal) override
+	{
+		parser->log.Debug(__FUNCTION__);
+		return { ParserReturnValue(), false };
+	}
+
+};
+
+ParserReturnValue GLSL_Parser::S_CentroidToken(const Token& token)
+{
+	Handler_CentroidToken temp{ token };
+
+	return StateFuncSkeleton(__func__, temp);
+}
+
+ParserReturnValue GLSL_Parser::S_CentroidToken_InToken(const Token& centroid, const Token& in)
+{
+	log.Debug(__func__);
+	return { std::make_shared<StorageQualifier>(GLSL::StorageQualifierType::sq_centroid_in), 2 };
+}
+
+ParserReturnValue GLSL_Parser::S_CentroidToken_OutToken(const Token& centroid, const Token& out)
+{
+	log.Debug(__func__);
+	return { std::make_shared<StorageQualifier>(GLSL::StorageQualifierType::sq_centroid_out), 2 };
 }
 
 ParserReturnValue GLSL_Parser::S_StorageQualifier(std::shared_ptr<StorageQualifier>& sq)
