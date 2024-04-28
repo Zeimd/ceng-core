@@ -20,7 +20,12 @@ Ceng::StringUtf8 AST_StructDeclaration::ToString(Ceng::UINT32 indentLevel) const
 	Ceng::StringUtf8 out;
 
 	out += INonTerminal::GetIndent(indentLevel);
-	out += "struct {\n";
+	out += "struct ";
+	out += name;
+	out += '\n';
+	
+	out += INonTerminal::GetIndent(indentLevel);
+	out += "{\n";
 
 	for (auto& x : members)
 	{
