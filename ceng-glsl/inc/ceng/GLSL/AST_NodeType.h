@@ -35,6 +35,8 @@ namespace Ceng
 
 				vertex_shader_input_variable,
 
+				fragment_shader_output_variable,
+
 				frag_coord_layout,
 
 				// For both vertex shader out and

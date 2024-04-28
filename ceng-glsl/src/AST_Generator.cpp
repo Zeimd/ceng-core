@@ -103,6 +103,8 @@
 
 #include <ceng/GLSL/AST_FragCoordLayout.h>
 
+#include <ceng/GLSL/AST_FragmentShaderOut.h>
+
 #include "OperatorDatabase.h"
 
 using namespace Ceng;
@@ -4288,8 +4290,6 @@ AST_Generator::return_type AST_Generator::Handler_VertexShaderInterfaceVariable(
 
 	if (item.fullType->qualifier.storage.qualifier == GLSL::StorageQualifierType::sq_in)
 	{
-		GLSL::AST_Datatype datatype = GetDatatype(item.fullType);
-
 		if (item.fullType->typeSpec.arrayType.baseType->dataType != Ceng::TypeSelector::basic_type)
 		{
 			// TODO: error (only basic types allowed)
@@ -4373,6 +4373,8 @@ AST_Generator::return_type AST_Generator::Handler_VertexShaderInterfaceVariable(
 			}
 		}
 
+		GLSL::AST_Datatype datatype = GetDatatype(item.fullType);
+
 		GLSL::BasicTypeInfo info = GLSL::GetTypeInfo(datatype.basicType);
 
 		for (auto& x : item.list)
@@ -4381,26 +4383,26 @@ AST_Generator::return_type AST_Generator::Handler_VertexShaderInterfaceVariable(
 
 			GLSL::ArrayIndex index = GetArrayIndex(x);
 
-			ResolveDeclarationArrayIndex(datatype, index);
+			GLSL::AST_Datatype finaltype = ResolveDeclarationArrayIndex(datatype, index);
 
-			if (datatype.index.HasSize())
+			if (finaltype.index.HasSize())
 			{
-				if (datatype.index.indexType == GLSL::ArrayIndexType::uint_literal)
+				if (finaltype.index.indexType == GLSL::ArrayIndexType::uint_literal)
 				{
-					arraySize = datatype.index.GetInt();
+					arraySize = finaltype.index.GetInt();
 				}
 			}
 
 			if (hasLocation)
 			{
 				CurrentContext().parent->children.emplace_back(
-					std::make_shared<GLSL::AST_VertexShaderIn>(location, datatype, x.name)
+					std::make_shared<GLSL::AST_VertexShaderIn>(location, finaltype, x.name)
 				);
 			}
 			else
 			{
 				CurrentContext().parent->children.emplace_back(
-					std::make_shared<GLSL::AST_VertexShaderIn>(datatype, x.name)
+					std::make_shared<GLSL::AST_VertexShaderIn>(finaltype, x.name)
 				);
 
 			}
@@ -4586,7 +4588,101 @@ AST_Generator::return_type AST_Generator::Handler_FragmentShaderInterfaceVariabl
 			return 0;
 		}
 
+		bool hasLocation = false;
+		Ceng::UINT32 location = 0;
 
+		bool hasIndex = false;
+		Ceng::UINT32 index = 0;
+
+		if (item.fullType->qualifier.layout != nullptr)
+		{
+			auto& layout = item.fullType->qualifier.layout->list->list;
+
+			Ceng::UINT32 itemCount = 0;
+
+			for (auto& x : layout)
+			{
+				++itemCount;
+
+				if (itemCount > 2)
+				{
+					// TODO: error (too many layout items)
+					return 0;
+				}
+
+				if (x->hasValue == false)
+				{
+					// TODO: error (location must have value)
+					continue;
+				}
+
+				if (x->value < 0)
+				{
+					// TODO: error (must be positive)
+					continue;
+				}
+
+				if (x->identifier == "location")
+				{
+					hasLocation = true;
+					location = x->value;
+				}
+				else if (x->identifier == "index")
+				{
+					if (x->value > 1)
+					{
+						// TODO: error (must be 0 or 1)
+						continue;
+					}
+
+					hasIndex = true;
+					index = x->value;
+				}
+			}
+		}
+
+		if (hasIndex)
+		{
+			if (hasLocation == false)
+			{
+				// TODO: error (can't have index without location)
+				return 0;
+			}
+		}
+
+		GLSL::AST_Datatype datatype = GetDatatype(item.fullType);
+
+		GLSL::BasicTypeInfo info = GLSL::GetTypeInfo(datatype.basicType);
+
+		for (auto& x : item.list)
+		{
+			GLSL::ArrayIndex arrayIndex = GetArrayIndex(x);
+
+			GLSL::AST_Datatype finalType = ResolveDeclarationArrayIndex(datatype, arrayIndex);
+
+			Ceng::UINT32 arraySize = 1;
+
+			if (finalType.index.HasSize())
+			{
+				if (finalType.index.indexType == GLSL::ArrayIndexType::uint_literal)
+				{
+					arraySize = finalType.index.GetInt();
+				}
+			}
+
+			CurrentContext().parent->children.emplace_back(
+				std::make_shared<GLSL::AST_FragmentShaderOut>(
+					hasLocation,
+					location,
+					hasIndex,
+					index,
+					finalType,
+					x.name
+					)
+			);
+
+			location += info.layoutVectorSlots * arraySize;
+		}
 	}
 
 	// TODO: error (invalid storage qualifier)
@@ -4682,29 +4778,20 @@ AST_Generator::return_type AST_Generator::Handler_InvariantStatement(InitDeclara
 	return 0;
 }
 
-/*
-AST_Generator::return_type AST_Generator::Handler_ComplexDeclaration(InitDeclaratorList& item)
+GLSL::AST_Datatype AST_Generator::ResolveDeclarationArrayIndex(const GLSL::AST_Datatype& datatype, const GLSL::ArrayIndex& index)
 {
-	
+	GLSL::AST_Datatype outputType = datatype;
 
-
-	
-
-}
-*/
-
-void AST_Generator::ResolveDeclarationArrayIndex(GLSL::AST_Datatype& datatype, GLSL::ArrayIndex& index)
-{
 	if (datatype.index.IsArray() == true &&
 		index.IsArray() == true)
 	{
 		// TODO: error (type and identifier can't both have array)
-		datatype.index = GLSL::ArrayIndex();
+		outputType.index = GLSL::ArrayIndex();
 	}
 
 	if (index.IsArray())
 	{
-		datatype.index = index;
+		outputType.index = index;
 	}
 
 	if (datatype.index.HasSize())
@@ -4715,13 +4802,13 @@ void AST_Generator::ResolveDeclarationArrayIndex(GLSL::AST_Datatype& datatype, G
 			{
 				// TODO: error (array size not constant)
 
-				datatype.index = GLSL::ArrayIndex();
-				return;
+				outputType.index = GLSL::ArrayIndex();
+				return outputType;
 			}
 		}
 	}
 
-	return;
+	return outputType;
 }
 
 AST_Generator::return_type AST_Generator::Handler_NormalDeclaration(InitDeclaratorList& item)

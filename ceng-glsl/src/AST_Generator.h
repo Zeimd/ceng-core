@@ -122,7 +122,7 @@ namespace Ceng
 
 		GLSL::AST_Datatype GetReturnType(FunctionPrototype& item);
 
-		void ResolveDeclarationArrayIndex(GLSL::AST_Datatype& datatype, GLSL::ArrayIndex& index);
+		GLSL::AST_Datatype ResolveDeclarationArrayIndex(const GLSL::AST_Datatype& datatype, const GLSL::ArrayIndex& index);
 
 		//GLSL::Lvalue GenerateTemporary(GLSL::AST_Datatype& type);
 
