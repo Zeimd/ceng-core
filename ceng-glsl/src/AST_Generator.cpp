@@ -99,6 +99,8 @@
 
 #include <ceng/GLSL/AST_VertexShaderIn.h>
 
+#include <ceng/GLSL/AST_VertexOutFragmentIn.h>
+
 #include "OperatorDatabase.h"
 
 using namespace Ceng;
@@ -4279,6 +4281,8 @@ AST_Generator::return_type AST_Generator::Handler_VertexShaderInterfaceVariable(
 
 	if (item.fullType->qualifier.storage.qualifier == GLSL::StorageQualifierType::sq_in)
 	{
+		GLSL::AST_Datatype datatype = GetDatatype(item.fullType);
+
 		if (item.fullType->typeSpec.arrayType.baseType->dataType != Ceng::TypeSelector::basic_type)
 		{
 			// TODO: error (only basic types allowed)
@@ -4360,20 +4364,6 @@ AST_Generator::return_type AST_Generator::Handler_VertexShaderInterfaceVariable(
 				hasLocation = true;
 				location = layout[0]->value;
 			}
-		}
-
-		GLSL::AST_Datatype datatype = GetDatatype(item.fullType);
-
-		if (datatype.category != GLSL::TypenameCategory::basic_type)
-		{
-			// TODO: error: interface must be basic type
-			return 0;
-		}
-
-		if (datatype.basicType == GLSL::BasicType::ts_void)
-		{
-			// TODO: error: void not allowed
-			return 0;
 		}
 
 		GLSL::BasicTypeInfo info = GLSL::GetTypeInfo(datatype.basicType);
@@ -4486,6 +4476,27 @@ AST_Generator::return_type AST_Generator::Handler_VertexShaderInterfaceVariable(
 
 			break;
 		}
+
+		GLSL::AST_Datatype datatype = GetDatatype(item.fullType);
+
+		for (auto& x : item.list)
+		{
+			GLSL::ArrayIndex index = GetArrayIndex(x);
+
+			ResolveDeclarationArrayIndex(datatype, index);
+
+			CurrentContext().parent->children.emplace_back(
+				std::make_shared<GLSL::AST_VertexOutFragmentIn>(
+					item.fullType->qualifier.invariant,
+					item.fullType->qualifier.interpolation.interpolation,
+					item.fullType->qualifier.storage.qualifier,
+					datatype,
+					x.name
+					)
+			);
+		}
+
+		
 
 
 	}

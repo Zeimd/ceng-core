@@ -468,6 +468,9 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_VertexShaderIn.h">
       <Filter>Header Files\public_interface</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_VertexOutFragmentIn.h">
+      <Filter>Header Files\public_interface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\ceng-glsl\src\TypeSpecifier.cpp">
@@ -852,6 +855,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ceng-glsl\src\AST_VertexShaderIn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ceng-glsl\src\AST_VertexOutFragmentIn.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

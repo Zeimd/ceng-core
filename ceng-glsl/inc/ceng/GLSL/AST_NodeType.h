@@ -35,6 +35,10 @@ namespace Ceng
 
 				vertex_shader_input_variable,
 
+				// For both vertex shader out and
+				// fragment shader in
+				vertex_fragment_interface_variable,
+
 				geometry_shader_input_layout,
 
 				geometry_shader_output_layout,
