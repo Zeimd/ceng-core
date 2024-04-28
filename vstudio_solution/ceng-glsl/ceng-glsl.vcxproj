@@ -40,6 +40,7 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_InvariantStatement.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_NormalVariable.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_Scope.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_StructDeclaration.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_SwitchBlock.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_UnaryOperator.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\AST_VertexOutFragmentIn.h" />
@@ -70,6 +71,7 @@
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\ShaderType.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\SimpleDeclaration.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\StorageQualifierType.h" />
+    <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\StructMember.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\TokenCategory.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\Tokenizer.h" />
     <ClInclude Include="..\..\ceng-glsl\inc\ceng\GLSL\TokenType.h" />
@@ -196,6 +198,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\AST_InvariantStatement.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_NormalVariable.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_Scope.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\AST_StructDeclaration.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_SwitchBlock.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_VertexOutFragmentIn.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\AST_VertexShaderIn.cpp" />
@@ -287,6 +290,7 @@
     <ClCompile Include="..\..\ceng-glsl\src\StructDeclarationList.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\StructDeclarator.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\StructDeclaratorList.cpp" />
+    <ClCompile Include="..\..\ceng-glsl\src\StructMember.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\StructSpecifier.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\SwitchStatement.cpp" />
     <ClCompile Include="..\..\ceng-glsl\src\SwitchStatementList.cpp" />
