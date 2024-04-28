@@ -106,6 +106,8 @@
 
 #include <ceng/GLSL/LayoutData.h>
 
+#include <ceng/GLSL/AST_StructDeclaration.h>
+
 #include "OperatorDatabase.h"
 
 using namespace Ceng;
@@ -480,6 +482,45 @@ GLSL::ArrayIndex AST_Generator::GetArrayIndex(DeclarationData& item)
 	return { false };
 }
 
+GLSL::ArrayIndex AST_Generator::GetArrayIndex(StructDeclarator& item)
+{
+	printf(__FUNCTION__);
+	printf("\n");
+
+	if (item.isArray)
+	{
+		if (item.arraySize == nullptr)
+		{
+			return { true };
+		}
+
+		StatementContext statementContext;
+
+		ExpressionReturn out = Handler_Expression(nullptr, statementContext, *item.arraySize);
+
+		AddStatementContext(statementContext);
+
+		GLSL::Rvalue& rvalue = out.value;
+
+		switch (rvalue.valueType)
+		{
+		case GLSL::RvalueType::int_literal:
+			return { std::get<Ceng::INT32>(rvalue.value) };
+		case GLSL::RvalueType::uint_literal:
+			return { std::get<Ceng::UINT32>(rvalue.value) };
+		case GLSL::RvalueType::variable:
+			return { std::get<GLSL::VariableExpression>(rvalue.value) };
+		default:
+
+			//GLSL::VariableExpression expr{GLSL::FieldExpression(item.typeSpec.elementExpression->ToString(0))};
+
+			return GLSL::VariableExpression();
+		}
+	}
+
+	return { false };
+}
+
 GLSL::ArrayIndex AST_Generator::GetArrayIndex(std::shared_ptr<ParameterDeclarator>& item)
 {
 	printf(__FUNCTION__);
@@ -531,7 +572,65 @@ GLSL::AST_Datatype AST_Generator::GetReturnType(FunctionPrototype& item)
 
 Ceng::StringUtf8 AST_Generator::RegisterAnonymousStruct(std::shared_ptr<StructSpecifier>& structSpec)
 {
-	return "";
+	printf(__FUNCTION__);
+	printf("\n");
+
+	Ceng::StringUtf8 name = "@anon_struct";
+	name += CurrentContext().tempCounter++;
+
+	printf("anonymous struct = %s\n", name.ToCString());
+
+	std::vector<GLSL::StructMember> members;
+
+	auto& declarations = structSpec->list->list;
+
+	for (auto& decl : declarations)
+	{
+		if (decl->typeQ.interpolation.interpolation != GLSL::InterpolationQualifierType::unused)
+		{
+			// TODO: error (interpolation qualifier not allowed for struct member)
+			continue;
+		}
+
+		if (decl->typeQ.storage.qualifier != GLSL::StorageQualifierType::unused)
+		{
+			// TODO: error (storage qualifier not allowed for struct member)
+			continue;
+		}
+
+		if (decl->typeQ.layout != nullptr)
+		{
+			// TODO: error (layout qualifier not allowed for struct member)
+			continue;
+		}
+
+		if (decl->typeQ.invariant)
+		{
+			// TODO: error (invariant qualifier not allowed for struct member)
+			continue;
+		}
+		
+		GLSL::PrecisionQualifierType::value precision = decl->typeSpec.precision.precision;
+
+		GLSL::AST_Datatype datatype = GetDatatype(decl->typeSpec);
+		
+		for (auto& x : decl->list->list)
+		{
+			GLSL::ArrayIndex identifierIndex = GetArrayIndex(*x);
+
+			GLSL::AST_Datatype finalType = ResolveDeclarationArrayIndex(datatype, identifierIndex);
+
+			members.emplace_back(precision, finalType, x->name);
+		}
+	}
+
+	CurrentContext().parent->children.emplace_back(
+		std::make_shared<GLSL::AST_StructDeclaration>(name, std::move(members))
+
+	);
+
+
+	return name;
 }
 
 ExpressionReturn AST_Generator::GetImplicitConversion(GLSL::Lvalue* destination, StatementContext& statementContext, GLSL::Rvalue& in, 

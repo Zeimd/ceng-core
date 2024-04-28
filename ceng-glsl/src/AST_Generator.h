@@ -104,6 +104,8 @@ namespace Ceng
 
 		GLSL::ArrayIndex GetArrayIndex(TypeSpecifier& item);
 
+		GLSL::ArrayIndex GetArrayIndex(StructDeclarator& item);
+
 		GLSL::ArrayIndex GetArrayIndex(DeclarationData& item);
 
 		GLSL::ArrayIndex GetArrayIndex(std::shared_ptr<TypeSpecifier>& item);
