@@ -3523,7 +3523,7 @@ bool AST_Generator::IsConstant(const GLSL::VariableExpression& expression)
 {
 	// TODO: check from symbol database
 
-	return false;
+	return true;
 }
 
 
@@ -4416,6 +4416,37 @@ AST_Generator::return_type AST_Generator::Handler_ComplexDeclaration(InitDeclara
 }
 */
 
+void AST_Generator::ResolveDeclarationArrayIndex(GLSL::AST_Datatype& datatype, GLSL::ArrayIndex& index)
+{
+	if (datatype.index.IsArray() == true &&
+		index.IsArray() == true)
+	{
+		// TODO: error (type and identifier can't both have array)
+		datatype.index = GLSL::ArrayIndex();
+	}
+
+	if (index.IsArray())
+	{
+		datatype.index = index;
+	}
+
+	if (datatype.index.HasSize())
+	{
+		if (datatype.index.indexType == GLSL::ArrayIndexType::variable)
+		{
+			if (IsConstant(*datatype.index.GetVariable()) == false)
+			{
+				// TODO: error (array size not constant)
+
+				datatype.index = GLSL::ArrayIndex();
+				return;
+			}
+		}
+	}
+
+	return;
+}
+
 AST_Generator::return_type AST_Generator::Handler_NormalDeclaration(InitDeclaratorList& item)
 {
 	printf(__FUNCTION__);
@@ -4428,18 +4459,7 @@ AST_Generator::return_type AST_Generator::Handler_NormalDeclaration(InitDeclarat
 
 		GLSL::ArrayIndex index = GetArrayIndex(entry);
 
-		if (datatype.index.indexType != GLSL::ArrayIndexType::unused &&
-			index.indexType != GLSL::ArrayIndexType::unused)
-		{
-			// TODO: error (type and identifier can't both have array)
-
-			continue;
-		}
-
-		if (index.indexType != GLSL::ArrayIndexType::unused)
-		{
-			datatype.index = index;
-		}
+		ResolveDeclarationArrayIndex(datatype, index);
 
 		GLSL::SimpleDeclaration decl
 		{
