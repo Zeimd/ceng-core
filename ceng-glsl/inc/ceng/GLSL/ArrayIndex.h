@@ -50,6 +50,8 @@ namespace Ceng
 			// Is this considered an array?
 			bool IsArray() const;
 
+			Ceng::UINT32 GetInt() const;
+
 			const std::shared_ptr<VariableExpression>& GetVariable() const;
 		};
 	}

@@ -115,6 +115,11 @@ bool ArrayIndex::IsArray() const
 	return false;
 }
 
+Ceng::UINT32 ArrayIndex::GetInt() const
+{
+	return std::get<Ceng::UINT32>(value);
+}
+
 const std::shared_ptr<VariableExpression>& ArrayIndex::GetVariable() const
 {
 	return std::get< std::shared_ptr<VariableExpression>>(value);
