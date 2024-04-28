@@ -4222,6 +4222,11 @@ AST_Generator::return_type AST_Generator::V_InitDeclaratorList(InitDeclaratorLis
 
 	bool normal = true;
 
+	if (item.fullType->qualifier.invariant)
+	{
+		normal = false;
+	}
+
 	if (item.fullType->qualifier.layout != nullptr)
 	{
 		normal = false;
@@ -4407,101 +4412,107 @@ AST_Generator::return_type AST_Generator::Handler_VertexShaderInterfaceVariable(
 	if (item.fullType->qualifier.storage.qualifier == GLSL::StorageQualifierType::sq_out ||
 		item.fullType->qualifier.storage.qualifier == GLSL::StorageQualifierType::sq_centroid_out)
 	{
-		if (item.fullType->qualifier.layout != nullptr)
-		{
-			// TODO: error (layout not allowed in vertex shader output)
-			return 0;
-		}
-
-		switch (item.fullType->typeSpec.arrayType.baseType->dataType)
-		{
-		case Ceng::TypeSelector::basic_type:
-			switch (item.fullType->typeSpec.arrayType.baseType->basicType)
-			{
-			case GLSL::BasicType::ts_int:
-			case GLSL::BasicType::ivec2:
-			case GLSL::BasicType::ivec3:
-			case GLSL::BasicType::ivec4:
-			case GLSL::BasicType::uvec2:
-			case GLSL::BasicType::uvec3:
-			case GLSL::BasicType::uvec4:
-
-				if (item.fullType->qualifier.interpolation.interpolation != GLSL::InterpolationQualifierType::flat)
-				{
-					// TODO: error (integer types must have flat interpolation)
-					return 0;
-				}
-
-				break;
-			case GLSL::BasicType::ts_uint:
-			case GLSL::BasicType::ts_float:
-			case GLSL::BasicType::vec2:
-			case GLSL::BasicType::vec3:
-			case GLSL::BasicType::vec4:
-			case GLSL::BasicType::mat2:
-			case GLSL::BasicType::mat2x2:
-			case GLSL::BasicType::mat2x3:
-			case GLSL::BasicType::mat2x4:
-			case GLSL::BasicType::mat3:
-			case GLSL::BasicType::mat3x2:
-			case GLSL::BasicType::mat3x3:
-			case GLSL::BasicType::mat3x4:
-			case GLSL::BasicType::mat4:
-			case GLSL::BasicType::mat4x2:
-			case GLSL::BasicType::mat4x3:
-			case GLSL::BasicType::mat4x4:
-				break;
-			default:
-
-				// TODO: error (illegal vertex shader input type)
-				return 0;
-			}
-			break;
-		case Ceng::TypeSelector::type_name:
-
-			if (CheckShaderInterfaceStruct(item.fullType->typeSpec.arrayType.baseType->link) == false)
-			{
-				// TODO: error (illegal type in struct)
-				return 0;
-			}
-
-			break;
-		case Ceng::TypeSelector::struct_specifier:
-
-			if (CheckShaderInterfaceStruct(*item.fullType->typeSpec.arrayType.baseType->structSpec) == false)
-			{
-				// TODO: error (illegal type in struct)
-				return 0;
-			}
-
-			break;
-		}
-
-		GLSL::AST_Datatype datatype = GetDatatype(item.fullType);
-
-		for (auto& x : item.list)
-		{
-			GLSL::ArrayIndex index = GetArrayIndex(x);
-
-			ResolveDeclarationArrayIndex(datatype, index);
-
-			CurrentContext().parent->children.emplace_back(
-				std::make_shared<GLSL::AST_VertexOutFragmentIn>(
-					item.fullType->qualifier.invariant,
-					item.fullType->qualifier.interpolation.interpolation,
-					item.fullType->qualifier.storage.qualifier,
-					datatype,
-					x.name
-					)
-			);
-		}
-
-		
-
-
+		return Handler_VertexOutFragmentIn(item);
 	}
 
 	// TODO: error (invalid storage qualifier)
+
+	return 0;
+}
+
+AST_Generator::return_type AST_Generator::Handler_VertexOutFragmentIn(InitDeclaratorList& item)
+{
+	printf(__FUNCTION__);
+	printf("\n");
+
+	if (item.fullType->qualifier.layout != nullptr)
+	{
+		// TODO: error (layout not allowed in vertex shader output)
+		return 0;
+	}
+
+	switch (item.fullType->typeSpec.arrayType.baseType->dataType)
+	{
+	case Ceng::TypeSelector::basic_type:
+		switch (item.fullType->typeSpec.arrayType.baseType->basicType)
+		{
+		case GLSL::BasicType::ts_int:
+		case GLSL::BasicType::ivec2:
+		case GLSL::BasicType::ivec3:
+		case GLSL::BasicType::ivec4:
+		case GLSL::BasicType::uvec2:
+		case GLSL::BasicType::uvec3:
+		case GLSL::BasicType::uvec4:
+
+			if (item.fullType->qualifier.interpolation.interpolation != GLSL::InterpolationQualifierType::flat)
+			{
+				// TODO: error (integer types must have flat interpolation)
+				return 0;
+			}
+
+			break;
+		case GLSL::BasicType::ts_uint:
+		case GLSL::BasicType::ts_float:
+		case GLSL::BasicType::vec2:
+		case GLSL::BasicType::vec3:
+		case GLSL::BasicType::vec4:
+		case GLSL::BasicType::mat2:
+		case GLSL::BasicType::mat2x2:
+		case GLSL::BasicType::mat2x3:
+		case GLSL::BasicType::mat2x4:
+		case GLSL::BasicType::mat3:
+		case GLSL::BasicType::mat3x2:
+		case GLSL::BasicType::mat3x3:
+		case GLSL::BasicType::mat3x4:
+		case GLSL::BasicType::mat4:
+		case GLSL::BasicType::mat4x2:
+		case GLSL::BasicType::mat4x3:
+		case GLSL::BasicType::mat4x4:
+			break;
+		default:
+
+			// TODO: error (illegal vertex shader input type)
+			return 0;
+		}
+		break;
+	case Ceng::TypeSelector::type_name:
+
+		if (CheckShaderInterfaceStruct(item.fullType->typeSpec.arrayType.baseType->link) == false)
+		{
+			// TODO: error (illegal type in struct)
+			return 0;
+		}
+
+		break;
+	case Ceng::TypeSelector::struct_specifier:
+
+		if (CheckShaderInterfaceStruct(*item.fullType->typeSpec.arrayType.baseType->structSpec) == false)
+		{
+			// TODO: error (illegal type in struct)
+			return 0;
+		}
+
+		break;
+	}
+
+	GLSL::AST_Datatype datatype = GetDatatype(item.fullType);
+
+	for (auto& x : item.list)
+	{
+		GLSL::ArrayIndex index = GetArrayIndex(x);
+
+		ResolveDeclarationArrayIndex(datatype, index);
+
+		CurrentContext().parent->children.emplace_back(
+			std::make_shared<GLSL::AST_VertexOutFragmentIn>(
+				item.fullType->qualifier.invariant,
+				item.fullType->qualifier.interpolation.interpolation,
+				item.fullType->qualifier.storage.qualifier,
+				datatype,
+				x.name
+				)
+		);
+	}
 
 	return 0;
 }
