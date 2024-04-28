@@ -3191,6 +3191,13 @@ public:
 	HandlerReturn Shift(GLSL_Parser* parser, const Token& next) override
 	{
 		parser->log.Debug(__FUNCTION__);
+
+		switch (next.type)
+		{
+		case TokenType::left_bracket:
+			return { parser->S_TypeSpecifierNonArray_LBracket(st), true };
+		}
+
 		return { ParserReturnValue(),false };
 	}
 
