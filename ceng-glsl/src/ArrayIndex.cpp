@@ -5,13 +5,13 @@
 using namespace Ceng::GLSL;
 
 ArrayIndex::ArrayIndex()
-	: value(0), indexType(ArrayIndexType::invalid_value)
+	: value(0U), indexType(ArrayIndexType::invalid_value)
 {
 
 }
 
 ArrayIndex::ArrayIndex(bool implicit)
-	: value(0)
+	: value(0U)
 {
 	if (implicit)
 	{
@@ -24,7 +24,7 @@ ArrayIndex::ArrayIndex(bool implicit)
 }
 
 ArrayIndex::ArrayIndex(Ceng::INT32 value)
-	: indexType(ArrayIndexType::uint_literal), value(value)
+	: indexType(ArrayIndexType::uint_literal), value(Ceng::UINT32(value))
 {
 
 }
