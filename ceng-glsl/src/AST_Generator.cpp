@@ -1711,6 +1711,7 @@ ExpressionReturn AST_Generator::Handler_PrimaryExpression(GLSL::Lvalue* destinat
 	case ExpressionType::identifier:
 		printf("identifier: %s\n", item.identifier.Get()->Name()->ToCString());
 		return { GLSL::Rvalue(*item.identifier.Get()->Name()) , GetDatatype(item.identifier) };
+		//return { GLSL::Rvalue(item.identifier, GetDatatype(item.identifier)) };
 	case ExpressionType::bool_const:
 		return { item.boolValue , GLSL::AST_Datatype(GLSL::BasicType::ts_bool) };
 	case ExpressionType::int_const:
