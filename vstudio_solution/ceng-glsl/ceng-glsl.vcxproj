@@ -363,7 +363,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)\..\lib\$(Platform)\$(Configuration)\</OutDir>
-    <TargetName>$(ProjectName)-debug</TargetName>
+    <TargetName>$(ProjectName)</TargetName>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\..\inc\;$(SolutionDir)\..\ceng-glsl\inc\</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
