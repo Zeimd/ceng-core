@@ -17,6 +17,8 @@ x64 target
 
 - [ ] Make it possible to build for x64
 
+- [ ] Check that winapi cpu info is still used correctly in x64 mode
+
 - [ ] Implement x64 version of WinProcThunk
 
 ------------------------------------------
