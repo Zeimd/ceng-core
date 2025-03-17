@@ -34,9 +34,9 @@ namespace Ceng
 
 		PointerRef& operator = (const PointerRef &source);
 
-		const Ceng::INT32 MaxIndex() const;
+		const size_t MaxIndex() const;
 
-		DATA_ELEMENT* GetPointer(const Ceng::INT32 offset) const;
+		DATA_ELEMENT* GetPointer(const size_t offset) const;
 
 		const Ceng::BOOL operator == (const PointerRef &other) const;
 
@@ -72,13 +72,13 @@ namespace Ceng
 	}
 
 	template<class DATA_ELEMENT>
-	const Ceng::INT32 PointerRef<DATA_ELEMENT>::MaxIndex() const
+	const size_t PointerRef<DATA_ELEMENT>::MaxIndex() const
 	{
 		return 0;
 	}
 
 	template<class DATA_ELEMENT>
-	DATA_ELEMENT* PointerRef<DATA_ELEMENT>::GetPointer(const Ceng::INT32 offset) const
+	DATA_ELEMENT* PointerRef<DATA_ELEMENT>::GetPointer(const size_t offset) const
 	{
 		return &buffer[offset];
 	}
@@ -114,7 +114,7 @@ namespace Ceng
 
 		VectorRef& operator = (const VectorRef &other);
 
-		const Ceng::INT32 MaxIndex() const;
+		const size_t MaxIndex() const;
 
 		const Ceng::BOOL operator == (const VectorRef &other) const;
 
@@ -124,11 +124,11 @@ namespace Ceng
 
 		const Ceng::BOOL operator != (const std::vector<DATA_ELEMENT> *other) const;
 
-		DATA_ELEMENT* GetPointer(const Ceng::INT32 offset) const;
+		DATA_ELEMENT* GetPointer(const size_t offset) const;
 
-		void Insert(const Ceng::INT32 startPos,const Ceng::INT32 amount,const Ceng::UINT8 value);
+		void Insert(const size_t startPos,const Ceng::INT32 amount,const Ceng::UINT8 value);
 
-		void Erase(const Ceng::INT32 startPos,const Ceng::INT32 endPos);
+		void Erase(const size_t startPos,const size_t endPos);
 	};
 
 	template<class DATA_ELEMENT>
@@ -156,7 +156,7 @@ namespace Ceng
 	}
 
 	template<class DATA_ELEMENT>
-	const Ceng::INT32 VectorRef<DATA_ELEMENT>::MaxIndex() const
+	const size_t VectorRef<DATA_ELEMENT>::MaxIndex() const
 	{
 		return buffer->size()-1;
 	}
@@ -186,19 +186,19 @@ namespace Ceng
 	}
 
 	template<class DATA_ELEMENT>
-	DATA_ELEMENT* VectorRef<DATA_ELEMENT>::GetPointer(const Ceng::INT32 offset) const
+	DATA_ELEMENT* VectorRef<DATA_ELEMENT>::GetPointer(const size_t offset) const
 	{
 		return &(*buffer)[offset];
 	}
 
 	template<class DATA_ELEMENT>
-	void VectorRef<DATA_ELEMENT>::Insert(const Ceng::INT32 startPos,const Ceng::INT32 amount,const Ceng::UINT8 value)
+	void VectorRef<DATA_ELEMENT>::Insert(const size_t startPos,const Ceng::INT32 amount,const Ceng::UINT8 value)
 	{
 		buffer->insert(buffer->begin()+startPos,amount,value);
 	}
 
 	template<class DATA_ELEMENT>
-	void VectorRef<DATA_ELEMENT>::Erase(const Ceng::INT32 startPos,const Ceng::INT32 endPos)
+	void VectorRef<DATA_ELEMENT>::Erase(const size_t startPos,const size_t endPos)
 	{
 		buffer->erase(buffer->begin()+startPos,buffer->begin()+endPos);
 	}
@@ -220,7 +220,7 @@ namespace Ceng
 
 		ConstVectorRef(const std::vector<DATA_ELEMENT> *buffer);
 
-		const Ceng::INT32 MaxIndex() const;
+		const size_t MaxIndex() const;
 
 		const Ceng::BOOL operator == (const ConstVectorRef &other) const;
 
@@ -230,7 +230,7 @@ namespace Ceng
 
 		const Ceng::BOOL operator != (const std::vector<DATA_ELEMENT> *other) const;
 
-		const DATA_ELEMENT* GetPointer(const Ceng::INT32 offset) const;
+		const DATA_ELEMENT* GetPointer(const size_t offset) const;
 	};
 
 	template<class DATA_ELEMENT>
@@ -250,7 +250,7 @@ namespace Ceng
 	}
 
 	template<class DATA_ELEMENT>
-	const Ceng::INT32 ConstVectorRef<DATA_ELEMENT>::MaxIndex() const
+	const size_t ConstVectorRef<DATA_ELEMENT>::MaxIndex() const
 	{
 		return buffer->size()-1;
 	}
@@ -280,7 +280,7 @@ namespace Ceng
 	}
 
 	template<class DATA_ELEMENT>
-	const DATA_ELEMENT* ConstVectorRef<DATA_ELEMENT>::GetPointer(const Ceng::INT32 offset) const
+	const DATA_ELEMENT* ConstVectorRef<DATA_ELEMENT>::GetPointer(const size_t offset) const
 	{
 		if (offset < 0)
 		{

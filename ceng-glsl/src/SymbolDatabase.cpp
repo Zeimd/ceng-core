@@ -1406,7 +1406,7 @@ Ceng::INT32 SymbolDatabase::Add(std::shared_ptr<StructSpecifier>& structSpec)
 SymbolLink SymbolDatabase::Find(const Ceng::StringUtf8& name) const
 {
 	SymbolNode* current = top;
-	Ceng::INT32 startIndex = current->scope.size()-1;
+	size_t startIndex = current->scope.size()-1;
 
 	while (current != nullptr)
 	{
@@ -1423,7 +1423,7 @@ SymbolLink SymbolDatabase::Find(const Ceng::StringUtf8& name) const
 
 		}
 
-		for (int k = startIndex; k >= 0; --k)
+		for (size_t k = startIndex; k >= 0; --k)
 		{
 			symbol = current->scope[k].link.Get();
 
@@ -1450,7 +1450,7 @@ SymbolLink SymbolDatabase::Find(const Ceng::StringUtf8& name) const
 SymbolLink SymbolDatabase::FindFunction(const Ceng::StringUtf8& name)
 {
 	SymbolNode* current = top;
-	Ceng::INT32 startIndex = current->scope.size() - 1;
+	size_t startIndex = current->scope.size() - 1;
 
 	while (current != nullptr)
 	{
@@ -1470,7 +1470,7 @@ SymbolLink SymbolDatabase::FindFunction(const Ceng::StringUtf8& name)
 			}
 		}
 
-		for (int k = startIndex; k >= 0; --k)
+		for (size_t k = startIndex; k >= 0; --k)
 		{
 			symbol = current->scope[k].link.Get();
 
@@ -1514,7 +1514,7 @@ SymbolLink SymbolDatabase::FindFunction(const Ceng::StringUtf8& name)
 std::vector<SymbolLink> SymbolDatabase::FindFunctions(const Ceng::StringUtf8& name)
 {
 	SymbolNode* current = top;
-	Ceng::INT32 startIndex = current->scope.size() - 1;
+	size_t startIndex = current->scope.size() - 1;
 
 	std::vector<SymbolLink> output;
 
@@ -1533,7 +1533,7 @@ std::vector<SymbolLink> SymbolDatabase::FindFunctions(const Ceng::StringUtf8& na
 		}
 		else
 		{
-			for (int k = startIndex; k >= 0; --k)
+			for (size_t k = startIndex; k >= 0; --k)
 			{
 				symbol = current->scope[k].link.Get();
 

@@ -162,7 +162,7 @@ void Declaration::AcceptVisitor(NonTerminalVisitor& visitor)
 	visitor.V_Declaration(*this);
 }
 
-Ceng::UINT32 Declaration::NumSymbols() const
+size_t Declaration::NumSymbols() const
 {
 	switch (declarationType)
 	{
@@ -184,7 +184,7 @@ Ceng::UINT32 Declaration::NumSymbols() const
 	}
 }
 
-const Ceng::StringUtf8* Declaration::GetSymbolName(Ceng::UINT32 n) const
+const Ceng::StringUtf8* Declaration::GetSymbolName(size_t n) const
 {
 	switch (declarationType)
 	{

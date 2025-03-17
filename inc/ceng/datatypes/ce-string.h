@@ -127,17 +127,17 @@ namespace Ceng
 		/**
 		 * Number of characters in the string.
 		 */
-		Ceng::UINT32 length;
+		size_t length;
 
 		/*
 		 * Index of *rawData* to start next search from.
 		 */
-		Ceng::UINT32 rawSearchPos;
+		size_t rawSearchPos;
 		
 		/*
 		 * Index of character to start next search from.
 		 */
-		Ceng::UINT32 charSearchPos;
+		size_t charSearchPos;
 
 	public:
 
@@ -186,35 +186,35 @@ namespace Ceng
 		/**
 		 * Returns the number of code points in the string.
 		 */
-		const Ceng::UINT32 Length() const;
+		const size_t Length() const;
 		/**
 		 * Returns the size of the string buffer in bytes.
 		 */
-		const Ceng::UINT32 BufferSize() const;
+		const size_t BufferSize() const;
 
 		/**
 		 * Returns the maximum number of characters the string can
 		 * hold.
 		 */
-		const Ceng::UINT32 MaxSize() const;
+		const size_t MaxSize() const;
 
 		/**
 		 * Returns the maximum number of codepoints that can be stored
 		 * with current allocation.
 		 */
-		const Ceng::UINT32 MaxCapacity() const;
+		const size_t MaxCapacity() const;
 
 		/**
 		 * Returns the minimum number of codepoints that can be stored
 		 * with current allocation.
 		 */
-		const Ceng::UINT32 MinCapacity() const;
+		const size_t MinCapacity() const;
 
 		/**
 		 * Reserve space for a number of code points. The worst
 		 * case size is used when reserving space.
 		 */
-		void Reserve(const Ceng::UINT32 codepoints);
+		void Reserve(const size_t codepoints);
 
 		/**
 		 * Returns a pointer to a null-terminated version of the string.
@@ -673,37 +673,37 @@ namespace Ceng
 	}
 
 	template<class STRING_CONFIG>
-	const Ceng::UINT32 BaseString<STRING_CONFIG>::Length() const
+	const size_t BaseString<STRING_CONFIG>::Length() const
 	{
 		return length;
 	}
 
 	template<class STRING_CONFIG>
-	const Ceng::UINT32 BaseString<STRING_CONFIG>::BufferSize() const
+	const size_t BaseString<STRING_CONFIG>::BufferSize() const
 	{
 		return rawData.size()-1;
 	}
 
 	template<class STRING_CONFIG>
-	const Ceng::UINT32 BaseString<STRING_CONFIG>::MaxSize() const
+	const size_t BaseString<STRING_CONFIG>::MaxSize() const
 	{
 		return rawData.max_size() / CHARACTER_TYPE::MAX_ENCODING_BYTES;
 	}
 
 	template<class STRING_CONFIG>
-	const Ceng::UINT32 BaseString<STRING_CONFIG>::MaxCapacity() const
+	const size_t BaseString<STRING_CONFIG>::MaxCapacity() const
 	{
 		return rawData.capacity()-1;
 	}
 
 	template<class STRING_CONFIG>
-	const Ceng::UINT32 BaseString<STRING_CONFIG>::MinCapacity() const
+	const size_t BaseString<STRING_CONFIG>::MinCapacity() const
 	{
 		return (rawData.capacity()-1) / CHARACTER_TYPE::MAX_ENCODING_BYTES;
 	}
 	
 	template<class STRING_CONFIG>
-	void BaseString<STRING_CONFIG>::Reserve(const Ceng::UINT32 codepoints)
+	void BaseString<STRING_CONFIG>::Reserve(const size_t codepoints)
 	{
 		Ceng::UINT32 newCapacity = codepoints * CHARACTER_TYPE::MAX_ENCODING_BYTES;
 
@@ -2051,16 +2051,6 @@ inline uint64_t rotl64(uint64_t x, int8_t r)
 
 #endif // !defined(_MSC_VER)
 
-FORCE_INLINE uint32_t getblock32(const uint32_t * p, int i)
-{
-	return p[i];
-}
-
-FORCE_INLINE uint64_t getblock64(const uint64_t * p, int i)
-{
-	return p[i];
-}
-
 //-----------------------------------------------------------------------------
 // Finalization mix - force all bits of a hash block to avalanche
 
@@ -2073,6 +2063,18 @@ FORCE_INLINE uint32_t fmix32(uint32_t h)
 	h ^= h >> 16;
 
 	return h;
+}
+
+#ifndef _WIN64
+
+FORCE_INLINE uint32_t getblock32(const uint32_t* p, int i)
+{
+	return p[i];
+}
+
+FORCE_INLINE uint64_t getblock64(const uint64_t* p, int i)
+{
+	return p[i];
 }
 
 inline void MurmurHash3_x86_32(const void * key, int len,
@@ -2129,6 +2131,73 @@ inline void MurmurHash3_x86_32(const void * key, int len,
 	*(uint32_t*)out = h1;
 }
 
+#else
+
+FORCE_INLINE uint32_t getblock32(const uint32_t* p, int64_t i)
+{
+	return p[i];
+}
+
+FORCE_INLINE uint64_t getblock64(const uint64_t* p, int64_t i)
+{
+	return p[i];
+}
+
+inline void MurmurHash3_x86_32(const void* key, int64_t len,
+	uint32_t seed, void* out)
+{
+	const uint8_t* data = (const uint8_t*)key;
+	const int64_t nblocks = len / 4;
+
+	uint32_t h1 = seed;
+
+	const uint32_t c1 = 0xcc9e2d51;
+	const uint32_t c2 = 0x1b873593;
+
+	//----------
+	// body
+
+	const uint32_t* blocks = (const uint32_t*)(data + nblocks * 4);
+
+	for (int64_t i = -nblocks; i; i++)
+	{
+		uint32_t k1 = getblock32(blocks, i);
+
+		k1 *= c1;
+		k1 = ROTL32(k1, 15);
+		k1 *= c2;
+
+		h1 ^= k1;
+		h1 = ROTL32(h1, 13);
+		h1 = h1 * 5 + 0xe6546b64;
+	}
+
+	//----------
+	// tail
+
+	const uint8_t* tail = (const uint8_t*)(data + nblocks * 4);
+
+	uint32_t k1 = 0;
+
+	switch (len & 3)
+	{
+	case 3: k1 ^= tail[2] << 16;
+	case 2: k1 ^= tail[1] << 8;
+	case 1: k1 ^= tail[0];
+		k1 *= c1; k1 = ROTL32(k1, 15); k1 *= c2; h1 ^= k1;
+	};
+
+	//----------
+	// finalization
+
+	h1 ^= len;
+
+	h1 = fmix32(h1);
+
+	*(uint32_t*)out = h1;
+}
+
+#endif
 
 namespace std
 {

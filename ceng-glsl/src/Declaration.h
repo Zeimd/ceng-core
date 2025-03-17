@@ -84,9 +84,9 @@ namespace Ceng
 
 		void AcceptVisitor(NonTerminalVisitor& visitor) override;
 
-		Ceng::UINT32 NumSymbols() const;
+		size_t NumSymbols() const;
 
-		const Ceng::StringUtf8* GetSymbolName(Ceng::UINT32 n) const;
+		const Ceng::StringUtf8* GetSymbolName(size_t n) const;
 
 		bool IsConst() const;
 		bool IsInteger() const;

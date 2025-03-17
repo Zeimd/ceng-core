@@ -32,9 +32,9 @@ namespace Ceng
 
 		Ceng::StringUtf8& FunctionName() const;
 
-		Ceng::UINT32 GetParamCount() const;
+		size_t GetParamCount() const;
 
-		std::shared_ptr<AssignmentExpression> GetParameter(Ceng::UINT32 k) const;
+		std::shared_ptr<AssignmentExpression> GetParameter(size_t k) const;
 
 	};
 }

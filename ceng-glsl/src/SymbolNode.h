@@ -14,7 +14,7 @@ namespace Ceng
 		SymbolNode* parent;
 
 		// Index of this symbol in parent's scope
-		Ceng::UINT32 childIndex;
+		size_t childIndex;
 
 		std::vector<SymbolNode> scope;
 
@@ -26,7 +26,7 @@ namespace Ceng
 
 		}
 
-		SymbolNode(const SymbolLink& link, SymbolNode* parent, Ceng::UINT32 childIndex)
+		SymbolNode(const SymbolLink& link, SymbolNode* parent, size_t childIndex)
 			: link(link), parent(parent), childIndex(childIndex)
 		{
 

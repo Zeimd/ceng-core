@@ -51,7 +51,7 @@ Ceng::StringUtf8& FunctionCallOrMethod::FunctionName() const
 	return func->withParams->header->identifier->name;
 }
 
-Ceng::UINT32 FunctionCallOrMethod::GetParamCount() const
+size_t FunctionCallOrMethod::GetParamCount() const
 {
 	if (func->noParams != nullptr)
 	{
@@ -61,7 +61,7 @@ Ceng::UINT32 FunctionCallOrMethod::GetParamCount() const
 	return func->withParams->params.size();
 }
 
-std::shared_ptr<AssignmentExpression> FunctionCallOrMethod::GetParameter(Ceng::UINT32 k) const
+std::shared_ptr<AssignmentExpression> FunctionCallOrMethod::GetParameter(size_t k) const
 {
 	if (func->noParams != nullptr)
 	{

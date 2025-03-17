@@ -41,7 +41,7 @@ void FunctionPrototype::AcceptVisitor(NonTerminalVisitor& visitor)
 	visitor.V_FunctionPrototype(*this);
 }
 
-Ceng::UINT32 FunctionPrototype::GetParamCount() const
+size_t FunctionPrototype::GetParamCount() const
 {
 	if (!decl->params)
 	{
@@ -51,7 +51,7 @@ Ceng::UINT32 FunctionPrototype::GetParamCount() const
 	return decl->withParams->params.size();
 }
 
-const Ceng::StringUtf8* FunctionPrototype::GetParameterName(Ceng::UINT32 index) const
+const Ceng::StringUtf8* FunctionPrototype::GetParameterName(size_t index) const
 {
 	if (index > GetParamCount())
 	{
@@ -71,7 +71,7 @@ const Ceng::StringUtf8& FunctionPrototype::GetName() const
 	return decl->header->name;
 }
 
-std::shared_ptr<ParameterDeclaration> FunctionPrototype::GetParameter(Ceng::UINT32 index) 
+std::shared_ptr<ParameterDeclaration> FunctionPrototype::GetParameter(size_t index) 
 {
 	if (index > GetParamCount())
 	{

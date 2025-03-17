@@ -28,13 +28,13 @@ namespace Ceng
 
 		void AcceptVisitor(NonTerminalVisitor& visitor) override;
 
-		Ceng::UINT32 GetParamCount() const;
+		size_t GetParamCount() const;
 
 		const Ceng::StringUtf8& GetName() const;
 
-		const Ceng::StringUtf8* GetParameterName(Ceng::UINT32 index) const;
+		const Ceng::StringUtf8* GetParameterName(size_t index) const;
 
-		std::shared_ptr<ParameterDeclaration> GetParameter(Ceng::UINT32 index);
+		std::shared_ptr<ParameterDeclaration> GetParameter(size_t index);
 	};
 }
 
