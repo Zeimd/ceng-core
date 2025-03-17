@@ -43,9 +43,17 @@ const Ceng::CRESULT GL32_PixelShader::GetInstance(const Ceng::StringUtf8 &shader
 	}
 
 	const char *stringPtr = shaderText.ToCString();
-	GLint length = shaderText.Length();
 
-	glShaderSource(shaderID, 1, &stringPtr, &length);
+	size_t length = shaderText.Length();
+
+	if (length > std::numeric_limits<GLint>::max())
+	{
+		return CE_ERR_INVALID_PARAM;
+	}
+
+	GLint glLength = GLint(length);
+
+	glShaderSource(shaderID, 1, &stringPtr, &glLength);
 
 	result = glGetError();
 	if (result != GL_NO_ERROR)

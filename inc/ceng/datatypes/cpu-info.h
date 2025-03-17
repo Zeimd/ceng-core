@@ -37,7 +37,7 @@ namespace Ceng
 		/**
 		 * Logical core mask.
 		 */
-		Ceng::UINT32 coreMask;
+		ULONG_PTR coreMask;
 
 		/**
 		 * Number of logical cores.
@@ -65,11 +65,11 @@ namespace Ceng
 		virtual const CRESULT CheckFeature(const String &feature,E_CpuFeatureInfo::value *result)=0;
 		
 		virtual const Ceng::UINT32 CacheLine()=0;
-		virtual const Ceng::UINT32 PhysicalCores()=0;
-		virtual const Ceng::UINT32 LogicalCores()=0;
+		virtual const size_t PhysicalCores()=0;
+		virtual const size_t LogicalCores()=0;
 
-		virtual const CRESULT GetPhysicalCoreData(const Ceng::UINT32 core,CoreData *output)=0;
-		virtual const CRESULT GetLogicalCoreData(const Ceng::UINT32 core,CoreData *output)=0;
+		virtual const CRESULT GetPhysicalCoreData(const size_t core,CoreData *output)=0;
+		virtual const CRESULT GetLogicalCoreData(const size_t core,CoreData *output)=0;
 
 		
 	};

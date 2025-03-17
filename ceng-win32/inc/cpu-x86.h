@@ -142,11 +142,11 @@ namespace Ceng
 		virtual const CRESULT CheckFeature(const String &feature,E_CpuFeatureInfo::value *result) override;
 		
 		virtual const Ceng::UINT32 CacheLine() override;
-		virtual const Ceng::UINT32 PhysicalCores() override;
-		virtual const Ceng::UINT32 LogicalCores() override;
+		virtual const size_t PhysicalCores() override;
+		virtual const size_t LogicalCores() override;
 
-		virtual const CRESULT GetPhysicalCoreData(const Ceng::UINT32 core,CoreData *output) override;
-		virtual const CRESULT GetLogicalCoreData(const Ceng::UINT32 core,CoreData *output) override;
+		virtual const CRESULT GetPhysicalCoreData(const size_t core,CoreData *output) override;
+		virtual const CRESULT GetLogicalCoreData(const size_t core,CoreData *output) override;
 
 		static const CRESULT GatherFeatures(X86_FeatureData &cpuData);
 		

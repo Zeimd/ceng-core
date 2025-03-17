@@ -145,7 +145,7 @@ const CRESULT X86_Info::EnumerateCores(CoreList &physicalCores,CoreList &logical
 
 			for(j=0;j<32;j++)
 			{
-				coreMask = coreInfo[k].ProcessorMask & (UINT32(1) << j);
+				coreMask = coreInfo[k].ProcessorMask & (ULONG_PTR(1) << j);
 				if (coreMask)
 				{
 					++physicalCoreData.coreCount;
@@ -407,12 +407,12 @@ const Ceng::UINT32 X86_Info::CacheLine()
 	return featureData->cacheLine;
 }
 
-const Ceng::UINT32 X86_Info::PhysicalCores()
+const size_t X86_Info::PhysicalCores()
 {
 	return physicalCores->size();
 }
 
-const Ceng::UINT32 X86_Info::LogicalCores()
+const size_t X86_Info::LogicalCores()
 {
 	return logicalCores->size();
 }
@@ -482,7 +482,7 @@ const CRESULT X86_Info::AddToMap(X86_FeatureData &cpuData,FeatureMap &featureMap
 	return CE_OK;
 }
 
-const CRESULT X86_Info::GetPhysicalCoreData(const Ceng::UINT32 core,CoreData *output)
+const CRESULT X86_Info::GetPhysicalCoreData(const size_t core,CoreData *output)
 {
 	if (core > physicalCores->size())
 	{
@@ -494,7 +494,7 @@ const CRESULT X86_Info::GetPhysicalCoreData(const Ceng::UINT32 core,CoreData *ou
 	return CE_OK;
 }
 
-const CRESULT X86_Info::GetLogicalCoreData(const Ceng::UINT32 core,CoreData *output)
+const CRESULT X86_Info::GetLogicalCoreData(const size_t core,CoreData *output)
 {
 	if (core > logicalCores->size())
 	{
