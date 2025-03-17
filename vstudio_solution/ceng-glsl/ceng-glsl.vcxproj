@@ -373,12 +373,12 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)\..\lib\$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)\..\lib\win64\$(Configuration)\</OutDir>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\..\ceng-glsl\inc\;$(SolutionDir)\..\inc\</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)\..\lib\$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)\..\lib\win64\$(Configuration)\</OutDir>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\..\ceng-glsl\inc\;$(SolutionDir)\..\inc\</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
