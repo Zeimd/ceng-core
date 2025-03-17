@@ -156,8 +156,8 @@ namespace Ceng
 		/**
 		 * Used to construct substring from existing string.
 		 */
-		BaseString(const BaseString &source,const Ceng::INT32 rawStart,
-					const Ceng::INT32 rawBytes,const Ceng::INT32 length);
+		BaseString(const BaseString &source,const size_t rawStart,
+					const size_t rawBytes,const size_t length);
 		
 		/*
 		 * Copy a null-terminated string literal. Assume UTF-8 encoding.
@@ -232,13 +232,13 @@ namespace Ceng
 		 */
 		const wchar_t* ToWString() const;
 
-		REF_TYPE operator [] (const Ceng::UINT32 index);
+		REF_TYPE operator [] (const size_t index);
 
-		REF_TYPE CodePointAt(const Ceng::UINT32 index);
+		REF_TYPE CodePointAt(const size_t index);
 
-		const CONST_REF_TYPE operator [] (const Ceng::UINT32 index) const;
+		const CONST_REF_TYPE operator [] (const size_t index) const;
 
-		const CONST_REF_TYPE CodePointAt(const Ceng::UINT32 index) const;
+		const CONST_REF_TYPE CodePointAt(const size_t index) const;
 
 		ITERATOR_TYPE BeginIterator();
 
@@ -258,7 +258,7 @@ namespace Ceng
 
 		void RemoveLastChar();
 
-		void ResizeRaw(const Ceng::INT32 newIndex,const Ceng::INT32 newRawSize);
+		void ResizeRaw(const size_t newIndex,const size_t newRawSize);
 
 		/**
 		 * Returns true if the two strings are exactly equal.
@@ -292,55 +292,55 @@ namespace Ceng
 		/**
 		 * Insert a string.
 		 */
-		void Insert(const Ceng::INT32 index,const BaseString &string);
+		void Insert(const size_t index,const BaseString &string);
 
 		/**
 		 * Insert ASCII string.
 		 */
-		void Insert(const Ceng::INT32 index,const char *string);
+		void Insert(const size_t index,const char *string);
 
-		void Insert(const Ceng::INT32 index,const char16_t *string);
+		void Insert(const size_t index,const char16_t *string);
 
-		void Insert(const Ceng::INT32 index,const CHAR32 *string);
+		void Insert(const size_t index,const CHAR32 *string);
 
-		void Insert(const Ceng::INT32 index,const wchar_t *string);
+		void Insert(const size_t index,const wchar_t *string);
 
 		template<class SOURCE_ITER_TYPE>
-		void Insert(const Ceng::INT32 index,SOURCE_ITER_TYPE sourceIter);
+		void Insert(const size_t index,SOURCE_ITER_TYPE sourceIter);
 
 		/**
 		 * Insert an unicode character.
 		 */
-		void Insert(const Ceng::INT32 index,const CHAR32 unicode);
+		void Insert(const size_t index,const CHAR32 unicode);
 
 		/**
 		 * Erase range from position to position+n-1.
 		 */
-		BaseString& Erase(const Ceng::INT32 position,const Ceng::INT32 n);
+		BaseString& Erase(const size_t position,const size_t n);
 
 		/**
 		 * Erase range from startIter to endIter-1.
 		 */
 		BaseString& Erase(const CONST_ITERATOR_TYPE &startIter,const CONST_ITERATOR_TYPE &endIter);
 
-		void GetIteratorRange(const Ceng::INT32 startIndex,const Ceng::INT32 delta,
+		void GetIteratorRange(const size_t startIndex,const size_t delta,
 								CONST_ITERATOR_TYPE *startIter,CONST_ITERATOR_TYPE *endIter) const;
 
-		const BaseString SubString(const Ceng::INT32 position,const Ceng::INT32 n) const;
+		const BaseString SubString(const size_t position,const size_t n) const;
 
 		const BaseString SubString(const CONST_ITERATOR_TYPE &startIter,const CONST_ITERATOR_TYPE &endIter) const;
 
 		/**
 		 * Returns the index of the first code point that matches given value.
 		 */
-		const Ceng::INT32 FindFirst(const char ascii,const Ceng::INT32 startIndex) const;
+		const size_t FindFirst(const char ascii,const size_t startIndex) const;
 
 		/**
 		 * Returns the index of the first code point that matches given value.
 		 */
-		const Ceng::INT32 FindFirst(const wchar_t codepoint,const Ceng::INT32 startIndex) const;
+		const size_t FindFirst(const wchar_t codepoint,const size_t startIndex) const;
 		
-		const Ceng::INT32 FindFirst(const CHAR32 unicode,const Ceng::INT32 startIndex) const;
+		const size_t FindFirst(const CHAR32 unicode,const size_t startIndex) const;
 
 		CONST_ITERATOR_TYPE FindFirst(const CHAR32 unicode,CONST_ITERATOR_TYPE seekIterator) const;
 
@@ -368,7 +368,7 @@ namespace Ceng
 		 * Returns the first of any codepoint in test string.
 		 */
 		template<class T>
-		const Ceng::INT32 FindFirstOf(const T *test,const Ceng::INT32 startIndex) const;
+		const size_t FindFirstOf(const T *test,const size_t startIndex) const;
 
 		CONST_ITERATOR_TYPE FindFirstOf(const char *test,CONST_ITERATOR_TYPE seekIterator) const;
 
@@ -397,7 +397,7 @@ namespace Ceng
 		 * Returns the first of any codepoint in test string.
 		 */
 		template<class T>
-		const Ceng::INT32 FindLastOf(const T *test,const Ceng::INT32 startIndex) const;
+		const size_t FindLastOf(const T *test,const size_t startIndex) const;
 
 		CONST_REVERSE_ITERATOR_TYPE FindLastOf(const char *test,CONST_REVERSE_ITERATOR_TYPE seekIterator) const;
 
@@ -422,7 +422,7 @@ namespace Ceng
 		 * Returns the first of any codepoint in test string.
 		 */
 		template<class T>
-		const Ceng::INT32 FindFirstNotOf(const T *test,const Ceng::INT32 startIndex) const;
+		const size_t FindFirstNotOf(const T *test,const size_t startIndex) const;
 
 		CONST_ITERATOR_TYPE FindFirstNotOf(const char *test,CONST_ITERATOR_TYPE seekIterator) const;
 
@@ -447,7 +447,7 @@ namespace Ceng
 		 * Returns the first of any codepoint in test string.
 		 */
 		template<class T>
-		const Ceng::INT32 FindLastNotOf(const T *test,const Ceng::INT32 startIndex) const;
+		const size_t FindLastNotOf(const T *test,const size_t startIndex) const;
 
 		CONST_REVERSE_ITERATOR_TYPE FindLastNotOf(const char *test,CONST_REVERSE_ITERATOR_TYPE seekIterator) const;
 
@@ -512,9 +512,9 @@ namespace Ceng
 
 		void ChainedAppend(const CHAR32 unicode);
 
-		const CONST_REF_TYPE ConstCharacter(const Ceng::UINT32 index) const;
+		const CONST_REF_TYPE ConstCharacter(const size_t index) const;
 		
-		REF_TYPE CharacterRef(const Ceng::UINT32 index);
+		REF_TYPE CharacterRef(const size_t index);
 	};
 
 	template<class STRING_CONFIG>
@@ -568,12 +568,12 @@ namespace Ceng
 
 
 	template<class STRING_CONFIG>
-	BaseString<STRING_CONFIG>::BaseString(const BaseString &source,const Ceng::INT32 rawStart,
-											const Ceng::INT32 rawBytes,const Ceng::INT32 length)
+	BaseString<STRING_CONFIG>::BaseString(const BaseString &source,const size_t rawStart,
+											const size_t rawBytes,const size_t length)
 	{
 		this->length = length;
 
-		Ceng::INT32 k;
+		size_t k;
 
 		for(k=0;k<rawBytes;k++)
 		{
@@ -728,14 +728,14 @@ namespace Ceng
 
 	template<class STRING_CONFIG>
 	typename BaseString<STRING_CONFIG>::REF_TYPE BaseString<STRING_CONFIG>::
-		operator [] (const Ceng::UINT32 index)
+		operator [] (const size_t index)
 	{
 		return CharacterRef(index);
 	}
 
 	template<class STRING_CONFIG>
 	typename BaseString<STRING_CONFIG>::REF_TYPE 
-		BaseString<STRING_CONFIG>::CodePointAt(const Ceng::UINT32 index)
+		BaseString<STRING_CONFIG>::CodePointAt(const size_t index)
 	{
 		if (index < length)
 		{
@@ -747,14 +747,14 @@ namespace Ceng
 
 	template<class STRING_CONFIG>
 	const typename BaseString<STRING_CONFIG>::CONST_REF_TYPE 
-		BaseString<STRING_CONFIG>::operator [] (const Ceng::UINT32 index) const
+		BaseString<STRING_CONFIG>::operator [] (const size_t index) const
 	{
 		return ConstCharacter(index);
 	}
 
 	template<class STRING_CONFIG>
 	const typename BaseString<STRING_CONFIG>::CONST_REF_TYPE 
-		BaseString<STRING_CONFIG>::CodePointAt(const Ceng::UINT32 index) const
+		BaseString<STRING_CONFIG>::CodePointAt(const size_t index) const
 	{
 		if (index < length)
 		{
@@ -839,7 +839,7 @@ namespace Ceng
 	}
 
 	template<class STRING_CONFIG>
-	void BaseString<STRING_CONFIG>::ResizeRaw(const Ceng::INT32 newIndex,const Ceng::INT32 newRawSize)
+	void BaseString<STRING_CONFIG>::ResizeRaw(const size_t newIndex,const size_t newRawSize)
 	{
 		length = newIndex;
 
@@ -933,7 +933,7 @@ namespace Ceng
 	}
 
 	template<class STRING_CONFIG>
-	void BaseString<STRING_CONFIG>::Insert(const Ceng::INT32 index,const BaseString &string)
+	void BaseString<STRING_CONFIG>::Insert(const size_t index,const BaseString &string)
 	{
 		rawData.insert(rawData.begin()+index,string.rawData.size()-1,0);
 
@@ -943,7 +943,7 @@ namespace Ceng
 	}
 
 	template<class STRING_CONFIG>
-	void BaseString<STRING_CONFIG>::Insert(const Ceng::INT32 index,const char *string)
+	void BaseString<STRING_CONFIG>::Insert(const size_t index,const char *string)
 	{
 		LITERAL_ITERATOR_UTF8 sourceIter(reinterpret_cast<const Ceng::UINT8*>(string));
 
@@ -951,7 +951,7 @@ namespace Ceng
 	}
 
 	template<class STRING_CONFIG>
-	void BaseString<STRING_CONFIG>::Insert(const Ceng::INT32 index,const char16_t *string)
+	void BaseString<STRING_CONFIG>::Insert(const size_t index,const char16_t *string)
 	{
 		LITERAL_ITERATOR_UTF16 sourceIter(reinterpret_cast<const char16_t*>(string));
 
@@ -959,7 +959,7 @@ namespace Ceng
 	}
 
 	template<class STRING_CONFIG>
-	void BaseString<STRING_CONFIG>::Insert(const Ceng::INT32 index,const CHAR32 *string)
+	void BaseString<STRING_CONFIG>::Insert(const size_t index,const CHAR32 *string)
 	{
 		LITERAL_ITERATOR_UTF32 sourceIter(reinterpret_cast<const CHAR32*>(string));
 
@@ -967,7 +967,7 @@ namespace Ceng
 	}
 
 	template<class STRING_CONFIG>
-	void BaseString<STRING_CONFIG>::Insert(const Ceng::INT32 index,const wchar_t *string)
+	void BaseString<STRING_CONFIG>::Insert(const size_t index,const wchar_t *string)
 	{
 		LITERAL_ITERATOR_WCHAR sourceIter(string);
 
@@ -976,11 +976,11 @@ namespace Ceng
 
 	template<class STRING_CONFIG>
 	template<class SOURCE_ITER_TYPE>
-	void BaseString<STRING_CONFIG>::Insert(const Ceng::INT32 index,SOURCE_ITER_TYPE sourceIter)
+	void BaseString<STRING_CONFIG>::Insert(const size_t index,SOURCE_ITER_TYPE sourceIter)
 	{
 		CHAR32 temp;
 
-		UINT32 k = 0;
+		size_t k = 0;
 
 		// NOTE: Do this instead of direct copy to replace all
 		//       illegal sequences with the unknown symbol.
@@ -1005,14 +1005,14 @@ namespace Ceng
 
 
 	template<class STRING_CONFIG>
-	void BaseString<STRING_CONFIG>::Insert(const Ceng::INT32 index,const CHAR32 unicode)
+	void BaseString<STRING_CONFIG>::Insert(const size_t index,const CHAR32 unicode)
 	{
 		DATA_ELEMENT encoding[CHARACTER_TYPE::MAX_ENCODING_ELEMENTS];
 		UINT32 bytes;
 
 		bytes = typename CHARACTER_TYPE::EncodeUTF32(unicode,encoding);
 
-		UINT32 k;
+		size_t k;
 
 		rawData.insert(rawData.begin()+index,bytes,0);
 
@@ -1027,7 +1027,7 @@ namespace Ceng
 	}
 
 	template<class STRING_CONFIG>
-	BaseString<STRING_CONFIG>& BaseString<STRING_CONFIG>::Erase(const Ceng::INT32 position,const Ceng::INT32 n)
+	BaseString<STRING_CONFIG>& BaseString<STRING_CONFIG>::Erase(const size_t position,const size_t n)
 	{					
 		CONST_ITERATOR_TYPE startIter,endIter;
 
@@ -1058,7 +1058,7 @@ namespace Ceng
 	}
 
 	template<class STRING_CONFIG>
-	void BaseString<STRING_CONFIG>::GetIteratorRange(const Ceng::INT32 startIndex,const Ceng::INT32 delta,
+	void BaseString<STRING_CONFIG>::GetIteratorRange(const size_t startIndex,const size_t delta,
 							CONST_ITERATOR_TYPE *startIter,CONST_ITERATOR_TYPE *endIter) const
 	{
 		*startIter = ConstBeginIterator();
@@ -1080,7 +1080,7 @@ namespace Ceng
 
 	template<class STRING_CONFIG>
 	const BaseString<STRING_CONFIG> BaseString<STRING_CONFIG>::
-		SubString(const Ceng::INT32 position,const Ceng::INT32 n) const
+		SubString(const size_t position,const size_t n) const
 	{
 		CONST_ITERATOR_TYPE startIter,endIter;
 
@@ -1110,7 +1110,7 @@ namespace Ceng
 	}
 	
 	template<class STRING_CONFIG>
-	const Ceng::INT32 BaseString<STRING_CONFIG>::FindFirst(const char ascii,const Ceng::INT32 startIndex) const
+	const size_t BaseString<STRING_CONFIG>::FindFirst(const char ascii,const size_t startIndex) const
 	{
 		CHAR32 match = ascii;
 
@@ -1123,13 +1123,13 @@ namespace Ceng
 	}
 
 	template<class STRING_CONFIG>
-	const Ceng::INT32 BaseString<STRING_CONFIG>::FindFirst(const wchar_t codepoint,const Ceng::INT32 startIndex) const
+	const size_t BaseString<STRING_CONFIG>::FindFirst(const wchar_t codepoint,const size_t startIndex) const
 	{
 		return FindFirst( (CHAR32)codepoint,startIndex);			
 	}
 		
 	template<class STRING_CONFIG>
-	const Ceng::INT32 BaseString<STRING_CONFIG>::FindFirst(const CHAR32 unicode,const Ceng::INT32 startIndex) const
+	const size_t BaseString<STRING_CONFIG>::FindFirst(const CHAR32 unicode,const size_t startIndex) const
 	{
 		CONST_ITERATOR_TYPE temp;
 
@@ -1262,8 +1262,8 @@ namespace Ceng
 
 	template<class STRING_CONFIG>
 	template<class T>
-	const Ceng::INT32 BaseString<STRING_CONFIG>::
-		FindFirstOf(const T *test,const Ceng::INT32 startIndex) const
+	const size_t BaseString<STRING_CONFIG>::
+		FindFirstOf(const T *test,const size_t startIndex) const
 	{
 		CONST_ITERATOR_TYPE result;
 
@@ -1355,7 +1355,7 @@ namespace Ceng
 
 	template<class STRING_CONFIG>
 	template<class T>
-	const Ceng::INT32 BaseString<STRING_CONFIG>::FindLastOf(const T *test,const Ceng::INT32 startIndex) const
+	const size_t BaseString<STRING_CONFIG>::FindLastOf(const T *test,const size_t startIndex) const
 	{
 		CONST_REVERSE_ITERATOR_TYPE result;
 
@@ -1484,8 +1484,8 @@ namespace Ceng
 
 	template<class STRING_CONFIG>
 	template<class T>
-	const Ceng::INT32 BaseString<STRING_CONFIG>::
-		FindFirstNotOf(const T *test,const Ceng::INT32 startIndex) const
+	const size_t BaseString<STRING_CONFIG>::
+		FindFirstNotOf(const T *test,const size_t startIndex) const
 	{
 		CONST_ITERATOR_TYPE result;
 
@@ -1596,7 +1596,7 @@ namespace Ceng
 
 	template<class STRING_CONFIG>
 	template<class T>
-	const Ceng::INT32 BaseString<STRING_CONFIG>::FindLastNotOf(const T *test,const Ceng::INT32 startIndex) const
+	const size_t BaseString<STRING_CONFIG>::FindLastNotOf(const T *test,const size_t startIndex) const
 	{
 		CONST_REVERSE_ITERATOR_TYPE result;
 
@@ -1930,7 +1930,7 @@ namespace Ceng
 
 	template<class STRING_CONFIG>
 	const typename BaseString<STRING_CONFIG>::CONST_REF_TYPE 
-		BaseString<STRING_CONFIG>::ConstCharacter(const Ceng::UINT32 index) const
+		BaseString<STRING_CONFIG>::ConstCharacter(const size_t index) const
 	{
 		CONST_ITERATOR_TYPE sourceIter(ConstBeginIterator());
 
@@ -1941,7 +1941,7 @@ namespace Ceng
 		
 	template<class STRING_CONFIG>
 	typename BaseString<STRING_CONFIG>::REF_TYPE 
-		BaseString<STRING_CONFIG>::CharacterRef(const Ceng::UINT32 index)
+		BaseString<STRING_CONFIG>::CharacterRef(const size_t index)
 	{
 		ITERATOR_TYPE sourceIter(BeginIterator());
 
