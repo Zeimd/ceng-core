@@ -240,11 +240,11 @@ namespace Ceng
 			return 1;
 		}	
 
-		Ceng::INT32 k=0;
+		Ceng::INT64 k=0;
 
-		Ceng::INT32 step;
+		Ceng::INT64 step;
 
-		Ceng::INT32 totalStep=0;
+		Ceng::INT64 totalStep=0;
 
 		do
 		{
@@ -269,7 +269,7 @@ namespace Ceng
 			return -1;
 		}
 
-		Ceng::INT32 k = startPos-1;
+		Ceng::INT64 k = startPos-1;
 
 		(*index)--;
 
@@ -306,9 +306,9 @@ namespace Ceng
 			return -1;
 		}		
 
-		Ceng::INT32 k=0;
+		Ceng::INT64 k=0;
 
-		Ceng::INT32 outPos=startPos;
+		Ceng::INT64 outPos=startPos;
 
 		do
 		{
