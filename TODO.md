@@ -21,6 +21,8 @@ x64 target
 
 - [ ] Implement x64 version of WinProcThunk
 
+- [ ] update string class to use size_t internally in all cases where length is used
+
 ------------------------------------------
 Bugs
 
