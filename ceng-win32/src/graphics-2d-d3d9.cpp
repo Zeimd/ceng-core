@@ -169,9 +169,16 @@ const CRESULT Graphics2D_D3D9::ConfigureOutput(IDirect3DDevice9 *sourceDevice,
 	//       and recreate objects in case
 	//       the application loses focus.
 
+	size_t length = 4 * framePolygons.size() * sizeof(D3D_SCREEN_VERTEX);
+
+	if (length > UINT_MAX)
+	{
+		return CE_ERR_INVALID_PARAM;
+	}
+
 	HRESULT hr;
 
-	hr = d3d_Device->CreateVertexBuffer(4*framePolygons.size()*sizeof(D3D_SCREEN_VERTEX),
+	hr = d3d_Device->CreateVertexBuffer(UINT(length),
 										NULL,vertexStyle,
 										D3DPOOL_MANAGED,&vertexBuffer[0],nullptr);
 	if (hr != D3D_OK)
@@ -182,7 +189,7 @@ const CRESULT Graphics2D_D3D9::ConfigureOutput(IDirect3DDevice9 *sourceDevice,
 		return CE_ERR_FAIL;
 	}
 
-	hr = d3d_Device->CreateVertexBuffer(4*framePolygons.size()*sizeof(D3D_SCREEN_VERTEX),
+	hr = d3d_Device->CreateVertexBuffer(UINT(length),
 										NULL,vertexStyle,
 										D3DPOOL_MANAGED,&vertexBuffer[1],nullptr);
 	if (hr != D3D_OK)
@@ -831,7 +838,14 @@ const CRESULT Graphics2D_RenderTask::Execute()
 				renderDevice->d3d_Device->SetTexture(0,
 					renderDevice->framePolygons[k].texture[frontBuffer]);
 
-				renderDevice->d3d_Device->DrawPrimitive(D3DPT_TRIANGLEFAN,4*k,2);
+				size_t start = 4 * k;
+
+				if (start > UINT_MAX)
+				{
+					return CE_ERR_INVALID_PARAM;
+				}
+
+				renderDevice->d3d_Device->DrawPrimitive(D3DPT_TRIANGLEFAN,UINT(start),2);
 			}
 
 			hr = renderDevice->d3d_Device->EndScene();

@@ -100,7 +100,7 @@ namespace Ceng
 		Ceng::UINT32 index;
 		Ceng::UINT32 stride;
 
-		std::vector<Ceng::UINT32> attributes;
+		std::vector<size_t> attributes;
 
 		StreamData() : index(0),stride(0)
 		{
@@ -119,7 +119,7 @@ namespace Ceng
 		GL32_ShaderProgram *program;
 		std::vector<Ceng::INT32> linkValues;
 
-		LinkVector(const Ceng::UINT32 elements, GL32_ShaderProgram *program) : program(program),
+		LinkVector(const size_t elements, GL32_ShaderProgram *program) : program(program),
 			linkValues(std::vector<Ceng::INT32>(elements, -1))
 		{
 			//linkValues = ;
@@ -160,12 +160,12 @@ namespace Ceng
 
 		static const CRESULT GetInstance(const std::vector<VertexDeclData> &vertexDecl, GL33_VertexFormat **out_format);
 
-		const Ceng::UINT32 StreamCount();
+		const size_t StreamCount();
 
 		/**
 		* Returns the stride of a stream. Index is relative to streamList, not API-defined stream index.
 		*/
-		const Ceng::UINT32 StreamStride(const Ceng::UINT32 stream);
+		const Ceng::UINT32 StreamStride(const size_t stream);
 
 		void DisableStreamLinks();
 

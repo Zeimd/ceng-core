@@ -37,7 +37,7 @@ namespace Ceng
 		/**
 		 * Logical core mask.
 		 */
-		ULONG_PTR coreMask;
+		Ceng::POINTER coreMask;
 
 		/**
 		 * Number of logical cores.

@@ -172,7 +172,7 @@ void GL33_VertexFormat::LinkVertexStream(const Ceng::UINT32 index, GL32_VertexSt
 		return;
 	}
 
-	std::vector<Ceng::UINT32> &attribList = streamList[index].attributes;
+	std::vector<size_t> &attribList = streamList[index].attributes;
 
 	for (Ceng::UINT32 k = 0; k < attribList.size(); ++k)
 	{
@@ -217,8 +217,10 @@ void GL33_VertexFormat::LinkVertexStream(const Ceng::UINT32 index, GL32_VertexSt
 		glEnableVertexAttribArray(variable.gl_attribHandle);
 		variable.arrayEnabled = true;
 
+		Ceng::POINTER offset = Ceng::POINTER(variable.offset) + stream->offset;
+
 		glVertexAttribPointer(variable.gl_attribHandle, variable.elements, variable.type, variable.normalized, streamList[index].stride,
-			(void*)(variable.offset + stream->offset));
+			(void*)(offset));
 
 		variable.streamLink = true;	
 	}
@@ -251,12 +253,12 @@ void GL33_VertexFormat::Clear()
 	vertexData.clear();
 }
 
-const Ceng::UINT32 GL33_VertexFormat::StreamCount()
+const size_t GL33_VertexFormat::StreamCount()
 {
 	return streamList.size();
 }
 
-const Ceng::UINT32 GL33_VertexFormat::StreamStride(const Ceng::UINT32 stream)
+const Ceng::UINT32 GL33_VertexFormat::StreamStride(const size_t stream)
 {
 	if (stream > streamList.size()) return -1;
 

@@ -763,7 +763,9 @@ const Ceng::CRESULT GL33_RenderContext::DrawIndexed(const Ceng::PRIMITIVE_TYPE::
 		return cresult;
 	}
 
-	glDrawElements(gl_mode, primitives,indexBuffer->gl_size,(void*)(firstVertex*indexBuffer->elementSize));
+	Ceng::POINTER offset = firstVertex * indexBuffer->elementSize;
+
+	glDrawElements(gl_mode, primitives,indexBuffer->gl_size,(void*)(offset));
 
 	GLenum result = glGetError();
 	if (result != GL_NO_ERROR)
@@ -1066,7 +1068,7 @@ void GL33_RenderContext::UpdateRenderTargets()
 			}
 		}
 
-		glDrawBuffers(renderTargets.size(), &gl_drawBufferData[0]);
+		glDrawBuffers(GLsizei(renderTargets.size()), &gl_drawBufferData[0]);
 
 		renderTargetUpdates.clear();
 	}
