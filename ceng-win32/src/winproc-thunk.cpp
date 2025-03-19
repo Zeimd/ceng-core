@@ -177,7 +177,9 @@ WinProcThunk* WinProcThunk::GetInstance()
 		/*
 	__asm
 	{
-		//and rsp, ~15;  // floors rsp to nearest number divisible by 16
+		and rsp, ~15;  // floors rsp to nearest number divisible by 16
+
+		sub rsp, 8;
 
 		mov rax, instancePtr;
 
@@ -189,80 +191,82 @@ WinProcThunk* WinProcThunk::GetInstance()
 
 		call [rax];
 
-		return 40; // clear shadow space (32) + instance ptr
+		return 48; // clear shadow space (32) + instance ptr
 	}
 	*/
 
+	/*
 	// and rsp, ~15
 	// REX.W + 83 /4 lb
 	codeBuffer[0] = rexW;
 	codeBuffer[1] = 0x83;
 	codeBuffer[2] = (0b11 << 6) | (4 << 3) | 0b100;
 	codeBuffer[3] = 0xF0;
+	*/
 
 	// sub rsp, 8
 	// // sub r/m64, imm8
 	// REX.W + 83 /5 lb
-	codeBuffer[4] = rexW;
-	codeBuffer[5] = 0x83;
-	codeBuffer[6] = (0b11 << 6) | (5 << 3) | 0b100;
-	codeBuffer[7] = 32;
+	codeBuffer[0] = rexW;
+	codeBuffer[1] = 0x83;
+	codeBuffer[2] = (0b11 << 6) | (5 << 3) | 0b100;
+	codeBuffer[3] = 8;
 
 	// mov rax, instancePtr
 	// REX.W b8 +rd Io
-	codeBuffer[8] = rexW;
-	codeBuffer[9] = 0x8b;
+	codeBuffer[4] = rexW;
+	codeBuffer[5] = 0x8b;
 
 	// instancePtr
+	codeBuffer[6] = 0;
+	codeBuffer[7] = 0;
+	codeBuffer[8] = 0;
+	codeBuffer[9] = 0;
 	codeBuffer[10] = 0;
 	codeBuffer[11] = 0;
 	codeBuffer[12] = 0;
 	codeBuffer[13] = 0;
-	codeBuffer[14] = 0;
-	codeBuffer[15] = 0;
-	codeBuffer[16] = 0;
-	codeBuffer[17] = 0;
 
-	WinAPI_Window** instancePtrLoc = (WinAPI_Window**)&codeBuffer[10];
+	WinAPI_Window** instancePtrLoc = (WinAPI_Window**)&codeBuffer[6];
 
 	// push rax
 	// 50+rd
-	codeBuffer[18] = 0x50;
+	codeBuffer[14] = 0x50;
 
 	// sub rsp, 32
 	// // sub r/m64, imm8
 	// REX.W + 83 /5 lb
-	codeBuffer[19] = rexW;
-	codeBuffer[20] = 0x83;
-	codeBuffer[21] = (0b11 << 6) | (5 << 3) | 0b100;
-	codeBuffer[22] = 32;
+	codeBuffer[15] = rexW;
+	codeBuffer[16] = 0x83;
+	codeBuffer[17] = (0b11 << 6) | (5 << 3) | 0b100;
+	codeBuffer[18] = 32;
 
 	//mov rax, call_WindowProc;
-	codeBuffer[23] = rexW;
-	codeBuffer[24] = 0x8b;
+	codeBuffer[19] = rexW;
+	codeBuffer[20] = 0x8b;
 
 	// call_WindowProc
+	codeBuffer[21] = 0;
+	codeBuffer[22] = 0;
+	codeBuffer[23] = 0;
+	codeBuffer[24] = 0;
 	codeBuffer[25] = 0;
 	codeBuffer[26] = 0;
 	codeBuffer[27] = 0;
 	codeBuffer[28] = 0;
-	codeBuffer[29] = 0;
-	codeBuffer[30] = 0;
-	codeBuffer[31] = 0;
-	codeBuffer[32] = 0;
 
-	WrapperCall* ptr = (WrapperCall*)&codeBuffer[25];
+	WrapperCall* ptr = (WrapperCall*)&codeBuffer[21];
 
 	*ptr = &Wrapper;
 
 	//call[rax];
-	codeBuffer[36] = 0xff;
-	codeBuffer[37] = (0b11 << 6) + (2 << 3);
+	codeBuffer[29] = 0xff;
+	codeBuffer[30] = (0b11 << 6) + (2 << 3);
 
-	// return 40;
-	codeBuffer[38] = 0xc2;
-	codeBuffer[39] = 40;
-	codeBuffer[40] = 0;
+	// return 48;
+	codeBuffer[31] = 0xc2;
+	codeBuffer[32] = 48;
+	codeBuffer[33] = 0;
 
 	Call_Thunk thunkPtr = (Call_Thunk)&codeBuffer[0];
 
