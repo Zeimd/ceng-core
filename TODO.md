@@ -24,6 +24,13 @@ x64 target
 - [ ] update string class to use size_t internally in all cases where length is used
 
 ------------------------------------------
+String class
+
+- [ ] Handle target dependency of size_t type properly instead of tossing int64/uint64 around unnecessarily.
+            
+            NOTE: Includes using size_t in stepping code too instead of signed types
+
+------------------------------------------
 Bugs
 
 - [ ] cube map creation crashes if mipLevels=0 and generate_mip_maps is not set.
