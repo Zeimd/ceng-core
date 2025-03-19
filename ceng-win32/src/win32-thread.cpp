@@ -314,7 +314,7 @@ const Ceng::UINT32 WindowsThread_x86::GetProcessorAffinity() const
 
 const CRESULT WindowsThread_x86::SetProcessorAffinity(const Ceng::UINT32 mask)
 {
-	::DWORD processMask,systemMask;
+	::DWORD_PTR processMask,systemMask;
 
 	::BOOL result = GetProcessAffinityMask(processHandle,&processMask,&systemMask);
 
@@ -326,9 +326,9 @@ const CRESULT WindowsThread_x86::SetProcessorAffinity(const Ceng::UINT32 mask)
 
 	// TODO: Return with error if *mask* has bits set where processMask doesn't
 
-	::DWORD affinityMask = mask & processMask;
+	::DWORD_PTR affinityMask = mask & processMask;
 
-	::DWORD out = SetThreadAffinityMask(threadHandle,affinityMask);
+	::DWORD_PTR out = SetThreadAffinityMask(threadHandle,affinityMask);
 
 	if (out == 0)
 	{
