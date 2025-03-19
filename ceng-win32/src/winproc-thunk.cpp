@@ -165,6 +165,12 @@ WinProcThunk* WinProcThunk::GetInstance()
 	//
 	// These must remain as is because the next function will reuse them
 	//
+	// Stack is aligned at 16 byte boundary before a call instruction. The call then
+	// places 8 byte return address to stack, leaving it out of alignment by 8 bytes.
+	// 
+	// Our function puts one param to stack (8 bytes), followed by 32 bytes of shadow space.
+	// At this point 48 bytes have been added since last alignment, so we can proceed.
+	// 
 	// Setting up the stack frame for function call:
 	// 
 	// 1. Align stack to 16 bytes
@@ -177,7 +183,7 @@ WinProcThunk* WinProcThunk::GetInstance()
 		/*
 	__asm
 	{
-		and rsp, ~15;  // floors rsp to nearest number divisible by 16
+		//and rsp, ~15;  // floors rsp to nearest number divisible by 16
 
 		sub rsp, 8;
 
@@ -191,7 +197,7 @@ WinProcThunk* WinProcThunk::GetInstance()
 
 		call [rax];
 
-		return 48; // clear shadow space (32) + instance ptr
+		return 40; // clear shadow space (32) + instance ptr
 	}
 	*/
 
@@ -204,6 +210,7 @@ WinProcThunk* WinProcThunk::GetInstance()
 	codeBuffer[3] = 0xF0;
 	*/
 
+	/*
 	// sub rsp, 8
 	// // sub r/m64, imm8
 	// REX.W + 83 /5 lb
@@ -211,62 +218,63 @@ WinProcThunk* WinProcThunk::GetInstance()
 	codeBuffer[1] = 0x83;
 	codeBuffer[2] = (0b11 << 6) | (5 << 3) | 0b100;
 	codeBuffer[3] = 8;
+	*/
 
 	// mov rax, instancePtr
 	// REX.W b8 +rd Io
-	codeBuffer[4] = rexW;
-	codeBuffer[5] = 0x8b;
+	codeBuffer[0] = rexW;
+	codeBuffer[1] = 0x8b;
 
 	// instancePtr
+	codeBuffer[2] = 0;
+	codeBuffer[3] = 0;
+	codeBuffer[4] = 0;
+	codeBuffer[5] = 0;
 	codeBuffer[6] = 0;
 	codeBuffer[7] = 0;
 	codeBuffer[8] = 0;
 	codeBuffer[9] = 0;
-	codeBuffer[10] = 0;
-	codeBuffer[11] = 0;
-	codeBuffer[12] = 0;
-	codeBuffer[13] = 0;
 
-	WinAPI_Window** instancePtrLoc = (WinAPI_Window**)&codeBuffer[6];
+	WinAPI_Window** instancePtrLoc = (WinAPI_Window**)&codeBuffer[2];
 
 	// push rax
 	// 50+rd
-	codeBuffer[14] = 0x50;
+	codeBuffer[10] = 0x50;
 
 	// sub rsp, 32
-	// // sub r/m64, imm8
-	// REX.W + 83 /5 lb
-	codeBuffer[15] = rexW;
-	codeBuffer[16] = 0x83;
-	codeBuffer[17] = (0b11 << 6) | (5 << 3) | 0b100;
-	codeBuffer[18] = 32;
+	// sub r/m64, imm8
+	// REX.W + 83 /5 ib
+	codeBuffer[11] = rexW;
+	codeBuffer[12] = 0x83;
+	codeBuffer[13] = (0b11 << 6) | (5 << 3) | 0b100;
+	codeBuffer[14] = 32;
 
 	//mov rax, call_WindowProc;
-	codeBuffer[19] = rexW;
-	codeBuffer[20] = 0x8b;
+	codeBuffer[15] = rexW;
+	codeBuffer[16] = 0x8b;
 
 	// call_WindowProc
+	codeBuffer[17] = 0;
+	codeBuffer[18] = 0;
+	codeBuffer[19] = 0;
+	codeBuffer[20] = 0;
 	codeBuffer[21] = 0;
 	codeBuffer[22] = 0;
 	codeBuffer[23] = 0;
 	codeBuffer[24] = 0;
-	codeBuffer[25] = 0;
-	codeBuffer[26] = 0;
-	codeBuffer[27] = 0;
-	codeBuffer[28] = 0;
 
-	WrapperCall* ptr = (WrapperCall*)&codeBuffer[21];
+	WrapperCall* ptr = (WrapperCall*)&codeBuffer[17];
 
 	*ptr = &Wrapper;
 
 	//call[rax];
-	codeBuffer[29] = 0xff;
-	codeBuffer[30] = (0b11 << 6) + (2 << 3);
+	codeBuffer[25] = 0xff;
+	codeBuffer[26] = (0b11 << 6) + (2 << 3);
 
 	// return 48;
-	codeBuffer[31] = 0xc2;
-	codeBuffer[32] = 48;
-	codeBuffer[33] = 0;
+	codeBuffer[27] = 0xc2;
+	codeBuffer[28] = 40;
+	codeBuffer[29] = 0;
 
 	Call_Thunk thunkPtr = (Call_Thunk)&codeBuffer[0];
 
