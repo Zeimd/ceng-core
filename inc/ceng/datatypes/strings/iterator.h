@@ -454,7 +454,7 @@ namespace Ceng
 		StringIterator<CHARACTER_TYPE,DATA_ELEMENT,BUFFER_REF,ITERATOR_TYPE>::
 		operator ++ ()
 	{
-		rawPosition += ITERATOR_TYPE::StepForward(buffer.GetPointer(rawPosition),&index,buffer.MaxIndex());
+		rawPosition += (size_t)ITERATOR_TYPE::StepForward(buffer.GetPointer(rawPosition),&index,buffer.MaxIndex());
 
 		return *this;
 	}
@@ -507,7 +507,7 @@ namespace Ceng
 		StringIterator<CHARACTER_TYPE,DATA_ELEMENT,BUFFER_REF,ITERATOR_TYPE>::
 		operator -- ()
 	{
-		rawPosition = ITERATOR_TYPE::StepBackward(buffer.GetPointer(0),&index,rawPosition);
+		rawPosition = (size_t)ITERATOR_TYPE::StepBackward(buffer.GetPointer(0),&index,rawPosition);
 
 		return *this;
 	}
