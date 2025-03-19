@@ -87,14 +87,14 @@ DynamicCallback DLL_Handle::GetFunction(const Ceng::String &name)
 
 DynamicCallback DLL_Handle::GetFunction(const char *name)
 {
-	return GetProcAddress(module,name);
+	return (DynamicCallback)GetProcAddress(module,name);
 }
 
 DynamicCallback DLL_Handle::GetFunction(const wchar_t *name)
 {
 	Ceng::StringUtf8 temp(name);
 
-	return GetProcAddress(module, temp.ToCString());
+	return (DynamicCallback)GetProcAddress(module, temp.ToCString());
 }
 
 const Ceng::BOOL DLL_Handle::operator == (const DLL_Handle &other)
