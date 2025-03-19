@@ -147,6 +147,6 @@ WinProcThunk::Call_Thunk WinProcThunk::GetCallback()
 
 WinProcThunk::~WinProcThunk()
 {
-	::VirtualFree(codeBuffer,bufferSize,MEM_RELEASE);
+	::VirtualFree(codeBuffer,0,MEM_RELEASE);
 }
 
