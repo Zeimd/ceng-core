@@ -12,6 +12,8 @@
 
 using namespace Ceng;
 
+#ifndef _WIN64
+
 typedef LRESULT (__thiscall WinAPI_Window::*Call_WindowProc)(::HWND,::UINT,::WPARAM,::LPARAM);
 
 const Call_WindowProc call_WindowProc = &WinAPI_Window::WindowProc;
@@ -125,6 +127,135 @@ WinProcThunk* WinProcThunk::GetInstance()
 
 	return temp;
 }
+
+#else
+
+typedef LRESULT(__thiscall WinAPI_Window::* Call_WindowProc)(::HWND, ::UINT, ::WPARAM, ::LPARAM);
+
+const Call_WindowProc call_WindowProc = &WinAPI_Window::WindowProc;
+
+typedef LRESULT(*WrapperCall)(::HWND, ::UINT, ::WPARAM, ::LPARAM, WinAPI_Window*);
+
+/**
+ * Let the compiler handle forwarding to correct window object's
+ * member function.
+ */
+LRESULT Wrapper(::HWND hwnd, ::UINT msg, ::WPARAM wParam, ::LPARAM lParam, WinAPI_Window* instance)
+{
+	return instance->WindowProc(hwnd, msg, wParam, lParam);
+}
+
+WinProcThunk* WinProcThunk::GetInstance()
+{
+	Ceng::UINT8* codeBuffer = (Ceng::UINT8*)::VirtualAlloc(NULL, 4096, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+
+	if (codeBuffer == nullptr)
+	{
+		return nullptr;
+	}
+
+	// Coming in from the previous function, we have
+	//
+	// rcx = LPARAM
+	// rdx = WPARAM
+	// r8 = MSG
+	// r9 = HWND
+	//
+	// These must remain as is because the next function will reuse them
+	//
+	// Setting up the stack frame for function call:
+	// 
+	// 1. Align stack to 16 bytes
+	// 2. Instance pointer is pushed to stack
+	// 3. Add 32 byte shadow space to stack
+	// 4. Call wrapper
+	// 5. Clear stack on return
+
+	// This means the following assembly code is needed:
+		/*
+	__asm
+	{
+		//and rsp, ~15;  // floors rsp to nearest number divisible by 16
+
+		mov rax, instancePtr;
+
+		push rax;
+
+		sub rsp, 32;  // shadow space
+
+		mov rax,call_WindowProc;
+
+		call [rax];
+
+		return 40; // clear shadow space (32) + instance ptr
+	}
+	*/
+
+	// mov rax, instancePtr
+	// REX.W b8 +rd Io
+	codeBuffer[0] = (1 << 6) | (1 << 3);
+	codeBuffer[1] = 0x8b;
+
+	// instancePtr
+	codeBuffer[2] = 0;
+	codeBuffer[3] = 0;
+	codeBuffer[4] = 0;
+	codeBuffer[5] = 0;
+	codeBuffer[6] = 0;
+	codeBuffer[7] = 0;
+	codeBuffer[8] = 0;
+	codeBuffer[9] = 0;
+
+	WinAPI_Window** instancePtrLoc = (WinAPI_Window**)&codeBuffer[2];
+
+	// push rax
+	// 50+rd
+	codeBuffer[10] = 0x50;
+
+	// sub rsp, 32
+	// // sub r/m64, imm8
+	// REX.W + 83 /5 lb
+	codeBuffer[11] = (1 << 6) | (1 << 3);
+	codeBuffer[12] = 0x83;
+	codeBuffer[13] = (5 << 3) | 0b100;
+	codeBuffer[14] = 0b100;
+	codeBuffer[15] = 32;
+
+	//mov rax, call_WindowProc;
+	codeBuffer[16] = (1 << 6) | (1 << 3);
+	codeBuffer[17] = 0x8b;
+
+	// call_WindowProc
+	codeBuffer[18] = 0;
+	codeBuffer[19] = 0;
+	codeBuffer[20] = 0;
+	codeBuffer[21] = 0;
+	codeBuffer[22] = 0;
+	codeBuffer[23] = 0;
+	codeBuffer[24] = 0;
+	codeBuffer[25] = 0;
+
+	WrapperCall* ptr = (WrapperCall*)&codeBuffer[18];
+
+	*ptr = &Wrapper;
+
+	//call[rax];
+	codeBuffer[26] = 0xff;
+	codeBuffer[27] = (0b11 << 6) + (2 << 3);
+
+	// return 40;
+	codeBuffer[28] = 0xc2;
+	codeBuffer[29] = 40;
+	codeBuffer[30] = 0;
+
+	Call_Thunk thunkPtr = (Call_Thunk)&codeBuffer[0];
+
+	WinProcThunk* temp = new WinProcThunk(thunkPtr, instancePtrLoc, codeBuffer, 4096);
+
+	return temp;
+}
+
+#endif
 
 WinProcThunk::WinProcThunk(Call_Thunk callback,WinAPI_Window **instancePtrLoc,
 						   Ceng::UINT8 *codeBuffer,
