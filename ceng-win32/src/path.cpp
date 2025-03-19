@@ -182,7 +182,7 @@ extern "C" _declspec(dllexport) const Ceng::CRESULT Ceng_ExePath(Ceng::StringUtf
 	do
 	{
 		// Leave space for null-terminator when giving buffer size as param
-		length = ::GetModuleFileName(NULL, &buffer[0], buffer.size()-1);
+		length = ::GetModuleFileName(NULL, &buffer[0], DWORD(buffer.size())-1);
 
 		::DWORD error = ::GetLastError();
 
@@ -194,12 +194,12 @@ extern "C" _declspec(dllexport) const Ceng::CRESULT Ceng_ExePath(Ceng::StringUtf
 			}
 		}
 
-		if (length != buffer.size() - 1)
+		if (length != DWORD(buffer.size()) - 1)
 		{
 			break;
 		}
 
-		buffer = std::vector<::TCHAR>(2 * buffer.size(), 0);
+		buffer = std::vector<::TCHAR>(2 * DWORD(buffer.size()), 0);
 	} while (1);
 
 	Ceng::StringUtf8 temp = &buffer[0];

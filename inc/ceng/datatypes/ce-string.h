@@ -1103,8 +1103,8 @@ namespace Ceng
 			return BaseString();
 		}
 
-		Ceng::UINT32 endOffset = endIter.RawPosition();
-		Ceng::UINT32 endIndex = endIter.Index();
+		size_t endOffset = endIter.RawPosition();
+		size_t endIndex = endIter.Index();
 
 		return BaseString(*this,startIter.RawPosition(),endOffset-startIter.RawPosition(),endIndex-startIter.Index());
 	}
