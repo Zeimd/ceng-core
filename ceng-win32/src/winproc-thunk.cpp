@@ -136,13 +136,13 @@ typedef LRESULT(__thiscall WinAPI_Window::* Call_WindowProc)(::HWND, ::UINT, ::W
 
 const Call_WindowProc call_WindowProc = &WinAPI_Window::WindowProc;
 
-typedef LRESULT(*WrapperCall)(::HWND, ::UINT, ::WPARAM, ::LPARAM, WinAPI_Window*);
+typedef LRESULT(*WrapperCall_x64)(::HWND, ::UINT, ::WPARAM, ::LPARAM, WinAPI_Window*);
 
 /**
  * Let the compiler handle forwarding to correct window object's
  * member function.
  */
-LRESULT Wrapper(::HWND hwnd, ::UINT msg, ::WPARAM wParam, ::LPARAM lParam, WinAPI_Window* instance)
+LRESULT Wrapper_x64(::HWND hwnd, ::UINT msg, ::WPARAM wParam, ::LPARAM lParam, WinAPI_Window* instance)
 {
 	return instance->WindowProc(hwnd, msg, wParam, lParam);
 }
@@ -223,7 +223,7 @@ WinProcThunk* WinProcThunk::GetInstance()
 	// mov rax, instancePtr
 	// REX.W b8 +rd Io
 	codeBuffer[0] = rexW;
-	codeBuffer[1] = 0x8b;
+	codeBuffer[1] = 0xb8;
 
 	// instancePtr
 	codeBuffer[2] = 0;
@@ -251,7 +251,7 @@ WinProcThunk* WinProcThunk::GetInstance()
 
 	//mov rax, call_WindowProc;
 	codeBuffer[15] = rexW;
-	codeBuffer[16] = 0x8b;
+	codeBuffer[16] = 0xb8;
 
 	// call_WindowProc
 	codeBuffer[17] = 0;
@@ -263,9 +263,9 @@ WinProcThunk* WinProcThunk::GetInstance()
 	codeBuffer[23] = 0;
 	codeBuffer[24] = 0;
 
-	WrapperCall* ptr = (WrapperCall*)&codeBuffer[17];
+	WrapperCall_x64* ptr = (WrapperCall_x64*)&codeBuffer[17];
 
-	*ptr = &Wrapper;
+	*ptr = &Wrapper_x64;
 
 	//call rax
 	// FF /2
