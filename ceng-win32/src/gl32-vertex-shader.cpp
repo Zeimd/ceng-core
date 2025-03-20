@@ -46,7 +46,7 @@ const Ceng::CRESULT GL32_VertexShader::GetInstance(const Ceng::StringUtf8 &shade
 
 	size_t length = shaderText.Length();
 
-	if (length > std::numeric_limits<GLint>::max())
+	if (length > size_t(std::numeric_limits<GLint>::max()))
 	{
 		return CE_ERR_INVALID_PARAM;
 	}

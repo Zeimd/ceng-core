@@ -25,12 +25,12 @@ namespace Ceng
 		 * Element currently pointed at. For variable-length encodings,
 		 * not equal to rawPosition.
 		 */
-		size_t index;
+		ptrdiff_t index;
 
 		/**
 		 * Actual offset in the container. 
 		 */
-		size_t rawPosition;
+		ptrdiff_t rawPosition;
 
 
 	public:
@@ -43,12 +43,12 @@ namespace Ceng
 		{
 		}
 
-		const size_t Index() const
+		const ptrdiff_t Index() const
 		{
 			return index;
 		}
 
-		const size_t RawPosition() const
+		const ptrdiff_t RawPosition() const
 		{
 			return rawPosition;
 		}
@@ -69,18 +69,18 @@ namespace Ceng
 		FixedLengthIterator();
 		~FixedLengthIterator();
 
-		static Ceng::INT64 StepForward(const DATA_ELEMENT *character,size_t *index,
-										const size_t maxIndex);
+		static ptrdiff_t StepForward(const DATA_ELEMENT *character,ptrdiff_t *index,
+										const ptrdiff_t maxIndex);
 
-		static Ceng::INT64 StepForwardMultiple(const DATA_ELEMENT *characters,
-											size_t *index,const size_t maxIndex,
-											const Ceng::INT64 delta);
+		static ptrdiff_t StepForwardMultiple(const DATA_ELEMENT *characters,
+											ptrdiff_t *index,const ptrdiff_t maxIndex,
+											const ptrdiff_t delta);
 
-		static Ceng::INT64 StepBackward(const DATA_ELEMENT *characters,
-											size_t *index,const size_t startPos);
+		static ptrdiff_t StepBackward(const DATA_ELEMENT *characters,
+											ptrdiff_t *index,const ptrdiff_t startPos);
 
-		static Ceng::INT64 StepBackwardMultiple(const DATA_ELEMENT *characters,size_t *index,
-											const size_t startPos,const Ceng::INT64 delta);
+		static ptrdiff_t StepBackwardMultiple(const DATA_ELEMENT *characters,ptrdiff_t *index,
+											const ptrdiff_t startPos,const ptrdiff_t delta);
 
 	};
 
@@ -95,10 +95,10 @@ namespace Ceng
 	}
 
 	template<class CHARACTER_TYPE,class DATA_ELEMENT>
-	Ceng::INT64 FixedLengthIterator<CHARACTER_TYPE,DATA_ELEMENT>::
-		StepForward(const DATA_ELEMENT *character,size_t *index,const size_t maxIndex)
+	ptrdiff_t FixedLengthIterator<CHARACTER_TYPE,DATA_ELEMENT>::
+		StepForward(const DATA_ELEMENT *character,ptrdiff_t *index,const ptrdiff_t maxIndex)
 	{
-		Ceng::INT32 step = 0;
+		ptrdiff_t step = 0;
 
 		if (*index < maxIndex)
 		{
@@ -110,19 +110,19 @@ namespace Ceng
 	}
 
 	template<class CHARACTER_TYPE,class DATA_ELEMENT>
-	Ceng::INT64 FixedLengthIterator<CHARACTER_TYPE,DATA_ELEMENT>::
+	ptrdiff_t FixedLengthIterator<CHARACTER_TYPE,DATA_ELEMENT>::
 		StepForwardMultiple(const DATA_ELEMENT *characters,
-							size_t *index,const size_t maxIndex,
-							const Ceng::INT64 delta)
+							ptrdiff_t *index,const ptrdiff_t maxIndex,
+							const ptrdiff_t delta)
 	{
-		Ceng::INT32 newIndex = *index + delta;
+		ptrdiff_t newIndex = *index + delta;
 
 		if (newIndex > maxIndex)
 		{
 			newIndex = maxIndex;
 		}
 
-		Ceng::INT32 step = newIndex - *index;
+		ptrdiff_t step = newIndex - *index;
 
 		*index = newIndex;
 
@@ -130,11 +130,11 @@ namespace Ceng
 	}
 
 	template<class CHARACTER_TYPE,class DATA_ELEMENT>
-	Ceng::INT64 FixedLengthIterator<CHARACTER_TYPE,DATA_ELEMENT>::
+	ptrdiff_t FixedLengthIterator<CHARACTER_TYPE,DATA_ELEMENT>::
 		StepBackward(const DATA_ELEMENT *characters,
-						size_t *index,const size_t startPos)
+						ptrdiff_t *index,const ptrdiff_t startPos)
 	{
-		Ceng::INT32 step = 0;
+		ptrdiff_t step = 0;
 
 		if (*index > -1)
 		{
@@ -146,18 +146,18 @@ namespace Ceng
 	}
 
 	template<class CHARACTER_TYPE,class DATA_ELEMENT>
-	Ceng::INT64 FixedLengthIterator<CHARACTER_TYPE,DATA_ELEMENT>::
-		StepBackwardMultiple(const DATA_ELEMENT *characters,size_t *index,
-								const size_t startPos,const Ceng::INT64 delta)
+	ptrdiff_t FixedLengthIterator<CHARACTER_TYPE,DATA_ELEMENT>::
+		StepBackwardMultiple(const DATA_ELEMENT *characters,ptrdiff_t *index,
+								const ptrdiff_t startPos,const ptrdiff_t delta)
 	{
-		Ceng::INT64 newIndex = *index - delta;
+		ptrdiff_t newIndex = *index - delta;
 
 		if (newIndex < -1)
 		{
 			newIndex = -1;
 		}
 
-		Ceng::INT64 step = newIndex - *index;
+		ptrdiff_t step = newIndex - *index;
 
 		*index = newIndex;
 
@@ -179,18 +179,18 @@ namespace Ceng
 		VaryingIterator();
 		~VaryingIterator();
 
-		static Ceng::INT64 StepForward(const DATA_ELEMENT *character,size_t *index,
-										const size_t maxIndex) ;
+		static ptrdiff_t StepForward(const DATA_ELEMENT *character,ptrdiff_t *index,
+										const ptrdiff_t maxIndex) ;
 
-		static Ceng::INT64 StepForwardMultiple(const DATA_ELEMENT *characters,
-											size_t *index,const size_t maxIndex,
-											const Ceng::INT64 delta) ;
+		static ptrdiff_t StepForwardMultiple(const DATA_ELEMENT *characters,
+											ptrdiff_t *index,const ptrdiff_t maxIndex,
+											const ptrdiff_t delta) ;
 
-		static Ceng::INT64 StepBackward(const DATA_ELEMENT *characters,
-											size_t *index,const size_t startPos) ;
+		static ptrdiff_t StepBackward(const DATA_ELEMENT *characters,
+											ptrdiff_t *index,const ptrdiff_t startPos) ;
 
-		static Ceng::INT64 StepBackwardMultiple(const DATA_ELEMENT *characters,size_t *index,
-											const size_t startPos,const Ceng::INT64 delta) ;
+		static ptrdiff_t StepBackwardMultiple(const DATA_ELEMENT *characters,ptrdiff_t *index,
+											const ptrdiff_t startPos,const ptrdiff_t delta) ;
 	};
 
 	template<class CHARACTER_TYPE,class DATA_ELEMENT>
@@ -204,8 +204,8 @@ namespace Ceng
 	}
 
 	template<class CHARACTER_TYPE,class DATA_ELEMENT>
-	Ceng::INT64 VaryingIterator<CHARACTER_TYPE,DATA_ELEMENT>::
-		StepForward(const DATA_ELEMENT *character,size_t *p_index,const size_t maxIndex) 
+	ptrdiff_t VaryingIterator<CHARACTER_TYPE,DATA_ELEMENT>::
+		StepForward(const DATA_ELEMENT *character,ptrdiff_t *p_index,const ptrdiff_t maxIndex) 
 	{
 		if (*p_index == -1)
 		{
@@ -224,10 +224,10 @@ namespace Ceng
 	}
 
 	template<class CHARACTER_TYPE,class DATA_ELEMENT>
-	Ceng::INT64 VaryingIterator<CHARACTER_TYPE,DATA_ELEMENT>::
+	ptrdiff_t VaryingIterator<CHARACTER_TYPE,DATA_ELEMENT>::
 		StepForwardMultiple(const DATA_ELEMENT *characters,
-								size_t *index,const size_t maxIndex,
-								const Ceng::INT64 delta) 
+								ptrdiff_t *index,const ptrdiff_t maxIndex,
+								const ptrdiff_t delta) 
 	{
 		if (delta <= 0)
 		{
@@ -240,11 +240,11 @@ namespace Ceng
 			return 1;
 		}	
 
-		Ceng::INT64 k=0;
+		ptrdiff_t k=0;
 
-		Ceng::INT64 step;
+		ptrdiff_t step;
 
-		Ceng::INT64 totalStep=0;
+		ptrdiff_t totalStep=0;
 
 		do
 		{
@@ -259,9 +259,9 @@ namespace Ceng
 	}
 
 	template<class CHARACTER_TYPE,class DATA_ELEMENT>
-	Ceng::INT64 VaryingIterator<CHARACTER_TYPE,DATA_ELEMENT>::
+	ptrdiff_t VaryingIterator<CHARACTER_TYPE,DATA_ELEMENT>::
 		StepBackward(const DATA_ELEMENT *characters,
-						size_t *index,const size_t startPos) 
+						ptrdiff_t *index,const ptrdiff_t startPos) 
 	{
 		if (startPos <= 0)
 		{
@@ -269,7 +269,7 @@ namespace Ceng
 			return -1;
 		}
 
-		Ceng::INT64 k = startPos-1;
+		ptrdiff_t k = startPos-1;
 
 		(*index)--;
 
@@ -291,9 +291,9 @@ namespace Ceng
 	}
 
 	template<class CHARACTER_TYPE,class DATA_ELEMENT>
-	Ceng::INT64 VaryingIterator<CHARACTER_TYPE,DATA_ELEMENT>::
-		StepBackwardMultiple(const DATA_ELEMENT *characters,size_t *index,
-								const size_t startPos,const Ceng::INT64 delta) 
+	ptrdiff_t VaryingIterator<CHARACTER_TYPE,DATA_ELEMENT>::
+		StepBackwardMultiple(const DATA_ELEMENT *characters,ptrdiff_t *index,
+								const ptrdiff_t startPos,const ptrdiff_t delta) 
 	{
 		if (delta <= 0)
 		{
@@ -306,13 +306,13 @@ namespace Ceng
 			return -1;
 		}		
 
-		Ceng::INT64 k=0;
+		ptrdiff_t k=0;
 
-		Ceng::INT64 outPos=startPos;
+		ptrdiff_t outPos=startPos;
 
 		do
 		{
-			outPos = StepBackward(&characters[outPos],index,outPos);
+			outPos = StepBackward(&characters[outPos],index,size_t(outPos));
 
 			k++;
 
@@ -341,7 +341,7 @@ namespace Ceng
 
 		StringIterator(const BUFFER_REF &buffer);
 
-		StringIterator(const BUFFER_REF &buffer,const size_t index,const size_t rawPosition);
+		StringIterator(const BUFFER_REF &buffer,const ptrdiff_t index,const ptrdiff_t rawPosition);
 
 		StringIterator(const StringIterator &source);
 
@@ -355,21 +355,21 @@ namespace Ceng
 
 		const StringIterator operator ++ (int);
 
-		StringIterator& operator += (const Ceng::INT64 delta);
+		StringIterator& operator += (const ptrdiff_t delta);
 
-		const StringIterator operator + (const Ceng::INT64 delta);
+		const StringIterator operator + (const ptrdiff_t delta);
 
 		StringIterator& operator -- ();
 
 		const StringIterator operator -- (int);
 
-		StringIterator& operator -= (const Ceng::INT64 delta);
+		StringIterator& operator -= (const ptrdiff_t delta);
 
-		const StringIterator operator - (const Ceng::INT64 delta);
+		const StringIterator operator - (const ptrdiff_t delta);
 
-		const Ceng::INT32 operator - (const StringIterator &other);
+		const ptrdiff_t operator - (const StringIterator &other);
 
-		REF_TYPE operator [] (const Ceng::INT64 delta) const;
+		REF_TYPE operator [] (const ptrdiff_t delta) const;
 		
 		REF_TYPE operator * () const;
 
@@ -408,7 +408,7 @@ namespace Ceng
 
 	template<class CHARACTER_TYPE,class DATA_ELEMENT,class BUFFER_REF,class ITERATOR_TYPE>
 	StringIterator<CHARACTER_TYPE,DATA_ELEMENT,BUFFER_REF,ITERATOR_TYPE>::
-		StringIterator(const BUFFER_REF &buffer,size_t index,const size_t rawPosition)
+		StringIterator(const BUFFER_REF &buffer,ptrdiff_t index,const ptrdiff_t rawPosition)
 		: buffer(buffer)
 	{
 		this->index = index;
@@ -454,7 +454,7 @@ namespace Ceng
 		StringIterator<CHARACTER_TYPE,DATA_ELEMENT,BUFFER_REF,ITERATOR_TYPE>::
 		operator ++ ()
 	{
-		rawPosition += (size_t)ITERATOR_TYPE::StepForward(buffer.GetPointer(rawPosition),&index,buffer.MaxIndex());
+		rawPosition += (Ceng::INT32)ITERATOR_TYPE::StepForward(buffer.GetPointer(rawPosition),&index,buffer.MaxIndex());
 
 		return *this;
 	}
@@ -474,17 +474,17 @@ namespace Ceng
 	template<class CHARACTER_TYPE,class DATA_ELEMENT,class BUFFER_REF,class ITERATOR_TYPE>
 	StringIterator<CHARACTER_TYPE,DATA_ELEMENT,BUFFER_REF,ITERATOR_TYPE>& 
 		StringIterator<CHARACTER_TYPE,DATA_ELEMENT,BUFFER_REF,ITERATOR_TYPE>::
-		operator += (const Ceng::INT64 delta)
+		operator += (const ptrdiff_t delta)
 	{
 		if (delta < 0)
 		{
-			rawPosition = ITERATOR_TYPE::StepBackwardMultiple(buffer.GetPointer(0),&index,
-									rawPosition,-delta);
+			rawPosition = size_t(ITERATOR_TYPE::StepBackwardMultiple(buffer.GetPointer(0),&index,
+									rawPosition,-delta));
 		}
 		else
 		{
-			rawPosition += ITERATOR_TYPE::StepForwardMultiple(buffer.GetPointer(rawPosition),&index,
-									buffer.MaxIndex(),delta);
+			rawPosition += size_t(ITERATOR_TYPE::StepForwardMultiple(buffer.GetPointer(rawPosition),&index,
+									buffer.MaxIndex(),delta));
 		}
 
 		return *this;
@@ -493,7 +493,7 @@ namespace Ceng
 	template<class CHARACTER_TYPE,class DATA_ELEMENT,class BUFFER_REF,class ITERATOR_TYPE>
 	const StringIterator<CHARACTER_TYPE,DATA_ELEMENT,BUFFER_REF,ITERATOR_TYPE> 
 		StringIterator<CHARACTER_TYPE,DATA_ELEMENT,BUFFER_REF,ITERATOR_TYPE>::
-		operator + (const Ceng::INT64 delta)
+		operator + (const ptrdiff_t delta)
 	{
 		StringIterator temp(*this);
 
@@ -527,7 +527,7 @@ namespace Ceng
 	template<class CHARACTER_TYPE,class DATA_ELEMENT,class BUFFER_REF,class ITERATOR_TYPE>
 	StringIterator<CHARACTER_TYPE,DATA_ELEMENT,BUFFER_REF,ITERATOR_TYPE>& 
 		StringIterator<CHARACTER_TYPE,DATA_ELEMENT,BUFFER_REF,ITERATOR_TYPE>::
-		operator -= (const Ceng::INT64 delta)
+		operator -= (const ptrdiff_t delta)
 	{
 		return *this += (-delta);
 	}
@@ -535,7 +535,7 @@ namespace Ceng
 	template<class CHARACTER_TYPE,class DATA_ELEMENT,class BUFFER_REF,class ITERATOR_TYPE>
 	const StringIterator<CHARACTER_TYPE,DATA_ELEMENT,BUFFER_REF,ITERATOR_TYPE> 
 		StringIterator<CHARACTER_TYPE,DATA_ELEMENT,BUFFER_REF,ITERATOR_TYPE>::
-		operator - (const Ceng::INT64 delta)
+		operator - (const ptrdiff_t delta)
 	{
 		StringIterator temp(*this);
 
@@ -545,7 +545,7 @@ namespace Ceng
 	}
 
 	template<class CHARACTER_TYPE,class DATA_ELEMENT,class BUFFER_REF,class ITERATOR_TYPE>
-	const Ceng::INT32 StringIterator<CHARACTER_TYPE,DATA_ELEMENT,BUFFER_REF,ITERATOR_TYPE>::
+	const ptrdiff_t StringIterator<CHARACTER_TYPE,DATA_ELEMENT,BUFFER_REF,ITERATOR_TYPE>::
 		operator - (const StringIterator &other)
 	{
 		return index - other.index;
@@ -554,7 +554,7 @@ namespace Ceng
 	template<class CHARACTER_TYPE,class DATA_ELEMENT,class BUFFER_REF,class ITERATOR_TYPE>
 	typename StringIterator<CHARACTER_TYPE,DATA_ELEMENT,BUFFER_REF,ITERATOR_TYPE>::REF_TYPE 
 		StringIterator<CHARACTER_TYPE,DATA_ELEMENT,BUFFER_REF,ITERATOR_TYPE>::
-		operator [] (const Ceng::INT64 delta) const
+		operator [] (const ptrdiff_t delta) const
 	{
 		StringIterator temp(*this);
 
@@ -695,11 +695,11 @@ namespace Ceng
 
 		ReverseIterator& operator += (const ReverseIterator &other);
 
-		ReverseIterator& operator += (const Ceng::INT32 delta);
+		ReverseIterator& operator += (const ptrdiff_t delta);
 
 		const ReverseIterator operator + (const ReverseIterator &other);
 
-		const ReverseIterator operator + (const Ceng::INT32 delta);
+		const ReverseIterator operator + (const ptrdiff_t delta);
 
 		ReverseIterator& operator -- ();
 
@@ -707,14 +707,14 @@ namespace Ceng
 
 		ReverseIterator& operator -= (const ReverseIterator &other);
 
-		ReverseIterator& operator -= (const Ceng::INT32 delta);
+		ReverseIterator& operator -= (const ptrdiff_t delta);
 
 
 		const ReverseIterator operator - (const ReverseIterator &other);
 
-		const ReverseIterator operator - (const Ceng::INT32 delta);
+		const ReverseIterator operator - (const ptrdiff_t delta);
 
-		REF_TYPE operator [] (const Ceng::INT32 delta) const;
+		REF_TYPE operator [] (const ptrdiff_t delta) const;
 		
 		REF_TYPE operator * () const;
 
@@ -817,7 +817,7 @@ namespace Ceng
 	}
 
 	template<class ITERATOR_TYPE>
-	ReverseIterator<ITERATOR_TYPE>& ReverseIterator<ITERATOR_TYPE>::operator += (const Ceng::INT32 delta)
+	ReverseIterator<ITERATOR_TYPE>& ReverseIterator<ITERATOR_TYPE>::operator += (const ptrdiff_t delta)
 	{
 		iterator -= delta;
 		return *this;
@@ -834,7 +834,7 @@ namespace Ceng
 	}
 
 	template<class ITERATOR_TYPE>
-	const ReverseIterator<ITERATOR_TYPE> ReverseIterator<ITERATOR_TYPE>::operator + (const Ceng::INT32 delta)
+	const ReverseIterator<ITERATOR_TYPE> ReverseIterator<ITERATOR_TYPE>::operator + (const ptrdiff_t delta)
 	{
 		ReverseIterator temp(*this);
 
@@ -868,7 +868,7 @@ namespace Ceng
 	}
 
 	template<class ITERATOR_TYPE>
-	ReverseIterator<ITERATOR_TYPE>& ReverseIterator<ITERATOR_TYPE>::operator -= (const Ceng::INT32 delta)
+	ReverseIterator<ITERATOR_TYPE>& ReverseIterator<ITERATOR_TYPE>::operator -= (const ptrdiff_t delta)
 	{
 		iterator += delta;
 		return *this;
@@ -885,7 +885,7 @@ namespace Ceng
 	}
 
 	template<class ITERATOR_TYPE>
-	const ReverseIterator<ITERATOR_TYPE> ReverseIterator<ITERATOR_TYPE>::operator - (const Ceng::INT32 delta)
+	const ReverseIterator<ITERATOR_TYPE> ReverseIterator<ITERATOR_TYPE>::operator - (const ptrdiff_t delta)
 	{
 		ReverseIterator temp(*this);
 
@@ -896,7 +896,7 @@ namespace Ceng
 
 	template<class ITERATOR_TYPE>
 	typename ReverseIterator<ITERATOR_TYPE>::REF_TYPE 
-		ReverseIterator<ITERATOR_TYPE>::operator [] (const Ceng::INT32 delta) const
+		ReverseIterator<ITERATOR_TYPE>::operator [] (const ptrdiff_t delta) const
 	{
 		ITERATOR_TYPE temp(*this);
 
@@ -919,7 +919,7 @@ namespace Ceng
 	}
 
 	template<class ITERATOR_TYPE>
-	const ReverseIterator<ITERATOR_TYPE> operator + (const Ceng::INT32 base,
+	const ReverseIterator<ITERATOR_TYPE> operator + (const ptrdiff_t base,
 															const ReverseIterator<ITERATOR_TYPE> &other)
 	{
 		ReverseIterator<ITERATOR_TYPE> temp(other);

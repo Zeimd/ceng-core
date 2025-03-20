@@ -25,8 +25,8 @@ namespace Ceng
 
 		BUFFER_REF stringBuffer;
 
-		size_t index;
-		size_t rawPosition;
+		ptrdiff_t index;
+		ptrdiff_t rawPosition;
 		Ceng::INT32 bytes;
 
 	public:
@@ -35,8 +35,8 @@ namespace Ceng
 
 		~CharacterRef();
 
-		CharacterRef(BUFFER_REF stringBuffer,const size_t index,
-						const size_t rawPosition);
+		CharacterRef(BUFFER_REF stringBuffer,const ptrdiff_t index,
+						const ptrdiff_t rawPosition);
 
 		CharacterRef(const CharacterRef &source);
 
@@ -76,8 +76,8 @@ namespace Ceng
 	}
 
 	template<class CHARACTER_TYPE,class DATA_ELEMENT,class BUFFER_REF>
-	CharacterRef<CHARACTER_TYPE,DATA_ELEMENT,BUFFER_REF>::CharacterRef(BUFFER_REF stringBuffer,const size_t index,
-															const size_t rawPosition) 
+	CharacterRef<CHARACTER_TYPE,DATA_ELEMENT,BUFFER_REF>::CharacterRef(BUFFER_REF stringBuffer,const ptrdiff_t index,
+															const ptrdiff_t rawPosition) 
 		: stringBuffer(stringBuffer)
 	{
 		this->index = index;
