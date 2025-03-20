@@ -18,6 +18,12 @@ using namespace Ceng;
 static LRESULT CALLBACK WindowProc(::HWND hwnd,::UINT msg,
 											::WPARAM wParam,::LPARAM lParam);
 
+LRESULT BackupWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	return DefWindowProc(hwnd, msg, wParam, lParam);	
+}
+
+
 static int instanceCounter = 0;
 
 extern "C" _declspec(dllexport) const Ceng::CRESULT Ceng_CreateWindow(Ceng::String &windowTitle,
@@ -74,7 +80,7 @@ extern "C" _declspec(dllexport) const Ceng::CRESULT Ceng_CreateWindow(Ceng::Stri
 	// Pointer to callback function
 
 	// TODO: Replace with a function that calls this->WindowProc() instead
-	//windowClass.lpfnWndProc = (WNDPROC)&WindowProc; 
+	//windowClass.lpfnWndProc = (WNDPROC)&BackupWindowProc;
 
 	windowClass.lpfnWndProc = thunk->GetCallback();
 
