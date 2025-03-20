@@ -267,14 +267,21 @@ WinProcThunk* WinProcThunk::GetInstance()
 
 	*ptr = &Wrapper;
 
-	//call[rax];
+	//call rax
+	// FF /2
 	codeBuffer[25] = 0xff;
-	codeBuffer[26] = (0b11 << 6) + (2 << 3);
+	codeBuffer[26] = (3 << 6) | (2 << 3);
 
-	// return 48;
-	codeBuffer[27] = 0xc2;
-	codeBuffer[28] = 40;
-	codeBuffer[29] = 0;
+	// add rsp, 40
+	// add r/m64, imm8
+	// REX.W + 83 /0 ib
+	codeBuffer[27] = rexW;
+	codeBuffer[28] = 0x83;
+	codeBuffer[29] = (0b11 << 6) | 0b100;
+	codeBuffer[30] = 40;
+
+	// return
+	codeBuffer[31] = 0xc3;
 
 	Call_Thunk thunkPtr = (Call_Thunk)&codeBuffer[0];
 
