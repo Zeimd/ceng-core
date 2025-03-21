@@ -6,6 +6,9 @@
 *
 *****************************************************************************/
 
+#include <xmmintrin.h>
+#include <emmintrin.h>
+
 #include "rtarget-data.h"
 
 using namespace Ceng;
@@ -349,29 +352,109 @@ CRESULT CR_NewTargetData::ClearDepth(const FLOAT32 depth)
 
 	UINT32 vertTiles = windowHeight >> 3;
 	
-	UINT32 tileStep = tileXstep;
+	UINT32 tileStep = Ceng::UINT32(tileXstep);
 
 	if (windowHeight & 7)
 	{
 		vertTiles++;
 	}
 
+	__m128i fill = _mm_load_si128((__m128i*)depthValueVec);
+
+	/*
 	__asm
 	{
 		movaps xmm0,depthValueVec;
 	}
+	*/
 
 	for(k=0;k<vertTiles;k++)
 	{
 		depthAddress = baseAddress + k*tileYstep;
 
+		/*
 		__asm
 		{
 			mov edi,depthAddress;
 		}
+		*/
 
 		for(j=0;j< horizTiles;j++)
 		{
+			_mm_stream_si128((__m128i*)depthAddress, fill);
+
+			depthAddress += 16;
+
+			_mm_stream_si128((__m128i*)depthAddress, fill);
+
+			depthAddress += 16;
+
+			_mm_stream_si128((__m128i*)depthAddress, fill);
+
+			depthAddress += 16;
+
+			_mm_stream_si128((__m128i*)depthAddress, fill);
+
+			depthAddress += 16;
+
+			// Second
+
+			_mm_stream_si128((__m128i*)depthAddress, fill);
+
+			depthAddress += 16;
+
+			_mm_stream_si128((__m128i*)depthAddress, fill);
+
+			depthAddress += 16;
+
+			_mm_stream_si128((__m128i*)depthAddress, fill);
+
+			depthAddress += 16;
+
+			_mm_stream_si128((__m128i*)depthAddress, fill);
+
+			depthAddress += 16;
+
+			// Third
+
+			_mm_stream_si128((__m128i*)depthAddress, fill);
+
+			depthAddress += 16;
+
+			_mm_stream_si128((__m128i*)depthAddress, fill);
+
+			depthAddress += 16;
+
+			_mm_stream_si128((__m128i*)depthAddress, fill);
+
+			depthAddress += 16;
+
+			_mm_stream_si128((__m128i*)depthAddress, fill);
+
+			depthAddress += 16;
+
+			// Fourth
+
+			_mm_stream_si128((__m128i*)depthAddress, fill);
+
+			depthAddress += 16;
+
+			_mm_stream_si128((__m128i*)depthAddress, fill);
+
+			depthAddress += 16;
+
+			_mm_stream_si128((__m128i*)depthAddress, fill);
+
+			depthAddress += 16;
+
+			_mm_stream_si128((__m128i*)depthAddress, fill);
+
+			depthAddress += 16;
+
+
+			//depthAddress += tileStep;
+
+			/*
 			__asm
 			{
 				movntps [edi+64],xmm0;
@@ -391,6 +474,7 @@ CRESULT CR_NewTargetData::ClearDepth(const FLOAT32 depth)
 
 				add edi,tileStep;
 			}
+			*/
 		}
 	}
 
