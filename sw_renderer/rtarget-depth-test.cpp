@@ -660,6 +660,7 @@ inline void StencilAction(void* stencilValue, void* stencilCompareRef, void* ste
 //****************************************************************************************
 // template LoadStencilValues
 
+/*
 template<bool stencilEnable,X86_VERSION codeVersion>
 inline void LoadStencilValues(POINTER stencilAddress,void *stencilCompareRef,void *stencilReadMask)
 {
@@ -680,23 +681,38 @@ inline void LoadStencilValues<true,X86_VERSION::SSE2>(POINTER stencilAddress,voi
 		movdqa xmm4,[eax];
 	}
 }
+*/
 
 //****************************************************************************************
 // template PrepareStencilValues
 
 template<bool stencilEnable,Ceng::UINT32 stencilBits,X86_VERSION codeVersion>
-inline void PrepareStencilValues()
+inline void PrepareStencilValues(void* stencilValues, void* readMask)
 {
 }
 
 template<>
-inline void PrepareStencilValues<true,8,X86_VERSION::SSE2>()
+inline void PrepareStencilValues<true,8,X86_VERSION::SSE2>(void* stencilValues, void* readMask)
 {
+	__m128i stencil = _mm_load_si128((__m128i*)stencilValues);
+
+	__m128i mask = _mm_load_si128((__m128i*)readMask);
+
+	__m128i convert = _mm_load_si128((__m128i*)toSignedByte);
+
+	__m128i temp = _mm_and_si128(stencil, mask);
+
+	temp = _mm_sub_epi8(stencil, convert);
+
+	_mm_store_si128((__m128i*)stencilValues, temp);
+
+	/*
 	__asm
 	{
 		pand xmm2,xmm4;
 		psubb xmm2,toSignedByte;
 	}
+	*/
 }
 
 //****************************************************************************************
