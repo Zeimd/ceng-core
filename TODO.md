@@ -81,4 +81,15 @@ Filesystem
 --------------------------------------------------
 Software renderer
 
-- [ ] Ensure that CR_NewTargetData fields tileXstep, tileYstep, unitXstep, unitYstep can fit in int16_t.
+- [ ] CR_NewTargetData 
+
+      Ensure that values of following fields can fit in int16_t:
+
+            tileXstep, tileYstep, unitXstep, unitYstep can fit in int16_t
+
+      Ensure that values of following fields can fit in uint32_t:
+
+            bytesPerPixel
+
+- [ ] Fix the way coverageAddress is used in pixel shader instance and ps output register, so that it's size and purpose is consistent
+
