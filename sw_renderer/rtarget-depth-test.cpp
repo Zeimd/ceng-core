@@ -423,7 +423,7 @@ inline void DepthWrite<true,X86_VERSION::SSE2>(POINTER depthAddress, void* depth
 }
 
 template<Ceng::UINT32 stencilBits,Ceng::STENCIL_ACTION::value action,X86_VERSION codeVersion>
-inline void DoStencilAction()
+inline void DoStencilAction(void* stencilValues, void* stencilRef, void*actionMask)
 {
 	// reserved: xmm0,xmm2,xmm4
 
@@ -434,63 +434,149 @@ inline void DoStencilAction()
 }
 
 template<>
-inline void DoStencilAction<8,Ceng::STENCIL_ACTION::INCREMENT,X86_VERSION::SSE2>()
+inline void DoStencilAction<8,Ceng::STENCIL_ACTION::INCREMENT,X86_VERSION::SSE2>(
+	void* stencilValues, void* stencilRef, void* actionMask)
 {
+	__m128i stencil = _mm_load_si128((__m128i*)stencilValues);
+
+	__m128i action = _mm_load_si128((__m128i*)actionMask);
+
+	stencil = _mm_sub_epi8(stencil, action);
+
+	_mm_store_si128((__m128i*)stencilValues, stencil);
+
+	/*
 	__asm
 	{
 		psubb xmm0,xmm7;
 	}
+	*/
 }
 
 template<>
-inline void DoStencilAction<8,Ceng::STENCIL_ACTION::INCREMENT_SAT,X86_VERSION::SSE2>()
+inline void DoStencilAction<8,Ceng::STENCIL_ACTION::INCREMENT_SAT,X86_VERSION::SSE2>(
+	void* stencilValues, void* stencilRef, void* actionMask)
 {
+	// TODO: why does this use sub instead of add?
+
+	__m128i stencil = _mm_load_si128((__m128i*)stencilValues);
+
+	__m128i action = _mm_load_si128((__m128i*)actionMask);
+
+	stencil = _mm_subs_epu8(stencil, action);
+
+	_mm_store_si128((__m128i*)stencilValues, stencil);
+
+	/*
 	__asm
 	{
 		psubusb xmm0,xmm7;
 	}
+	*/
 }
 
 template<>
-inline void DoStencilAction<8,Ceng::STENCIL_ACTION::DECREMENT,X86_VERSION::SSE2>()
+inline void DoStencilAction<8,Ceng::STENCIL_ACTION::DECREMENT,X86_VERSION::SSE2>(
+	void* stencilValues, void* stencilRef, void* actionMask)
 {
+	__m128i stencil = _mm_load_si128((__m128i*)stencilValues);
+
+	__m128i action = _mm_load_si128((__m128i*)actionMask);
+
+	stencil = _mm_add_epi8(stencil, action);
+
+	_mm_store_si128((__m128i*)stencilValues, stencil);
+
+	/*
 	__asm
 	{
 		paddb xmm0,xmm7;
 	}
+	*/
 }
 
 template<>
-inline void DoStencilAction<8,Ceng::STENCIL_ACTION::DECREMENT_SAT,X86_VERSION::SSE2>()
+inline void DoStencilAction<8,Ceng::STENCIL_ACTION::DECREMENT_SAT,X86_VERSION::SSE2>(
+	void* stencilValues, void* stencilRef, void* actionMask)
 {
+	// TODO: why does this use add instead of sub?
+
+	__m128i stencil = _mm_load_si128((__m128i*)stencilValues);
+
+	__m128i action = _mm_load_si128((__m128i*)actionMask);
+
+	stencil = _mm_adds_epu8(stencil, action);
+
+	_mm_store_si128((__m128i*)stencilValues, stencil);
+
+	/*
 	__asm
 	{
 		paddusb xmm0,xmm7;
 	}
+	*/
 }
 
 template<>
-inline void DoStencilAction<8,Ceng::STENCIL_ACTION::BIT_INVERT,X86_VERSION::SSE2>()
+inline void DoStencilAction<8,Ceng::STENCIL_ACTION::BIT_INVERT,X86_VERSION::SSE2>(
+	void* stencilValues, void* stencilRef, void* actionMask)
 {
+	__m128i stencil = _mm_load_si128((__m128i*)stencilValues);
+
+	__m128i action = _mm_load_si128((__m128i*)actionMask);
+
+	stencil = _mm_xor_si128(stencil, action);
+
+	_mm_store_si128((__m128i*)stencilValues, stencil);
+
+	/*
 	__asm
 	{
 		pxor xmm0,xmm7;
 	}
+	*/
 }
 
 template<>
-inline void DoStencilAction<8,Ceng::STENCIL_ACTION::ZERO,X86_VERSION::SSE2>()
+inline void DoStencilAction<8,Ceng::STENCIL_ACTION::ZERO,X86_VERSION::SSE2>(
+	void* stencilValues, void* stencilRef, void* actionMask)
 {
+	__m128i stencil = _mm_load_si128((__m128i*)stencilValues);
+
+	__m128i action = _mm_load_si128((__m128i*)actionMask);
+
+	__m128i temp = _mm_andnot_si128(action, stencil);
+
+	_mm_store_si128((__m128i*)stencilValues, temp);
+
+	/*
 	__asm
 	{
 		pandn xmm7,xmm0;
 		movdqa xmm0,xmm7;			
 	}
+	*/
 }
 
 template<>
-inline void DoStencilAction<8,Ceng::STENCIL_ACTION::SET_REF,X86_VERSION::SSE2>()
+inline void DoStencilAction<8,Ceng::STENCIL_ACTION::SET_REF,X86_VERSION::SSE2>(
+	void* stencilValues, void* stencilRef, void* actionMask)
 {
+	__m128i stencil = _mm_load_si128((__m128i*)stencilValues);
+
+	__m128i ref = _mm_load_si128((__m128i*)stencilRef);
+
+	__m128i action = _mm_load_si128((__m128i*)actionMask);
+
+	__m128i masked = _mm_and_si128(action, ref);
+
+	__m128i invMasked = _mm_andnot_si128(action, stencil);
+
+	__m128i out = _mm_or_si128(masked, invMasked);
+
+	_mm_store_si128((__m128i*)stencilValues, out);
+
+	/*
 	__asm
 	{
 		movdqa xmm6,xmm7;
@@ -502,6 +588,7 @@ inline void DoStencilAction<8,Ceng::STENCIL_ACTION::SET_REF,X86_VERSION::SSE2>()
 		por xmm7,xmm6;
 		movdqa xmm0,xmm7;
 	}
+	*/
 }
 
 
