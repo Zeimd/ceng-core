@@ -595,39 +595,66 @@ inline void DoStencilAction<8,Ceng::STENCIL_ACTION::SET_REF,X86_VERSION::SSE2>(
 template<Ceng::UINT32 stencilBits,Ceng::STENCIL_ACTION::value stencilFailFunc,
 	Ceng::STENCIL_ACTION::value depthFailFunc,Ceng::STENCIL_ACTION::value depthPassFunc,
 	X86_VERSION codeVersion>
-inline void StencilAction()
+inline void StencilAction(void* stencilValue, void* stencilCompareRef, void* stencilPassMask, void* depthPassMask, void* coverageMask)
 {
-	// Stencil fail
+	__m128i stencilPass = _mm_load_si128((__m128i*)stencilPassMask);
+
+	__m128i depthPass = _mm_load_si128((__m128i*)depthPassMask);
+
+	__m128i coverage = _mm_load_si128((__m128i*)coverageMask);		
+
+	__m128i actionMask;
+
+	// Stencil fail = ~(stencil pass) & coverage
+
+	actionMask = _mm_cmpeq_epi8(actionMask, actionMask);
+
+	actionMask = _mm_xor_si128(actionMask, stencilPass);
+
+	actionMask = _mm_and_si128(actionMask, coverage);
+
+	/*
 	__asm
 	{
 		pcmpeqb xmm7,xmm7;
 		pxor xmm7,xmm2;
 		pand xmm7,xmm5; // xmm7 = ~(stencil pass) & coverage
 	}
+	*/
 
-	DoStencilAction<stencilBits,stencilFailFunc,codeVersion>();
-
-				
+	DoStencilAction<stencilBits,stencilFailFunc,codeVersion>(stencilValue,stencilCompareRef,actionMask);
+					
 	// stencil pass + depth pass
+
+	actionMask = _mm_and_si128(stencilPass, depthPass);
+	actionMask = _mm_and_si128(actionMask, coverage);
+
+	/*
 	__asm
 	{
 		movdqa xmm7,xmm2;
 		pand xmm7,xmm4;
 		pand xmm7,xmm5; // xmm7 = (stencil pass) & (depth pass) & coverage
 	}
+	*/
 
-	DoStencilAction<stencilBits,depthPassFunc,codeVersion>();
-
-				
+	DoStencilAction<stencilBits,depthPassFunc,codeVersion>(stencilValue, stencilCompareRef, actionMask);
+					
 	// stencil pass + depth fail
+
+	actionMask = _mm_andnot_si128(depthPass, stencilPass);
+	actionMask = _mm_and_si128(actionMask, coverage);
+
+	/*
 	__asm
 	{
 		movdqa xmm7,xmm4;
 		pandn xmm7,xmm2;
 		pand xmm7,xmm5; // xmm7 = (stencil pass) & ~(depth pass) & coverage
 	}
+	*/
 	
-	DoStencilAction<stencilBits,depthFailFunc,codeVersion>();
+	DoStencilAction<stencilBits,depthFailFunc,codeVersion>(stencilValue, stencilCompareRef, actionMask);
 }
 
 //****************************************************************************************
