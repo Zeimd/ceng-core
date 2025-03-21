@@ -187,7 +187,7 @@ namespace Ceng
 }
 
 template<DEPTH_FORMAT format,Ceng::TEST_TYPE::value depthTest,X86_VERSION codeVersion>
-inline void DepthTest()
+inline void DepthTest(__m128* depthVar, __m128* depthBuffer, __m128i* stencilMask, __m128i* out_depthPassMask, __m128i* out_combinedMask)
 {
 	// reserved: xmm0,xmm1,xmm2,xmm3,xmm4
 
@@ -208,71 +208,122 @@ inline void DepthTest()
 }
 
 template<>
-inline void DepthTest<DEPTH_FORMAT::DF_FLOAT32,Ceng::TEST_TYPE::LESS,X86_VERSION::SSE2>()
+inline void DepthTest<DEPTH_FORMAT::DF_FLOAT32,Ceng::TEST_TYPE::LESS,X86_VERSION::SSE2>(
+	__m128* depthVar, __m128* depthBuffer, __m128i* stencilMask, __m128i* out_depthPassMask, __m128i* out_combinedMask)
 {
+	__m128 temp = _mm_cmplt_ps(*depthVar, *depthBuffer);
+
+	*out_combinedMask = *(__m128i*) & temp;
+
+	/*
 	__asm
 	{
 		movaps xmm6,xmm1;
 		cmpltps xmm6,xmm5; // xmm6 < xmm5
 	}
+	*/
 }
 
 template<>
-inline void DepthTest<DEPTH_FORMAT::DF_FLOAT32,Ceng::TEST_TYPE::LESS_EQ,X86_VERSION::SSE2>()
+inline void DepthTest<DEPTH_FORMAT::DF_FLOAT32,Ceng::TEST_TYPE::LESS_EQ,X86_VERSION::SSE2>(
+	__m128* depthVar, __m128* depthBuffer, __m128i* stencilMask, __m128i* out_depthPassMask, __m128i* out_combinedMask)
 {
+	__m128 temp = _mm_cmple_ps(*depthVar, *depthBuffer);
+
+	*out_combinedMask = *(__m128i*) & temp;
+
+	/*
 	__asm
 	{
 		movaps xmm6,xmm1;
 		cmpleps xmm6,xmm5; // xmm6 <= xmm5
 	}
+	*/
 }
 
 template<>
-inline void DepthTest<DEPTH_FORMAT::DF_FLOAT32,Ceng::TEST_TYPE::EQUAL,X86_VERSION::SSE2>()
+inline void DepthTest<DEPTH_FORMAT::DF_FLOAT32,Ceng::TEST_TYPE::EQUAL,X86_VERSION::SSE2>(
+	__m128* depthVar, __m128* depthBuffer, __m128i* stencilMask, __m128i* out_depthPassMask, __m128i* out_combinedMask)
 {
+	__m128 temp = _mm_cmpeq_ps(*depthVar, *depthBuffer);
+
+	*out_combinedMask = *(__m128i*) & temp;
+
+	/*
 	__asm
 	{
 		movaps xmm6,xmm1;
 		cmpeqps xmm6,xmm5; 
 	}
+	*/
 }
 
 template<>
-inline void DepthTest<DEPTH_FORMAT::DF_FLOAT32,Ceng::TEST_TYPE::ABOVE_EQ,X86_VERSION::SSE2>()
+inline void DepthTest<DEPTH_FORMAT::DF_FLOAT32,Ceng::TEST_TYPE::ABOVE_EQ,X86_VERSION::SSE2>(
+	__m128* depthVar, __m128* depthBuffer, __m128i* stencilMask, __m128i* out_depthPassMask, __m128i* out_combinedMask)
 {
+	__m128 temp = _mm_cmplt_ps(*depthBuffer, *depthVar);
+
+	*out_combinedMask = *(__m128i*) & temp;
+
+	/*
 	__asm
 	{
 		movaps xmm6,xmm5;
 		cmpltps xmm6,xmm1; // xmm0 >= xmm6
 	}
+	*/
 }
 
 template<>
-inline void DepthTest<DEPTH_FORMAT::DF_FLOAT32,Ceng::TEST_TYPE::ABOVE,X86_VERSION::SSE2>()
+inline void DepthTest<DEPTH_FORMAT::DF_FLOAT32,Ceng::TEST_TYPE::ABOVE,X86_VERSION::SSE2>(
+	__m128* depthVar, __m128* depthBuffer, __m128i* stencilMask, __m128i* out_depthPassMask, __m128i* out_combinedMask)
 {
+	__m128 temp = _mm_cmple_ps(*depthBuffer, *depthVar);
+
+	*out_combinedMask = *(__m128i*) & temp;
+
+	/*
 	__asm
 	{
 		movaps xmm6,xmm5;
 		cmpleps xmm6,xmm1; // xmm0 > xmm6
 	}
+	*/
 }
 
 template<>
-inline void DepthTest<DEPTH_FORMAT::DF_FLOAT32,Ceng::TEST_TYPE::ALWAYS_PASS,X86_VERSION::SSE2>()
+inline void DepthTest<DEPTH_FORMAT::DF_FLOAT32,Ceng::TEST_TYPE::ALWAYS_PASS,X86_VERSION::SSE2>(
+	__m128* depthVar, __m128* depthBuffer, __m128i* stencilMask, __m128i* out_depthPassMask, __m128i* out_combinedMask)
 {
+	__m128 temp = _mm_cmpeq_ps(*depthBuffer, *depthBuffer);
+
+	*out_combinedMask = *(__m128i*) & temp;
+
+	/*
 	__asm
 	{
 		cmpeqps xmm6,xmm6;
 	}
+	*/
 }
 
 template<>
-inline void DepthTest<DEPTH_FORMAT::DF_FLOAT32,Ceng::TEST_TYPE::NEVER_PASS,X86_VERSION::SSE2>()
+inline void DepthTest<DEPTH_FORMAT::DF_FLOAT32,Ceng::TEST_TYPE::NEVER_PASS,X86_VERSION::SSE2>(
+	__m128* depthVar, __m128* depthBuffer, __m128i* stencilMask, __m128i* out_depthPassMask, __m128i* out_combinedMask)
 {
+	__m128 temp;
+	
+	temp = _mm_xor_ps(temp, temp);
+
+	*out_combinedMask = *(__m128i*) & temp;
+
+	/*
 	__asm
 	{
 		xorps xmm6,xmm6;
 	}
+	*/
 }
 
 //***********************************************************************************
