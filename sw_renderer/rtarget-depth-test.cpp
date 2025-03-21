@@ -330,53 +330,84 @@ inline void DepthTest<DEPTH_FORMAT::DF_FLOAT32,Ceng::TEST_TYPE::NEVER_PASS,X86_V
 // PrepareDepth
 
 template<bool depthEnable,DEPTH_FORMAT depthFormat,X86_VERSION codeVersion>
-inline void PrepareDepth(void *depthValues)
+inline __m128 PrepareDepth(void *depthValues)
 {
+	__m128 temp;
+
+	temp = _mm_xor_ps(temp, temp);
+
+	return temp;
 }
 
 template<>
-inline void PrepareDepth<true,DEPTH_FORMAT::DF_FLOAT32,X86_VERSION::SSE2>(void *depthValues)
+inline __m128 PrepareDepth<true,DEPTH_FORMAT::DF_FLOAT32,X86_VERSION::SSE2>(void *depthValues)
 {
+	__m128 temp = _mm_load_ps((float*)depthValues);
+	return temp;
+
+	/*
 	__asm
 	{
 		mov eax,depthValues;
 		movaps xmm1,[eax];
 	}
+	*/
 }
 
 //***********************************************************************************
 // DepthStepY
 
 template<bool depthEnable,DEPTH_FORMAT depthFormat,X86_VERSION codeVersion>
-inline void DepthStepY(void *depthStepY)
+inline void DepthStepY(void* depthValues, void *depthStepY)
 {
 }
 
 template<>
-inline void DepthStepY<true,DEPTH_FORMAT::DF_FLOAT32,X86_VERSION::SSE2>(void *depthStepY)
+inline void DepthStepY<true,DEPTH_FORMAT::DF_FLOAT32,X86_VERSION::SSE2>(void* depthValues, void *depthStepY)
 {
+	__m128 depth = _mm_load_ps((float*)depthValues);
+
+	__m128 temp = _mm_load_ps((float*)depthStepY);
+
+	depth = _mm_add_ps(depth, temp);
+
+	/*
 	__asm
 	{
 		mov eax,depthStepY;
 		addps xmm1,[eax];
 	}
+	*/
 }
 
 //*****************************************************************************************
 // template DepthWrite
 
 template<bool depthWrite,X86_VERSION codeVersion>
-inline void DepthWrite(POINTER depthAddress)
+inline void DepthWrite(POINTER depthAddress, void* depthValues, void* depthBuffer, void* depthPass)
 {
 }
 
 template<>
-inline void DepthWrite<true,X86_VERSION::SSE2>(POINTER depthAddress)
+inline void DepthWrite<true,X86_VERSION::SSE2>(POINTER depthAddress, void* depthValues, void* depthBuffer, void* depthPass)
 {
 	// xmm1 = depth variables
 	// xmm5 = depth buffer values
 	// xmm6 = depth pass mask
-	
+
+	__m128i source = _mm_load_si128((__m128i*)depthValues);
+	__m128i dest = _mm_load_si128((__m128i*)depthBuffer);
+	__m128i mask = _mm_load_si128((__m128i*)depthPass);
+
+	__m128i sourceMasked = _mm_and_si128(source, mask);
+
+	__m128i destMasked = _mm_andnot_si128(mask, dest);
+
+	__m128i writeValue = _mm_or_si128(sourceMasked, destMasked);
+
+	_mm_store_si128((__m128i*)depthAddress, writeValue);
+
+	/*
 	__asm
 	{
 		movdqa xmm0,xmm1;
@@ -388,6 +419,7 @@ inline void DepthWrite<true,X86_VERSION::SSE2>(POINTER depthAddress)
 		mov edi,depthAddress;
 		movdqa [edi],xmm0;
 	}
+	*/
 }
 
 template<Ceng::UINT32 stencilBits,Ceng::STENCIL_ACTION::value action,X86_VERSION codeVersion>
