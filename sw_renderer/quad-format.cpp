@@ -454,7 +454,7 @@ CRESULT CR_QuadFormat::SetRenderTargets(Ceng::UINT32 targetNum)
 {
 	// Add space for render targets
 
-	quadSize = targetStart + sizeof(POINTER)*targetNum;
+	quadSize = Ceng::UINT32(targetStart + sizeof(POINTER)*targetNum);
 
 	UINT32 remainder = quadSize % 16;
 

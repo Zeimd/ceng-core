@@ -387,7 +387,7 @@ const CRESULT CR_Rasterizer::TriangleSetup(CR_PrimitiveData &primitive,
 
 	CR_NewTargetData *target = renderState->renderTargets[2].get();
 
-	buckets = target->bucketAreas.size();
+	buckets = Ceng::UINT32(target->bucketAreas.size());
 
 	for(Ceng::UINT32 k=0; k < buckets; k++)
 	{
