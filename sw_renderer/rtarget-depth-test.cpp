@@ -6,6 +6,8 @@
 *
 *****************************************************************************/
 
+#include <intrin.h>
+#include <mmintrin.h>
 #include <xmmintrin.h>
 #include <emmintrin.h>
 
@@ -82,7 +84,7 @@ enum X86_VERSION
  *
  * xmm3 = output
  */
-void GetCoverageMask16_x86_SSE2(Ceng::UINT32 coverageMask,Ceng::IMAGE_FORMAT::value format)
+__m128i GetCoverageMask16_x86_SSE2(Ceng::UINT32 coverageMask,Ceng::IMAGE_FORMAT::value format)
 {
 	switch(format)
 	{
@@ -107,6 +109,37 @@ void GetCoverageMask16_x86_SSE2(Ceng::UINT32 coverageMask,Ceng::IMAGE_FORMAT::va
 	case Ceng::IMAGE_FORMAT::D32F_IW_S8:
 	case Ceng::IMAGE_FORMAT::D32F_W_S8:
 
+		Ceng::UINT32 index = coverageMask & 15;		
+
+		__m128i out = _mm_loadu_si32((Ceng::UINT32*) & coverageTable16[4 * index]);
+
+		index = (coverageMask >> 4) & 15;
+
+		__m128i read = _mm_loadu_si32((Ceng::UINT32*)&coverageTable16[4 * index]);
+
+		read = _mm_slli_si128(read, 4);
+
+		out = _mm_or_si128(out, read);
+
+		index = (coverageMask >> 8) & 15;
+
+		read = _mm_loadu_si32((Ceng::UINT32*)&coverageTable16[4 * index]);
+
+		read = _mm_slli_si128(read, 8);
+
+		out = _mm_or_si128(out, read);
+
+		index = (coverageMask >> 12) & 15;
+
+		read = _mm_loadu_si32((Ceng::UINT32*)&coverageTable16[4 * index]);
+
+		read = _mm_slli_si128(read, 12);
+
+		out = _mm_or_si128(out, read);
+
+		return out;
+
+		/*
 		__asm
 		{
 			mov eax,coverageMask;
@@ -136,6 +169,7 @@ void GetCoverageMask16_x86_SSE2(Ceng::UINT32 coverageMask,Ceng::IMAGE_FORMAT::va
 			pslldq xmm4,12;
 			por xmm3,xmm4;
 		}
+		*/
 
 		break;
 	}
