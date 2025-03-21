@@ -54,7 +54,7 @@ namespace Ceng
 		AlignedBuffer<CR_PixelShaderInput> inputRegisters;
 
 		UINT32 quadSizeBytes;
-		UINT32 quadTargetStart;
+		POINTER quadTargetStart;
 
 		/**
 		 * Temporary buffer for current quad.

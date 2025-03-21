@@ -19,8 +19,8 @@ namespace Ceng
 		UINT32 *depthTarget = (UINT32*)bufferPtr;
 		UINT32 *value = (UINT32*)fillVec;
 		
-		UINT32 k;
-		UINT32 index = 0;
+		POINTER k;
+		POINTER index = 0;
 
 		for(k=0;k<vecAmount;k++)
 		{
@@ -48,10 +48,10 @@ namespace Ceng
 
 		float *writePtr = (float*)bufferPtr;
 
-		Ceng::UINT32 blocks = vecAmount >> 2;
-		Ceng::UINT32 remainder = vecAmount & 3;
+		Ceng::POINTER blocks = vecAmount >> 2;
+		Ceng::POINTER remainder = vecAmount & 3;
 
-		for (Ceng::UINT32 k = 0; k < blocks; k++)
+		for (Ceng::POINTER k = 0; k < blocks; k++)
 		{
 			_mm_stream_ps(&writePtr[16 * k], fill);
 			_mm_stream_ps(&writePtr[16 * k+4], fill);
@@ -59,7 +59,7 @@ namespace Ceng
 			_mm_stream_ps(&writePtr[16 * k+12], fill);
 		}
 
-		for (Ceng::UINT32 k = 0; k < remainder; k++)
+		for (Ceng::POINTER k = 0; k < remainder; k++)
 		{
 			_mm_stream_ps(&writePtr[4 * k], fill);
 		}

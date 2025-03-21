@@ -123,7 +123,8 @@ PixelShaderInstance::PixelShaderInstance(const PixelShaderInstance &source)
 
 	// Write correct addresses to uniformPtr
 
-	uniformPtr = AlignedBuffer<Ceng::UINT8*>(shader->uniformList.size(),shader->cacheLine);
+	uniformPtr = AlignedBuffer<Ceng::UINT8*>(
+		Ceng::UINT32(shader->uniformList.size()),shader->cacheLine);
 	ConfigureUniforms(shader->uniformList,shader->uniformBufferSize);
 
 	ConfigureLocals();
@@ -168,7 +169,8 @@ const CRESULT PixelShaderInstance::ConfigureInput(std::vector<CR_PixelShaderSema
 
 	if (inputRegisters == nullptr)
 	{
-		inputRegisters = AlignedBuffer<CR_PixelShaderInput>(inputSemantics.size(),shader->cacheLine);
+		inputRegisters = AlignedBuffer<CR_PixelShaderInput>(
+			Ceng::UINT32(inputSemantics.size()),shader->cacheLine);
 	}
 
 	// Set up references to input variables
@@ -237,7 +239,8 @@ const CRESULT PixelShaderInstance::ConfigureOutput(std::vector<CR_PixelShaderTar
 
 	if (outputRegisters == nullptr)
 	{
-		outputRegisters = AlignedBuffer<CR_psOutputRegister>(renderTargets.size(),shader->cacheLine);
+		outputRegisters = AlignedBuffer<CR_psOutputRegister>(
+			Ceng::UINT32(renderTargets.size()),shader->cacheLine);
 	}
 
 	for(k=0;k<renderTargets.size();k++)
@@ -295,7 +298,8 @@ const CRESULT PixelShaderInstance::ConfigureUniforms(const std::vector<CR_Shader
 
 	if (uniformPtr == nullptr)
 	{
-		uniformPtr = AlignedBuffer<UINT8*>(uniformList.size(),shader->cacheLine);
+		uniformPtr = AlignedBuffer<UINT8*>(
+			Ceng::UINT32(uniformList.size()),shader->cacheLine);
 	}
 
 	Ceng::UINT32 k;
@@ -469,9 +473,9 @@ const CRESULT PixelShaderInstance::ProcessQuads(Task_PixelShader *batch, const C
 
 	CR_TriangleData *triangle;
 
-	UINT32 quadFloatOffset = quadFormat->floatStart;
-	UINT32 quadDoubleOffset = quadFormat->doubleStart;
-	UINT32 quadTargetOffset = quadFormat->targetStart;
+	UINT32 quadFloatOffset = Ceng::UINT32(quadFormat->floatStart);
+	UINT32 quadDoubleOffset = Ceng::UINT32(quadFormat->doubleStart);
+	UINT32 quadTargetOffset = Ceng::UINT32(quadFormat->targetStart);
 
 	UINT8 *inputBuffer = quadBuffer;
 	UINT8 *localCoverage;
@@ -595,7 +599,7 @@ const CRESULT PixelShaderInstance::ProcessQuads(Task_PixelShader *batch, const C
 				_mm_store_ps((float*)localPerspective, perspectiveVec);
 				_mm_store_ps((float*)invertW, invertVecW);
 
-				ShaderFunction(&localPerspective[0],&invertW[0],coverageAddress,threadId);
+				ShaderFunction(&localPerspective[0],&invertW[0],Ceng::INT32(coverageAddress),threadId);
 
 				// Second quad
 
@@ -607,7 +611,7 @@ const CRESULT PixelShaderInstance::ProcessQuads(Task_PixelShader *batch, const C
 				_mm_store_ps((float*)localPerspective, perspectiveVec);
 				_mm_store_ps((float*)invertW, invertVecW);
 
-				ShaderFunction(&localPerspective[0],&invertW[0],coverageAddress,threadId);
+				ShaderFunction(&localPerspective[0],&invertW[0],Ceng::INT32(coverageAddress),threadId);
 
 				// Third quad
 
@@ -619,7 +623,7 @@ const CRESULT PixelShaderInstance::ProcessQuads(Task_PixelShader *batch, const C
 				_mm_store_ps((float*)localPerspective, perspectiveVec);
 				_mm_store_ps((float*)invertW, invertVecW);
 
-				ShaderFunction(&localPerspective[0],&invertW[0],coverageAddress,threadId);
+				ShaderFunction(&localPerspective[0],&invertW[0],Ceng::INT32(coverageAddress),threadId);
 
 				// Fourth quad
 
@@ -631,7 +635,7 @@ const CRESULT PixelShaderInstance::ProcessQuads(Task_PixelShader *batch, const C
 				_mm_store_ps((float*)localPerspective, perspectiveVec);
 				_mm_store_ps((float*)invertW, invertVecW);
 
-				ShaderFunction(&localPerspective[0],&invertW[0],coverageAddress,threadId);
+				ShaderFunction(&localPerspective[0],&invertW[0],Ceng::INT32(coverageAddress),threadId);
 
 			}
 
@@ -646,7 +650,7 @@ const CRESULT PixelShaderInstance::ProcessQuads(Task_PixelShader *batch, const C
 				_mm_store_ps((float*)invertW, invertVecW);
 
 				// Process the quad
-				ShaderFunction(&localPerspective[0], &invertW[0],coverageAddress,threadId);
+				ShaderFunction(&localPerspective[0], &invertW[0],Ceng::INT32(coverageAddress),threadId);
 			}
 		}
 		else
@@ -674,7 +678,7 @@ const CRESULT PixelShaderInstance::ProcessQuads(Task_PixelShader *batch, const C
 				coverageAddress = coverageIndex;
 
 				// Process the quad
-				ShaderFunction(&localPerspective[0],&invertW[0],coverageAddress,threadId);	
+				ShaderFunction(&localPerspective[0],&invertW[0],Ceng::INT32(coverageAddress),threadId);	
 			}
 		}
 	}

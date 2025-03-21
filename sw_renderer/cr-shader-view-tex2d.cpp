@@ -645,10 +645,10 @@ void CR_ShaderViewTex2D::Nearest_SSE2(const Ceng::INT32 *uFX, const Ceng::INT32 
 
 	_declspec(align(16)) TiledAddress addressScale;
 
-	addressScale.tileStepX = textures[mipLevel]->tileXstep;
-	addressScale.tileStepY = textures[mipLevel]->tileYstep;
-	addressScale.posStepX = textures[mipLevel]->channels[0].unitXstep;
-	addressScale.posStepY = textures[mipLevel]->channels[0].unitYstep;
+	addressScale.tileStepX = Ceng::INT16(textures[mipLevel]->tileXstep);
+	addressScale.tileStepY = Ceng::INT16(textures[mipLevel]->tileYstep);
+	addressScale.posStepX = Ceng::INT16(textures[mipLevel]->channels[0].unitXstep);
+	addressScale.posStepY = Ceng::INT16(textures[mipLevel]->channels[0].unitYstep);
 
 	__m128i addressVec = GenerateTiledAddress(textures[mipLevel]->baseAddress, addressScale, uvVec);
 
@@ -1084,10 +1084,10 @@ void CR_ShaderViewTex2D::Linear_SSE2(const Ceng::INT32 *uFX, const Ceng::INT32 *
 
 	_declspec(align(16)) TiledAddress addressScale;
 
-	addressScale.tileStepX = textures[mipLevel]->tileXstep;
-	addressScale.tileStepY = textures[mipLevel]->tileYstep;
-	addressScale.posStepX = textures[mipLevel]->channels[0].unitXstep;
-	addressScale.posStepY = textures[mipLevel]->channels[0].unitYstep;
+	addressScale.tileStepX = Ceng::INT16(textures[mipLevel]->tileXstep);
+	addressScale.tileStepY = Ceng::INT16(textures[mipLevel]->tileYstep);
+	addressScale.posStepX = Ceng::INT16(textures[mipLevel]->channels[0].unitXstep);
+	addressScale.posStepY = Ceng::INT16(textures[mipLevel]->channels[0].unitYstep);
 
 	__m128i topLeftAdr = GenerateTiledAddress(textures[mipLevel]->baseAddress, addressScale, uvVec);
 

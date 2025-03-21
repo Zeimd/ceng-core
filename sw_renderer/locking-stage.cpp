@@ -51,7 +51,7 @@ LockingStage& LockingStage::operator = (LockingStage &&source)
 
 const Ceng::UINT32 LockingStage::Buckets() const
 {
-	return queue.size();
+	return Ceng::UINT32(queue.size());
 }
 
 const Ceng::CRESULT LockingStage::AddTask(const Ceng::UINT32 bucket,std::shared_ptr<LockingTask> &task)

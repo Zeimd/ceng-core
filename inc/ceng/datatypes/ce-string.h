@@ -508,6 +508,10 @@ namespace Ceng
 
 		void Append(const Ceng::UINT32 value);
 
+		void Append(const Ceng::INT64 value);
+
+		void Append(const Ceng::UINT64 value);
+
 	protected:
 
 		void ChainedAppend(const CHAR32 unicode);
@@ -1908,6 +1912,26 @@ namespace Ceng
 		char digits[16];
 
 		sprintf_s(digits,"%u",value);
+
+		Append(digits);
+	}
+
+	template<class STRING_CONFIG>
+	void BaseString<STRING_CONFIG>::Append(const Ceng::INT64 value)
+	{
+		char digits[64];
+
+		sprintf_s(digits, "%lli", value);
+
+		Append(digits);
+	}
+
+	template<class STRING_CONFIG>
+	void BaseString<STRING_CONFIG>::Append(const Ceng::UINT64 value)
+	{
+		char digits[64];
+
+		sprintf_s(digits, "%llu", value);
 
 		Append(digits);
 	}

@@ -47,7 +47,7 @@ CR_VertexShader::CR_VertexShader()
 	nullBuffer = AlignedBuffer<Ceng::UINT8>(64,64);
 
 	//nullInput.sourceFormat = Ceng::SHADER_DATATYPE::UINT;
-	nullInput.sourceAddress = (UINT32)&nullBuffer[0];
+	nullInput.sourceAddress = (POINTER)&nullBuffer[0];
 
 	nullOutput.destFormat = Ceng::SHADER_DATATYPE::UINT;
 	//nullOutput.destAddress = (UINT32)&nullBuffer[0];
@@ -82,7 +82,7 @@ CRESULT CR_VertexShader::GetConstant(const char *variableName,
 	{
 		if (uniformList[k].name == variableName)
 		{
-			out_index = k;
+			out_index = Ceng::UINT32(k);
 			out_type = uniformList[k].dataType;
 
 			return CE_OK;

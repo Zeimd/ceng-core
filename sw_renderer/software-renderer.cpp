@@ -98,7 +98,7 @@ CRESULT SoftwareRenderer::Configure(CPU_Info *cpuInfo,Graphics2D *devicePtr,
 	cacheLineSize = cpuInfo->CacheLine();
 	
 	// TODO: Better evaluation of core count
-	renderThreadCount = cpuInfo->LogicalCores() - 1;
+	renderThreadCount = Ceng::UINT16(cpuInfo->LogicalCores()) - 1;
 
 	maxScreenSubBuckets = 2*renderThreadCount;
 
@@ -412,7 +412,7 @@ const CRESULT SoftwareRenderer::CopyToTiled(CR_NewTargetData *tiledTex, CR_NewTa
 
 	for (Ceng::UINT32 y = 0; y < sourceTex->bufferHeight; ++y)
 	{
-		sourceOffset = sourceTex->tileYstep*y;
+		sourceOffset = Ceng::UINT32(sourceTex->tileYstep)*y;
 
 		for (Ceng::UINT32 x = 0; x < sourceTex->bufferWidth; ++x)
 		{
@@ -420,7 +420,7 @@ const CRESULT SoftwareRenderer::CopyToTiled(CR_NewTargetData *tiledTex, CR_NewTa
 
 			*destAddress = *(Ceng::UINT32*)&sourceAddress[sourceOffset];
 
-			sourceOffset += sourceTex->bytesPerPixel;
+			sourceOffset += Ceng::UINT32(sourceTex->bytesPerPixel);
 		}
 	}
 
@@ -828,12 +828,12 @@ CRESULT SoftwareRenderer::CreateVertexFormat(const std::vector<Ceng::VertexDeclD
 		return CE_ERR_OUT_OF_MEMORY;
 	}
 
-	UINT32 variableCount = k;
+	UINT32 variableCount = Ceng::UINT32(k);
 
 	UINT32 flagBit = 0;
 	UINT32 variableSizeBytes;
 
-	memset(formatPtr->streamStrides, 0, CRENDER_MAX_VERTEX_STREAMS * sizeof(POINTER));
+	memset(formatPtr->streamStrides, 0, CRENDER_MAX_VERTEX_STREAMS * sizeof(Ceng::UINT32));
 
 	CR_VertexVariable tempVariable;
 

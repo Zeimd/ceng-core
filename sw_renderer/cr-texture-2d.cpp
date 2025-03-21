@@ -73,7 +73,7 @@ const CRESULT CR_Texture2D::GetShaderViewTex2D(const ShaderResourceViewDesc &vie
 	texDesc.height = desc.height >> viewDesc.tex2d.baseMipLevel;
 
 	texDesc.arraySize = 1;
-	texDesc.mipLevels = end-start;
+	texDesc.mipLevels = Ceng::UINT32(end-start);
 
 	*out_view = new CR_ShaderViewTex2D(texDesc, std::move(tempTex));
 
@@ -160,12 +160,12 @@ const CRESULT CR_Texture2D::SuperSampleDown(std::shared_ptr<CR_NewTargetData> &s
 
 	Ceng::UINT8 *sourcePtr = (Ceng::UINT8*)source->baseAddress;
 
-	Ceng::UINT32 bytesPerPixel = source->bytesPerPixel;
-	Ceng::UINT32 sourcePitch = source->tileYstep;
+	Ceng::UINT32 bytesPerPixel = Ceng::UINT32(source->bytesPerPixel);
+	Ceng::UINT32 sourcePitch = Ceng::UINT32(source->tileYstep);
 
 	Ceng::UINT8 *destPtr = (Ceng::UINT8*)out_texture->baseAddress;
 
-	Ceng::UINT32 destPitch = out_texture->tileYstep;
+	Ceng::UINT32 destPitch = Ceng::UINT32(out_texture->tileYstep);
 
 	if (halfHeight > 0)
 	{
