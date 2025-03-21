@@ -19,7 +19,7 @@ x64 target
 
 - [ ] Check that winapi cpu info is still used correctly in x64 mode
 
-- [ ] Implement x64 version of WinProcThunk
+- [X] Implement x64 version of WinProcThunk
 
 - [ ] update string class to use size_t internally in all cases where length is used
 
@@ -77,3 +77,8 @@ Logging
 Filesystem
 
 - [ ] Integrate zip files so that they are seamlessly considered a folder
+
+--------------------------------------------------
+Software renderer
+
+- [ ] Ensure that CR_NewTargetData fields tileXstep, tileYstep, unitXstep, unitYstep can fit in int16_t.
