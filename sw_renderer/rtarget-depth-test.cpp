@@ -802,6 +802,19 @@ template<>
 inline void StencilTest<true,8,Ceng::TEST_TYPE::ABOVE_EQ,X86_VERSION::SSE2>(
 	void* stencilValues, void* stencilCompareRef, void* out_result)
 {
+	__m128i stencil = _mm_load_si128((__m128i*)stencilValues);
+
+	__m128i ref = _mm_load_si128((__m128i*)stencilCompareRef);
+
+	__m128i a = _mm_cmpgt_epi8(ref, stencil);
+
+	__m128i b = _mm_cmpeq_epi8(ref, stencil);
+
+	a = _mm_or_si128(a, b);
+
+	_mm_store_si128((__m128i*)out_result, a);
+
+	/*
 	__asm
 	{
 		movdqa xmm4,xmm3;
@@ -812,6 +825,7 @@ inline void StencilTest<true,8,Ceng::TEST_TYPE::ABOVE_EQ,X86_VERSION::SSE2>(
 		por xmm4,xmm3;
 		movdqa xmm2,xmm4;
 	}
+	*/
 }
 
 template<>
