@@ -718,23 +718,52 @@ inline void PrepareStencilValues<true,8,X86_VERSION::SSE2>(void* stencilValues, 
 //****************************************************************************************
 // Template StencilTest
 
+// xmm2 = stencilValues
+// xmm3 = stencilCompareRef
+// xmm4 = stencilReadMask
+
 template<bool stencilEnable,Ceng::UINT32 stencilBits,Ceng::TEST_TYPE::value stencilTest,X86_VERSION codeVersion>
-inline void StencilTest()
+inline void StencilTest(void* stencilValues, void* stencilCompareRef, void* out_result)
 {
 }
 
 template<>
-inline void StencilTest<true,8,Ceng::TEST_TYPE::LESS,X86_VERSION::SSE2>()
+inline void StencilTest<true,8,Ceng::TEST_TYPE::LESS,X86_VERSION::SSE2>(
+	void* stencilValues, void* stencilCompareRef, void* out_result)
 {
+	__m128i stencil = _mm_load_si128((__m128i*)stencilValues);
+
+	__m128i ref = _mm_load_si128((__m128i*)stencilCompareRef);
+
+	__m128i temp = _mm_cmpgt_epi8(stencil, ref);
+
+	_mm_store_si128((__m128i*)out_result, temp);
+
+	/*
 	__asm
 	{
 		pcmpgtb xmm2,xmm3; // xmm3 < xmm2
 	}
+	*/
 }
 
 template<>
-inline void StencilTest<true,8,Ceng::TEST_TYPE::LESS_EQ,X86_VERSION::SSE2>()
+inline void StencilTest<true,8,Ceng::TEST_TYPE::LESS_EQ,X86_VERSION::SSE2>(
+	void* stencilValues, void* stencilCompareRef, void* out_result)
 {
+	__m128i stencil = _mm_load_si128((__m128i*)stencilValues);
+
+	__m128i ref = _mm_load_si128((__m128i*)stencilCompareRef);
+
+	__m128i a = _mm_cmpgt_epi8(stencil, ref);
+
+	__m128i b = _mm_cmpeq_epi8(stencil, ref);
+
+	a = _mm_or_si128(a, b);
+
+	_mm_store_si128((__m128i*)out_result, a);
+
+	/*
 	__asm
 	{
 		movdqa xmm4,xmm2;
@@ -744,19 +773,32 @@ inline void StencilTest<true,8,Ceng::TEST_TYPE::LESS_EQ,X86_VERSION::SSE2>()
 
 		por xmm2,xmm4;
 	}
+	*/
 }
 
 template<>
-inline void StencilTest<true,8,Ceng::TEST_TYPE::EQUAL,X86_VERSION::SSE2>()
+inline void StencilTest<true,8,Ceng::TEST_TYPE::EQUAL,X86_VERSION::SSE2>(
+	void* stencilValues, void* stencilCompareRef, void* out_result)
 {
+	__m128i stencil = _mm_load_si128((__m128i*)stencilValues);
+
+	__m128i ref = _mm_load_si128((__m128i*)stencilCompareRef);
+
+	__m128i temp = _mm_cmpeq_epi8(stencil, ref);
+
+	_mm_store_si128((__m128i*)out_result, temp);
+
+	/*
 	__asm
 	{
 		pcmpeqb xmm2,xmm3;
 	}
+	*/
 }
 
 template<>
-inline void StencilTest<true,8,Ceng::TEST_TYPE::ABOVE_EQ,X86_VERSION::SSE2>()
+inline void StencilTest<true,8,Ceng::TEST_TYPE::ABOVE_EQ,X86_VERSION::SSE2>(
+	void* stencilValues, void* stencilCompareRef, void* out_result)
 {
 	__asm
 	{
@@ -771,18 +813,45 @@ inline void StencilTest<true,8,Ceng::TEST_TYPE::ABOVE_EQ,X86_VERSION::SSE2>()
 }
 
 template<>
-inline void StencilTest<true,8,Ceng::TEST_TYPE::ABOVE,X86_VERSION::SSE2>()
+inline void StencilTest<true,8,Ceng::TEST_TYPE::ABOVE,X86_VERSION::SSE2>(
+	void* stencilValues, void* stencilCompareRef, void* out_result)
 {
+	__m128i stencil = _mm_load_si128((__m128i*)stencilValues);
+
+	__m128i ref = _mm_load_si128((__m128i*)stencilCompareRef);
+
+	__m128i temp = _mm_cmpgt_epi8(ref, stencil);
+
+	_mm_store_si128((__m128i*)out_result, temp);
+
+	/*
 	__asm
 	{
 		pcmpgtb xmm3,xmm2;
 		movdqa xmm2,xmm3;
 	}
+	*/
 }
 
 template<>
-inline void StencilTest<true,8,Ceng::TEST_TYPE::NOT_EQUAL,X86_VERSION::SSE2>()
+inline void StencilTest<true,8,Ceng::TEST_TYPE::NOT_EQUAL,X86_VERSION::SSE2>(
+	void* stencilValues, void* stencilCompareRef, void* out_result)
 {	
+	__m128i stencil = _mm_load_si128((__m128i*)stencilValues);
+
+	__m128i ref = _mm_load_si128((__m128i*)stencilCompareRef);
+
+	__m128i allOnes;
+	
+	allOnes = _mm_cmpeq_epi32(allOnes, allOnes);
+
+	__m128i temp = _mm_cmpeq_epi8(stencil, ref);
+
+	temp = _mm_xor_si128(allOnes, temp);
+
+	_mm_store_si128((__m128i*)out_result, temp);
+
+	/*
 	__asm
 	{
 		pcmpeqb xmm4,xmm4;
@@ -790,40 +859,67 @@ inline void StencilTest<true,8,Ceng::TEST_TYPE::NOT_EQUAL,X86_VERSION::SSE2>()
 		pcmpeqb xmm2,xmm3;
 		pxor xmm2,xmm4;
 	}
+	*/
 }
 
 template<>
-inline void StencilTest<true,8,Ceng::TEST_TYPE::ALWAYS_PASS,X86_VERSION::SSE2>()
+inline void StencilTest<true,8,Ceng::TEST_TYPE::ALWAYS_PASS,X86_VERSION::SSE2>(
+	void* stencilValues, void* stencilCompareRef, void* out_result)
 {
+	__m128i temp;
+
+	temp = _mm_cmpeq_epi8(temp, temp);
+
+	_mm_store_si128((__m128i*)out_result, temp);
+
+	/*
 	__asm
 	{
 		pcmpeqb xmm2,xmm2;
 	}
+	*/
 }
 
 template<>
-inline void StencilTest<true,8,Ceng::TEST_TYPE::NEVER_PASS,X86_VERSION::SSE2>()
+inline void StencilTest<true,8,Ceng::TEST_TYPE::NEVER_PASS,X86_VERSION::SSE2>(
+	void* stencilValues, void* stencilCompareRef, void* out_result)
 {
+	__m128i temp;
+
+	temp = _mm_xor_si128(temp, temp);
+
+	_mm_store_si128((__m128i*)out_result, temp);
+
+	/*
 	__asm
 	{
 		pxor xmm2,xmm2;
 	}
+	*/
 }
 
 //****************************************************************************************
 // template TrivialStencilTest
 template<bool stencilEnable,X86_VERSION codeVersion>
-inline void TrivialStencilTest()
+inline void TrivialStencilTest(void* out_result)
 {
 }
 
 template<>
-void TrivialStencilTest<false,X86_VERSION::SSE2>()
+void TrivialStencilTest<false,X86_VERSION::SSE2>(void* out_result)
 {
+	__m128i temp;
+
+	temp = _mm_xor_si128(temp, temp);
+
+	_mm_store_si128((__m128i*)out_result, temp);
+
+	/*
 	__asm
 	{
 		pcmpeqb xmm2,xmm2;
 	}
+	*/
 }
 
 //****************************************************************************************
