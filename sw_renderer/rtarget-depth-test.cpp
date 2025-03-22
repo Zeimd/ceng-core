@@ -1520,7 +1520,7 @@ void CR_NewTargetData::DepthStencilTestTile(const Ceng::UINT32 tileSize,const Ce
 
 				// Reload stencil buffer values
 
-				__m128i stencil = _mm_load_si128((__m128i*)stencilAddress);
+				//__m128i stencil = _mm_load_si128((__m128i*)stencilAddress);
 
 				/*
 				__asm
@@ -1532,7 +1532,7 @@ void CR_NewTargetData::DepthStencilTestTile(const Ceng::UINT32 tileSize,const Ce
 
 				// Reload stencil pass mask
 
-				__m128i stencilPass = _mm_load_si128((__m128i*)stencilPassTemp);
+				//__m128i stencilPass = _mm_load_si128((__m128i*)stencilPassTemp);
 				/*
 				__asm
 				{
@@ -1540,7 +1540,7 @@ void CR_NewTargetData::DepthStencilTestTile(const Ceng::UINT32 tileSize,const Ce
 				}
 				*/
 
-				__m128i coverage = _mm_load_si128((__m128i*)coverageTemp);
+				//__m128i coverage = _mm_load_si128((__m128i*)coverageTemp);
 
 				/*
 				// Reload coverage mask
@@ -1550,7 +1550,7 @@ void CR_NewTargetData::DepthStencilTestTile(const Ceng::UINT32 tileSize,const Ce
 				}
 				*/
 
-				__m128i stencilRef = _mm_load_si128((__m128i*)stencilRefArray);
+				//__m128i stencilRef = _mm_load_si128((__m128i*)stencilRefArray);
 
 				/*
 				// Load stencil reference value
