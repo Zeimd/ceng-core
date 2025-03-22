@@ -1163,6 +1163,8 @@ void CR_NewTargetData::DepthStencilTestTile(const Ceng::UINT32 tileSize,const Ce
 
 	UINT32 finalMask;	
 
+	__m128 depth = _mm_load_ps((float*)depthValues);
+
 	for(quadY=0;quadY<4;quadY++)
 	{
 		finalMask = 0;
@@ -1210,6 +1212,8 @@ void CR_NewTargetData::DepthStencilTestTile(const Ceng::UINT32 tileSize,const Ce
 				movdqa coverageTemp,xmm3;
 			}
 			*/
+
+			__m128i depthPassCombined;
 
 			if (dsLocal.depthEnable)
 			{
@@ -1270,7 +1274,7 @@ void CR_NewTargetData::DepthStencilTestTile(const Ceng::UINT32 tileSize,const Ce
 					}
 					*/
 
-					__m128 depth = _mm_load_ps((float*)depthValues);
+					
 
 					__m128i depthPassMask;
  
@@ -1299,15 +1303,27 @@ void CR_NewTargetData::DepthStencilTestTile(const Ceng::UINT32 tileSize,const Ce
 					DepthWrite<true,X86_VERSION::SSE2>(depthAddress, (__m128i*)&depth, &fullMask);
 
 					// Load depth stepping
+
+					__m128 vDepthStepX = _mm_load_ps((float*)depthStepX);
+
+					/*
 					__asm
 					{
 						mov esi,depthStepX;
 						movaps xmm7,[esi];
 					}
+					*/
 	
 					//*******************************************
 					// Second quad
 
+					depth = _mm_add_ps(depth, vDepthStepX);
+
+					quadStencilPass = _mm_unpackhi_epi16(stencilPassLocal, stencilPassLocal);
+
+					depthBufferData = _mm_load_ps((float*)(depthAddress+16));
+
+					/*
 					__asm
 					{
 						addps xmm1,xmm7; // xmm1 += depthStepX
@@ -1325,9 +1341,16 @@ void CR_NewTargetData::DepthStencilTestTile(const Ceng::UINT32 tileSize,const Ce
 						mov edi,depthAddress;
 						movaps xmm5,[edi+16];
 					}
+					*/
 
-					DepthTest<DEPTH_FORMAT::DF_FLOAT32,Ceng::TEST_TYPE::LESS,X86_VERSION::SSE2>();
+					DepthTest<DEPTH_FORMAT::DF_FLOAT32,Ceng::TEST_TYPE::LESS,X86_VERSION::SSE2>(
+					&depth,&depthBufferData,&quadStencilPass,&depthPassMask);
 
+					__m128i fullMask = _mm_and_si128(quadStencilPass, depthPassMask);
+
+					finalMask |= _mm_movemask_ps(*(__m128*) & fullMask) << 4;
+
+					/*
 					// Extract final visibility mask
 					__asm
 					{
@@ -1345,6 +1368,7 @@ void CR_NewTargetData::DepthStencilTestTile(const Ceng::UINT32 tileSize,const Ce
 
 						mov finalMask,eax;
 					}
+					*/
 
 					// Stencil pass + depth pass mask to int8
 					__asm
@@ -1353,10 +1377,13 @@ void CR_NewTargetData::DepthStencilTestTile(const Ceng::UINT32 tileSize,const Ce
 						movdqa depthPassTemp,xmm3;
 					}
 
-					DepthWrite<true,X86_VERSION::SSE2>(depthAddress+16);
+					DepthWrite<true, X86_VERSION::SSE2>(depthAddress+16, (__m128i*)& depth, &fullMask);
 					
 					//***********************************
 					// Third quad
+
+					depth = _mm_add_ps(depth, vDepthStepX);
+					depthBufferData = _mm_load_ps((float*)(depthAddress + 32));
 
 					__asm
 					{
@@ -1375,8 +1402,14 @@ void CR_NewTargetData::DepthStencilTestTile(const Ceng::UINT32 tileSize,const Ce
 						movaps xmm5,[edi+32];
 					}
 
-					DepthTest<DEPTH_FORMAT::DF_FLOAT32,Ceng::TEST_TYPE::LESS,X86_VERSION::SSE2>();
+					DepthTest<DEPTH_FORMAT::DF_FLOAT32, Ceng::TEST_TYPE::LESS, X86_VERSION::SSE2>(
+						&depth, &depthBufferData, &quadStencilPass, &depthPassMask);
 
+					__m128i fullMask = _mm_and_si128(quadStencilPass, depthPassMask);
+
+					finalMask |= _mm_movemask_ps(*(__m128*) & fullMask) << 8;
+
+					/*
 					__asm
 					{
 						movaps xmm0,xmm6;
@@ -1396,11 +1429,15 @@ void CR_NewTargetData::DepthStencilTestTile(const Ceng::UINT32 tileSize,const Ce
 
 						mov finalMask,eax;
 					}
+					*/
 
-					DepthWrite<true,X86_VERSION::SSE2>(depthAddress+32);
+					DepthWrite<true, X86_VERSION::SSE2>(depthAddress + 32, (__m128i*)& depth, &fullMask);
 
 					//**************************************
 					// Fourth quad
+
+					depth = _mm_add_ps(depth, vDepthStepX);
+					depthBufferData = _mm_load_ps((float*)(depthAddress + 48));
 
 					__asm
 					{
@@ -1417,8 +1454,14 @@ void CR_NewTargetData::DepthStencilTestTile(const Ceng::UINT32 tileSize,const Ce
 						movaps xmm5,[edi+48];
 					}
 
-					DepthTest<DEPTH_FORMAT::DF_FLOAT32,Ceng::TEST_TYPE::LESS,X86_VERSION::SSE2>();
+					DepthTest<DEPTH_FORMAT::DF_FLOAT32, Ceng::TEST_TYPE::LESS, X86_VERSION::SSE2>(
+						&depth, &depthBufferData, &quadStencilPass, &depthPassMask);
 
+					__m128i fullMask = _mm_and_si128(quadStencilPass, depthPassMask);
+
+					finalMask |= _mm_movemask_ps(*(__m128*) & fullMask) << 12;
+
+					/*
 					// Extract final visibility mask
 					__asm
 					{
@@ -1435,6 +1478,7 @@ void CR_NewTargetData::DepthStencilTestTile(const Ceng::UINT32 tileSize,const Ce
 
 						mov finalMask,eax;
 					}
+					*/
 
 					__asm
 					{
@@ -1444,7 +1488,7 @@ void CR_NewTargetData::DepthStencilTestTile(const Ceng::UINT32 tileSize,const Ce
 						packsswb xmm4,xmm3;
 					}
 
-					DepthWrite<true,X86_VERSION::SSE2>(depthAddress+48);
+					DepthWrite<true, X86_VERSION::SSE2>(depthAddress + 48, (__m128i*)& depth, &fullMask);
 
 					break;
 				}
@@ -1454,11 +1498,17 @@ void CR_NewTargetData::DepthStencilTestTile(const Ceng::UINT32 tileSize,const Ce
 			{
 				// depth test disabled
 
+				depthPassCombined = _mm_cmpeq_epi8(depthPassCombined, depthPassCombined);
+
+				/*
 				__asm
 				{
 					cmpeqps xmm4,xmm4;
 				}
+				*/
 			}
+
+			_mm_store_si128((__m128i*)depthPassTemp, depthPassCombined);
 
 			// xmm0 = stencil buffer values
 
@@ -1467,38 +1517,59 @@ void CR_NewTargetData::DepthStencilTestTile(const Ceng::UINT32 tileSize,const Ce
 
 			if (dsLocal.stencilEnable)
 			{
+
 				// Reload stencil buffer values
+
+				__m128i stencil = _mm_load_si128((__m128i*)stencilAddress);
+
+				/*
 				__asm
 				{
 					mov esi,stencilAddress;
 					movdqa xmm0,[esi];
 				}
+				*/
 
 				// Reload stencil pass mask
+
+				__m128i stencilPass = _mm_load_si128((__m128i*)stencilPassTemp);
+				/*
 				__asm
 				{
 					movdqa xmm2,stencilPassTemp;
 				}
+				*/
 
+				__m128i coverage = _mm_load_si128((__m128i*)coverageTemp);
+
+				/*
 				// Reload coverage mask
 				__asm
 				{
 					movdqa xmm5,coverageTemp;
 				}
+				*/
 
+				__m128i stencilRef = _mm_load_si128((__m128i*)stencilRefArray);
+
+				/*
 				// Load stencil reference value
 				__asm
 				{
 					movdqa xmm3,stencilRefArray;
 				}
+				*/
 
-				StencilAction<8,Ceng::STENCIL_ACTION::KEEP,Ceng::STENCIL_ACTION::ZERO,Ceng::STENCIL_ACTION::KEEP,X86_VERSION::SSE2>();
+				StencilAction<8,Ceng::STENCIL_ACTION::KEEP,Ceng::STENCIL_ACTION::ZERO,Ceng::STENCIL_ACTION::KEEP,X86_VERSION::SSE2>
+					((void*)stencilAddress, (void*)compareRefArray, (void*)stencilPassTemp, (void*)depthPassTemp, (void*)coverageTemp);
 				
+				/*
 				__asm
 				{
 					mov edi,stencilAddress;
 					movdqa [edi],xmm0;
 				}
+				*/
 			}
 
 			switch(bufferFormat)
@@ -1526,11 +1597,17 @@ void CR_NewTargetData::DepthStencilTestTile(const Ceng::UINT32 tileSize,const Ce
 		{
 			if (quadY<3)
 			{
+				__m128 vDepthStepY = _mm_load_ps((float*)depthStepY);
+
+				depth = _mm_add_ps(depth, vDepthStepY);
+
+				/*
 				__asm
 				{
 					mov esi,depthStepY;
 					addps xmm1,[esi];
 				}
+				*/
 			}
 		}
 	}
