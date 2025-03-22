@@ -93,3 +93,5 @@ Software renderer
 
 - [ ] Fix the way coverageAddress is used in pixel shader instance and ps output register, so that it's size and purpose is consistent
 
+- [ ] Finish conversion of depth-stencil test to SIMD intrinsics
+
