@@ -384,24 +384,26 @@ inline void DepthStepY<true,DEPTH_FORMAT::DF_FLOAT32,X86_VERSION::SSE2>(void* de
 // template DepthWrite
 
 template<bool depthWrite,X86_VERSION codeVersion>
-inline void DepthWrite(POINTER depthAddress, void* depthValues, void* depthBuffer, void* depthPass)
+inline void DepthWrite(POINTER depthAddress, __m128i* depthValues, __m128i* depthPass)
 {
 }
 
 template<>
-inline void DepthWrite<true,X86_VERSION::SSE2>(POINTER depthAddress, void* depthValues, void* depthBuffer, void* depthPass)
+inline void DepthWrite<true,X86_VERSION::SSE2>(POINTER depthAddress, __m128i* depthValues, __m128i* depthPass)
 {
 	// xmm1 = depth variables
 	// xmm5 = depth buffer values
 	// xmm6 = depth pass mask
 
+	__m128i dest = _mm_load_si128((__m128i*)depthAddress);
+	/*
 	__m128i source = _mm_load_si128((__m128i*)depthValues);
-	__m128i dest = _mm_load_si128((__m128i*)depthBuffer);
 	__m128i mask = _mm_load_si128((__m128i*)depthPass);
+	*/
 
-	__m128i sourceMasked = _mm_and_si128(source, mask);
+	__m128i sourceMasked = _mm_and_si128(*depthValues, *depthPass);
 
-	__m128i destMasked = _mm_andnot_si128(mask, dest);
+	__m128i destMasked = _mm_andnot_si128(*depthPass, dest);
 
 	__m128i writeValue = _mm_or_si128(sourceMasked, destMasked);
 
