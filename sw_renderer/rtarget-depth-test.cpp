@@ -862,10 +862,8 @@ inline void StencilTest<true,8,Ceng::TEST_TYPE::NOT_EQUAL,X86_VERSION::SSE2>(
 
 	__m128i ref = _mm_load_si128((__m128i*)stencilCompareRef);
 
-	__m128i allOnes;
+	__m128i allOnes = _mm_set1_epi64x(-1);
 	
-	allOnes = _mm_cmpeq_epi32(allOnes, allOnes);
-
 	__m128i temp = _mm_cmpeq_epi8(stencil, ref);
 
 	temp = _mm_xor_si128(allOnes, temp);
@@ -887,10 +885,9 @@ template<>
 inline void StencilTest<true,8,Ceng::TEST_TYPE::ALWAYS_PASS,X86_VERSION::SSE2>(
 	void* stencilValues, void* stencilCompareRef, void* out_result)
 {
-	__m128i temp;
-
-	temp = _mm_cmpeq_epi8(temp, temp);
-
+	// Set all ones
+	__m128i temp = _mm_set1_epi64x(-1);
+		
 	_mm_store_si128((__m128i*)out_result, temp);
 
 	/*
@@ -905,9 +902,7 @@ template<>
 inline void StencilTest<true,8,Ceng::TEST_TYPE::NEVER_PASS,X86_VERSION::SSE2>(
 	void* stencilValues, void* stencilCompareRef, void* out_result)
 {
-	__m128i temp;
-
-	temp = _mm_xor_si128(temp, temp);
+	__m128i temp = _mm_setzero_si128();
 
 	_mm_store_si128((__m128i*)out_result, temp);
 
@@ -1218,7 +1213,7 @@ void CR_NewTargetData::DepthStencilTestTile(const Ceng::UINT32 tileSize,const Ce
 			*/
 
 			// Depth pass mask converted to same operand width as stencil buffer
-			__m128i depthPassForAction;
+			__m128i depthPassForAction = _mm_set1_epi64x(-1);
 
 			if (dsLocal.depthEnable)
 			{
@@ -1529,7 +1524,7 @@ void CR_NewTargetData::DepthStencilTestTile(const Ceng::UINT32 tileSize,const Ce
 			{
 				// depth test disabled
 
-				depthPassForAction = _mm_cmpeq_epi8(depthPassForAction, depthPassForAction);
+				depthPassForAction = _mm_set1_epi64x(-1);
 
 				/*
 				__asm
