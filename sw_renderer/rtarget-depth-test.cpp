@@ -7,6 +7,7 @@
 *****************************************************************************/
 
 #include <intrin.h>
+#include <immintrin.h>
 #include <mmintrin.h>
 #include <xmmintrin.h>
 #include <emmintrin.h>
@@ -104,6 +105,9 @@ __m128i GetCoverageMask16_x86_SSE2(Ceng::UINT32 coverageMask,Ceng::IMAGE_FORMAT:
 		}
 		*/
 
+		__m128i temp = _mm_setzero_si128();
+		return temp;
+
 		break;
 	case Ceng::IMAGE_FORMAT::D32F_S8:
 	case Ceng::IMAGE_FORMAT::D32F_IW_S8:
@@ -173,6 +177,9 @@ __m128i GetCoverageMask16_x86_SSE2(Ceng::UINT32 coverageMask,Ceng::IMAGE_FORMAT:
 
 		break;
 	}
+
+	__m128i temp = _mm_setzero_si128();
+	return temp;
 }
 
 namespace Ceng
@@ -425,7 +432,7 @@ inline void DepthWrite<true,X86_VERSION::SSE2>(POINTER depthAddress, __m128i* de
 }
 
 template<Ceng::UINT32 stencilBits,Ceng::STENCIL_ACTION::value action,X86_VERSION codeVersion>
-inline void DoStencilAction(void* stencilValues, void* stencilRef, void*actionMask)
+inline void DoStencilAction(void* stencilValues, void* stencilRef, __m128i* actionMask)
 {
 	// reserved: xmm0,xmm2,xmm4
 
@@ -437,13 +444,13 @@ inline void DoStencilAction(void* stencilValues, void* stencilRef, void*actionMa
 
 template<>
 inline void DoStencilAction<8,Ceng::STENCIL_ACTION::INCREMENT,X86_VERSION::SSE2>(
-	void* stencilValues, void* stencilRef, void* actionMask)
+	void* stencilValues, void* stencilRef, __m128i* actionMask)
 {
 	__m128i stencil = _mm_load_si128((__m128i*)stencilValues);
 
-	__m128i action = _mm_load_si128((__m128i*)actionMask);
+	//__m128i action = _mm_load_si128((__m128i*)actionMask);
 
-	stencil = _mm_sub_epi8(stencil, action);
+	stencil = _mm_sub_epi8(stencil, *actionMask);
 
 	_mm_store_si128((__m128i*)stencilValues, stencil);
 
@@ -457,15 +464,15 @@ inline void DoStencilAction<8,Ceng::STENCIL_ACTION::INCREMENT,X86_VERSION::SSE2>
 
 template<>
 inline void DoStencilAction<8,Ceng::STENCIL_ACTION::INCREMENT_SAT,X86_VERSION::SSE2>(
-	void* stencilValues, void* stencilRef, void* actionMask)
+	void* stencilValues, void* stencilRef, __m128i* actionMask)
 {
 	// TODO: why does this use sub instead of add?
 
 	__m128i stencil = _mm_load_si128((__m128i*)stencilValues);
 
-	__m128i action = _mm_load_si128((__m128i*)actionMask);
+	//__m128i action = _mm_load_si128((__m128i*)actionMask);
 
-	stencil = _mm_subs_epu8(stencil, action);
+	stencil = _mm_subs_epu8(stencil, *actionMask);
 
 	_mm_store_si128((__m128i*)stencilValues, stencil);
 
@@ -479,13 +486,13 @@ inline void DoStencilAction<8,Ceng::STENCIL_ACTION::INCREMENT_SAT,X86_VERSION::S
 
 template<>
 inline void DoStencilAction<8,Ceng::STENCIL_ACTION::DECREMENT,X86_VERSION::SSE2>(
-	void* stencilValues, void* stencilRef, void* actionMask)
+	void* stencilValues, void* stencilRef, __m128i* actionMask)
 {
 	__m128i stencil = _mm_load_si128((__m128i*)stencilValues);
 
-	__m128i action = _mm_load_si128((__m128i*)actionMask);
+	//__m128i action = _mm_load_si128((__m128i*)actionMask);
 
-	stencil = _mm_add_epi8(stencil, action);
+	stencil = _mm_add_epi8(stencil, *actionMask);
 
 	_mm_store_si128((__m128i*)stencilValues, stencil);
 
@@ -499,15 +506,15 @@ inline void DoStencilAction<8,Ceng::STENCIL_ACTION::DECREMENT,X86_VERSION::SSE2>
 
 template<>
 inline void DoStencilAction<8,Ceng::STENCIL_ACTION::DECREMENT_SAT,X86_VERSION::SSE2>(
-	void* stencilValues, void* stencilRef, void* actionMask)
+	void* stencilValues, void* stencilRef, __m128i* actionMask)
 {
 	// TODO: why does this use add instead of sub?
 
 	__m128i stencil = _mm_load_si128((__m128i*)stencilValues);
 
-	__m128i action = _mm_load_si128((__m128i*)actionMask);
+	//__m128i action = _mm_load_si128((__m128i*)actionMask);
 
-	stencil = _mm_adds_epu8(stencil, action);
+	stencil = _mm_adds_epu8(stencil, *actionMask);
 
 	_mm_store_si128((__m128i*)stencilValues, stencil);
 
@@ -521,13 +528,13 @@ inline void DoStencilAction<8,Ceng::STENCIL_ACTION::DECREMENT_SAT,X86_VERSION::S
 
 template<>
 inline void DoStencilAction<8,Ceng::STENCIL_ACTION::BIT_INVERT,X86_VERSION::SSE2>(
-	void* stencilValues, void* stencilRef, void* actionMask)
+	void* stencilValues, void* stencilRef, __m128i* actionMask)
 {
 	__m128i stencil = _mm_load_si128((__m128i*)stencilValues);
 
-	__m128i action = _mm_load_si128((__m128i*)actionMask);
+	//__m128i action = _mm_load_si128((__m128i*)actionMask);
 
-	stencil = _mm_xor_si128(stencil, action);
+	stencil = _mm_xor_si128(stencil, *actionMask);
 
 	_mm_store_si128((__m128i*)stencilValues, stencil);
 
@@ -541,13 +548,13 @@ inline void DoStencilAction<8,Ceng::STENCIL_ACTION::BIT_INVERT,X86_VERSION::SSE2
 
 template<>
 inline void DoStencilAction<8,Ceng::STENCIL_ACTION::ZERO,X86_VERSION::SSE2>(
-	void* stencilValues, void* stencilRef, void* actionMask)
+	void* stencilValues, void* stencilRef, __m128i* actionMask)
 {
 	__m128i stencil = _mm_load_si128((__m128i*)stencilValues);
 
-	__m128i action = _mm_load_si128((__m128i*)actionMask);
+	//__m128i action = _mm_load_si128((__m128i*)actionMask);
 
-	__m128i temp = _mm_andnot_si128(action, stencil);
+	__m128i temp = _mm_andnot_si128(*actionMask, stencil);
 
 	_mm_store_si128((__m128i*)stencilValues, temp);
 
@@ -562,17 +569,17 @@ inline void DoStencilAction<8,Ceng::STENCIL_ACTION::ZERO,X86_VERSION::SSE2>(
 
 template<>
 inline void DoStencilAction<8,Ceng::STENCIL_ACTION::SET_REF,X86_VERSION::SSE2>(
-	void* stencilValues, void* stencilRef, void* actionMask)
+	void* stencilValues, void* stencilRef, __m128i* actionMask)
 {
 	__m128i stencil = _mm_load_si128((__m128i*)stencilValues);
 
 	__m128i ref = _mm_load_si128((__m128i*)stencilRef);
 
-	__m128i action = _mm_load_si128((__m128i*)actionMask);
+	//__m128i action = _mm_load_si128((__m128i*)actionMask);
 
-	__m128i masked = _mm_and_si128(action, ref);
+	__m128i masked = _mm_and_si128(*actionMask, ref);
 
-	__m128i invMasked = _mm_andnot_si128(action, stencil);
+	__m128i invMasked = _mm_andnot_si128(*actionMask, stencil);
 
 	__m128i out = _mm_or_si128(masked, invMasked);
 
@@ -605,11 +612,9 @@ inline void StencilAction(void* stencilValue, void* stencilCompareRef, void* ste
 
 	__m128i coverage = _mm_load_si128((__m128i*)coverageMask);		
 
-	__m128i actionMask;
-
 	// Stencil fail = ~(stencil pass) & coverage
 
-	actionMask = _mm_cmpeq_epi8(actionMask, actionMask);
+	__m128i actionMask = _mm_set1_epi64x(-1);
 
 	actionMask = _mm_xor_si128(actionMask, stencilPass);
 
@@ -624,7 +629,7 @@ inline void StencilAction(void* stencilValue, void* stencilCompareRef, void* ste
 	}
 	*/
 
-	DoStencilAction<stencilBits,stencilFailFunc,codeVersion>(stencilValue,stencilCompareRef,actionMask);
+	DoStencilAction<stencilBits,stencilFailFunc,codeVersion>(stencilValue,stencilCompareRef,&actionMask);
 					
 	// stencil pass + depth pass
 
@@ -640,7 +645,7 @@ inline void StencilAction(void* stencilValue, void* stencilCompareRef, void* ste
 	}
 	*/
 
-	DoStencilAction<stencilBits,depthPassFunc,codeVersion>(stencilValue, stencilCompareRef, actionMask);
+	DoStencilAction<stencilBits,depthPassFunc,codeVersion>(stencilValue, stencilCompareRef, &actionMask);
 					
 	// stencil pass + depth fail
 
@@ -656,7 +661,7 @@ inline void StencilAction(void* stencilValue, void* stencilCompareRef, void* ste
 	}
 	*/
 	
-	DoStencilAction<stencilBits,depthFailFunc,codeVersion>(stencilValue, stencilCompareRef, actionMask);
+	DoStencilAction<stencilBits,depthFailFunc,codeVersion>(stencilValue, stencilCompareRef, &actionMask);
 }
 
 //****************************************************************************************
@@ -924,9 +929,7 @@ inline void TrivialStencilTest(void* out_result)
 template<>
 void TrivialStencilTest<false,X86_VERSION::SSE2>(void* out_result)
 {
-	__m128i temp;
-
-	temp = _mm_xor_si128(temp, temp);
+	__m128i temp = _mm_setzero_si128();
 
 	_mm_store_si128((__m128i*)out_result, temp);
 
@@ -1151,7 +1154,9 @@ void CR_NewTargetData::DepthStencilTestTile(const Ceng::UINT32 tileSize,const Ce
 
 	UINT32 quadX,quadY;
 
+	__m128 depth = _mm_load_ps((float*)depthValues);
 	
+	/*
 	if (dsTest.depthEnable)
 	{
 		__asm
@@ -1160,10 +1165,9 @@ void CR_NewTargetData::DepthStencilTestTile(const Ceng::UINT32 tileSize,const Ce
 			movaps xmm1,[eax]; // xmm1 = packedZ
 		}
 	}
+	*/
 
-	UINT32 finalMask;	
-
-	__m128 depth = _mm_load_ps((float*)depthValues);
+	UINT32 finalMask;		
 
 	for(quadY=0;quadY<4;quadY++)
 	{
@@ -1213,7 +1217,8 @@ void CR_NewTargetData::DepthStencilTestTile(const Ceng::UINT32 tileSize,const Ce
 			}
 			*/
 
-			__m128i depthPassCombined;
+			// Depth pass mask converted to same operand width as stencil buffer
+			__m128i depthPassForAction;
 
 			if (dsLocal.depthEnable)
 			{
@@ -1241,6 +1246,8 @@ void CR_NewTargetData::DepthStencilTestTile(const Ceng::UINT32 tileSize,const Ce
 				case Ceng::IMAGE_FORMAT::D32F_S8:
 				case Ceng::IMAGE_FORMAT::D32F_W_S8:
 				case Ceng::IMAGE_FORMAT::D32F_IW_S8:
+
+					// Widen stencil pass mask to depth buffer operand size
 
 					__m128i stencilPassLocal = _mm_unpacklo_epi8(stencilPassAndCoverage, stencilPassAndCoverage);
 
@@ -1276,14 +1283,14 @@ void CR_NewTargetData::DepthStencilTestTile(const Ceng::UINT32 tileSize,const Ce
 
 					
 
-					__m128i depthPassMask;
+					__m128i depthPassMaskA;
  
 					DepthTest<DEPTH_FORMAT::DF_FLOAT32,Ceng::TEST_TYPE::LESS,X86_VERSION::SSE2>(
-						&depth,&depthBufferData, &quadStencilPass,&depthPassMask);
+						&depth,&depthBufferData, &quadStencilPass,&depthPassMaskA);
 
 					// Extract final visibility mask
 
-					__m128i fullMask = _mm_and_si128(quadStencilPass, depthPassMask);
+					__m128i fullMask = _mm_and_si128(quadStencilPass, depthPassMaskA);
 
 					finalMask = _mm_movemask_ps(*(__m128*)&fullMask);
 
@@ -1319,7 +1326,7 @@ void CR_NewTargetData::DepthStencilTestTile(const Ceng::UINT32 tileSize,const Ce
 
 					depth = _mm_add_ps(depth, vDepthStepX);
 
-					quadStencilPass = _mm_unpackhi_epi16(stencilPassLocal, stencilPassLocal);
+					__m128i quadStencilPassB = _mm_unpackhi_epi16(stencilPassLocal, stencilPassLocal);
 
 					depthBufferData = _mm_load_ps((float*)(depthAddress+16));
 
@@ -1343,10 +1350,12 @@ void CR_NewTargetData::DepthStencilTestTile(const Ceng::UINT32 tileSize,const Ce
 					}
 					*/
 
-					DepthTest<DEPTH_FORMAT::DF_FLOAT32,Ceng::TEST_TYPE::LESS,X86_VERSION::SSE2>(
-					&depth,&depthBufferData,&quadStencilPass,&depthPassMask);
+					__m128i depthPassMaskB;
 
-					__m128i fullMask = _mm_and_si128(quadStencilPass, depthPassMask);
+					DepthTest<DEPTH_FORMAT::DF_FLOAT32,Ceng::TEST_TYPE::LESS,X86_VERSION::SSE2>(
+					&depth,&depthBufferData,&quadStencilPassB,&depthPassMaskB);
+
+					fullMask = _mm_and_si128(quadStencilPassB, depthPassMaskB);
 
 					finalMask |= _mm_movemask_ps(*(__m128*) & fullMask) << 4;
 
@@ -1370,12 +1379,17 @@ void CR_NewTargetData::DepthStencilTestTile(const Ceng::UINT32 tileSize,const Ce
 					}
 					*/
 
+					// Pack depth pass mask of first two quads into int16
+					__m128i depthPassPack = _mm_packs_epi32(depthPassMaskA, depthPassMaskB);
+
+					/*
 					// Stencil pass + depth pass mask to int8
 					__asm
 					{
 						packssdw xmm3,xmm4;
 						movdqa depthPassTemp,xmm3;
 					}
+					*/
 
 					DepthWrite<true, X86_VERSION::SSE2>(depthAddress+16, (__m128i*)& depth, &fullMask);
 					
@@ -1385,6 +1399,11 @@ void CR_NewTargetData::DepthStencilTestTile(const Ceng::UINT32 tileSize,const Ce
 					depth = _mm_add_ps(depth, vDepthStepX);
 					depthBufferData = _mm_load_ps((float*)(depthAddress + 32));
 
+					stencilPassLocal = _mm_unpackhi_epi8(stencilPassAndCoverage, stencilPassAndCoverage);
+
+					quadStencilPass = _mm_unpacklo_epi16(stencilPassLocal, stencilPassLocal);
+
+					/*
 					__asm
 					{
 						movdqa xmm3,xmm2;
@@ -1401,11 +1420,12 @@ void CR_NewTargetData::DepthStencilTestTile(const Ceng::UINT32 tileSize,const Ce
 						mov edi,depthAddress;
 						movaps xmm5,[edi+32];
 					}
+					*/
 
 					DepthTest<DEPTH_FORMAT::DF_FLOAT32, Ceng::TEST_TYPE::LESS, X86_VERSION::SSE2>(
-						&depth, &depthBufferData, &quadStencilPass, &depthPassMask);
+						&depth, &depthBufferData, &quadStencilPass, &depthPassMaskA);
 
-					__m128i fullMask = _mm_and_si128(quadStencilPass, depthPassMask);
+					fullMask = _mm_and_si128(quadStencilPass, depthPassMaskA);
 
 					finalMask |= _mm_movemask_ps(*(__m128*) & fullMask) << 8;
 
@@ -1439,6 +1459,9 @@ void CR_NewTargetData::DepthStencilTestTile(const Ceng::UINT32 tileSize,const Ce
 					depth = _mm_add_ps(depth, vDepthStepX);
 					depthBufferData = _mm_load_ps((float*)(depthAddress + 48));
 
+					quadStencilPassB = _mm_unpackhi_epi16(stencilPassLocal, stencilPassLocal);
+
+					/*
 					__asm
 					{
 						// xmm3 = stencil pass mask for quad 4
@@ -1453,11 +1476,12 @@ void CR_NewTargetData::DepthStencilTestTile(const Ceng::UINT32 tileSize,const Ce
 						mov edi,depthAddress;
 						movaps xmm5,[edi+48];
 					}
+					*/
 
 					DepthTest<DEPTH_FORMAT::DF_FLOAT32, Ceng::TEST_TYPE::LESS, X86_VERSION::SSE2>(
-						&depth, &depthBufferData, &quadStencilPass, &depthPassMask);
+						&depth, &depthBufferData, &quadStencilPass, &depthPassMaskB);
 
-					__m128i fullMask = _mm_and_si128(quadStencilPass, depthPassMask);
+					fullMask = _mm_and_si128(quadStencilPass, depthPassMaskB);
 
 					finalMask |= _mm_movemask_ps(*(__m128*) & fullMask) << 12;
 
@@ -1480,6 +1504,12 @@ void CR_NewTargetData::DepthStencilTestTile(const Ceng::UINT32 tileSize,const Ce
 					}
 					*/
 
+					// Pack depth pass mask of first two quads into int16
+					__m128i depthPassPackB = _mm_packs_epi32(depthPassMaskA, depthPassMaskB);
+
+					depthPassForAction = _mm_packs_epi16(depthPassPack, depthPassPackB);
+
+					/*
 					__asm
 					{
 						packssdw xmm3,xmm4;
@@ -1487,6 +1517,7 @@ void CR_NewTargetData::DepthStencilTestTile(const Ceng::UINT32 tileSize,const Ce
 						movdqa xmm4,depthPassTemp;
 						packsswb xmm4,xmm3;
 					}
+					*/
 
 					DepthWrite<true, X86_VERSION::SSE2>(depthAddress + 48, (__m128i*)& depth, &fullMask);
 
@@ -1498,7 +1529,7 @@ void CR_NewTargetData::DepthStencilTestTile(const Ceng::UINT32 tileSize,const Ce
 			{
 				// depth test disabled
 
-				depthPassCombined = _mm_cmpeq_epi8(depthPassCombined, depthPassCombined);
+				depthPassForAction = _mm_cmpeq_epi8(depthPassForAction, depthPassForAction);
 
 				/*
 				__asm
@@ -1508,7 +1539,7 @@ void CR_NewTargetData::DepthStencilTestTile(const Ceng::UINT32 tileSize,const Ce
 				*/
 			}
 
-			_mm_store_si128((__m128i*)depthPassTemp, depthPassCombined);
+			_mm_store_si128((__m128i*)depthPassTemp, depthPassForAction);
 
 			// xmm0 = stencil buffer values
 
