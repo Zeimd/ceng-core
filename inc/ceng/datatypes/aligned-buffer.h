@@ -59,6 +59,8 @@ namespace Ceng
 
 		T& operator [] (const Ceng::UINT32 index) const;
 		T& operator [] (const Ceng::INT32 index) const;
+		
+		T& operator [] (const Ceng::UINT64 index) const;
 
 		const bool operator == (const T *other) const;
 		const bool operator != (const T *other) const;
@@ -203,6 +205,13 @@ namespace Ceng
 	{
 		return buffer[index];
 	}
+
+	template<class T>
+	inline T& AlignedBuffer<T>::operator[] (const UINT64 index) const
+	{
+		return buffer[index];
+	}
+
 
 	template<class T>
 	inline T& AlignedBuffer<T>::operator[] (const INT32 index) const

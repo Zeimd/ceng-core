@@ -436,7 +436,7 @@ CRESULT CR_BufferFactory::GetRenderTarget(Ceng::UINT32 startWidth,
 	targetData->tileXstep = channels[0].tileXstep;
 	targetData->tileYstep = channels[0].tileYstep;
 
-	targetData->uWrapStep = Ceng::INT32(bytesPerPixel) - targetData->tileYstep;
+	targetData->uWrapStep = Ceng::INT32(bytesPerPixel) - Ceng::INT32(targetData->tileYstep);
 	targetData->vWrapStep = -Ceng::INT32(targetData->tileYstep)*Ceng::INT32(targetData->bufferHeight-1);
 
 	targetData->channelCount = channelCount;
