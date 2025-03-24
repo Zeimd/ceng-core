@@ -21,11 +21,21 @@
 
 #ifdef _MSC_VER
 	#ifdef UNICODE
-		constexpr ::WCHAR* DEBUG_DLL = L"ceng-swr-debug.dll";
-		constexpr ::WCHAR* RELEASE_DLL = L"ceng-swr.dll";
+		#ifdef _WIN64
+			constexpr ::WCHAR* DEBUG_DLL = L"ceng-swr-x64-debug.dll";
+			constexpr ::WCHAR* RELEASE_DLL = L"ceng-swr-x64.dll";
+		#else	
+			constexpr ::WCHAR* DEBUG_DLL = L"ceng-swr-debug.dll";
+			constexpr ::WCHAR* RELEASE_DLL = L"ceng-swr.dll";
+		#endif // _WIN64
 	#else
-		constexpr ::TCHAR* DEBUG_DLL = "ceng-swr-debug.dll";
-		constexpr ::TCHAR* RELEASE_DLL = "ceng-swr.dll";
+		#ifdef _WIN64
+			constexpr ::TCHAR* DEBUG_DLL = L"ceng-swr-x64-debug.dll";
+			constexpr ::TCHAR* RELEASE_DLL = L"ceng-swr-x64.dll";
+		#else	
+			constexpr ::TCHAR* DEBUG_DLL = L"ceng-swr-debug.dll";
+			constexpr ::TCHAR* RELEASE_DLL = L"ceng-swr.dll";
+		#endif // _WIN64
 	#endif
 
 	#ifdef _DEBUG
