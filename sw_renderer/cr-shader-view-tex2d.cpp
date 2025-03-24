@@ -437,7 +437,7 @@ inline AddressPair GenerateAddress(const Ceng::POINTER baseAddress, const Addres
 	out.first = _mm_add_epi64(out.first, baseVec);
 
 	out.second = _mm_unpackhi_epi32(addressVec, zeroes);
-	out.second = _mm_add_epi64(out.first, baseVec);
+	out.second = _mm_add_epi64(out.second, baseVec);
 
 	return out;
 
@@ -480,7 +480,7 @@ inline AddressPair GenerateTiledAddress(const Ceng::POINTER baseAddress, const T
 	out.first = _mm_add_epi64(out.first, baseVec);
 
 	out.second = _mm_unpackhi_epi32(tileOffset, zeroes);
-	out.second = _mm_add_epi64(out.first, baseVec);
+	out.second = _mm_add_epi64(out.second, baseVec);
 
 	return out;
 
