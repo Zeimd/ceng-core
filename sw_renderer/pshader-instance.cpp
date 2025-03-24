@@ -186,6 +186,7 @@ const CRESULT PixelShaderInstance::ConfigureInput(std::vector<CR_PixelShaderSema
 			break;
 		case Ceng::SHADER_SEMANTIC::SCREENPOS:
 			IN_SCREENPOS = &inputRegisters[k];
+			break;
 		case Ceng::SHADER_SEMANTIC::NORMAL:
 			IN_NORMAL = &inputRegisters[k];
 			break;
