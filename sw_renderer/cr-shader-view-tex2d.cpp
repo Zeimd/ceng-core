@@ -398,8 +398,46 @@ struct AddressScale
 	Ceng::UINT16 rowBytes;
 };
 
+#ifdef _WIN64
+
+struct AddressPair
+{
+	__m128i first;
+	__m128i second;
+};
+
 // NOTE: Only works in 32-bit mode.
-inline __m128i GenerateAddress(const Ceng::POINTER baseAddress, const AddressScale &scale, const __m128i &uvVec)
+inline AddressPair GenerateAddress(const Ceng::POINTER baseAddress, const AddressScale& scale, const __m128i& uvVec)
+{
+	// baseAddress = qword {base,base}
+	__m128i baseVec = _mm_castpd_si128(_mm_load1_pd((double*)&baseAddress));
+
+	// stepVec = word {rowBytes,bytesPerpixel,rowBytes,bytesPerPixel,...}
+	__m128 stepVec = _mm_load1_ps((float*)&scale);
+
+	// addressVec = dword{frac(v3)*height*rowBytes + frac(u3)*width*bytesPerPixel,...}
+	__m128i addressVec = _mm_madd_epi16(uvVec, *(__m128i*) & stepVec);
+	
+	__m128i zeroes = _mm_setzero_si128();
+
+	AddressPair out;
+
+	out.first = _mm_unpacklo_epi32(addressVec, zeroes);
+	out.first = _mm_add_epi64(out.first, baseVec);
+
+	out.second = _mm_unpackhi_epi32(addressVec, zeroes);
+	out.second = _mm_add_epi64(out.first, baseVec);
+
+	return out;
+
+	// addressVec = dword{base + frac(v3)*height*rowBytes + frac(u3)*width*bytesPerPixel,...}
+	//return _mm_add_epi32(addressVec, *(__m128i*) & baseVec);
+}
+
+#else
+
+// NOTE: Only works in 32-bit mode.
+inline __m128i GenerateAddress(const Ceng::POINTER baseAddress, const AddressScale& scale, const __m128i& uvVec)
 {
 	// baseAddress = dword {base,base,base,base}
 	__m128 baseVec = _mm_load1_ps((float*)&baseAddress);
@@ -408,11 +446,14 @@ inline __m128i GenerateAddress(const Ceng::POINTER baseAddress, const AddressSca
 	__m128 stepVec = _mm_load1_ps((float*)&scale);
 
 	// addressVec = dword{frac(v3)*height*rowBytes + frac(u3)*width*bytesPerPixel,...}
-	__m128i addressVec = _mm_madd_epi16(uvVec, *(__m128i*)&stepVec);
+	__m128i addressVec = _mm_madd_epi16(uvVec, *(__m128i*) & stepVec);
 
 	// addressVec = dword{base + frac(v3)*height*rowBytes + frac(u3)*width*bytesPerPixel,...}
-	return _mm_add_epi32(addressVec, *(__m128i*)&baseVec);
+	return _mm_add_epi32(addressVec, *(__m128i*) & baseVec);
 }
+
+#endif
+
 
 
 /*
