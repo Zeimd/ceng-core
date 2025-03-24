@@ -685,6 +685,7 @@ void CR_ShaderViewTex2D::Nearest_SSE2(const Ceng::INT32 *uFX, const Ceng::INT32 
 }
 */
 
+#ifndef _WIN64
 
 void CR_ShaderViewTex2D::Nearest_SSE2(const Ceng::INT32 *uFX, const Ceng::INT32 *vFX, Ceng::UINT32 mipLevel,
 	const Ceng::FLOAT32 mipFactor, Ceng::FLOAT32 *out_color)
@@ -829,6 +830,154 @@ void CR_ShaderViewTex2D::Nearest_SSE2(const Ceng::INT32 *uFX, const Ceng::INT32 
 	_mm_store_ps(&out_color[12], alphaVec);
 }
 
+#else
+
+void CR_ShaderViewTex2D::Nearest_SSE2(const Ceng::INT32* uFX, const Ceng::INT32* vFX, Ceng::UINT32 mipLevel,
+	const Ceng::FLOAT32 mipFactor, Ceng::FLOAT32* out_color)
+{
+	// Only works for textures with rowBytes < 65536. 
+	// This means a maximum width of 4096 for a float32 argb texture.
+
+	Ceng::UINT16 dimScale[2] =
+	{
+		Ceng::UINT16(textures[mipLevel]->bufferWidth),
+		Ceng::UINT16(textures[mipLevel]->bufferHeight)
+	};
+
+	// Scale uv by texture dimension and convert to integer
+
+	// uVecFX = dword {u3,u2,u1,u0}
+	__m128i uVecFX = _mm_load_si128((__m128i*)uFX);
+
+	// vVecFX = dword {v3,v2,v1,0}
+	__m128i vVecFX = _mm_load_si128((__m128i*)vFX);
+
+	// Extract fractional part of input uv
+
+	__m128i uFloor = _mm_srli_epi32(uVecFX, 16);
+
+	// uWrapVec = word { 0,frac(u3),0,frac(u2),0,frac(u1),0,frac(u0) }
+	__m128i uWrapVec = _mm_sub_epi32(uVecFX, uFloor);
+	//uWrapVec = _mm_srli_epi32(uWrapVec, 16);
+
+	// vWrapVec = word { frac(v3),0,frac(v2),0,frac(v1),0,frac(v0),0 }
+
+	__m128i vFloor = _mm_srli_epi32(vVecFX, 16);
+	__m128i vWrapVec = _mm_sub_epi32(vVecFX, vFloor);
+	vWrapVec = _mm_slli_epi32(vWrapVec, 16);
+
+	// uvVec = word { frac(v3),frac(u3),frac(v2),frac(u2),frac(v1),frac(u1),frac(v0),frac(u0) }
+	__m128i uvVec = _mm_or_si128(uWrapVec, vWrapVec);
+
+	// Scale by texture dimensions
+
+	// dimVec = word { height,width,height,width,height,width,height,width }
+	__m128 dimVec = _mm_load1_ps((float*)&dimScale);
+
+	// uvVec = word {frac(v3)*height,frac(u3)*width,...}
+	uvVec = _mm_mulhi_epu16(uvVec, *(__m128i*) & dimVec);
+	//////////////////////////////
+	// Calculate texel load address vector
+
+	_declspec(align(16)) TiledAddress addressScale;
+
+	addressScale.tileStepX = Ceng::INT16(textures[mipLevel]->tileXstep);
+	addressScale.tileStepY = Ceng::INT16(textures[mipLevel]->tileYstep);
+	addressScale.posStepX = Ceng::INT16(textures[mipLevel]->channels[0].unitXstep);
+	addressScale.posStepY = Ceng::INT16(textures[mipLevel]->channels[0].unitYstep);
+
+	AddressPair addressVec = GenerateTiledAddress(textures[mipLevel]->baseAddress, addressScale, uvVec);
+
+	_declspec(align(16)) Ceng::UINT32* address[4];
+
+	_mm_store_si128((__m128i*)address, addressVec.first);
+	_mm_store_si128((__m128i*)&address[2], addressVec.second);
+
+	// First texel
+
+	__m128i colorVec = _mm_cvtsi32_si128(*address[0]);
+
+	// Second texel
+
+	__m128i loadVec = _mm_cvtsi32_si128(*address[1]);
+
+	loadVec = _mm_slli_epi64(loadVec, 32);
+
+	colorVec = _mm_or_si128(colorVec, loadVec);
+
+	// Third texel
+
+	loadVec = _mm_cvtsi32_si128(*address[2]);
+
+	loadVec = _mm_slli_si128(loadVec, 8);
+
+	colorVec = _mm_or_si128(colorVec, loadVec);
+
+	// Fourth texel
+	loadVec = _mm_cvtsi32_si128(*address[3]);
+
+	loadVec = _mm_slli_si128(loadVec, 12);
+
+	// colorVec = { {?,r3,g3,b3} , {?,r2,g2,b2} , {?,r1,g1,b1} , {?,r0,g0,b0} }
+	colorVec = _mm_or_si128(colorVec, loadVec);
+
+	// Dest is ubyte4
+
+	// tempColor = { {0,0,0,0} , {0,0,0,0} , {a3,r3,g3,b3} , {a2,r2,g2,b2} }
+	__m128i tempColor = _mm_srli_si128(colorVec, 8);
+
+	// tempColor = { {a3,a1,r3,r1} , {g3,g1,b3,b1} , {a2,a0,r2,r0} , {g2,g0,b2,b0} }
+	tempColor = _mm_unpacklo_epi8(colorVec, tempColor);
+
+	// writeColor = { {0,0,0,0} , {0,0,0,0} , {a3,a1,r3,r1} , {g3,g1,b3,b1} }
+	__m128i writeColor = _mm_srli_si128(tempColor, 8);
+
+	// writeColor = byte {a3,a2,a1,a0,r3,r2,r1,r0,g3,g2,g1,g0,b3,b2,b1,b0}
+	writeColor = _mm_unpacklo_epi8(tempColor, writeColor);
+
+	_mm_store_ps(&out_color[0], *(__m128*) & writeColor);
+
+	return;
+
+	//////////////////////////////////////////////////////////////////////////////
+	// Convert to vertical layout and then to floating point
+
+	// blue = dword {b3,b2,b1,b0}
+	__m128i blue = _mm_slli_epi32(colorVec, 24);
+	blue = _mm_srli_epi32(blue, 24);
+
+	// green = dword {g3,g2,g1,g0}
+	__m128i green = _mm_slli_epi32(colorVec, 16);
+	green = _mm_srli_epi32(green, 24);
+
+	// green = dword {r3,r2,r1,r0}
+	__m128i red = _mm_slli_epi32(colorVec, 8);
+	red = _mm_srli_epi32(red, 24);
+
+	__m128 blueF = _mm_cvtepi32_ps(blue);
+	__m128 greenF = _mm_cvtepi32_ps(green);
+	__m128 redF = _mm_cvtepi32_ps(red);
+
+	__m128 colorScaleVec = _mm_load1_ps(&colorScale);
+
+	blueF = _mm_mul_ps(blueF, colorScaleVec);
+	greenF = _mm_mul_ps(greenF, colorScaleVec);
+	redF = _mm_mul_ps(redF, colorScaleVec);
+
+	// Write default alpha
+
+	const Ceng::FLOAT32 alpha = 1.0f;
+
+	__m128 alphaVec = _mm_load1_ps(&alpha);
+
+	_mm_store_ps(&out_color[0], blueF);
+	_mm_store_ps(&out_color[4], greenF);
+	_mm_store_ps(&out_color[8], redF);
+	_mm_store_ps(&out_color[12], alphaVec);
+}
+
+#endif // _WIN64
+
 inline __m128i MinWrapCoordinate(const __m128i &coordinate, const Ceng::UINT32 wrapValue)
 {
 	__m128i zeroComp = _mm_setzero_si128();
@@ -944,7 +1093,6 @@ __forceinline __m128i LinearFetch(Ceng::UINT32 *fetchPtr[4],  __m128i &allZeroes
 }
 */
 
-
 __forceinline __m128i LinearFetch(Ceng::UINT32 *fetchPtr[4], __m128i &allZeroes,
 	__m128i &weightVec)
 {
@@ -1019,6 +1167,8 @@ __forceinline void LinearFetchHigh(__m128i &outColor, Ceng::UINT32 *fetchPtr[4],
 	outColor = _mm_or_si128(outColor, temp);
 }
 
+/*
+
 // NOTE: Only works in 32-bit mode.
 inline __m128i GenerateAddressNew(const __m128i &baseVec, const __m128i &scaleVec, const __m128i &uvVec,const __m128i &wrapVec)
 {
@@ -1035,7 +1185,11 @@ inline __m128i GenerateAddressNew(const __m128i &baseVec, const __m128i &scaleVe
 	return _mm_add_epi32(addressVec,baseVec);
 }
 
+*/
+
 const Ceng::FLOAT32 defaultAlpha = 1.0f;
+
+#ifndef _WIN64
 
 void CR_ShaderViewTex2D::Linear_SSE2(const Ceng::INT32 *uFX, const Ceng::INT32 *vFX, Ceng::UINT32 mipLevel,
 	const Ceng::FLOAT32 mipFactor, Ceng::FLOAT32 *out_color)
@@ -1445,6 +1599,455 @@ void CR_ShaderViewTex2D::Linear_SSE2(const Ceng::INT32 *uFX, const Ceng::INT32 *
 	_mm_store_ps(&out_color[8], redF);
 	_mm_store_ps(&out_color[12], alphaVec);
 }
+
+#else
+
+void CR_ShaderViewTex2D::Linear_SSE2(const Ceng::INT32* uFX, const Ceng::INT32* vFX, Ceng::UINT32 mipLevel,
+	const Ceng::FLOAT32 mipFactor, Ceng::FLOAT32* out_color)
+{
+
+	// Only works for textures with rowBytes < 32768. 
+	// This means a maximum width of 4096 for a float32 argb texture.
+
+	// Width and height are scaled by 2 to produce correct result during fused multiply-add
+	_declspec(align(8)) Ceng::UINT16 dimScale[4] =
+	{
+		1,
+		Ceng::UINT16(textures[mipLevel]->bufferWidth << 1),
+		1,
+		Ceng::UINT16(textures[mipLevel]->bufferHeight << 1)
+	};
+
+	Ceng::INT16 truncate[2] = { -32768, 0 };
+
+	// uVecFX = dword {u3,u2,u1,u0}
+	__m128i uVecFX = _mm_load_si128((__m128i*)uFX);
+
+	// vVecFX = dword {v3,v2,v1,0}
+	__m128i vVecFX = _mm_load_si128((__m128i*)vFX);
+
+	////////////////////////////////////////////////////////////////////////////////////
+	// Get fractional part of input uv
+
+	__m128i uFloor = _mm_srli_epi32(uVecFX, 16);
+	uFloor = _mm_slli_epi32(uVecFX, 16);
+
+	// uFrac = u - floor(u)
+	__m128i uWrapVec = _mm_sub_epi32(uVecFX, uFloor);
+
+	// Convert to 0.15 fixed point for multiplication
+	uWrapVec = _mm_slli_epi32(uWrapVec, 16);
+	uWrapVec = _mm_srli_epi16(uWrapVec, 1);
+
+	__m128i vFloor = _mm_srli_epi32(vVecFX, 16);
+	vFloor = _mm_slli_epi32(vVecFX, 16);
+
+	__m128i vWrapVec = _mm_sub_epi32(vVecFX, vFloor);
+
+	// Convert to 0.15 fixed point for multiplication
+	vWrapVec = _mm_slli_epi32(vWrapVec, 16);
+	vWrapVec = _mm_srli_epi16(vWrapVec, 1);
+
+	__m128 negTerm = _mm_load1_ps((float*)&truncate);
+
+	// uWrapVec = word { {uFrac[3],-32768} , {uFrac[2],-32768} ,{uFrac[1],-32768},{uFrac[0],-32768}}
+	uWrapVec = _mm_or_si128(uWrapVec, *(__m128i*) & negTerm);
+
+	// vWrapVec = word { {vFrac[3],-32768} , {vFrac[2],-32768} ,{vFrac[1],-32768},{vFrac[0],-32768}}
+	vWrapVec = _mm_or_si128(vWrapVec, *(__m128i*) & negTerm);
+
+	__m128i dimLoad = _mm_loadl_epi64((__m128i*)dimScale);
+
+	__m128i widthMulVec = _mm_shuffle_epi32(dimLoad, _MM_SHUFFLE(0, 0, 0, 0));
+	__m128i heightMulVec = _mm_shuffle_epi32(dimLoad, _MM_SHUFFLE(1, 1, 1, 1));
+
+	// uVec = {uFrac[3]*width-32768,uFrac[2]*width-32768,...}
+	__m128i uVec = _mm_madd_epi16(uWrapVec, widthMulVec);
+
+	// vVec = {vFrac[3]*width-32768,vFrac[2]*width-32768,...}
+	__m128i vVec = _mm_madd_epi16(vWrapVec, heightMulVec);
+
+	///////////////////////////////////////////////////////////////////////////////////
+	// Final uv
+
+	// uIntVec = { {0,uInt[3]} , {0,uInt[2]} , {0,uInt[1]} , {0,uInt[0]}}
+	__m128i uIntVec = _mm_srli_epi32(uVec, 16);
+
+	// uFraction = { {uFrac[3],uFrac[3]} , {uFrac[2],uFrac[2]},...}
+	__m128i uFraction = _mm_slli_epi32(uVec, 16);
+	uFraction = _mm_or_si128(uFraction, _mm_srli_epi32(uFraction, 16));
+
+	// vIntVec = { {0,vInt[3]} , {0,vInt[2]} , {0,vInt[1]} , {0,vInt[0]}}
+	__m128i vIntVec = _mm_srli_epi32(vVec, 16);
+
+	// vFraction = { {vFrac[3],vFrac[3]} , {vFrac[2],vFrac[2]} , ...}
+	__m128i vFraction = _mm_slli_epi32(vVec, 16);
+	vFraction = _mm_or_si128(vFraction, _mm_srli_epi32(vFraction, 16));
+
+	// factor_bottomRight = word { {uFrac[3]*vFrac[3],uFrac[3]*vFrac[3]},...}
+	__m128i factor_bottomRight = _mm_mulhi_epu16(uFraction, vFraction);
+
+	// factor_topLeft = word { 65535+uFrac[3]*vFrac[3]-uFrac[3]-vFrac[3],...}
+
+	// NOTE: Apply terms in this order to avoid overflow from 65535+uFrac*vFrac.
+	__m128i factor_topLeft = _mm_setzero_si128(); // Zero is equivalent to 65536 mod 65536
+
+	factor_topLeft = _mm_sub_epi16(factor_topLeft, uFraction);
+	factor_topLeft = _mm_sub_epi16(factor_topLeft, vFraction);
+	factor_topLeft = _mm_add_epi16(factor_topLeft, factor_bottomRight);
+
+	// factor_topRight = word {uFrac[3]-uFrac[3]*vFrac[3],...}
+	__m128i factor_topRight = _mm_sub_epi16(uFraction, factor_bottomRight);
+
+	// factor_bottomLeft = word {vFrac[3]-uFrac[3]*vFrac[3],...}
+	__m128i factor_bottomLeft = _mm_sub_epi16(vFraction, factor_bottomRight);
+
+	// Convert factors from SOA to AOS
+
+	__m128i muxA = _mm_unpacklo_epi32(factor_topLeft, factor_topRight);
+	__m128i muxB = _mm_unpacklo_epi32(factor_bottomLeft, factor_bottomRight);
+
+	__m128i muxC = _mm_unpackhi_epi32(factor_topLeft, factor_topRight);
+	__m128i muxD = _mm_unpackhi_epi32(factor_bottomLeft, factor_bottomRight);
+
+	factor_topLeft = _mm_unpacklo_epi64(muxA, muxB);
+	factor_topRight = _mm_unpackhi_epi64(muxA, muxB);
+
+	factor_bottomLeft = _mm_unpacklo_epi64(muxC, muxD);
+	factor_bottomRight = _mm_unpackhi_epi64(muxC, muxD);
+
+	/////////////////////////////////////////////////////////////////////////////////
+	// Texel address mode = wrap
+
+	uIntVec = MinWrapCoordinate(uIntVec, textures[mipLevel]->bufferWidth);
+	vIntVec = MinWrapCoordinate(vIntVec, textures[mipLevel]->bufferHeight);
+
+	//////////////////////////////////////////////////////////////////////////////////
+	// Combined uv-vector
+
+	vIntVec = _mm_slli_epi32(vIntVec, 16);
+
+	// uvVec = { {vInt[3],uInt[3]} , {vInt[2],uInt[2]} , ... }
+	__m128i uvVec = _mm_or_si128(uIntVec, vIntVec);
+
+	vIntVec = _mm_srli_epi32(vIntVec, 16);
+
+	__m128i allZeroes = _mm_setzero_si128();
+
+	////////////////////////////////////////////////////
+	// Generate top-left texel address
+
+	_declspec(align(16)) TiledAddress addressScale;
+
+	addressScale.tileStepX = Ceng::INT16(textures[mipLevel]->tileXstep);
+	addressScale.tileStepY = Ceng::INT16(textures[mipLevel]->tileYstep);
+	addressScale.posStepX = Ceng::INT16(textures[mipLevel]->channels[0].unitXstep);
+	addressScale.posStepY = Ceng::INT16(textures[mipLevel]->channels[0].unitYstep);
+
+	AddressPair topLeftAdr = GenerateTiledAddress(textures[mipLevel]->baseAddress, addressScale, uvVec);
+
+	////////////////////////////////////////////////////
+	// Generate top-right texel address
+
+	// allOnes = dword {1,1,1,1}
+	__m128i allOnes = _mm_srli_epi32(*(__m128i*) & negTerm, 15);
+
+	__m128i steppedU = _mm_add_epi16(uIntVec, allOnes);
+
+	/*
+	Ceng::INT32 defStepU = 4;
+
+	// Additional step if tile wraps right
+	// NOTE: bytes per pixel * (1+n(n-1))
+	Ceng::INT32 tileWrapU = (1 + 4 * (4 - 1)) * 4;
+
+	// Additional step if entire texture wraps
+	// NOTE: bytes per pixel * -n*width
+	Ceng::INT32 texWrapU = 4 * (-4 * textures[mipLevel]->bufferWidth);
+
+	// Adjust both so that all steps can be added independently
+	tileWrapU -= defStepU;
+
+	// Start with default step in u-direction
+	__m128i stepRight = *(__m128i*)&_mm_load1_ps((float*)&defStepU);
+
+	// Check if the entire texture wraps
+	__m128i texWrapStepU = *(__m128i*)&_mm_load1_ps((float*)&texWrapU);
+
+	__m128i uMax = *(__m128i*)&_mm_load1_ps((float*)&textures[mipLevel]->bufferWidth);
+
+	__m128i texWrapTest = _mm_cmpgt_epi32(uMax, steppedU);
+
+	texWrapTest = _mm_andnot_si128(texWrapTest, texWrapStepU);
+
+	stepRight = _mm_add_epi32(stepRight, texWrapTest);
+
+	// Check if tile wrapped
+	__m128i tileWrapTest = _mm_slli_epi16(steppedU, 14);
+	tileWrapTest = _mm_slli_epi16(steppedU, 14);
+
+	tileWrapTest = _mm_cmpeq_epi32(tileWrapTest, allZeroes);
+
+	__m128i tileWrapStep = *(__m128i*)&_mm_load1_ps((float*)&tileWrapU);
+
+	tileWrapTest = _mm_and_si128(tileWrapTest, tileWrapStep);
+
+	stepRight = _mm_add_epi32(stepRight, tileWrapTest);
+
+	__m128i topRightAdr = _mm_add_epi32(topLeftAdr, stepRight);
+	*/
+
+	steppedU = MaxWrapCoordinate(steppedU, textures[mipLevel]->bufferWidth);
+
+	__m128i uvTemp = _mm_slli_epi32(vIntVec, 16);
+
+	uvTemp = _mm_or_si128(uvTemp, steppedU);
+
+	AddressPair topRightAdr = GenerateTiledAddress(textures[mipLevel]->baseAddress, addressScale, uvTemp);
+
+
+	////////////////////////////////////////////////////
+	// Generate bottom-left texel address
+
+	__m128i steppedV = _mm_add_epi16(vIntVec, allOnes);
+
+	/*
+	Ceng::INT32 defStepV = addressScale.posStepY;
+
+	// Additional step if tile wraps right
+	// NOTE: bytes per pixel * (1+n(n-1))
+	Ceng::INT32 tileWrapV = 4 * (4 * textures[mipLevel]->bufferWidth - 4 * (4 - 1));
+
+	// Additional step if entire texture wraps
+	// NOTE: bytes per pixel * -n*width
+	Ceng::INT32 texWrapV = -addressScale.tileStepY*(textures[mipLevel]->bufferHeight>>2);
+
+	// Adjust both so that all steps can be added independently
+	tileWrapV -= defStepV;
+
+	// Start with default step in u-direction
+	__m128i stepDown = *(__m128i*)&_mm_load1_ps((float*)&defStepV);
+
+	// Check if the entire texture wraps
+	__m128i texWrapStepV = *(__m128i*)&_mm_load1_ps((float*)&texWrapV);
+
+	__m128i vMax = *(__m128i*)&_mm_load1_ps((float*)&textures[mipLevel]->bufferHeight);
+
+	texWrapTest = _mm_cmpgt_epi32(vMax, steppedV);
+
+	texWrapTest = _mm_andnot_si128(texWrapTest, texWrapStepV);
+
+	stepDown = _mm_add_epi32(stepDown, texWrapTest);
+
+	// Check if tile wrapped
+	tileWrapTest = _mm_slli_epi16(steppedV, 14);
+	tileWrapTest = _mm_slli_epi16(steppedV, 14);
+
+	tileWrapTest = _mm_cmpeq_epi32(tileWrapTest, allZeroes);
+
+	tileWrapStep = *(__m128i*)&_mm_load1_ps((float*)&tileWrapV);
+
+	tileWrapTest = _mm_and_si128(tileWrapTest, tileWrapStep);
+
+	stepDown = _mm_add_epi32(stepDown, tileWrapTest);
+
+	__m128i bottomLeftAdr = _mm_add_epi32(topLeftAdr, stepDown);
+	*/
+
+
+	steppedV = MaxWrapCoordinate(steppedV, textures[mipLevel]->bufferHeight);
+
+	uvTemp = _mm_slli_epi32(steppedV, 16);
+
+	uvTemp = _mm_or_si128(uvTemp, uIntVec);
+
+	AddressPair bottomLeftAdr = GenerateTiledAddress(textures[mipLevel]->baseAddress, addressScale, uvTemp);
+
+	////////////////////////////////////////////////////
+	// Generate bottom-right texel address
+
+	AddressPair adrStep;
+	
+	adrStep.first = _mm_sub_epi32(topRightAdr.first, topLeftAdr.first);
+	adrStep.second = _mm_sub_epi32(topRightAdr.second, topLeftAdr.second);
+
+	AddressPair bottomRightAdr;
+	
+	bottomRightAdr.first = _mm_add_epi32(bottomLeftAdr.first, adrStep.first);
+	bottomRightAdr.second = _mm_add_epi32(bottomLeftAdr.second, adrStep.second);
+
+	//__m128i bottomRightAdr = _mm_add_epi32(bottomLeftAdr, stepRight);
+
+	//////////////////////////////////////////////////////////
+	// Shuffle addresses so that all texel addresses for one screen pixel are
+	// linear in memory
+
+	__m128i fetchAddress[8];
+
+	// fetchAddress[0] = qword {topRight[0],topLeft[0]}
+	fetchAddress[0] = _mm_unpacklo_epi64(topLeftAdr.first, topRightAdr.first);
+
+	// fetchAddress[1] = qword {bottomRight[0],bottomLeft[0]}
+	fetchAddress[1] = _mm_unpacklo_epi64(bottomLeftAdr.first, bottomRightAdr.first);
+
+	// fetchAddress[2] = qword {topRight[1],topLeft[1]}
+	fetchAddress[2] = _mm_unpackhi_epi64(topLeftAdr.first, topRightAdr.first);
+
+	// fetchAddress[3] = qword {bottomRight[1],bottomLeft[1]}
+	fetchAddress[3] = _mm_unpackhi_epi64(bottomLeftAdr.first, bottomRightAdr.first);
+
+	// fetchAddress[4] = qword {topRight[2],topLeft[2]}
+	fetchAddress[4] = _mm_unpacklo_epi64(topLeftAdr.second, topRightAdr.second);
+
+	// fetchAddress[5] = qword {bottomRight[2],bottomLeft[2]}
+	fetchAddress[5] = _mm_unpacklo_epi64(bottomLeftAdr.second, bottomRightAdr.second);
+
+	// fetchAddress[6] = qword {topRight[3],topLeft[3]}
+	fetchAddress[6] = _mm_unpackhi_epi64(topLeftAdr.second, topRightAdr.second);
+
+	// fetchAddress[7] = qword {bottomRight[3],bottomLeft[3]}
+	fetchAddress[7] = _mm_unpackhi_epi64(bottomLeftAdr.second, bottomRightAdr.second);
+
+	/*
+	* Obsolete block
+	* 
+	// addressA = dword {topRight[1],topLeft[1],topRight[0],topLeft[0]}
+	__m128i addressA = _mm_unpacklo_epi32(topLeftAdr, topRightAdr);
+
+	// addressB = dword {bottomRight[1],bottomLeft[1],bottomRight[0],bottomLeft[0]}
+	__m128i addressB = _mm_unpacklo_epi32(bottomLeftAdr, bottomRightAdr);
+
+	// fetchAddress[0] = dword {bottomRight[0],bottomLeft[0],topRight[0],topLeft[0] }
+	fetchAddress[0] = _mm_unpacklo_epi64(addressA, addressB);
+
+	// fetchAddress[1] = dword {bottomRight[1],bottomLeft[1],topRight[1],topLeft[1] }
+	fetchAddress[1] = _mm_unpackhi_epi64(addressA, addressB);
+
+	// addressA = dword {topRight[3],topLeft[3],topRight[2],topLeft[2]}
+	addressA = _mm_unpackhi_epi32(topLeftAdr, topRightAdr);
+
+	// addressB = dword {bottomRight[3],bottomLeft[3],bottomRight[2],bottomLeft[2]}
+	addressB = _mm_unpackhi_epi32(bottomLeftAdr, bottomRightAdr);
+
+	// fetchAddress[2] = dword {bottomRight[2],bottomLeft[2],topRight[2],topLeft[2] }
+	fetchAddress[2] = _mm_unpacklo_epi64(addressA, addressB);
+
+	// fetchAddress[3] = dword {bottomRight[3],bottomLeft[3],topRight[3],topLeft[3] }
+	fetchAddress[3] = _mm_unpackhi_epi64(addressA, addressB);
+	*/
+
+	_declspec(align(16)) Ceng::UINT32* fetchPtr[4][4];
+
+	_mm_store_si128((__m128i*) & fetchPtr[0][0], fetchAddress[0]);
+	_mm_store_si128((__m128i*)& fetchPtr[0][2], fetchAddress[1]);
+	_mm_store_si128((__m128i*)& fetchPtr[1][0], fetchAddress[2]);
+	_mm_store_si128((__m128i*)& fetchPtr[1][2], fetchAddress[3]);
+	_mm_store_si128((__m128i*)& fetchPtr[2][0], fetchAddress[4]);
+	_mm_store_si128((__m128i*)& fetchPtr[2][2], fetchAddress[5]);
+	_mm_store_si128((__m128i*)& fetchPtr[3][0], fetchAddress[6]);
+	_mm_store_si128((__m128i*)& fetchPtr[3][2], fetchAddress[7]);
+
+	////////////////////////////////////////////////////////
+	// Setup texel fetch
+
+	//__m128i allZeroes = _mm_setzero_si128();
+
+	__m128i finalColor[2] = { _mm_setzero_si128(), _mm_setzero_si128() };
+	////////////////////////////////////////////////////////
+	// Top-left fetch
+
+	LinearFetchLow(finalColor[0], &fetchPtr[0][0], allZeroes, factor_topLeft);
+
+	//////////////////////////////////////////////////////////////////
+	// Top-right fetch
+
+	LinearFetchHigh(finalColor[0], &fetchPtr[1][0], allZeroes, factor_topRight);
+
+	//////////////////////////////////////////////////////////////////
+	// Bottom-left fetch
+
+	LinearFetchLow(finalColor[1], &fetchPtr[2][0], allZeroes, factor_bottomLeft);
+
+	//////////////////////////////////////////////////////////////////
+	// Bottom-right fetch
+
+	LinearFetchHigh(finalColor[1], &fetchPtr[3][0], allZeroes, factor_bottomRight);
+
+	//////////////////////////////////////////////////////////////////
+	// Truncate color to integer
+
+	finalColor[0] = _mm_srli_epi16(finalColor[0], 7);
+	finalColor[1] = _mm_srli_epi16(finalColor[1], 7);
+
+	//////////////////////////////////////////////////////////////////
+	// Prefetch output address
+
+	_mm_prefetch((char*)out_color, 1);
+
+	//////////////////////////////////////////////////////////////////
+	// Convert to vertical format
+
+	// Dest is ubyte4
+
+	// finalColor[0] = byte{0,a1,0,r1,0,g1,0,b1,0,a0,0,r0,0,g0,0,b0}
+	// finalColor[1] = byte{0,a3,0,r3,0,g3,0,b3,0,a2,0,r2,0,g2,0,b2}
+
+	__m128i colorTemp = _mm_slli_epi16(finalColor[1], 8);
+	colorTemp = _mm_or_si128(colorTemp, finalColor[0]);
+
+	// colorTemp = byte{a3,a1,r3,r1,g3,g1,b3,b1,a2,a0,r2,r0,g2,g0,b2,b0}
+
+	__m128i writeColor = _mm_srli_si128(colorTemp, 8);
+
+	// writeColor = byte {a3,a2,a1,a0,r3,r2,r1,r0,g3,g2,g1,g0,b3,b2,b1,b0}
+	writeColor = _mm_unpacklo_epi8(colorTemp, writeColor);
+
+	_mm_store_ps(&out_color[0], *(__m128*) & writeColor);
+
+	return;
+
+	// Dest is float4
+
+	// finalColor[0] = word{a1,r1,g1,b1,a0,r0,g0,b0}
+	// finalColor[1] = word{a3,r3,g3,b3,a2,r2,g2,b2}
+
+	// blueGreenLow = dword {g1,g0,b1,b0}
+	__m128i soaTempA = _mm_unpacklo_epi16(finalColor[0], finalColor[1]);
+
+	// redAlphaLow = dword {a1,a0,r1,r0}
+	__m128i soaTempB = _mm_unpackhi_epi16(finalColor[0], finalColor[1]);
+
+	// blueGreenHigh = dword {g3,g2,b3,b2}
+	__m128i blueGreen = _mm_unpacklo_epi16(soaTempA, soaTempB);
+
+	// redAlphaHigh = dword {a3,a2,r3,r2}
+	__m128i redAlpha = _mm_unpackhi_epi16(soaTempA, soaTempB);
+
+	__m128 colorScaleVec = _mm_load1_ps(&colorScale);
+
+	__m128i blue = _mm_unpacklo_epi16(blueGreen, allZeroes);
+	__m128i green = _mm_unpackhi_epi16(blueGreen, allZeroes);
+	__m128i red = _mm_unpacklo_epi16(redAlpha, allZeroes);
+
+	__m128 blueF = _mm_cvtepi32_ps(blue);
+	__m128 greenF = _mm_cvtepi32_ps(green);
+	__m128 redF = _mm_cvtepi32_ps(red);
+
+	__m128 alphaVec = _mm_load1_ps(&defaultAlpha);
+
+	blueF = _mm_mul_ps(blueF, colorScaleVec);
+	greenF = _mm_mul_ps(greenF, colorScaleVec);
+	redF = _mm_mul_ps(redF, colorScaleVec);
+
+	// Write default alpha
+
+	_mm_store_ps(&out_color[0], blueF);
+	_mm_store_ps(&out_color[4], greenF);
+	_mm_store_ps(&out_color[8], redF);
+	_mm_store_ps(&out_color[12], alphaVec);
+}
+
+#endif
 	
 
 /*
