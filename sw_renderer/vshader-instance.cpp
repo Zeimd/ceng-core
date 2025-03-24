@@ -344,8 +344,8 @@ const CRESULT CR_VertexShaderInstance::SetVertexStreams()
 			return CE_ERR_FAIL;
 		}
 
-		inputBaseAddress[k] = vertexFormat->variables[j].inputOffset +
-			UINT32(vertexStreams[vertexFormat->variables[j].inputStream].inputPtr);
+		inputBaseAddress[k] = POINTER(vertexFormat->variables[j].inputOffset) +
+			POINTER(vertexStreams[vertexFormat->variables[j].inputStream].inputPtr);
 
 		inputSteps[k] = vertexStreams[vertexFormat->variables[j].inputStream].elementSize;
 	}
