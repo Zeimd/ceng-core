@@ -398,6 +398,15 @@ struct AddressScale
 	Ceng::UINT16 rowBytes;
 };
 
+struct TiledAddress
+{
+	Ceng::INT16 tileStepX;
+	Ceng::INT16 tileStepY;
+
+	Ceng::INT16 posStepX;
+	Ceng::INT16 posStepY;
+};
+
 #ifdef _WIN64
 
 struct AddressPair
@@ -422,6 +431,8 @@ inline AddressPair GenerateAddress(const Ceng::POINTER baseAddress, const Addres
 
 	AddressPair out;
 
+	// Convert offsets in addressVec to uint64 before adding baseAddress
+
 	out.first = _mm_unpacklo_epi32(addressVec, zeroes);
 	out.first = _mm_add_epi64(out.first, baseVec);
 
@@ -432,6 +443,49 @@ inline AddressPair GenerateAddress(const Ceng::POINTER baseAddress, const Addres
 
 	// addressVec = dword{base + frac(v3)*height*rowBytes + frac(u3)*width*bytesPerPixel,...}
 	//return _mm_add_epi32(addressVec, *(__m128i*) & baseVec);
+}
+
+// - Assumes 4x4 tiling    
+
+inline AddressPair GenerateTiledAddress(const Ceng::POINTER baseAddress, const TiledAddress& scale, const __m128i& uvVec)
+{
+	// stepVec = word {rowBytes,bytesPerpixel,rowBytes,bytesPerPixel,...}
+	__m128 tileStepVec = _mm_load1_ps((float*)&scale.tileStepX);
+
+	__m128i tileIndex = _mm_srli_epi16(uvVec, 2);
+
+	__m128i tileOffset = _mm_madd_epi16(tileIndex, *(__m128i*) & tileStepVec);
+
+	// baseAddress = qword {base,base}
+	__m128i baseVec = _mm_castpd_si128(_mm_load1_pd((double*)&baseAddress));
+
+	__m128i posIndex = _mm_slli_epi16(uvVec, 14);
+
+	__m128i posTemp = _mm_srli_epi16(posIndex, 14);
+
+	posIndex = _mm_or_si128(posIndex, posTemp);
+
+	posIndex = _mm_slli_epi32(posIndex, 2);
+	posIndex = _mm_srli_epi32(posIndex, 14);
+
+	tileOffset = _mm_add_epi32(tileOffset, posIndex);
+
+	AddressPair out;
+
+	// Convert offsets in addressVec to uint64 before adding baseAddress
+
+	__m128i zeroes = _mm_setzero_si128();
+
+	out.first = _mm_unpacklo_epi32(tileOffset, zeroes);
+	out.first = _mm_add_epi64(out.first, baseVec);
+
+	out.second = _mm_unpackhi_epi32(tileOffset, zeroes);
+	out.second = _mm_add_epi64(out.first, baseVec);
+
+	return out;
+
+	// addressVec = dword{base + frac(v3)*height*rowBytes + frac(u3)*width*bytesPerPixel,...}
+	//return _mm_add_epi32(tileOffset, *(__m128i*) & baseVec);
 }
 
 #else
@@ -452,7 +506,42 @@ inline __m128i GenerateAddress(const Ceng::POINTER baseAddress, const AddressSca
 	return _mm_add_epi32(addressVec, *(__m128i*) & baseVec);
 }
 
+// NOTE: 
+// - Only works in 32-bit mode.
+// - Assumes 4x4 tiling    
+
+inline __m128i GenerateTiledAddress(const Ceng::POINTER baseAddress, const TiledAddress& scale, const __m128i& uvVec)
+{
+	// stepVec = word {rowBytes,bytesPerpixel,rowBytes,bytesPerPixel,...}
+	__m128 tileStepVec = _mm_load1_ps((float*)&scale.tileStepX);
+
+	__m128i tileIndex = _mm_srli_epi16(uvVec, 2);
+
+	__m128i tileOffset = _mm_madd_epi16(tileIndex, *(__m128i*) & tileStepVec);
+
+	// baseAddress = dword {base,base,base,base}
+	__m128 baseVec = _mm_load1_ps((float*)&baseAddress);
+
+	__m128i posIndex = _mm_slli_epi16(uvVec, 14);
+
+	__m128i posTemp = _mm_srli_epi16(posIndex, 14);
+
+	posIndex = _mm_or_si128(posIndex, posTemp);
+
+	posIndex = _mm_slli_epi32(posIndex, 2);
+	posIndex = _mm_srli_epi32(posIndex, 14);
+
+	tileOffset = _mm_add_epi32(tileOffset, posIndex);
+
+	// addressVec = dword{base + frac(v3)*height*rowBytes + frac(u3)*width*bytesPerPixel,...}
+	return _mm_add_epi32(tileOffset, *(__m128i*) & baseVec);
+}
+
 #endif
+
+
+
+
 
 
 
@@ -596,46 +685,6 @@ void CR_ShaderViewTex2D::Nearest_SSE2(const Ceng::INT32 *uFX, const Ceng::INT32 
 }
 */
 
-struct TiledAddress
-{
-	Ceng::INT16 tileStepX;
-	Ceng::INT16 tileStepY;
-
-	Ceng::INT16 posStepX;
-	Ceng::INT16 posStepY;
-};
-
-
-// NOTE: 
-// - Only works in 32-bit mode.
-// - Assumes 4x4 tiling    
-
-inline __m128i GenerateTiledAddress(const Ceng::POINTER baseAddress, const TiledAddress &scale, const __m128i &uvVec)
-{
-	// stepVec = word {rowBytes,bytesPerpixel,rowBytes,bytesPerPixel,...}
-	__m128 tileStepVec = _mm_load1_ps((float*)&scale.tileStepX);
-
-	__m128i tileIndex = _mm_srli_epi16(uvVec, 2);
-
-	__m128i tileOffset = _mm_madd_epi16(tileIndex, *(__m128i*)&tileStepVec);
-
-	// baseAddress = dword {base,base,base,base}
-	__m128 baseVec = _mm_load1_ps((float*)&baseAddress);
-
-	__m128i posIndex = _mm_slli_epi16(uvVec, 14);
-
-	__m128i posTemp = _mm_srli_epi16(posIndex, 14);
-
-	posIndex = _mm_or_si128(posIndex, posTemp);
-
-	posIndex = _mm_slli_epi32(posIndex, 2);
-	posIndex = _mm_srli_epi32(posIndex, 14);
-
-	tileOffset = _mm_add_epi32(tileOffset, posIndex);
-
-	// addressVec = dword{base + frac(v3)*height*rowBytes + frac(u3)*width*bytesPerPixel,...}
-	return _mm_add_epi32(tileOffset, *(__m128i*)&baseVec);
-}
 
 void CR_ShaderViewTex2D::Nearest_SSE2(const Ceng::INT32 *uFX, const Ceng::INT32 *vFX, Ceng::UINT32 mipLevel,
 	const Ceng::FLOAT32 mipFactor, Ceng::FLOAT32 *out_color)
