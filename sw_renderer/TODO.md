@@ -29,6 +29,11 @@ Rasterizer
 
             Found hard-coded assumption that number of output buckets is 3 instead of the 4 possible for rasterizer tile size of 8.
 
+------------------------------------------------------------------
+Pipeline
+
+- [ ] Use render target specific bucket amounts to prevent scanning unused buckets if maximum allocation is higher
+
 
 
 
