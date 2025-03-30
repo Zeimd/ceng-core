@@ -35,7 +35,7 @@ const CRESULT Task_Rasterizer::Execute(const Ceng::UINT32 threadId,Pipeline *pip
 	//CRESULT cresult = CE_OK;
 
 	CRESULT cresult = rasterizerBatch->renderState->rasterizer->
-		Rasterize(rasterizerBatch,pipeline->pixelShader,threadId);
+		Rasterize(rasterizerBatch,pipeline->pixelShader,threadId,pipeline->renderThreads.size());
 
 	--pipeline->rasterizer.activeThreads;
 	--pipeline->activeThreads;

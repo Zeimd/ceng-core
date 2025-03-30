@@ -24,27 +24,82 @@
 
 using namespace Ceng;
 
-const CRESULT CR_Rasterizer::Rasterize(std::shared_ptr<RasterizerBatch> &batch,
-										LockingStage &outputStage, const Ceng::UINT32 threadId)
+class CyclicCounter
 {
-	std::vector<Task_PixelShader*> outputs(3);
+private:
+	Ceng::UINT32 limit;
+	Ceng::UINT32 value;
 
-	for (Ceng::UINT32 k = 0; k < 3; ++k)
+public:
+
+	CyclicCounter(Ceng::UINT32 limit)
+		: limit(limit),value(0)
+	{
+
+	}
+
+	CyclicCounter(CyclicCounter& source)
+		: limit(source.limit), value(source.value)
+	{
+
+	}
+
+	CyclicCounter& operator++()
+	{
+		CyclicIncrement();
+
+		return *this;
+	}
+
+	CyclicCounter operator++(int)
+	{
+		CyclicCounter temp{ *this };
+
+		CyclicIncrement();
+
+		return temp;
+	}
+
+	operator Ceng::UINT32()
+	{
+		return value;
+	}
+
+private:
+
+	void CyclicIncrement()
+	{
+		++value;
+
+		if (value == limit)
+		{
+			value = 0;
+		}
+	}
+};
+
+
+const CRESULT CR_Rasterizer::Rasterize(std::shared_ptr<RasterizerBatch> &batch,
+	LockingStage &outputStage, const Ceng::UINT32 threadId, const Ceng::UINT32 renderThreads)
+{
+	std::vector<Task_PixelShader*> outputs(renderThreads);
+
+	for (Ceng::UINT32 k = 0; k < renderThreads; ++k)
 	{
 		outputs[k] = new Task_PixelShader(batch);
 	}
 
 	Ceng::INT32 quadCount=0;
 
-	RasterizeTriangle(outputs,&batch->renderState->activeRect);
+	RasterizeTriangle(outputs,&batch->renderState->activeRect, renderThreads);
 
-	for (Ceng::UINT32 k = 0; k < 3; ++k)
+	for (Ceng::UINT32 k = 0; k < renderThreads; ++k)
 	{
 		if (outputs[k]->quadCount > 0)
 		{
 			std::shared_ptr<LockingTask> task = std::shared_ptr<Task_PixelShader>(outputs[k]);
 
-			outputStage.AddTask(3*batch->bucketId+k, task);
+			outputStage.AddTask(renderThreads*batch->bucketId+k, task);
 		}
 		else
 		{
@@ -56,7 +111,7 @@ const CRESULT CR_Rasterizer::Rasterize(std::shared_ptr<RasterizerBatch> &batch,
 }
 
 const Ceng::INT32 CR_Rasterizer::RasterizeTriangle(std::vector<Task_PixelShader*> &outputs,
-											 Ceng::Rectangle *scissorRect)
+	Ceng::Rectangle *scissorRect, Ceng::UINT32 renderThreads)
 {
 	//******************************************************
 	// Create local copies of variables
@@ -304,6 +359,8 @@ const Ceng::INT32 CR_Rasterizer::RasterizeTriangle(std::vector<Task_PixelShader*
 	Ceng::INT32 xMax = outputs[0]->rasterizerBatch->xMax;
 	Ceng::INT32 yMax = outputs[0]->rasterizerBatch->yMax;
 	
+	CyclicCounter bucketId{ renderThreads };
+
 	// Test tiles within the bounding box for triangle overlap
 
 	for(Ceng::INT32 k=yMin;k<yMax;k+=8)
@@ -338,10 +395,12 @@ const Ceng::INT32 CR_Rasterizer::RasterizeTriangle(std::vector<Task_PixelShader*
 				{
 					if (chainStart[i] != -1)
 					{
-						GenerateChain(outputs[i%3],chainStart[i],chainEnd[i],
+						GenerateChain(outputs[bucketId],chainStart[i],chainEnd[i],
 										chainCoverage[i],k+2*i);
 					}
-				
+
+					++bucketId;
+
 					chainStart[i] = -1;
 					chainEnd[i] = -1;
 					chainType[i] = -1;
@@ -448,7 +507,7 @@ const Ceng::INT32 CR_Rasterizer::RasterizeTriangle(std::vector<Task_PixelShader*
 					
 					if (chainType[i] == PARTIAL_CHAIN)
 					{
-						GenerateChain(outputs[i%3],chainStart[i],chainEnd[i],chainCoverage[i],
+						GenerateChain(outputs[bucketId],chainStart[i],chainEnd[i],chainCoverage[i],
 																k+2*i);
 
 						chainStart[i] = -1;
@@ -468,6 +527,8 @@ const Ceng::INT32 CR_Rasterizer::RasterizeTriangle(std::vector<Task_PixelShader*
 						chainCoverage[i][2] = 0;
 						chainCoverage[i][3] = 0;
 					}
+
+					++bucketId;
 
 					chainEnd[i] = j+8;
 
@@ -533,7 +594,7 @@ const Ceng::INT32 CR_Rasterizer::RasterizeTriangle(std::vector<Task_PixelShader*
 							
 						// Flush the chain if the entire line isn't fully covered
 
-						GenerateChain(outputs[i%3],chainStart[i],
+						GenerateChain(outputs[bucketId],chainStart[i],
 													chainEnd[i],chainCoverage[i],
 													k+2*i);
 
@@ -560,7 +621,7 @@ const Ceng::INT32 CR_Rasterizer::RasterizeTriangle(std::vector<Task_PixelShader*
 
 					// Flush any preceding chain
 
-					GenerateChain(outputs[i%3],chainStart[i],
+					GenerateChain(outputs[bucketId],chainStart[i],
 									chainEnd[i],chainCoverage[i],
 									k+2*i);
 
@@ -599,7 +660,7 @@ const Ceng::INT32 CR_Rasterizer::RasterizeTriangle(std::vector<Task_PixelShader*
 
 							if (coverageIndex[i] == 32)
 							{
-								GenerateChain(outputs[i%3],chainStart[i],
+								GenerateChain(outputs[bucketId],chainStart[i],
 												chainEnd[i],chainCoverage[i],
 												k+2*i);
 
@@ -614,7 +675,7 @@ const Ceng::INT32 CR_Rasterizer::RasterizeTriangle(std::vector<Task_PixelShader*
 
 							if (chainType[i] == PARTIAL_CHAIN)
 							{
-								GenerateChain(outputs[i%3],chainStart[i],
+								GenerateChain(outputs[bucketId],chainStart[i],
 														chainEnd[i],chainCoverage[i],
 														k+2*i);
 
@@ -630,7 +691,7 @@ const Ceng::INT32 CR_Rasterizer::RasterizeTriangle(std::vector<Task_PixelShader*
 						// Flush partial chain if present
 						if (chainType[i] == PARTIAL_CHAIN)
 						{
-							GenerateChain(outputs[i%3],chainStart[i],
+							GenerateChain(outputs[bucketId],chainStart[i],
 													chainEnd[i],chainCoverage[i],
 													k+2*i);
 
@@ -648,6 +709,8 @@ const Ceng::INT32 CR_Rasterizer::RasterizeTriangle(std::vector<Task_PixelShader*
 
 						chainStart[i] = j + 2*trailingStart;
 						chainEnd[i] = j + 8;
+
+						++bucketId;
 					}					
 
 				} // for i
@@ -720,9 +783,11 @@ const Ceng::INT32 CR_Rasterizer::RasterizeTriangle(std::vector<Task_PixelShader*
 		{
 			if (chainType[i] != -1)
 			{
-				GenerateChain(outputs[i%3],chainStart[i],chainEnd[i],
+				GenerateChain(outputs[bucketId],chainStart[i],chainEnd[i],
 											chainCoverage[i],k+2*i);
 			}
+
+			++bucketId;
 
 			chainStart[i] = -1;
 			chainEnd[i] = -1;

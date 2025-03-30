@@ -84,10 +84,10 @@ namespace Ceng
 		void TriangleSetup_DiscardBatch(BatchVector &outputBatch);
 
 		const CRESULT Rasterize(std::shared_ptr<RasterizerBatch> &batch,LockingStage &outputStage,
-			const Ceng::UINT32 threadId);
+			const Ceng::UINT32 threadId, Ceng::UINT32 renderThreads);
 	
 		const Ceng::INT32 RasterizeTriangle(std::vector<Task_PixelShader*> &outputBatch,
-												Ceng::Rectangle *scissorRect);
+			Ceng::Rectangle *scissorRect, Ceng::UINT32 renderThreads);
 
 		Ceng::INT32 RasterizeTriangle_ChainWithinTile(CR_TriangleData *triangle,
 														CR_NewTargetData *depthBuffer,
