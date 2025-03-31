@@ -107,6 +107,46 @@ To ensure that API call order is followed, various methods can be used to preven
         NOTE: most likely slow
 
 ----------------------------------------------------------------------------------------------
+Scheduler thread
+
+Instead of worker threads checking the priority queue for work, that task could be performed by a separate scheduler thread.
+
+The most obvious advantage is that only the scheduler thread will push and pop from the priority queue, so mutexes aren't needed. Futures must be
+used to push result storage to output queue before the task that writes the result starts executing. 
+
+To handle screen space bucket exclusion, an array can be kept that has
+
+    currently executing thread id
+
+    ready semaphore (atomic)
+
+In addition to finding a task, the scheduler must also find a free worker thread to execute it. Again there are multiple possible approaches.
+
+    Thread status structure
+
+        Simple array
+
+            PRO: Simple to implement
+
+            PRO: Can simply ask the worker thread object if it's done
+
+            CON: might be fast enough for small number of threads, but for scalability a more complex structure might be needed. 
+
+        Status bit vector
+
+            PRO: a most significant bit finding operation can find a free thread relatively quickly
+
+            CON: worker thread must signal end of task somehow. This risks false sharing for the compact bit vector. Also means the bit vector needs to
+                 be atomic
+
+    Thread input queues
+
+        Bypasses the problem of knowing when threads are free by distributing work into thread specific input queues in a round-robin manner.
+
+        CON: introduces some lag. It can't be guaranteed that threads are always executing the highest priority tasks. Also can't guarantee that
+             high priority tasks will be added to the queue of the thread that will finish its current task fastest.
+
+----------------------------------------------------------------------------------------------
 Completion detection and counters
 
 API call queue
