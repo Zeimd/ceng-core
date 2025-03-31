@@ -43,6 +43,8 @@ namespace Ceng
 		 */
 		CR_QuadEdges quadEdgeValue[3]; 
 
+		Ceng::INT32 bucketYmin;
+
 		Ceng::INT32 xMin,yMin;
 		Ceng::INT32 xMax,yMax;
 

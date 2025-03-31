@@ -401,6 +401,8 @@ const CRESULT CR_Rasterizer::TriangleSetup(CR_PrimitiveData &primitive,
 			continue;
 		}
 
+		outputBatch[k]->bucketYmin = rect->top;
+
 		outputBatch[k]->xMin = xMin;
 		if (xMin < rect->left) outputBatch[k]->xMin = rect->left;
 
