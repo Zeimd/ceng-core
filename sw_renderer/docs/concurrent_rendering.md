@@ -22,7 +22,6 @@ Bucket layout
 The simplest layout simply divides render target into horizontal stripes. Interleaving can be used to spread work more evenly between threads and to
 reduce effect of triangle's screen space location to division of work.
 
-
 ---------------------------------------------------
 Number of buckets
 
@@ -46,5 +45,88 @@ not be worth it.
 The bucket system also allows work on overlapping triangles in parallel. However, before starting a task for a given bucket, it must be ensured that the
 task for the previous triangle has finished. Using a mutex to prevent other threads from taking a task from the bucket's queue is the easiest way to handle
 this, but it comes with context switch overhead.
+
+----------------------------------------------------------------------------------------------
+Priority queue structure
+
+Priority is
+
+    pixel shader 
+
+        split into buckets. 
+
+        TBC: separate queue per bucket or single serial queue
+
+            single queue would need read mutex to prevent multiple threads popping at the same time
+
+                PROBLEM: bucket exclusion needs to be handled in an another manner
+
+                PROBLEM: task at queue front might be blocking, but tasks behind it in different buckets might be not.
+
+                        TBC: need to implemented task polling that looks ahead into the queue?
+
+            multiple queues increases overhead from looking for tasks to execute
+
+    rasterizer
+
+        works similar to pixel shader
+
+    triangle setup
+
+        allows truly out of order execution as long as output is ordered
+
+    clipper
+
+        allows truly out of order execution as long as output is ordered
+
+    vertex shader
+
+        allows truly out of order execution as long as output is ordered
+
+----------------------------------------------------------------------------------------------
+Out of order execution
+
+To ensure that API call order is followed, various methods can be used to prevent threads from working on tasks too soon:
+
+    futures can be inserted to output queue before task execution starts. This ensures that output is in correct order despite individual tasks
+    completing out of order. A future can only be popped from queue once it's associated task is complete.
+
+        NOTE: std::future doesn't allow wait-free checking for ready, so need a custom class
+
+        PROBLEM: might have to fold bucket queues into a single future to keep queue lengths manageable.
+
+        PROBLEM: need a way to signal task completion so that other threads can execute from input queue.
+
+                TBC: would atomic semaphores work? Compare number of issued and completed tasks, which must match before a guard element in the queue
+                     can be popped.
+
+    execution mutex on queue prevents other threads from starting a task from the queue while a thread is already executing from the queue.
+
+        NOTE: releasing mutex also signals that work on the task is done.
+
+        NOTE: most likely slow
+
+----------------------------------------------------------------------------------------------
+Completion detection and counters
+
+API call queue
+
+    Used to determine when an API call has been completed.
+
+        NOTE: This means draw calls, not state calls.
+
+Triangle queue
+
+    Used to determine when a triangle has been completely rendered.
+
+Things to count
+
+    number of pixels shaded per thread
+
+    overdraw level?
+
+    depth test pass / fail
+
+    stencil test pass / fail
 
 
