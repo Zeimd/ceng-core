@@ -710,13 +710,18 @@ void PixelShaderInstance::ShaderFunction(const FLOAT32 *perspective,
 	_declspec(align(16)) Ceng::VectorF4 color;
 
 	color.x = 0.0f;
-	color.y = 0.5f;
+	color.y = 0.0f;
 	color.z = 0.0f;
 	color.w = 0.0f;
 
 	/*
 	switch (threadId)
 	{
+	case 0:
+		color.x = 1.0f;
+		color.y = 1.0f;
+		color.z = 1.0f;
+		break;
 	case 1:
 		color.x = 0.5f;
 		color.y = 0.0f;
@@ -729,6 +734,28 @@ void PixelShaderInstance::ShaderFunction(const FLOAT32 *perspective,
 		color.x = 1.0f;
 		color.y = 0.0f;
 		color.z = 1.0f;
+		break;
+	case 4:
+		color.x = 0.0f;
+		color.y = 0.5f;
+		color.z = 1.0f;
+		break;
+	case 5:
+		color.x = 0.5f;
+		color.y = 0.5f;
+		color.z = 0.0f;
+		break;
+	case 6:
+		color.x = 0.5f;
+		color.y = 0.5f;
+		color.z = 0.5f;
+		break;
+	case 7:
+		color.x = 0.25f;
+		color.y = 0.25f;
+		color.z = 0.5f;
+		break;
+	default:
 		break;
 	}
 	*/
