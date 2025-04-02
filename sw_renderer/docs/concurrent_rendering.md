@@ -116,12 +116,59 @@ Data structure
             TBA
 
 ----------------------------------------------------------------------------------------------
+Pipeline hazards
+
 Task starvation 
 
-Because of the way a naive priority queue works, all threads will select tasks from the highest priority queue if possible.
-This means that it's possible that all threads do pixel shader tasks and only do more rasterizer work after pixel shader queue
-is empty. But rasterizer tasks feed the pixel shader queue, which might stall the pipeline unless at least one thread is intentionally
-held back from pixel shading.
+    Because of the way the naive task queue works, all threads will select tasks from the highest priority queue if possible.
+    This means that it's possible that all threads do pixel shader tasks and only do more rasterizer work after pixel shader queue
+    is empty. But rasterizer tasks feed the pixel shader queue, which might stall the pipeline unless at least one thread is intentionally
+    held back from pixel shading.
+
+Task blocking
+
+    Assume a hypotethical scenario where all threads are rasterizing, but pixel shader queues are full so all threads start waiting until they
+    can add their outputs to a pixel shader queue. In this case the pipeline becomes softlocked. There are various solutions:
+
+    Reserve thread
+
+        Prevent all worker threads from taking tasks from the same pipeline stage. In principle one reserve thread should be enough.
+
+        This approach can lead to a long stall despite avoiding a softlock, because only one thread is available to remove the block further in the
+        pipeline, and it might take time before it executes from the correct queues to release other threads.
+
+    Reserve output queue slots before starting
+
+        In this approach output queue slots must be available before task can start executing. It must be possible to temporarily abandon task
+        to look for other work until all required slots are available.
+
+        When combined with bucketing, an output slot must be reserved for each bucket regardless of whether it will be needed or not.
+
+        If a task can output more than one item, it might be necessary to use task items with subqueues to keep the number of reserved main queue entries predictable.
+
+    Return to queue
+
+        If task gets blocked because it can't write its output, store the tasks state, put it back in the queue and start looking for a different task.
+
+        This is problematic if multiple threads have started tasks from the same queue and more than one becomes blocked, since the tasks must be
+        returned to the queue in the same order they were taken out. Possible approaches:
+
+            Keep tasks in input queue until they are complete.
+
+            Separate pending queue
+
+                When task is taken out from the task queue, it goes into a pending queue for the same pipeline stage. Pending queue is scanned before the
+                main queue when looking for work. 
+
+        In general the paused tasks increase time needed to find work from the task queue.
+
+        Tasks must be designed to allow pause-continue, which increases complexity.
+
+        It might be difficult to determine if a task can continue executing without actually executing it, which wastes time.
+
+
+
+
 
 ----------------------------------------------------------------------------------------------
 Out of order execution
