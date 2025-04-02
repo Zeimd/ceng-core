@@ -47,7 +47,27 @@ task for the previous triangle has finished. Using a mutex to prevent other thre
 this, but it comes with context switch overhead.
 
 ----------------------------------------------------------------------------------------------
-Priority queue structure
+Threading model
+
+Dedicated threads
+
+    In the dedicated thread model worker threads never change their task. X threads are allocated to pixel shading, Y to rasterizing, etc.
+
+    CONS:
+
+        - Limits the number of threads that can be assigned to a specific task compared to task based model, since the total number of threads
+          can't be grown without limit
+
+Task model
+
+    All worker threads can execute any task. A task queue provides work from which a task is selected according to priority.
+
+    CONS:
+
+        - Increased overhead from selecting next task to execute
+
+----------------------------------------------------------------------------------------------
+Task queue
 
 Priority is
 
@@ -82,6 +102,26 @@ Priority is
     vertex shader
 
         allows truly out of order execution as long as output is ordered
+
+Data structure
+
+    Multiple queues scanned in order
+
+        NOTE: Current design
+
+    Alternatives
+
+        Priority queue / Heap
+
+            TBA
+
+----------------------------------------------------------------------------------------------
+Task starvation 
+
+Because of the way a naive priority queue works, all threads will select tasks from the highest priority queue if possible.
+This means that it's possible that all threads do pixel shader tasks and only do more rasterizer work after pixel shader queue
+is empty. But rasterizer tasks feed the pixel shader queue, which might stall the pipeline unless at least one thread is intentionally
+held back from pixel shading.
 
 ----------------------------------------------------------------------------------------------
 Out of order execution
