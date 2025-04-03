@@ -111,9 +111,7 @@ Data structure
 
     Alternatives
 
-        Priority queue / Heap
-
-            TBA
+        Priority queue / Heap?
 
 ----------------------------------------------------------------------------------------------
 Pipeline hazards
@@ -165,10 +163,6 @@ Task blocking
         Tasks must be designed to allow pause-continue, which increases complexity.
 
         It might be difficult to determine if a task can continue executing without actually executing it, which wastes time.
-
-
-
-
 
 ----------------------------------------------------------------------------------------------
 Out of order execution
@@ -234,23 +228,44 @@ In addition to finding a task, the scheduler must also find a free worker thread
              high priority tasks will be added to the queue of the thread that will finish its current task fastest.
 
 ----------------------------------------------------------------------------------------------
-Completion detection and counters
+Completion detection
 
-API call queue
+    The easiest way to detect completion of tasks is to compare the number of issued tasks and completed tasks. These counters must
+    be stored and for this we employ two queues:
 
-    Used to determine when an API call has been completed.
+    Triangle queue
 
-        NOTE: This means draw calls, not state calls.
+        Used to determine when a triangle has been completely rendered.
 
-Triangle queue
+            Triangle counts as complete once triangle setup, rasterizer and pixel shader tasks have been completed.
 
-    Used to determine when a triangle has been completely rendered.
+    API call queue
+
+        Used to determine when an API call has been completed. 
+
+            NOTE: This means draw calls, not state calls.
+
+        In this case it counts completed triangles from the API call. 
+
+            We need to differentiate API triangles (of which there are N in the API call itself), and logical triangles, whose amount
+            is known after clipping. Logical triangles attach to a specific API level triangle.
+
+                NOTE: If the entire API triangle gets discarded by clipper, it counts as completed.
+
+                NOTE: Discarded logical triangles count as rendered in this case.
+
+---------------------------------------------------------------------------------------------
+Performance counters
+
+    The purpose of these counters is to aid in debugging and optimization. Values can be provided either per thread or total.
+
+    The counting could be limited to a set of draw calls or the entire frame.
 
 Things to count
 
-    number of pixels shaded per thread
+    number of pixels shaded 
 
-    overdraw level?
+    overdraw level
 
     depth test pass / fail
 
