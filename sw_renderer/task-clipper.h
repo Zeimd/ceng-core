@@ -12,6 +12,8 @@
 #include <memory>
 #include "locking-task.h"
 
+#include "future.h"
+
 namespace Ceng
 {
 	class ClipperBatch;
@@ -36,6 +38,8 @@ namespace Ceng
 
 namespace Ceng::Experimental
 {
+	class Task_TriangleSetup;
+
 	class Task_Clipper : public Experimental::RenderTask
 	{
 	protected:
@@ -44,6 +48,8 @@ namespace Ceng::Experimental
 
 		Task_Clipper();
 	public:
+
+		Future<Experimental::Task_TriangleSetup>* future;
 
 		Task_Clipper(std::shared_ptr<ClipperBatch>& clipperBatch);
 

@@ -57,9 +57,9 @@ namespace Ceng::Experimental
 
 	protected:
 
-		Task_TriangleSetup();
-
 	public:
+
+		Task_TriangleSetup();
 
 		Task_TriangleSetup(std::shared_ptr<TriangleBatch>& triangleBatch);
 

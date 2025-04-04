@@ -153,11 +153,11 @@ std::shared_ptr<Experimental::RenderTask> SchedulerTask::GetTask()
 		return task;
 	}
 
-	auto& queue = pipeline->triangleSetup.queue;
+	auto& triangleQueue = pipeline->triangleSetup.queue;
 
-	if (queue.IsEmpty() == false)
+	if (triangleQueue.IsEmpty() == false)
 	{
-		auto& front = queue.Front();
+		auto& front = triangleQueue.Front();
 
 		if (front.IsReady() == true)
 		{
@@ -195,7 +195,42 @@ std::shared_ptr<Experimental::RenderTask> SchedulerTask::GetTask()
 					task->futures.push_back(ptr);
 				}
 
-				queue.PopFront();
+				triangleQueue.PopFront();
+
+				return task;
+			}
+		}
+	}
+
+	auto& clipperQueue = pipeline->clipper.queue;
+
+	if (clipperQueue.IsEmpty() == false)
+	{
+		auto& front = clipperQueue.Front();
+
+		if (front.IsReady() == true)
+		{
+			// Check that there is enough space for future in every pixel shader bucket queue
+
+			if (pipeline->triangleSetup.queue.IsFull() == false)
+			{
+				// Allocate futures from queues
+
+				auto& task = front.task;
+
+				std::shared_ptr<Experimental::Task_TriangleSetup> output = std::make_shared<Experimental::Task_TriangleSetup>();
+
+				Experimental::Future<Experimental::Task_TriangleSetup> future(output);
+
+				pipeline->triangleSetup.queue.PushBack(future);
+
+				Experimental::Future<Experimental::Task_TriangleSetup>* ptr;
+
+				pipeline->triangleSetup.queue.FrontPtr(&ptr);
+
+				task->future = ptr;
+
+				clipperQueue.PopFront();
 
 				return task;
 			}
