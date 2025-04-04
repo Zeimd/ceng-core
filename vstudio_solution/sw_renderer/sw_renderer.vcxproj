@@ -249,6 +249,7 @@
     <ClInclude Include="..\..\sw_renderer\task-clipper.h" />
     <ClInclude Include="..\..\sw_renderer\task-pshader.h" />
     <ClInclude Include="..\..\sw_renderer\task-rasterizer.h" />
+    <ClInclude Include="..\..\sw_renderer\task-scheduler.h" />
     <ClInclude Include="..\..\sw_renderer\task-triangle-setup.h" />
     <ClInclude Include="..\..\sw_renderer\texture-copy.h" />
     <ClInclude Include="..\..\sw_renderer\texture-unit.h" />
@@ -325,6 +326,7 @@
     <ClCompile Include="..\..\sw_renderer\task-clipper.cpp" />
     <ClCompile Include="..\..\sw_renderer\task-pshader.cpp" />
     <ClCompile Include="..\..\sw_renderer\task-rasterizer.cpp" />
+    <ClCompile Include="..\..\sw_renderer\task-scheduler.cpp" />
     <ClCompile Include="..\..\sw_renderer\task-triangle-setup.cpp" />
     <ClCompile Include="..\..\sw_renderer\texture-copy.cpp" />
     <ClCompile Include="..\..\sw_renderer\texture-unit.cpp" />
