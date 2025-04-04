@@ -88,6 +88,7 @@ namespace Ceng
 namespace Ceng::Experimental
 {
 	class RenderThread;
+	class RenderTask;
 
 	template<class T>
 	class Future
@@ -116,7 +117,7 @@ namespace Ceng::Experimental
 			return *this;
 		}
 
-		Future(std::shared_ptr<T>& source)
+		Future(const std::shared_ptr<T>& source)
 			: task(source)
 		{
 			ready.store(0);
@@ -131,7 +132,7 @@ namespace Ceng::Experimental
 	class SimpleQueue
 	{
 	public:
-		RingBuffer<Future<RenderTask>> queue;
+		RingBuffer<Future<Experimental::RenderTask>> queue;
 		std::atomic<Ceng::UINT32> numThreads;
 
 		SimpleQueue()
@@ -156,14 +157,14 @@ namespace Ceng::Experimental
 		SimpleQueue(Ceng::UINT32 items, Ceng::UINT32 cacheLineSize)	
 		{
 			numThreads.store(0);
-			queue = RingBuffer<Future<RenderTask>>::Allocate(items, cacheLineSize);
+			queue = RingBuffer<Future<Experimental::RenderTask>>::Allocate(items, cacheLineSize);
 		}
 	};
 
 	class BucketQueue
 	{
 	public:
-		RingBuffer<Future<RenderTask>> queue;
+		RingBuffer<Future<Experimental::RenderTask>> queue;
 
 		// Indicates if something is executing in the bucket
 		std::atomic<Ceng::UINT32> lock;
@@ -196,7 +197,7 @@ namespace Ceng::Experimental
 		BucketQueue(Ceng::UINT32 items, Ceng::UINT32 cacheLineSize)
 			: threadId(-1)
 		{
-			queue = RingBuffer<Future<RenderTask>>::Allocate(items, cacheLineSize);
+			queue = RingBuffer<Future<Experimental::RenderTask>>::Allocate(items, cacheLineSize);
 		}
 	};
 
