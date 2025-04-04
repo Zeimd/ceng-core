@@ -718,9 +718,9 @@ void PixelShaderInstance::ShaderFunction(const FLOAT32 *perspective,
 	switch (threadId)
 	{
 	case 0:
-		color.x = 1.0f;
-		color.y = 1.0f;
-		color.z = 1.0f;
+		color.x = 0.0f;
+		color.y = 0.5f;
+		color.z = 0.0f;
 		break;
 	case 1:
 		color.x = 0.5f;
