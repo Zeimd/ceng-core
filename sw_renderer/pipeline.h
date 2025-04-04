@@ -85,4 +85,74 @@ namespace Ceng
 	};
 }
 
+namespace Ceng::Experimental
+{
+	template<class T>
+	class Future
+	{
+	public:
+		std::atomic<Ceng::UINT32> ready;
+		std::shared_ptr<T> task;
+
+		Future()
+			: task(nullptr), ready(0)
+		{
+
+		}
+
+		Future(std::shared_ptr<T>& source)
+			: task(source), ready(0)
+		{
+
+		}
+	};
+
+	using SimpleQueueType = RingBuffer<Future<RenderTask>>;
+
+	using BucketQueueType = std::vector<RingBuffer<Future<RenderTask>>>;
+
+	class Pipeline
+	{
+	public:
+
+		RingBuffer<std::shared_ptr<DrawBatch>> drawQueue;
+
+		RingBuffer<std::shared_ptr<DrawBatch>> vshaderOutQueue;
+
+		SimpleQueueType clipper;
+
+		SimpleQueueType triangleSetup;
+
+		BucketQueueType rasterizer;
+
+		BucketQueueType pixelShader;
+
+		std::atomic<Ceng::UINT32> remainingTasks;
+		std::atomic<Ceng::UINT32> activeThreads;
+
+		ConditionVariable* rendererHasWork;
+
+		std::vector<Thread*> renderThreads;
+		std::vector<ThreadTask*> renderThreadTasks;
+
+		std::atomic<Ceng::UINT32> runningThreadCount;
+		std::atomic<Ceng::UINT32> minThreadCount;
+		std::atomic<Ceng::UINT32> maxThreadCount;
+
+	public:
+
+		Pipeline();
+		~Pipeline();
+
+		void ResumeThreads();
+		void PauseThreads();
+
+		void WakeAllThreads();
+		void WakeOneThread();
+
+		const CRESULT Configure(const Ceng::UINT32 cacheLine, const Ceng::UINT32 maxScreenBuckets,
+			const Ceng::UINT32 renderThreads, std::shared_ptr<ConditionVariable>& cmdWake);
+	};
+}
+
 #endif
