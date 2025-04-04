@@ -115,7 +115,7 @@ std::shared_ptr<Experimental::RenderTask> SchedulerTask::GetTask()
 
 		bool valid = true;
 
-		for (int j = 0; j < pipeline->pixelShader.buckets.size(); k++)
+		for (int j = 0; j < pipeline->pixelShader.buckets.size(); j++)
 		{
 			if (pipeline->pixelShader.buckets[j].queue.IsFull())
 			{
@@ -133,7 +133,7 @@ std::shared_ptr<Experimental::RenderTask> SchedulerTask::GetTask()
 
 		auto& task = front.task;
 
-		for (int j = 0; j < pipeline->pixelShader.buckets.size(); k++)
+		for (int j = 0; j < pipeline->pixelShader.buckets.size(); j++)
 		{
 			std::shared_ptr<Experimental::Task_PixelShader> output = std::make_shared<Experimental::Task_PixelShader>();
 
