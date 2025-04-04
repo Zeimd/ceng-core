@@ -13,6 +13,8 @@
 
 #include "locking-task.h"
 
+#include "future.h"
+
 namespace Ceng
 {
 	class RasterizerBatch;
@@ -45,6 +47,8 @@ namespace Ceng::Experimental
 	public:
 
 		std::shared_ptr<RasterizerBatch> rasterizerBatch;
+
+		std::vector< Future<Task_PixelShader>* > futures;
 
 	public:
 
