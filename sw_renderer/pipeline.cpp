@@ -246,9 +246,9 @@ const CRESULT Experimental::Pipeline::Configure(const Ceng::UINT32 cacheLineSize
 
 	triangleSetup = SimpleQueue(64, cacheLineSize);
 
-	pixelShader = BucketQueue(maxThreads * maxScreenBuckets, 64, cacheLineSize);
+	pixelShader = BucketStage(maxThreads * maxScreenBuckets, 64, cacheLineSize);
 
-	rasterizer = BucketQueue(maxScreenBuckets, 64, cacheLineSize);
+	rasterizer = BucketStage(maxScreenBuckets, 64, cacheLineSize);
 
 	// Signal for render threads that there is work to do
 	Ceng_CreateConditionVar(&rendererHasWork);

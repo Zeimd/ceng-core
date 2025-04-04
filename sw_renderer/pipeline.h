@@ -108,6 +108,14 @@ namespace Ceng::Experimental
 			ready.store(source.ready);
 		}
 
+		Future& operator = (const Future& source)
+		{
+			ready.store(source.ready.load());
+			task = source.task;
+
+			return *this;
+		}
+
 		Future(std::shared_ptr<T>& source)
 			: task(source)
 		{
@@ -124,16 +132,30 @@ namespace Ceng::Experimental
 	{
 	public:
 		RingBuffer<Future<RenderTask>> queue;
-		Ceng::UINT32 numThreads;
+		std::atomic<Ceng::UINT32> numThreads;
 
 		SimpleQueue()
-			: numThreads(0)
 		{
+			numThreads.store(0);
 		}
 
-		SimpleQueue(Ceng::UINT32 items, Ceng::UINT32 cacheLineSize)
-			: numThreads(0)
+		SimpleQueue(const SimpleQueue& source)
+			: queue(source.queue)
 		{
+			numThreads.store(source.numThreads.load());
+		}
+
+		SimpleQueue& operator = (const SimpleQueue& source)
+		{
+			queue = source.queue;
+			numThreads.store(source.numThreads.load());
+
+			return *this;
+		}
+
+		SimpleQueue(Ceng::UINT32 items, Ceng::UINT32 cacheLineSize)	
+		{
+			numThreads.store(0);
 			queue = RingBuffer<Future<RenderTask>>::Allocate(items, cacheLineSize);
 		}
 	};
@@ -141,19 +163,66 @@ namespace Ceng::Experimental
 	class BucketQueue
 	{
 	public:
-		std::vector<SimpleQueue> queues;
-		Ceng::UINT32 numThreads;
+		RingBuffer<Future<RenderTask>> queue;
 
-		BucketQueue()
-			: numThreads(0)
+		// Indicates if something is executing in the bucket
+		std::atomic<Ceng::UINT32> lock;
+
+		// Thread holding the execution lock
+		// -1 = none
+		Ceng::INT32 threadId;
+
+		BucketQueue()		
+			: threadId(-1)
 		{
-
+			lock.store(0);
 		}
 
-		BucketQueue(Ceng::UINT32 buckets, Ceng::UINT32 items, Ceng::UINT32 cacheLineSize)
-			: numThreads(0)
+		BucketQueue(const BucketQueue& source)
+			: queue(source.queue), threadId(source.threadId)
 		{
-			for (int k = 0; k < buckets; ++k)
+			lock.store(source.lock.load());
+		}
+
+		BucketQueue& operator = (const BucketQueue& source)
+		{
+			queue = source.queue;
+			threadId = source.threadId;
+			lock.store(source.lock.load());
+
+			return *this;
+		}
+
+		BucketQueue(Ceng::UINT32 items, Ceng::UINT32 cacheLineSize)
+			: threadId(-1)
+		{
+			queue = RingBuffer<Future<RenderTask>>::Allocate(items, cacheLineSize);
+		}
+	};
+
+	class BucketStage
+	{
+	public:
+		std::vector<BucketQueue> queues;
+		std::atomic<Ceng::UINT32> numThreads;
+
+		BucketStage()		
+		{
+			numThreads.store(0);
+		}
+
+		BucketStage& operator = (const BucketStage& source)
+		{
+			queues = source.queues;
+			numThreads.store(source.numThreads.load());
+			return *this;
+		}
+
+		BucketStage(Ceng::UINT32 buckets, Ceng::UINT32 items, Ceng::UINT32 cacheLineSize)			
+		{
+			numThreads.store(0);
+
+			for (auto k = 0; k < buckets; ++k)
 			{
 				queues.emplace_back(items, cacheLineSize);
 			}
@@ -178,9 +247,9 @@ namespace Ceng::Experimental
 
 		SimpleQueue triangleSetup;
 
-		BucketQueue rasterizer;
+		BucketStage rasterizer;
 
-		BucketQueue pixelShader;
+		BucketStage pixelShader;
 
 		std::atomic<Ceng::UINT32> remainingTasks;
 		std::atomic<Ceng::UINT32> activeThreads;
