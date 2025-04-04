@@ -203,7 +203,7 @@ namespace Ceng::Experimental
 	class BucketStage
 	{
 	public:
-		std::vector<BucketQueue> queues;
+		std::vector<BucketQueue> buckets;
 		std::atomic<Ceng::UINT32> numThreads;
 
 		BucketStage()		
@@ -213,18 +213,18 @@ namespace Ceng::Experimental
 
 		BucketStage& operator = (const BucketStage& source)
 		{
-			queues = source.queues;
+			buckets = source.buckets;
 			numThreads.store(source.numThreads.load());
 			return *this;
 		}
 
-		BucketStage(Ceng::UINT32 buckets, Ceng::UINT32 items, Ceng::UINT32 cacheLineSize)			
+		BucketStage(Ceng::UINT32 amount, Ceng::UINT32 items, Ceng::UINT32 cacheLineSize)			
 		{
 			numThreads.store(0);
 
-			for (auto k = 0; k < buckets; ++k)
+			for (auto k = 0; k < amount; ++k)
 			{
-				queues.emplace_back(items, cacheLineSize);
+				buckets.emplace_back(items, cacheLineSize);
 			}
 		}
 	};
