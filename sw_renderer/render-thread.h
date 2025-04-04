@@ -71,7 +71,7 @@ namespace Ceng::Experimental
 		
 		Pipeline* pipeline;
 
-		RingBuffer<std::shared_ptr<RenderTask>> inputQueue;
+		RingBuffer<std::shared_ptr<Experimental::RenderTask>> inputQueue;
 
 		std::atomic<Ceng::UINT32>* runningThreadCount;
 		std::atomic<Ceng::UINT32>* minThreads;
