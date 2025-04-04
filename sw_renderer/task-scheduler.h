@@ -8,6 +8,9 @@
 namespace Ceng::Experimental
 {
 	class Pipeline;
+	class RenderTask;
+	class BucketStage;
+	class SimpleQueue;
 }
 
 namespace Ceng
@@ -38,6 +41,11 @@ namespace Ceng
 		const CRESULT Execute() override;
 
 		const CRESULT Exit() override;
+
+	protected:
+
+		std::shared_ptr<Experimental::RenderTask> GetTask();
+		
 	};
 }
 
