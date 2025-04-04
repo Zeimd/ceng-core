@@ -39,4 +39,29 @@ namespace Ceng
 	};
 }
 
+namespace Ceng::Experimental
+{
+	class Pipeline;
+
+	class Task_TriangleSetup : public Experimental::RenderTask
+	{
+	protected:
+
+		std::shared_ptr<TriangleBatch> triangleBatch;
+
+	protected:
+
+		Task_TriangleSetup();
+
+	public:
+
+		Task_TriangleSetup(std::shared_ptr<TriangleBatch>& triangleBatch);
+
+		~Task_TriangleSetup() override;
+
+		const CRESULT Prepare(const Ceng::UINT32 threadId, Experimental::Pipeline* pipeline) override;
+		const CRESULT Execute(const Ceng::UINT32 threadId, Experimental::Pipeline* pipeline) override;
+	};
+}
+
 #endif

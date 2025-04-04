@@ -44,4 +44,31 @@ namespace Ceng
 	};
 }
 
+namespace Ceng::Experimental
+{
+	class Pipeline;
+
+	class Task_PixelShader : public Experimental::RenderTask
+	{
+	public:
+
+		std::shared_ptr<RasterizerBatch> rasterizerBatch;
+
+		LeafVector<CR_QuadHeader> quadList;
+
+		Ceng::UINT32 quadCount;
+		
+	public:
+
+		Task_PixelShader();
+
+		//Task_PixelShader(std::shared_ptr<RasterizerBatch>& rasterizerBatch);
+
+		~Task_PixelShader() override;
+
+		const CRESULT Prepare(const Ceng::UINT32 threadId, Experimental::Pipeline* pipeline) override;
+		const CRESULT Execute(const Ceng::UINT32 threadId, Experimental::Pipeline* pipeline) override;
+	};
+}
+
 #endif

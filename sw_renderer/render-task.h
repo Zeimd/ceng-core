@@ -55,9 +55,9 @@ namespace Ceng::Experimental
 		{
 		}
 
-		virtual const CRESULT Prepare(const Ceng::UINT32 threadId, Pipeline* pipeline) = 0;
+		virtual const CRESULT Prepare(const Ceng::UINT32 threadId, Experimental::Pipeline* pipeline) = 0;
 
-		virtual const CRESULT Execute(const Ceng::UINT32 threadId, Pipeline* pipeline) = 0;
+		virtual const CRESULT Execute(const Ceng::UINT32 threadId, Experimental::Pipeline* pipeline) = 0;
 	};
 }
 

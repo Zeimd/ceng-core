@@ -34,4 +34,24 @@ namespace Ceng
 	};
 }
 
+namespace Ceng::Experimental
+{
+	class Task_Clipper : public Experimental::RenderTask
+	{
+	protected:
+
+		std::shared_ptr<ClipperBatch> clipperBatch;
+
+		Task_Clipper();
+	public:
+
+		Task_Clipper(std::shared_ptr<ClipperBatch>& clipperBatch);
+
+		virtual ~Task_Clipper();
+
+		const CRESULT Prepare(const Ceng::UINT32 threadId, Experimental::Pipeline* pipeline) override;
+		const CRESULT Execute(const Ceng::UINT32 threadId, Experimental::Pipeline* pipeline) override;
+	};
+}
+
 #endif

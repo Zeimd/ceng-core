@@ -65,7 +65,7 @@ namespace Ceng::Experimental
 
 	class RenderThread : public ThreadTask
 	{
-	protected:
+	public:
 
 		Ceng::UINT32 threadId;
 		
