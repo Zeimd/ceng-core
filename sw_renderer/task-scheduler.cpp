@@ -152,6 +152,55 @@ std::shared_ptr<Experimental::RenderTask> SchedulerTask::GetTask()
 
 		return task;
 	}
+
+	auto& queue = pipeline->triangleSetup.queue;
+
+	if (queue.IsEmpty() == false)
+	{
+		auto& front = queue.Front();
+
+		if (front.IsReady() == true)
+		{
+			// Check that there is enough space for future in every pixel shader bucket queue
+
+			bool valid = true;
+
+			for (int j = 0; j < pipeline->rasterizer.buckets.size(); j++)
+			{
+				if (pipeline->rasterizer.buckets[j].queue.IsFull())
+				{
+					valid = false;
+					break;
+				}
+			}
+
+			if (valid)
+			{
+				// Allocate futures from queues
+
+				auto& task = front.task;
+
+				for (int j = 0; j < pipeline->rasterizer.buckets.size(); j++)
+				{
+					std::shared_ptr<Experimental::Task_Rasterizer> output = std::make_shared<Experimental::Task_Rasterizer>();
+
+					Experimental::Future<Experimental::Task_Rasterizer> future(output);
+
+					pipeline->rasterizer.buckets[j].queue.PushBack(future);
+
+					Experimental::Future<Experimental::Task_Rasterizer>* ptr;
+
+					pipeline->rasterizer.buckets[j].queue.FrontPtr(&ptr);
+
+					task->futures.push_back(ptr);
+				}
+
+				queue.PopFront();
+
+				return task;
+			}
+		}
+	}
 	
 
 	return task;

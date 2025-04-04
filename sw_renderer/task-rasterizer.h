@@ -48,7 +48,7 @@ namespace Ceng::Experimental
 
 		std::shared_ptr<RasterizerBatch> rasterizerBatch;
 
-		std::vector< Future<Task_PixelShader>* > futures;
+		std::vector< Future<Experimental::Task_PixelShader>* > futures;
 
 	public:
 

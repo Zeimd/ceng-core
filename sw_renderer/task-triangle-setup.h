@@ -10,8 +10,11 @@
 #define CENG_TASK_TRIANGLE_SETUP_H
 
 #include <memory>
+#include <vector>
 
 #include "locking-task.h"
+
+#include "future.h"
 
 namespace Ceng
 {
@@ -42,12 +45,15 @@ namespace Ceng
 namespace Ceng::Experimental
 {
 	class Pipeline;
+	class Task_PixelShader;
 
 	class Task_TriangleSetup : public Experimental::RenderTask
 	{
-	protected:
+	public:
 
 		std::shared_ptr<TriangleBatch> triangleBatch;
+
+		std::vector< Future<Experimental::Task_Rasterizer>* > futures;
 
 	protected:
 
