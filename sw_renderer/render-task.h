@@ -38,4 +38,27 @@ namespace Ceng
 	};
 }
 
+namespace Ceng::Experimental
+{
+	class RenderTask
+	{
+	public:
+
+		Ceng::UINT32 apiCallId;
+
+	public:
+		RenderTask()
+		{
+		}
+
+		virtual ~RenderTask()
+		{
+		}
+
+		virtual const CRESULT Prepare(const Ceng::UINT32 threadId, Pipeline* pipeline) = 0;
+
+		virtual const CRESULT Execute(const Ceng::UINT32 threadId, Pipeline* pipeline) = 0;
+	};
+}
+
 #endif

@@ -95,21 +95,68 @@ namespace Ceng::Experimental
 		std::shared_ptr<T> task;
 
 		Future()
-			: task(nullptr), ready(0)
+			: task(nullptr)
 		{
+			ready.store(0);
+		}
 
+		Future(const Future& source)
+			: task(task)
+		{
+			ready.store(source.ready);
 		}
 
 		Future(std::shared_ptr<T>& source)
-			: task(source), ready(0)
+			: task(source)
 		{
+			ready.store(0);
+		}
 
+		bool IsReady()
+		{
+			return ready.load() == 1;
 		}
 	};
 
-	using SimpleQueueType = RingBuffer<Future<RenderTask>>;
+	class SimpleQueue
+	{
+	public:
+		RingBuffer<Future<RenderTask>> queue;
+		Ceng::UINT32 numThreads;
 
-	using BucketQueueType = std::vector<RingBuffer<Future<RenderTask>>>;
+		SimpleQueue()
+			: numThreads(0)
+		{
+		}
+
+		SimpleQueue(Ceng::UINT32 items, Ceng::UINT32 cacheLineSize)
+			: numThreads(0)
+		{
+			queue = RingBuffer<Future<RenderTask>>::Allocate(items, cacheLineSize);
+		}
+	};
+
+	class BucketQueue
+	{
+	public:
+		std::vector<SimpleQueue> queues;
+		Ceng::UINT32 numThreads;
+
+		BucketQueue()
+			: numThreads(0)
+		{
+
+		}
+
+		BucketQueue(Ceng::UINT32 buckets, Ceng::UINT32 items, Ceng::UINT32 cacheLineSize)
+			: numThreads(0)
+		{
+			for (int k = 0; k < buckets; ++k)
+			{
+				queues.emplace_back(items, cacheLineSize);
+			}
+		}
+	};
 
 	class Pipeline
 	{
@@ -119,13 +166,13 @@ namespace Ceng::Experimental
 
 		RingBuffer<std::shared_ptr<DrawBatch>> vshaderOutQueue;
 
-		SimpleQueueType clipper;
+		SimpleQueue clipper;
 
-		SimpleQueueType triangleSetup;
+		SimpleQueue triangleSetup;
 
-		BucketQueueType rasterizer;
+		BucketQueue rasterizer;
 
-		BucketQueueType pixelShader;
+		BucketQueue pixelShader;
 
 		std::atomic<Ceng::UINT32> remainingTasks;
 		std::atomic<Ceng::UINT32> activeThreads;

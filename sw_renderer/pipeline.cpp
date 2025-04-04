@@ -242,21 +242,13 @@ const CRESULT Experimental::Pipeline::Configure(const Ceng::UINT32 cacheLineSize
 
 	vshaderOutQueue = RingBuffer<std::shared_ptr<DrawBatch>>::Allocate(32, cacheLineSize);
 
-	clipper = RingBuffer<Future<RenderTask>>::Allocate(64, cacheLineSize);
+	clipper = SimpleQueue(64, cacheLineSize);
 
-	triangleSetup = RingBuffer<Future<RenderTask>>::Allocate(64, cacheLineSize);
+	triangleSetup = SimpleQueue(64, cacheLineSize);
 
-	Ceng::UINT32 pshaderBuckets = maxThreads * maxScreenBuckets;
+	pixelShader = BucketQueue(maxThreads * maxScreenBuckets, 64, cacheLineSize);
 
-	for (int k = 0; k < pshaderBuckets; ++k)
-	{
-		pixelShader.push_back(RingBuffer<Future<RenderTask>>::Allocate(64, cacheLineSize));
-	}
-
-	for (int k = 0; k < maxScreenBuckets; ++k)
-	{
-		rasterizer.push_back(RingBuffer<Future<RenderTask>>::Allocate(64, cacheLineSize));
-	}
+	rasterizer = BucketQueue(maxScreenBuckets, 64, cacheLineSize);
 
 	// Signal for render threads that there is work to do
 	Ceng_CreateConditionVar(&rendererHasWork);
@@ -268,7 +260,7 @@ const CRESULT Experimental::Pipeline::Configure(const Ceng::UINT32 cacheLineSize
 	{
 		renderThreadTasks[k] = new RenderThread(k, rendererHasWork, cmdWake,
 			&runningThreadCount,
-			&minThreadCount, &maxThreadCount, this);
+			&minThreadCount, &maxThreadCount, this, 2, cacheLineSize);
 
 		Ceng::CRESULT cresult = Ceng_CreateThread(renderThreadTasks[k], true, &renderThreads[k]);
 	}

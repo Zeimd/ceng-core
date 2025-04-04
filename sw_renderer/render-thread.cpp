@@ -96,3 +96,94 @@ const CRESULT RenderThread::Execute()
 
 	return CE_OK;
 }
+
+//*****************************************************************************************
+// experimental new version
+
+Experimental::RenderThread::RenderThread()
+	: exitLoop(0), wakeCrit(nullptr), wakeCondition(nullptr),
+	cmdWake(nullptr, ReleaseDeleter<ConditionVariable>())
+{
+}
+
+Experimental::RenderThread::RenderThread(const Ceng::UINT32 threadId, ConditionVariable* wakeCondition,
+	std::shared_ptr<ConditionVariable>& cmdWake,
+	std::atomic<Ceng::UINT32>* runningThreadCount,
+	std::atomic<Ceng::UINT32>* minThreads,
+	std::atomic<Ceng::UINT32>* maxThreads, Pipeline* pipeline,
+	Ceng::UINT32 inputLength, Ceng::UINT32 cacheLineSize)
+	: threadId(threadId), wakeCondition(wakeCondition), cmdWake(cmdWake),
+	runningThreadCount(runningThreadCount), minThreads(minThreads), maxThreads(maxThreads),
+	pipeline(pipeline), exitLoop(0)
+{
+	Ceng_CreateCriticalSection(&wakeCrit);
+
+	inputQueue = RingBuffer<std::shared_ptr<RenderTask>>::Allocate(inputLength, cacheLineSize);
+}
+
+Experimental::RenderThread::~RenderThread()
+{
+	if (wakeCrit != nullptr)
+	{
+		wakeCrit->Release();
+	}
+}
+
+void Experimental::RenderThread::Release()
+{
+	delete this;
+}
+
+const CRESULT Experimental::RenderThread::Exit()
+{
+	exitLoop = 1;
+	return CE_OK;
+}
+
+const CRESULT Experimental::RenderThread::Execute()
+{
+	wakeCrit->Lock();
+
+	++(*runningThreadCount);
+
+	while (exitLoop == 0)
+	{
+		if (inputQueue.IsEmpty() == false)
+		{
+			std::shared_ptr<RenderTask> task = inputQueue.Front();
+			inputQueue.PopFront();
+
+			CRESULT cresult = task->Execute(threadId, pipeline);
+		}
+
+		/*
+		else
+		{
+			if (pipeline->remainingTasks.load() == 0)
+			{
+				if (pipeline->activeThreads.load() == 0)
+				{
+					cmdWake->WakeAll();
+				}
+
+				if (threadId > maxThreads->load())
+				{
+					if (threadId > minThreads->load())
+					{
+						--(*runningThreadCount);
+						wakeCondition->Wait(wakeCrit);
+						++(*runningThreadCount);
+					}
+				}
+			}
+		}
+		*/
+
+	}
+
+	--(*runningThreadCount);
+
+	wakeCrit->Unlock();
+
+	return CE_OK;
+}
