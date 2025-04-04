@@ -257,7 +257,7 @@ const CRESULT Experimental::Pipeline::Configure(const Ceng::UINT32 cacheLineSize
 
 	for (Ceng::UINT32 k = 0; k < maxThreads; k++)
 	{
-		renderThreads[k].task = new RenderThread(k, rendererHasWork, cmdWake,
+		renderThreads[k].task = new Experimental::RenderThread(k, rendererHasWork, cmdWake,
 			&runningThreadCount,
 			&minThreadCount, &maxThreadCount, this, 2, cacheLineSize);
 
