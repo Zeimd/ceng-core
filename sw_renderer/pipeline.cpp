@@ -183,7 +183,7 @@ Experimental::Pipeline::~Pipeline()
 {
 	for (Ceng::UINT32 k = 0; k < renderThreads.size(); k++)
 	{
-		renderThreads[k]->Exit();
+		renderThreads[k].thread->Exit();
 	}
 
 	minThreadCount.store(0);
@@ -192,8 +192,8 @@ Experimental::Pipeline::~Pipeline()
 
 	for (Ceng::UINT32 k = 0; k < renderThreads.size(); k++)
 	{
-		renderThreads[k]->Release();
-		renderThreadTasks[k]->Release();
+		renderThreads[k].thread->Release();
+		renderThreads[k].task->Release();
 	}
 
 	if (rendererHasWork != nullptr)
@@ -206,7 +206,7 @@ void Experimental::Pipeline::ResumeThreads()
 {
 	for (Ceng::UINT32 k = 0; k < renderThreads.size(); k++)
 	{
-		renderThreads[k]->Resume();
+		renderThreads[k].thread->Resume();
 	}
 }
 
@@ -214,7 +214,7 @@ void Experimental::Pipeline::PauseThreads()
 {
 	for (Ceng::UINT32 k = 0; k < renderThreads.size(); k++)
 	{
-		renderThreads[k]->Pause();
+		renderThreads[k].thread->Pause();
 	}
 }
 
@@ -253,16 +253,15 @@ const CRESULT Experimental::Pipeline::Configure(const Ceng::UINT32 cacheLineSize
 	// Signal for render threads that there is work to do
 	Ceng_CreateConditionVar(&rendererHasWork);
 
-	renderThreads = std::vector<Thread*>(maxThreads);
-	renderThreadTasks = std::vector<ThreadTask*>(maxThreads);
+	renderThreads = std::vector<ThreadData>(maxThreads);
 
 	for (Ceng::UINT32 k = 0; k < maxThreads; k++)
 	{
-		renderThreadTasks[k] = new RenderThread(k, rendererHasWork, cmdWake,
+		renderThreads[k].task = new RenderThread(k, rendererHasWork, cmdWake,
 			&runningThreadCount,
 			&minThreadCount, &maxThreadCount, this, 2, cacheLineSize);
 
-		Ceng::CRESULT cresult = Ceng_CreateThread(renderThreadTasks[k], true, &renderThreads[k]);
+		Ceng::CRESULT cresult = Ceng_CreateThread(renderThreads[k].task, true, &renderThreads[k].thread);
 	}
 
 	return CE_OK;

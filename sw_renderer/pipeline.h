@@ -87,6 +87,8 @@ namespace Ceng
 
 namespace Ceng::Experimental
 {
+	class RenderThread;
+
 	template<class T>
 	class Future
 	{
@@ -158,6 +160,12 @@ namespace Ceng::Experimental
 		}
 	};
 
+	struct ThreadData
+	{
+		Thread* thread;
+		Experimental::RenderThread* task;
+	};
+
 	class Pipeline
 	{
 	public:
@@ -179,8 +187,7 @@ namespace Ceng::Experimental
 
 		ConditionVariable* rendererHasWork;
 
-		std::vector<Thread*> renderThreads;
-		std::vector<ThreadTask*> renderThreadTasks;
+		std::vector<ThreadData> renderThreads;
 
 		std::atomic<Ceng::UINT32> runningThreadCount;
 		std::atomic<Ceng::UINT32> minThreadCount;
