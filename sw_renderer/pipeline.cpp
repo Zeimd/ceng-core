@@ -242,13 +242,13 @@ const CRESULT Experimental::Pipeline::Configure(const Ceng::UINT32 cacheLineSize
 
 	vshaderOutQueue = RingBuffer<std::shared_ptr<DrawBatch>>::Allocate(32, cacheLineSize);
 
-	clipper = SimpleQueue(64, cacheLineSize);
+	clipper = SimpleStage<Experimental::Task_Clipper>(64, cacheLineSize);
 
-	triangleSetup = SimpleQueue(64, cacheLineSize);
+	triangleSetup = SimpleStage<Experimental::Task_TriangleSetup>(64, cacheLineSize);
 
-	pixelShader = BucketStage(maxThreads * maxScreenBuckets, 64, cacheLineSize);
+	pixelShader = BucketStage<Experimental::Task_PixelShader>(maxThreads * maxScreenBuckets, 64, cacheLineSize);
 
-	rasterizer = BucketStage(maxScreenBuckets, 64, cacheLineSize);
+	rasterizer = BucketStage<Experimental::Task_Rasterizer>(maxScreenBuckets, 64, cacheLineSize);
 
 	// Signal for render threads that there is work to do
 	Ceng_CreateConditionVar(&rendererHasWork);

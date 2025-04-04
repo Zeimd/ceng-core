@@ -181,6 +181,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\sw_renderer\api-command.h" />
+    <ClInclude Include="..\..\sw_renderer\BucketQueue.h" />
+    <ClInclude Include="..\..\sw_renderer\BucketStage.h" />
     <ClInclude Include="..\..\sw_renderer\buffer-channel.h" />
     <ClInclude Include="..\..\sw_renderer\buffer-clear.h" />
     <ClInclude Include="..\..\sw_renderer\buffer-factory.h" />
@@ -213,6 +215,8 @@
     <ClInclude Include="..\..\sw_renderer\cr-vertex-shader.h" />
     <ClInclude Include="..\..\sw_renderer\crender-base.h" />
     <ClInclude Include="..\..\sw_renderer\crender-context.h" />
+    <ClInclude Include="..\..\sw_renderer\future.h" />
+    <ClInclude Include="..\..\sw_renderer\SimpleStage.h" />
     <ClInclude Include="..\..\sw_renderer\software-renderer.h" />
     <ClInclude Include="..\..\sw_renderer\draw-batch.h" />
     <ClInclude Include="..\..\sw_renderer\draw-call.h" />

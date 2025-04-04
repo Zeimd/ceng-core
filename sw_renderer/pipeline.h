@@ -22,6 +22,11 @@
 
 #include "locking-stage.h"
 
+#include "future.h"
+#include "SimpleStage.h"
+#include "BucketQueue.h"
+#include "BucketStage.h"
+
 namespace Ceng
 {
 	class RasterizerBatch;
@@ -90,146 +95,11 @@ namespace Ceng::Experimental
 	class RenderThread;
 	class RenderTask;
 
-	template<class T>
-	class Future
-	{
-	public:
-		std::atomic<Ceng::UINT32> ready;
-		std::shared_ptr<T> task;
-
-		Future()
-			: task(nullptr)
-		{
-			ready.store(0);
-		}
-
-		Future(const Future& source)
-			: task(task)
-		{
-			ready.store(source.ready);
-		}
-
-		Future& operator = (const Future& source)
-		{
-			ready.store(source.ready.load());
-			task = source.task;
-
-			return *this;
-		}
-
-		Future(const std::shared_ptr<T>& source)
-			: task(source)
-		{
-			ready.store(0);
-		}
-
-		bool IsReady()
-		{
-			return ready.load() == 1;
-		}
-	};
-
-	class SimpleQueue
-	{
-	public:
-		RingBuffer<Future<Experimental::RenderTask>> queue;
-		std::atomic<Ceng::UINT32> numThreads;
-
-		SimpleQueue()
-		{
-			numThreads.store(0);
-		}
-
-		SimpleQueue(const SimpleQueue& source)
-			: queue(source.queue)
-		{
-			numThreads.store(source.numThreads.load());
-		}
-
-		SimpleQueue& operator = (const SimpleQueue& source)
-		{
-			queue = source.queue;
-			numThreads.store(source.numThreads.load());
-
-			return *this;
-		}
-
-		SimpleQueue(Ceng::UINT32 items, Ceng::UINT32 cacheLineSize)	
-		{
-			numThreads.store(0);
-			queue = RingBuffer<Future<Experimental::RenderTask>>::Allocate(items, cacheLineSize);
-		}
-	};
-
-	class BucketQueue
-	{
-	public:
-		RingBuffer<Future<Experimental::RenderTask>> queue;
-
-		// Indicates if something is executing in the bucket
-		std::atomic<Ceng::UINT32> lock;
-
-		// Thread holding the execution lock
-		// -1 = none
-		Ceng::INT32 threadId;
-
-		BucketQueue()		
-			: threadId(-1)
-		{
-			lock.store(0);
-		}
-
-		BucketQueue(const BucketQueue& source)
-			: queue(source.queue), threadId(source.threadId)
-		{
-			lock.store(source.lock.load());
-		}
-
-		BucketQueue& operator = (const BucketQueue& source)
-		{
-			queue = source.queue;
-			threadId = source.threadId;
-			lock.store(source.lock.load());
-
-			return *this;
-		}
-
-		BucketQueue(Ceng::UINT32 items, Ceng::UINT32 cacheLineSize)
-			: threadId(-1)
-		{
-			queue = RingBuffer<Future<Experimental::RenderTask>>::Allocate(items, cacheLineSize);
-		}
-	};
-
-	class BucketStage
-	{
-	public:
-		std::vector<BucketQueue> buckets;
-		std::atomic<Ceng::UINT32> numThreads;
-
-		BucketStage()		
-		{
-			numThreads.store(0);
-		}
-
-		BucketStage& operator = (const BucketStage& source)
-		{
-			buckets = source.buckets;
-			numThreads.store(source.numThreads.load());
-			return *this;
-		}
-
-		BucketStage(Ceng::UINT32 amount, Ceng::UINT32 items, Ceng::UINT32 cacheLineSize)			
-		{
-			numThreads.store(0);
-
-			for (auto k = 0; k < amount; ++k)
-			{
-				buckets.emplace_back(items, cacheLineSize);
-			}
-		}
-	};
-
+	class Task_PixelShader;
+	class Task_Clipper;
+	class Task_TriangleSetup;
+	class Task_Rasterizer;
+	
 	struct ThreadData
 	{
 		Thread* thread;
@@ -244,13 +114,13 @@ namespace Ceng::Experimental
 
 		RingBuffer<std::shared_ptr<DrawBatch>> vshaderOutQueue;
 
-		SimpleQueue clipper;
+		SimpleStage<Experimental::Task_Clipper> clipper;
 
-		SimpleQueue triangleSetup;
+		SimpleStage<Experimental::Task_TriangleSetup> triangleSetup;
 
-		BucketStage rasterizer;
+		BucketStage<Experimental::Task_Rasterizer> rasterizer;
 
-		BucketStage pixelShader;
+		BucketStage<Experimental::Task_PixelShader> pixelShader;
 
 		std::atomic<Ceng::UINT32> remainingTasks;
 		std::atomic<Ceng::UINT32> activeThreads;

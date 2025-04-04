@@ -131,17 +131,17 @@ std::shared_ptr<Experimental::RenderTask> SchedulerTask::GetTask()
 
 		// Allocate futures from queues
 
-		std::shared_ptr<Experimental::RenderTask> task = front.task;
+		auto& task = front.task;
 
 		for (int j = 0; j < pipeline->pixelShader.buckets.size(); k++)
 		{
 			std::shared_ptr<Experimental::Task_PixelShader> output = std::make_shared<Experimental::Task_PixelShader>();
 
-			Experimental::Future<Experimental::RenderTask> future(output);
+			Experimental::Future<Experimental::Task_PixelShader> future(output);
 
 			pipeline->pixelShader.buckets[j].queue.PushBack(future);
 
-			Experimental::Future<Experimental::RenderTask>* ptr;
+			Experimental::Future<Experimental::Task_PixelShader>* ptr;
 
 			pipeline->pixelShader.buckets[j].queue.FrontPtr(&ptr);
 

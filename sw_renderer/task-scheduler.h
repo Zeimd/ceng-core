@@ -9,8 +9,7 @@ namespace Ceng::Experimental
 {
 	class Pipeline;
 	class RenderTask;
-	class BucketStage;
-	class SimpleQueue;
+	
 }
 
 namespace Ceng

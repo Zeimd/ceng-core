@@ -276,6 +276,18 @@
     <ClInclude Include="..\..\sw_renderer\task-scheduler.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\future.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\SimpleStage.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\BucketQueue.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\BucketStage.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">

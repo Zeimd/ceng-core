@@ -40,6 +40,8 @@ namespace Ceng
 
 namespace Ceng::Experimental
 {
+	class Pipeline;
+
 	class RenderTask
 	{
 	public:
