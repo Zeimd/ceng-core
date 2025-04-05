@@ -46,20 +46,7 @@ std::shared_ptr<Experimental::RenderTask> SchedulerTask::GetTask()
 	{
 		auto& bucket = pipeline->pixelShader.buckets[k];
 
-		// Remove unused placeholder futures from queue
-
-		while (bucket.queue.IsEmpty() == false)
-		{
-			auto& front = bucket.queue.Front();
-
-			if (front.task == nullptr)
-			{
-				bucket.queue.PopFront();
-				continue;
-			}
-
-			break;
-		}
+		bucket.PopEmptyTasks();
 
 		if (bucket.queue.IsEmpty())
 		{
@@ -84,20 +71,7 @@ std::shared_ptr<Experimental::RenderTask> SchedulerTask::GetTask()
 	{
 		auto& bucket = pipeline->rasterizer.buckets[k];
 
-		// Remove unused placeholder futures from queue
-
-		while (bucket.queue.IsEmpty() == false)
-		{
-			auto& front = bucket.queue.Front();
-
-			if (front.task == nullptr)
-			{
-				bucket.queue.PopFront();
-				continue;
-			}
-
-			break;
-		}
+		bucket.PopEmptyTasks();
 
 		if (bucket.queue.IsEmpty())
 		{

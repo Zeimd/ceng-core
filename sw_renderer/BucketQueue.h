@@ -50,6 +50,22 @@ namespace Ceng::Experimental
 		{
 			queue = RingBuffer<Future<T>>::Allocate(items, cacheLineSize);
 		}
+
+		void PopEmptyTasks()
+		{
+			while (queue.IsEmpty() == false)
+			{
+				auto& front = queue.Front();
+
+				if (front.task == nullptr)
+				{
+					queue.PopFront();
+					continue;
+				}
+
+				break;
+			}
+		}
 	};
 }
 
