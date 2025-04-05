@@ -16,6 +16,8 @@
 
 #include "future.h"
 
+#include "task-rasterizer.h"
+
 namespace Ceng
 {
 	class TriangleBatch;
@@ -45,7 +47,6 @@ namespace Ceng
 namespace Ceng::Experimental
 {
 	class Pipeline;
-	class Task_PixelShader;
 
 	class Task_TriangleSetup : public Experimental::RenderTask
 	{

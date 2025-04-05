@@ -68,6 +68,48 @@ const CRESULT CR_Rasterizer::TriangleSetup(std::shared_ptr<TriangleBatch> &batch
 	return CE_OK;
 }
 
+const CRESULT CR_Rasterizer::TriangleSetup(std::shared_ptr<TriangleBatch>& batch,
+	std::vector< Experimental::Future<Experimental::Task_Rasterizer>* >& futures, Ceng::UINT32 outputBuckets)
+{
+	CRESULT cresult;
+
+	BatchVector outputBatch = BatchVector(outputBuckets);
+	Ceng::UINT32 buckets = 0;
+
+	for (Ceng::UINT32 primitive = 0; primitive < batch->primitiveList.size(); ++primitive)
+	{
+		for (Ceng::UINT32 j = 0; j < outputBatch.size(); j++)
+		{
+			outputBatch[j] = std::shared_ptr<RasterizerBatch>(new RasterizerBatch(batch->apiCallId, batch->renderState));
+		}
+
+		switch (batch->primitiveList[primitive].primitiveType)
+		{
+		case PRIMITIVE_TYPE::TRIANGLE_LIST:
+
+			cresult = TriangleSetup(batch->primitiveList[primitive],
+				batch->renderState, outputBatch, buckets);
+
+			break;
+		}
+
+		for (Ceng::UINT32 k = 0; k < outputBatch.size(); ++k)
+		{
+			if (outputBatch[k] != nullptr)
+			{
+				futures[k]->Complete(std::make_shared<Experimental::Task_Rasterizer>(outputBatch[k]));
+			}
+			else
+			{
+				futures[k]->Discard();
+			}
+		}
+	}
+
+	return CE_OK;
+}
+
+
 void CR_Rasterizer::TriangleSetup_DiscardBatch(BatchVector &outputBatch)
 {
 	for(Ceng::UINT32 k=0;k<outputBatch.size();k++)
@@ -416,6 +458,7 @@ const CRESULT CR_Rasterizer::TriangleSetup(CR_PrimitiveData &primitive,
 		if (yMax > rect->bottom) outputBatch[k]->yMax = rect->bottom;
 
 		outputBatch[k]->bucketId = k;
+		outputBatch[k]->lastBucketId = buckets - 1;
 	}
 
 	//***********************************************************************

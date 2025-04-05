@@ -14,6 +14,7 @@
 #include "locking-task.h"
 
 #include "future.h"
+#include "task-pshader.h"
 
 namespace Ceng
 {

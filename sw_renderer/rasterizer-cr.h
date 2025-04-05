@@ -31,6 +31,8 @@
 
 #include "future.h"
 
+#include "task-rasterizer.h"
+
 namespace Ceng
 {
 	
@@ -77,6 +79,9 @@ namespace Ceng
 
 		const CRESULT TriangleSetup(std::shared_ptr<TriangleBatch> &batch,
 								LockingStage &outputStage);
+
+		const CRESULT TriangleSetup(std::shared_ptr<TriangleBatch>& batch,
+			std::vector< Experimental::Future<Experimental::Task_Rasterizer>* >& futures, Ceng::UINT32 outputBuckets);
 
 		const CRESULT TriangleSetup(CR_PrimitiveData &primitive,
 								std::shared_ptr<RenderState> &renderState,
