@@ -17,30 +17,36 @@ namespace Ceng::Experimental
 	public:
 		RingBuffer<Future<T>> queue;
 
-		// Indicates if something is executing in the bucket
-		std::atomic<Ceng::UINT32> lock;
-
 		// Thread holding the execution lock
 		// -1 = none
 		Ceng::INT32 threadId;
 
+		// Number of tasks from this bucket issued to thread holding the lock
+		std::atomic<Ceng::UINT32> issuedTasks;
+
+		// Number of tasks completed by the locking thread
+		std::atomic<Ceng::UINT32> completedTasks;
+
 		BucketQueue()
 			: threadId(-1)
 		{
-			lock.store(0);
+			issuedTasks.store(0);
+			completedTasks.store(0);
 		}
 
 		BucketQueue(const BucketQueue& source)
 			: queue(source.queue), threadId(source.threadId)
 		{
-			lock.store(source.lock.load());
+			issuedTasks.store(source.issuedTasks.load());
+			completedTasks.store(source.completedTasks.load());
 		}
 
 		BucketQueue& operator = (const BucketQueue& source)
 		{
 			queue = source.queue;
 			threadId = source.threadId;
-			lock.store(source.lock.load());
+			issuedTasks.store(source.issuedTasks.load());
+			completedTasks.store(source.completedTasks.load());
 
 			return *this;
 		}
@@ -49,6 +55,39 @@ namespace Ceng::Experimental
 			: threadId(-1)
 		{
 			queue = RingBuffer<Future<T>>::Allocate(items, cacheLineSize);
+		}
+
+		bool Unlock(Ceng::UINT32 id)
+		{
+			if (threadId == -1)
+			{
+				return true;
+			}
+
+			if (id == threadId)
+			{
+				return true;
+			}
+
+			if (issuedTasks.load() != completedTasks.load())
+			{
+				return false;
+			}
+
+			issuedTasks.store(0);
+			completedTasks.store(0);
+
+			threadId = -1;
+
+			return true;
+		}
+
+		// Marks bucket as locked for given thread id.
+		// Undefined behavior if bucket is not unlocked before called.
+		void Lock(Ceng::UINT32 id, Ceng::UINT32 taskCount)
+		{
+			threadId = id;
+			issuedTasks.store(taskCount);
 		}
 
 		void PopEmptyTasks()

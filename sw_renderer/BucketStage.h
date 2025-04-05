@@ -38,6 +38,19 @@ namespace Ceng::Experimental
 				buckets.emplace_back(items, cacheLineSize);
 			}
 		}
+
+		bool CheckSpaceAll()
+		{
+			for (int j = 0; j < buckets.size(); j++)
+			{
+				if (buckets[j].queue.IsFull())
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
 	};
 }
 

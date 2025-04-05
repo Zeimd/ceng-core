@@ -48,6 +48,9 @@ namespace Ceng::Experimental
 
 		Ceng::UINT32 apiCallId;
 
+		// If not nullptr, increment once task results have been written.
+		std::atomic<Ceng::UINT32>* bucketCompletedTasks;
+
 	public:
 		RenderTask()
 		{

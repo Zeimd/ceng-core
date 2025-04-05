@@ -60,7 +60,16 @@ std::shared_ptr<Experimental::RenderTask> SchedulerTask::GetTask(Ceng::UINT32 th
 			continue;
 		}
 
+		if (bucket.Unlock(threadId) == false)
+		{
+			continue;
+		}
+
+		bucket.Lock(threadId, 1);
+
 		std::shared_ptr<Experimental::RenderTask> task = front.task;
+
+		task->bucketCompletedTasks = &bucket.completedTasks;
 
 		pipeline->pixelShader.buckets[k].queue.PopFront();
 
@@ -85,27 +94,23 @@ std::shared_ptr<Experimental::RenderTask> SchedulerTask::GetTask(Ceng::UINT32 th
 			continue;
 		}
 
-		// Check that there is enough space for future in every pixel shader bucket queue
-
-		bool valid = true;
-
-		for (int j = 0; j < pipeline->pixelShader.buckets.size(); j++)
-		{
-			if (pipeline->pixelShader.buckets[j].queue.IsFull())
-			{
-				valid = false;
-				break;
-			}
-		}
-
-		if (valid == false)
+		if (bucket.Unlock(threadId) == false)
 		{
 			continue;
 		}
 
-		// Allocate futures from queues
+		if (pipeline->pixelShader.CheckSpaceAll() == false)
+		{
+			continue;
+		}
 
-		auto& task = front.task;
+		bucket.Lock(threadId, 1);
+
+		std::shared_ptr<Experimental::Task_Rasterizer> task = front.task;
+
+		task->bucketCompletedTasks = &bucket.completedTasks;
+
+		// Allocate futures from queues
 
 		for (int j = 0; j < pipeline->pixelShader.buckets.size(); j++)
 		{
@@ -133,18 +138,9 @@ std::shared_ptr<Experimental::RenderTask> SchedulerTask::GetTask(Ceng::UINT32 th
 
 		if (front.IsReady() == true)
 		{
-			// Check that there is enough space for future in every pixel shader bucket queue
+			// Check that there is enough space for future in every rasterizer bucket queue
 
-			bool valid = true;
-
-			for (int j = 0; j < pipeline->rasterizer.buckets.size(); j++)
-			{
-				if (pipeline->rasterizer.buckets[j].queue.IsFull())
-				{
-					valid = false;
-					break;
-				}
-			}
+			bool valid = pipeline->rasterizer.CheckSpaceAll();
 
 			if (valid)
 			{
