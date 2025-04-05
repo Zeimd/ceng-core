@@ -29,7 +29,7 @@ SchedulerTask::~SchedulerTask()
 	}	
 }
 
-std::shared_ptr<Experimental::RenderTask> SchedulerTask::GetTask()
+std::shared_ptr<Experimental::RenderTask> SchedulerTask::GetTask(Ceng::UINT32 threadId)
 {
 	Ceng::UINT32 maxThreads = pipeline->renderThreads.size()-1;
 
@@ -223,7 +223,7 @@ const CRESULT SchedulerTask::Execute()
 				continue;
 			}
 
-			std::shared_ptr<Experimental::RenderTask> task = GetTask();
+			std::shared_ptr<Experimental::RenderTask> task = GetTask(k);
 
 			if (task != nullptr)
 			{
