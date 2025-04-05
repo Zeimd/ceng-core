@@ -20,6 +20,9 @@
 #include "triangle-batch.h"
 
 #include "locking-stage.h"
+#include "future.h"
+
+#include "task-triangle-setup.h"
 
 namespace Ceng
 {
@@ -57,6 +60,9 @@ namespace Ceng
 
 		const CRESULT ClipPrimitives(std::shared_ptr<ClipperBatch> &batch,
 										LockingStage &outputStage);
+
+		const CRESULT ClipPrimitives(std::shared_ptr<ClipperBatch>& batch,
+			Experimental::Future<Experimental::Task_TriangleSetup>* future);
 
 	protected:
 		const UINT32 ClipEdgeAgainstMinimum(Ceng::UINT8 *startVertex,

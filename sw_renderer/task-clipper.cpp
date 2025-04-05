@@ -45,3 +45,38 @@ const CRESULT Task_Clipper::Prepare(const Ceng::UINT32 threadId,Pipeline *pipeli
 {
 	return CE_OK;
 }
+
+//*****************************************************************************************
+// Experimental new version
+
+Experimental::Task_Clipper::Task_Clipper()
+{
+}
+
+Experimental::Task_Clipper::~Task_Clipper()
+{
+}
+
+Experimental::Task_Clipper::Task_Clipper(std::shared_ptr<ClipperBatch>& clipperBatch)
+	: clipperBatch(clipperBatch)
+{
+}
+
+const CRESULT Experimental::Task_Clipper::Execute(const Ceng::UINT32 threadId, Pipeline* pipeline)
+{
+	CRESULT cresult = CE_OK;
+
+	cresult = clipperBatch->renderState->clipper->ClipPrimitives(clipperBatch, future);
+
+	--pipeline->clipper.numThreads;
+	--pipeline->activeThreads;
+
+	pipeline->WakeAllThreads();
+
+	return cresult;
+}
+
+const CRESULT Experimental::Task_Clipper::Prepare(const Ceng::UINT32 threadId, Pipeline* pipeline)
+{
+	return CE_OK;
+}

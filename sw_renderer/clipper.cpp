@@ -84,6 +84,35 @@ const CRESULT CR_Clipper::ClipPrimitives(std::shared_ptr<ClipperBatch> &batch,
 	return CE_OK;
 }
 
+const CRESULT CR_Clipper::ClipPrimitives(std::shared_ptr<ClipperBatch>& batch,
+	Experimental::Future<Experimental::Task_TriangleSetup>* future)
+{
+	CRESULT cresult;
+	Ceng::UINT32 k;
+
+	Ceng::UINT32 newFragCount = 0;
+
+	const Ceng::UINT32 outputBatchSize = 10 * batch->batchSize;
+
+	std::shared_ptr<TriangleBatch> outputBatch =
+		std::shared_ptr<TriangleBatch>(new TriangleBatch(batch->apiCallId, outputBatchSize, batch->renderState,
+			batch->fragmentCache, batch->cacheA));
+
+	for (k = 0; k < batch->primitiveList.size(); k++)
+	{
+		switch (batch->primitiveList[k].primitiveType)
+		{
+		case PRIMITIVE_TYPE::TRIANGLE_LIST:
+
+			cresult = HomogeneousClipTriangle(batch->primitiveList[k], &newFragCount, outputBatch);
+		}
+	}
+
+	future->Complete(std::make_shared<Experimental::Task_TriangleSetup>(outputBatch));
+
+	return CE_OK;
+}
+
 const CRESULT CR_Clipper::HomogeneousClipTriangle(CR_PrimitiveData &primitive,
 												  Ceng::UINT32 *newFragmentCount,
 												  std::shared_ptr<TriangleBatch> &outputBatch)
