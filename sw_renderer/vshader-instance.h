@@ -18,6 +18,9 @@
 
 #include "shader-const-data.h"
 
+#include "SimpleStage.h"
+#include "task-clipper.h"
+
 namespace Ceng
 {
 	class DrawBatch;
@@ -166,6 +169,9 @@ namespace Ceng
 
 		virtual const CRESULT ProcessVertexBatch(std::shared_ptr<DrawBatch> batch,
 												LockingStage *outputQueue);
+
+		virtual const CRESULT ProcessVertexBatch(std::shared_ptr<DrawBatch> batch,
+			Experimental::SimpleStage<Experimental::Task_Clipper>& output);
 
 		virtual void ShaderFunction();
 

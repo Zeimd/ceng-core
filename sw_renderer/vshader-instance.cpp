@@ -422,6 +422,50 @@ const CRESULT CR_VertexShaderInstance::ProcessVertexBatch(std::shared_ptr<DrawBa
 	return CE_OK;
 }
 
+const CRESULT CR_VertexShaderInstance::ProcessVertexBatch(std::shared_ptr<DrawBatch> batch,
+	Experimental::SimpleStage<Experimental::Task_Clipper>& output)
+{
+	//	return CE_OK;
+
+	INT32 inputCount = inputRegisters.GetElements();
+	INT32 outputCount = fragmentFormat->variables.size();
+
+	outputBaseAddress = (POINTER) & (*(batch->fragmentCache))[0];
+
+	for (Ceng::UINT32 k = 0; k < batch->vertexCount; k++)
+	{
+		Ceng::UINT32 index = batch->fragmentIndex[k].tag;
+
+		// Move input pointers to correct position
+
+		for (Ceng::INT32 i = 0; i < inputCount; i++)
+		{
+			inputRegisters[i].sourceAddress = inputBaseAddress[i]
+				+ index * inputSteps[i];
+		}
+
+		ShaderFunction();
+
+		// Step register addresses
+
+		/*
+		for(i=0;i<inputCount;i++)
+		{
+			inputRegisters[i].sourceAddress += inputSteps[i];
+		}
+		*/
+		outputBaseAddress += fragmentSizeBytes;
+	}
+
+	auto out_batch = std::make_shared<ClipperBatch>(batch);
+
+	Experimental::Future<Experimental::Task_Clipper> future;
+
+	future.Complete(std::make_shared<Experimental::Task_Clipper>(out_batch));
+
+	return CE_OK;
+}
+
 void CR_VertexShaderInstance::ShaderFunction()
 {
 

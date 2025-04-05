@@ -62,7 +62,7 @@ namespace Ceng
 
 		std::shared_ptr<DrawBatch> drawBatch;
 
-		Pipeline pipeline;
+		Experimental::Pipeline pipeline;
 
 		Ceng::CR_Clipper *activeClipper;
 

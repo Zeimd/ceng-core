@@ -665,8 +665,13 @@ const CRESULT CR_RenderContext::Execute_DrawPrimitive(const Ceng::UINT32 apiCall
 
 		if (currentBatch->renderState->vshaderInstance != nullptr)
 		{
+			/*
 			cresult = currentBatch->renderState->vshaderInstance->ProcessVertexBatch(currentBatch,
 				&pipeline.clipper);
+				*/
+
+			cresult = currentBatch->renderState->vshaderInstance->ProcessVertexBatch(currentBatch,
+				pipeline.clipper);
 
 			if (cresult != CE_OK)
 			{
