@@ -15,6 +15,8 @@
 
 #include "locking-task.h"
 
+#include "render-task.h"
+
 #include "quad-format.h"
 
 namespace Ceng
@@ -62,7 +64,7 @@ namespace Ceng::Experimental
 
 		Task_PixelShader();
 
-		//Task_PixelShader(std::shared_ptr<RasterizerBatch>& rasterizerBatch);
+		Task_PixelShader(std::shared_ptr<RasterizerBatch>& rasterizerBatch);
 
 		~Task_PixelShader() override;
 

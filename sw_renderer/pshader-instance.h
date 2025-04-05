@@ -24,6 +24,11 @@
 
 #include "shader-const-data.h"
 
+namespace Ceng::Experimental
+{
+	class Task_PixelShader;
+}
+
 namespace Ceng
 {
 	class Task_PixelShader;
@@ -143,6 +148,8 @@ namespace Ceng
 		PixelShaderInstance(const PixelShaderInstance &source);
 
 		const CRESULT ProcessQuads(Task_PixelShader *batch,const Ceng::INT32 threadId);
+
+		const CRESULT ProcessQuads(Experimental::Task_PixelShader* batch, const Ceng::INT32 threadId);
 
 		const CRESULT ConfigureInput(std::vector<CR_PixelShaderSemantic> &inputSemantics);
 

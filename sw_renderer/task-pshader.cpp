@@ -47,3 +47,43 @@ const CRESULT Task_PixelShader::Prepare(const Ceng::UINT32 threadId,Pipeline *pi
 {
 	return CE_OK;
 }
+
+//******************************************************************
+// Experimental new version
+
+Experimental::Task_PixelShader::Task_PixelShader()
+{
+}
+
+Experimental::Task_PixelShader::~Task_PixelShader()
+{
+}
+
+Experimental::Task_PixelShader::Task_PixelShader(std::shared_ptr<RasterizerBatch>& rasterizerBatch)
+	: rasterizerBatch(rasterizerBatch)
+{
+	quadList = LeafVector<CR_QuadHeader>(128, 64);
+
+	quadCount = 0;
+}
+
+const CRESULT Experimental::Task_PixelShader::Execute(const Ceng::UINT32 threadId, Pipeline* pipeline)
+{
+	CRESULT cresult = CE_OK;
+
+	cresult = rasterizerBatch->renderState->pshaderInstance[threadId]->ProcessQuads(this, threadId);
+
+	--pipeline->pixelShader.numThreads;
+	--pipeline->activeThreads;
+	
+	++(*bucketCompletedTasks);
+
+	pipeline->WakeAllThreads();
+
+	return cresult;
+}
+
+const CRESULT Experimental::Task_PixelShader::Prepare(const Ceng::UINT32 threadId, Pipeline* pipeline)
+{
+	return CE_OK;
+}

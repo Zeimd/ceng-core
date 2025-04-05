@@ -687,6 +687,244 @@ const CRESULT PixelShaderInstance::ProcessQuads(Task_PixelShader *batch, const C
 	return CE_OK;
 }
 
+const CRESULT PixelShaderInstance::ProcessQuads(Experimental::Task_PixelShader* batch, const Ceng::INT32 threadId)
+{
+	UINT32 k;
+
+	// Initialize pointer to current quad chain structure
+	// NOTE: Input & output registers access this value through a pointer
+
+	inputBaseAddress = (POINTER)((UINT8*)quadBuffer);
+
+	FLOAT32* localPerspective = (FLOAT32*)&perspectiveTemp[0];
+
+	// ***** Constant setup
+
+	const Ceng::UINT32* diffuseTexture = (Ceng::UINT32*)uniformPtr[0];
+
+	diffuseTexUnit = textureUnits[*diffuseTexture];
+
+	UINT32 chainIndex;
+
+	_declspec(align(16)) VectorF4 packedW;
+
+	FLOAT32* invertW = (FLOAT32*)&packedW;
+
+	CR_TriangleData* triangle;
+
+	UINT32 quadFloatOffset = Ceng::UINT32(quadFormat->floatStart);
+	UINT32 quadDoubleOffset = Ceng::UINT32(quadFormat->doubleStart);
+	UINT32 quadTargetOffset = Ceng::UINT32(quadFormat->targetStart);
+
+	UINT8* inputBuffer = quadBuffer;
+	UINT8* localCoverage;
+
+
+	const FLOAT32 colorScaleScalar = FLOAT32(255.0f);
+
+	triangle = batch->rasterizerBatch->triangle.get();
+
+	for (k = 0; k < batch->quadCount; k++)
+	{
+		CR_QuadHeader* quad = &batch->quadList[k];
+
+		stepBufferPtr = (POINTER)(triangle->fragment.variableStep);
+
+		UINT8* localSteps = (UINT8*)stepBufferPtr;
+
+		//**********************************
+		// Generate temporary quad
+
+		UINT32 floatBlockSize = quadFormat->floatBlocks;
+		UINT32 doubleBlockSize = quadFormat->doubleBlocks;
+
+		CR_FloatFragment* floatParam = (CR_FloatFragment*)triangle->fragment.floatBlock;
+		CR_DoubleFragment* doubleParam = (CR_DoubleFragment*)triangle->fragment.doubleBlock;
+
+		FLOAT32 screenX = FLOAT32(quad->screenX);
+		FLOAT32 screenY = FLOAT32(quad->screenY);
+
+		packedW = triangle->packedW;
+
+		packedW += triangle->packedW_dx * (screenX);
+		packedW += triangle->packedW_dy * (screenY);
+
+		VectorF4* destF4 = (VectorF4*)&quadBuffer[quadFloatOffset];
+
+		__m128 screenVecX = _mm_load1_ps(&screenX);
+		__m128 screenVecY = _mm_load1_ps(&screenY);
+
+		for (Ceng::UINT32 i = 0; i < floatBlockSize; ++i)
+		{
+			__m128 startValue = _mm_load_ps((float*)&floatParam[i].startValue);
+
+			__m128 stepX = _mm_load_ps((float*)&floatParam[i].step_dx);
+			__m128 stepY = _mm_load_ps((float*)&floatParam[i].step_dy);
+
+			stepX = _mm_mul_ps(stepX, screenVecX);
+			stepY = _mm_mul_ps(stepY, screenVecY);
+
+			startValue = _mm_add_ps(startValue, stepX);
+			startValue = _mm_add_ps(startValue, stepY);
+
+			_mm_store_ps((float*)&destF4[i], startValue);
+		}
+
+		/*
+		for(i=0;i<floatBlockSize;i++)
+		{
+			destF4[i] = floatParam[i].startValue + (floatParam[i].step_dx*screenX) +
+				(floatParam[i].step_dy*screenY);
+		}
+		*/
+
+		// Write DOUBLE variables for the first quad
+
+		/*
+		VectorD2 *destD2 = (VectorD2*)&quadBuffer[quadDoubleOffset];
+
+		for(i=0;i<doubleBlockSize;i++)
+		{
+			destD2[i] = doubleParam[i].startValue + (doubleParam[i].step_dx*screenX)
+				+ (doubleParam[i].step_dy*screenY);
+		}
+		*/
+
+		// Write render target addresses
+
+		// NOTE: Skip targets 0,1 because shader
+		//       doesn't use depth-stencil buffer
+
+		POINTER* target = (POINTER*)&quadBuffer[quadTargetOffset];
+
+		for (Ceng::UINT32 i = 2; i < activeRenderTargets; i++)
+		{
+			target[i] = targetHandles[i]->GetQuadAddress(0, quad->screenX,
+				quad->screenY);
+		}
+
+		__m128 allOnesVec = _mm_load_ps((float*)allOnes);
+
+		__m128 quadStepVec = _mm_loadu_ps((float*)&triangle->packedW_quad_dx);
+
+		__m128 invertVecW = _mm_load_ps((float*)invertW);
+
+		__m128 perspectiveVec;
+
+		if (quad->coverageMask[0] == 0)
+		{
+			// Set coverage pointer to fully covered
+
+			coverageAddress = 15;
+
+			localCoverage = (UINT8*)&newVertTable[15];
+
+			// Chain contains only fully covered quads
+
+			Ceng::UINT32 chainLength = quad->chainLength;
+
+			Ceng::UINT32 chainPacks = chainLength >> 2;
+			Ceng::UINT32 chainRemainder = chainLength & 3;
+
+			for (chainIndex = 0; chainIndex < chainPacks; chainIndex++)
+			{
+				// First quad
+
+				perspectiveVec = _mm_rcp_ps(invertVecW);
+				//perspectiveVec = _mm_div_ps(allOnesVec,invertVecW);
+
+				invertVecW = _mm_add_ps(invertVecW, quadStepVec);
+
+				_mm_store_ps((float*)localPerspective, perspectiveVec);
+				_mm_store_ps((float*)invertW, invertVecW);
+
+				ShaderFunction(&localPerspective[0], &invertW[0], Ceng::INT32(coverageAddress), threadId);
+
+				// Second quad
+
+				perspectiveVec = _mm_rcp_ps(invertVecW);
+				//perspectiveVec = _mm_div_ps(allOnesVec, invertVecW);
+
+				invertVecW = _mm_add_ps(invertVecW, quadStepVec);
+
+				_mm_store_ps((float*)localPerspective, perspectiveVec);
+				_mm_store_ps((float*)invertW, invertVecW);
+
+				ShaderFunction(&localPerspective[0], &invertW[0], Ceng::INT32(coverageAddress), threadId);
+
+				// Third quad
+
+				perspectiveVec = _mm_rcp_ps(invertVecW);
+				//perspectiveVec = _mm_div_ps(allOnesVec, invertVecW);
+
+				invertVecW = _mm_add_ps(invertVecW, quadStepVec);
+
+				_mm_store_ps((float*)localPerspective, perspectiveVec);
+				_mm_store_ps((float*)invertW, invertVecW);
+
+				ShaderFunction(&localPerspective[0], &invertW[0], Ceng::INT32(coverageAddress), threadId);
+
+				// Fourth quad
+
+				perspectiveVec = _mm_rcp_ps(invertVecW);
+				//perspectiveVec = _mm_div_ps(allOnesVec, invertVecW);
+
+				invertVecW = _mm_add_ps(invertVecW, quadStepVec);
+
+				_mm_store_ps((float*)localPerspective, perspectiveVec);
+				_mm_store_ps((float*)invertW, invertVecW);
+
+				ShaderFunction(&localPerspective[0], &invertW[0], Ceng::INT32(coverageAddress), threadId);
+
+			}
+
+			for (chainIndex = 0; chainIndex < chainRemainder; chainIndex++)
+			{
+				perspectiveVec = _mm_rcp_ps(invertVecW);
+				//perspectiveVec = _mm_div_ps(allOnesVec, invertVecW);
+
+				invertVecW = _mm_add_ps(invertVecW, quadStepVec);
+
+				_mm_store_ps((float*)localPerspective, perspectiveVec);
+				_mm_store_ps((float*)invertW, invertVecW);
+
+				// Process the quad
+				ShaderFunction(&localPerspective[0], &invertW[0], Ceng::INT32(coverageAddress), threadId);
+			}
+		}
+		else
+		{
+			// Partially filled chain
+
+			UINT32 coverageIndex = 0;
+
+			Ceng::UINT32 chainLength = quad->chainLength;
+
+			for (chainIndex = 0; chainIndex < chainLength; chainIndex++)
+			{
+				perspectiveVec = _mm_div_ps(allOnesVec, invertVecW);
+
+				invertVecW = _mm_add_ps(invertVecW, quadStepVec);
+
+				_mm_store_ps((float*)localPerspective, perspectiveVec);
+				_mm_store_ps((float*)invertW, invertVecW);
+
+				// Extract coverage information for the quad
+
+				coverageIndex = quad->coverageMask[chainIndex >> 3] >> (4 * (chainIndex & 7));
+				coverageIndex = coverageIndex & 15;
+
+				coverageAddress = coverageIndex;
+
+				// Process the quad
+				ShaderFunction(&localPerspective[0], &invertW[0], Ceng::INT32(coverageAddress), threadId);
+			}
+		}
+	}
+
+	return CE_OK;
+}
+
 void PixelShaderInstance::ShaderFunction(const FLOAT32 *perspective,
 										 const FLOAT32 *invertW,
 										 const INT32 coverageIndex,
