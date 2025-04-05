@@ -65,7 +65,7 @@ std::shared_ptr<Experimental::RenderTask> SchedulerTask::GetTask(Ceng::UINT32 th
 			continue;
 		}
 
-		bucket.Lock(threadId, 1);
+		bucket.Lock(threadId);
 
 		std::shared_ptr<Experimental::RenderTask> task = front.task;
 
@@ -104,7 +104,7 @@ std::shared_ptr<Experimental::RenderTask> SchedulerTask::GetTask(Ceng::UINT32 th
 			continue;
 		}
 
-		bucket.Lock(threadId, 1);
+		bucket.Lock(threadId);
 
 		std::shared_ptr<Experimental::Task_Rasterizer> task = front.task;
 

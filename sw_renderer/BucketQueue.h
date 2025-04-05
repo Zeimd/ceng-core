@@ -84,10 +84,10 @@ namespace Ceng::Experimental
 
 		// Marks bucket as locked for given thread id.
 		// Undefined behavior if bucket is not unlocked before called.
-		void Lock(Ceng::UINT32 id, Ceng::UINT32 taskCount)
+		void Lock(Ceng::UINT32 id)
 		{
 			threadId = id;
-			issuedTasks.store(taskCount);
+			++issuedTasks;
 		}
 
 		void PopEmptyTasks()
