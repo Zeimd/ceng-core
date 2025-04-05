@@ -11,38 +11,50 @@ namespace Ceng::Experimental
 	class Future
 	{
 	public:
-		std::atomic<Ceng::UINT32> ready;
+
+		enum class Status
+		{
+			pending,
+			complete
+		};
+
+		std::atomic<Status> status;
 		std::shared_ptr<T> task;
 
 		Future()
 			: task(nullptr)
 		{
-			ready.store(0);
+			status.store(Status::pending);
 		}
 
 		Future(const Future& source)
 			: task(task)
 		{
-			ready.store(source.ready);
+			status.store(source.status.load());
 		}
 
 		Future& operator = (const Future& source)
 		{
-			ready.store(source.ready.load());
+			status.store(source.status.load());
 			task = source.task;
 
 			return *this;
 		}
 
-		Future(const std::shared_ptr<T>& source)
-			: task(source)
-		{
-			ready.store(0);
-		}
-
 		bool IsReady()
 		{
-			return ready.load() == 1;
+			return status.load() == Status::complete;
+		}
+
+		void Discard()
+		{
+			status.store(Status::complete);
+		}
+
+		void Complete(const std::shared_ptr<T>& source)
+		{
+			task = source;
+			status.store(Status::complete);
 		}
 	};
 }
