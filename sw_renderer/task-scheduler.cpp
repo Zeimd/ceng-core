@@ -109,9 +109,7 @@ std::shared_ptr<Experimental::RenderTask> SchedulerTask::GetTask()
 
 		for (int j = 0; j < pipeline->pixelShader.buckets.size(); j++)
 		{
-			std::shared_ptr<Experimental::Task_PixelShader> output = std::make_shared<Experimental::Task_PixelShader>();
-
-			Experimental::Future<Experimental::Task_PixelShader> future(output);
+			Experimental::Future<Experimental::Task_PixelShader> future(nullptr);
 
 			pipeline->pixelShader.buckets[j].queue.PushBack(future);
 
@@ -156,9 +154,7 @@ std::shared_ptr<Experimental::RenderTask> SchedulerTask::GetTask()
 
 				for (int j = 0; j < pipeline->rasterizer.buckets.size(); j++)
 				{
-					std::shared_ptr<Experimental::Task_Rasterizer> output = std::make_shared<Experimental::Task_Rasterizer>();
-
-					Experimental::Future<Experimental::Task_Rasterizer> future(output);
+					Experimental::Future<Experimental::Task_Rasterizer> future(nullptr);
 
 					pipeline->rasterizer.buckets[j].queue.PushBack(future);
 
@@ -192,9 +188,7 @@ std::shared_ptr<Experimental::RenderTask> SchedulerTask::GetTask()
 
 				auto& task = front.task;
 
-				std::shared_ptr<Experimental::Task_TriangleSetup> output = std::make_shared<Experimental::Task_TriangleSetup>();
-
-				Experimental::Future<Experimental::Task_TriangleSetup> future(output);
+				Experimental::Future<Experimental::Task_TriangleSetup> future(nullptr);
 
 				pipeline->triangleSetup.queue.PushBack(future);
 
