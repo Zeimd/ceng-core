@@ -40,8 +40,6 @@ std::shared_ptr<Experimental::RenderTask> SchedulerTask::GetTask(Ceng::UINT32 th
 
 	// TODO: cap number of threads that can execute tasks from pixel shader simultaneously
 
-	std::shared_ptr<Experimental::RenderTask> task = nullptr;
-
 	for (int k = 0; k < pipeline->pixelShader.buckets.size(); k++)
 	{
 		auto& bucket = pipeline->pixelShader.buckets[k];
@@ -202,7 +200,7 @@ std::shared_ptr<Experimental::RenderTask> SchedulerTask::GetTask(Ceng::UINT32 th
 	}
 	
 
-	return task;
+	return nullptr;
 
 }
 
