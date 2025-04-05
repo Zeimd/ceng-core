@@ -163,6 +163,8 @@ const CRESULT CR_Rasterizer::Rasterize(std::shared_ptr<RasterizerBatch>& batch, 
 			delete outputs[k];
 		}
 	}
+
+	return CE_OK;
 }
 
 const Ceng::INT32 CR_Rasterizer::RasterizeTriangle(std::vector<Task_PixelShader*> &outputs,

@@ -17,7 +17,7 @@ namespace Ceng
 	class ConditionVariable;
 	class CriticalSection;
 
-	class SchedulerTask : ThreadTask
+	class SchedulerTask : public ThreadTask
 	{
 	protected:
 
@@ -40,6 +40,8 @@ namespace Ceng
 		const CRESULT Execute() override;
 
 		const CRESULT Exit() override;
+
+		void Release() override;
 
 	protected:
 

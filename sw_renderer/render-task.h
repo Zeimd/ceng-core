@@ -9,6 +9,8 @@
 #ifndef CRENDER_RENDER_TASK_H
 #define CRENDER_RENDER_TASK_H
 
+#include <atomic>
+
 #include <ceng/datatypes/basic-types.h>
 #include <ceng/datatypes/return-val.h>
 

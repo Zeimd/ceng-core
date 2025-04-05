@@ -29,6 +29,11 @@ SchedulerTask::~SchedulerTask()
 	}	
 }
 
+void SchedulerTask::Release()
+{
+	delete this;
+}
+
 std::shared_ptr<Experimental::RenderTask> SchedulerTask::GetTask(Ceng::UINT32 threadId)
 {
 	Ceng::UINT32 maxThreads = pipeline->renderThreads.size()-1;
@@ -112,7 +117,7 @@ std::shared_ptr<Experimental::RenderTask> SchedulerTask::GetTask(Ceng::UINT32 th
 
 		for (int j = 0; j < pipeline->pixelShader.buckets.size(); j++)
 		{
-			Experimental::Future<Experimental::Task_PixelShader> future(nullptr);
+			Experimental::Future<Experimental::Task_PixelShader> future;
 
 			pipeline->pixelShader.buckets[j].queue.PushBack(future);
 
@@ -148,7 +153,7 @@ std::shared_ptr<Experimental::RenderTask> SchedulerTask::GetTask(Ceng::UINT32 th
 
 				for (int j = 0; j < pipeline->rasterizer.buckets.size(); j++)
 				{
-					Experimental::Future<Experimental::Task_Rasterizer> future(nullptr);
+					Experimental::Future<Experimental::Task_Rasterizer> future;
 
 					pipeline->rasterizer.buckets[j].queue.PushBack(future);
 
@@ -182,7 +187,7 @@ std::shared_ptr<Experimental::RenderTask> SchedulerTask::GetTask(Ceng::UINT32 th
 
 				auto& task = front.task;
 
-				Experimental::Future<Experimental::Task_TriangleSetup> future(nullptr);
+				Experimental::Future<Experimental::Task_TriangleSetup> future;
 
 				pipeline->triangleSetup.queue.PushBack(future);
 
