@@ -11,11 +11,16 @@
 
 namespace Ceng::Experimental
 {
+	class Pipeline;
+
 	template<class T>
 	class SimpleStage
 	{
 	public:
 		RingBuffer<Future<T>> queue;
+
+		Experimental::Pipeline* pipeline;
+
 		std::atomic<Ceng::UINT32> numThreads;
 
 		SimpleStage()
@@ -37,7 +42,8 @@ namespace Ceng::Experimental
 			return *this;
 		}
 
-		SimpleStage(Ceng::UINT32 items, Ceng::UINT32 cacheLineSize)
+		SimpleStage(Ceng::UINT32 items, Ceng::UINT32 cacheLineSize, Experimental::Pipeline* pipeline)
+			: pipeline(pipeline)
 		{
 			numThreads.store(0);
 			queue = RingBuffer<Future<T>>::Allocate(items, cacheLineSize);

@@ -30,6 +30,8 @@
 
 #include "locking-stage.h"
 
+#include "pipeline.h"
+
 using namespace Ceng;
 
 CR_VertexShaderInstance::CR_VertexShaderInstance()
@@ -462,6 +464,9 @@ const CRESULT CR_VertexShaderInstance::ProcessVertexBatch(std::shared_ptr<DrawBa
 	Experimental::Future<Experimental::Task_Clipper> future;
 
 	future.Complete(std::make_shared<Experimental::Task_Clipper>(out_batch));
+
+	output.queue.PushBack(future);
+	output.pipeline->AddPendingTasks(1);
 
 	return CE_OK;
 }

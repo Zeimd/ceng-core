@@ -10,6 +10,8 @@
 
 namespace Ceng::Experimental
 {
+	class Pipeline;
+
 	template<class T>
 	class BucketStage
 	{
@@ -29,13 +31,13 @@ namespace Ceng::Experimental
 			return *this;
 		}
 
-		BucketStage(Ceng::UINT32 amount, Ceng::UINT32 items, Ceng::UINT32 cacheLineSize)
+		BucketStage(Ceng::UINT32 amount, Ceng::UINT32 items, Ceng::UINT32 cacheLineSize, Experimental::Pipeline* pipeline)
 		{
 			numThreads.store(0);
 
 			for (auto k = 0; k < amount; ++k)
 			{
-				buckets.emplace_back(items, cacheLineSize);
+				buckets.emplace_back(items, cacheLineSize,pipeline);
 			}
 		}
 

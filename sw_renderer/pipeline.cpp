@@ -247,13 +247,13 @@ const CRESULT Experimental::Pipeline::Configure(const Ceng::UINT32 cacheLineSize
 
 	vshaderOutQueue = RingBuffer<std::shared_ptr<DrawBatch>>::Allocate(32, cacheLineSize);
 
-	clipper = SimpleStage<Experimental::Task_Clipper>(64, cacheLineSize);
+	clipper = SimpleStage<Experimental::Task_Clipper>(64, cacheLineSize, this);
 
-	triangleSetup = SimpleStage<Experimental::Task_TriangleSetup>(64, cacheLineSize);
+	triangleSetup = SimpleStage<Experimental::Task_TriangleSetup>(64, cacheLineSize, this);
 
-	pixelShader = BucketStage<Experimental::Task_PixelShader>(maxThreads * maxScreenBuckets, 64, cacheLineSize);
+	pixelShader = BucketStage<Experimental::Task_PixelShader>(maxThreads * maxScreenBuckets, 64, cacheLineSize, this);
 
-	rasterizer = BucketStage<Experimental::Task_Rasterizer>(maxScreenBuckets, 64, cacheLineSize);
+	rasterizer = BucketStage<Experimental::Task_Rasterizer>(maxScreenBuckets, 64, cacheLineSize, this);
 
 	// Signal for render threads that there is work to do
 	Ceng_CreateConditionVar(&rendererHasWork);
@@ -274,6 +274,33 @@ const CRESULT Experimental::Pipeline::Configure(const Ceng::UINT32 cacheLineSize
 	Ceng::CRESULT cresult = Ceng_CreateThread(schedulerTask, true, &scheduler);
 
 	return CE_OK;
+}
+
+void Experimental::Pipeline::WaitForFlush()
+{
+
+}
+
+void Experimental::Pipeline::AddPendingTasks(Ceng::UINT32 count)
+{
+	pendingTasks += count;
+}
+
+void Experimental::Pipeline::PendingToRunning()
+{
+	--pendingTasks;
+	++runningTasks;
+}
+
+void Experimental::Pipeline::PendingToRunning(Ceng::UINT32 count)
+{
+	pendingTasks -= count;
+	runningTasks += count;
+}
+
+void Experimental::Pipeline::CompleteTasks(Ceng::UINT32 count)
+{
+	runningTasks -= count;
 }
 
 /*

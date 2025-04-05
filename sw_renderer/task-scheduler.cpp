@@ -74,7 +74,9 @@ std::shared_ptr<Experimental::RenderTask> SchedulerTask::GetTask(Ceng::UINT32 th
 
 		task->bucketCompletedTasks = &bucket.completedTasks;
 
-		pipeline->pixelShader.buckets[k].queue.PopFront();
+		bucket.queue.PopFront();
+
+		pipeline->PendingToRunning();
 
 		return task;
 	}
@@ -128,7 +130,11 @@ std::shared_ptr<Experimental::RenderTask> SchedulerTask::GetTask(Ceng::UINT32 th
 			task->futures.push_back(ptr);
 		}
 
+		pipeline->AddPendingTasks(pipeline->pixelShader.buckets.size());
+
 		bucket.queue.PopFront();
+
+		pipeline->PendingToRunning();
 
 		return task;
 	}
@@ -164,7 +170,11 @@ std::shared_ptr<Experimental::RenderTask> SchedulerTask::GetTask(Ceng::UINT32 th
 					task->futures.push_back(ptr);
 				}
 
+				pipeline->AddPendingTasks(pipeline->rasterizer.buckets.size());
+
 				triangleQueue.PopFront();
+
+				pipeline->PendingToRunning();
 
 				return task;
 			}
@@ -197,16 +207,18 @@ std::shared_ptr<Experimental::RenderTask> SchedulerTask::GetTask(Ceng::UINT32 th
 
 				task->future = ptr;
 
+				pipeline->AddPendingTasks(1);
+
 				clipperQueue.PopFront();
+
+				pipeline->PendingToRunning();
 
 				return task;
 			}
 		}
-	}
-	
+	}	
 
 	return nullptr;
-
 }
 
 const CRESULT SchedulerTask::Execute()

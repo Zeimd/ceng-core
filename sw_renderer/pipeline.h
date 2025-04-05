@@ -152,6 +152,19 @@ namespace Ceng::Experimental
 		void WakeAllThreads();
 		void WakeOneThread();
 
+		void AddPendingTasks(Ceng::UINT32 count);
+
+		void WaitForFlush();
+
+		// Move single task from pending to running count
+		void PendingToRunning();
+
+		// Move *count* tasks from pending to running count
+		void PendingToRunning(Ceng::UINT32 count);
+
+		// Remove tasks from running task count
+		void CompleteTasks(Ceng::UINT32 count);
+
 		const CRESULT Configure(const Ceng::UINT32 cacheLine, const Ceng::UINT32 maxScreenBuckets,
 			const Ceng::UINT32 renderThreads, std::shared_ptr<ConditionVariable>& cmdWake);
 	};

@@ -11,11 +11,15 @@
 
 namespace Ceng::Experimental
 {
+	class Pipeline;
+
 	template<class T>
 	class BucketQueue
 	{
 	public:
 		RingBuffer<Future<T>> queue;
+
+		Pipeline* pipeline;
 
 		// Thread holding the execution lock
 		// -1 = none
@@ -51,8 +55,8 @@ namespace Ceng::Experimental
 			return *this;
 		}
 
-		BucketQueue(Ceng::UINT32 items, Ceng::UINT32 cacheLineSize)
-			: threadId(-1)
+		BucketQueue(Ceng::UINT32 items, Ceng::UINT32 cacheLineSize, Experimental::Pipeline* pipeline)
+			: threadId(-1), pipeline(pipeline)
 		{
 			queue = RingBuffer<Future<T>>::Allocate(items, cacheLineSize);
 		}
@@ -99,6 +103,7 @@ namespace Ceng::Experimental
 				if (front.task == nullptr)
 				{
 					queue.PopFront();
+					pipeline->CompleteTasks(1);
 					continue;
 				}
 
