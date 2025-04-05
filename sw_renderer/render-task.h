@@ -53,6 +53,7 @@ namespace Ceng::Experimental
 
 	public:
 		RenderTask()
+			: apiCallId(0), bucketCompletedTasks(nullptr)
 		{
 		}
 
