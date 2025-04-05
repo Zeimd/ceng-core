@@ -27,6 +27,8 @@
 #include "BucketQueue.h"
 #include "BucketStage.h"
 
+#include "task-scheduler.h"
+
 namespace Ceng
 {
 	class RasterizerBatch;
@@ -100,7 +102,7 @@ namespace Ceng::Experimental
 	class Task_TriangleSetup;
 	class Task_Rasterizer;
 	
-	struct ThreadData
+	struct RenderThreadData
 	{
 		Thread* thread;
 		Experimental::RenderThread* task;
@@ -127,7 +129,10 @@ namespace Ceng::Experimental
 
 		ConditionVariable* rendererHasWork;
 
-		std::vector<ThreadData> renderThreads;
+		std::vector<RenderThreadData> renderThreads;
+
+		Thread* scheduler;
+		SchedulerTask* schedulerTask;
 
 		std::atomic<Ceng::UINT32> runningThreadCount;
 		std::atomic<Ceng::UINT32> minThreadCount;
