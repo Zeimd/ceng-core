@@ -29,6 +29,8 @@
 
 #include "locking-stage.h"
 
+#include "future.h"
+
 namespace Ceng
 {
 	
@@ -85,9 +87,15 @@ namespace Ceng
 
 		const CRESULT Rasterize(std::shared_ptr<RasterizerBatch> &batch,LockingStage &outputStage,
 			const Ceng::UINT32 threadId, Ceng::UINT32 renderThreads);
+
+		const CRESULT Rasterize(std::shared_ptr<RasterizerBatch>& batch, std::vector< Experimental::Future<Experimental::Task_PixelShader>* >& futures,
+			const Ceng::UINT32 threadId, Ceng::UINT32 renderThreads);
 	
 		const Ceng::INT32 RasterizeTriangle(std::vector<Task_PixelShader*> &outputBatch,
 			Ceng::Rectangle *scissorRect, Ceng::UINT32 renderThreads, Ceng::INT32 bucketYmin);
+
+		const Ceng::INT32 RasterizeTriangle(std::vector<Experimental::Task_PixelShader*>& outputBatch,
+			Ceng::Rectangle* scissorRect, Ceng::UINT32 renderThreads, Ceng::INT32 bucketYmin);
 
 		Ceng::INT32 RasterizeTriangle_ChainWithinTile(CR_TriangleData *triangle,
 														CR_NewTargetData *depthBuffer,
@@ -105,6 +113,11 @@ namespace Ceng
 									const INT32 startQuadX,const INT32 endQuadX,
 									const UINT32 *coverageMask,
 									const INT32 chainY);
+
+		const CRESULT GenerateChain(Experimental::Task_PixelShader* batch,
+			const INT32 startQuadX, const INT32 endQuadX,
+			const UINT32* coverageMask,
+			const INT32 chainY);
 		
 											
 

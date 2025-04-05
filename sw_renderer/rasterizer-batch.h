@@ -22,6 +22,7 @@ namespace Ceng
 	public:
 
 		Ceng::UINT32 bucketId;
+		Ceng::UINT32 lastBucketId;
 
 		// Total number of tasks sent to rasterizer from this api call
 		// NOTE: -1 indicates this is not the last task
