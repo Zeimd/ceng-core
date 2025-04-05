@@ -124,8 +124,11 @@ namespace Ceng::Experimental
 
 		BucketStage<Experimental::Task_PixelShader> pixelShader;
 
-		std::atomic<Ceng::UINT32> remainingTasks;
-		std::atomic<Ceng::UINT32> activeThreads;
+		// Total number of tasks left in the pipeline
+		std::atomic<Ceng::UINT32> pendingTasks;
+
+		// Number of tasks currently in flight. Either in worker thread's input queue or executing.
+		std::atomic<Ceng::UINT32> runningTasks;
 
 		ConditionVariable* rendererHasWork;
 

@@ -74,7 +74,7 @@ const CRESULT Experimental::Task_PixelShader::Execute(const Ceng::UINT32 threadI
 	cresult = rasterizerBatch->renderState->pshaderInstance[threadId]->ProcessQuads(this, threadId);
 
 	--pipeline->pixelShader.numThreads;
-	--pipeline->activeThreads;
+	--pipeline->runningTasks;
 	
 	++(*bucketCompletedTasks);
 

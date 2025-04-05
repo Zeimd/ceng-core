@@ -689,7 +689,7 @@ const CRESULT CR_RenderContext::Execute_DrawPrimitive(const Ceng::UINT32 apiCall
 	pipeline.maxThreadCount.store(parentDevice->renderThreadCount);
 
 	pipeline.WakeAllThreads();
-	while (pipeline.remainingTasks.load() + pipeline.activeThreads.load() > 0)
+	while (pipeline.pendingTasks.load() + pipeline.runningTasks.load() > 0)
 	{
 		cmdProcessorSleep->Wait(cmdProcessor.wakeCrit);
 	}

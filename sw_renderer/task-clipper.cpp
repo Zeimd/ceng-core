@@ -69,7 +69,7 @@ const CRESULT Experimental::Task_Clipper::Execute(const Ceng::UINT32 threadId, P
 	cresult = clipperBatch->renderState->clipper->ClipPrimitives(clipperBatch, future);
 
 	--pipeline->clipper.numThreads;
-	--pipeline->activeThreads;
+	--pipeline->runningTasks;
 
 	pipeline->WakeAllThreads();
 

@@ -76,7 +76,7 @@ const CRESULT Experimental::Task_Rasterizer::Execute(const Ceng::UINT32 threadId
 		Rasterize(rasterizerBatch, futures, threadId, pipeline->renderThreads.size());
 
 	--pipeline->rasterizer.numThreads;
-	--pipeline->activeThreads;
+	--pipeline->runningTasks;
 
 	++(*bucketCompletedTasks);
 

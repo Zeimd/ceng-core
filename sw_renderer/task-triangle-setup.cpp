@@ -69,7 +69,7 @@ const CRESULT Experimental::Task_TriangleSetup::Execute(const Ceng::UINT32 threa
 	cresult = triangleBatch->renderState->rasterizer->TriangleSetup(triangleBatch, futures, pipeline->rasterizer.buckets.size());
 
 	--pipeline->triangleSetup.numThreads;
-	--pipeline->activeThreads;
+	--pipeline->runningTasks;
 
 	pipeline->WakeAllThreads();
 

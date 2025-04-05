@@ -175,8 +175,8 @@ Experimental::Pipeline::Pipeline() : rendererHasWork(nullptr)
 	minThreadCount.store(0);
 	maxThreadCount.store(0);
 
-	activeThreads.store(0);
-	remainingTasks.store(0);
+	runningTasks.store(0);
+	pendingTasks.store(0);
 }
 
 Experimental::Pipeline::~Pipeline()
@@ -236,8 +236,8 @@ void Experimental::Pipeline::WakeAllThreads()
 const CRESULT Experimental::Pipeline::Configure(const Ceng::UINT32 cacheLineSize, const Ceng::UINT32 maxScreenBuckets,
 	const Ceng::UINT32 maxThreads, std::shared_ptr<ConditionVariable>& cmdWake)
 {
-	remainingTasks.store(0);
-	activeThreads.store(0);
+	pendingTasks.store(0);
+	runningTasks.store(0);
 
 	runningThreadCount.store(0);
 	minThreadCount.store(0);
