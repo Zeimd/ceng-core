@@ -108,7 +108,14 @@ const CRESULT CR_Clipper::ClipPrimitives(std::shared_ptr<ClipperBatch>& batch,
 		}
 	}
 
-	future->Complete(std::make_shared<Experimental::Task_TriangleSetup>(outputBatch));
+	if (cresult == CE_OK)
+	{
+		future->Complete(std::make_shared<Experimental::Task_TriangleSetup>(outputBatch));
+	}
+	else
+	{
+		future->Discard();
+	}	
 
 	return CE_OK;
 }
@@ -193,7 +200,7 @@ const CRESULT CR_Clipper::HomogeneousClipTriangle(CR_PrimitiveData &primitive,
 	if (trivialRejectMin | trivialRejectMax)
 	{
 		//*outputSize = 0;
-		return CE_OK;
+		return CE_ERR_ABANDONED_OBJECT;
 	}
 	
 	// Trivial accept if all coordinates pass both minimum and
@@ -294,7 +301,7 @@ const CRESULT CR_Clipper::HomogeneousClipTriangle(CR_PrimitiveData &primitive,
 
 		if (finalSize == 0)
 		{
-			return CE_OK;
+			return CE_ERR_ABANDONED_OBJECT;
 		}
 	}
 
@@ -344,7 +351,7 @@ const CRESULT CR_Clipper::HomogeneousClipTriangle(CR_PrimitiveData &primitive,
 
 		if (finalSize == 0)
 		{
-			return CE_OK;
+			return CE_ERR_ABANDONED_OBJECT;
 		}
 	}
 
@@ -393,7 +400,7 @@ const CRESULT CR_Clipper::HomogeneousClipTriangle(CR_PrimitiveData &primitive,
 
 		if (finalSize == 0)
 		{
-			return CE_OK;
+			return CE_ERR_ABANDONED_OBJECT;
 		}
 	}
 	
@@ -443,7 +450,7 @@ const CRESULT CR_Clipper::HomogeneousClipTriangle(CR_PrimitiveData &primitive,
 
 		if (finalSize == 0)
 		{
-			return CE_OK;
+			return CE_ERR_ABANDONED_OBJECT;
 		}
 	}
 
@@ -491,7 +498,7 @@ const CRESULT CR_Clipper::HomogeneousClipTriangle(CR_PrimitiveData &primitive,
 
 		if (finalSize == 0)
 		{
-			return CE_OK;
+			return CE_ERR_ABANDONED_OBJECT;
 		}
 	}
 	
@@ -539,7 +546,7 @@ const CRESULT CR_Clipper::HomogeneousClipTriangle(CR_PrimitiveData &primitive,
 
 		if (finalSize == 0)
 		{
-			return CE_OK;
+			return CE_ERR_ABANDONED_OBJECT;
 		}
 	}	
 	
@@ -591,7 +598,7 @@ const CRESULT CR_Clipper::HomogeneousClipTriangle(CR_PrimitiveData &primitive,
 
 		if (finalSize == 0)
 		{
-			return CE_OK;
+			return CE_ERR_ABANDONED_OBJECT;
 		}
 	}
 	
