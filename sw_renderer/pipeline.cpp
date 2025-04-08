@@ -217,6 +217,8 @@ void Experimental::Pipeline::ResumeThreads()
 	{
 		renderThreads[k].thread->Resume();
 	}
+
+	scheduler->Resume();
 }
 
 void Experimental::Pipeline::PauseThreads()
@@ -225,6 +227,8 @@ void Experimental::Pipeline::PauseThreads()
 	{
 		renderThreads[k].thread->Pause();
 	}
+
+	scheduler->Pause();
 }
 
 void Experimental::Pipeline::WakeOneThread()
