@@ -276,9 +276,17 @@ const CRESULT Experimental::Pipeline::Configure(const Ceng::UINT32 cacheLineSize
 	return CE_OK;
 }
 
-void Experimental::Pipeline::WaitForFlush()
+bool Experimental::Pipeline::IsEmpty()
 {
+	return (pendingTasks.load() + runningTasks.load() == 0);
+}
 
+void Experimental::Pipeline::WaitForEmpty()
+{
+	while (IsEmpty() == false)
+	{
+
+	}
 }
 
 void Experimental::Pipeline::AddPendingTasks(Ceng::UINT32 count)

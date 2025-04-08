@@ -154,7 +154,9 @@ namespace Ceng::Experimental
 
 		void AddPendingTasks(Ceng::UINT32 count);
 
-		void WaitForFlush();
+		bool IsEmpty();
+
+		void WaitForEmpty();
 
 		// Move single task from pending to running count
 		void PendingToRunning();
