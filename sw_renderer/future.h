@@ -28,7 +28,7 @@ namespace Ceng::Experimental
 		}
 
 		Future(const Future& source)
-			: task(task)
+			: task(source.task)
 		{
 			status.store(source.status.load());
 		}
