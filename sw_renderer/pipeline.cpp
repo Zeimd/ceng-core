@@ -405,7 +405,7 @@ std::shared_ptr<Experimental::RenderTask>  Experimental::Pipeline::GetTask(Ceng:
 			{
 				// Allocate futures from queues
 
-				auto& task = front.task;
+				std::shared_ptr<Experimental::Task_TriangleSetup> task = front.task;
 
 				for (int j = 0; j < rasterizer.buckets.size(); j++)
 				{
@@ -445,7 +445,7 @@ std::shared_ptr<Experimental::RenderTask>  Experimental::Pipeline::GetTask(Ceng:
 			{
 				// Allocate futures from queues
 
-				auto& task = front.task;
+				std::shared_ptr<Experimental::Task_Clipper> task = front.task;
 
 				Experimental::Future<Experimental::Task_TriangleSetup> future;
 
