@@ -169,6 +169,8 @@ namespace Ceng::Experimental
 
 		const CRESULT Configure(const Ceng::UINT32 cacheLine, const Ceng::UINT32 maxScreenBuckets,
 			const Ceng::UINT32 renderThreads, std::shared_ptr<ConditionVariable>& cmdWake);
+
+		std::shared_ptr<Experimental::RenderTask> GetTask(Ceng::UINT32 threadId);
 	};
 }
 

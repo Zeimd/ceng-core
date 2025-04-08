@@ -45,7 +45,7 @@ namespace Ceng
 
 	protected:
 
-		std::shared_ptr<Experimental::RenderTask> GetTask(Ceng::UINT32 threadId);
+		
 		
 	};
 }

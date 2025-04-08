@@ -13,6 +13,10 @@
 
 #include "render-thread.h"
 
+#include "task-clipper.h"
+#include "task-rasterizer.h"
+#include "task-triangle-setup.h"
+
 using namespace Ceng;
 
 Pipeline::Pipeline() : rendererHasWork(nullptr)
@@ -275,6 +279,194 @@ const CRESULT Experimental::Pipeline::Configure(const Ceng::UINT32 cacheLineSize
 
 	return CE_OK;
 }
+
+std::shared_ptr<Experimental::RenderTask>  Experimental::Pipeline::GetTask(Ceng::UINT32 threadId)
+{
+	Ceng::UINT32 maxThreads = renderThreads.size() - 1;
+
+	if (maxThreads < 1)
+	{
+		maxThreads = 1;
+	}
+
+	// TODO: cap number of threads that can execute tasks from pixel shader simultaneously
+
+	for (int k = 0; k < pixelShader.buckets.size(); k++)
+	{
+		auto& bucket = pixelShader.buckets[k];
+
+		bucket.PopEmptyTasks();
+
+		if (bucket.queue.IsEmpty())
+		{
+			continue;
+		}
+
+		auto& front = bucket.queue.Front();
+
+		if (front.IsReady() == false)
+		{
+			continue;
+		}
+
+		if (bucket.Unlock(threadId) == false)
+		{
+			continue;
+		}
+
+		bucket.Lock(threadId);
+
+		std::shared_ptr<Experimental::RenderTask> task = front.task;
+
+		task->bucketCompletedTasks = &bucket.completedTasks;
+
+		bucket.queue.PopFront();
+
+		PendingToRunning();
+
+		return task;
+	}
+
+	for (int k = 0; k < rasterizer.buckets.size(); k++)
+	{
+		auto& bucket = rasterizer.buckets[k];
+
+		bucket.PopEmptyTasks();
+
+		if (bucket.queue.IsEmpty())
+		{
+			continue;
+		}
+
+		auto& front = bucket.queue.Front();
+
+		if (front.IsReady() == false)
+		{
+			continue;
+		}
+
+		if (bucket.Unlock(threadId) == false)
+		{
+			continue;
+		}
+
+		if (pixelShader.CheckSpaceAll() == false)
+		{
+			continue;
+		}
+
+		bucket.Lock(threadId);
+
+		std::shared_ptr<Experimental::Task_Rasterizer> task = front.task;
+
+		task->bucketCompletedTasks = &bucket.completedTasks;
+
+		// Allocate futures from queues
+
+		for (int j = 0; j < pixelShader.buckets.size(); j++)
+		{
+			Experimental::Future<Experimental::Task_PixelShader> future;
+
+			pixelShader.buckets[j].queue.PushBack(future);
+
+			Experimental::Future<Experimental::Task_PixelShader>* ptr;
+
+			pixelShader.buckets[j].queue.FrontPtr(&ptr);
+
+			task->futures.push_back(ptr);
+		}
+
+		AddPendingTasks(pixelShader.buckets.size());
+
+		bucket.queue.PopFront();
+
+		PendingToRunning();
+
+		return task;
+	}
+
+	auto& triangleQueue = triangleSetup.queue;
+
+	if (triangleQueue.IsEmpty() == false)
+	{
+		auto& front = triangleQueue.Front();
+
+		if (front.IsReady() == true)
+		{
+			// Check that there is enough space for future in every rasterizer bucket queue
+
+			bool valid = rasterizer.CheckSpaceAll();
+
+			if (valid)
+			{
+				// Allocate futures from queues
+
+				auto& task = front.task;
+
+				for (int j = 0; j < rasterizer.buckets.size(); j++)
+				{
+					Experimental::Future<Experimental::Task_Rasterizer> future;
+
+					rasterizer.buckets[j].queue.PushBack(future);
+
+					Experimental::Future<Experimental::Task_Rasterizer>* ptr;
+
+					rasterizer.buckets[j].queue.FrontPtr(&ptr);
+
+					task->futures.push_back(ptr);
+				}
+
+				AddPendingTasks(rasterizer.buckets.size());
+
+				triangleQueue.PopFront();
+
+				PendingToRunning();
+
+				return task;
+			}
+		}
+	}
+
+	auto& clipperQueue = clipper.queue;
+
+	if (clipperQueue.IsEmpty() == false)
+	{
+		auto& front = clipperQueue.Front();
+
+		if (front.IsReady() == true)
+		{
+			// Check that there is enough space for future in every pixel shader bucket queue
+
+			if (triangleSetup.queue.IsFull() == false)
+			{
+				// Allocate futures from queues
+
+				auto& task = front.task;
+
+				Experimental::Future<Experimental::Task_TriangleSetup> future;
+
+				triangleSetup.queue.PushBack(future);
+
+				Experimental::Future<Experimental::Task_TriangleSetup>* ptr;
+
+				triangleSetup.queue.FrontPtr(&ptr);
+
+				task->future = ptr;
+
+				AddPendingTasks(1);
+
+				clipperQueue.PopFront();
+
+				PendingToRunning();
+
+				return task;
+			}
+		}
+	}
+
+	return nullptr;
+}
+
 
 bool Experimental::Pipeline::IsEmpty()
 {
