@@ -29,7 +29,7 @@ namespace Ceng::Experimental
 		}
 
 		SimpleStage(const SimpleStage& source)
-			: queue(source.queue)
+			: queue(source.queue), pipeline(source.pipeline)
 		{
 			numThreads.store(source.numThreads.load());
 		}
@@ -38,6 +38,7 @@ namespace Ceng::Experimental
 		{
 			queue = source.queue;
 			numThreads.store(source.numThreads.load());
+			pipeline = source.pipeline;
 
 			return *this;
 		}

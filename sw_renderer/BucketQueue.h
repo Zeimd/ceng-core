@@ -39,7 +39,7 @@ namespace Ceng::Experimental
 		}
 
 		BucketQueue(const BucketQueue& source)
-			: queue(source.queue), threadId(source.threadId)
+			: queue(source.queue), threadId(source.threadId), pipeline(source.pipeline)
 		{
 			issuedTasks.store(source.issuedTasks.load());
 			completedTasks.store(source.completedTasks.load());
@@ -51,6 +51,7 @@ namespace Ceng::Experimental
 			threadId = source.threadId;
 			issuedTasks.store(source.issuedTasks.load());
 			completedTasks.store(source.completedTasks.load());
+			pipeline = source.pipeline;
 
 			return *this;
 		}
