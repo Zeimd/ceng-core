@@ -101,7 +101,7 @@ namespace Ceng::Experimental
 			{
 				auto& front = queue.Front();
 
-				if (front.task == nullptr)
+				if (front.IsReady() && front.task == nullptr)
 				{
 					queue.PopFront();
 					pipeline->CompleteTasks(1);
