@@ -299,7 +299,7 @@ std::shared_ptr<Experimental::RenderTask>  Experimental::Pipeline::GetTask(Ceng:
 	{
 		auto& bucket = pixelShader.buckets[k];
 
-		bucket.PopEmptyTasks();
+		bucket.PopDiscardedTasks();
 
 		if (bucket.queue.IsEmpty())
 		{
@@ -335,7 +335,7 @@ std::shared_ptr<Experimental::RenderTask>  Experimental::Pipeline::GetTask(Ceng:
 	{
 		auto& bucket = rasterizer.buckets[k];
 
-		bucket.PopEmptyTasks();
+		bucket.PopDiscardedTasks();
 
 		if (bucket.queue.IsEmpty())
 		{
