@@ -144,7 +144,7 @@ const CRESULT CR_Rasterizer::Rasterize(std::shared_ptr<RasterizerBatch>& batch, 
 	if (batch->bucketId < batch->lastBucketId)
 	{
 		Ceng::UINT32 start = renderThreads * (batch->bucketId+1);
-		Ceng::UINT32 end = renderThreads * (batch->lastBucketId) - 1;
+		Ceng::UINT32 end = renderThreads * (batch->lastBucketId+1);
 
 		for (int k = start; k < end; ++k)
 		{
