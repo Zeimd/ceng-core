@@ -87,7 +87,6 @@ const CRESULT CR_Clipper::ClipPrimitives(std::shared_ptr<ClipperBatch> &batch,
 const CRESULT CR_Clipper::ClipPrimitives(std::shared_ptr<ClipperBatch>& batch,
 	Experimental::Future<Experimental::Task_TriangleSetup>* future)
 {
-	CRESULT cresult;
 	Ceng::UINT32 k;
 
 	Ceng::UINT32 newFragCount = 0;
@@ -104,11 +103,12 @@ const CRESULT CR_Clipper::ClipPrimitives(std::shared_ptr<ClipperBatch>& batch,
 		{
 		case PRIMITIVE_TYPE::TRIANGLE_LIST:
 
-			cresult = HomogeneousClipTriangle(batch->primitiveList[k], &newFragCount, outputBatch);
+			HomogeneousClipTriangle(batch->primitiveList[k], &newFragCount, outputBatch);
+			break;
 		}
 	}
 
-	if (cresult == CE_OK)
+	if (outputBatch->primitiveList.size() > 0)
 	{
 		future->Complete(std::make_shared<Experimental::Task_TriangleSetup>(outputBatch));
 	}
