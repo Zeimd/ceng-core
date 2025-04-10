@@ -15,7 +15,8 @@ namespace Ceng::Experimental
 		enum class Status
 		{
 			pending,
-			complete
+			complete,
+			discarded
 		};
 
 		std::atomic<Status> status;
@@ -48,7 +49,12 @@ namespace Ceng::Experimental
 
 		void Discard()
 		{
-			status.store(Status::complete);
+			status.store(Status::discarded);
+		}
+
+		bool IsDiscarded()
+		{
+			return status.load() == Status::discarded;
 		}
 
 		void Complete(const std::shared_ptr<T>& source)

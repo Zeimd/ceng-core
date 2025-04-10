@@ -95,17 +95,13 @@ namespace Ceng::Experimental
 			++issuedTasks;
 		}
 
-		bool IsDiscarded()
-		{
-			auto& front = queue.Front();
-			return front.IsReady() && front.task == nullptr;
-		}
-
 		void PopDiscardedTasks()
 		{
 			while (queue.IsEmpty() == false)
 			{
-				if (IsDiscarded())
+				auto& front = queue.Front();
+
+				if (front.IsDiscarded())
 				{
 					queue.PopFront();
 					pipeline->CompleteTasks(1);
