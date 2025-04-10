@@ -138,6 +138,7 @@ const CRESULT CR_Rasterizer::Rasterize(std::shared_ptr<RasterizerBatch>& batch, 
 		}
 		else
 		{
+			futures[k]->Discard();
 			delete outputs[k];
 		}
 	}
