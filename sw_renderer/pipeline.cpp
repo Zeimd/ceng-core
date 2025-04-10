@@ -367,20 +367,22 @@ std::shared_ptr<Experimental::RenderTask>  Experimental::Pipeline::GetTask(Ceng:
 
 		// Allocate futures from queues
 
-		for (int j = 0; j < pixelShader.buckets.size(); j++)
+		for (int j = 0; j < renderThreads.size(); j++)
 		{
+			Ceng::UINT32 bucket = renderThreads.size() * k + j;
+
 			Experimental::Future<Experimental::Task_PixelShader> future;
 
-			pixelShader.buckets[j].queue.PushBack(future);
+			pixelShader.buckets[bucket].queue.PushBack(future);
 
 			Experimental::Future<Experimental::Task_PixelShader>* ptr;
 
-			pixelShader.buckets[j].queue.FrontPtr(&ptr);
+			pixelShader.buckets[bucket].queue.FrontPtr(&ptr);
 
 			task->futures.push_back(ptr);
 		}
 
-		AddPendingTasks(pixelShader.buckets.size());
+		AddPendingTasks(renderThreads.size());
 
 		bucket.queue.PopFront();
 

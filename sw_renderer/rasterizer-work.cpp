@@ -130,33 +130,11 @@ const CRESULT CR_Rasterizer::Rasterize(std::shared_ptr<RasterizerBatch>& batch, 
 
 	RasterizeTriangle(outputs, &batch->renderState->activeRect, renderThreads, batch->bucketYmin);
 
-	if (batch->bucketId > 0)
-	{
-		Ceng::UINT32 start = 0;
-		Ceng::UINT32 end = renderThreads * batch->bucketId;
-
-		for (int k = start; k < end; ++k)
-		{
-			futures[k]->Discard();
-		}
-	}
-
-	if (batch->bucketId < batch->lastBucketId)
-	{
-		Ceng::UINT32 start = renderThreads * (batch->bucketId+1);
-		Ceng::UINT32 end = renderThreads * (batch->lastBucketId+1);
-
-		for (int k = start; k < end; ++k)
-		{
-			futures[k]->Discard();
-		}
-	}
-
 	for (Ceng::UINT32 k = 0; k < renderThreads; ++k)
 	{
 		if (outputs[k]->quadCount > 0)
 		{
-			futures[renderThreads * batch->bucketId + k]->Complete(std::shared_ptr<Experimental::Task_PixelShader>(outputs[k]));
+			futures[k]->Complete(std::shared_ptr<Experimental::Task_PixelShader>(outputs[k]));
 		}
 		else
 		{
