@@ -476,7 +476,10 @@ std::shared_ptr<Experimental::RenderTask>  Experimental::Pipeline::GetTask(Ceng:
 
 bool Experimental::Pipeline::IsEmpty()
 {
-	return (pendingTasks.load() + runningTasks.load() == 0);
+	return pendingTasks.load() == 0 && runningTasks.load() == 0;
+
+	// old way. Can theoretically return zero also when pendingTasks = -runningTasks.
+	//return (pendingTasks.load() + runningTasks.load() == 0);
 }
 
 void Experimental::Pipeline::WaitForEmpty()
