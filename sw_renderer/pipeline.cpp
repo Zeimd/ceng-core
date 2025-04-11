@@ -512,6 +512,16 @@ void Experimental::Pipeline::CompleteTasks(Ceng::UINT32 count)
 	runningTasks -= count;
 }
 
+void Experimental::Pipeline::DiscardPending()
+{
+	--pendingTasks;
+}
+
+void Experimental::Pipeline::DiscardPending(Ceng::UINT32 count)
+{
+	pendingTasks -= count;
+}
+
 /*
 std::shared_ptr<RenderTask> Experimental::Pipeline::GetTask(const Ceng::UINT32 threadId)
 {

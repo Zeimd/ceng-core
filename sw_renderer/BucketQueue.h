@@ -97,6 +97,8 @@ namespace Ceng::Experimental
 
 		void PopDiscardedTasks()
 		{
+			Ceng::UINT32 n = 0;
+
 			while (queue.IsEmpty() == false)
 			{
 				auto& front = queue.Front();
@@ -104,12 +106,14 @@ namespace Ceng::Experimental
 				if (front.IsDiscarded())
 				{
 					queue.PopFront();
-					pipeline->CompleteTasks(1);
+					++n;
 					continue;
 				}
 
 				break;
 			}
+
+			pipeline->DiscardPending(n);
 		}
 	};
 }

@@ -167,6 +167,12 @@ namespace Ceng::Experimental
 		// Remove tasks from running task count
 		void CompleteTasks(Ceng::UINT32 count);
 
+		// Remove task from pending count
+		void DiscardPending();
+
+		// Remove task from pending count
+		void DiscardPending(Ceng::UINT32 count);
+
 		const CRESULT Configure(const Ceng::UINT32 cacheLine, const Ceng::UINT32 maxScreenBuckets,
 			const Ceng::UINT32 renderThreads, std::shared_ptr<ConditionVariable>& cmdWake);
 
