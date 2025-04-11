@@ -130,6 +130,8 @@ namespace Ceng::Experimental
 		// Number of tasks currently in flight. Either in worker thread's input queue or executing.
 		std::atomic<Ceng::UINT32> runningTasks;
 
+		std::atomic<Ceng::UINT32> totalTasksCompleted;
+
 		ConditionVariable* rendererHasWork;
 
 		std::vector<RenderThreadData> renderThreads;

@@ -75,6 +75,9 @@ const CRESULT Experimental::Task_PixelShader::Execute(const Ceng::UINT32 threadI
 
 	--pipeline->pixelShader.numThreads;
 	--pipeline->runningTasks;
+	++pipeline->totalTasksCompleted;
+
+	++pipeline->pixelShader.totalTasksCompleted;
 	
 	++(*bucketCompletedTasks);
 

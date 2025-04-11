@@ -23,9 +23,12 @@ namespace Ceng::Experimental
 
 		std::atomic<Ceng::UINT32> numThreads;
 
+		std::atomic<Ceng::UINT32> totalTasksCompleted;
+
 		SimpleStage()
 		{
 			numThreads.store(0);
+			totalTasksCompleted.store(0);
 		}
 
 		SimpleStage(const SimpleStage& source)

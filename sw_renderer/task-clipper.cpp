@@ -70,6 +70,9 @@ const CRESULT Experimental::Task_Clipper::Execute(const Ceng::UINT32 threadId, P
 
 	--pipeline->clipper.numThreads;
 	--pipeline->runningTasks;
+	++pipeline->totalTasksCompleted;
+
+	++pipeline->clipper.totalTasksCompleted;
 
 	pipeline->WakeAllThreads();
 

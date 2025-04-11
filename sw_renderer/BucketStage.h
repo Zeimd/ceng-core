@@ -19,9 +19,12 @@ namespace Ceng::Experimental
 		std::vector<BucketQueue<T>> buckets;
 		std::atomic<Ceng::UINT32> numThreads;
 
+		std::atomic<Ceng::UINT32> totalTasksCompleted;
+
 		BucketStage()
 		{
 			numThreads.store(0);
+			totalTasksCompleted.store(0);
 		}
 
 		BucketStage& operator = (const BucketStage& source)

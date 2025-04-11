@@ -181,6 +181,7 @@ Experimental::Pipeline::Pipeline() : rendererHasWork(nullptr)
 
 	runningTasks.store(0);
 	pendingTasks.store(0);
+	totalTasksCompleted.store(0);
 }
 
 Experimental::Pipeline::~Pipeline()
