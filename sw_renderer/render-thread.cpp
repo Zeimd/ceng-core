@@ -150,10 +150,15 @@ const CRESULT Experimental::RenderThread::Execute()
 	{
 		if (inputQueue.IsEmpty() == false)
 		{
+			/*
 			std::shared_ptr<RenderTask> task = inputQueue.Front();
 			inputQueue.PopFront();
 
 			CRESULT cresult = task->Execute(threadId, pipeline);
+			*/
+
+			CRESULT cresult = inputQueue.Front()->Execute(threadId, pipeline);
+			inputQueue.PopFront();
 		}
 
 		/*
