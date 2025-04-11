@@ -494,14 +494,14 @@ void Experimental::Pipeline::AddPendingTasks(Ceng::UINT32 count)
 
 void Experimental::Pipeline::PendingToRunning()
 {
-	--pendingTasks;
 	++runningTasks;
+	--pendingTasks;	
 }
 
 void Experimental::Pipeline::PendingToRunning(Ceng::UINT32 count)
 {
-	pendingTasks -= count;
 	runningTasks += count;
+	pendingTasks -= count;	
 }
 
 void Experimental::Pipeline::CompleteTasks(Ceng::UINT32 count)
