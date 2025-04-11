@@ -49,6 +49,8 @@ namespace Ceng
 
 		const Ceng::INT32 RingDistance() const;
 
+		const Ceng::INT32 DecrAndWrap(const Ceng::INT32 index) const;
+
 	public:
 
 		void Clear();
@@ -273,6 +275,17 @@ namespace Ceng
 	}
 
 	template<class t_ElemType>
+	const Ceng::INT32 RingBuffer<t_ElemType>::DecrAndWrap(const Ceng::INT32 index) const
+	{
+		if (index == 0)
+		{
+			return linearBuffer.GetElements() - 1;
+		}
+
+		return index - 1;
+	}
+
+	template<class t_ElemType>
 	const Ceng::CRESULT RingBuffer<t_ElemType>::PushBack(const t_ElemType &input)
 	{
 		if (IsFull())
@@ -410,7 +423,7 @@ namespace Ceng
 			return Ceng::CE_ERR_FAIL;
 		}
 
-		*out = &linearBuffer[back];
+		*out = &linearBuffer[DecrAndWrap(back)];
 
 		return Ceng::CE_OK;
 	}
