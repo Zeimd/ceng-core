@@ -378,7 +378,7 @@ std::shared_ptr<Experimental::RenderTask>  Experimental::Pipeline::GetTask(Ceng:
 
 			Experimental::Future<Experimental::Task_PixelShader>* ptr;
 
-			pixelShader.buckets[bucket].queue.FrontPtr(&ptr);
+			pixelShader.buckets[bucket].queue.BackPtr(&ptr);
 
 			task->futures.push_back(ptr);
 		}
@@ -418,7 +418,7 @@ std::shared_ptr<Experimental::RenderTask>  Experimental::Pipeline::GetTask(Ceng:
 
 					Experimental::Future<Experimental::Task_Rasterizer>* ptr;
 
-					rasterizer.buckets[j].queue.FrontPtr(&ptr);
+					rasterizer.buckets[j].queue.BackPtr(&ptr);
 
 					task->futures.push_back(ptr);
 				}
@@ -456,7 +456,7 @@ std::shared_ptr<Experimental::RenderTask>  Experimental::Pipeline::GetTask(Ceng:
 
 				Experimental::Future<Experimental::Task_TriangleSetup>* ptr;
 
-				triangleSetup.queue.FrontPtr(&ptr);
+				triangleSetup.queue.BackPtr(&ptr);
 
 				task->future = ptr;
 
