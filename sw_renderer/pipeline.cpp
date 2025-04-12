@@ -392,6 +392,8 @@ std::shared_ptr<Experimental::RenderTask>  Experimental::Pipeline::GetTask(Ceng:
 		return task;
 	}
 
+	triangleSetup.PopDiscardedTasks();
+
 	auto& triangleQueue = triangleSetup.queue;
 
 	if (triangleQueue.IsEmpty() == false)
@@ -433,6 +435,8 @@ std::shared_ptr<Experimental::RenderTask>  Experimental::Pipeline::GetTask(Ceng:
 			}
 		}
 	}
+
+	clipper.PopDiscardedTasks();
 
 	auto& clipperQueue = clipper.queue;
 

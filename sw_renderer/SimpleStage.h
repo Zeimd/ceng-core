@@ -52,6 +52,27 @@ namespace Ceng::Experimental
 			numThreads.store(0);
 			queue = RingBuffer<Future<T>>::Allocate(items, cacheLineSize);
 		}
+
+		void PopDiscardedTasks()
+		{
+			Ceng::UINT32 n = 0;
+
+			while (queue.IsEmpty() == false)
+			{
+				auto& front = queue.Front();
+
+				if (front.IsDiscarded())
+				{
+					queue.PopFront();
+					++n;
+					continue;
+				}
+
+				break;
+			}
+
+			pipeline->DiscardPending(n);
+		}
 	};
 
 }
