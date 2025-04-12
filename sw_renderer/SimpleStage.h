@@ -26,6 +26,7 @@ namespace Ceng::Experimental
 		std::atomic<Ceng::UINT32> totalTasksCompleted;
 
 		SimpleStage()
+			: pipeline(nullptr)
 		{
 			numThreads.store(0);
 			totalTasksCompleted.store(0);
