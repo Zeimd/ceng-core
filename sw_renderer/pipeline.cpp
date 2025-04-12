@@ -491,6 +491,16 @@ void Experimental::Pipeline::WaitForEmpty()
 	}
 }
 
+void Experimental::Pipeline::ClearCounters()
+{
+	totalTasksCompleted = 0;
+
+	pixelShader.totalTasksCompleted = 0;
+	rasterizer.totalTasksCompleted = 0;
+	triangleSetup.totalTasksCompleted = 0;
+	clipper.totalTasksCompleted = 0;
+}
+
 void Experimental::Pipeline::AddPendingTasks(Ceng::UINT32 count)
 {
 	pendingTasks += count;

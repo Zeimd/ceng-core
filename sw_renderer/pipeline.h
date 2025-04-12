@@ -154,6 +154,8 @@ namespace Ceng::Experimental
 		void WakeAllThreads();
 		void WakeOneThread();
 
+		void ClearCounters();
+
 		void AddPendingTasks(Ceng::UINT32 count);
 
 		bool IsEmpty();

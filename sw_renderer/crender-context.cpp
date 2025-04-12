@@ -688,6 +688,9 @@ const CRESULT CR_RenderContext::Execute_DrawPrimitive(const Ceng::UINT32 apiCall
 	pipeline.minThreadCount.store(1);
 	pipeline.maxThreadCount.store(parentDevice->renderThreadCount);
 
+	// For debug purposes
+	pipeline.ClearCounters();
+
 	pipeline.WakeAllThreads();
 	pipeline.WaitForEmpty();
 
