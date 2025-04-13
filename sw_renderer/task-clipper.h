@@ -13,6 +13,7 @@
 #include "locking-task.h"
 
 #include "future.h"
+#include "SimpleGroupingStage.h"
 
 namespace Ceng
 {
@@ -49,7 +50,7 @@ namespace Ceng::Experimental
 		Task_Clipper();
 	public:
 
-		Future<Experimental::Task_TriangleSetup>* future;
+		SimpleGroupingStage<Experimental::Task_TriangleSetup>::ItemType* future;
 
 		Task_Clipper(std::shared_ptr<ClipperBatch>& clipperBatch);
 

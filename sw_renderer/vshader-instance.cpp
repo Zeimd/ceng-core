@@ -461,7 +461,7 @@ const CRESULT CR_VertexShaderInstance::ProcessVertexBatch(std::shared_ptr<DrawBa
 
 	auto out_batch = std::make_shared<ClipperBatch>(batch);
 
-	Experimental::Future<Experimental::Task_Clipper> future;
+	Experimental::Future<std::shared_ptr<Experimental::Task_Clipper>> future;
 
 	future.Complete(std::make_shared<Experimental::Task_Clipper>(out_batch));
 

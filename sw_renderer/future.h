@@ -20,16 +20,15 @@ namespace Ceng::Experimental
 		};
 
 		std::atomic<Status> status;
-		std::shared_ptr<T> task;
+		T result;
 
-		Future()
-			: task(nullptr)
+		Future()		
 		{
 			status.store(Status::pending);
 		}
 
 		Future(const Future& source)
-			: task(source.task)
+			: result(source.result)
 		{
 			status.store(source.status.load());
 		}
@@ -37,7 +36,7 @@ namespace Ceng::Experimental
 		Future& operator = (const Future& source)
 		{
 			status.store(source.status.load());
-			task = source.task;
+			result = source.result;
 
 			return *this;
 		}
@@ -57,9 +56,9 @@ namespace Ceng::Experimental
 			return status.load() == Status::discarded;
 		}
 
-		void Complete(const std::shared_ptr<T>& source)
+		void Complete(const T& source)
 		{
-			task = source;
+			result = source;
 			status.store(Status::complete);
 		}
 	};

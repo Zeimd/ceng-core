@@ -26,6 +26,7 @@
 #include "SimpleStage.h"
 #include "BucketQueue.h"
 #include "BucketStage.h"
+#include "SimpleGroupingStage.h"
 
 #include "task-scheduler.h"
 
@@ -118,7 +119,7 @@ namespace Ceng::Experimental
 
 		SimpleStage<Experimental::Task_Clipper> clipper;
 
-		SimpleStage<Experimental::Task_TriangleSetup> triangleSetup;
+		SimpleGroupingStage<Experimental::Task_TriangleSetup> triangleSetup;
 
 		BucketStage<Experimental::Task_Rasterizer> rasterizer;
 

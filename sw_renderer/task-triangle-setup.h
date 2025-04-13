@@ -54,7 +54,7 @@ namespace Ceng::Experimental
 
 		std::shared_ptr<TriangleBatch> triangleBatch;
 
-		std::vector< Future<Experimental::Task_Rasterizer>* > futures;
+		std::vector< Future<std::shared_ptr<Experimental::Task_Rasterizer>>* > futures;
 
 	protected:
 

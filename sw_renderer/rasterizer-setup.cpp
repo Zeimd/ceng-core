@@ -69,7 +69,7 @@ const CRESULT CR_Rasterizer::TriangleSetup(std::shared_ptr<TriangleBatch> &batch
 }
 
 const CRESULT CR_Rasterizer::TriangleSetup(std::shared_ptr<TriangleBatch>& batch,
-	std::vector< Experimental::Future<Experimental::Task_Rasterizer>* >& futures, Ceng::UINT32 outputBuckets)
+	std::vector< Experimental::Future<std::shared_ptr<Experimental::Task_Rasterizer>>* >& futures, Ceng::UINT32 outputBuckets)
 {
 	CRESULT cresult;
 

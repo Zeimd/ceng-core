@@ -81,7 +81,7 @@ namespace Ceng
 								LockingStage &outputStage);
 
 		const CRESULT TriangleSetup(std::shared_ptr<TriangleBatch>& batch,
-			std::vector< Experimental::Future<Experimental::Task_Rasterizer>* >& futures, Ceng::UINT32 outputBuckets);
+			std::vector< Experimental::Future<std::shared_ptr<Experimental::Task_Rasterizer>>* >& futures, Ceng::UINT32 outputBuckets);
 
 		const CRESULT TriangleSetup(CR_PrimitiveData &primitive,
 								std::shared_ptr<RenderState> &renderState,
@@ -93,7 +93,7 @@ namespace Ceng
 		const CRESULT Rasterize(std::shared_ptr<RasterizerBatch> &batch,LockingStage &outputStage,
 			const Ceng::UINT32 threadId, Ceng::UINT32 renderThreads);
 
-		const CRESULT Rasterize(std::shared_ptr<RasterizerBatch>& batch, std::vector< Experimental::Future<Experimental::Task_PixelShader>* >& futures,
+		const CRESULT Rasterize(std::shared_ptr<RasterizerBatch>& batch, std::vector< Experimental::Future<std::shared_ptr<Experimental::Task_PixelShader>>* >& futures,
 			const Ceng::UINT32 threadId, Ceng::UINT32 renderThreads);
 	
 		const Ceng::INT32 RasterizeTriangle(std::vector<Task_PixelShader*> &outputBatch,

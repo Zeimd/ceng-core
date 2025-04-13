@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef CENG_SWR_SIMPLE_STAGE_H
-#define CENG_SWR_SIMPLE_STAGE_H
+#ifndef CENG_SWR_SIMPLE_GROUPING_STAGE_H
+#define CENG_SWR_SIMPLE_GROUPING_STAGE_H
 
 #include <atomic>
 
@@ -9,15 +9,18 @@
 
 #include "future.h"
 
+#include "TaskGroup.h"
+
 namespace Ceng::Experimental
 {
-	class Pipeline;
+	class Pipeline;	
 
 	template<class T>
-	class SimpleStage
+	class SimpleGroupingStage
 	{
 	public:
-		using ItemType = Future<std::shared_ptr<T>>;
+
+		using ItemType = Future<TaskGroup<T>>;
 
 		RingBuffer<ItemType> queue;
 
@@ -27,20 +30,20 @@ namespace Ceng::Experimental
 
 		std::atomic<Ceng::UINT32> totalTasksCompleted;
 
-		SimpleStage()
+		SimpleGroupingStage()
 			: pipeline(nullptr)
 		{
 			numThreads.store(0);
 			totalTasksCompleted.store(0);
 		}
 
-		SimpleStage(const SimpleStage& source)
+		SimpleGroupingStage(const SimpleGroupingStage& source)
 			: queue(source.queue), pipeline(source.pipeline)
 		{
 			numThreads.store(source.numThreads.load());
 		}
 
-		SimpleStage& operator = (const SimpleStage& source)
+		SimpleGroupingStage& operator = (const SimpleGroupingStage& source)
 		{
 			queue = source.queue;
 			numThreads.store(source.numThreads.load());
@@ -49,7 +52,7 @@ namespace Ceng::Experimental
 			return *this;
 		}
 
-		SimpleStage(Ceng::UINT32 items, Ceng::UINT32 cacheLineSize, Experimental::Pipeline* pipeline)
+		SimpleGroupingStage(Ceng::UINT32 items, Ceng::UINT32 cacheLineSize, Experimental::Pipeline* pipeline)
 			: pipeline(pipeline)
 		{
 			numThreads.store(0);

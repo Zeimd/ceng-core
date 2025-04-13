@@ -85,7 +85,7 @@ const CRESULT CR_Clipper::ClipPrimitives(std::shared_ptr<ClipperBatch> &batch,
 }
 
 const CRESULT CR_Clipper::ClipPrimitives(std::shared_ptr<ClipperBatch>& batch,
-	Experimental::Future<Experimental::Task_TriangleSetup>* future)
+	Experimental::Future<Experimental::TaskGroup<Experimental::Task_TriangleSetup>>* future)
 {
 	Ceng::UINT32 k;
 
@@ -110,7 +110,11 @@ const CRESULT CR_Clipper::ClipPrimitives(std::shared_ptr<ClipperBatch>& batch,
 
 	if (outputBatch->primitiveList.size() > 0)
 	{
-		future->Complete(std::make_shared<Experimental::Task_TriangleSetup>(outputBatch));
+		Experimental::TaskGroup<Experimental::Task_TriangleSetup> group;
+
+		group.tasks.emplace_back(std::make_shared<Experimental::Task_TriangleSetup>(outputBatch));
+
+		future->Complete(group);
 	}
 	else
 	{

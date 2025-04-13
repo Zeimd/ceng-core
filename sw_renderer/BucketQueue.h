@@ -17,7 +17,9 @@ namespace Ceng::Experimental
 	class BucketQueue
 	{
 	public:
-		RingBuffer<Future<T>> queue;
+		using ItemType = Future<std::shared_ptr<T>>;
+
+		RingBuffer<ItemType> queue;
 
 		Pipeline* pipeline;
 
@@ -59,7 +61,7 @@ namespace Ceng::Experimental
 		BucketQueue(Ceng::UINT32 items, Ceng::UINT32 cacheLineSize, Experimental::Pipeline* pipeline)
 			: threadId(-1), pipeline(pipeline)
 		{
-			queue = RingBuffer<Future<T>>::Allocate(items, cacheLineSize);
+			queue = RingBuffer<ItemType>::Allocate(items, cacheLineSize);
 		}
 
 		bool Unlock(Ceng::UINT32 id)

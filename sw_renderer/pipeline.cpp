@@ -258,7 +258,7 @@ const CRESULT Experimental::Pipeline::Configure(const Ceng::UINT32 cacheLineSize
 
 	clipper = SimpleStage<Experimental::Task_Clipper>(64, cacheLineSize, this);
 
-	triangleSetup = SimpleStage<Experimental::Task_TriangleSetup>(64, cacheLineSize, this);
+	triangleSetup = SimpleGroupingStage<Experimental::Task_TriangleSetup>(64, cacheLineSize, this);
 
 	pixelShader = BucketStage<Experimental::Task_PixelShader>(maxThreads * maxScreenBuckets, 64, cacheLineSize, this);
 
@@ -321,7 +321,7 @@ std::shared_ptr<Experimental::RenderTask>  Experimental::Pipeline::GetTask(Ceng:
 
 		bucket.Lock(threadId);
 
-		std::shared_ptr<Experimental::RenderTask> task = front.task;
+		std::shared_ptr<Experimental::RenderTask> task = front.result;
 
 		task->bucketCompletedTasks = &bucket.completedTasks;
 
@@ -362,7 +362,7 @@ std::shared_ptr<Experimental::RenderTask>  Experimental::Pipeline::GetTask(Ceng:
 
 		bucket.Lock(threadId);
 
-		std::shared_ptr<Experimental::Task_Rasterizer> task = front.task;
+		std::shared_ptr<Experimental::Task_Rasterizer> task = front.result;
 
 		task->bucketCompletedTasks = &bucket.completedTasks;
 
@@ -372,11 +372,11 @@ std::shared_ptr<Experimental::RenderTask>  Experimental::Pipeline::GetTask(Ceng:
 		{
 			Ceng::UINT32 bucket = renderThreads.size() * k + j;
 
-			Experimental::Future<Experimental::Task_PixelShader> future;
+			Experimental::Future<std::shared_ptr<Experimental::Task_PixelShader>> future;
 
 			pixelShader.buckets[bucket].queue.PushBack(future);
 
-			Experimental::Future<Experimental::Task_PixelShader>* ptr;
+			Experimental::Future<std::shared_ptr<Experimental::Task_PixelShader>>* ptr;
 
 			pixelShader.buckets[bucket].queue.BackPtr(&ptr);
 
@@ -402,36 +402,53 @@ std::shared_ptr<Experimental::RenderTask>  Experimental::Pipeline::GetTask(Ceng:
 
 		if (front.IsReady() == true)
 		{
-			// Check that there is enough space for future in every rasterizer bucket queue
-
-			bool valid = rasterizer.CheckSpaceAll();
-
-			if (valid)
+			if (front.result.IsComplete())
 			{
-				// Allocate futures from queues
-
-				std::shared_ptr<Experimental::Task_TriangleSetup> task = front.task;
-
-				for (int j = 0; j < rasterizer.buckets.size(); j++)
-				{
-					Experimental::Future<Experimental::Task_Rasterizer> future;
-
-					rasterizer.buckets[j].queue.PushBack(future);
-
-					Experimental::Future<Experimental::Task_Rasterizer>* ptr;
-
-					rasterizer.buckets[j].queue.BackPtr(&ptr);
-
-					task->futures.push_back(ptr);
-				}
-
-				AddPendingTasks(rasterizer.buckets.size());
-
 				triangleQueue.PopFront();
+			}
+			else
+			{
+				for (int k = 0; k < front.result.tasks.size(); k++)
+				{
+					auto& entry = front.result.tasks[k];
 
-				PendingToRunning();
+					if (entry.issued)
+					{
+						continue;
+					}
 
-				return task;
+					// Check that there is enough space for future in every rasterizer bucket queue
+
+					if (rasterizer.CheckSpaceAll())
+					{
+						// Allocate futures from queues		
+
+						std::shared_ptr<Experimental::Task_TriangleSetup> task = entry.task;
+
+						for (int j = 0; j < rasterizer.buckets.size(); j++)
+						{
+							Experimental::Future<std::shared_ptr<Experimental::Task_Rasterizer>> future;
+
+							rasterizer.buckets[j].queue.PushBack(future);
+
+							Experimental::Future<std::shared_ptr<Experimental::Task_Rasterizer>>* ptr;
+
+							rasterizer.buckets[j].queue.BackPtr(&ptr);
+
+							task->futures.push_back(ptr);
+						}
+
+						AddPendingTasks(rasterizer.buckets.size());
+
+						triangleQueue.PopFront();
+
+						PendingToRunning();
+
+						return task;
+					}
+				
+
+				}
 			}
 		}
 	}
@@ -452,13 +469,13 @@ std::shared_ptr<Experimental::RenderTask>  Experimental::Pipeline::GetTask(Ceng:
 			{
 				// Allocate futures from queues
 
-				std::shared_ptr<Experimental::Task_Clipper> task = front.task;
+				std::shared_ptr<Experimental::Task_Clipper> task = front.result;
 
-				Experimental::Future<Experimental::Task_TriangleSetup> future;
+				Experimental::SimpleGroupingStage<Experimental::Task_TriangleSetup>::ItemType future;
 
 				triangleSetup.queue.PushBack(future);
 
-				Experimental::Future<Experimental::Task_TriangleSetup>* ptr;
+				Experimental::SimpleGroupingStage<Experimental::Task_TriangleSetup>::ItemType* ptr;
 
 				triangleSetup.queue.BackPtr(&ptr);
 
