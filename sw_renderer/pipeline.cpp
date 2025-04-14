@@ -407,6 +407,10 @@ std::shared_ptr<Experimental::RenderTask>  Experimental::Pipeline::GetTask(Ceng:
 			if (group.IsComplete())
 			{
 				triangleQueue.PopFront();
+
+				// Remove the placeholder task created for the task group during clipper stage issuing.
+
+				DiscardPending();
 			}
 			else
 			{
@@ -442,6 +446,9 @@ std::shared_ptr<Experimental::RenderTask>  Experimental::Pipeline::GetTask(Ceng:
 
 						AddPendingTasks(rasterizer.buckets.size());
 
+						// Add triangle setup task to pending and move to running
+
+						AddPendingTasks(1);
 
 						PendingToRunning();
 
@@ -482,6 +489,8 @@ std::shared_ptr<Experimental::RenderTask>  Experimental::Pipeline::GetTask(Ceng:
 
 				task->future = ptr;
 
+				// Triangle setup group. We don't know how many tasks there will be, so this will just
+				// stand in for the group object to prevent pipeline from signaling empty erroneously.
 				AddPendingTasks(1);
 
 				clipperQueue.PopFront();
