@@ -398,19 +398,21 @@ std::shared_ptr<Experimental::RenderTask>  Experimental::Pipeline::GetTask(Ceng:
 
 	if (triangleQueue.IsEmpty() == false)
 	{
-		auto& front = triangleQueue.Front();
+		auto& future = triangleQueue.Front();
 
-		if (front.IsReady() == true)
+		if (future.IsReady() == true)
 		{
-			if (front.result.IsComplete())
+			auto& group = future.result;
+
+			if (group.IsComplete())
 			{
 				triangleQueue.PopFront();
 			}
 			else
 			{
-				for (int k = 0; k < front.result.tasks.size(); k++)
+				for (int k = 0; k < group.tasks.size(); k++)
 				{
-					auto& entry = front.result.tasks[k];
+					auto& entry = group.tasks[k];
 
 					if (entry.issued)
 					{
