@@ -442,7 +442,6 @@ std::shared_ptr<Experimental::RenderTask>  Experimental::Pipeline::GetTask(Ceng:
 
 						AddPendingTasks(rasterizer.buckets.size());
 
-						triangleQueue.PopFront();
 
 						PendingToRunning();
 
