@@ -452,6 +452,9 @@ std::shared_ptr<Experimental::RenderTask>  Experimental::Pipeline::GetTask(Ceng:
 
 						PendingToRunning();
 
+						entry.issued = true;
+						++group.issuedCount;
+
 						return task;
 					}
 				
