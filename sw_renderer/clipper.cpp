@@ -112,7 +112,16 @@ const CRESULT CR_Clipper::ClipPrimitives(std::shared_ptr<ClipperBatch>& batch,
 	{
 		Experimental::TaskGroup<Experimental::Task_TriangleSetup> group;
 
-		group.tasks.emplace_back(std::make_shared<Experimental::Task_TriangleSetup>(outputBatch));
+		for (int k = 0; k < outputBatch->primitiveList.size(); ++k)
+		{
+			std::shared_ptr<TriangleBatch> tempBatch =
+				std::shared_ptr<TriangleBatch>(new TriangleBatch(batch->apiCallId, 1, batch->renderState,
+					outputBatch->fragmentCache, outputBatch->cacheA));
+
+			tempBatch->primitiveList.push_back(outputBatch->primitiveList[k]);
+
+			group.tasks.emplace_back(std::make_shared<Experimental::Task_TriangleSetup>(tempBatch));
+		}		
 
 		future->Complete(group);
 	}
