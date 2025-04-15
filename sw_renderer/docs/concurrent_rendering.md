@@ -188,6 +188,73 @@ To ensure that API call order is followed, various methods can be used to preven
         NOTE: most likely slow
 
 ----------------------------------------------------------------------------------------------
+Task groups
+
+The problem with futures is that a future must be inserted into every bucket queue a task might output into. This increases overhead of both issuing a task
+and finding work, as discarded futures must be removed from the queue front.
+
+With task groups, only one future is needed and it contains all tasks output by a task from the previous pipeline stage. In principle all rasterizer and pixel shader tasks
+for the same triangle could go into one task group in the respective queues. But in practice multiple workers would either have to use mutex to push to same queue or separate queues,
+neither of which is an improvement.
+
+All tasks in a task group are assumed to be embarassingly parallel with respects to each other and can be finished in any order. 
+
+Relationship with tasks from other groups is more complicated: the execution order of tasks from different triangles that write to the same bucket must match API call order. 
+Furthermore only one task can be running per bucket at any time to avoid race conditions.
+
+The trivial solution is to wait until a task group is complete before moving to the ones behind it in the queue. But this is likely to waste execution resources, especially when
+triangles are small. So two things we need to keep track of per bucket:
+
+1. Restricting execution to one thread at a time
+
+    Either a mutex or issue-completion lock.
+
+    The issue-completion lock works by incrementing an issue counter when a task is given to the worker holding the lock.
+
+    When the worker finishes a task from the bucket, it increments the completion counter.
+
+    The lock can be unlocked only if issue counter and completion counter match.
+
+2. Execution order of tasks from different groups
+
+    A completion flag (future) is inserted into bucket-specific ordering queue. The task can start executing only when it is at the front
+    of this queue. Tasks are removed from the queue front once they are ready.
+
+        NOTE: This might also be an implicit worker thread exclusion mechanism.
+
+This might not seem an improvement, as we still have a queue per bucket. But the amount of overhead needed to find work has changed:
+
+1. Scan group at front of stage queue for unissued tasks. If at end of group, go to next group in queue.
+
+2. If the task is not in the bucket's reordering queue, add it there.
+
+3. If the task is not at the front of reordering queue, go to step 1.
+
+4. If lock can't be acquired for currently selected worker thread, go to step 1.
+
+5. Issue task for currently selected worker thread
+
+Assuming that the group contains only unissues tasks, we need to check exactly one bucket queue to see if we can issue the task. Compare this to the worst case of the
+old method where we might have to scan all of N bucket queues to get the last task from the last queue.
+
+----------------------------------------------------------------------------------------------
+Task group container
+
+For pipeline stages that don't have buckets, a simple vector is enough. Can even store scan start index so that subsequent passes skip tasks that have been already issued.
+
+For pipeline stages with buckets, the issuing order is potentially random, depending on the bucket usage of task groups ahead in the stage queue. Problem is how to remove
+issued tasks from the middle of the queue.
+
+One option is to not remove them at all, but mark them issued. Subsequent scans just skips them. Doesn't reduce amount of overhead required to find task at subsequent
+scans though.
+
+Erasing elements from a vector is potentially expensive due to having to copy elements to their new places. The cost depends on the size of elements and could be negligible
+if the number or elements is also small.
+
+A linked list stored sequentially in a vector could be used. This just leaves gaps in the vector without having to rearrange data. It might confuse the prefetch unit though
+since the read address for the next item in the list isn't trivially predictable.
+
+----------------------------------------------------------------------------------------------
 Scheduler thread
 
 Instead of worker threads checking the priority queue for work, that task could be performed by a separate scheduler thread.
