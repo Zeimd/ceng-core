@@ -255,6 +255,30 @@ A linked list stored sequentially in a vector could be used. This just leaves ga
 since the read address for the next item in the list isn't trivially predictable.
 
 ----------------------------------------------------------------------------------------------
+Single queue pipeline
+
+A multilevel queue is simple to implement, but has the problem that in some cases the overhead of finding work is very large compared to the amount of available work.
+Current pipeline design has
+
+2 * N^2 pixel shader queues
+2 * N rasterizer queues
+triangle setup queue
+clipper queue
+vertex shader queue
+
+where N is the number of worker threads. Even if number of pixel shader and rasterizer queues was just N, this won't scale well with a large number of threads.
+
+Instead, we'd like to have just a single queue. So that the highest priority available work is always at the front of the queue. But we still have the priority to deal
+with: tasks would have to be inserted before the first existing task of the same type in the queue.
+
+Only a linked list has the ability to insert cheaply enough. 
+
+We would have to keep pointers to nodes that act as back element of a stage's queue. These nodes would be permanently in the list and would be skipped when scanning. This
+ensures that we have a node to point at even when the queue contained by the linked list is empty.
+
+Storing the linked list with cache efficiency is challenging. Unrolling could be used to store task groups sequentially.
+
+----------------------------------------------------------------------------------------------
 Scheduler thread
 
 Instead of worker threads checking the priority queue for work, that task could be performed by a separate scheduler thread.
