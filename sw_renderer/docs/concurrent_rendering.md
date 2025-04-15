@@ -319,6 +319,42 @@ In addition to finding a task, the scheduler must also find a free worker thread
              high priority tasks will be added to the queue of the thread that will finish its current task fastest.
 
 ----------------------------------------------------------------------------------------------
+Inverted task assignment
+
+The current approach is basically
+
+    for each thread
+
+        get_task()
+
+and then get_task() visits each of the queues in order to find work:
+
+    2 * N^2 pixel shader queues
+    2 * N rasterizer queues
+    triangle setup queue
+    clipper queue
+    vertex shader queue
+
+Problem is that scanning of the queues starts again from top on every call. Assume we just found work at pixel shader bucket queue (i) and returned the task.
+Then the next get_task() has to scan through buckets up to (i+1) before it is likely to find work. Saving the scan start index between get_task() calls should avoid this.
+The entire set of buckets is still scanned in a cyclic manner, but starting from a more likely bucket to contain work.
+
+At this point we could invert the entire work assingment algorithm to
+
+    for each queue
+
+        while(queue.empty == false)
+
+            thread = next_thread()
+
+            if (thread != nullptr)
+
+                thread.input.push(queue.front())
+
+Tasks are issued to threads round-robin. Thread with full input queue is skipped. In case all input queues are full, a variant of next_thread() could be used that blocks
+until it finds a thread that can take work.
+
+----------------------------------------------------------------------------------------------
 Completion detection
 
     The easiest way to detect completion of tasks is to compare the number of issued tasks and completed tasks. These counters must
@@ -329,6 +365,9 @@ Completion detection
         Used to determine when a triangle has been completely rendered.
 
             Triangle counts as complete once triangle setup, rasterizer and pixel shader tasks have been completed.
+
+                PROBLEM: The total number of tasks for a stage is only known after all tasks from the previous stage have been completed.
+                         This creates some ambiquity as to when issued and completed counter values can be considered final.
 
     API call queue
 
