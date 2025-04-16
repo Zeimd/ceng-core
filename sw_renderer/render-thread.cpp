@@ -148,10 +148,25 @@ const CRESULT Experimental::RenderThread::Execute()
 
 	while (exitLoop == 0)
 	{
+		auto amount = inputQueue.Size();
+
+		// Iterator method. Minimizes need to access atomics.
+		auto iter = inputQueue.Begin();
+
+		for (int j = 0; j < amount; ++j)
+		{
+			CRESULT cresult = (*iter)->Execute(threadId, pipeline);
+			++iter;
+		}
+
+		inputQueue.PopFront(amount);
+
+		/*
 		for (int k = 0; k < 8; ++k)
 		{
 			auto amount = inputQueue.Size();
 
+			// Iterator method. Minimizes need to access atomics.
 			auto iter = inputQueue.Begin();
 
 			for (int j = 0; j < amount; ++j)
@@ -162,27 +177,25 @@ const CRESULT Experimental::RenderThread::Execute()
 
 			inputQueue.PopFront(amount);
 
-			//inputQueue.Clear();
-
-			/*
-			for (int j = 0; j < iters; ++j)
-			{
-				CRESULT cresult = inputQueue.Front()->Execute(threadId, pipeline);
-				inputQueue.PopFront();
-			}
-			*/
-
-			/*
-			if (inputQueue.IsEmpty() == false)
-			{
-				CRESULT cresult = inputQueue.Front()->Execute(threadId, pipeline);
-				inputQueue.PopFront();
-			}
-			*/
+			// pre-iterator method. Pops element every iteration
+			//for (int j = 0; j < amount; ++j)
+			//{
+			//	CRESULT cresult = inputQueue.Front()->Execute(threadId, pipeline);
+			//	inputQueue.PopFront();
+			//}
+			
 		}
+		*/
+
+		bool excess = (threadId > maxThreads->load()) && (threadId > minThreads->load());
 		
-		if (inputQueue.IsEmpty())
+		if (inputQueue.IsEmpty() || excess)
 		{
+			--(*runningThreadCount);
+			wakeCondition->Wait(wakeCrit);
+			++(*runningThreadCount);
+
+			/*
 			if (pipeline->IsEmpty())
 			{
 				if (threadId > maxThreads->load())
@@ -195,6 +208,7 @@ const CRESULT Experimental::RenderThread::Execute()
 					}
 				}
 			}
+			*/
 		}
 	}
 

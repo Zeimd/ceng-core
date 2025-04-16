@@ -60,6 +60,17 @@ const CRESULT SchedulerTask::Execute()
 			}
 		}
 
+		if (pipeline->IsEmpty())
+		{
+			cmdWake->WakeAll();
+			wakeCondition->Wait(wakeCrit);
+		}
+		else
+		{
+			pipeline->WakeAllThreads();
+		}
+
+		/*
 		if (taskCount > 0)
 		{
 			pipeline->WakeAllThreads();
@@ -72,6 +83,7 @@ const CRESULT SchedulerTask::Execute()
 				wakeCondition->Wait(wakeCrit);
 			}			
 		}
+		*/
 	}
 
 	wakeCrit->Unlock();
