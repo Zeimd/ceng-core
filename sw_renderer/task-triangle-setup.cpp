@@ -74,7 +74,7 @@ const CRESULT Experimental::Task_TriangleSetup::Execute(const Ceng::UINT32 threa
 
 	++pipeline->triangleSetup.totalTasksCompleted;
 
-	pipeline->WakeAllThreads();
+	//pipeline->WakeAllThreads();
 
 	return cresult;
 }

@@ -692,14 +692,11 @@ const CRESULT CR_RenderContext::Execute_DrawPrimitive(const Ceng::UINT32 apiCall
 	pipeline.ClearCounters();
 
 	pipeline.WakeAllThreads();
-	pipeline.WaitForEmpty();
 
-	/*
-	while (pipeline.pendingTasks.load() + pipeline.runningTasks.load() > 0)
+	while (pipeline.IsEmpty() == false)
 	{
-		//cmdProcessorSleep->Wait(cmdProcessor.wakeCrit);
+		cmdProcessorSleep->Wait(cmdProcessor.wakeCrit);
 	}
-	*/
 
 	pipeline.minThreadCount.store(0);
 	pipeline.maxThreadCount.store(0);

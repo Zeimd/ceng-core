@@ -278,7 +278,7 @@ const CRESULT Experimental::Pipeline::Configure(const Ceng::UINT32 cacheLineSize
 		Ceng::CRESULT cresult = Ceng_CreateThread(renderThreads[k].task, true, &renderThreads[k].thread);
 	}
 
-	schedulerTask = new SchedulerTask(this, rendererHasWork);
+	schedulerTask = new SchedulerTask(this, rendererHasWork, cmdWake);
 
 	Ceng::CRESULT cresult = Ceng_CreateThread(schedulerTask, true, &scheduler);
 

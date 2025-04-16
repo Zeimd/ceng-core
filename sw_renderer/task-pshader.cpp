@@ -81,7 +81,7 @@ const CRESULT Experimental::Task_PixelShader::Execute(const Ceng::UINT32 threadI
 	
 	++(*bucketCompletedTasks);
 
-	pipeline->WakeAllThreads();
+	//pipeline->WakeAllThreads();
 
 	return cresult;
 }

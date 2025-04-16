@@ -150,27 +150,13 @@ const CRESULT Experimental::RenderThread::Execute()
 	{
 		if (inputQueue.IsEmpty() == false)
 		{
-			/*
-			std::shared_ptr<RenderTask> task = inputQueue.Front();
-			inputQueue.PopFront();
-
-			CRESULT cresult = task->Execute(threadId, pipeline);
-			*/
-
 			CRESULT cresult = inputQueue.Front()->Execute(threadId, pipeline);
 			inputQueue.PopFront();
 		}
-
-		/*
 		else
 		{
-			if (pipeline->remainingTasks.load() == 0)
+			if (pipeline->IsEmpty())
 			{
-				if (pipeline->activeThreads.load() == 0)
-				{
-					cmdWake->WakeAll();
-				}
-
 				if (threadId > maxThreads->load())
 				{
 					if (threadId > minThreads->load())
@@ -182,8 +168,6 @@ const CRESULT Experimental::RenderThread::Execute()
 				}
 			}
 		}
-		*/
-
 	}
 
 	--(*runningThreadCount);

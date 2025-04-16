@@ -3,7 +3,10 @@
 #ifndef CENG_SWR_TASK_SCHEDULER_H
 #define CENG_SWR_TASK_SCHEDULER_H
 
+#include <memory>
+
 #include <ceng/interfaces/thread-task.h>
+#include <ceng/datatypes/condition-variable.h>
 
 namespace Ceng::Experimental
 {
@@ -31,11 +34,14 @@ namespace Ceng
 
 		CriticalSection* wakeCrit;
 
+		std::shared_ptr<ConditionVariable> cmdWake;
+
 	public:
 
 		volatile Ceng::INT32 exitLoop;
 
-		SchedulerTask(Experimental::Pipeline* pipeline, ConditionVariable* wakeCondition);
+		SchedulerTask(Experimental::Pipeline* pipeline, ConditionVariable* wakeCondition,
+			std::shared_ptr<ConditionVariable>& cmdWake);
 
 		const CRESULT Execute() override;
 

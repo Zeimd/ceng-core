@@ -83,7 +83,7 @@ const CRESULT Experimental::Task_Rasterizer::Execute(const Ceng::UINT32 threadId
 
 	++(*bucketCompletedTasks);
 
-	pipeline->WakeAllThreads();
+	//pipeline->WakeAllThreads();
 
 	return cresult;
 }

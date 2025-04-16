@@ -15,8 +15,9 @@
 
 using namespace Ceng;
 
-SchedulerTask::SchedulerTask(Experimental::Pipeline* pipeline, ConditionVariable* wakeCondition)
-	: pipeline(pipeline), exitLoop(0), wakeCondition(wakeCondition)
+SchedulerTask::SchedulerTask(Experimental::Pipeline* pipeline, ConditionVariable* wakeCondition,
+	std::shared_ptr<ConditionVariable>& cmdWake)
+	: pipeline(pipeline), exitLoop(0), wakeCondition(wakeCondition), cmdWake(cmdWake)
 {
 	Ceng_CreateCriticalSection(&wakeCrit);
 }
@@ -41,6 +42,8 @@ const CRESULT SchedulerTask::Execute()
 
 	while (exitLoop == 0)
 	{
+		Ceng::UINT32 taskCount = 0;
+
 		for (int k = 0; k < pipeline->renderThreads.size(); ++k)
 		{
 			if (pipeline->renderThreads[k].task->inputQueue.IsFull())
@@ -53,11 +56,22 @@ const CRESULT SchedulerTask::Execute()
 			if (task != nullptr)
 			{
 				pipeline->renderThreads[k].task->inputQueue.PushBack(task);
+				++taskCount;
 			}
 		}
 
-		// TODO: if no work
-		//wakeCondition->Wait(wakeCrit);
+		if (taskCount > 0)
+		{
+			pipeline->WakeAllThreads();
+		}
+		else
+		{
+			if (pipeline->IsEmpty())
+			{
+				cmdWake->WakeAll();
+				wakeCondition->Wait(wakeCrit);
+			}			
+		}
 	}
 
 	wakeCrit->Unlock();
