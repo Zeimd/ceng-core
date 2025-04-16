@@ -148,12 +148,16 @@ const CRESULT Experimental::RenderThread::Execute()
 
 	while (exitLoop == 0)
 	{
-		if (inputQueue.IsEmpty() == false)
+		for (int k = 0; k < 8; ++k)
 		{
-			CRESULT cresult = inputQueue.Front()->Execute(threadId, pipeline);
-			inputQueue.PopFront();
+			if (inputQueue.IsEmpty() == false)
+			{
+				CRESULT cresult = inputQueue.Front()->Execute(threadId, pipeline);
+				inputQueue.PopFront();
+			}
 		}
-		else
+		
+		if (inputQueue.IsEmpty())
 		{
 			if (pipeline->IsEmpty())
 			{
