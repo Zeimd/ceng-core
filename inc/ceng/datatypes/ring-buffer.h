@@ -32,6 +32,142 @@ namespace Ceng
 
 	public:
 
+		template<class t_ElemType>
+		class RingBufferIterator
+		{
+		protected:
+			RingBuffer<t_ElemType>* buffer;
+
+			Ceng::INT32 position;
+
+		public:
+
+			RingBufferIterator(RingBuffer<t_ElemType>* buffer, Ceng::INT32 position)
+				: buffer(buffer), position(position)
+			{
+
+			}
+
+			RingBufferIterator(const RingBufferIterator<t_ElemType>& source)
+				: buffer(source.buffer), position(source.position)
+			{
+
+			}
+
+			RingBufferIterator& operator = (const RingBufferIterator<t_ElemType>& source)
+			{
+				buffer = source.buffer;
+				position = source.position;
+
+				return *this;
+			}
+
+
+			t_ElemType& operator * ()
+			{
+				return buffer->linearBuffer[position];
+			}
+
+			t_ElemType* operator -> ()
+			{
+				return &buffer->linearBuffer[position];
+			}
+
+			RingBufferIterator<t_ElemType>& operator ++ ()
+			{
+				position = buffer->WrapIndex(position + 1);
+
+				return *this;
+			}
+
+			RingBufferIterator<t_ElemType>& operator -- ()
+			{
+				position = buffer->DecrAndWrap(position);
+
+				return *this;
+			}
+
+			RingBufferIterator<t_ElemType> operator ++ (int)
+			{
+				RingBufferIterator<t_ElemType> out{ *this };
+
+				position = buffer->WrapIndex(position + 1);
+
+				return out;
+			}
+
+			RingBufferIterator<t_ElemType> operator -- (int)
+			{
+				RingBufferIterator<t_ElemType> out{ *this };
+
+				position = buffer->DecrAndWrap(position);
+
+				return out;
+			}
+
+			bool operator == (const RingBufferIterator<t_ElemType>& other)
+			{
+				if (buffer != other.buffer)
+				{
+					return false;
+				}
+
+				return (position == other.position);
+			}
+
+			bool operator != (const RingBufferIterator<t_ElemType>& other)
+			{
+				if (buffer == other.buffer)
+				{
+					return true;
+				}
+
+				return (position != other.position);
+			}
+
+			bool operator < (const RingBufferIterator<t_ElemType>& other)
+			{
+				if (buffer != other.buffer)
+				{
+					return false;
+				}
+
+				return (position < other.position);
+			}
+
+			bool operator > (const RingBufferIterator<t_ElemType>& other)
+			{
+				if (buffer != other.buffer)
+				{
+					return false;
+				}
+
+				return (position > other.position);
+			}
+
+			bool operator <= (const RingBufferIterator<t_ElemType>& other)
+			{
+				if (buffer != other.buffer)
+				{
+					return false;
+				}
+
+				return (position <= other.position);
+			}
+
+			bool operator >= (const RingBufferIterator<t_ElemType>& other)
+			{
+				if (buffer != other.buffer)
+				{
+					return false;
+				}
+
+				return (position >= other.position);
+			}
+		};
+
+	public:
+
 		RingBuffer();
 
 		RingBuffer(const RingBuffer &source);
@@ -42,12 +178,14 @@ namespace Ceng
 		static RingBuffer Allocate(const Ceng::UINT32 elements,const Ceng::UINT32 alignment);
 		
 	protected:
-			
-		RingBuffer(AlignedBuffer<t_ElemType> &&buffer);
 
-		const Ceng::INT32 WrapIndex(const Ceng::INT32 index) const;
+		RingBuffer(AlignedBuffer<t_ElemType>&& buffer);
 
 		const Ceng::INT32 RingDistance() const;
+
+	public:
+
+		const Ceng::INT32 WrapIndex(const Ceng::INT32 index) const;		
 
 		const Ceng::INT32 DecrAndWrap(const Ceng::INT32 index) const;
 
@@ -59,6 +197,7 @@ namespace Ceng
 		const Ceng::CRESULT PushBack(t_ElemType &&input);
 
 		const Ceng::CRESULT PopFront();
+		const Ceng::CRESULT PopFront(Ceng::UINT32 amount);
 
 		t_ElemType& Front();
 		const t_ElemType& Front() const;
@@ -82,6 +221,10 @@ namespace Ceng
 		const Ceng::BOOL IsEmpty() const;
 
 		const Ceng::BOOL IsFull() const;
+
+		RingBufferIterator<t_ElemType> Begin();
+
+		RingBufferIterator<t_ElemType> End();
 
 		RingBuffer& operator = (const RingBuffer &source);
 		RingBuffer& operator = (RingBuffer &&source);
@@ -161,6 +304,18 @@ namespace Ceng
 			back = WrapIndex(back);
 		}
 
+	}
+
+	template<class t_ElemType>
+	RingBuffer<t_ElemType>::RingBufferIterator<t_ElemType> RingBuffer<t_ElemType>::Begin()
+	{
+		return RingBufferIterator<t_ElemType>(this, front);
+	}
+
+	template<class t_ElemType>
+	RingBuffer<t_ElemType>::RingBufferIterator<t_ElemType> RingBuffer<t_ElemType>::End()
+	{
+		return RingBufferIterator<t_ElemType>(this, back);
 	}
 
 	template<class t_ElemType>
@@ -353,6 +508,30 @@ namespace Ceng
 		++temp;
 
 		front = WrapIndex(temp);
+
+		return Ceng::CE_OK;
+	}
+
+	// Pop given amount of elements from front of queue.
+	// Unsafe: safe amount to pop must be determined in advance.
+	template<class t_ElemType>
+	const Ceng::CRESULT RingBuffer<t_ElemType>::PopFront(Ceng::UINT32 amount)
+	{
+		if (IsEmpty())
+		{
+			return Ceng::CE_ERR_FAIL;
+		}
+
+		Ceng::INT32 index = front;
+
+		for (int k = 0; k < amount; ++k)
+		{
+			linearBuffer[index].~t_ElemType();
+
+			index = WrapIndex(index + 1);
+		}
+
+		front = index;
 
 		return Ceng::CE_OK;
 	}

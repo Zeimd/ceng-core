@@ -150,11 +150,35 @@ const CRESULT Experimental::RenderThread::Execute()
 	{
 		for (int k = 0; k < 8; ++k)
 		{
+			auto amount = inputQueue.Size();
+
+			auto iter = inputQueue.Begin();
+
+			for (int j = 0; j < amount; ++j)
+			{
+				CRESULT cresult = (*iter)->Execute(threadId, pipeline);
+				++iter;
+			}
+
+			inputQueue.PopFront(amount);
+
+			//inputQueue.Clear();
+
+			/*
+			for (int j = 0; j < iters; ++j)
+			{
+				CRESULT cresult = inputQueue.Front()->Execute(threadId, pipeline);
+				inputQueue.PopFront();
+			}
+			*/
+
+			/*
 			if (inputQueue.IsEmpty() == false)
 			{
 				CRESULT cresult = inputQueue.Front()->Execute(threadId, pipeline);
 				inputQueue.PopFront();
 			}
+			*/
 		}
 		
 		if (inputQueue.IsEmpty())
