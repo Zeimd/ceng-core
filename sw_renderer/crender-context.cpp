@@ -573,8 +573,39 @@ const CRESULT CR_RenderContext::Execute_DrawPrimitive(const Ceng::UINT32 apiCall
 
 	CR_PrimitiveData primitiveData;
 
+	Ceng::INT32 index;
+
 	switch (type)
 	{
+	case PRIMITIVE_TYPE::TRIANGLE_LIST:
+		primitiveData.primitiveType = PRIMITIVE_TYPE::TRIANGLE_LIST;
+
+		index = first;
+
+		while (primitives > 0)
+		{
+			if (drawBatch->GetEmptySpace() < 3)
+			{
+				pipeline.drawQueue.PushBack(drawBatch);
+
+				drawBatch = std::shared_ptr<DrawBatch>(new DrawBatch(apiCallId, vsBatchSize, renderState));
+			}
+
+			for (int i = 0; i < 3; ++i)
+			{
+				Ceng::INT32 cacheSlot = drawBatch->CacheAlloc(index);
+
+				primitiveData.fragmentPtr[i] = drawBatch->CacheAbsoluteAddress(cacheSlot);
+
+				++index;
+			}
+
+			drawBatch->primitiveList.push_back(primitiveData);
+
+			--primitives;
+		}
+
+		break;
 	case PRIMITIVE_TYPE::TRIANGLE_FAN:
 
 		primitiveData.primitiveType = PRIMITIVE_TYPE::TRIANGLE_LIST;
@@ -587,7 +618,7 @@ const CRESULT CR_RenderContext::Execute_DrawPrimitive(const Ceng::UINT32 apiCall
 
 		Ceng::INT32 second = first + 1;
 
-		Ceng::INT32 index = first + 1;
+		index = first + 1;
 
 		// Add second vertex
 
@@ -638,18 +669,11 @@ const CRESULT CR_RenderContext::Execute_DrawPrimitive(const Ceng::UINT32 apiCall
 				++index;
 			}
 		}
-
+		
 		break;
 	}
 
-	// NOTE: Assumes batch size is at least 3 for triangles
-
-	//if (drawBatch->GetEmptySpace() < 3)
-	//{
 	pipeline.drawQueue.PushBack(drawBatch);
-
-	//drawBatch = std::shared_ptr<DrawBatch>(new DrawBatch(apiCallId,vsBatchSize,renderState));
-//}
 
 //**********************************************************************
 // Vertex shader stage
