@@ -548,6 +548,7 @@ const CRESULT CR_RenderContext::Execute_DrawPrimitive(const Ceng::UINT32 apiCall
 {
 	CRESULT cresult;
 
+	// For debug reasons, limit batch size to 3 vertices
 	const Ceng::UINT32 vsBatchSize = 3;
 
 	// Always allocate new draw batch when renderstate changes
@@ -705,8 +706,6 @@ const CRESULT CR_RenderContext::Execute_DrawPrimitive(const Ceng::UINT32 apiCall
 
 	}
 
-	std::shared_ptr<RenderTask> task;
-
 	// Wait until render pipeline has been flushed
 
 	pipeline.minThreadCount.store(1);
@@ -724,15 +723,6 @@ const CRESULT CR_RenderContext::Execute_DrawPrimitive(const Ceng::UINT32 apiCall
 
 	pipeline.minThreadCount.store(0);
 	pipeline.maxThreadCount.store(0);
-
-	/*
-	rendererHasWork->WakeAll();
-
-	while (pipeline.remainingTasks.load() + pipeline.activeThreads.load() > 0)
-	{
-	}
-	*/
-
 
 	return CE_OK;
 
