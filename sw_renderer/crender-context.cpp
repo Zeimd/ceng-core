@@ -551,7 +551,7 @@ const CRESULT CR_RenderContext::Execute_DrawPrimitive(const Ceng::UINT32 apiCall
 	const Ceng::UINT32 vsBatchSize = 3;
 
 	// Always allocate new draw batch when renderstate changes
-	drawBatch = std::shared_ptr<DrawBatch>(new DrawBatch(apiCallId, vsBatchSize, renderState));
+	std::shared_ptr<DrawBatch> drawBatch = std::make_shared<DrawBatch>(apiCallId, vsBatchSize, renderState);
 
 	// Vertex or index count
 
@@ -588,7 +588,7 @@ const CRESULT CR_RenderContext::Execute_DrawPrimitive(const Ceng::UINT32 apiCall
 			{
 				pipeline.drawQueue.PushBack(drawBatch);
 
-				drawBatch = std::shared_ptr<DrawBatch>(new DrawBatch(apiCallId, vsBatchSize, renderState));
+				drawBatch = std::make_shared<DrawBatch>(apiCallId, vsBatchSize, renderState);
 			}
 
 			for (int i = 0; i < 3; ++i)
@@ -654,7 +654,7 @@ const CRESULT CR_RenderContext::Execute_DrawPrimitive(const Ceng::UINT32 apiCall
 
 				pipeline.drawQueue.PushBack(drawBatch);
 
-				drawBatch = std::shared_ptr<DrawBatch>(new DrawBatch(apiCallId, vsBatchSize, renderState));
+				drawBatch = std::make_shared<DrawBatch>(apiCallId, vsBatchSize, renderState);
 
 				--index;
 

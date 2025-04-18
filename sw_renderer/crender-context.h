@@ -60,8 +60,6 @@ namespace Ceng
 
 		std::shared_ptr<ConditionVariable> cmdProcessorSleep;
 
-		std::shared_ptr<DrawBatch> drawBatch;
-
 		Experimental::Pipeline pipeline;
 
 		Ceng::CR_Clipper *activeClipper;
