@@ -24,9 +24,7 @@ using namespace Ceng;
 
 CR_QuadFormat::CR_QuadFormat()
 {
-	quadSize = 0;
-
-	renderTargets = 0;
+	baseSize = 0;
 
 	floatBlocks = 0;
 	floatStart = 0;
@@ -34,7 +32,6 @@ CR_QuadFormat::CR_QuadFormat()
 	doubleBlocks = 0;
 	doubleStart = 0;
 
-	targetBlocks = 0;
 	targetStart = 0;
 }
 
@@ -413,8 +410,8 @@ CRESULT CR_QuadFormat::Configure(CR_FragmentFormat *fragmentFormat)
 
 	String text;
 
-	text = "quad size = ";
-	text += quadSize;
+	text = "base size = ";
+	text += baseSize;
 	text += "\n";
 
 	text += "float blocks = ";
@@ -425,11 +422,13 @@ CRESULT CR_QuadFormat::Configure(CR_FragmentFormat *fragmentFormat)
 	text += doubleBlocks;
 	text += "\n";
 
+	/*
 	text += "rendertargets = ";
 	text += renderTargets;
 	text += " , target blocks = ";
 	text += targetBlocks;
 	text += "\n";
+	*/
 
 	text += "float start offset = ";
 	text += floatStart;
@@ -444,27 +443,6 @@ CRESULT CR_QuadFormat::Configure(CR_FragmentFormat *fragmentFormat)
 	text += "\n";
 
 	Log::Print(text);
-
-	SetRenderTargets(renderTargets);
-
-	return CE_OK;
-}
-
-CRESULT CR_QuadFormat::SetRenderTargets(Ceng::UINT32 targetNum)
-{
-	// Add space for render targets
-
-	quadSize = Ceng::UINT32(targetStart + sizeof(POINTER)*targetNum);
-
-	UINT32 remainder = quadSize % 16;
-
-	// Pad quad size to a multiply of 16 bytes
-	if (remainder)
-	{
-		quadSize = (quadSize & ~15) + 16;
-	}
-
-	renderTargets = targetNum;
 
 	return CE_OK;
 }

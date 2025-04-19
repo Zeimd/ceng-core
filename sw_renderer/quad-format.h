@@ -97,10 +97,8 @@ namespace Ceng
 	{
 	public:
 
-		/**
-		 * Amount of data per quad in bytes.
-		 */
-		UINT32 quadSize;
+		// Size of the quad without render targets.
+		UINT32 baseSize;
 
 		/**
 		 * Amount of 16-byte FLOAT blocks.
@@ -133,13 +131,7 @@ namespace Ceng
 		 * Amount of 4 x POINTER32 or
 		 * 2 x POINTER64 render target blocks.
 		 */
-		UINT32 targetBlocks;
-
-		/**
-		 * The number of render targets assumed for
-		 * size calculations.
-		 */
-		UINT32 renderTargets;
+		//UINT32 targetBlocks;
 
 		/**
 		 * Offset of first render target
@@ -154,8 +146,6 @@ namespace Ceng
 		~CR_QuadFormat();
 
 		CRESULT Configure(CR_FragmentFormat *fragmentFormat);
-
-		CRESULT SetRenderTargets(UINT32 targetNum);
 
 		/**
 		 * Converts a vertex shader output fragment into a format optimal for

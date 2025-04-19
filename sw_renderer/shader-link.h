@@ -19,6 +19,8 @@
 
 namespace Ceng
 {
+	class ShaderLinkInstance;
+
 	class CR_VertexShader;
 	class CR_PixelShader;
 
@@ -34,14 +36,7 @@ namespace Ceng
 
 		Ceng::UINT32 fragmentCacheSize;
 
-		Ceng::UINT32 shaderStepBufferSize;
-
-		Ceng::UINT32 clipperCacheSize;
-
-		Ceng::UINT32 quadCacheSize;
-
-		UINT32 maxViewWidth;
-		UINT32 maxViewHeight;
+		Ceng::UINT32 clipperCacheSize;	
 
 		Ceng::UINT32 cacheLineSize;
 
@@ -52,28 +47,12 @@ namespace Ceng
 		CR_ShaderLink(const Ceng::UINT32 cacheLineSize);
 		~CR_ShaderLink();
 
-		CRESULT SetViewSize(const UINT32 maxViewWidth,const UINT32 maxViewHeight);
-
-		CRESULT Configure(CR_VertexShader *vertexShader,CR_PixelShader *pixelShader);
-
-		CRESULT SetRenderTargets(const Ceng::UINT32 targets);
-
-		AlignedBuffer<Ceng::UINT8>*	GetFragmentCache(const Ceng::UINT32 batchSize);
-
-		AlignedBuffer<CR_FloatFragment>* GetFloatVariableBuffer();
-
-		AlignedBuffer<CR_DoubleFragment>* GetDoubleVariableBuffer();
-
-		AlignedBuffer<Ceng::UINT8>* GetShaderStepBuffer();
-
-		AlignedBuffer<CR_QuadHeader>* GetQuadCache(const Ceng::UINT32 maxQuads);
-
-		AlignedBuffer<Ceng::UINT8>* GetClipperCache(const Ceng::UINT32 batchSize);
+		CRESULT Configure(CR_VertexShader *vertexShader,CR_PixelShader *pixelShader);		
 
 	protected:
 
 		void Clear();
-		CRESULT SyncQuadCache();
+		
 	};
 };
 

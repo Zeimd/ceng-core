@@ -20,23 +20,15 @@
 using namespace Ceng;
 
 CR_ShaderLink::CR_ShaderLink()
+	: vertexShader(nullptr), pixelShader(nullptr)
 {
-	vertexShader = nullptr;
-	pixelShader = nullptr;
 
-	maxViewWidth = 0;
-	maxViewHeight = 0;
 }
 
 CR_ShaderLink::CR_ShaderLink(const Ceng::UINT32 cacheLineSize)
+	: vertexShader(nullptr), pixelShader(nullptr), cacheLineSize(cacheLineSize)
 {
-	vertexShader = nullptr;
-	pixelShader = nullptr;
-
-	maxViewWidth = 0;
-	maxViewHeight = 0;
-
-	this->cacheLineSize = cacheLineSize;
+	
 }
 
 CR_ShaderLink::~CR_ShaderLink()
@@ -47,64 +39,6 @@ CR_ShaderLink::~CR_ShaderLink()
 void CR_ShaderLink::Clear()
 {
 
-}
-
-CRESULT CR_ShaderLink::SetViewSize(const Ceng::UINT32 maxViewWidth,const Ceng::UINT32 maxViewHeight)
-{
-	if (this->maxViewWidth == maxViewWidth && this->maxViewHeight == maxViewHeight)
-	{
-		return CE_OK;
-	}
-
-	CRESULT cresult;
-
-	cresult = SyncQuadCache();
-
-	if (cresult != CE_OK)
-	{
-		return cresult;
-	}
-
-	this->maxViewWidth = maxViewWidth;
-	this->maxViewHeight = maxViewHeight;
-
-	return CE_OK;
-}
-
-CRESULT CR_ShaderLink::SyncQuadCache()
-{
-	// TODO: Pad width,height to nearest power of two
-
-	quadCacheSize = (maxViewWidth >> 1)*(maxViewHeight>>1)*sizeof(CR_QuadHeader);
-
-
-	return CE_OK;
-}
-
-CRESULT CR_ShaderLink::SetRenderTargets(const Ceng::UINT32 targets)
-{
-	CRESULT cresult;
-
-	cresult = quadFormat.SetRenderTargets(targets);
-
-	if (cresult != CE_OK)
-	{
-		return cresult;
-	}
-
-	cresult = SyncQuadCache();
-
-	if (cresult != CE_OK)
-	{
-		return cresult;
-	}
-
-	if (pixelShader != nullptr)
-	{
-		cresult = pixelShader->SetFragmentFormat(&quadFormat);
-	}
-
-	return CE_OK;
 }
 
 CRESULT CR_ShaderLink::Configure(CR_VertexShader *vertexShader,CR_PixelShader *pixelShader)
@@ -157,47 +91,7 @@ CRESULT CR_ShaderLink::Configure(CR_VertexShader *vertexShader,CR_PixelShader *p
 	}
 
 	clipperCacheSize = 10*fragmentFormat.size;
-
-	//*******************************************************
-	// Allocate space for a full screen of quads
-
-	cresult = SyncQuadCache();
-
-	if (cresult != CE_OK)
-	{
-		Log::Print("ShaderLink.Configure : failed to sync quad cache");
-		return cresult;
-	}
-
+	
 	return CE_OK;
 }
 
-AlignedBuffer<Ceng::UINT8>* CR_ShaderLink::GetClipperCache(const Ceng::UINT32 batchSize)
-{
-	return new AlignedBuffer<Ceng::UINT8>(batchSize*clipperCacheSize,cacheLineSize);
-}
-
-AlignedBuffer<Ceng::UINT8>* CR_ShaderLink::GetShaderStepBuffer()
-{
-	return new AlignedBuffer<Ceng::UINT8>(quadFormat.gradientBufferSize,cacheLineSize);
-}
-
-AlignedBuffer<Ceng::UINT8>* CR_ShaderLink::GetFragmentCache(const Ceng::UINT32 batchSize)
-{
-	return new AlignedBuffer<Ceng::UINT8>(batchSize*fragmentFormat.size,cacheLineSize);
-}
-
-AlignedBuffer<CR_FloatFragment> * CR_ShaderLink::GetFloatVariableBuffer()
-{
-	return new AlignedBuffer<CR_FloatFragment>(quadFormat.floatBlocks,cacheLineSize);
-}
-
-AlignedBuffer<CR_DoubleFragment> * CR_ShaderLink::GetDoubleVariableBuffer()
-{
-	return new AlignedBuffer<CR_DoubleFragment>(quadFormat.doubleBlocks,cacheLineSize);
-}
-
-AlignedBuffer<CR_QuadHeader>* CR_ShaderLink::GetQuadCache(const Ceng::UINT32 maxQuadCount)
-{
-	return new AlignedBuffer<CR_QuadHeader>(maxQuadCount*sizeof(CR_QuadHeader),cacheLineSize);
-}
