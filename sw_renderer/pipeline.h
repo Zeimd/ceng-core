@@ -79,6 +79,10 @@ namespace Ceng
 		Pipeline();
 		~Pipeline();
 
+		void ClearCounters();
+
+		bool IsEmpty();
+
 		void ResumeThreads();
 		void PauseThreads();
 		

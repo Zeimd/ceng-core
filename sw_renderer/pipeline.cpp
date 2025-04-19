@@ -170,6 +170,17 @@ const Ceng::CRESULT Pipeline::Local_GetTask(const Ceng::UINT32 threadId,
 	return cresult;
 }
 
+void Pipeline::ClearCounters()
+{
+	
+}
+
+bool Pipeline::IsEmpty()
+{
+	return remainingTasks.load() == 0 && activeThreads.load() == 0;
+}
+
+
 //*****************************************************************************
 // Experimental new pipeline
 
