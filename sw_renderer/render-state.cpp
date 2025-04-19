@@ -78,7 +78,7 @@ RenderState::RenderState(const RenderState &source)
 
 	textureUnits = source.textureUnits;
 
-	shaderLink = source.shaderLink;
+	linkInstance = source.linkInstance;
 
 	pixelShader = source.pixelShader;
 
@@ -101,8 +101,7 @@ RenderState::~RenderState()
 	free(vertexStreams);
 }
 
-const CRESULT RenderState::CommitState(const RenderState &oldState,CR_ShaderLink *shaderLink,
-										const Ceng::UINT32 cacheLineSize,
+const CRESULT RenderState::CommitState(const RenderState &oldState,	const Ceng::UINT32 cacheLineSize,
 										const Ceng::UINT32 renderThreads)
 {
 	CRESULT cresult;
@@ -112,16 +111,7 @@ const CRESULT RenderState::CommitState(const RenderState &oldState,CR_ShaderLink
 		depthBuffer->SetDepthStencilState(&depthStencilState);
 	}
 
-	this->shaderLink = shaderLink;
-
-	cresult = shaderLink->Configure(vertexShader,pixelShader);
-	if (cresult != CE_OK)
-	{
-		//Ceng::Log::Print("SetVertexShader : Shader link config failed");
-		return cresult;
-	}
-
-	shaderLink->SetRenderTargets(activeTargets);
+	linkInstance.SetRenderTargets(activeTargets);
 
 	if (vertexShader != nullptr)
 	{

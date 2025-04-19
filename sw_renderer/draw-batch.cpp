@@ -24,9 +24,9 @@ DrawBatch::DrawBatch(const Ceng::UINT32 apiCallId,const Ceng::UINT32 batchSize,
 	fragmentIndex = std::vector<FragmentCacheTag>(batchSize,FragmentCacheTag());
 
 	fragmentCache = std::shared_ptr<AlignedBuffer<UINT8>>
-		(renderState->shaderLink->GetFragmentCache(batchSize));
+		(renderState->linkInstance.GetFragmentCache(batchSize));
 
-	fragSizeBytes = renderState->shaderLink->fragmentFormat.size;
+	fragSizeBytes = renderState->linkInstance.link->fragmentFormat.size;
 }
 
 DrawBatch::DrawBatch()

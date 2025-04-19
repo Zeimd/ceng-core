@@ -864,7 +864,7 @@ const CRESULT CR_Rasterizer::GenerateChain(Task_PixelShader *batch,
 
 	if (startQuadX == endQuadX) return CE_OK;
 
-	CR_QuadFormat *quadFormat = &batch->rasterizerBatch->renderState->shaderLink->quadFormat;	
+	CR_QuadFormat *quadFormat = &batch->rasterizerBatch->renderState->linkInstance.link->quadFormat;	
 
 	// Write quad header
 
@@ -1611,7 +1611,7 @@ const CRESULT CR_Rasterizer::GenerateChain(Experimental::Task_PixelShader* batch
 
 	if (startQuadX == endQuadX) return CE_OK;
 
-	CR_QuadFormat* quadFormat = &batch->rasterizerBatch->renderState->shaderLink->quadFormat;
+	CR_QuadFormat* quadFormat = &batch->rasterizerBatch->renderState->linkInstance.link->quadFormat;
 
 	// Write quad header
 

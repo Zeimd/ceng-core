@@ -29,12 +29,12 @@ ClipperBatch::ClipperBatch(const Ceng::UINT32 apiCallId,const Ceng::UINT32 batch
 						   std::shared_ptr<AlignedBuffer<Ceng::UINT8>> &fragmentCache) :
 	PipelineBatch(apiCallId,batchSize,renderState),fragmentCache(fragmentCache),primitiveList(primitiveList)
 {
-	cacheA = std::shared_ptr<AlignedBuffer<Ceng::UINT8>>(renderState->shaderLink->GetClipperCache(batchSize));
+	cacheA = std::shared_ptr<AlignedBuffer<Ceng::UINT8>>(renderState->linkInstance.GetClipperCache(batchSize));
 }
 
 ClipperBatch::ClipperBatch(std::shared_ptr<DrawBatch> &batch)
 	: PipelineBatch(batch->apiCallId,batch->batchSize,batch->renderState),
 	fragmentCache(batch->fragmentCache),primitiveList(std::move(batch->primitiveList))
 {
-	cacheA = std::shared_ptr<AlignedBuffer<Ceng::UINT8>>(renderState->shaderLink->GetClipperCache(batchSize));
+	cacheA = std::shared_ptr<AlignedBuffer<Ceng::UINT8>>(renderState->linkInstance.GetClipperCache(batchSize));
 }

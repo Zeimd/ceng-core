@@ -16,6 +16,8 @@
 
 #include "cr-pixel-shader.h"
 
+#include "ShaderLinkInstance.h"
+
 #include "rtarget-data.h"
 
 #include "quad-format.h"
@@ -115,9 +117,9 @@ const CRESULT CR_PixelShader::WriteUniform(const Ceng::UINT32 index,void *source
 	return CE_OK;
 }
 
-CRESULT CR_PixelShader::SetFragmentFormat(CR_QuadFormat *newQuadFormat)
+CRESULT CR_PixelShader::SetShaderLink(ShaderLinkInstance* link)
 {
-	nextInstance->quadFormat = newQuadFormat;
+	nextInstance->link = link;
 
 	return CE_OK;
 }

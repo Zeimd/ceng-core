@@ -82,6 +82,7 @@ CRESULT CR_ShaderLink::Configure(CR_VertexShader *vertexShader,CR_PixelShader *p
 		return cresult;
 	}
 
+	/*
 	cresult = pixelShader->SetFragmentFormat(&quadFormat);
 
 	if (cresult != CE_OK)
@@ -89,8 +90,10 @@ CRESULT CR_ShaderLink::Configure(CR_VertexShader *vertexShader,CR_PixelShader *p
 		Log::Print("ShaderLink.Configure : failed to sync pixel shader input");
 		return cresult;
 	}
+	*/
 
 	clipperCacheSize = 10*fragmentFormat.size;
+
 	
 	return CE_OK;
 }

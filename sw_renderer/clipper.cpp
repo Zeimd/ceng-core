@@ -259,7 +259,7 @@ const CRESULT CR_Clipper::HomogeneousClipTriangle(CR_PrimitiveData &primitive,
 
 	UINT32 inputSize;
 
-	CR_ShaderLink *shaderLink = outputBatch->renderState->shaderLink;
+	CR_ShaderLink *shaderLink = outputBatch->renderState->linkInstance.link;
 
 	UINT32 fragSizeBytes = shaderLink->fragmentFormat.size;
 

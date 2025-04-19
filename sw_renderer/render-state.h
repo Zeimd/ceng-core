@@ -30,6 +30,7 @@
 #include "viewport-state.h"
 
 #include "texture-unit.h"
+#include "ShaderLinkInstance.h"
 
 namespace Ceng
 {
@@ -80,7 +81,7 @@ namespace Ceng
 
 		CR_VertexShader *vertexShader;
 
-		CR_ShaderLink *shaderLink;
+		ShaderLinkInstance linkInstance;
 
 		std::shared_ptr<CR_NewTargetData> depthBuffer;
 
@@ -114,7 +115,7 @@ namespace Ceng
 
 		~RenderState();
 
-		const CRESULT CommitState(const RenderState &oldState,CR_ShaderLink *shaderLink,
+		const CRESULT CommitState(const RenderState &oldState,
 									const Ceng::UINT32 cacheLineSize,
 									const Ceng::UINT32 renderThreads);
 	};

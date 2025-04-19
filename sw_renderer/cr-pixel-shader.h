@@ -101,7 +101,7 @@ namespace Ceng
 
 		const CRESULT WriteUniform(const Ceng::UINT32 index,void *sourceBuffer);
 
-		CRESULT SetFragmentFormat(CR_QuadFormat *newQuadFormat);
+		CRESULT SetShaderLink(ShaderLinkInstance *link);
 
 		const CRESULT SetTextureUnits(std::vector<TextureUnit> &source);
 

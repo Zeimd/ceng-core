@@ -28,7 +28,7 @@ namespace Ceng
 
 	public:
 
-		ShaderLinkInstance(CR_ShaderLink* link);
+		ShaderLinkInstance();
 
 		~ShaderLinkInstance();
 

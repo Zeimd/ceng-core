@@ -26,6 +26,14 @@ Ceng::CRESULT CR_ShaderProgram::GetInstance(CR_VertexShader* vShader, CR_PixelSh
 	prog->vShader = vShader;
 	prog->pShader = pShader;
 
+	Ceng::CRESULT cresult= prog->shaderLink.Configure(vShader, pShader);
+
+	if (cresult != Ceng::CE_OK)
+	{
+		prog->Release();
+		return cresult;
+	}
+
 	*out_program = prog;
 
 	return Ceng::CE_OK;

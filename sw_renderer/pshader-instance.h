@@ -35,12 +35,13 @@ namespace Ceng
 
 	class CR_ShaderConstant;
 
-
 	class CR_PixelShader;
 
 	class CR_PixelShaderTarget;
 
 	class CR_QuadFormat;
+
+	class ShaderLinkInstance;
 
 	class PixelShaderInstance
 	{
@@ -54,7 +55,7 @@ namespace Ceng
 
 		// Output format
 
-		CR_QuadFormat *quadFormat;	
+		ShaderLinkInstance* link;
 
 		AlignedBuffer<CR_PixelShaderInput> inputRegisters;
 

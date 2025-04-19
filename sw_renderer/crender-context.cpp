@@ -97,8 +97,6 @@ const Ceng::CRESULT CR_RenderContext::Configure(SoftwareRenderer* parentDevice)
 		activeClipper = new CR_Clipper();
 	}
 
-	shaderLink = CR_ShaderLink(parentDevice->cacheLineSize);
-
 	// Command queue
 
 	apiCallCounter = 0;
@@ -193,6 +191,8 @@ const Ceng::CRESULT CR_RenderContext::SetShaderProgram(Ceng::ShaderProgram* prog
 	nextRenderState->vertexShader = cr_program->vShader;
 
 	nextRenderState->pixelShader = cr_program->pShader;
+
+	nextRenderState->linkInstance.link = &cr_program->shaderLink;
 
 	return CE_OK;
 }
@@ -396,7 +396,7 @@ const CRESULT CR_RenderContext::StartScene()
 		1024.0f, 1024.0f,
 		nextRenderState->clipperState);
 
-	shaderLink.SetViewSize(parentDevice->maxViewWidth, parentDevice->maxViewHeight);
+	nextRenderState->linkInstance.SetViewSize(parentDevice->maxViewWidth, parentDevice->maxViewHeight);
 
 	//*****************************************************
 
@@ -526,7 +526,7 @@ const CRESULT CR_RenderContext::InstantiateRenderState()
 
 	// Change render state only when a draw call is issued.
 
-	CRESULT cresult = nextRenderState->CommitState(*currentRenderState, &shaderLink,
+	CRESULT cresult = nextRenderState->CommitState(*currentRenderState,
 		parentDevice->cacheLineSize, parentDevice->renderThreadCount);
 
 	if (cresult != CE_OK)

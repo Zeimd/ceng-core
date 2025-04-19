@@ -5,11 +5,19 @@
 
 using namespace Ceng;
 
+ShaderLinkInstance::ShaderLinkInstance()
+	: link(nullptr), maxViewWidth(0), maxViewHeight(0), quadCacheSize(0), quadSize(0), targetAmount(0)
+{
+
+}
+
+/*
 ShaderLinkInstance::ShaderLinkInstance(CR_ShaderLink* link)
 	: link(link), maxViewWidth(0), maxViewHeight(0), quadCacheSize(0),quadSize(0), targetAmount(0)
 {
 
 }
+*/
 
 ShaderLinkInstance::~ShaderLinkInstance()
 {
@@ -43,7 +51,7 @@ CRESULT ShaderLinkInstance::SetRenderTargets(const Ceng::UINT32 targets)
 
 	if (link->pixelShader != nullptr)
 	{
-		cresult = link->pixelShader->SetFragmentFormat(&link->quadFormat);
+		cresult = link->pixelShader->SetShaderLink(this);
 	}
 
 	return CE_OK;

@@ -64,8 +64,6 @@ namespace Ceng
 
 		Ceng::CR_Clipper *activeClipper;
 
-		CR_ShaderLink shaderLink;
-
 		CR_Rasterizer *activeRasterizer;
 
 		/*

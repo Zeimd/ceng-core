@@ -18,6 +18,10 @@
 
 #include "cr-shader-const.h"
 
+#include "ShaderLinkInstance.h"
+
+#include "shader-link.h"
+
 using namespace Ceng;
 
 PixelShaderInstance::PixelShaderInstance()
@@ -38,7 +42,7 @@ PixelShaderInstance::PixelShaderInstance(CR_PixelShader *shader)
 {
 	this->shader = shader;
 
-	quadFormat = nullptr;
+	link = nullptr;
 	quadSizeBytes = 0;
 	quadTargetStart = 0;
 
@@ -96,7 +100,7 @@ PixelShaderInstance::PixelShaderInstance(const PixelShaderInstance &source)
 {
 	shader = source.shader;
 
-	quadFormat = source.quadFormat;
+	link = source.link;
 	quadSizeBytes = source.quadSizeBytes;
 	quadTargetStart = source.quadTargetStart;
 
@@ -345,35 +349,35 @@ const CRESULT PixelShaderInstance::SetFragmentFormat(const std::vector<CR_PixelS
 	
 	// Allocate space for a quad's varying data
 
-	quadSizeBytes = quadFormat->quadSize;
+	quadSizeBytes = link->quadSize;
 
 	if (quadBuffer == nullptr)
 	{
 		quadBuffer = AlignedBuffer<UINT8>(quadSizeBytes,shader->cacheLine);
 	}
 
-	quadTargetStart = quadFormat->targetStart;
+	quadTargetStart = link->link->quadFormat.targetStart;
 
 	// Set up input register offsets within the quad format
 
 	for(k=0;k<inputSemantics.size();k++)
 	{
-		for(j=0;j<quadFormat->variables.size();j++)
+		for(j=0;j<link->link->quadFormat.variables.size();j++)
 		{
 			// Link all input registers to the variable
 			// with a matching semantic
 
 			// NOTE: Multiple registers can map to one semantic
 
-			if (inputSemantics[k].semantic == quadFormat->variables[j].semantic)
+			if (inputSemantics[k].semantic == link->link->quadFormat.variables[j].semantic)
 			{
 				inputRegisters[k].inputAddress = (POINTER)((UINT8*)quadBuffer) + 
-													quadFormat->variables[j].quadOffset;
+													link->link->quadFormat.variables[j].quadOffset;
 
 				// TODO: Set staticly
-				inputRegisters[k].inputFormat = quadFormat->variables[j].format;
+				inputRegisters[k].inputFormat = link->link->quadFormat.variables[j].format;
 
-				inputRegisters[k].variableStep = quadFormat->variables[j].gradientOffset;		
+				inputRegisters[k].variableStep = link->link->quadFormat.variables[j].gradientOffset;		
 			}
 		}
 	}
@@ -384,7 +388,7 @@ const CRESULT PixelShaderInstance::SetFragmentFormat(const std::vector<CR_PixelS
 	for(k=0;k<targetSemantics.size();k++)
 	{
 		outputRegisters[k].inputAddress = (POINTER)((UINT8*)quadBuffer) +
-			quadFormat->targetStart + targetSemantics[k].target*sizeof(POINTER);
+			link->link->quadFormat.targetStart + targetSemantics[k].target*sizeof(POINTER);
 	}
 
 	return CE_OK;
@@ -474,9 +478,9 @@ const CRESULT PixelShaderInstance::ProcessQuads(Task_PixelShader *batch, const C
 
 	CR_TriangleData *triangle;
 
-	UINT32 quadFloatOffset = Ceng::UINT32(quadFormat->floatStart);
-	UINT32 quadDoubleOffset = Ceng::UINT32(quadFormat->doubleStart);
-	UINT32 quadTargetOffset = Ceng::UINT32(quadFormat->targetStart);
+	UINT32 quadFloatOffset = Ceng::UINT32(link->link->quadFormat.floatStart);
+	UINT32 quadDoubleOffset = Ceng::UINT32(link->link->quadFormat.doubleStart);
+	UINT32 quadTargetOffset = Ceng::UINT32(link->link->quadFormat.targetStart);
 
 	UINT8 *inputBuffer = quadBuffer;
 	UINT8 *localCoverage;
@@ -497,8 +501,8 @@ const CRESULT PixelShaderInstance::ProcessQuads(Task_PixelShader *batch, const C
 		//**********************************
 		// Generate temporary quad
 
-		UINT32 floatBlockSize = quadFormat->floatBlocks;
-		UINT32 doubleBlockSize = quadFormat->doubleBlocks;
+		UINT32 floatBlockSize = link->link->quadFormat.floatBlocks;
+		UINT32 doubleBlockSize = link->link->quadFormat.doubleBlocks;
 		
 		CR_FloatFragment *floatParam = (CR_FloatFragment*)triangle->fragment.floatBlock;
 		CR_DoubleFragment *doubleParam = (CR_DoubleFragment*)triangle->fragment.doubleBlock;
@@ -712,9 +716,9 @@ const CRESULT PixelShaderInstance::ProcessQuads(Experimental::Task_PixelShader* 
 
 	CR_TriangleData* triangle;
 
-	UINT32 quadFloatOffset = Ceng::UINT32(quadFormat->floatStart);
-	UINT32 quadDoubleOffset = Ceng::UINT32(quadFormat->doubleStart);
-	UINT32 quadTargetOffset = Ceng::UINT32(quadFormat->targetStart);
+	UINT32 quadFloatOffset = Ceng::UINT32(link->link->quadFormat.floatStart);
+	UINT32 quadDoubleOffset = Ceng::UINT32(link->link->quadFormat.doubleStart);
+	UINT32 quadTargetOffset = Ceng::UINT32(link->link->quadFormat.targetStart);
 
 	UINT8* inputBuffer = quadBuffer;
 	UINT8* localCoverage;
@@ -735,8 +739,8 @@ const CRESULT PixelShaderInstance::ProcessQuads(Experimental::Task_PixelShader* 
 		//**********************************
 		// Generate temporary quad
 
-		UINT32 floatBlockSize = quadFormat->floatBlocks;
-		UINT32 doubleBlockSize = quadFormat->doubleBlocks;
+		UINT32 floatBlockSize = link->link->quadFormat.floatBlocks;
+		UINT32 doubleBlockSize = link->link->quadFormat.doubleBlocks;
 
 		CR_FloatFragment* floatParam = (CR_FloatFragment*)triangle->fragment.floatBlock;
 		CR_DoubleFragment* doubleParam = (CR_DoubleFragment*)triangle->fragment.doubleBlock;

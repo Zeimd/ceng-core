@@ -3,6 +3,8 @@
 
 #include <ceng/interfaces/shader-program.h>
 
+#include "shader-link.h"
+
 namespace Ceng
 {
 	class CR_VertexShader;
@@ -23,6 +25,8 @@ namespace Ceng
 		}
 
 	public:
+
+		CR_ShaderLink shaderLink;
 
 		CR_VertexShader* vShader;
 		CR_PixelShader* pShader;
