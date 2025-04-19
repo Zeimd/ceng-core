@@ -9,7 +9,8 @@
 
 using namespace Ceng;
 
-Ceng::CRESULT CR_ShaderProgram::GetInstance(CR_VertexShader* vShader, CR_PixelShader* pShader, CR_ShaderProgram** out_program)
+Ceng::CRESULT CR_ShaderProgram::GetInstance(CR_VertexShader* vShader, CR_PixelShader* pShader, 
+	Ceng::UINT32 cacheLineSize, CR_ShaderProgram** out_program)
 {
 	if (vShader == nullptr || pShader == nullptr || out_program == nullptr)
 	{
@@ -25,6 +26,8 @@ Ceng::CRESULT CR_ShaderProgram::GetInstance(CR_VertexShader* vShader, CR_PixelSh
 
 	prog->vShader = vShader;
 	prog->pShader = pShader;
+
+	prog->shaderLink.cacheLineSize = cacheLineSize;
 
 	Ceng::CRESULT cresult= prog->shaderLink.Configure(vShader, pShader);
 

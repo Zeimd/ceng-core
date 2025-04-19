@@ -26,6 +26,11 @@ ShaderLinkInstance::~ShaderLinkInstance()
 
 CRESULT ShaderLinkInstance::SetRenderTargets(const Ceng::UINT32 targets)
 {
+	if (link == nullptr)
+	{
+		return Ceng::CE_OK;
+	}
+
 	CRESULT cresult;
 
 	// Add space for render targets

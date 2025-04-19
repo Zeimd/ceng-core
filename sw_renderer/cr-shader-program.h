@@ -33,7 +33,7 @@ namespace Ceng
 
 	public:
 
-		static Ceng::CRESULT GetInstance(CR_VertexShader* vShader, CR_PixelShader* pShader,CR_ShaderProgram** out_program);
+		static Ceng::CRESULT GetInstance(CR_VertexShader* vShader, CR_PixelShader* pShader, Ceng::UINT32 cacheLineSize, CR_ShaderProgram** out_program);
 
 		void Release() override;
 
