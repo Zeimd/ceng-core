@@ -17,7 +17,7 @@ using namespace Ceng;
 
 SchedulerTask::SchedulerTask(Experimental::Pipeline* pipeline, ConditionVariable* wakeCondition,
 	std::shared_ptr<ConditionVariable>& cmdWake)
-	: pipeline(pipeline), exitLoop(0), wakeCondition(wakeCondition), cmdWake(cmdWake), waiting(0)
+	: pipeline(pipeline), exitLoop(0), wakeCondition(wakeCondition), cmdWake(cmdWake), waiting(0), totalWakeups(0)
 {
 	Ceng_CreateCriticalSection(&wakeCrit);
 }
@@ -77,6 +77,7 @@ const CRESULT SchedulerTask::Execute()
 			waiting = 1;
 			wakeCondition->Wait(wakeCrit);
 			waiting = 0;
+			++totalWakeups;
 		}
 		else
 		{

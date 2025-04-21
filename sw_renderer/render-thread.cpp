@@ -114,7 +114,7 @@ Experimental::RenderThread::RenderThread(const Ceng::UINT32 threadId, ConditionV
 	Ceng::UINT32 inputLength, Ceng::UINT32 cacheLineSize)
 	: threadId(threadId), wakeCondition(wakeCondition), cmdWake(cmdWake),
 	runningThreadCount(runningThreadCount), minThreads(minThreads), maxThreads(maxThreads),
-	pipeline(pipeline), exitLoop(0), totalTasksCompleted(0), waiting(0)
+	pipeline(pipeline), exitLoop(0), totalTasksCompleted(0), waiting(0), totalWakeups(0)
 {
 	Ceng_CreateCriticalSection(&wakeCrit);
 
@@ -198,6 +198,7 @@ const CRESULT Experimental::RenderThread::Execute()
 			waiting = 1;
 			wakeCondition->Wait(wakeCrit);
 			waiting = 0;
+			++totalWakeups;
 			++(*runningThreadCount);
 		}
 		

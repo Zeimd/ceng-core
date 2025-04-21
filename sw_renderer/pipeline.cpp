@@ -552,7 +552,10 @@ void Experimental::Pipeline::ClearCounters()
 	for (int k = 0; k < renderThreads.size(); ++k)
 	{
 		renderThreads[k].task->totalTasksCompleted = 0;
+		renderThreads[k].task->totalWakeups = 0;
 	}
+
+	schedulerTask->totalWakeups = 0;
 }
 
 void Experimental::Pipeline::AddPendingTasks(Ceng::UINT32 count)

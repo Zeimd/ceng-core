@@ -39,6 +39,8 @@ namespace Ceng
 
 		std::atomic<Ceng::UINT32> waiting;
 
+		std::atomic<Ceng::UINT32> totalWakeups;
+
 	public:
 
 		volatile Ceng::INT32 exitLoop;

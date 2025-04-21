@@ -88,6 +88,8 @@ namespace Ceng::Experimental
 
 		std::atomic<Ceng::UINT32> waiting;
 
+		std::atomic<Ceng::UINT32> totalWakeups;
+
 		volatile Ceng::INT32 exitLoop;
 
 		RenderThread();
