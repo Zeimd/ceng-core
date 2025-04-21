@@ -540,10 +540,19 @@ void Experimental::Pipeline::ClearCounters()
 {
 	totalTasksCompleted = 0;
 
+	totalGetTaskCycles = 0;
+	totalIssuedTasks = 0;
+	totalEmptyRounds = 0;
+
 	pixelShader.totalTasksCompleted = 0;
 	rasterizer.totalTasksCompleted = 0;
 	triangleSetup.totalTasksCompleted = 0;
 	clipper.totalTasksCompleted = 0;
+
+	for (int k = 0; k < renderThreads.size(); ++k)
+	{
+		renderThreads[k].task->totalTasksCompleted = 0;
+	}
 }
 
 void Experimental::Pipeline::AddPendingTasks(Ceng::UINT32 count)

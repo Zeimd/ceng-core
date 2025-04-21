@@ -3,6 +3,7 @@
 #ifndef CENG_SWR_TASK_SCHEDULER_H
 #define CENG_SWR_TASK_SCHEDULER_H
 
+#include <atomic>
 #include <memory>
 
 #include <ceng/interfaces/thread-task.h>
@@ -35,6 +36,8 @@ namespace Ceng
 		CriticalSection* wakeCrit;
 
 		std::shared_ptr<ConditionVariable> cmdWake;
+
+		std::atomic<Ceng::UINT32> waiting;
 
 	public:
 

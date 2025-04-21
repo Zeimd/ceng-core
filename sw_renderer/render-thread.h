@@ -84,6 +84,10 @@ namespace Ceng::Experimental
 
 	public:
 
+		std::atomic<Ceng::UINT32> totalTasksCompleted;
+
+		std::atomic<Ceng::UINT32> waiting;
+
 		volatile Ceng::INT32 exitLoop;
 
 		RenderThread();

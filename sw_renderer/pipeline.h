@@ -148,6 +148,10 @@ namespace Ceng::Experimental
 		std::atomic<Ceng::UINT32> minThreadCount;
 		std::atomic<Ceng::UINT32> maxThreadCount;
 
+		std::atomic<Ceng::UINT32> totalGetTaskCycles;
+		std::atomic<Ceng::UINT32> totalIssuedTasks;
+		std::atomic<Ceng::UINT32> totalEmptyRounds;
+
 	public:
 
 		Pipeline();

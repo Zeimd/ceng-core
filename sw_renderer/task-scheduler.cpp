@@ -17,7 +17,7 @@ using namespace Ceng;
 
 SchedulerTask::SchedulerTask(Experimental::Pipeline* pipeline, ConditionVariable* wakeCondition,
 	std::shared_ptr<ConditionVariable>& cmdWake)
-	: pipeline(pipeline), exitLoop(0), wakeCondition(wakeCondition), cmdWake(cmdWake)
+	: pipeline(pipeline), exitLoop(0), wakeCondition(wakeCondition), cmdWake(cmdWake), waiting(0)
 {
 	Ceng_CreateCriticalSection(&wakeCrit);
 }
@@ -60,15 +60,29 @@ const CRESULT SchedulerTask::Execute()
 			}
 		}
 
+		++pipeline->totalGetTaskCycles;
+
+		if (taskCount == 0)
+		{
+			++pipeline->totalEmptyRounds;
+		}
+		else
+		{
+			++pipeline->totalIssuedTasks;
+		}
+		
 		if (pipeline->IsEmpty())
 		{
 			cmdWake->WakeAll();
+			waiting = 1;
 			wakeCondition->Wait(wakeCrit);
+			waiting = 0;
 		}
 		else
 		{
 			pipeline->WakeAllThreads();
 		}
+		
 
 		/*
 		if (taskCount > 0)
