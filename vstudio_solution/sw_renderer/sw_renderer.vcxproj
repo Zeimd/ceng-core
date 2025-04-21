@@ -215,6 +215,7 @@
     <ClInclude Include="..\..\sw_renderer\cr-vertex-shader.h" />
     <ClInclude Include="..\..\sw_renderer\crender-base.h" />
     <ClInclude Include="..\..\sw_renderer\crender-context.h" />
+    <ClInclude Include="..\..\sw_renderer\CyclicCounter.h" />
     <ClInclude Include="..\..\sw_renderer\future.h" />
     <ClInclude Include="..\..\sw_renderer\ShaderLinkInstance.h" />
     <ClInclude Include="..\..\sw_renderer\SimpleGroupingStage.h" />

@@ -22,68 +22,9 @@
 
 #include "locking-queue.h"
 
+#include "CyclicCounter.h"
+
 using namespace Ceng;
-
-class CyclicCounter
-{
-private:
-	Ceng::UINT32 limit;
-	Ceng::UINT32 value;
-
-public:
-
-	CyclicCounter(Ceng::UINT32 limit)
-		: limit(limit),value(0)
-	{
-
-	}
-
-	CyclicCounter(Ceng::UINT32 limit, Ceng::UINT32 value)
-		: limit(limit), value(value % limit)
-	{
-
-	}
-
-	CyclicCounter(CyclicCounter& source)
-		: limit(source.limit), value(source.value)
-	{
-
-	}
-
-	CyclicCounter& operator++()
-	{
-		CyclicIncrement();
-
-		return *this;
-	}
-
-	CyclicCounter operator++(int)
-	{
-		CyclicCounter temp{ *this };
-
-		CyclicIncrement();
-
-		return temp;
-	}
-
-	operator Ceng::UINT32()
-	{
-		return value;
-	}
-
-private:
-
-	void CyclicIncrement()
-	{
-		++value;
-
-		if (value == limit)
-		{
-			value = 0;
-		}
-	}
-};
-
 
 const CRESULT CR_Rasterizer::Rasterize(std::shared_ptr<RasterizerBatch> &batch,
 	LockingStage &outputStage, const Ceng::UINT32 threadId, const Ceng::UINT32 renderThreads)
