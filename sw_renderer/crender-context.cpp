@@ -675,6 +675,7 @@ const CRESULT CR_RenderContext::Execute_DrawPrimitive(const Ceng::UINT32 apiCall
 	}
 
 	pipeline.drawQueue.PushBack(drawBatch);
+	pipeline.AddPendingTasks(1);
 
 //**********************************************************************
 // Vertex shader stage
