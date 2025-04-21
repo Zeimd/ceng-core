@@ -588,6 +588,7 @@ const CRESULT CR_RenderContext::Execute_DrawPrimitive(const Ceng::UINT32 apiCall
 			if (drawBatch->GetEmptySpace() < 3)
 			{
 				pipeline.drawQueue.PushBack(drawBatch);
+				pipeline.AddPendingTasks(1);
 
 				drawBatch = std::make_shared<DrawBatch>(apiCallId, vsBatchSize, renderState);
 			}
@@ -654,6 +655,7 @@ const CRESULT CR_RenderContext::Execute_DrawPrimitive(const Ceng::UINT32 apiCall
 				// is full
 
 				pipeline.drawQueue.PushBack(drawBatch);
+				pipeline.AddPendingTasks(1);
 
 				drawBatch = std::make_shared<DrawBatch>(apiCallId, vsBatchSize, renderState);
 
