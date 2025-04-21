@@ -29,7 +29,7 @@ const CRESULT Task_VertexShader::Execute(const Ceng::UINT32 threadId, Experiment
 {
 	CRESULT cresult = CE_OK;
 
-	cresult = batch->renderState->vshaderInstance[threadId]->ProcessVertexBatch(this, threadId);
+	cresult = batch->renderState->vshaderInstance[threadId]->ProcessVertexBatch(batch, threadId, future);
 
 	--pipeline->triangleSetup.numThreads;
 	--pipeline->runningTasks;

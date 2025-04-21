@@ -289,24 +289,30 @@ CRESULT CR_VertexShader::SetVertexStreams(Ceng::UINT32 streamCount,
 	return CE_OK;
 }
 
-const CRESULT CR_VertexShader::GetInstance(std::shared_ptr<CR_VertexShaderInstance> &instance)
+const CRESULT CR_VertexShader::GetInstances(std::vector<std::shared_ptr<CR_VertexShaderInstance>>& instances,
+	const Ceng::UINT32 renderThreads)
 {
 	// Create an instance using *nextState*
 
 	currentInstance = nextInstance;
 
 	nextInstance = std::shared_ptr<CR_VertexShaderInstance>(new CR_VertexShaderInstance(*currentInstance));
+		
+	instances = std::vector<std::shared_ptr<CR_VertexShaderInstance>>(renderThreads);
 
-	currentInstance->ConfigureInput(inputSemantics);
+	for (Ceng::UINT32 k = 0; k < instances.size(); k++)
+	{
+		instances[k] = std::shared_ptr<CR_VertexShaderInstance>(new CR_VertexShaderInstance(*currentInstance));
 
-	currentInstance->SetVertexFormat(inputSemantics);
-	currentInstance->SetVertexStreams();
+		instances[k]->ConfigureInput(inputSemantics);
 
-	currentInstance->SetFragmentFormat();	
-	
-	currentInstance->ConfigureUniforms(uniformList,uniformBufferSize);
-	
-	instance = currentInstance;	
+		instances[k]->SetVertexFormat(inputSemantics);
+		instances[k]->SetVertexStreams();
+
+		instances[k]->SetFragmentFormat();
+
+		instances[k]->ConfigureUniforms(uniformList, uniformBufferSize);
+	}
 
 	return CE_OK;
 }

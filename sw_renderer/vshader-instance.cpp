@@ -425,7 +425,8 @@ const CRESULT CR_VertexShaderInstance::ProcessVertexBatch(std::shared_ptr<DrawBa
 }
 
 const CRESULT CR_VertexShaderInstance::ProcessVertexBatch(std::shared_ptr<DrawBatch> batch,
-	Experimental::SimpleStage<Experimental::Task_Clipper>& output)
+	Ceng::UINT32 threadId,
+	Experimental::Future<std::shared_ptr<Experimental::Task_Clipper>>* future)
 {
 	//	return CE_OK;
 
@@ -461,12 +462,7 @@ const CRESULT CR_VertexShaderInstance::ProcessVertexBatch(std::shared_ptr<DrawBa
 
 	auto out_batch = std::make_shared<ClipperBatch>(batch);
 
-	Experimental::Future<std::shared_ptr<Experimental::Task_Clipper>> future;
-
-	future.Complete(std::make_shared<Experimental::Task_Clipper>(out_batch));
-
-	output.queue.PushBack(future);
-	output.pipeline->AddPendingTasks(1);
+	future->Complete(std::make_shared<Experimental::Task_Clipper>(out_batch));
 
 	return CE_OK;
 }

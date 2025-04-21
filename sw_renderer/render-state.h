@@ -94,7 +94,7 @@ namespace Ceng
 		/**
 		 * Vertex shader with current state applied.
 		 */
-		VshaderInstancePtr vshaderInstance;
+		std::vector<VshaderInstancePtr> vshaderInstance;
 
 		// Texture unit state
 

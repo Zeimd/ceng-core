@@ -131,7 +131,8 @@ namespace Ceng
 
 		UINT32 GetDataSize(const Ceng::SHADER_DATATYPE::value datatype);
 
-		const CRESULT GetInstance(std::shared_ptr<CR_VertexShaderInstance> &instance);
+		const CRESULT GetInstances(std::vector<std::shared_ptr<CR_VertexShaderInstance>>& instances,
+			const Ceng::UINT32 renderThreads);
 
 		CRESULT ConfigureConstants();
 		CRESULT ConfigureInput();

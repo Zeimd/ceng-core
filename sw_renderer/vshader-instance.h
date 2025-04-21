@@ -170,8 +170,8 @@ namespace Ceng
 		virtual const CRESULT ProcessVertexBatch(std::shared_ptr<DrawBatch> batch,
 												LockingStage *outputQueue);
 
-		virtual const CRESULT ProcessVertexBatch(std::shared_ptr<DrawBatch> batch,
-			Experimental::SimpleStage<Experimental::Task_Clipper>& output);
+		virtual const CRESULT ProcessVertexBatch(std::shared_ptr<DrawBatch> batch, Ceng::UINT32 threadId,
+			Experimental::Future<std::shared_ptr<Experimental::Task_Clipper>>* future);
 
 		virtual void ShaderFunction();
 

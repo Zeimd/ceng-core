@@ -132,7 +132,7 @@ const CRESULT RenderState::CommitState(const RenderState &oldState,	const Ceng::
 			return cresult;
 		}
 
-		cresult = vertexShader->GetInstance(vshaderInstance);
+		cresult = vertexShader->GetInstances(vshaderInstance, renderThreads);
 
 		if (cresult != CE_OK)
 		{
