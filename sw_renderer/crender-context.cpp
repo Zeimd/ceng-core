@@ -679,6 +679,7 @@ const CRESULT CR_RenderContext::Execute_DrawPrimitive(const Ceng::UINT32 apiCall
 //**********************************************************************
 // Vertex shader stage
 
+	/*
 	while (!pipeline.drawQueue.IsEmpty())
 	{
 		std::shared_ptr<DrawBatch> currentBatch = pipeline.drawQueue.Front();
@@ -695,16 +696,16 @@ const CRESULT CR_RenderContext::Execute_DrawPrimitive(const Ceng::UINT32 apiCall
 				&pipeline.clipper);
 				*/
 
-			cresult = currentBatch->renderState->vshaderInstance->ProcessVertexBatch(currentBatch,
-				pipeline.clipper);
+			//cresult = currentBatch->renderState->vshaderInstance->ProcessVertexBatch(currentBatch,
+				//pipeline.clipper);
 
-			if (cresult != CE_OK)
-			{
-				break;
-			}
-		}
+			//if (cresult != CE_OK)
+			//{
+			//	break;
+			//}
+		//}
 
-	}
+	//}
 
 	// Wait until render pipeline has been flushed
 

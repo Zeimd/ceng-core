@@ -16,6 +16,7 @@
 #include "task-clipper.h"
 #include "task-rasterizer.h"
 #include "task-triangle-setup.h"
+#include "task-vshader.h"
 
 using namespace Ceng;
 
@@ -276,8 +277,6 @@ const CRESULT Experimental::Pipeline::Configure(const Ceng::UINT32 cacheLineSize
 
 	drawQueue = RingBuffer<std::shared_ptr<DrawBatch>>::Allocate(32, cacheLineSize);
 
-	vshaderOutQueue = RingBuffer<std::shared_ptr<DrawBatch>>::Allocate(32, cacheLineSize);
-
 	clipper = SimpleStage<Experimental::Task_Clipper>(64, cacheLineSize, this);
 
 	triangleSetup = SimpleGroupingStage<Experimental::Task_TriangleSetup>(64, cacheLineSize, this);
@@ -527,6 +526,40 @@ std::shared_ptr<Experimental::RenderTask>  Experimental::Pipeline::GetTask(Ceng:
 
 				return task;
 			}
+		}
+	}
+
+	if (drawQueue.IsEmpty() == false)
+	{
+		auto& front = drawQueue.Front();
+
+		// Check that there is enough space for future in every pixel shader bucket queue
+
+		if (clipper.queue.IsFull() == false)
+		{
+			// Allocate futures from queues
+
+			std::shared_ptr<Task_VertexShader> task = std::make_shared< Task_VertexShader>(front);
+
+			Experimental::Future<std::shared_ptr<Experimental::Task_Clipper>> future;
+
+			clipper.queue.PushBack(future);
+
+			Experimental::Future<std::shared_ptr<Experimental::Task_Clipper>>* ptr;
+
+			clipper.queue.BackPtr(&ptr);
+
+			task->future = ptr;
+
+			// Triangle setup group. We don't know how many tasks there will be, so this will just
+			// stand in for the group object to prevent pipeline from signaling empty erroneously.
+			AddPendingTasks(1);
+
+			drawQueue.PopFront();
+
+			PendingToRunning();
+
+			return task;
 		}
 	}
 

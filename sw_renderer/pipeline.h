@@ -119,8 +119,6 @@ namespace Ceng::Experimental
 
 		RingBuffer<std::shared_ptr<DrawBatch>> drawQueue;
 
-		RingBuffer<std::shared_ptr<DrawBatch>> vshaderOutQueue;
-
 		SimpleStage<Experimental::Task_Clipper> clipper;
 
 		SimpleGroupingStage<Experimental::Task_TriangleSetup> triangleSetup;
