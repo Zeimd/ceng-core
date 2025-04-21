@@ -45,7 +45,7 @@ namespace Ceng
 
 		volatile Ceng::INT32 exitLoop;
 
-		SchedulerTask(Experimental::Pipeline* pipeline, ConditionVariable* wakeCondition,
+		SchedulerTask(Experimental::Pipeline* pipeline, ConditionVariable* wakeCondition, CriticalSection* wakeCrit,
 			std::shared_ptr<ConditionVariable>& cmdWake);
 
 		const CRESULT Execute() override;

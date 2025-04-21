@@ -714,12 +714,23 @@ const CRESULT CR_RenderContext::Execute_DrawPrimitive(const Ceng::UINT32 apiCall
 	// For debug purposes
 	pipeline.ClearCounters();
 
-	pipeline.WakeAllThreads();
+	//pipeline.schedulerSection->Lock();
+	pipeline.pipelineHasWork->WakeOne();
+
+	//pipeline.WakeAllThreads();
 
 	while (pipeline.IsEmpty() == false)
 	{
-		cmdProcessorSleep->Wait(cmdProcessor.wakeCrit);
+		cresult = cmdProcessorSleep->WaitFor(cmdProcessor.wakeCrit,1000);
+		//cresult = cmdProcessorSleep->WaitFor(pipeline.schedulerSection, 1000);
+
+		if (cresult != CE_OK)
+		{
+			break;
+		}
 	}
+
+	//pipeline.schedulerSection->Unlock();
 
 	pipeline.minThreadCount.store(0);
 	pipeline.maxThreadCount.store(0);

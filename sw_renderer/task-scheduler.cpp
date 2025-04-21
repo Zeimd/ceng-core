@@ -16,18 +16,15 @@
 using namespace Ceng;
 
 SchedulerTask::SchedulerTask(Experimental::Pipeline* pipeline, ConditionVariable* wakeCondition,
-	std::shared_ptr<ConditionVariable>& cmdWake)
-	: pipeline(pipeline), exitLoop(0), wakeCondition(wakeCondition), cmdWake(cmdWake), waiting(0), totalWakeups(0)
+	CriticalSection* wakeCrit, std::shared_ptr<ConditionVariable>& cmdWake)
+	: pipeline(pipeline), exitLoop(0), wakeCondition(wakeCondition), wakeCrit(wakeCrit), cmdWake(cmdWake), waiting(0), totalWakeups(0)
 {
-	Ceng_CreateCriticalSection(&wakeCrit);
+	
 }
 
 SchedulerTask::~SchedulerTask()
 {
-	if (wakeCrit != nullptr)
-	{
-		wakeCrit->Release();
-	}	
+	
 }
 
 void SchedulerTask::Release()

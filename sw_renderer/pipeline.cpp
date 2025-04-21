@@ -214,12 +214,23 @@ Experimental::Pipeline::~Pipeline()
 		renderThreads[k].task->Release();
 	}
 
+	pipelineHasWork->WakeAll();
 	scheduler->Release();
 	schedulerTask->Release();
 
 	if (rendererHasWork != nullptr)
 	{
 		rendererHasWork->Release();
+	}
+
+	if (pipelineHasWork != nullptr)
+	{
+		pipelineHasWork->Release();
+	}
+
+	if (schedulerSection != nullptr)
+	{
+		schedulerSection->Release();
 	}
 }
 
@@ -289,7 +300,10 @@ const CRESULT Experimental::Pipeline::Configure(const Ceng::UINT32 cacheLineSize
 		Ceng::CRESULT cresult = Ceng_CreateThread(renderThreads[k].task, true, &renderThreads[k].thread);
 	}
 
-	schedulerTask = new SchedulerTask(this, rendererHasWork, cmdWake);
+	Ceng_CreateConditionVar(&pipelineHasWork);
+	Ceng_CreateCriticalSection(&schedulerSection);
+
+	schedulerTask = new SchedulerTask(this, pipelineHasWork, schedulerSection, cmdWake);
 
 	Ceng::CRESULT cresult = Ceng_CreateThread(schedulerTask, true, &scheduler);
 

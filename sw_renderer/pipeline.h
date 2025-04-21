@@ -139,6 +139,12 @@ namespace Ceng::Experimental
 
 		ConditionVariable* rendererHasWork;
 
+		// Used by command processor to wake up scheduler
+		ConditionVariable* pipelineHasWork;
+
+		// Used with *pipelineHasWork* 
+		CriticalSection* schedulerSection;
+
 		std::vector<RenderThreadData> renderThreads;
 
 		Thread* scheduler;
