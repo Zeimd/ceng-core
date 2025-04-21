@@ -551,12 +551,12 @@ std::shared_ptr<Experimental::RenderTask>  Experimental::Pipeline::GetTask(Ceng:
 
 			task->future = ptr;
 
-			// Triangle setup group. We don't know how many tasks there will be, so this will just
-			// stand in for the group object to prevent pipeline from signaling empty erroneously.
+			// Add pending task for the future just added to clipper queue
 			AddPendingTasks(1);
 
 			drawQueue.PopFront();
 
+			// Move vertex shader task to running
 			PendingToRunning();
 
 			return task;
