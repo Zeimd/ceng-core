@@ -93,7 +93,7 @@ namespace Ceng
 		const CRESULT Rasterize(std::shared_ptr<RasterizerBatch> &batch,LockingStage &outputStage,
 			const Ceng::UINT32 threadId, Ceng::UINT32 renderThreads);
 
-		const CRESULT Rasterize(std::shared_ptr<RasterizerBatch>& batch, std::vector< Experimental::Future<std::shared_ptr<Experimental::Task_PixelShader>>* >& futures,
+		const CRESULT Rasterize(std::shared_ptr<RasterizerBatch>& batch, std::vector< Experimental::Future<std::shared_ptr<Experimental::RenderTask>>* >& futures,
 			const Ceng::UINT32 threadId, Ceng::UINT32 renderThreads);
 	
 		const Ceng::INT32 RasterizeTriangle(std::vector<Task_PixelShader*> &outputBatch,

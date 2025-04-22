@@ -281,7 +281,7 @@ const CRESULT Experimental::Pipeline::Configure(const Ceng::UINT32 cacheLineSize
 
 	triangleSetup = SimpleGroupingStage<Experimental::Task_TriangleSetup>(64, cacheLineSize, this);
 
-	pixelShader = BucketStage<Experimental::Task_PixelShader>(maxThreads * maxScreenBuckets, 64, cacheLineSize, this);
+	pixelShader = BucketStage<Experimental::RenderTask>(maxThreads * maxScreenBuckets, 64, cacheLineSize, this);
 
 	rasterizer = BucketStage<Experimental::Task_Rasterizer>(maxScreenBuckets, 64, cacheLineSize, this);
 
@@ -396,11 +396,11 @@ std::shared_ptr<Experimental::RenderTask>  Experimental::Pipeline::GetTask(Ceng:
 		{
 			Ceng::UINT32 bucket = renderThreads.size() * k + j;
 
-			Experimental::Future<std::shared_ptr<Experimental::Task_PixelShader>> future;
+			Experimental::Future<std::shared_ptr<Experimental::RenderTask>> future;
 
 			pixelShader.buckets[bucket].queue.PushBack(future);
 
-			Experimental::Future<std::shared_ptr<Experimental::Task_PixelShader>>* ptr;
+			Experimental::Future<std::shared_ptr<Experimental::RenderTask>>* ptr;
 
 			pixelShader.buckets[bucket].queue.BackPtr(&ptr);
 

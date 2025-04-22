@@ -125,7 +125,8 @@ namespace Ceng::Experimental
 
 		BucketStage<Experimental::Task_Rasterizer> rasterizer;
 
-		BucketStage<Experimental::Task_PixelShader> pixelShader;
+		//BucketStage<Experimental::Task_PixelShader> pixelShader;
+		BucketStage<Experimental::RenderTask> pixelShader;
 
 		// Total number of tasks left in the pipeline
 		std::atomic<Ceng::UINT32> pendingTasks;

@@ -58,7 +58,7 @@ const CRESULT CR_Rasterizer::Rasterize(std::shared_ptr<RasterizerBatch> &batch,
 }
 
 const CRESULT CR_Rasterizer::Rasterize(std::shared_ptr<RasterizerBatch>& batch, 
-	std::vector< Experimental::Future<std::shared_ptr<Experimental::Task_PixelShader>>* >& futures,
+	std::vector< Experimental::Future<std::shared_ptr<Experimental::RenderTask>>* >& futures,
 	const Ceng::UINT32 threadId, Ceng::UINT32 renderThreads)
 {
 	std::vector<Experimental::Task_PixelShader*> outputs(renderThreads);
