@@ -159,6 +159,8 @@ namespace Ceng
 			std::shared_ptr<RenderState> &renderState);
 
 		const CRESULT InstantiateRenderState();
+
+		const CRESULT ActivatePipeline();
 	};
 }
 

@@ -679,6 +679,14 @@ const CRESULT CR_RenderContext::Execute_DrawPrimitive(const Ceng::UINT32 apiCall
 	pipeline.drawQueue.PushBack(drawBatch);
 	pipeline.AddPendingTasks(1);
 
+	ActivatePipeline();
+
+	return CE_OK;
+
+}
+
+const CRESULT CR_RenderContext::ActivatePipeline()
+{
 	// Wait until render pipeline has been flushed
 
 	pipeline.minThreadCount.store(1);
@@ -694,7 +702,7 @@ const CRESULT CR_RenderContext::Execute_DrawPrimitive(const Ceng::UINT32 apiCall
 
 	while (pipeline.IsEmpty() == false)
 	{
-		cresult = cmdProcessorSleep->WaitFor(cmdProcessor.wakeCrit,1000);
+		CRESULT cresult = cmdProcessorSleep->WaitFor(cmdProcessor.wakeCrit, 1000);
 		//cresult = cmdProcessorSleep->WaitFor(pipeline.schedulerSection, 1000);
 
 		if (cresult != CE_OK)
