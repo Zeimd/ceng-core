@@ -90,6 +90,8 @@ namespace Ceng
 
 		CRESULT ClearTarget(const CE_Color &color,const Ceng::Rectangle *scissorRect);
 
+		CRESULT ClearTarget(const CE_Color& color, const Ceng::Rectangle* scissorRect, Ceng::INT32 startY, Ceng::INT32 fillHeight);
+
 		CRESULT ClearDepth(const FLOAT32 depth);
 		CRESULT ClearDepthStencil(const FLOAT32 depth,const UINT32 stencil);
 
