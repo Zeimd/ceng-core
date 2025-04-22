@@ -40,6 +40,8 @@
 
 #include "cr-shader-program.h"
 
+#include "task-rtarget-clear.h"
+
 using namespace Ceng;
 
 CR_RenderContext::CR_RenderContext()
@@ -755,6 +757,51 @@ const CRESULT CR_RenderContext::Execute_ClearTarget(Ceng::RenderTargetView* targ
 	*/
 
 	return target->ClearTarget(color, &renderState->activeRect);
+
+	/*
+	Ceng::INT32 buckets = pipeline.pixelShader.buckets.size();
+
+	Ceng::INT32 bucketHeight = target->bufferHeight / buckets;
+	Ceng::INT32 remainder = target->bufferHeight % buckets;
+
+	Ceng::INT32 startY = 0;
+
+	for (int j = 0; j < buckets - 1; j++)
+	{
+		Experimental::Future<std::shared_ptr<Experimental::RenderTask>> future;
+
+		pipeline.pixelShader.buckets[j].queue.PushBack(future);
+
+		Experimental::Future<std::shared_ptr<Experimental::RenderTask>>* ptr;
+
+		pipeline.pixelShader.buckets[j].queue.BackPtr(&ptr);
+
+		ptr->Complete(std::make_shared<Task_RenderTargetClear>(target, color, &renderState->activeRect, startY, bucketHeight));
+
+		startY += bucketHeight;
+	}
+
+	// Last bucket uses all remaining space
+
+	int j = buckets - 1;
+
+	Experimental::Future<std::shared_ptr<Experimental::RenderTask>> future;
+
+	pipeline.pixelShader.buckets[j].queue.PushBack(future);
+
+	Experimental::Future<std::shared_ptr<Experimental::RenderTask>>* ptr;
+
+	pipeline.pixelShader.buckets[j].queue.BackPtr(&ptr);
+
+	ptr->Complete(std::make_shared<Task_RenderTargetClear>(target, color, &renderState->activeRect, startY, remainder));
+
+	pipeline.AddPendingTasks(buckets);
+
+	ActivatePipeline();
+	*/
+	
+
+	return CE_OK;
 }
 
 const CRESULT CR_RenderContext::Execute_ClearDepth(const FLOAT32 depth, std::shared_ptr<RenderState>& renderState)
