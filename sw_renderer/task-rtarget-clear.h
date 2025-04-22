@@ -15,7 +15,7 @@ namespace Ceng
 
 		CR_NewTargetData* target;
 
-		CE_Color& color;
+		const CE_Color& color;
 
 		Rectangle* activeRect;
 
@@ -24,7 +24,7 @@ namespace Ceng
 
 	public:
 
-		Task_RenderTargetClear(CR_NewTargetData* target, CE_Color& color, Rectangle* activeRect, Ceng::INT32 startY, Ceng::INT32 height);
+		Task_RenderTargetClear(CR_NewTargetData* target, const CE_Color& color, Rectangle* activeRect, Ceng::INT32 startY, Ceng::INT32 height);
 
 		~Task_RenderTargetClear() override;
 

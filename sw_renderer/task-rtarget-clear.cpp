@@ -4,7 +4,7 @@
 
 using namespace Ceng;
 
-Task_RenderTargetClear::Task_RenderTargetClear(CR_NewTargetData* target, CE_Color& color, Rectangle* activeRect,
+Task_RenderTargetClear::Task_RenderTargetClear(CR_NewTargetData* target, const CE_Color& color, Rectangle* activeRect,
 	Ceng::INT32 startY, Ceng::INT32 height)
 	: target(target), color(color), activeRect(activeRect), startY(startY), height(height)
 {
