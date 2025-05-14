@@ -678,7 +678,7 @@ const Ceng::CRESULT SoftwareRenderer::CreateShaderProgram(Ceng::VertexShader* ve
 {
 	CR_ShaderProgram* prog;
 
-	CRESULT cresult = CR_ShaderProgram::GetInstance((CR_VertexShader*)vertexShader, (CR_PixelShader*)pixelShader, &prog);
+	CRESULT cresult = CR_ShaderProgram::GetInstance((CR_VertexShader*)vertexShader, (CR_PixelShader*)pixelShader, cacheLineSize, &prog);
 
 	if (cresult != Ceng::CE_OK)
 	{
