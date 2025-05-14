@@ -141,12 +141,11 @@ namespace Ceng
 
 	public:
 
-		PixelShaderInstance();
 		~PixelShaderInstance();
 
 		PixelShaderInstance(CR_PixelShader *shader);
 
-		PixelShaderInstance(const PixelShaderInstance &source);
+		//PixelShaderInstance(const PixelShaderInstance &source);
 
 		const CRESULT ProcessQuads(Task_PixelShader *batch,const Ceng::INT32 threadId);
 

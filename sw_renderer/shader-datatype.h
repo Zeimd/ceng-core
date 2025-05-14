@@ -40,7 +40,7 @@ namespace Ceng
 
 		public:
 			Float();
-			Float(const Float &other);
+			//Float(const Float &other);
 
 			Float& operator = (const Float &other);
 			Float& operator = (const CR_PixelShaderInput &source);
@@ -53,7 +53,7 @@ namespace Ceng
 
 		public:
 			Float2();
-			Float2(const Float2 &other);
+			//Float2(const Float2 &other);
 
 			Float2& operator = (const CR_PixelShaderInput &source);
 		};
@@ -66,7 +66,7 @@ namespace Ceng
 
 		public:
 			Float4();
-			Float4(const Float4 &other);
+			//Float4(const Float4 &other);
 
 			Float4& operator = (const Float4 &other);
 
@@ -156,9 +156,12 @@ namespace Ceng
 			dataAddress = nullptr;
 		}
 
+		/*
 		inline Float2::Float2(const Float2 &other)
+			: dataAddress(other.dataAddress)
 		{
 		}
+		*/
 
 		inline Float2& Float2::operator = (const CR_PixelShaderInput &source)
 		{

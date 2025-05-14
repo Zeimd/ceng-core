@@ -24,10 +24,6 @@
 
 using namespace Ceng;
 
-PixelShaderInstance::PixelShaderInstance()
-{
-}
-
 PixelShaderInstance::~PixelShaderInstance()
 {
 	/*
@@ -96,8 +92,10 @@ PixelShaderInstance::PixelShaderInstance(CR_PixelShader *shader)
 	
 }
 
+/*
 PixelShaderInstance::PixelShaderInstance(const PixelShaderInstance &source)
 {
+	
 	shader = source.shader;
 
 	link = source.link;
@@ -164,8 +162,8 @@ PixelShaderInstance::PixelShaderInstance(const PixelShaderInstance &source)
 	OUT_TARGET5 = source.OUT_TARGET5;
 	OUT_TARGET6 = source.OUT_TARGET6;
 	OUT_TARGET7 = source.OUT_TARGET7;
-
 }
+*/
 
 const CRESULT PixelShaderInstance::ConfigureInput(std::vector<CR_PixelShaderSemantic> &inputSemantics)
 {
