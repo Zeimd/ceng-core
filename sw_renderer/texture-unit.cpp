@@ -11,6 +11,7 @@
 using namespace Ceng;
 
 TextureUnit::TextureUnit()
+	: sampler(nullptr), view(nullptr)
 {
 
 }
