@@ -24,6 +24,8 @@
 
 #include "shader-const-data.h"
 
+#include "PixelShaderInstanceCommon.h"
+
 namespace Ceng::Experimental
 {
 	class Task_PixelShader;
@@ -47,19 +49,12 @@ namespace Ceng
 	{
 	public:
 
-		CR_PixelShader *shader;
-
-		AlignedBuffer<Ceng::UINT8*> uniformPtr;
-
-		AlignedBuffer<Ceng::UINT8> uniformBuffer;
+		std::shared_ptr<PixelShaderInstanceCommon> common;
 
 		// Output format
 
-		ShaderLinkInstance* link;
-
 		AlignedBuffer<CR_PixelShaderInput> inputRegisters;
 
-		UINT32 quadSizeBytes;
 		POINTER quadTargetStart;
 
 		/**
@@ -82,13 +77,6 @@ namespace Ceng
 		POINTER stepBufferPtr;
 
 		AlignedBuffer<CR_psOutputRegister> outputRegisters;
-
-		UINT32 activeRenderTargets;
-
-		std::shared_ptr<CR_NewTargetData> targetHandles[2+CRENDER_MAX_COLOR_TARGETS];
-
-		std::vector<TextureUnit> textureUnits;
-
 
 		// Semantic links
 
@@ -143,7 +131,7 @@ namespace Ceng
 
 		~PixelShaderInstance();
 
-		PixelShaderInstance(CR_PixelShader *shader);
+		PixelShaderInstance(std::shared_ptr<PixelShaderInstanceCommon>& common);
 
 		//PixelShaderInstance(const PixelShaderInstance &source);
 
@@ -154,10 +142,7 @@ namespace Ceng
 		const CRESULT ConfigureInput(std::vector<CR_PixelShaderSemantic> &inputSemantics);
 
 		const CRESULT ConfigureOutput(std::vector<CR_PixelShaderTarget> &renderTargets);
-
-		const CRESULT ConfigureUniforms(const std::vector<CR_ShaderConstantData> &uniformList,
-										const Ceng::UINT32 bufferSize);
-
+		
 		const CRESULT ConfigureLocals();
 
 		const CRESULT SetFragmentFormat(const std::vector<CR_PixelShaderSemantic> &inputSemantics,

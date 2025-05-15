@@ -34,136 +34,50 @@ PixelShaderInstance::~PixelShaderInstance()
 	*/
 }
 
-PixelShaderInstance::PixelShaderInstance(CR_PixelShader *shader)
-{
-	this->shader = shader;
+PixelShaderInstance::PixelShaderInstance(std::shared_ptr<PixelShaderInstanceCommon>& common)
+{	
+	this->common = common;
 
-	link = nullptr;
-	quadSizeBytes = 0;
 	quadTargetStart = 0;
 
-	perspectiveTemp = AlignedBuffer<Ceng::UINT8>(64,shader->cacheLine);
+	perspectiveTemp = AlignedBuffer<Ceng::UINT8>(64,common->shader->cacheLine);
 
 	coverageAddress = NULL;
 	inputBaseAddress = NULL;
 	stepBufferPtr = NULL;
+	
+	IN_POSITION = &common->shader->nullInput;
+	IN_SCREENPOS = &common->shader->nullInput;
 
-	activeRenderTargets = 0;
+	IN_NORMAL = &common->shader->nullInput;
+	IN_BINORMAL = &common->shader->nullInput;
+	IN_TANGENT = &common->shader->nullInput;
 
-	textureUnits = std::vector<TextureUnit>(CRENDER_MAX_SHADER_TEXTURES);
+	IN_COLOR0 = &common->shader->nullInput;
+	IN_COLOR1 = &common->shader->nullInput;
 
-	Ceng::UINT32 k;
+	IN_TEXCOORD0 = &common->shader->nullInput;
+	IN_TEXCOORD1 = &common->shader->nullInput;
+	IN_TEXCOORD2 = &common->shader->nullInput;
+	IN_TEXCOORD3 = &common->shader->nullInput;
+	IN_TEXCOORD4 = &common->shader->nullInput;
+	IN_TEXCOORD5 = &common->shader->nullInput;
+	IN_TEXCOORD6 = &common->shader->nullInput;
+	IN_TEXCOORD7 = &common->shader->nullInput;
 
-	for(k=0;k<2+CRENDER_MAX_COLOR_TARGETS;k++)
-	{
-		targetHandles[k] = nullptr;
-	}
+	OUT_DEPTH = &common->shader->nullOutput;
+	OUT_STENCIL = &common->shader->nullOutput;
 
-	IN_POSITION = &shader->nullInput;
-	IN_SCREENPOS = &shader->nullInput;
-
-	IN_NORMAL = &shader->nullInput;
-	IN_BINORMAL = &shader->nullInput;
-	IN_TANGENT = &shader->nullInput;
-
-	IN_COLOR0 = &shader->nullInput;
-	IN_COLOR1 = &shader->nullInput;
-
-	IN_TEXCOORD0 = &shader->nullInput;
-	IN_TEXCOORD1 = &shader->nullInput;
-	IN_TEXCOORD2 = &shader->nullInput;
-	IN_TEXCOORD3 = &shader->nullInput;
-	IN_TEXCOORD4 = &shader->nullInput;
-	IN_TEXCOORD5 = &shader->nullInput;
-	IN_TEXCOORD6 = &shader->nullInput;
-	IN_TEXCOORD7 = &shader->nullInput;
-
-	OUT_DEPTH = &shader->nullOutput;
-	OUT_STENCIL = &shader->nullOutput;
-
-	OUT_TARGET0 = &shader->nullOutput;
-	OUT_TARGET1 = &shader->nullOutput;
-	OUT_TARGET2 = &shader->nullOutput;
-	OUT_TARGET3 = &shader->nullOutput;
-	OUT_TARGET4 = &shader->nullOutput;
-	OUT_TARGET5 = &shader->nullOutput;
-	OUT_TARGET6 = &shader->nullOutput;
-	OUT_TARGET7 = &shader->nullOutput;
+	OUT_TARGET0 = &common->shader->nullOutput;
+	OUT_TARGET1 = &common->shader->nullOutput;
+	OUT_TARGET2 = &common->shader->nullOutput;
+	OUT_TARGET3 = &common->shader->nullOutput;
+	OUT_TARGET4 = &common->shader->nullOutput;
+	OUT_TARGET5 = &common->shader->nullOutput;
+	OUT_TARGET6 = &common->shader->nullOutput;
+	OUT_TARGET7 = &common->shader->nullOutput;
 	
 }
-
-/*
-PixelShaderInstance::PixelShaderInstance(const PixelShaderInstance &source)
-{
-	
-	shader = source.shader;
-
-	link = source.link;
-	quadSizeBytes = source.quadSizeBytes;
-	quadTargetStart = source.quadTargetStart;
-
-	perspectiveTemp = AlignedBuffer<Ceng::UINT8>(64,shader->cacheLine);
-
-	coverageAddress = source.coverageAddress;
-	inputBaseAddress = source.inputBaseAddress;
-	stepBufferPtr = source.stepBufferPtr;
-
-	activeRenderTargets = source.activeRenderTargets;
-
-	Ceng::UINT32 k;
-
-	for(k=0;k<2+CRENDER_MAX_COLOR_TARGETS;k++)
-	{
-		targetHandles[k] = source.targetHandles[k];
-	}
-
-	textureUnits = source.textureUnits;
-
-	// Copy uniform buffer
-
-	uniformBuffer = source.uniformBuffer;
-
-	// Write correct addresses to uniformPtr
-
-	uniformPtr = AlignedBuffer<Ceng::UINT8*>(
-		Ceng::UINT32(shader->uniformList.size()),shader->cacheLine);
-	ConfigureUniforms(shader->uniformList,shader->uniformBufferSize);
-
-	ConfigureLocals();
-
-
-	IN_POSITION = source.IN_POSITION;
-	IN_SCREENPOS = source.IN_SCREENPOS;
-
-	IN_NORMAL = source.IN_NORMAL;
-	IN_BINORMAL = source.IN_BINORMAL;
-	IN_TANGENT = source.IN_TANGENT;
-
-	IN_COLOR0 = source.IN_COLOR0;
-	IN_COLOR1 = source.IN_COLOR1;
-
-	IN_TEXCOORD0 = source.IN_TEXCOORD0;
-	IN_TEXCOORD1 = source.IN_TEXCOORD1;
-	IN_TEXCOORD2 = source.IN_TEXCOORD2;
-	IN_TEXCOORD3 = source.IN_TEXCOORD3;
-	IN_TEXCOORD4 = source.IN_TEXCOORD4;
-	IN_TEXCOORD5 = source.IN_TEXCOORD5;
-	IN_TEXCOORD6 = source.IN_TEXCOORD6;
-	IN_TEXCOORD7 = source.IN_TEXCOORD7;
-
-	OUT_DEPTH = source.OUT_DEPTH;
-	OUT_STENCIL = source.OUT_STENCIL;
-
-	OUT_TARGET0 = source.OUT_TARGET0;
-	OUT_TARGET1 = source.OUT_TARGET1;
-	OUT_TARGET2 = source.OUT_TARGET2;
-	OUT_TARGET3 = source.OUT_TARGET3;
-	OUT_TARGET4 = source.OUT_TARGET4;
-	OUT_TARGET5 = source.OUT_TARGET5;
-	OUT_TARGET6 = source.OUT_TARGET6;
-	OUT_TARGET7 = source.OUT_TARGET7;
-}
-*/
 
 const CRESULT PixelShaderInstance::ConfigureInput(std::vector<CR_PixelShaderSemantic> &inputSemantics)
 {
@@ -172,7 +86,7 @@ const CRESULT PixelShaderInstance::ConfigureInput(std::vector<CR_PixelShaderSema
 	if (inputRegisters == nullptr)
 	{
 		inputRegisters = AlignedBuffer<CR_PixelShaderInput>(
-			Ceng::UINT32(inputSemantics.size()),shader->cacheLine);
+			Ceng::UINT32(inputSemantics.size()),common->shader->cacheLine);
 	}
 
 	// Set up references to input variables
@@ -243,7 +157,7 @@ const CRESULT PixelShaderInstance::ConfigureOutput(std::vector<CR_PixelShaderTar
 	if (outputRegisters == nullptr)
 	{
 		outputRegisters = AlignedBuffer<CR_psOutputRegister>(
-			Ceng::UINT32(renderTargets.size()),shader->cacheLine);
+			Ceng::UINT32(renderTargets.size()),common->shader->cacheLine);
 	}
 
 	for(k=0;k<renderTargets.size();k++)
@@ -290,31 +204,6 @@ const CRESULT PixelShaderInstance::ConfigureOutput(std::vector<CR_PixelShaderTar
 	return CE_OK;
 }
 
-const CRESULT PixelShaderInstance::ConfigureUniforms(const std::vector<CR_ShaderConstantData> &uniformList,
-													 const Ceng::UINT32 bufferSize)
-{
-
-	if (uniformBuffer == nullptr)
-	{
-		uniformBuffer = AlignedBuffer<UINT8>(bufferSize,shader->cacheLine);
-	}
-
-	if (uniformPtr == nullptr)
-	{
-		uniformPtr = AlignedBuffer<UINT8*>(
-			Ceng::UINT32(uniformList.size()),shader->cacheLine);
-	}
-
-	Ceng::UINT32 k;
-
-	for(k=0;k<uniformList.size();k++)
-	{
-		uniformPtr[k] = &uniformBuffer[uniformList[k].bufferOffset];
-	}
-
-	return CE_OK;
-}
-
 const CRESULT PixelShaderInstance::ConfigureLocals()
 {
 	Ceng::UINT32 localBufferSize = 0;
@@ -326,7 +215,7 @@ const CRESULT PixelShaderInstance::ConfigureLocals()
 
 	if (localVariables == nullptr)
 	{
-		localVariables = AlignedBuffer<Ceng::UINT8>(localBufferSize,shader->cacheLine);
+		localVariables = AlignedBuffer<Ceng::UINT8>(localBufferSize,common->shader->cacheLine);
 	}
 
 	shaderLocal_temp.dataAddress = &localVariables[0];
@@ -347,35 +236,33 @@ const CRESULT PixelShaderInstance::SetFragmentFormat(const std::vector<CR_PixelS
 	
 	// Allocate space for a quad's varying data
 
-	quadSizeBytes = link->quadSize;
-
 	if (quadBuffer == nullptr)
 	{
-		quadBuffer = AlignedBuffer<UINT8>(quadSizeBytes,shader->cacheLine);
+		quadBuffer = AlignedBuffer<UINT8>(common->link->quadSize,common->shader->cacheLine);
 	}
 
-	quadTargetStart = link->link->quadFormat.targetStart;
+	quadTargetStart = common->link->link->quadFormat.targetStart;
 
 	// Set up input register offsets within the quad format
 
 	for(k=0;k<inputSemantics.size();k++)
 	{
-		for(j=0;j<link->link->quadFormat.variables.size();j++)
+		for(j=0;j<common->link->link->quadFormat.variables.size();j++)
 		{
 			// Link all input registers to the variable
 			// with a matching semantic
 
 			// NOTE: Multiple registers can map to one semantic
 
-			if (inputSemantics[k].semantic == link->link->quadFormat.variables[j].semantic)
+			if (inputSemantics[k].semantic == common->link->link->quadFormat.variables[j].semantic)
 			{
 				inputRegisters[k].inputAddress = (POINTER)((UINT8*)quadBuffer) + 
-													link->link->quadFormat.variables[j].quadOffset;
+													common->link->link->quadFormat.variables[j].quadOffset;
 
 				// TODO: Set staticly
-				inputRegisters[k].inputFormat = link->link->quadFormat.variables[j].format;
+				inputRegisters[k].inputFormat = common->link->link->quadFormat.variables[j].format;
 
-				inputRegisters[k].variableStep = link->link->quadFormat.variables[j].gradientOffset;		
+				inputRegisters[k].variableStep = common->link->link->quadFormat.variables[j].gradientOffset;		
 			}
 		}
 	}
@@ -386,7 +273,7 @@ const CRESULT PixelShaderInstance::SetFragmentFormat(const std::vector<CR_PixelS
 	for(k=0;k<targetSemantics.size();k++)
 	{
 		outputRegisters[k].inputAddress = (POINTER)((UINT8*)quadBuffer) +
-			link->link->quadFormat.targetStart + targetSemantics[k].target*sizeof(POINTER);
+			common->link->link->quadFormat.targetStart + targetSemantics[k].target*sizeof(POINTER);
 	}
 
 	return CE_OK;
@@ -401,13 +288,13 @@ const CRESULT PixelShaderInstance::SetRenderTargets(const std::vector<CR_PixelSh
 		// NOTE: these should be set up at configuration time
 		
 
-		for(j=2;j<activeRenderTargets;j++)
+		for(j=2;j<common->activeRenderTargets;j++)
 		{
-			if (targetSemantics[k].target == targetHandles[j]->shaderSemantic)
+			if (targetSemantics[k].target == common->targetHandles[j]->shaderSemantic)
 			{				
-				outputRegisters[k].bufferFormat = targetHandles[j]->bufferFormat;
+				outputRegisters[k].bufferFormat = common->targetHandles[j]->bufferFormat;
 				
-				if (targetHandles[j]->baseAddress == NULL)
+				if (common->targetHandles[j]->baseAddress == NULL)
 				{
 					outputRegisters[k].bufferFormat = Ceng::IMAGE_FORMAT::UNKNOWN;
 				}
@@ -416,7 +303,7 @@ const CRESULT PixelShaderInstance::SetRenderTargets(const std::vector<CR_PixelSh
 			}
 		}
 
-		if (j == activeRenderTargets)
+		if (j == common->activeRenderTargets)
 		{
 			// No match found
 			outputRegisters[k].bufferFormat = Ceng::IMAGE_FORMAT::UNKNOWN;
@@ -464,9 +351,9 @@ const CRESULT PixelShaderInstance::ProcessQuads(Task_PixelShader *batch, const C
 
 	// ***** Constant setup
 
-	const Ceng::UINT32 *diffuseTexture = (Ceng::UINT32*)uniformPtr[0];
+	const Ceng::UINT32 *diffuseTexture = (Ceng::UINT32*)common->uniformPtr[0];
 
-	diffuseTexUnit = textureUnits[*diffuseTexture];
+	diffuseTexUnit = common->textureUnits[*diffuseTexture];
 
 	UINT32 chainIndex;
 
@@ -476,9 +363,9 @@ const CRESULT PixelShaderInstance::ProcessQuads(Task_PixelShader *batch, const C
 
 	CR_TriangleData *triangle;
 
-	UINT32 quadFloatOffset = Ceng::UINT32(link->link->quadFormat.floatStart);
-	UINT32 quadDoubleOffset = Ceng::UINT32(link->link->quadFormat.doubleStart);
-	UINT32 quadTargetOffset = Ceng::UINT32(link->link->quadFormat.targetStart);
+	UINT32 quadFloatOffset = Ceng::UINT32(common->link->link->quadFormat.floatStart);
+	UINT32 quadDoubleOffset = Ceng::UINT32(common->link->link->quadFormat.doubleStart);
+	UINT32 quadTargetOffset = Ceng::UINT32(common->link->link->quadFormat.targetStart);
 
 	UINT8 *inputBuffer = quadBuffer;
 	UINT8 *localCoverage;
@@ -499,8 +386,8 @@ const CRESULT PixelShaderInstance::ProcessQuads(Task_PixelShader *batch, const C
 		//**********************************
 		// Generate temporary quad
 
-		UINT32 floatBlockSize = link->link->quadFormat.floatBlocks;
-		UINT32 doubleBlockSize = link->link->quadFormat.doubleBlocks;
+		UINT32 floatBlockSize = common->link->link->quadFormat.floatBlocks;
+		UINT32 doubleBlockSize = common->link->link->quadFormat.doubleBlocks;
 		
 		CR_FloatFragment *floatParam = (CR_FloatFragment*)triangle->fragment.floatBlock;
 		CR_DoubleFragment *doubleParam = (CR_DoubleFragment*)triangle->fragment.doubleBlock;
@@ -561,9 +448,9 @@ const CRESULT PixelShaderInstance::ProcessQuads(Task_PixelShader *batch, const C
 
 		POINTER *target = (POINTER*)&quadBuffer[quadTargetOffset];
 
-		for(Ceng::UINT32 i=2;i<activeRenderTargets;i++)
+		for(Ceng::UINT32 i=2;i<common->activeRenderTargets;i++)
 		{
-			target[i] = targetHandles[i]->GetQuadAddress(0,quad->screenX,
+			target[i] = common->targetHandles[i]->GetQuadAddress(0,quad->screenX,
 																quad->screenY);
 		}
 
@@ -702,9 +589,9 @@ const CRESULT PixelShaderInstance::ProcessQuads(Experimental::Task_PixelShader* 
 
 	// ***** Constant setup
 
-	const Ceng::UINT32* diffuseTexture = (Ceng::UINT32*)uniformPtr[0];
+	const Ceng::UINT32* diffuseTexture = (Ceng::UINT32*)common->uniformPtr[0];
 
-	diffuseTexUnit = textureUnits[*diffuseTexture];
+	diffuseTexUnit = common->textureUnits[*diffuseTexture];
 
 	UINT32 chainIndex;
 
@@ -714,9 +601,9 @@ const CRESULT PixelShaderInstance::ProcessQuads(Experimental::Task_PixelShader* 
 
 	CR_TriangleData* triangle;
 
-	UINT32 quadFloatOffset = Ceng::UINT32(link->link->quadFormat.floatStart);
-	UINT32 quadDoubleOffset = Ceng::UINT32(link->link->quadFormat.doubleStart);
-	UINT32 quadTargetOffset = Ceng::UINT32(link->link->quadFormat.targetStart);
+	UINT32 quadFloatOffset = Ceng::UINT32(common->link->link->quadFormat.floatStart);
+	UINT32 quadDoubleOffset = Ceng::UINT32(common->link->link->quadFormat.doubleStart);
+	UINT32 quadTargetOffset = Ceng::UINT32(common->link->link->quadFormat.targetStart);
 
 	UINT8* inputBuffer = quadBuffer;
 	UINT8* localCoverage;
@@ -737,8 +624,8 @@ const CRESULT PixelShaderInstance::ProcessQuads(Experimental::Task_PixelShader* 
 		//**********************************
 		// Generate temporary quad
 
-		UINT32 floatBlockSize = link->link->quadFormat.floatBlocks;
-		UINT32 doubleBlockSize = link->link->quadFormat.doubleBlocks;
+		UINT32 floatBlockSize = common->link->link->quadFormat.floatBlocks;
+		UINT32 doubleBlockSize = common->link->link->quadFormat.doubleBlocks;
 
 		CR_FloatFragment* floatParam = (CR_FloatFragment*)triangle->fragment.floatBlock;
 		CR_DoubleFragment* doubleParam = (CR_DoubleFragment*)triangle->fragment.doubleBlock;
@@ -799,9 +686,9 @@ const CRESULT PixelShaderInstance::ProcessQuads(Experimental::Task_PixelShader* 
 
 		POINTER* target = (POINTER*)&quadBuffer[quadTargetOffset];
 
-		for (Ceng::UINT32 i = 2; i < activeRenderTargets; i++)
+		for (Ceng::UINT32 i = 2; i < common->activeRenderTargets; i++)
 		{
-			target[i] = targetHandles[i]->GetQuadAddress(0, quad->screenX,
+			target[i] = common->targetHandles[i]->GetQuadAddress(0, quad->screenX,
 				quad->screenY);
 		}
 
@@ -934,7 +821,7 @@ void PixelShaderInstance::ShaderFunction(const FLOAT32 *perspective,
 {
 	// ***** Constant setup
 
-	const Ceng::UINT32 *diffuseTexture = (Ceng::UINT32*)uniformPtr[0];
+	//const Ceng::UINT32 *diffuseTexture = (Ceng::UINT32*)uniformPtr[0];
 
 	// NOTE: Read input registers / write outputs only once because of
 	//       automatic pixel stepping

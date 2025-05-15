@@ -34,7 +34,7 @@ CR_PixelShader::CR_PixelShader()
 
 	wrapper.shader = this;
 
-	nextInstance = std::shared_ptr<Ceng::PixelShaderInstance>(new PixelShaderInstance(this));
+	nextInstance = std::make_shared< Ceng::PixelShaderInstanceCommon>(this);
 
 	// Set up a NULL input and output registers 
 	// to guard against exceptions from use
@@ -156,13 +156,13 @@ const CRESULT CR_PixelShader::GetInstances(std::vector<std::shared_ptr<PixelShad
 
 	currentInstance = nextInstance;
 
-	nextInstance = std::shared_ptr<PixelShaderInstance>(new PixelShaderInstance(*currentInstance));
+	nextInstance = std::make_shared<PixelShaderInstanceCommon>(*currentInstance);
 	
 	instances = std::vector<std::shared_ptr<PixelShaderInstance>>(renderThreads);
 
 	for(Ceng::UINT32 k=0;k<instances.size();k++)
 	{
-		instances[k] = std::shared_ptr<PixelShaderInstance>(new PixelShaderInstance(*currentInstance));
+		instances[k] = std::make_shared<PixelShaderInstance>(currentInstance);
 
 		instances[k]->ConfigureInput(inputSemantics);
 
@@ -172,8 +172,7 @@ const CRESULT CR_PixelShader::GetInstances(std::vector<std::shared_ptr<PixelShad
 
 		instances[k]->SetRenderTargets(renderTargets);
 	
-		instances[k]->ConfigureUniforms(uniformList, uniformBufferSize);
-		instances[k]->ConfigureLocals();		
+		instances[k]->ConfigureLocals();
 	}
 
 	return CE_OK;

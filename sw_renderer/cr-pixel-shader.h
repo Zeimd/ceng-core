@@ -40,6 +40,8 @@
 
 #include "texture-unit.h"
 
+#include "PixelShaderInstanceCommon.h"
+
 namespace Ceng
 {
 	class CR_NewTargetData;
@@ -55,8 +57,8 @@ namespace Ceng
 
 		PixelShaderWrapper wrapper;
 
-		std::shared_ptr<PixelShaderInstance> nextInstance;
-		std::shared_ptr<PixelShaderInstance> currentInstance;
+		std::shared_ptr<PixelShaderInstanceCommon> nextInstance;
+		std::shared_ptr<PixelShaderInstanceCommon> currentInstance;
 
 		std::vector<CR_PixelShaderSemantic> inputSemantics;
 
