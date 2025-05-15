@@ -306,6 +306,9 @@
     <ClInclude Include="..\..\sw_renderer\task-rtarget-clear.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\PixelShaderInstanceCommon.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -525,6 +528,9 @@
       <Filter>Source Files\sw_renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\..\sw_renderer\task-rtarget-clear.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\PixelShaderInstanceCommon.cpp">
       <Filter>Source Files\sw_renderer</Filter>
     </ClCompile>
   </ItemGroup>
