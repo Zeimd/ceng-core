@@ -566,6 +566,31 @@ std::shared_ptr<Experimental::RenderTask>  Experimental::Pipeline::GetTask(Ceng:
 	return nullptr;
 }
 
+void Experimental::Pipeline::SingleThreadExecution()
+{
+	while (1)
+	{
+		std::shared_ptr<Experimental::RenderTask> task = GetTask(0);
+
+		++totalGetTaskCycles;
+
+		if (task != nullptr)
+		{
+			task->Execute(0, this);
+			++totalIssuedTasks;
+		}
+		else
+		{
+			++totalEmptyRounds;
+		}
+
+		if (IsEmpty())
+		{
+			return;
+		}
+	};
+}
+
 
 bool Experimental::Pipeline::IsEmpty()
 {

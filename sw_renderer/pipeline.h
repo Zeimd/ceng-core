@@ -195,6 +195,8 @@ namespace Ceng::Experimental
 			const Ceng::UINT32 renderThreads, std::shared_ptr<ConditionVariable>& cmdWake);
 
 		std::shared_ptr<Experimental::RenderTask> GetTask(Ceng::UINT32 threadId);
+
+		void SingleThreadExecution();
 	};
 }
 
