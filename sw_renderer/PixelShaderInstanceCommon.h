@@ -47,8 +47,6 @@ namespace Ceng
 
 		const CRESULT ConfigureUniforms(const std::vector<CR_ShaderConstantData>& uniformList,
 			const Ceng::UINT32 bufferSize);
-
-		const CRESULT LinkUniforms(const std::vector<CR_ShaderConstantData>& uniformList);
 	};
 }
 
