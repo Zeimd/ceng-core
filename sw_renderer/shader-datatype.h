@@ -116,7 +116,7 @@ namespace Ceng
 
 		public:
 
-			SampleTexture2D() : unit(nullptr),uv(nullptr)
+			SampleTexture2D() : unit(nullptr),uv(nullptr), dataAddress(nullptr)
 			{
 			}
 
