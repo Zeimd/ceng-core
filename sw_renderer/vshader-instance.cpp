@@ -34,140 +34,52 @@
 
 using namespace Ceng;
 
-CR_VertexShaderInstance::CR_VertexShaderInstance()
+CR_VertexShaderInstance::CR_VertexShaderInstance(std::shared_ptr<VertexShaderInstanceCommon>& common)
 {
-	vertexFormat = nullptr;
-	fragmentFormat = nullptr;
+	this->common = common;
 
-	fragmentSizeBytes = 0;
-}
+	outputBaseAddress = 0;
 
-CR_VertexShaderInstance::CR_VertexShaderInstance(CR_VertexShader *shader)
-{
-	vertexFormat = nullptr;
-	fragmentFormat = nullptr;
+	IN_POSITION = &common->shader->nullInput;
 
-	fragmentSizeBytes = 0;
+	IN_NORMAL = &common->shader->nullInput;
+	IN_TANGENT = &common->shader->nullInput;
+	IN_BINORMAL = &common->shader->nullInput;
 
-	this->shader = shader;
+	IN_COLOR0 = &common->shader->nullInput;
+	IN_COLOR1 = &common->shader->nullInput;
 
-	IN_POSITION = &shader->nullInput;
+	IN_TEXCOORD0 = &common->shader->nullInput;
+	IN_TEXCOORD1 = &common->shader->nullInput;
+	IN_TEXCOORD2 = &common->shader->nullInput;
+	IN_TEXCOORD3 = &common->shader->nullInput;
+	IN_TEXCOORD4 = &common->shader->nullInput;
+	IN_TEXCOORD5 = &common->shader->nullInput;
+	IN_TEXCOORD6 = &common->shader->nullInput;
+	IN_TEXCOORD7 = &common->shader->nullInput;
 
-	IN_NORMAL = &shader->nullInput;
-	IN_TANGENT = &shader->nullInput;
-	IN_BINORMAL = &shader->nullInput;
+	OUT_POSITION = &common->shader->nullOutput;
 
-	IN_COLOR0 = &shader->nullInput;
-	IN_COLOR1 = &shader->nullInput;
+	OUT_NORMAL = &common->shader->nullOutput;
+	OUT_BINORMAL = &common->shader->nullOutput;
+	OUT_TANGENT = &common->shader->nullOutput;
 
-	IN_TEXCOORD0 = &shader->nullInput;
-	IN_TEXCOORD1 = &shader->nullInput;
-	IN_TEXCOORD2 = &shader->nullInput;
-	IN_TEXCOORD3 = &shader->nullInput;
-	IN_TEXCOORD4 = &shader->nullInput;
-	IN_TEXCOORD5 = &shader->nullInput;
-	IN_TEXCOORD6 = &shader->nullInput;
-	IN_TEXCOORD7 = &shader->nullInput;
+	OUT_COLOR0 = &common->shader->nullOutput;
+	OUT_COLOR1 = &common->shader->nullOutput;
 
-	OUT_POSITION = &shader->nullOutput;
-
-	OUT_NORMAL = &shader->nullOutput;
-	OUT_BINORMAL = &shader->nullOutput;
-	OUT_TANGENT = &shader->nullOutput;
-
-	OUT_COLOR0 = &shader->nullOutput;
-	OUT_COLOR1 = &shader->nullOutput;
-
-	OUT_TEXCOORD0 = &shader->nullOutput;
-	OUT_TEXCOORD1 = &shader->nullOutput;
-	OUT_TEXCOORD2 = &shader->nullOutput;
-	OUT_TEXCOORD3 = &shader->nullOutput;
-	OUT_TEXCOORD4 = &shader->nullOutput;
-	OUT_TEXCOORD5 = &shader->nullOutput;
-	OUT_TEXCOORD6 = &shader->nullOutput;
-	OUT_TEXCOORD7 = &shader->nullOutput;
+	OUT_TEXCOORD0 = &common->shader->nullOutput;
+	OUT_TEXCOORD1 = &common->shader->nullOutput;
+	OUT_TEXCOORD2 = &common->shader->nullOutput;
+	OUT_TEXCOORD3 = &common->shader->nullOutput;
+	OUT_TEXCOORD4 = &common->shader->nullOutput;
+	OUT_TEXCOORD5 = &common->shader->nullOutput;
+	OUT_TEXCOORD6 = &common->shader->nullOutput;
+	OUT_TEXCOORD7 = &common->shader->nullOutput;
 	
 }
 
 CR_VertexShaderInstance::~CR_VertexShaderInstance()
 {
-}
-
-CR_VertexShaderInstance::CR_VertexShaderInstance(const CR_VertexShaderInstance &source)
-{
-	this->shader = source.shader;
-
-	// Uniform data
-
-	uniformPtr = AlignedBuffer<Ceng::UINT8*>(shader->uniformList.size(),shader->cacheLine);
-	uniformBuffer = source.uniformBuffer;
-
-	// Write correct addresses to uniformPtr
-	ConfigureUniforms(shader->uniformList,shader->uniformBufferSize);
-
-	// Input state
-
-	
-
-	vertexFormat = source.vertexFormat;
-
-	// These four are currently reallocated each time instance is created
-	sourceIndex = source.sourceIndex; 
-	inputRegisters = source.inputRegisters;
-	inputBaseAddress = source.inputBaseAddress;
-	inputSteps = source.inputSteps;	
-
-	streamCount = source.streamCount;
-	vertexStreams = source.vertexStreams;
-
-	// Output state
-
-	fragmentFormat = source.fragmentFormat;
-
-	fragmentSizeBytes = source.fragmentSizeBytes;
-
-	// Currently reallocated when instance is created
-	outputRegisters = source.outputRegisters;
-
-	outputBaseAddress = source.outputBaseAddress;
-
-	// Semantic links
-
-	IN_POSITION = source.IN_POSITION;
-
-	IN_NORMAL = source.IN_NORMAL;
-	IN_TANGENT = source.IN_TANGENT;
-	IN_BINORMAL = source.IN_BINORMAL;
-
-	IN_COLOR0 = source.IN_COLOR0;
-	IN_COLOR1 = source.IN_COLOR1;
-
-	IN_TEXCOORD0 = source.IN_TEXCOORD0;
-	IN_TEXCOORD1 = source.IN_TEXCOORD1;
-	IN_TEXCOORD2 = source.IN_TEXCOORD2;
-	IN_TEXCOORD3 = source.IN_TEXCOORD3;
-	IN_TEXCOORD4 = source.IN_TEXCOORD4;
-	IN_TEXCOORD5 = source.IN_TEXCOORD5;
-	IN_TEXCOORD6 = source.IN_TEXCOORD6;
-	IN_TEXCOORD7 = source.IN_TEXCOORD7;
-
-	OUT_POSITION = source.OUT_POSITION;
-
-	OUT_NORMAL = source.OUT_NORMAL;
-	OUT_BINORMAL = source.OUT_BINORMAL;
-	OUT_TANGENT = source.OUT_TANGENT;
-
-	OUT_COLOR0 = source.OUT_COLOR0;
-	OUT_COLOR1 = source.OUT_COLOR1;
-
-	OUT_TEXCOORD0 = source.OUT_TEXCOORD0;
-	OUT_TEXCOORD1 = source.OUT_TEXCOORD0;
-	OUT_TEXCOORD2 = source.OUT_TEXCOORD0;
-	OUT_TEXCOORD3 = source.OUT_TEXCOORD0;
-	OUT_TEXCOORD4 = source.OUT_TEXCOORD0;
-	OUT_TEXCOORD5 = source.OUT_TEXCOORD0;
-	OUT_TEXCOORD6 = source.OUT_TEXCOORD0;
-	OUT_TEXCOORD7 = source.OUT_TEXCOORD0;
 }
 
 const CRESULT CR_VertexShaderInstance::ConfigureInput(const std::vector<CR_vsInputSemantic> &inputSemantics)
@@ -176,13 +88,7 @@ const CRESULT CR_VertexShaderInstance::ConfigureInput(const std::vector<CR_vsInp
 
 	UINT32 k;
 
-	sourceIndex = AlignedBuffer<Ceng::UINT32>(inputSemantics.size(),shader->cacheLine);
-
-	inputRegisters = AlignedBuffer<CR_vsInputRegister>(inputSemantics.size(),shader->cacheLine);
-
-	inputSteps = AlignedBuffer<Ceng::POINTER>(inputSemantics.size(),shader->cacheLine);
-
-	inputBaseAddress = AlignedBuffer<Ceng::POINTER>(inputSemantics.size(),shader->cacheLine);
+	inputRegisters = AlignedBuffer<CR_vsInputRegister>(inputSemantics.size(),common->shader->cacheLine);
 
 	// Set up references to input variables
 	for(k=0;k<inputSemantics.size();k++)
@@ -236,6 +142,13 @@ const CRESULT CR_VertexShaderInstance::ConfigureInput(const std::vector<CR_vsInp
 			break;
 		}
 	}
+
+	for (k = 0; k < inputRegisters.GetElements(); k++)
+	{
+		Ceng::UINT32 source = common->sourceIndex[k];
+
+		inputRegisters[k].sourceFormat = common->vertexFormat->variables[source].dataType;
+	}
 	
 	return CE_OK;
 }
@@ -245,18 +158,18 @@ const CRESULT CR_VertexShaderInstance::SetFragmentFormat()
 	// Set up references to output blocks
 
 	outputRegisters = AlignedBuffer<CR_vsOutputRegister>(
-		fragmentFormat->variables.size(),shader->cacheLine);
+		common->fragmentFormat->variables.size(),common->shader->cacheLine);
 
-	for(size_t k=0;k<fragmentFormat->variables.size();k++)
+	for(size_t k=0;k<common->fragmentFormat->variables.size();k++)
 	{
 		outputRegisters[k].destAddress = &outputBaseAddress;
-		outputRegisters[k].destFormat = fragmentFormat->variables[k].format;
-		outputRegisters[k].destOffset = fragmentFormat->variables[k].offset;
+		outputRegisters[k].destFormat = common->fragmentFormat->variables[k].format;
+		outputRegisters[k].destOffset = common->fragmentFormat->variables[k].offset;
 	}
 
-	for(size_t k=0;k<fragmentFormat->variables.size();k++)
+	for(size_t k=0;k<common->fragmentFormat->variables.size();k++)
 	{
-		switch(fragmentFormat->variables[k].semantic)
+		switch(common->fragmentFormat->variables[k].semantic)
 		{
 		case Ceng::SHADER_SEMANTIC::POSITION:
 			OUT_POSITION = &outputRegisters[k];
@@ -308,85 +221,13 @@ const CRESULT CR_VertexShaderInstance::SetFragmentFormat()
 	return CE_OK;
 }
 
-const CRESULT CR_VertexShaderInstance::SetVertexFormat(const std::vector<CR_vsInputSemantic> &inputSemantics)
-{
-	Ceng::UINT32 k,j;
-
-	for(k=0;k<inputSemantics.size();k++)
-	{
-		sourceIndex[k] = -1;
-
-		for(j=0;j<vertexFormat->variables.size();j++)
-		{		
-			if (inputSemantics[k].semantic == vertexFormat->variables[j].semantic)
-			{
-				sourceIndex[k] = j;
-
-				inputRegisters[k].sourceFormat = vertexFormat->variables[j].dataType;
-				break;
-			}
-		}
-	}
-
-	return CE_OK;
-}
-
-const CRESULT CR_VertexShaderInstance::SetVertexStreams()
-{
-	UINT32 k,j;
-
-	// Update stream base addresses
-	for(k=0;k< inputRegisters.GetElements();k++)
-	{
-		j = sourceIndex[k];
-
-		if (j == -1)
-		{
-			//Log::Print("SetVertexStreams : Error : called before SetVertexFormat");
-			return CE_ERR_FAIL;
-		}
-
-		inputBaseAddress[k] = POINTER(vertexFormat->variables[j].inputOffset) +
-			POINTER(vertexStreams[vertexFormat->variables[j].inputStream].inputPtr);
-
-		inputSteps[k] = vertexStreams[vertexFormat->variables[j].inputStream].elementSize;
-	}
-
-	return CE_OK;
-}
-
-const CRESULT CR_VertexShaderInstance::ConfigureUniforms(const std::vector<CR_ShaderConstantData> &uniformList,
-														 const Ceng::UINT32 bufferSize)
-{
-
-	if (uniformBuffer == nullptr)
-	{
-		uniformBuffer = AlignedBuffer<UINT8>(bufferSize,shader->cacheLine);
-	}
-
-	if (uniformPtr == nullptr)
-	{
-		uniformPtr = AlignedBuffer<UINT8*>(uniformList.size(),shader->cacheLine);
-	}
-
-	Ceng::UINT32 k;
-
-	for(k=0;k<uniformList.size();k++)
-	{
-		uniformPtr[k] = &uniformBuffer[uniformList[k].bufferOffset];
-	}
-
-	return CE_OK;
-}
-
-
 const CRESULT CR_VertexShaderInstance::ProcessVertexBatch(std::shared_ptr<DrawBatch> batch,
 														  LockingStage *outputQueue)
 {	
 //	return CE_OK;
 
 	INT32 inputCount = inputRegisters.GetElements();
-	INT32 outputCount = fragmentFormat->variables.size();
+	INT32 outputCount = common->fragmentFormat->variables.size();
 
 	outputBaseAddress = (POINTER)& (*(batch->fragmentCache))[0];
 
@@ -398,21 +239,13 @@ const CRESULT CR_VertexShaderInstance::ProcessVertexBatch(std::shared_ptr<DrawBa
 
 		for(Ceng::INT32 i=0;i<inputCount;i++)
 		{
-			inputRegisters[i].sourceAddress = inputBaseAddress[i]
-				+ index*inputSteps[i];
+			inputRegisters[i].sourceAddress = common->inputBaseAddress[i]
+				+ index*common->inputSteps[i];
 		}
 
 		ShaderFunction();
-
-		// Step register addresses
-
-		/*
-		for(i=0;i<inputCount;i++)
-		{
-			inputRegisters[i].sourceAddress += inputSteps[i];
-		}
-		*/
-		outputBaseAddress += fragmentSizeBytes;
+	
+		outputBaseAddress += common->fragmentSizeBytes;
 	}
 
 	auto out_batch = std::shared_ptr<ClipperBatch>(new ClipperBatch(batch));
@@ -431,7 +264,7 @@ const CRESULT CR_VertexShaderInstance::ProcessVertexBatch(std::shared_ptr<DrawBa
 	//	return CE_OK;
 
 	INT32 inputCount = inputRegisters.GetElements();
-	INT32 outputCount = fragmentFormat->variables.size();
+	INT32 outputCount = common->fragmentFormat->variables.size();
 
 	outputBaseAddress = (POINTER) & (*(batch->fragmentCache))[0];
 
@@ -443,21 +276,13 @@ const CRESULT CR_VertexShaderInstance::ProcessVertexBatch(std::shared_ptr<DrawBa
 
 		for (Ceng::INT32 i = 0; i < inputCount; i++)
 		{
-			inputRegisters[i].sourceAddress = inputBaseAddress[i]
-				+ index * inputSteps[i];
+			inputRegisters[i].sourceAddress = common->inputBaseAddress[i]
+				+ index * common->inputSteps[i];
 		}
 
 		ShaderFunction();
 
-		// Step register addresses
-
-		/*
-		for(i=0;i<inputCount;i++)
-		{
-			inputRegisters[i].sourceAddress += inputSteps[i];
-		}
-		*/
-		outputBaseAddress += fragmentSizeBytes;
+		outputBaseAddress += common->fragmentSizeBytes;
 	}
 
 	auto out_batch = std::make_shared<ClipperBatch>(batch);
@@ -472,7 +297,7 @@ void CR_VertexShaderInstance::ShaderFunction()
 
 	// ***** Constant setup
 
-	const Matrix4 *transform = (Matrix4*)uniformPtr[0];
+	const Matrix4 *transform = (Matrix4*)common->uniformPtr[0];
 
 	// ***** Local variables
 

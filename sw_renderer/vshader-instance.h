@@ -21,6 +21,8 @@
 #include "SimpleStage.h"
 #include "task-clipper.h"
 
+#include "VertexShaderInstanceCommon.h"
+
 namespace Ceng
 {
 	class DrawBatch;
@@ -41,61 +43,23 @@ namespace Ceng
 	{
 	public:
 
-		CR_VertexShader *shader;
-
-		AlignedBuffer<Ceng::UINT8*> uniformPtr;
-
-		AlignedBuffer<Ceng::UINT8> uniformBuffer;
+		std::shared_ptr<VertexShaderInstanceCommon> common;
 
 		//************************************
 		// Input state
 
-		/**
-		 * Pointer to vertex declaration.
-		 */
-		CR_VertexFormat *vertexFormat;
-
-		/**
-		 * Which vertex format variable each inputRegister corresponds to.
-		 */
-		AlignedBuffer<Ceng::UINT32> sourceIndex;
 
 		/**
 		 * Semantic links to vertex buffer data. Used
 		 * in ShaderFunction().
 		 */
 		AlignedBuffer<CR_vsInputRegister> inputRegisters;
-
-		/**
-		 * Correct stride (stream specific) for each
-		 * input register.
-		 */
-		AlignedBuffer<POINTER> inputSteps;
-
-		/**
-		 * Stream specific base address for each
-		 * input register.
-		 */
-		AlignedBuffer<POINTER> inputBaseAddress;
-
-		Ceng::UINT32 streamCount;
-
-		VertexStreamData *vertexStreams;
+		
+	
 
 		//************************************
 		// Output state
-
-		/**
-		 * List of output semantics written by vertex shader AND consumed
-		 * by pixel shader.
-		 */
-		CR_FragmentFormat *fragmentFormat;
-
-		/**
-		 * Fragment buffer address step per vertex.
-		 */
-		Ceng::UINT32 fragmentSizeBytes;
-
+				
 		/**
 		 * Semantic links to fragment output buffer.
 		 * Used in ShaderFunction().
@@ -148,24 +112,17 @@ namespace Ceng
 
 	public:
 
-		CR_VertexShaderInstance();
+		CR_VertexShaderInstance() = delete;
 
-		CR_VertexShaderInstance(CR_VertexShader *shader);
+		CR_VertexShaderInstance(std::shared_ptr<VertexShaderInstanceCommon>& common);
 
-		CR_VertexShaderInstance(const CR_VertexShaderInstance &source);
+		//CR_VertexShaderInstance(const CR_VertexShaderInstance &source);
 
 		virtual ~CR_VertexShaderInstance();
 
 		const CRESULT ConfigureInput(const std::vector<CR_vsInputSemantic> &inputSemantics);
 		
 		const CRESULT SetFragmentFormat();
-
-		const CRESULT SetVertexFormat(const std::vector<CR_vsInputSemantic> &inputSemantics);
-
-		const CRESULT SetVertexStreams();
-
-		const CRESULT ConfigureUniforms(const std::vector<CR_ShaderConstantData> &uniformList,
-										const Ceng::UINT32 bufferSize);
 
 		virtual const CRESULT ProcessVertexBatch(std::shared_ptr<DrawBatch> batch,
 												LockingStage *outputQueue);

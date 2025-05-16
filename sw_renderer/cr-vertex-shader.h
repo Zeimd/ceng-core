@@ -37,6 +37,8 @@
 
 #include "vshader-wrapper.h"
 
+#include "VertexShaderInstanceCommon.h"
+
 namespace Ceng
 {
 	//****************************************************************************
@@ -88,8 +90,8 @@ namespace Ceng
 		 */
 		std::vector<CR_vsOutputSemantic> linkedOutput;
 
-		std::shared_ptr<CR_VertexShaderInstance> nextInstance;
-		std::shared_ptr<CR_VertexShaderInstance> currentInstance;
+		std::shared_ptr<VertexShaderInstanceCommon> nextInstance;
+		std::shared_ptr<VertexShaderInstanceCommon> currentInstance;
 
 		/**
 		 * Flags for input semantics the shader uses.
