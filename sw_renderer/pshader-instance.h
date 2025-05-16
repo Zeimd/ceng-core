@@ -127,17 +127,27 @@ namespace Ceng
 
 		TextureUnit diffuseTexUnit;
 
-	public:
+
+	public:		
+
+		
 
 		~PixelShaderInstance();
 
-		PixelShaderInstance(std::shared_ptr<PixelShaderInstanceCommon>& common);
-
-		//PixelShaderInstance(const PixelShaderInstance &source);
+		static CRESULT GetInstance(std::shared_ptr<PixelShaderInstanceCommon>& common, std::shared_ptr<PixelShaderInstance>& out);
 
 		const CRESULT ProcessQuads(Task_PixelShader *batch,const Ceng::INT32 threadId);
 
 		const CRESULT ProcessQuads(Experimental::Task_PixelShader* batch, const Ceng::INT32 threadId);
+
+		void ShaderFunction(const FLOAT32* perspective, const FLOAT32* invertW,
+			const Ceng::INT32 coverage, const Ceng::INT32 threadId);
+
+	private:
+
+		PixelShaderInstance() = delete;
+
+		PixelShaderInstance(std::shared_ptr<PixelShaderInstanceCommon>& common);
 
 		const CRESULT ConfigureInput(std::vector<CR_PixelShaderSemantic> &inputSemantics);
 
@@ -148,12 +158,8 @@ namespace Ceng
 		const CRESULT SetFragmentFormat(const std::vector<CR_PixelShaderSemantic> &inputSemantics,
 										const std::vector<CR_PixelShaderTarget> &targetSemantics);
 
-		const CRESULT SetRenderTargets(const std::vector<CR_PixelShaderTarget> &targetSemantics);
-
-
+		const CRESULT SetRenderTargets(const std::vector<CR_PixelShaderTarget> &targetSemantics);			
 		
-		void ShaderFunction(const FLOAT32 *perspective,const FLOAT32 *invertW,
-			const Ceng::INT32 coverage, const Ceng::INT32 threadId);
 	};
 }
 

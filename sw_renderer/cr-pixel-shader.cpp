@@ -159,20 +159,15 @@ const CRESULT CR_PixelShader::GetInstances(std::vector<std::shared_ptr<PixelShad
 	nextInstance = std::make_shared<PixelShaderInstanceCommon>(*currentInstance);
 	
 	instances = std::vector<std::shared_ptr<PixelShaderInstance>>(renderThreads);
-
-	for(Ceng::UINT32 k=0;k<instances.size();k++)
-	{
-		instances[k] = std::make_shared<PixelShaderInstance>(currentInstance);
-
-		instances[k]->ConfigureInput(inputSemantics);
-
-		instances[k]->ConfigureOutput(renderTargets);
-
-		instances[k]->SetFragmentFormat(inputSemantics,renderTargets);
-
-		instances[k]->SetRenderTargets(renderTargets);
 	
-		instances[k]->ConfigureLocals();
+	for(Ceng::UINT32 k=0;k<instances.size();k++)	
+	{
+		CRESULT cresult = PixelShaderInstance::GetInstance(currentInstance, instances[k]);
+		
+		if (cresult != CE_OK)
+		{
+			return cresult;
+		}
 	}
 
 	return CE_OK;

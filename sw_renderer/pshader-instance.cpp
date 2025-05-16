@@ -26,12 +26,55 @@ using namespace Ceng;
 
 PixelShaderInstance::~PixelShaderInstance()
 {
-	/*
-	if (perspective != nullptr)
+	
+}
+
+CRESULT PixelShaderInstance::GetInstance(std::shared_ptr<PixelShaderInstanceCommon>& common, std::shared_ptr<PixelShaderInstance>& out)
+{
+	out = nullptr;
+
+	PixelShaderInstance* temp = new PixelShaderInstance(common);
+
+	CRESULT cresult;
+
+	cresult = temp->ConfigureInput(common->shader->inputSemantics);
+
+	if (cresult != CE_OK)
 	{
-		AlignedFree(perspective);
+		return cresult;
 	}
-	*/
+
+	cresult = temp->ConfigureOutput(common->shader->renderTargets);
+
+	if (cresult != CE_OK)
+	{
+		return cresult;
+	}
+
+	cresult = temp->SetFragmentFormat(common->shader->inputSemantics, common->shader->renderTargets);
+
+	if (cresult != CE_OK)
+	{
+		return cresult;
+	}
+
+	cresult = temp->SetRenderTargets(common->shader->renderTargets);
+
+	if (cresult != CE_OK)
+	{
+		return cresult;
+	}
+
+	cresult = temp->ConfigureLocals();
+
+	if (cresult != CE_OK)
+	{
+		return cresult;
+	}
+
+	out = std::shared_ptr<PixelShaderInstance>(temp);
+
+	return CE_OK;
 }
 
 PixelShaderInstance::PixelShaderInstance(std::shared_ptr<PixelShaderInstanceCommon>& common)
@@ -83,11 +126,8 @@ const CRESULT PixelShaderInstance::ConfigureInput(std::vector<CR_PixelShaderSema
 {
 	UINT32 k;
 
-	if (inputRegisters == nullptr)
-	{
-		inputRegisters = AlignedBuffer<CR_PixelShaderInput>(
+	inputRegisters = AlignedBuffer<CR_PixelShaderInput>(
 			Ceng::UINT32(inputSemantics.size()),common->shader->cacheLine);
-	}
 
 	// Set up references to input variables
 	for(k=0;k<inputSemantics.size();k++)
@@ -154,11 +194,8 @@ const CRESULT PixelShaderInstance::ConfigureOutput(std::vector<CR_PixelShaderTar
 {
 	UINT32 k;
 
-	if (outputRegisters == nullptr)
-	{
-		outputRegisters = AlignedBuffer<CR_psOutputRegister>(
+	outputRegisters = AlignedBuffer<CR_psOutputRegister>(
 			Ceng::UINT32(renderTargets.size()),common->shader->cacheLine);
-	}
 
 	for(k=0;k<renderTargets.size();k++)
 	{
@@ -213,10 +250,7 @@ const CRESULT PixelShaderInstance::ConfigureLocals()
 	localBufferSize += 8 * 4; // shaderLocal_uvDiffuse
 	localBufferSize += 4 * 4; // shaderLocal_colorScale
 
-	if (localVariables == nullptr)
-	{
-		localVariables = AlignedBuffer<Ceng::UINT8>(localBufferSize,common->shader->cacheLine);
-	}
+	localVariables = AlignedBuffer<Ceng::UINT8>(localBufferSize,common->shader->cacheLine);
 
 	shaderLocal_temp.dataAddress = &localVariables[0];
 	sample2d.dataAddress = &localVariables[16 * 4];
