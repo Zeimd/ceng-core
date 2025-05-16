@@ -117,6 +117,8 @@ namespace Ceng
 	 */
 	const UINT32 CR_SHADER_DATA_TYPE_SIZE[] =
 	{
+		0 ,  // UNKNOWN
+
 		4 , // FLOAT
 		8 , // FLOAT2
 		12 , // FLOAT3
