@@ -45,37 +45,6 @@ Pixel shader
 
         * Special Shader::If(...) with lambda?
 
-- Implement Shader::Float3. It is needed for most vector math.
-
-- Change Shader::Float\<N\> to use unions for clarity:
-
-    union SoaField
-    {
-        float values[4];
-        \__m128 vec;
-    }
-
-    struct Float4Data
-    {
-        SoaField x;
-        SoaField y;
-        SoaField z;
-        SoaField w;
-    }
-
-    class Float4
-    {
-        Float4Data* values;
-    };
-
-- Implement Shader::int\<N\>, Shader::uint\<N\>, Shader::bool\<N\>
-
-- Conversions between shader types
-
-- Vector helper functions dot, cross, norm, invNorm
-
-- Trigonometric functions
-
 - How to implement swizzles?
 
         * The vertical layout (SOA) for four pixels makes swizzles kind of trivial since one vector has x-components, second has y, etc. so swizzle turns into array indexing.

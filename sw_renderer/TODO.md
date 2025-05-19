@@ -37,9 +37,50 @@ Depth-stencil test
 ------------------------------------------------------------------
 Pipeline
 
-- [ ] BUG: crashes if issuing more than 25 rectangle draw calls per frame
+- [X] BUG: crashes if issuing more than 25 rectangle draw calls per frame
+
+            REASON: Render state instantiation of fragment format wasn't thread safe
 
 - [ ] Use render target specific bucket amounts to prevent scanning unused buckets if maximum allocation is higher
+
+-------------------------------------------------------------------
+Pixel shader
+
+- [ ] Implement Shader::Float3. It is needed for most vector math.
+
+- [ ] Change Shader::Float\<N\> to use unions for clarity:
+
+    union SoaField
+    {
+        float values[4];
+        \__m128 vec;
+    }
+
+    struct Float4Data
+    {
+        SoaField x;
+        SoaField y;
+        SoaField z;
+        SoaField w;
+    }
+
+    class Float4
+    {
+        Float4Data* values;
+    };
+
+- [ ] Implement Shader::int\<N\>, Shader::uint\<N\>, Shader::bool\<N\>
+
+- [ ] Conversions between shader types
+
+- [ ] Vector helper functions such as dot, cross, norm, invNorm
+
+- [ ] Trigonometric functions
+
+- [ ] Exponential and logarithm
+
+- [ ] Implement Shader::mat\<N\>
+
 
 
 
