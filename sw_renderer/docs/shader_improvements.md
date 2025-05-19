@@ -34,7 +34,7 @@ Pixel shader
 
 - Explicitly typed input registers? 
 
-        * Convert to format expected by pixel shader already at the end of previous shader stage. This reduces conversion costs significantly as they
+        * Convert to format expected by pixel shader already at the end of previous shader stage (or interstage). This reduces conversion costs significantly as they
           would be done once instead of per pixel.
 
         * Metadata for initializing explicit registers in a loop
@@ -43,21 +43,52 @@ Pixel shader
 
         * Comparisons produce Shader::Boolean 
 
-        * Special Shader::if(...) with lambda?
+        * Special Shader::If(...) with lambda?
 
-- Implement Shader::Float3
+- Implement Shader::Float3. It is needed for most vector math.
 
-- Vector helper functions dot, cross, norm
+- Change Shader::Float\<N\> to use unions for clarity:
+
+    union SoaField
+    {
+        float values[4];
+        \__m128 vec;
+    }
+
+    struct Float4Data
+    {
+        SoaField x;
+        SoaField y;
+        SoaField z;
+        SoaField w;
+    }
+
+    class Float4
+    {
+        Float4Data* values;
+    };
+
+- Implement Shader::int\<N\>, Shader::uint\<N\>, Shader::bool\<N\>
+
+- Conversions between shader types
+
+- Vector helper functions dot, cross, norm, invNorm
+
+- Trigonometric functions
 
 - How to implement swizzles?
 
-        * Separate helper functions in the style of Swizzle.xyzw(input)?
+        * The vertical layout (SOA) for four pixels makes swizzles kind of trivial since one vector has x-components, second has y, etc. so swizzle turns into array indexing.
+
+        * Separate helper functions in the style of Swizzle(input,Swizzle::xyzw)?
+
+                NOTE: Use lazy evaluation so that the swizzle isn't done until assigned to something else, or as function parameter.
 
         * Special members for input and local variables that perform the swizzle?
 
                 NOTE: Costly since the members need correct this pointer to use in their conversion functions, and there are a lot of different
                       swizzles
 
-
+- Texture samplers output texture's native format by default. This type can then be promoted if operations are performed on it.
 
 
