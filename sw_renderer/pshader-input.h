@@ -114,6 +114,11 @@ namespace Ceng
 			_mm_store_ps(&destPtr[4], *finalB_float);
 		}
 
+		inline void MoveToFloat3(void* dest) const
+		{
+			(*call_to_float3[inputFormat])(dest, (void*)inputAddress, perspective, StepAddress());
+		}
+
 		inline void MoveToFloat4(void *dest) const
 		{
 			//(*call_to_float4[inputFormat])(dest,(void*)inputAddress,perspective,StepAddress());
@@ -177,6 +182,7 @@ namespace Ceng
 	public:
 
 		static void (*call_to_float4[32])(void*,void*,void*,void*);
+		static void (*call_to_float3[32])(void*, void*, void*, void*);
 		static void(*call_to_float2[32])(void*, void*, void*, void*);
 		static void (*call_to_float[32])(void*,void*,void*,void*);
 	};

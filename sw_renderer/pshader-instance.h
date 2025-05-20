@@ -114,15 +114,6 @@ namespace Ceng
 		CR_psOutputRegister *OUT_DEPTH;
 		CR_psOutputRegister *OUT_STENCIL;
 
-		// Local variables
-
-		AlignedBuffer<Ceng::UINT8> localVariables;
-
-		Shader::Float4 shaderLocal_temp;
-		Shader::Float2 shaderLocal_uvDiffuse;
-
-		Shader::Float shaderLocal_colorScale;
-
 		Shader::SampleTexture2D sample2d;
 
 		TextureUnit diffuseTexUnit;

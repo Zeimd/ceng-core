@@ -243,6 +243,7 @@ const CRESULT PixelShaderInstance::ConfigureOutput(std::vector<CR_PixelShaderTar
 
 const CRESULT PixelShaderInstance::ConfigureLocals()
 {
+	/*
 	Ceng::UINT32 localBufferSize = 0;
 	
 	localBufferSize += 16 * 4; // shaderLocal_temp
@@ -258,6 +259,7 @@ const CRESULT PixelShaderInstance::ConfigureLocals()
 	shaderLocal_colorScale.dataAddress = &localVariables[16 * 4 + 16 * 4 + 8 * 4];
 
 	//sample2d.textureUnits = &textureUnits;
+	*/
 
 	return CE_OK;
 }
@@ -860,9 +862,16 @@ void PixelShaderInstance::ShaderFunction(const FLOAT32 *perspective,
 	// NOTE: Read input registers / write outputs only once because of
 	//       automatic pixel stepping
 
+	Shader::Float2 uvDiffuse = *IN_TEXCOORD0;
+
 	//shaderLocal_temp = *IN_COLOR0;
 
-	shaderLocal_uvDiffuse = *IN_TEXCOORD0;
+	Shader::Float4 shaderLocal_temp;
+	Shader::Float shaderLocal_colorScale;
+
+
+
+	//shaderLocal_uvDiffuse = *IN_TEXCOORD0;
 
 	//shaderLocal_colorScale = *IN_TEXCOORD1;
 

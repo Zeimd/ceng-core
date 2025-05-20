@@ -75,7 +75,7 @@ namespace Ceng
 		{
 			POINTER *localWrite = (POINTER*)(inputAddress);
 
-			(*call_from_Float[bufferFormat])((void*)(*localWrite),(void*)source.dataAddress,
+			(*call_from_Float[bufferFormat])((void*)(*localWrite),(void*)&source.x,
 												(void*)(*coverageAddress));
 
 			*localWrite += 16;
@@ -98,7 +98,7 @@ namespace Ceng
 
 			__m128 colorScaleVec = _mm_load1_ps(&colorScaleScalar);
 
-			float *sourcePtr = (float*)source.dataAddress;
+			float *sourcePtr = (float*)&source.x;
 
 			__m128 blueChannel = _mm_load_ps(&sourcePtr[0]);
 			__m128 greenChannel = _mm_load_ps(&sourcePtr[4]);

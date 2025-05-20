@@ -285,12 +285,6 @@ namespace Ceng
 				
 			}
 
-			inline Bool(Ceng::BOOL a, Ceng::BOOL b, Ceng::BOOL c, Ceng::BOOL d)
-				: x(a, b, c, d)
-			{
-
-			}
-
 			inline Bool(bool a)
 				: x(a)
 			{
@@ -417,6 +411,7 @@ namespace Ceng
 			return { left.x != right.x, left.y != right.y, left.z != right.z, left.w != right.w };
 		}
 
+
 		class Float2;
 		class Float3;
 		class Float4;
@@ -458,24 +453,11 @@ namespace Ceng
 				return *this;
 			}
 
-			inline Float& operator= (const Float2& other)
-			{
-				x = other.x;
-				return *this;
-			}
+			Float& operator= (const Float2& other);
 
-			inline Float& operator= (const Float3& other)
-			{
-				x = other.x;
-				return *this;
-			}
+			Float& operator= (const Float3& other);
 
-			inline Float& operator= (const Float4& other)
-			{
-				x = other.x;
-				return *this;
-			}
-
+			Float& operator= (const Float4& other);
 
 			inline Float& operator = (const CR_PixelShaderInput& source)
 			{
@@ -604,21 +586,9 @@ namespace Ceng
 				return *this;
 			}
 
-			inline Float2& operator= (const Float3& other)
-			{
-				x = other.x;
-				y = other.y;
+			Float2& operator= (const Float3& other);
 
-				return *this;
-			}
-
-			inline Float2& operator= (const Float4& other)
-			{
-				x = other.x;
-				y = other.y;
-
-				return *this;
-			}
+			Float2& operator= (const Float4& other);
 
 
 			inline Float2& operator = (const CR_PixelShaderInput& source)
@@ -763,15 +733,7 @@ namespace Ceng
 				return *this;
 			}
 
-			inline Float3& operator= (const Float4& other)
-			{
-				x = other.x;
-				y = other.y;
-				z = other.z;
-
-				return *this;
-			}
-
+			Float3& operator= (const Float4& other);
 
 			inline Float3& operator = (const CR_PixelShaderInput& source)
 			{
@@ -981,11 +943,7 @@ namespace Ceng
 				return *this;
 			}
 
-			inline Float4& operator = (const SampleTexture2D& source)
-			{
-				(*call_mov_float4)((void*)&x, (void*)source.dataAddress);
-				return *this;
-			}
+			Float4& operator = (const SampleTexture2D& source);
 
 
 			/*
@@ -1047,6 +1005,67 @@ namespace Ceng
 
 			void SampleToFloat4(void *destBuffer) const;
 		};
+
+		//**********************************************************
+		// Shader::Float methods
+
+		inline Float& Float::operator= (const Float2& other)
+		{
+			x = other.x;
+			return *this;
+		}
+
+		inline Float& Float::operator= (const Float3& other)
+		{
+			x = other.x;
+			return *this;
+		}
+
+		inline Float& Float::operator= (const Float4& other)
+		{
+			x = other.x;
+			return *this;
+		}
+
+		//**********************************************************
+		// Shader::Float2 methods
+
+		inline Float2& Float2::operator= (const Float3& other)
+		{
+			x = other.x;
+			y = other.y;
+
+			return *this;
+		}
+
+		inline Float2& Float2::operator= (const Float4& other)
+		{
+			x = other.x;
+			y = other.y;
+
+			return *this;
+		}
+
+		//**********************************************************
+		// Shader::Float3 methods
+
+		inline Float3& Float3::operator= (const Float4& other)
+		{
+			x = other.x;
+			y = other.y;
+			z = other.z;
+
+			return *this;
+		}
+
+		//**********************************************************
+		// Shader::Float4 methods		
+
+		inline Float4& Float4::operator = (const SampleTexture2D& source)
+		{
+			(*call_mov_float4)((void*)&x, (void*)source.dataAddress);
+			return *this;
+		}
 
 		//**********************************************************
 		// SampleTexture2D methods
