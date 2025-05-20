@@ -160,7 +160,7 @@ namespace Ceng
 			}
 
 			inline SOAVecFloat(Ceng::FLOAT32 a)
-				: a(0.0f),b(0.0f),c(0.0f),d(0.0f)
+				: a(a),b(a),c(a),d(a)
 			{
 
 			}
