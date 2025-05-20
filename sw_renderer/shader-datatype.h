@@ -314,12 +314,107 @@ namespace Ceng
 
 		inline Bool operator == (const Bool& left, const Bool& right)
 		{
-			return left == right;
+			return left.x == right.x;
 		}
 
 		inline Bool operator != (const Bool& left, const Bool& right)
 		{
-			return left != right;
+			return left.x != right.x;
+		}
+
+		class alignas(16) Bool2
+		{
+		public:
+			SOAVecBool x;
+			SOAVecBool y;
+
+			inline Bool2()
+			{
+
+			}
+
+			inline Bool2(const SOAVecBool& x, const SOAVecBool& y)
+				: x(x), y(y)
+			{
+
+			}
+
+			inline Bool2(bool a, bool b)
+				: x(a), y(b)
+			{
+
+			}
+		};
+
+		inline Bool2 operator == (const Bool2& left, const Bool2& right)
+		{
+			return { left.x == right.x, left.y == right.y };
+		}
+
+		inline Bool2 operator != (const Bool2& left, const Bool2& right)
+		{
+			return { left.x != right.x, left.y != right.y };
+		}
+
+		class alignas(16) Bool3
+		{
+		public:
+			SOAVecBool x;
+			SOAVecBool y;
+			SOAVecBool z;
+
+			inline Bool3()
+			{
+
+			}
+
+			inline Bool3(const SOAVecBool& x, const SOAVecBool& y, const SOAVecBool& z)
+				: x(x), y(y), z(z)
+			{
+
+			}
+
+			inline Bool3(bool a, bool b, bool c)
+				: x(a), y(b), z(c)
+			{
+
+			}
+		};
+
+		class alignas(16) Bool4
+		{
+		public:
+			SOAVecBool x;
+			SOAVecBool y;
+			SOAVecBool z;
+			SOAVecBool w;
+
+			inline Bool4()
+			{
+
+			}
+
+			inline Bool4(const SOAVecBool& x, const SOAVecBool& y, const SOAVecBool& z, const SOAVecBool& w)
+				: x(x), y(y), z(z), w(w)
+			{
+
+			}
+
+			inline Bool4(bool a, bool b, bool c, bool d)
+				: x(a), y(b), z(c), w(d)
+			{
+
+			}
+		};
+
+		inline Bool4 operator == (const Bool4& left, const Bool4& right)
+		{
+			return { left.x == right.x, left.y == right.y, left.z == right.z, left.w == right.w };
+		}
+
+		inline Bool4 operator != (const Bool4& left, const Bool4& right)
+		{
+			return { left.x != right.x, left.y != right.y, left.z != right.z, left.w != right.w };
 		}
 
 		class Float2;
@@ -351,10 +446,10 @@ namespace Ceng
 				
 			}
 
-			inline Float(Ceng::FLOAT32 a, Ceng::FLOAT32 b, Ceng::FLOAT32 c, Ceng::FLOAT32 d)
-				: x(a,b,c,d)
+			inline Float(Ceng::FLOAT32 a)
+				: x(a)
 			{
-			
+
 			}
 
 			inline Float& operator= (const Float& other)
@@ -487,8 +582,8 @@ namespace Ceng
 
 			}
 
-			inline Float2(Ceng::FLOAT32 a, Ceng::FLOAT32 b, Ceng::FLOAT32 c, Ceng::FLOAT32 d)
-				: x(a, b, c, d)
+			inline Float2(Ceng::FLOAT32 x, Ceng::FLOAT32 y)
+				: x(x), y(y)
 			{
 
 			}
@@ -623,7 +718,154 @@ namespace Ceng
 			SOAVecFloat z;
 
 		public:
+
+			inline Float3()
+			{
+
+			}
+
+			inline Float3(const SOAVecFloat& x, const SOAVecFloat& y, const SOAVecFloat& z)
+				: x(x), y(y), z(z)
+			{
+
+			}
+
+			inline Float3(Ceng::FLOAT32 x, Ceng::FLOAT32 y, Ceng::FLOAT32 z)
+				: x(x), y(y), z(z)
+			{
+
+			}
+
+			inline Float3& operator= (const Float& other)
+			{
+				x = other.x;
+				y = 0.0f;
+				z = 0.0f;
+
+				return *this;
+			}
+
+			inline Float3& operator= (const Float2& other)
+			{
+				x = other.x;
+				y = other.y;
+				z = 0.0f;
+
+				return *this;
+			}
+
+			inline Float3& operator= (const Float3& other)
+			{
+				x = other.x;
+				y = other.y;
+				z = other.z;
+
+				return *this;
+			}
+
+			inline Float3& operator= (const Float4& other)
+			{
+				x = other.x;
+				y = other.y;
+				z = other.z;
+
+				return *this;
+			}
+
+
+			inline Float3& operator = (const CR_PixelShaderInput& source)
+			{
+				source.MoveToFloat3(&x);
+				return *this;
+			}
+
+			inline Float3& operator += (const Float3& other)
+			{
+				x += other.x;
+				y += other.y;
+				z += other.z;
+
+				return *this;
+			}
+
+			inline Float3& operator -= (const Float3& other)
+			{
+				x -= other.x;
+				y -= other.y;
+				z -= other.z;
+
+				return *this;
+			}
+
+			inline Float3& operator *= (const Float3& other)
+			{
+				x *= other.x;
+				y *= other.y;
+				z *= other.z;
+
+				return *this;
+			}
+
+			inline Float3& operator /= (const Float3& other)
+			{
+				x /= other.x;
+				y /= other.y;
+				z /= other.z;
+
+				return *this;
+			}
+		};
+
+		inline Float3 operator + (const Float3& a, const Float3& b)
+		{
+			return { a.x + b.x, a.y + b.y, a.z + b.z };
 		}
+
+		inline Float3 operator - (const Float3& a, const Float3& b)
+		{
+			return { a.x - b.x, a.y - b.y, a.z - b.z };
+		}
+
+		inline Float3 operator * (const Float3& a, const Float3& b)
+		{
+			return  { a.x * b.x, a.y * b.y, a.z * b.z };
+		}
+
+		inline Float3 operator / (const Float3& a, const Float3& b)
+		{
+			return  { a.x / b.x, a.y / b.y, a.z / b.z };
+		}
+
+		inline Bool3 operator == (const Float3& a, const Float3& b)
+		{
+			return  { a.x == b.x, a.y == b.y, a.z == b.z };
+		}
+
+		inline Bool3 operator != (const Float3& a, const Float3& b)
+		{
+			return { a.x != b.x, a.y != b.y, a.z != b.z };
+		}
+
+		inline Bool3 operator < (const Float3& a, const Float3& b)
+		{
+			return { a.x < b.x, a.y < b.y, a.z < b.z };
+		}
+
+		inline Bool3 operator > (const Float3& a, const Float3& b)
+		{
+			return { a.x > b.x, a.y > b.y, a.z > b.z };
+		}
+
+		inline Bool3 operator <= (const Float3& a, const Float3& b)
+		{
+			return { a.x <= b.x, a.y <= b.y, a.z <= b.z };
+		}
+
+		inline Bool3 operator >= (const Float3& a, const Float3& b)
+		{
+			return { a.x >= b.x, a.y >= b.y, a.z >= b.z };
+		}
+
 
 
 		class alignas(16) Float4
@@ -635,31 +877,141 @@ namespace Ceng
 			SOAVecFloat w;
 
 		public:
-			Float4();
-			//Float4(const Float4 &other);
+			inline Float4()
+			{
 
-			Float4& operator = (const Float4 &other);
+			}
 
-			Float4& operator = (const CR_PixelShaderInput &source);
+			inline Float4(const SOAVecFloat& x, const SOAVecFloat& y, const SOAVecFloat& z)
+				: x(x), y(y), z(z)
+			{
 
-			Float4& operator = (const SampleTexture2D &source);
+			}
 
-			Float4& operator += (const Float4 &other);
-			Float4& operator -= (const Float4 &other);
+			inline Float4(Ceng::FLOAT32 x, Ceng::FLOAT32 y, Ceng::FLOAT32 z)
+				: x(x), y(y), z(z)
+			{
 
-			/**
-			 * Multiply by varying scalar.
-			 */
-			Float4& operator *= (const Shader::Float &other);
+			}
 
-			Float4& operator *= (const Float4 &other);
-			
-			/**
-			 * Multiply by local scalar.
-			 */
-			Float4& operator *= (const FLOAT32 &other);
+			inline Float4& operator= (const Float& other)
+			{
+				x = other.x;
+				y = 0.0f;
+				z = 0.0f;
+				w = 1.0f;
 
-			Float4& operator /= (const Float4 &other);
+				return *this;
+			}
+
+			inline Float4& operator= (const Float2& other)
+			{
+				x = other.x;
+				y = other.y;
+				z = 0.0f;
+				w = 1.0f;
+
+				return *this;
+			}
+
+			inline Float4& operator= (const Float3& other)
+			{
+				x = other.x;
+				y = other.y;
+				z = other.z;
+				w = 1.0f;
+
+				return *this;
+			}
+
+			inline Float4& operator= (const Float4& other)
+			{
+				x = other.x;
+				y = other.y;
+				z = other.z;
+				w = other.w;
+
+				return *this;
+			}
+
+
+			inline Float4& operator = (const CR_PixelShaderInput& source)
+			{
+				source.MoveToFloat4(&x);
+				return *this;
+			}
+
+			inline Float4& operator += (const Float4& other)
+			{
+				x += other.x;
+				y += other.y;
+				z += other.z;
+				w += other.w;
+
+				return *this;
+			}
+
+			inline Float4& operator -= (const Float4& other)
+			{
+				x -= other.x;
+				y -= other.y;
+				z -= other.z;
+				w -= other.w;
+
+				return *this;
+			}
+
+			inline Float4& operator *= (const Float4& other)
+			{
+				x *= other.x;
+				y *= other.y;
+				z *= other.z;
+				w *= other.w;
+
+				return *this;
+			}
+
+			inline Float4& operator /= (const Float4& other)
+			{
+				x /= other.x;
+				y /= other.y;
+				z /= other.z;
+				w /= other.w;
+
+				return *this;
+			}
+
+			inline Float4& operator = (const SampleTexture2D& source)
+			{
+				(*call_mov_float4)((void*)&x, (void*)source.dataAddress);
+				return *this;
+			}
+
+
+			/*
+			inline Float4& Float4::operator *= (const Float &other)
+			{
+				(*call_mul_varying_float)((void*)dataAddress,(void*)other.dataAddress);
+				return *this;
+			}
+
+			inline Float4& Float4::operator *= (const Float4 &other)
+			{
+				(*call_mul_varying_float4)((void*)dataAddress,(void*)other.dataAddress);
+				return *this;
+			}
+
+			inline Float4& Float4::operator *= (const FLOAT32 &other)
+			{
+				(*call_mul_local_float)((void*)dataAddress,(void*)&other);
+				return *this;
+			}
+
+			inline Float4& Float4::operator /= (const Float4 &other)
+			{
+				return *this;
+			}
+			*/
 
 		public:
 
@@ -695,86 +1047,6 @@ namespace Ceng
 
 			void SampleToFloat4(void *destBuffer) const;
 		};
-
-		//************************************************************
-		// Shader::Float2 methods
-
-		inline Float2::Float2()
-		{
-			dataAddress = nullptr;
-		}
-
-		/*
-		inline Float2::Float2(const Float2 &other)
-			: dataAddress(other.dataAddress)
-		{
-		}
-		*/
-
-		inline Float2& Float2::operator = (const CR_PixelShaderInput &source)
-		{
-			source.MoveToFloat2(dataAddress);
-			return *this;
-		}
-
-		//************************************************************
-		// Shader::Float4 methods
-
-
-		inline Float4::Float4()
-		{
-			dataAddress = nullptr;
-		}
-
-		inline Float4& Float4::operator = (const Float4 &other)
-		{
-			return *this;
-		}
-
-		inline Float4& Float4::operator = (const CR_PixelShaderInput &source)
-		{
-			source.MoveToFloat4(dataAddress);
-			return *this;
-		}
-
-		inline Float4& Float4::operator = (const SampleTexture2D &source)
-		{
-			(*call_mov_float4)((void*)dataAddress, (void*)source.dataAddress);
-			return *this;
-		}
-
-		inline Float4& Float4::operator += (const Float4 &other)
-		{
-			return *this;
-		}
-
-		inline Float4& Float4::operator -= (const Float4 &other)
-		{
-			return *this;
-		}
-
-		inline Float4& Float4::operator *= (const Float &other)
-		{
-			(*call_mul_varying_float)((void*)dataAddress,(void*)other.dataAddress);
-			return *this;
-		}
-
-		inline Float4& Float4::operator *= (const Float4 &other)
-		{
-			(*call_mul_varying_float4)((void*)dataAddress,(void*)other.dataAddress);
-			return *this;
-		}
-
-		inline Float4& Float4::operator *= (const FLOAT32 &other)
-		{
-			(*call_mul_local_float)((void*)dataAddress,(void*)&other);
-			return *this;
-		}
-
-		inline Float4& Float4::operator /= (const Float4 &other)
-		{
-			return *this;
-		}
 
 		//**********************************************************
 		// SampleTexture2D methods
