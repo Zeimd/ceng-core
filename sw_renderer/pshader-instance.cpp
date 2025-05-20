@@ -862,7 +862,9 @@ void PixelShaderInstance::ShaderFunction(const FLOAT32 *perspective,
 	// NOTE: Read input registers / write outputs only once because of
 	//       automatic pixel stepping
 
-	Shader::Float2 uvDiffuse = *IN_TEXCOORD0;
+	Shader::Float2 uvDiffuse;
+	
+	uvDiffuse = *IN_TEXCOORD0;
 
 	//shaderLocal_temp = *IN_COLOR0;
 
@@ -933,7 +935,7 @@ void PixelShaderInstance::ShaderFunction(const FLOAT32 *perspective,
 	//OUT_TARGET0->Write(color,coverageIndex);
 	
 
-	OUT_TARGET0->Write(sample2d(diffuseTexUnit, shaderLocal_uvDiffuse), coverageIndex);
+	OUT_TARGET0->Write(sample2d(diffuseTexUnit, uvDiffuse), coverageIndex);
 
 }
 

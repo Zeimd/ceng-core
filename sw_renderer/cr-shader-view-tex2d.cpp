@@ -70,7 +70,7 @@ const Ceng::FLOAT32 distVal = 2.0f;
 void CR_ShaderViewTex2D::Sample2D(Shader::Float2 &uv, const CR_SamplerState *sampler,
 	Ceng::FLOAT32 *out_colorVecs)
 {
-	Ceng::FLOAT32 *uvData = (Ceng::FLOAT32*)uv.dataAddress;
+	Ceng::FLOAT32 *uvData = (Ceng::FLOAT32*)&uv.x;
 
 	_declspec(align(16)) Ceng::INT32 uFX[4], vFX[4];
 
