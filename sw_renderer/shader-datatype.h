@@ -418,12 +418,6 @@ namespace Ceng
 
 		class SampleTexture2D;
 
-		template<class T>
-		class alignas(16) Basic_SOA_Single
-		{
-
-		};
-
 		class alignas(16) Float
 		{
 		public:
@@ -545,6 +539,43 @@ namespace Ceng
 		{
 			return a.x >= b.x;
 		}
+
+		class SwizzledFloat
+		{
+		public:
+			SOAVecFloat* base;
+
+		public:
+
+			inline SwizzledFloat(SOAVecFloat* base)
+				: base(base)
+			{
+
+			}
+
+			inline SwizzledFloat& operator = (Ceng::FLOAT32 x)
+			{
+				*base = x;
+				return *this;
+			}
+
+			inline SwizzledFloat& operator = (const Float& source)
+			{
+				*base = source.x;
+				return *this;
+			}
+
+			inline SwizzledFloat& operator = (const SwizzledFloat& source)
+			{
+				*base = *source.base;
+				return *this;
+			}
+
+			inline operator Float() const
+			{
+				return *base;
+			}
+		};
 
 		class alignas(16) Float2
 		{
@@ -679,6 +710,46 @@ namespace Ceng
 		{
 			return { a.x >= b.x, a.y >= b.y };
 		}
+
+		class SwizzledFloat2
+		{
+		public:
+			SOAVecFloat* base;
+			Ceng::UINT32 a;
+			Ceng::UINT32 b;
+
+		public:
+
+			inline SwizzledFloat2(SOAVecFloat* base, Ceng::UINT32 a, Ceng::UINT32 b)
+				: base(base), a(a), b(b)
+			{
+
+			}
+
+			inline SwizzledFloat2& operator = (const Float2& source)
+			{
+				base[a] = source.x;
+				base[b] = source.y;
+				return *this;
+			}
+
+			inline SwizzledFloat2& operator = (const SwizzledFloat2& source)
+			{
+				base[a] = source.base[source.a];
+				base[b] = source.base[source.b];
+				return *this;
+			}
+
+			inline operator Float() const
+			{
+				return *base;
+			}
+
+			inline operator Float2() const
+			{
+				return { base[a],base[b] };
+			}
+		};
 
 		class alignas(16) Float3
 		{
@@ -828,7 +899,55 @@ namespace Ceng
 			return { a.x >= b.x, a.y >= b.y, a.z >= b.z };
 		}
 
+		class SwizzledFloat3
+		{
+		public:
+			SOAVecFloat* base;
+			Ceng::UINT32 a;
+			Ceng::UINT32 b;
+			Ceng::UINT32 c;
 
+		public:
+
+			inline SwizzledFloat3(SOAVecFloat* base, Ceng::UINT32 a, Ceng::UINT32 b, Ceng::UINT32 c)
+				: base(base), a(a), b(b), c(c)
+			{
+
+			}
+
+			inline SwizzledFloat3& operator = (const Float3& source)
+			{
+				base[a] = source.x;
+				base[b] = source.y;
+				base[c] = source.z;
+
+				return *this;
+			}
+
+			inline SwizzledFloat3& operator = (const SwizzledFloat3& source)
+			{
+				base[a] = source.base[source.a];
+				base[b] = source.base[source.b];
+				base[c] = source.base[source.c];
+
+				return *this;
+			}
+
+			inline operator Float() const
+			{
+				return *base;
+			}
+
+			inline operator Float2() const
+			{
+				return { base[a],base[b] };
+			}
+
+			inline operator Float3() const
+			{
+				return { base[a],base[b], base[c]};
+			}
+		};
 
 		class alignas(16) Float4
 		{
@@ -844,8 +963,8 @@ namespace Ceng
 
 			}
 
-			inline Float4(const SOAVecFloat& x, const SOAVecFloat& y, const SOAVecFloat& z)
-				: x(x), y(y), z(z)
+			inline Float4(const SOAVecFloat& x, const SOAVecFloat& y, const SOAVecFloat& z, const SOAVecFloat& w)
+				: x(x), y(y), z(z), w(w)
 			{
 
 			}
@@ -1004,6 +1123,64 @@ namespace Ceng
 			SampleTexture2D& operator()(TextureUnit &texture, Shader::Float2 &uv);
 
 			void SampleToFloat4(void *destBuffer) const;
+		};
+
+		class SwizzledFloat4
+		{
+		public:
+			SOAVecFloat* base;
+			Ceng::UINT32 a;
+			Ceng::UINT32 b;
+			Ceng::UINT32 c;
+			Ceng::UINT32 d;
+
+		public:
+
+			inline SwizzledFloat4(SOAVecFloat* base, Ceng::UINT32 a, Ceng::UINT32 b, Ceng::UINT32 c, Ceng::UINT32 d)
+				: base(base), a(a), b(b), c(c), d(d)
+			{
+
+			}
+
+			inline SwizzledFloat4& operator = (const Float4& source)
+			{
+				base[a] = source.x;
+				base[b] = source.y;
+				base[c] = source.z;
+				base[d] = source.w;
+
+				return *this;
+			}
+
+			inline SwizzledFloat4& operator = (const SwizzledFloat4& source)
+			{
+				base[a] = source.base[source.a];
+				base[b] = source.base[source.b];
+				base[c] = source.base[source.c];
+				base[d] = source.base[source.d];
+
+				return *this;
+			}
+
+			inline operator Float() const
+			{
+				return *base;
+			}
+
+			inline operator Float2() const
+			{
+				return { base[a],base[b] };
+			}
+
+			inline operator Float3() const
+			{
+				return { base[a],base[b], base[c] };
+			}
+
+			inline operator Float4() const
+			{
+				return { base[a],base[b], base[c], base[d]};
+			}
 		};
 
 		//**********************************************************
