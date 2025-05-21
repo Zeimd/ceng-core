@@ -456,6 +456,8 @@ namespace Ceng::Shader
 
 		Float& operator= (const Float4& other);
 
+		Float& operator= (const SwizzledFloat& other);
+
 		inline Float& operator = (const CR_PixelShaderInput& source)
 		{
 			source.MoveToFloat(&x);
@@ -689,9 +691,9 @@ namespace Ceng::Shader
 	class alignas(16) Float3
 	{
 	public:
-		SOAVecFloat x;
-		SOAVecFloat y;
-		SOAVecFloat z;
+		SOAVecFloat _x;
+		SOAVecFloat _y;
+		SOAVecFloat _z;
 
 	public:
 
@@ -701,40 +703,40 @@ namespace Ceng::Shader
 		}
 
 		inline Float3(const SOAVecFloat& x, const SOAVecFloat& y, const SOAVecFloat& z)
-			: x(x), y(y), z(z)
+			: _x(x), _y(y), _z(z)
 		{
 
 		}
 
 		inline Float3(Ceng::FLOAT32 x, Ceng::FLOAT32 y, Ceng::FLOAT32 z)
-			: x(x), y(y), z(z)
+			: _x(x), _y(y), _z(z)
 		{
 
 		}
 
 		inline Float3& operator= (const Float& other)
 		{
-			x = other.x;
-			y = 0.0f;
-			z = 0.0f;
+			_x = other.x;
+			_y = 0.0f;
+			_z = 0.0f;
 
 			return *this;
 		}
 
 		inline Float3& operator= (const Float2& other)
 		{
-			x = other._x;
-			y = other._y;
-			z = 0.0f;
+			_x = other._x;
+			_y = other._y;
+			_z = 0.0f;
 
 			return *this;
 		}
 
 		inline Float3& operator= (const Float3& other)
 		{
-			x = other.x;
-			y = other.y;
-			z = other.z;
+			_x = other._x;
+			_y = other._y;
+			_z = other._z;
 
 			return *this;
 		}
@@ -743,95 +745,150 @@ namespace Ceng::Shader
 
 		inline Float3& operator = (const CR_PixelShaderInput& source)
 		{
-			source.MoveToFloat3(&x);
+			source.MoveToFloat3(&_x);
 			return *this;
 		}
 
 		inline Float3& operator += (const Float3& other)
 		{
-			x += other.x;
-			y += other.y;
-			z += other.z;
+			_x += other._x;
+			_y += other._y;
+			_z += other._z;
 
 			return *this;
 		}
 
 		inline Float3& operator -= (const Float3& other)
 		{
-			x -= other.x;
-			y -= other.y;
-			z -= other.z;
+			_x -= other._x;
+			_y -= other._y;
+			_z -= other._z;
 
 			return *this;
 		}
 
 		inline Float3& operator *= (const Float3& other)
 		{
-			x *= other.x;
-			y *= other.y;
-			z *= other.z;
+			_x *= other._x;
+			_y *= other._y;
+			_z *= other._z;
 
 			return *this;
 		}
 
 		inline Float3& operator /= (const Float3& other)
 		{
-			x /= other.x;
-			y /= other.y;
-			z /= other.z;
+			_x /= other._x;
+			_y /= other._y;
+			_z /= other._z;
 
 			return *this;
 		}
+
+		Float3& operator= (const SwizzledFloat3& other);
+
+		SwizzledFloat x();
+		SwizzledFloat y();
+		SwizzledFloat z();
+
+		SwizzledFloat2 xx();
+		SwizzledFloat2 xy();
+		SwizzledFloat2 xz();
+
+		SwizzledFloat2 yx();
+		SwizzledFloat2 yy();
+		SwizzledFloat2 yz();
+
+		SwizzledFloat2 zx();
+		SwizzledFloat2 zy();
+		SwizzledFloat2 zz();
+
+		SwizzledFloat3 xxx();
+		SwizzledFloat3 xxy();
+		SwizzledFloat3 xxz();
+
+		SwizzledFloat3 xyx();
+		SwizzledFloat3 xyy();
+		SwizzledFloat3 xyz();
+
+		SwizzledFloat3 xzx();
+		SwizzledFloat3 xzy();
+		SwizzledFloat3 xzz();
+
+		SwizzledFloat3 yxx();
+		SwizzledFloat3 yxy();
+		SwizzledFloat3 yxz();
+
+		SwizzledFloat3 yyx();
+		SwizzledFloat3 yyy();
+		SwizzledFloat3 yyz();
+
+		SwizzledFloat3 yzx();
+		SwizzledFloat3 yzy();
+		SwizzledFloat3 yzz();
+
+		SwizzledFloat3 zxx();
+		SwizzledFloat3 zxy();
+		SwizzledFloat3 zxz();
+
+		SwizzledFloat3 zyx();
+		SwizzledFloat3 zyy();
+		SwizzledFloat3 zyz();
+
+		SwizzledFloat3 zzx();
+		SwizzledFloat3 zzy();
+		SwizzledFloat3 zzz();
+		
 	};
 
 	inline Float3 operator + (const Float3& a, const Float3& b)
 	{
-		return { a.x + b.x, a.y + b.y, a.z + b.z };
+		return { a._x + b._x, a._y + b._y, a._z + b._z };
 	}
 
 	inline Float3 operator - (const Float3& a, const Float3& b)
 	{
-		return { a.x - b.x, a.y - b.y, a.z - b.z };
+		return { a._x - b._x, a._y - b._y, a._z - b._z };
 	}
 
 	inline Float3 operator * (const Float3& a, const Float3& b)
 	{
-		return  { a.x * b.x, a.y * b.y, a.z * b.z };
+		return  { a._x * b._x, a._y * b._y, a._z * b._z };
 	}
 
 	inline Float3 operator / (const Float3& a, const Float3& b)
 	{
-		return  { a.x / b.x, a.y / b.y, a.z / b.z };
+		return  { a._x / b._x, a._y / b._y, a._z / b._z };
 	}
 
 	inline Bool3 operator == (const Float3& a, const Float3& b)
 	{
-		return  { a.x == b.x, a.y == b.y, a.z == b.z };
+		return  { a._x == b._x, a._y == b._y, a._z == b._z };
 	}
 
 	inline Bool3 operator != (const Float3& a, const Float3& b)
 	{
-		return { a.x != b.x, a.y != b.y, a.z != b.z };
+		return { a._x != b._x, a._y != b._y, a._z != b._z };
 	}
 
 	inline Bool3 operator < (const Float3& a, const Float3& b)
 	{
-		return { a.x < b.x, a.y < b.y, a.z < b.z };
+		return { a._x < b._x, a._y < b._y, a._z < b._z };
 	}
 
 	inline Bool3 operator > (const Float3& a, const Float3& b)
 	{
-		return { a.x > b.x, a.y > b.y, a.z > b.z };
+		return { a._x > b._x, a._y > b._y, a._z > b._z };
 	}
 
 	inline Bool3 operator <= (const Float3& a, const Float3& b)
 	{
-		return { a.x <= b.x, a.y <= b.y, a.z <= b.z };
+		return { a._x <= b._x, a._y <= b._y, a._z <= b._z };
 	}
 
 	inline Bool3 operator >= (const Float3& a, const Float3& b)
 	{
-		return { a.x >= b.x, a.y >= b.y, a.z >= b.z };
+		return { a._x >= b._x, a._y >= b._y, a._z >= b._z };
 	}
 
 	class alignas(16) Float4
@@ -882,9 +939,9 @@ namespace Ceng::Shader
 
 		inline Float4& operator= (const Float3& other)
 		{
-			x = other.x;
-			y = other.y;
-			z = other.z;
+			x = other._x;
+			y = other._y;
+			z = other._z;
 			w = 1.0f;
 
 			return *this;
@@ -1105,9 +1162,9 @@ namespace Ceng::Shader
 
 		inline SwizzledFloat3& operator = (const Float3& source)
 		{
-			base[a] = source.x;
-			base[b] = source.y;
-			base[c] = source.z;
+			base[a] = source._x;
+			base[b] = source._y;
+			base[c] = source._z;
 
 			return *this;
 		}
@@ -1206,7 +1263,7 @@ namespace Ceng::Shader
 
 	inline Float& Float::operator= (const Float3& other)
 	{
-		x = other.x;
+		x = other._x;
 		return *this;
 	}
 
@@ -1216,13 +1273,19 @@ namespace Ceng::Shader
 		return *this;
 	}
 
+	inline Float& Float::operator= (const SwizzledFloat& other)
+	{
+		x = *other.base;
+		return *this;			
+	}
+
 	//**********************************************************
 	// Shader::Float2 methods
 
 	inline Float2& Float2::operator= (const Float3& other)
 	{
-		_x = other.x;
-		_y = other.y;
+		_x = other._x;
+		_y = other._y;
 
 		return *this;
 	}
@@ -1291,11 +1354,230 @@ namespace Ceng::Shader
 
 	inline Float3& Float3::operator= (const Float4& other)
 	{
-		x = other.x;
-		y = other.y;
-		z = other.z;
+		_x = other.x;
+		_y = other.y;
+		_z = other.z;
 
 		return *this;
+	}
+
+	inline Float3& Float3::operator= (const SwizzledFloat3& other)
+	{
+		if (other.base == &_x)
+		{
+			SOAVecFloat temp[3];
+
+			temp[0] = _x;
+			temp[1] = _y;
+			temp[2] = _z;
+
+			_x = temp[other.a];
+			_y = temp[other.b];
+			_z = temp[other.c];
+		}
+		else
+		{
+			_x = other.base[other.a];
+			_y = other.base[other.b];
+			_z = other.base[other.c];
+		}
+
+		return *this;
+	}
+
+	inline SwizzledFloat Float3::x()
+	{
+		return SwizzledFloat(&_x);
+	}
+
+	inline SwizzledFloat Float3::y()
+	{
+		return SwizzledFloat(&_y);
+	}
+
+	inline SwizzledFloat Float3::z()
+	{
+		return SwizzledFloat(&_z);
+	}
+
+	inline SwizzledFloat2 Float3::xx()
+	{
+		return SwizzledFloat2(&_x,0,0);
+	}
+
+	inline SwizzledFloat2 Float3::xy()
+	{
+		return SwizzledFloat2(&_x, 0, 1);
+	}
+
+	inline SwizzledFloat2 Float3::xz()
+	{
+		return SwizzledFloat2(&_x, 0, 2);
+	}
+
+	inline SwizzledFloat2 Float3::yx()
+	{
+		return SwizzledFloat2(&_x, 1, 0);
+	}
+
+	inline SwizzledFloat2 Float3::yy()
+	{
+		return SwizzledFloat2(&_x, 1, 1);
+	}
+
+	inline SwizzledFloat2 Float3::yz()
+	{
+		return SwizzledFloat2(&_x, 1, 2);
+	}
+
+	inline SwizzledFloat2 Float3::zx()
+	{
+		return SwizzledFloat2(&_x, 2, 0);
+	}
+
+	inline SwizzledFloat2 Float3::zy()
+	{
+		return SwizzledFloat2(&_x, 2, 1);
+	}
+
+	inline SwizzledFloat2 Float3::zz()
+	{
+		return SwizzledFloat2(&_x, 2, 2);
+	}
+
+	inline SwizzledFloat3 Float3::xxx()
+	{
+		return SwizzledFloat3(&_x, 0, 0, 0);
+	}
+
+	inline SwizzledFloat3 Float3::xxy()
+	{
+		return SwizzledFloat3(&_x, 0, 0, 1);
+	}
+
+	inline SwizzledFloat3 Float3::xxz()
+	{
+		return SwizzledFloat3(&_x, 0, 0, 2);
+	}
+
+	inline SwizzledFloat3 Float3::xyx()
+	{
+		return SwizzledFloat3(&_x, 0, 1, 0);
+	}
+
+	inline SwizzledFloat3 Float3::xyy()
+	{
+		return SwizzledFloat3(&_x, 0, 1, 1);
+	}
+
+	inline SwizzledFloat3 Float3::xyz()
+	{
+		return SwizzledFloat3(&_x, 0, 1, 2);
+	}
+
+	inline SwizzledFloat3 Float3::xzx()
+	{
+		return SwizzledFloat3(&_x, 0, 2, 0);
+	}
+
+	inline SwizzledFloat3 Float3::xzy()
+	{
+		return SwizzledFloat3(&_x, 0, 2, 1);
+	}
+
+	inline SwizzledFloat3 Float3::xzz()
+	{
+		return SwizzledFloat3(&_x, 0, 2, 2);
+	}
+
+	inline SwizzledFloat3 Float3::yxx()
+	{
+		return SwizzledFloat3(&_x, 1, 0, 0);
+	}
+
+	inline SwizzledFloat3 Float3::yxy()
+	{
+		return SwizzledFloat3(&_x, 1, 0, 1);
+	}
+
+	inline SwizzledFloat3 Float3::yxz()
+	{
+		return SwizzledFloat3(&_x, 1, 0, 2);
+	}
+
+	inline SwizzledFloat3 Float3::yyx()
+	{
+		return SwizzledFloat3(&_x, 1, 1, 0);
+	}
+
+	inline SwizzledFloat3 Float3::yyy()
+	{
+		return SwizzledFloat3(&_x, 1, 1, 1);
+	}
+
+	inline SwizzledFloat3 Float3::yyz()
+	{
+		return SwizzledFloat3(&_x, 1, 1, 2);
+	}
+
+	inline SwizzledFloat3 Float3::yzx()
+	{
+		return SwizzledFloat3(&_x, 1, 2, 0);
+	}
+
+	inline SwizzledFloat3 Float3::yzy()
+	{
+		return SwizzledFloat3(&_x, 1, 2, 1);
+	}
+
+	inline SwizzledFloat3 Float3::yzz()
+	{
+		return SwizzledFloat3(&_x, 1, 2, 2);
+	}
+
+	inline SwizzledFloat3 Float3::zxx()
+	{
+		return SwizzledFloat3(&_x, 2, 0, 0);
+	}
+
+	inline SwizzledFloat3 Float3::zxy()
+	{
+		return SwizzledFloat3(&_x, 2, 0, 1);
+	}
+
+	inline SwizzledFloat3 Float3::zxz()
+	{
+		return SwizzledFloat3(&_x, 2, 0, 2);
+	}
+
+	inline SwizzledFloat3 Float3::zyx()
+	{
+		return SwizzledFloat3(&_x, 2, 1, 0);
+	}
+
+	inline SwizzledFloat3 Float3::zyy()
+	{
+		return SwizzledFloat3(&_x, 2, 1, 1);
+	}
+
+	inline SwizzledFloat3 Float3::zyz()
+	{
+		return SwizzledFloat3(&_x, 2, 1, 2);
+	}
+
+	inline SwizzledFloat3 Float3::zzx()
+	{
+		return SwizzledFloat3(&_x, 2, 2, 0);
+	}
+
+	inline SwizzledFloat3 Float3::zzy()
+	{
+		return SwizzledFloat3(&_x, 2, 2, 1);
+	}
+
+	inline SwizzledFloat3 Float3::zzz()
+	{
+		return SwizzledFloat3(&_x, 2, 2, 2);
 	}
 
 	//**********************************************************
