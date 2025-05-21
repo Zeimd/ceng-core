@@ -643,14 +643,34 @@ namespace Ceng::Pshader
 		return { a._x + b._x, a._y + b._y };
 	}
 
+	inline Float2 operator + (const Float2& a, const Float& b)
+	{
+		return { a._x + b.x, a._y + b.x };
+	}
+
 	inline Float2 operator - (const Float2& a, const Float2& b)
 	{
 		return { a._x - b._x, a._y - b._y };
 	}
 
+	inline Float2 operator - (const Float2& a, const Float& b)
+	{
+		return { a._x - b.x, a._y - b.x };
+	}
+
 	inline Float2 operator * (const Float2& a, const Float2& b)
 	{
 		return  { a._x * b._x, a._y * b._y };
+	}
+
+	inline Float2 operator * (const Float2& a, const Float& b)
+	{
+		return  { a._x * b.x, a._y * b.x };
+	}
+
+	inline Float2 operator / (const Float2& a, const Float& b)
+	{
+		return  { a._x / b.x, a._y / b.x };
 	}
 
 	inline Float2 operator / (const Float2& a, const Float2& b)
@@ -846,9 +866,19 @@ namespace Ceng::Pshader
 		return { a._x + b._x, a._y + b._y, a._z + b._z };
 	}
 
+	inline Float3 operator + (const Float3& a, const Float& b)
+	{
+		return { a._x + b.x, a._y + b.x, a._z + b.x };
+	}
+
 	inline Float3 operator - (const Float3& a, const Float3& b)
 	{
 		return { a._x - b._x, a._y - b._y, a._z - b._z };
+	}
+
+	inline Float3 operator - (const Float3& a, const Float& b)
+	{
+		return { a._x - b.x, a._y - b.x, a._z - b.x };
 	}
 
 	inline Float3 operator * (const Float3& a, const Float3& b)
@@ -856,9 +886,19 @@ namespace Ceng::Pshader
 		return  { a._x * b._x, a._y * b._y, a._z * b._z };
 	}
 
+	inline Float3 operator * (const Float3& a, const Float& b)
+	{
+		return  { a._x * b.x, a._y * b.x, a._z * b.x };
+	}
+
 	inline Float3 operator / (const Float3& a, const Float3& b)
 	{
 		return  { a._x / b._x, a._y / b._y, a._z / b._z };
+	}
+
+	inline Float3 operator / (const Float3& a, const Float& b)
+	{
+		return  { a._x / b.x, a._y / b.x, a._z / b.x };
 	}
 
 	inline Bool3 operator == (const Float3& a, const Float3& b)
@@ -1483,9 +1523,19 @@ namespace Ceng::Pshader
 		return { a._x + b._x, a._y + b._y, a._z + b._z, a._w + b._w };
 	}
 
+	inline Float4 operator + (const Float4& a, const Float& b)
+	{
+		return { a._x + b.x, a._y + b.x, a._z + b.x, a._w + b.x };
+	}
+
 	inline Float4 operator - (const Float4& a, const Float4& b)
 	{
 		return { a._x - b._x, a._y - b._y, a._z - b._z, a._w - b._w };
+	}
+
+	inline Float4 operator - (const Float4& a, const Float& b)
+	{
+		return { a._x - b.x, a._y - b.x, a._z - b.x, a._w - b.x };
 	}
 
 	inline Float4 operator * (const Float4& a, const Float4& b)
@@ -1493,9 +1543,19 @@ namespace Ceng::Pshader
 		return  { a._x * b._x, a._y * b._y, a._z * b._z, a._w * b._w };
 	}
 
+	inline Float4 operator * (const Float4& a, const Float& b)
+	{
+		return  { a._x * b.x, a._y * b.x, a._z * b.x, a._w * b.x };
+	}
+
 	inline Float4 operator / (const Float4& a, const Float4& b)
 	{
 		return  { a._x / b._x, a._y / b._y, a._z / b._z, a._w / b._w };
+	}
+
+	inline Float4 operator / (const Float4& a, const Float& b)
+	{
+		return  { a._x / b.x, a._y / b.x, a._z / b.x, a._w / b.x };
 	}
 
 	inline Bool4 operator == (const Float4& a, const Float4& b)
