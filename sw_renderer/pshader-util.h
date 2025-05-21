@@ -15,8 +15,6 @@ constexpr Ceng::FLOAT32 rad2deg = 180.0 / pi;
 
 namespace Ceng::Pshader
 {
-	// GLSL spec 3.0, section 8.1 - Angle and trigonometry functions
-
 	//***************************
 	// Degrees to radians
 
@@ -269,28 +267,233 @@ namespace Ceng::Pshader
 		return { Atan(y._x, x._x), Atan(y._y, x._y), Atan(y._z, x._z), Atan(y._w, x._w) };
 	}
 
+	//****************************
+	// Hyperbolic sine
+
+	inline SOAVecFloat Sinh(const SOAVecFloat& x)
+	{
+		return { sinhf(x.a), sinhf(x.b), sinhf(x.c), sinhf(x.d) };
+	}
+
+	inline Float Sinh(const Float& a)
+	{
+		return Sinh(a.x);
+	}
+
+	inline Float2 Sinh(const Float2& a)
+	{
+		return { Sinh(a._x), Sinh(a._y) };
+	}
+
+	inline Float3 Sinh(const Float3& a)
+	{
+		return { Sinh(a._x), Sinh(a._y), Sinh(a._z) };
+	}
+
+	inline Float4 Sinh(const Float4& a)
+	{
+		return { Sinh(a._x), Sinh(a._y), Sinh(a._z), Sinh(a._w) };
+	}
+
+	//****************************
+	// Hyperbolic cosine
+
+	inline SOAVecFloat Cosh(const SOAVecFloat& x)
+	{
+		return { coshf(x.a), coshf(x.b), coshf(x.c), coshf(x.d) };
+	}
+
+	inline Float Cosh(const Float& a)
+	{
+		return Cosh(a.x);
+	}
+
+	inline Float2 Cosh(const Float2& a)
+	{
+		return { Cosh(a._x), Cosh(a._y) };
+	}
+
+	inline Float3 Cosh(const Float3& a)
+	{
+		return { Cosh(a._x), Cosh(a._y), Cosh(a._z) };
+	}
+
+	inline Float4 SCoshinh(const Float4& a)
+	{
+		return { Cosh(a._x), Cosh(a._y), Cosh(a._z), Cosh(a._w) };
+	}
+
+	//****************************
+	// Hyperbolic tangent
+
+	inline SOAVecFloat Tanh(const SOAVecFloat& x)
+	{
+		return { tanhf(x.a), tanhf(x.b), tanhf(x.c), tanhf(x.d) };
+	}
+
+	inline Float Tanh(const Float& a)
+	{
+		return Tanh(a.x);
+	}
+
+	inline Float2 Tanh(const Float2& a)
+	{
+		return { Tanh(a._x), Tanh(a._y) };
+	}
+
+	inline Float3 Tanh(const Float3& a)
+	{
+		return { Tanh(a._x), Tanh(a._y), Tanh(a._z) };
+	}
+
+	inline Float4 Tanh(const Float4& a)
+	{
+		return { Tanh(a._x), Tanh(a._y), Tanh(a._z), Tanh(a._w) };
+	}
+
+	//****************************
+	// Arcus Hyperbolic sine
+
+	inline SOAVecFloat Asinh(const SOAVecFloat& x)
+	{
+		return { asinhf(x.a), asinhf(x.b), asinhf(x.c), asinhf(x.d) };
+	}
+
+	inline Float Asinh(const Float& a)
+	{
+		return Asinh(a.x);
+	}
+
+	inline Float2 Asinh(const Float2& a)
+	{
+		return { Asinh(a._x), Asinh(a._y) };
+	}
+
+	inline Float3 Asinh(const Float3& a)
+	{
+		return { Asinh(a._x), Asinh(a._y), Asinh(a._z) };
+	}
+
+	inline Float4 Asinh(const Float4& a)
+	{
+		return { Asinh(a._x), Asinh(a._y), Asinh(a._z), Asinh(a._w) };
+	}
+
+	//****************************
+	// Arcus Hyperbolic cosine
+
+	inline SOAVecFloat Acosh(const SOAVecFloat& x)
+	{
+		return { acoshf(x.a), acoshf(x.b), acoshf(x.c), acoshf(x.d) };
+	}
+
+	inline Float Acosh(const Float& a)
+	{
+		return Acosh(a.x);
+	}
+
+	inline Float2 Acosh(const Float2& a)
+	{
+		return { Acosh(a._x), Acosh(a._y) };
+	}
+
+	inline Float3 Acosh(const Float3& a)
+	{
+		return { Acosh(a._x), Acosh(a._y), Acosh(a._z) };
+	}
+
+	inline Float4 Acosh(const Float4& a)
+	{
+		return { Acosh(a._x), Acosh(a._y), Acosh(a._z), Acosh(a._w) };
+	}
+
+	//****************************
+	// Arcus Hyperbolic tangent
+
+	inline SOAVecFloat Atanh(const SOAVecFloat& x)
+	{
+		return { atanhf(x.a), atanhf(x.b), atanhf(x.c), atanhf(x.d) };
+	}
+
+	inline Float Atanh(const Float& a)
+	{
+		return Atanh(a.x);
+	}
+
+	inline Float2 Atanh(const Float2& a)
+	{
+		return { Atanh(a._x), Atanh(a._y) };
+	}
+
+	inline Float3 Atanh(const Float3& a)
+	{
+		return { Atanh(a._x), Atanh(a._y), Atanh(a._z) };
+	}
+
+	inline Float4 Atanh(const Float4& a)
+	{
+		return { Atanh(a._x), Atanh(a._y), Atanh(a._z), Atanh(a._w) };
+	}
+
 	//***************************
-	// Dot product
+	// Natural exponential function
 
-	inline Float Dot(const Float& a, const Float& b)
+	inline SOAVecFloat Exp(const SOAVecFloat& x)
 	{
-		return (a.x * b.x);
+		return { expf(x.a), expf(x.b), expf(x.c), expf(x.d) };
 	}
 
-	inline Float Dot(const Float2& a, const Float2& b)
+	inline Float Exp(const Float& a)
 	{
-		return (a._x * b._x + a._y * b._y);
+		return Exp(a.x);
 	}
 
-	inline Float Dot(const Float3& a, const Float3& b)
+	inline Float2 Exp(const Float2& a)
 	{
-		return (a._x * b._x + a._y * b._y + a._z * b._z);
+		return { Exp(a._x), Exp(a._y) };
 	}
 
-	inline Float Dot(const Float4& a, const Float4& b)
+	inline Float3 Exp(const Float3& a)
 	{
-		return (a._x * b._x + a._y * b._y + a._z * b._z + a._w * b._w);
+		return { Exp(a._x), Exp(a._y), Exp(a._z) };
 	}
+
+	inline Float4 Exp(const Float4& a)
+	{
+		return { Exp(a._x), Exp(a._y), Exp(a._z), Exp(a._w) };
+	}
+
+
+	//***************************
+	// Generic power function
+
+	inline SOAVecFloat Pow(const SOAVecFloat& x, const SOAVecFloat& y)
+	{
+		return { powf(x.a, y.a), powf(x.b, y.b), powf(x.c, y.c), powf(x.d, y.d) };
+	}
+
+	inline Float Pow(const Float& x, const Float& y)
+	{
+		return Pow(x.x, y.x);
+	}
+
+	inline Float2 Pow(const Float2& x, const Float2& y)
+	{
+		return { Pow(x._x, y._x), Pow(x._y, y._y) };
+	}
+
+	inline Float3 Pow(const Float3& x, const Float3& y)
+	{
+		return { Pow(x._x, y._x), Pow(x._y, y._y), Pow(x._z, y._z) };
+	}
+
+	inline Float4 Exp(const Float4& x, const Float4& y)
+	{
+		return { Pow(x._x, y._x), Pow(x._y, y._y), Pow(x._z, y._z), Pow(x._w, y._w)};
+	}
+
+	//***************************
+	// Square root
 
 	inline SOAVecFloat Sqrt(const SOAVecFloat& x)
 	{
@@ -317,6 +520,31 @@ namespace Ceng::Pshader
 		return { Sqrt(a._x), Sqrt(a._y), Sqrt(a._z), Sqrt(a._w) };
 	}
 
+
+	//***************************
+	// Dot product
+
+	inline Float Dot(const Float& a, const Float& b)
+	{
+		return (a.x * b.x);
+	}
+
+	inline Float Dot(const Float2& a, const Float2& b)
+	{
+		return (a._x * b._x + a._y * b._y);
+	}
+
+	inline Float Dot(const Float3& a, const Float3& b)
+	{
+		return (a._x * b._x + a._y * b._y + a._z * b._z);
+	}
+
+	inline Float Dot(const Float4& a, const Float4& b)
+	{
+		return (a._x * b._x + a._y * b._y + a._z * b._z + a._w * b._w);
+	}
+
+	
 	inline Float Length(const Float& a)
 	{
 		return Sqrt(Dot(a, a));
