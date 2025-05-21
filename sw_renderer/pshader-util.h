@@ -892,6 +892,171 @@ namespace Ceng::Pshader
 		return { outX,outY, outZ, outW };
 	}
 
+	//*******************************
+	// Reflect
+
+	inline Float Reflect(const Float& i, const Float& n)
+	{
+		return i - 2.0f * Dot(i, n) * n;
+	}
+
+	inline Float2 Reflect(const Float2& i, const Float2& n)
+	{
+		return i - n * 2.0f * Dot(i, n);
+	}
+
+	inline Float3 Reflect(const Float3& i, const Float3& n)
+	{
+		return i - n * 2.0f * Dot(i, n);
+	}
+
+	inline Float4 Reflect(const Float4& i, const Float4& n)
+	{
+		return i - n * 2.0f * Dot(i, n);
+	}
+
+	//*******************************
+	// Refract
+
+	inline Float Refract(const Float& i, const Float& n, const Float& eta)
+	{
+		Float k = 1.0f - eta * eta * (1.0f - Dot(n, i) * Dot(n, i));
+
+		Float temp = eta * i - (eta * Dot(n, i) * Sqrt(k)) * n;
+
+		if (k.x.a < 0.0f)
+		{
+			temp.x.a = 0.0f;
+		}
+
+		if (k.x.b < 0.0f)
+		{
+			temp.x.b = 0.0f;
+		}
+
+		if (k.x.c < 0.0f)
+		{
+			temp.x.c = 0.0f;
+		}
+
+		if (k.x.d < 0.0f)
+		{
+			temp.x.d = 0.0f;
+		}
+
+		return temp;
+	}
+
+	inline Float2 Refract(const Float2& i, const Float2& n, const Float& eta)
+	{
+		Float k = 1.0f - eta * eta * (1.0f - Dot(n, i) * Dot(n, i));
+
+		Float2 temp = i * eta - n * (eta * Dot(n, i) * Sqrt(k));
+
+		if (k.x.a < 0.0f)
+		{
+			temp._x.a = 0.0f;
+			temp._y.a = 0.0f;
+		}
+
+		if (k.x.b < 0.0f)
+		{
+			temp._x.b = 0.0f;
+			temp._y.b = 0.0f;
+		}
+
+		if (k.x.c < 0.0f)
+		{
+			temp._x.c = 0.0f;
+			temp._y.c = 0.0f;
+		}
+
+		if (k.x.d < 0.0f)
+		{
+			temp._x.d = 0.0f;
+			temp._y.d = 0.0f;
+		}
+
+		return temp;
+	}
+
+	inline Float3 Refract(const Float3& i, const Float3& n, const Float& eta)
+	{
+		Float k = 1.0f - eta * eta * (1.0f - Dot(n, i) * Dot(n, i));
+
+		Float3 temp = i * eta - n * (eta * Dot(n, i) * Sqrt(k));
+
+		if (k.x.a < 0.0f)
+		{
+			temp._x.a = 0.0f;
+			temp._y.a = 0.0f;
+			temp._z.a = 0.0f;
+		}
+
+		if (k.x.b < 0.0f)
+		{
+			temp._x.b = 0.0f;
+			temp._y.b = 0.0f;
+			temp._z.b = 0.0f;
+		}
+
+		if (k.x.c < 0.0f)
+		{
+			temp._x.c = 0.0f;
+			temp._y.c = 0.0f;
+			temp._z.c = 0.0f;
+		}
+
+		if (k.x.d < 0.0f)
+		{
+			temp._x.d = 0.0f;
+			temp._y.d = 0.0f;
+			temp._z.d = 0.0f;
+		}
+
+		return temp;
+	}
+
+	inline Float4 Refract(const Float4& i, const Float4& n, const Float& eta)
+	{
+		Float k = 1.0f - eta * eta * (1.0f - Dot(n, i) * Dot(n, i));
+
+		Float4 temp = i * eta - n * (eta * Dot(n, i) * Sqrt(k));
+
+		if (k.x.a < 0.0f)
+		{
+			temp._x.a = 0.0f;
+			temp._y.a = 0.0f;
+			temp._z.a = 0.0f;
+			temp._w.a = 0.0f;
+		}
+
+		if (k.x.b < 0.0f)
+		{
+			temp._x.b = 0.0f;
+			temp._y.b = 0.0f;
+			temp._z.b = 0.0f;
+			temp._w.b = 0.0f;
+		}
+
+		if (k.x.c < 0.0f)
+		{
+			temp._x.c = 0.0f;
+			temp._y.c = 0.0f;
+			temp._z.c = 0.0f;
+			temp._w.c = 0.0f;
+		}
+
+		if (k.x.d < 0.0f)
+		{
+			temp._x.d = 0.0f;
+			temp._y.d = 0.0f;
+			temp._z.d = 0.0f;
+			temp._w.d = 0.0f;
+		}
+
+		return temp;
+	}	
 	
 }
 
