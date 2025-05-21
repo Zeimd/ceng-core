@@ -1598,6 +1598,54 @@ namespace Ceng::Pshader
 			return *this;
 		}
 
+		inline SwizzledFloat& operator += (const Float& source)
+		{
+			base[a] += source.x;
+			return *this;
+		}
+
+		inline SwizzledFloat& operator += (const SwizzledFloat& source)
+		{
+			base[a] += source.base[source.a];
+			return *this;
+		}
+
+		inline SwizzledFloat& operator -= (const Float& source)
+		{
+			base[a] -= source.x;
+			return *this;
+		}
+
+		inline SwizzledFloat& operator -= (const SwizzledFloat& source)
+		{
+			base[a] -= source.base[source.a];
+			return *this;
+		}
+
+		inline SwizzledFloat& operator *= (const Float& source)
+		{
+			base[a] *= source.x;
+			return *this;
+		}
+
+		inline SwizzledFloat& operator *= (const SwizzledFloat& source)
+		{
+			base[a] *= source.base[source.a];
+			return *this;
+		}
+
+		inline SwizzledFloat& operator /= (const Float& source)
+		{
+			base[a] /= source.x;
+			return *this;
+		}
+
+		inline SwizzledFloat& operator /= (const SwizzledFloat& source)
+		{
+			base[a] /= source.base[source.a];
+			return *this;
+		}
+
 		inline operator Float() const
 		{
 			return *base;
@@ -1658,6 +1706,174 @@ namespace Ceng::Pshader
 				base[b] = source.base[source.b];
 			}
 			
+			return *this;
+		}
+
+		inline SwizzledFloat2& operator += (const Float2& source)
+		{
+			if (base == &source._x)
+			{
+				SOAVecFloat temp[2];
+
+				temp[0] = source._x;
+				temp[1] = source._y;
+
+				base[a] += temp[0];
+				base[b] += temp[1];
+			}
+			else
+			{
+				base[a] += source._x;
+				base[b] += source._y;
+			}
+
+			return *this;
+		}
+
+		inline SwizzledFloat2& operator += (const SwizzledFloat2& source)
+		{
+			if (base == source.base)
+			{
+				SOAVecFloat temp[2];
+
+				temp[0] = base[0];
+				temp[1] = base[1];
+
+				base[a] += temp[source.a];
+				base[b] += temp[source.b];
+			}
+			else
+			{
+				base[a] += source.base[source.a];
+				base[b] += source.base[source.b];
+			}
+
+			return *this;
+		}
+
+		inline SwizzledFloat2& operator -= (const Float2& source)
+		{
+			if (base == &source._x)
+			{
+				SOAVecFloat temp[2];
+
+				temp[0] = source._x;
+				temp[1] = source._y;
+
+				base[a] -= temp[0];
+				base[b] -= temp[1];
+			}
+			else
+			{
+				base[a] -= source._x;
+				base[b] -= source._y;
+			}
+
+			return *this;
+		}
+
+		inline SwizzledFloat2& operator -= (const SwizzledFloat2& source)
+		{
+			if (base == source.base)
+			{
+				SOAVecFloat temp[2];
+
+				temp[0] = base[0];
+				temp[1] = base[1];
+
+				base[a] -= temp[source.a];
+				base[b] -= temp[source.b];
+			}
+			else
+			{
+				base[a] -= source.base[source.a];
+				base[b] -= source.base[source.b];
+			}
+
+			return *this;
+		}
+
+		inline SwizzledFloat2& operator *= (const Float2& source)
+		{
+			if (base == &source._x)
+			{
+				SOAVecFloat temp[2];
+
+				temp[0] = source._x;
+				temp[1] = source._y;
+
+				base[a] *= temp[0];
+				base[b] *= temp[1];
+			}
+			else
+			{
+				base[a] *= source._x;
+				base[b] *= source._y;
+			}
+
+			return *this;
+		}
+
+		inline SwizzledFloat2& operator *= (const SwizzledFloat2& source)
+		{
+			if (base == source.base)
+			{
+				SOAVecFloat temp[2];
+
+				temp[0] = base[0];
+				temp[1] = base[1];
+
+				base[a] *= temp[source.a];
+				base[b] *= temp[source.b];
+			}
+			else
+			{
+				base[a] *= source.base[source.a];
+				base[b] *= source.base[source.b];
+			}
+
+			return *this;
+		}
+
+		inline SwizzledFloat2& operator /= (const Float2& source)
+		{
+			if (base == &source._x)
+			{
+				SOAVecFloat temp[2];
+
+				temp[0] = source._x;
+				temp[1] = source._y;
+
+				base[a] /= temp[0];
+				base[b] /= temp[1];
+			}
+			else
+			{
+				base[a] /= source._x;
+				base[b] /= source._y;
+			}
+
+			return *this;
+		}
+
+		inline SwizzledFloat2& operator /= (const SwizzledFloat2& source)
+		{
+			if (base == source.base)
+			{
+				SOAVecFloat temp[2];
+
+				temp[0] = base[0];
+				temp[1] = base[1];
+
+				base[a] /= temp[source.a];
+				base[b] /= temp[source.b];
+			}
+			else
+			{
+				base[a] /= source.base[source.a];
+				base[b] /= source.base[source.b];
+			}
+
 			return *this;
 		}
 
@@ -1732,6 +1948,198 @@ namespace Ceng::Pshader
 				base[b] = source.base[source.b];
 				base[c] = source.base[source.c];
 			}			
+
+			return *this;
+		}
+
+		inline SwizzledFloat3& operator += (const Float3& source)
+		{
+			if (base == &source._x)
+			{
+				SOAVecFloat temp[3];
+
+				temp[0] = source._x;
+				temp[1] = source._y;
+				temp[2] = source._z;
+
+				base[a] += temp[0];
+				base[b] += temp[1];
+				base[c] += temp[2];
+			}
+			else
+			{
+				base[a] += source._x;
+				base[b] += source._y;
+				base[c] += source._z;
+			}
+
+			return *this;
+		}
+
+		inline SwizzledFloat3& operator += (const SwizzledFloat3& source)
+		{
+			if (base == source.base)
+			{
+				SOAVecFloat temp[3];
+
+				temp[0] = base[0];
+				temp[1] = base[1];
+				temp[2] = base[2];
+
+				base[a] += temp[source.a];
+				base[b] += temp[source.b];
+				base[c] += temp[source.c];
+			}
+			else
+			{
+				base[a] += source.base[source.a];
+				base[b] += source.base[source.b];
+				base[c] += source.base[source.c];
+			}
+
+			return *this;
+		}
+
+		inline SwizzledFloat3& operator -= (const Float3& source)
+		{
+			if (base == &source._x)
+			{
+				SOAVecFloat temp[3];
+
+				temp[0] = source._x;
+				temp[1] = source._y;
+				temp[2] = source._z;
+
+				base[a] -= temp[0];
+				base[b] -= temp[1];
+				base[c] -= temp[2];
+			}
+			else
+			{
+				base[a] -= source._x;
+				base[b] -= source._y;
+				base[c] -= source._z;
+			}
+
+			return *this;
+		}
+
+		inline SwizzledFloat3& operator -= (const SwizzledFloat3& source)
+		{
+			if (base == source.base)
+			{
+				SOAVecFloat temp[3];
+
+				temp[0] = base[0];
+				temp[1] = base[1];
+				temp[2] = base[2];
+
+				base[a] -= temp[source.a];
+				base[b] -= temp[source.b];
+				base[c] -= temp[source.c];
+			}
+			else
+			{
+				base[a] -= source.base[source.a];
+				base[b] -= source.base[source.b];
+				base[c] -= source.base[source.c];
+			}
+
+			return *this;
+		}
+
+		inline SwizzledFloat3& operator *= (const Float3& source)
+		{
+			if (base == &source._x)
+			{
+				SOAVecFloat temp[3];
+
+				temp[0] = source._x;
+				temp[1] = source._y;
+				temp[2] = source._z;
+
+				base[a] *= temp[0];
+				base[b] *= temp[1];
+				base[c] *= temp[2];
+			}
+			else
+			{
+				base[a] *= source._x;
+				base[b] *= source._y;
+				base[c] *= source._z;
+			}
+
+			return *this;
+		}
+
+		inline SwizzledFloat3& operator *= (const SwizzledFloat3& source)
+		{
+			if (base == source.base)
+			{
+				SOAVecFloat temp[3];
+
+				temp[0] = base[0];
+				temp[1] = base[1];
+				temp[2] = base[2];
+
+				base[a] *= temp[source.a];
+				base[b] *= temp[source.b];
+				base[c] *= temp[source.c];
+			}
+			else
+			{
+				base[a] *= source.base[source.a];
+				base[b] *= source.base[source.b];
+				base[c] *= source.base[source.c];
+			}
+
+			return *this;
+		}
+
+		inline SwizzledFloat3& operator /= (const Float3& source)
+		{
+			if (base == &source._x)
+			{
+				SOAVecFloat temp[3];
+
+				temp[0] = source._x;
+				temp[1] = source._y;
+				temp[2] = source._z;
+
+				base[a] /= temp[0];
+				base[b] /= temp[1];
+				base[c] /= temp[2];
+			}
+			else
+			{
+				base[a] /= source._x;
+				base[b] /= source._y;
+				base[c] /= source._z;
+			}
+
+			return *this;
+		}
+
+		inline SwizzledFloat3& operator /= (const SwizzledFloat3& source)
+		{
+			if (base == source.base)
+			{
+				SOAVecFloat temp[3];
+
+				temp[0] = base[0];
+				temp[1] = base[1];
+				temp[2] = base[2];
+
+				base[a] /= temp[source.a];
+				base[b] /= temp[source.b];
+				base[c] /= temp[source.c];
+			}
+			else
+			{
+				base[a] /= source.base[source.a];
+				base[b] /= source.base[source.b];
+				base[c] /= source.base[source.c];
+			}
 
 			return *this;
 		}
@@ -1819,6 +2227,222 @@ namespace Ceng::Pshader
 				base[c] = source.base[source.c];
 				base[d] = source.base[source.d];
 			}			
+
+			return *this;
+		}
+
+		inline SwizzledFloat4& operator += (const Float4& source)
+		{
+			if (base == &source._x)
+			{
+				SOAVecFloat temp[4];
+
+				temp[0] = source._x;
+				temp[1] = source._y;
+				temp[2] = source._z;
+				temp[3] = source._w;
+
+				base[a] += temp[0];
+				base[b] += temp[1];
+				base[c] += temp[2];
+				base[d] += temp[3];
+			}
+			else
+			{
+				base[a] += source._x;
+				base[b] += source._y;
+				base[c] += source._z;
+				base[d] += source._w;
+			}
+
+			return *this;
+		}
+
+		inline SwizzledFloat4& operator += (const SwizzledFloat4& source)
+		{
+			if (base == source.base)
+			{
+				SOAVecFloat temp[4];
+
+				temp[0] = base[0];
+				temp[1] = base[1];
+				temp[2] = base[2];
+				temp[3] = base[3];
+
+				base[a] += temp[source.a];
+				base[b] += temp[source.b];
+				base[c] += temp[source.c];
+				base[d] += temp[source.d];
+			}
+			else
+			{
+				base[a] += source.base[source.a];
+				base[b] += source.base[source.b];
+				base[c] += source.base[source.c];
+				base[d] += source.base[source.d];
+			}
+
+			return *this;
+		}
+
+		inline SwizzledFloat4& operator -= (const Float4& source)
+		{
+			if (base == &source._x)
+			{
+				SOAVecFloat temp[4];
+
+				temp[0] = source._x;
+				temp[1] = source._y;
+				temp[2] = source._z;
+				temp[3] = source._w;
+
+				base[a] -= temp[0];
+				base[b] -= temp[1];
+				base[c] -= temp[2];
+				base[d] -= temp[3];
+			}
+			else
+			{
+				base[a] -= source._x;
+				base[b] -= source._y;
+				base[c] -= source._z;
+				base[d] -= source._w;
+			}
+
+			return *this;
+		}
+
+		inline SwizzledFloat4& operator -= (const SwizzledFloat4& source)
+		{
+			if (base == source.base)
+			{
+				SOAVecFloat temp[4];
+
+				temp[0] = base[0];
+				temp[1] = base[1];
+				temp[2] = base[2];
+				temp[3] = base[3];
+
+				base[a] -= temp[source.a];
+				base[b] -= temp[source.b];
+				base[c] -= temp[source.c];
+				base[d] -= temp[source.d];
+			}
+			else
+			{
+				base[a] -= source.base[source.a];
+				base[b] -= source.base[source.b];
+				base[c] -= source.base[source.c];
+				base[d] -= source.base[source.d];
+			}
+
+			return *this;
+		}
+
+		inline SwizzledFloat4& operator *= (const Float4& source)
+		{
+			if (base == &source._x)
+			{
+				SOAVecFloat temp[4];
+
+				temp[0] = source._x;
+				temp[1] = source._y;
+				temp[2] = source._z;
+				temp[3] = source._w;
+
+				base[a] *= temp[0];
+				base[b] *= temp[1];
+				base[c] *= temp[2];
+				base[d] *= temp[3];
+			}
+			else
+			{
+				base[a] *= source._x;
+				base[b] *= source._y;
+				base[c] *= source._z;
+				base[d] *= source._w;
+			}
+
+			return *this;
+		}
+
+		inline SwizzledFloat4& operator *= (const SwizzledFloat4& source)
+		{
+			if (base == source.base)
+			{
+				SOAVecFloat temp[4];
+
+				temp[0] = base[0];
+				temp[1] = base[1];
+				temp[2] = base[2];
+				temp[3] = base[3];
+
+				base[a] *= temp[source.a];
+				base[b] *= temp[source.b];
+				base[c] *= temp[source.c];
+				base[d] *= temp[source.d];
+			}
+			else
+			{
+				base[a] *= source.base[source.a];
+				base[b] *= source.base[source.b];
+				base[c] *= source.base[source.c];
+				base[d] *= source.base[source.d];
+			}
+
+			return *this;
+		}
+
+		inline SwizzledFloat4& operator /= (const Float4& source)
+		{
+			if (base == &source._x)
+			{
+				SOAVecFloat temp[4];
+
+				temp[0] = source._x;
+				temp[1] = source._y;
+				temp[2] = source._z;
+				temp[3] = source._w;
+
+				base[a] /= temp[0];
+				base[b] /= temp[1];
+				base[c] /= temp[2];
+				base[d] /= temp[3];
+			}
+			else
+			{
+				base[a] /= source._x;
+				base[b] /= source._y;
+				base[c] /= source._z;
+				base[d] /= source._w;
+			}
+
+			return *this;
+		}
+
+		inline SwizzledFloat4& operator /= (const SwizzledFloat4& source)
+		{
+			if (base == source.base)
+			{
+				SOAVecFloat temp[4];
+
+				temp[0] = base[0];
+				temp[1] = base[1];
+				temp[2] = base[2];
+				temp[3] = base[3];
+
+				base[a] /= temp[source.a];
+				base[b] /= temp[source.b];
+				base[c] /= temp[source.c];
+				base[d] /= temp[source.d];
+			}
+			else
+			{
+				base[a] /= source.base[source.a];
+				base[b] /= source.base[source.b];
+				base[c] /= source.base[source.c];
+				base[d] /= source.base[source.d];
+			}
 
 			return *this;
 		}
