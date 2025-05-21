@@ -1543,6 +1543,155 @@ namespace Ceng::Pshader
 		return { Min(a._x, b._x), Min(a._y, b._y), Min(a._z, b._z), Min(a._w, b._w) };
 	}
 	
+	inline Float2 Min(const Float2& a, const Float& b)
+	{
+		return { Min(a._x, b.x), Min(a._y, b.x) };
+	}
+
+	inline Float3 Min(const Float3& a, const Float& b)
+	{
+		return { Min(a._x, b.x), Min(a._y, b.x), Min(a._z, b.x) };
+	}
+
+	inline Float4 Min(const Float4& a, const Float& b)
+	{
+		return { Min(a._x, b.x), Min(a._y, b.x), Min(a._z, b.x), Min(a._w, b.x) };
+	}
+
+	//*************************************
+	// max
+
+	inline SOAVecFloat Max(const SOAVecFloat& x, const SOAVecFloat& y)
+	{
+		return { std::max(x.a, y.a), std::max(x.b, y.b), std::max(x.c, y.c), std::max(x.d, y.d) };
+	}
+
+	inline Float Max(const Float& a, const Float& b)
+	{
+		return Max(a.x, b.x);
+	}
+
+	inline Float2 Max(const Float2& a, const Float2& b)
+	{
+		return { Max(a._x, b._x), Max(a._y, b._y) };
+	}
+
+	inline Float3 Max(const Float3& a, const Float3& b)
+	{
+		return { Max(a._x, b._x), Max(a._y, b._y), Max(a._z, b._z) };
+	}
+
+	inline Float4 Max(const Float4& a, const Float4& b)
+	{
+		return { Max(a._x, b._x), Max(a._y, b._y), Max(a._z, b._z), Max(a._w, b._w) };
+	}
+
+	inline Float2 Max(const Float2& a, const Float& b)
+	{
+		return { Max(a._x, b.x), Max(a._y, b.x) };
+	}
+
+	inline Float3 Max(const Float3& a, const Float& b)
+	{
+		return { Max(a._x, b.x), Max(a._y, b.x), Max(a._z, b.x) };
+	}
+
+	inline Float4 Max(const Float4& a, const Float& b)
+	{
+		return { Max(a._x, b.x), Max(a._y, b.x), Max(a._z, b.x), Max(a._w, b.x) };
+	}
+
+	//*************************************
+	// Clamp
+
+	inline SOAVecFloat Clamp(const SOAVecFloat& x, const SOAVecFloat& minVal, const SOAVecFloat& maxVal)
+	{
+		return Min(Max(x, minVal), maxVal);
+	}
+
+	inline Float Clamp(const Float& a, const Float& minVal, const Float& maxVal)
+	{
+		return Clamp(a.x, minVal.x, maxVal.x);
+	}
+
+	inline Float2 Clamp(const Float2& a, const Float2& minVal, const Float2& maxVal)
+	{
+		return { Clamp(a._x, minVal._x, maxVal._x), Clamp(a._y, minVal._y, maxVal._y) };
+	}
+
+	inline Float3 Clamp(const Float3& a, const Float3& minVal, const Float3& maxVal)
+	{
+		return { Clamp(a._x, minVal._x, maxVal._x), Clamp(a._y, minVal._y, maxVal._y), Clamp(a._z, minVal._z, maxVal._z) };
+	}
+
+	inline Float4 Clamp(const Float4& a, const Float4& minVal, const Float4& maxVal)
+	{
+		return { Clamp(a._x, minVal._x, maxVal._x), 
+				Clamp(a._y, minVal._y, maxVal._y), 
+				Clamp(a._z, minVal._z, maxVal._z),
+				Clamp(a._w, minVal._w, maxVal._w) };
+	}
+
+	inline Float2 Clamp(const Float2& a, const Float& minVal, const Float& maxVal)
+	{
+		return { Clamp(a._x, minVal.x, maxVal.x), Clamp(a._y, minVal.x, maxVal.x) };
+	}
+
+	inline Float3 Clamp(const Float3& a, const Float& minVal, const Float& maxVal)
+	{
+		return { Clamp(a._x, minVal.x, maxVal.x), Clamp(a._y, minVal.x, maxVal.x), Clamp(a._z, minVal.x, maxVal.x) };
+	}
+
+	inline Float4 Clamp(const Float4& a, const Float& minVal, const Float& maxVal)
+	{
+		return { Clamp(a._x, minVal.x, maxVal.x),
+				Clamp(a._y, minVal.x, maxVal.x),
+				Clamp(a._z, minVal.x, maxVal.x),
+				Clamp(a._w, minVal.x, maxVal.x) };
+	}
+
+	//*************************************
+	// Mix
+
+	inline SOAVecFloat Mix(const SOAVecFloat& x, const SOAVecFloat& y, const SOAVecFloat& a)
+	{
+		return x * (SOAVecFloat(1.0f) - a) + y * a;
+	}
+
+	inline Float Mix(const Float& x, const Float& y, const Float& a)
+	{
+		return Mix(x.x, y.x, a.x);
+	}
+
+	inline Float2 Mix(const Float2& x, const Float2& y, const Float2& a)
+	{
+		return { Mix(x._x, y._x, a._x), Mix(x._y, y._y, a._y) };
+	}
+
+	inline Float3 Mix(const Float3& x, const Float3& y, const Float3& a)
+	{
+		return { Mix(x._x, y._x, a._x), Mix(x._y, y._y, a._y), Mix(x._z, y._z, a._z) };
+	}
+
+	inline Float4 Mix(const Float4& x, const Float4& y, const Float4& a)
+	{
+		return { Mix(x._x, y._x, a._x), Mix(x._y, y._y, a._y), Mix(x._z, y._z, a._z), Mix(x._w, y._w, a._w) };
+	}
+
+	inline Float2 Mix(const Float2& x, const Float2& y, const Float& a)
+	{
+		return { Mix(x._x, y._x, a.x), Mix(x._y, y._y, a.x) };
+	}
+
+	inline Float3 Mix(const Float3& x, const Float3& y, const Float& a)
+	{
+		return { Mix(x._x, y._x, a.x), Mix(x._y, y._y, a.x), Mix(x._z, y._z, a.x) };
+	}
+
+	inline Float4 Mix(const Float4& x, const Float4& y, const Float& a)
+	{
+		return { Mix(x._x, y._x, a.x), Mix(x._y, y._y, a.x), Mix(x._z, y._z, a.x), Mix(x._w, y._w, a.x) };
+	}
 
 }
 
