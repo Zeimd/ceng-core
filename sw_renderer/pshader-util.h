@@ -493,6 +493,90 @@ namespace Ceng::Pshader
 	}
 
 	//***************************
+	// Natural logarithm
+
+	inline SOAVecFloat Log(const SOAVecFloat& x)
+	{
+		return { logf(x.a), logf(x.b), logf(x.c), logf(x.d) };
+	}
+
+	inline Float Log(const Float& a)
+	{
+		return Log(a.x);
+	}
+
+	inline Float2 Log(const Float2& a)
+	{
+		return { Log(a._x), Log(a._y) };
+	}
+
+	inline Float3 Log(const Float3& a)
+	{
+		return { Log(a._x), Log(a._y), Log(a._z) };
+	}
+
+	inline Float4 Log(const Float4& a)
+	{
+		return { Log(a._x), Log(a._y), Log(a._z), Log(a._w) };
+	}
+
+	//***************************
+	// Base 2 logarithm
+
+	inline SOAVecFloat Log2(const SOAVecFloat& x)
+	{
+		return { log2f(x.a), log2f(x.b), log2f(x.c), log2f(x.d) };
+	}
+
+	inline Float Log2(const Float& a)
+	{
+		return Log2(a.x);
+	}
+
+	inline Float2 Log2(const Float2& a)
+	{
+		return { Log2(a._x), Log2(a._y) };
+	}
+
+	inline Float3 Log2(const Float3& a)
+	{
+		return { Log2(a._x), Log2(a._y), Log2(a._z) };
+	}
+
+	inline Float4 Log2(const Float4& a)
+	{
+		return { Log2(a._x), Log2(a._y), Log2(a._z), Log2(a._w) };
+	}
+
+	//***************************
+	// Base 2 exponent
+
+	inline SOAVecFloat Exp2(const SOAVecFloat& x)
+	{
+		return { exp2f(x.a), exp2f(x.b), exp2f(x.c), exp2f(x.d) };
+	}
+
+	inline Float Exp2(const Float& a)
+	{
+		return Exp2(a.x);
+	}
+
+	inline Float2 Exp2(const Float2& a)
+	{
+		return { Exp2(a._x), Exp2(a._y) };
+	}
+
+	inline Float3 Exp2(const Float3& a)
+	{
+		return { Exp2(a._x), Exp2(a._y), Exp2(a._z) };
+	}
+
+	inline Float4 Exp2(const Float4& a)
+	{
+		return { Exp2(a._x), Exp2(a._y), Exp2(a._z), Exp2(a._w) };
+	}
+
+	//***************************
 	// Square root
 
 	inline SOAVecFloat Sqrt(const SOAVecFloat& x)
@@ -520,6 +604,34 @@ namespace Ceng::Pshader
 		return { Sqrt(a._x), Sqrt(a._y), Sqrt(a._z), Sqrt(a._w) };
 	}
 
+	//***************************
+	// Inverse Square root
+
+	inline SOAVecFloat InverseSqrt(const SOAVecFloat& x)
+	{
+		return { 1.0f / sqrtf(x.a), 1.0f / sqrtf(x.b), 1.0f / sqrtf(x.c), 1.0f / sqrtf(x.d) };
+	}
+
+	inline Float InverseSqrt(const Float& a)
+	{
+		return InverseSqrt(a.x);
+	}
+
+	inline Float2 InverseSqrt(const Float2& a)
+	{
+		return { InverseSqrt(a._x), InverseSqrt(a._y) };
+	}
+
+	inline Float3 InverseSqrt(const Float3& a)
+	{
+		return { InverseSqrt(a._x), InverseSqrt(a._y), InverseSqrt(a._z) };
+	}
+
+	inline Float4 InverseSqrt(const Float4& a)
+	{
+		return { InverseSqrt(a._x), InverseSqrt(a._y), InverseSqrt(a._z), InverseSqrt(a._w) };
+	}
+
 
 	//***************************
 	// Dot product
@@ -544,7 +656,9 @@ namespace Ceng::Pshader
 		return (a._x * b._x + a._y * b._y + a._z * b._z + a._w * b._w);
 	}
 
-	
+	//****************************
+	// Vector length
+		
 	inline Float Length(const Float& a)
 	{
 		return Sqrt(Dot(a, a));
@@ -564,6 +678,221 @@ namespace Ceng::Pshader
 	{
 		return Sqrt(Dot(a, a));
 	}
+
+	//****************************
+	// Distance between two points
+
+	inline Float Distance(const Float& start, const Float& end)
+	{
+		return Length(end-start);
+	}
+
+	inline Float Distance(const Float2& start, const Float2& end)
+	{
+		return Length(end - start);
+	}
+
+	inline Float Distance(const Float3& start, const Float3& end)
+	{
+		return Length(end - start);
+	}
+
+	inline Float Distance(const Float4& start, const Float4& end)
+	{
+		return Length(end - start);
+	}
+
+	//******************************
+	// Cross product
+
+	inline Float3 Cross(const Float3& a, const Float3& b)
+	{
+		return { a._y * b._z - a._z * b._y,
+			a._z * b._x - a._x * b._z,
+			a._x * b._y - b._x * a._y };
+	}
+
+	//******************************
+	// Normalize
+
+	inline Float Normalize(const Float& a)
+	{
+		Float length = Length(a);
+
+		return a / length;
+	}
+
+	inline Float2 Normalize(const Float2& a)
+	{
+		Float length = Length(a);
+
+		return a / length;
+	}
+
+	inline Float3 Normalize(const Float3& a)
+	{
+		Float length = Length(a);
+
+		return a / length;
+	}
+
+	inline Float4 Normalize(const Float4& a)
+	{
+		Float length = Length(a);
+
+		return a / length;
+	}
+
+	//*******************************
+	// Face forward
+
+	inline Float FaceForward(const Float& n, const Float& i, const Float& nref)
+	{
+		auto dot = Dot(i, nref);
+
+		SOAVecFloat out = n.x;
+
+		if (dot.x.a >= 0.0f)
+		{
+			out.a *= -1.0f;
+		}
+
+		if (dot.x.b >= 0.0f)
+		{
+			out.b *= -1.0f;
+		}
+
+		if (dot.x.c >= 0.0f)
+		{
+			out.c *= -1.0f;
+		}
+
+		if (dot.x.d >= 0.0f)
+		{
+			out.d *= -1.0f;
+		}
+
+		return out;
+	}
+
+	inline Float2 FaceForward(const Float2& n, const Float2& i, const Float2& nref)
+	{
+		auto dot = Dot(i, nref);
+
+		SOAVecFloat outX = n._x;
+		SOAVecFloat outY = n._y;
+
+		if (dot.x.a >= 0.0f)
+		{
+			outX.a *= -1.0f;
+			outY.a *= -1.0f;
+		}
+
+		if (dot.x.b >= 0.0f)
+		{
+			outX.b *= -1.0f;
+			outY.b *= -1.0f;
+		}
+
+		if (dot.x.c >= 0.0f)
+		{
+			outX.c *= -1.0f;
+			outY.c *= -1.0f;
+		}
+
+		if (dot.x.d >= 0.0f)
+		{
+			outX.d *= -1.0f;
+			outY.d *= -1.0f;
+		}
+
+		return { outX,outY };
+	}
+
+	inline Float3 FaceForward(const Float3& n, const Float3& i, const Float3& nref)
+	{
+		auto dot = Dot(i, nref);
+
+		SOAVecFloat outX = n._x;
+		SOAVecFloat outY = n._y;
+		SOAVecFloat outZ = n._z;
+
+		if (dot.x.a >= 0.0f)
+		{
+			outX.a *= -1.0f;
+			outY.a *= -1.0f;
+			outZ.a *= -1.0f;
+		}
+
+		if (dot.x.b >= 0.0f)
+		{
+			outX.b *= -1.0f;
+			outY.b *= -1.0f;
+			outZ.b *= -1.0f;
+		}
+
+		if (dot.x.c >= 0.0f)
+		{
+			outX.c *= -1.0f;
+			outY.c *= -1.0f;
+			outZ.c *= -1.0f;
+		}
+
+		if (dot.x.d >= 0.0f)
+		{
+			outX.d *= -1.0f;
+			outY.d *= -1.0f;
+			outZ.d *= -1.0f;
+		}
+
+		return { outX,outY, outZ };
+	}
+
+	inline Float4 FaceForward(const Float4& n, const Float4& i, const Float4& nref)
+	{
+		auto dot = Dot(i, nref);
+
+		SOAVecFloat outX = n._x;
+		SOAVecFloat outY = n._y;
+		SOAVecFloat outZ = n._z;
+		SOAVecFloat outW = n._w;
+
+		if (dot.x.a >= 0.0f)
+		{
+			outX.a *= -1.0f;
+			outY.a *= -1.0f;
+			outZ.a *= -1.0f;
+			outW.a *= -1.0f;
+		}
+
+		if (dot.x.b >= 0.0f)
+		{
+			outX.b *= -1.0f;
+			outY.b *= -1.0f;
+			outZ.b *= -1.0f;
+			outW.b *= -1.0f;
+		}
+
+		if (dot.x.c >= 0.0f)
+		{
+			outX.c *= -1.0f;
+			outY.c *= -1.0f;
+			outZ.c *= -1.0f;
+			outW.c *= -1.0f;
+		}
+
+		if (dot.x.d >= 0.0f)
+		{
+			outX.d *= -1.0f;
+			outY.d *= -1.0f;
+			outZ.d *= -1.0f;
+			outW.d *= -1.0f;
+		}
+
+		return { outX,outY, outZ, outW };
+	}
+
+	
 }
 
 #endif
