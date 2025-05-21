@@ -1478,6 +1478,56 @@ namespace Ceng::Pshader
 			
 	};
 
+	inline Float4 operator + (const Float4& a, const Float4& b)
+	{
+		return { a._x + b._x, a._y + b._y, a._z + b._z, a._w + b._w };
+	}
+
+	inline Float4 operator - (const Float4& a, const Float4& b)
+	{
+		return { a._x - b._x, a._y - b._y, a._z - b._z, a._w - b._w };
+	}
+
+	inline Float4 operator * (const Float4& a, const Float4& b)
+	{
+		return  { a._x * b._x, a._y * b._y, a._z * b._z, a._w * b._w };
+	}
+
+	inline Float4 operator / (const Float4& a, const Float4& b)
+	{
+		return  { a._x / b._x, a._y / b._y, a._z / b._z, a._w / b._w };
+	}
+
+	inline Bool4 operator == (const Float4& a, const Float4& b)
+	{
+		return  { a._x == b._x, a._y == b._y, a._z == b._z, a._w == b._w };
+	}
+
+	inline Bool4 operator != (const Float4& a, const Float4& b)
+	{
+		return { a._x != b._x, a._y != b._y, a._z != b._z, a._w != b._w };
+	}
+
+	inline Bool4 operator < (const Float4& a, const Float4& b)
+	{
+		return { a._x < b._x, a._y < b._y, a._z < b._z, a._w < b._w };
+	}
+
+	inline Bool4 operator > (const Float4& a, const Float4& b)
+	{
+		return { a._x > b._x, a._y > b._y, a._z > b._z, a._w > b._w };
+	}
+
+	inline Bool4 operator <= (const Float4& a, const Float4& b)
+	{
+		return { a._x <= b._x, a._y <= b._y, a._z <= b._z, a._w <= b._w };
+	}
+
+	inline Bool4 operator >= (const Float4& a, const Float4& b)
+	{
+		return { a._x >= b._x, a._y >= b._y, a._z >= b._z, a._w >= b._w };
+	}
+
 	class SampleTexture2D
 	{
 	public:
