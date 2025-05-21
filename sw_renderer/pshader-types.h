@@ -703,28 +703,6 @@ namespace Ceng::Pshader
 		return LogicalOr(a._x != b._x, a._y != b._y);
 	}
 
-	/*
-	inline Bool2 operator < (const Float2& a, const Float2& b)
-	{
-		return { a._x < b._x, a._y < b._y };
-	}
-
-	inline Bool2 operator > (const Float2& a, const Float2& b)
-	{
-		return { a._x > b._x, a._y > b._y };
-	}
-
-	inline Bool2 operator <= (const Float2& a, const Float2& b)
-	{
-		return { a._x <= b._x, a._y <= b._y };
-	}
-
-	inline Bool2 operator >= (const Float2& a, const Float2& b)
-	{
-		return { a._x >= b._x, a._y >= b._y };
-	}
-	*/
-
 	class alignas(16) Float3
 	{
 	public:
@@ -921,37 +899,12 @@ namespace Ceng::Pshader
 	inline Bool operator == (const Float3& a, const Float3& b)
 	{
 		return LogicalAnd(LogicalAnd(a._x == b._x, a._y == b._y), a._z == b._z);
-
-		//return  { a._x == b._x, a._y == b._y, a._z == b._z };
 	}
 
 	inline Bool operator != (const Float3& a, const Float3& b)
 	{
 		return LogicalOr(LogicalOr(a._x != b._x, a._y != b._y), a._z != b._z);
-		//return { a._x != b._x, a._y != b._y, a._z != b._z };
 	}
-
-	/*
-	inline Bool3 operator < (const Float3& a, const Float3& b)
-	{
-		return { a._x < b._x, a._y < b._y, a._z < b._z };
-	}
-
-	inline Bool3 operator > (const Float3& a, const Float3& b)
-	{
-		return { a._x > b._x, a._y > b._y, a._z > b._z };
-	}
-
-	inline Bool3 operator <= (const Float3& a, const Float3& b)
-	{
-		return { a._x <= b._x, a._y <= b._y, a._z <= b._z };
-	}
-
-	inline Bool3 operator >= (const Float3& a, const Float3& b)
-	{
-		return { a._x >= b._x, a._y >= b._y, a._z >= b._z };
-	}
-	*/
 
 	class alignas(16) Float4
 	{
@@ -1583,38 +1536,12 @@ namespace Ceng::Pshader
 	inline Bool operator == (const Float4& a, const Float4& b)
 	{
 		return LogicalAnd(LogicalAnd(LogicalAnd(a._x == b._x, a._y == b._y), a._z == b._z), a._w == b._w);
-
-		//return  { a._x == b._x, a._y == b._y, a._z == b._z, a._w == b._w };
 	}
 
 	inline Bool operator != (const Float4& a, const Float4& b)
 	{
 		return LogicalOr(LogicalOr(LogicalOr(a._x != b._x, a._y != b._y), a._z != b._z), a._w != b._w);
-
-		//return { a._x != b._x, a._y != b._y, a._z != b._z, a._w != b._w };
 	}
-
-	/*
-	inline Bool4 operator < (const Float4& a, const Float4& b)
-	{
-		return { a._x < b._x, a._y < b._y, a._z < b._z, a._w < b._w };
-	}
-
-	inline Bool4 operator > (const Float4& a, const Float4& b)
-	{
-		return { a._x > b._x, a._y > b._y, a._z > b._z, a._w > b._w };
-	}
-
-	inline Bool4 operator <= (const Float4& a, const Float4& b)
-	{
-		return { a._x <= b._x, a._y <= b._y, a._z <= b._z, a._w <= b._w };
-	}
-
-	inline Bool4 operator >= (const Float4& a, const Float4& b)
-	{
-		return { a._x >= b._x, a._y >= b._y, a._z >= b._z, a._w >= b._w };
-	}
-	*/
 
 	class SampleTexture2D
 	{
