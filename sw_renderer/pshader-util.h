@@ -1219,6 +1219,331 @@ namespace Ceng::Pshader
 	{
 		return { LogicalNot(a.x),LogicalNot(a.y),LogicalNot(a.z),LogicalNot(a.w) };
 	}
+
+	
+
+	//*************************************
+	// Absolute value
+
+	
+	inline SOAVecFloat Abs(const SOAVecFloat& x)
+	{
+		return { fabsf(x.a), fabsf(x.b), fabsf(x.c), fabsf(x.d) };
+	}
+
+	inline Float Abs(const Float& a)
+	{
+		return Abs(a.x);
+	}
+
+	inline Float2 Abs(const Float2& a)
+	{
+		return { Abs(a._x), Abs(a._y) };
+	}
+
+	inline Float3 Abs(const Float3& a)
+	{
+		return { Abs(a._x), Abs(a._y), Abs(a._z) };
+	}
+
+	inline Float4 Abs(const Float4& a)
+	{
+		return { Abs(a._x), Abs(a._y), Abs(a._z), Abs(a._w) };
+	}
+	
+
+	//*************************************
+	// Sign function
+
+	
+	inline SOAVecFloat Sign(const SOAVecFloat& x)
+	{
+		return { copysign(1.0f, x.a), copysign(1.0f, x.a), copysign(1.0f, x.a), copysign(1.0f, x.a) };
+	}
+
+	inline Float Sign(const Float& a)
+	{
+		return Sign(a.x);
+	}
+
+	inline Float2 Sign(const Float2& a)
+	{
+		return { Sign(a._x), Sign(a._y) };
+	}
+
+	inline Float3 Sign(const Float3& a)
+	{
+		return { Sign(a._x), Sign(a._y), Sign(a._z) };
+	}
+
+	inline Float4 Sign(const Float4& a)
+	{
+		return { Sign(a._x), Sign(a._y), Sign(a._z), Sign(a._w) };
+	}
+	
+
+	//*************************************
+	// Floor
+
+	
+	inline SOAVecFloat Floor(const SOAVecFloat& x)
+	{
+		return { floorf(x.a), floorf(x.b), floorf(x.c), floorf(x.d)};
+	}
+
+	inline Float Floor(const Float& a)
+	{
+		return Floor(a.x);
+	}
+
+	inline Float2 Floor(const Float2& a)
+	{
+		return { Floor(a._x), Floor(a._y) };
+	}
+
+	inline Float3 Floor(const Float3& a)
+	{
+		return { Floor(a._x), Floor(a._y), Floor(a._z) };
+	}
+
+	inline Float4 Floor(const Float4& a)
+	{
+		return { Floor(a._x), Floor(a._y), Floor(a._z), Floor(a._w) };
+	}
+	
+
+	//*************************************
+	// Ceil
+
+	
+	inline SOAVecFloat Ceil(const SOAVecFloat& x)
+	{
+		return { ceilf(x.a), ceilf(x.b), ceilf(x.c), ceilf(x.d) };
+	}
+
+	inline Float Ceil(const Float& a)
+	{
+		return Ceil(a.x);
+	}
+
+	inline Float2 Ceil(const Float2& a)
+	{
+		return { Ceil(a._x), Ceil(a._y) };
+	}
+
+	inline Float3 Ceil(const Float3& a)
+	{
+		return { Ceil(a._x), Ceil(a._y), Ceil(a._z) };
+	}
+
+	inline Float4 Ceil(const Float4& a)
+	{
+		return { Ceil(a._x), Ceil(a._y), Ceil(a._z), Ceil(a._w) };
+	}
+	
+
+	//*************************************
+	// Truncate
+
+	
+	inline SOAVecFloat Trunc(const SOAVecFloat& x)
+	{
+		return { truncf(x.a), truncf(x.b), truncf(x.c), truncf(x.d) };
+	}
+
+	inline Float Trunc(const Float& a)
+	{
+		return Trunc(a.x);
+	}
+
+	inline Float2 Trunc(const Float2& a)
+	{
+		return { Trunc(a._x), Trunc(a._y) };
+	}
+
+	inline Float3 Trunc(const Float3& a)
+	{
+		return { Trunc(a._x), Trunc(a._y), Trunc(a._z) };
+	}
+
+	inline Float4 Trunc(const Float4& a)
+	{
+		return { Trunc(a._x), Trunc(a._y), Trunc(a._z), Trunc(a._w) };
+	}
+	
+
+	//*************************************
+	// Round
+
+	
+	inline SOAVecFloat Round(const SOAVecFloat& x)
+	{
+		return { roundf(x.a), roundf(x.b), roundf(x.c), roundf(x.d) };
+	}
+
+	inline Float Round(const Float& a)
+	{
+		return Round(a.x);
+	}
+
+	inline Float2 Round(const Float2& a)
+	{
+		return { Round(a._x), Round(a._y) };
+	}
+
+	inline Float3 Round(const Float3& a)
+	{
+		return { Round(a._x), Round(a._y), Round(a._z) };
+	}
+
+	inline Float4 Round(const Float4& a)
+	{
+		return { Round(a._x), Round(a._y), Round(a._z), Round(a._w) };
+	}
+	
+
+	//*************************************
+	// Round half to even
+
+	
+	inline SOAVecFloat RoundEven(const SOAVecFloat& x)
+	{
+		return { roundf(x.a * 0.5f) * 2.0f,
+			roundf(x.b * 0.5f) * 2.0f,
+			roundf(x.c * 0.5f) * 2.0f,
+			roundf(x.d * 0.5f) * 2.0f };
+			
+	}
+
+	inline Float RoundEven(const Float& a)
+	{
+		return RoundEven(a.x);
+	}
+
+	inline Float2 RoundEven(const Float2& a)
+	{
+		return { RoundEven(a._x), RoundEven(a._y) };
+	}
+
+	inline Float3 RoundEven(const Float3& a)
+	{
+		return { RoundEven(a._x), RoundEven(a._y), RoundEven(a._z) };
+	}
+
+	inline Float4 RoundEven(const Float4& a)
+	{
+		return { RoundEven(a._x), RoundEven(a._y), RoundEven(a._z), RoundEven(a._w) };
+	}
+	
+
+	//*************************************
+	// Fractional part
+
+	
+	inline SOAVecFloat Fract(const SOAVecFloat& x)
+	{
+		return x - Floor(x);
+	}
+
+	inline Float Fract(const Float& a)
+	{
+		return Fract(a.x);
+	}
+
+	inline Float2 Fract(const Float2& a)
+	{
+		return { Fract(a._x), Fract(a._y) };
+	}
+
+	inline Float3 Fract(const Float3& a)
+	{
+		return { Fract(a._x), Fract(a._y), Fract(a._z) };
+	}
+
+	inline Float4 Fract(const Float4& a)
+	{
+		return { Fract(a._x), Fract(a._y), Fract(a._z), Fract(a._w) };
+	}
+	
+
+	//*************************************
+	// Modulus
+
+	
+	inline SOAVecFloat Mod(const SOAVecFloat& a, const SOAVecFloat& b)
+	{
+		return a - b * Floor(a / b);
+	}
+
+	inline Float Fract(const Float& a, const Float& b)
+	{
+		return Mod(a.x, b.x);
+	}
+
+	inline Float2 Fract(const Float2& a, const Float& b)
+	{
+		return { Mod(a._x, b.x), Mod(a._y, b.x) };
+	}
+
+	inline Float3 Fract(const Float3& a, const Float& b)
+	{
+		return { Mod(a._x, b.x), Mod(a._y, b.x), Mod(a._z, b.x) };
+	}
+
+	inline Float4 Fract(const Float4& a, const Float& b)
+	{
+		return { Mod(a._x, b.x), Mod(a._y, b.x), Mod(a._z, b.x), Mod(a._w, b.x) };
+	}
+
+	inline Float2 Fract(const Float2& a, const Float2& b)
+	{
+		return { Mod(a._x, b._x), Mod(a._y, b._y) };
+	}
+
+	inline Float3 Fract(const Float3& a, const Float3& b)
+	{
+		return { Mod(a._x, b._x), Mod(a._y, b._y), Mod(a._z, b._z) };
+	}
+
+	inline Float4 Fract(const Float4& a, const Float4& b)
+	{
+		return { Mod(a._x, b._x), Mod(a._y, b._y), Mod(a._z, b._z), Mod(a._w, b._w) };
+	}
+	
+
+	//*************************************
+	// modf
+
+	//*************************************
+	// min
+
+	
+	inline SOAVecFloat Min(const SOAVecFloat& x, const SOAVecFloat& y)
+	{
+		return { std::min(x.a, y.a), std::min(x.b, y.b), std::min(x.c, y.c), std::min(x.d, y.d) };
+	}
+
+	inline Float Min(const Float& a, const Float& b)
+	{
+		return Min(a.x, b.x);
+	}
+
+	inline Float2 Min(const Float2& a, const Float2& b)
+	{
+		return { Min(a._x, b._x), Min(a._y, b._y) };
+	}
+
+	inline Float3 Min(const Float3& a, const Float3& b)
+	{
+		return { Min(a._x, b._x), Min(a._y, b._y), Min(a._z, b._z) };
+	}
+
+	inline Float4 Min(const Float4& a, const Float4& b)
+	{
+		return { Min(a._x, b._x), Min(a._y, b._y), Min(a._z, b._z), Min(a._w, b._w) };
+	}
+	
+
 }
 
 #endif
