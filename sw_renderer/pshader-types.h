@@ -129,6 +129,21 @@ namespace Ceng::Pshader
 		return { left.a != right.a, left.b != right.b , left.c != right.c , left.d != right.d };
 	}
 
+	inline SOAVecBool LogicalAnd(const SOAVecBool& left, const SOAVecBool& right)
+	{
+		return { (left.a & right.a), (left.b & right.b) , (left.c & right.c) , (left.d & right.d) };
+	}
+
+	inline SOAVecBool LogicalOr(const SOAVecBool& left, const SOAVecBool& right)
+	{
+		return { (left.a | right.a), (left.b | right.b) , (left.c | right.c) , (left.d | right.d) };
+	}
+
+	inline SOAVecBool LogicalNot(const SOAVecBool& x)
+	{
+		return { ~x.a, ~x.b, ~x.c, ~x.d };
+	}
+
 	class alignas(16) SOAVecFloat
 	{
 	public:
@@ -678,16 +693,17 @@ namespace Ceng::Pshader
 		return  { a._x / b._x, a._y / b._y };
 	}
 
-	inline Bool2 operator == (const Float2& a, const Float2& b)
+	inline Bool operator == (const Float2& a, const Float2& b)
 	{
-		return  { a._x == b._x, a._y == b._y };
+		return LogicalAnd(a._x == b._x, a._y == b._y);		
 	}
 
-	inline Bool2 operator != (const Float2& a, const Float2& b)
+	inline Bool operator != (const Float2& a, const Float2& b)
 	{
-		return { a._x != b._x, a._y != b._y };
+		return LogicalOr(a._x != b._x, a._y != b._y);
 	}
 
+	/*
 	inline Bool2 operator < (const Float2& a, const Float2& b)
 	{
 		return { a._x < b._x, a._y < b._y };
@@ -707,6 +723,7 @@ namespace Ceng::Pshader
 	{
 		return { a._x >= b._x, a._y >= b._y };
 	}
+	*/
 
 	class alignas(16) Float3
 	{
@@ -901,16 +918,20 @@ namespace Ceng::Pshader
 		return  { a._x / b.x, a._y / b.x, a._z / b.x };
 	}
 
-	inline Bool3 operator == (const Float3& a, const Float3& b)
+	inline Bool operator == (const Float3& a, const Float3& b)
 	{
-		return  { a._x == b._x, a._y == b._y, a._z == b._z };
+		return LogicalAnd(LogicalAnd(a._x == b._x, a._y == b._y), a._z == b._z);
+
+		//return  { a._x == b._x, a._y == b._y, a._z == b._z };
 	}
 
-	inline Bool3 operator != (const Float3& a, const Float3& b)
+	inline Bool operator != (const Float3& a, const Float3& b)
 	{
-		return { a._x != b._x, a._y != b._y, a._z != b._z };
+		return LogicalOr(LogicalOr(a._x != b._x, a._y != b._y), a._z != b._z);
+		//return { a._x != b._x, a._y != b._y, a._z != b._z };
 	}
 
+	/*
 	inline Bool3 operator < (const Float3& a, const Float3& b)
 	{
 		return { a._x < b._x, a._y < b._y, a._z < b._z };
@@ -930,6 +951,7 @@ namespace Ceng::Pshader
 	{
 		return { a._x >= b._x, a._y >= b._y, a._z >= b._z };
 	}
+	*/
 
 	class alignas(16) Float4
 	{
@@ -1558,16 +1580,21 @@ namespace Ceng::Pshader
 		return  { a._x / b.x, a._y / b.x, a._z / b.x, a._w / b.x };
 	}
 
-	inline Bool4 operator == (const Float4& a, const Float4& b)
+	inline Bool operator == (const Float4& a, const Float4& b)
 	{
-		return  { a._x == b._x, a._y == b._y, a._z == b._z, a._w == b._w };
+		return LogicalAnd(LogicalAnd(LogicalAnd(a._x == b._x, a._y == b._y), a._z == b._z), a._w == b._w);
+
+		//return  { a._x == b._x, a._y == b._y, a._z == b._z, a._w == b._w };
 	}
 
-	inline Bool4 operator != (const Float4& a, const Float4& b)
+	inline Bool operator != (const Float4& a, const Float4& b)
 	{
-		return { a._x != b._x, a._y != b._y, a._z != b._z, a._w != b._w };
+		return LogicalOr(LogicalOr(LogicalOr(a._x != b._x, a._y != b._y), a._z != b._z), a._w != b._w);
+
+		//return { a._x != b._x, a._y != b._y, a._z != b._z, a._w != b._w };
 	}
 
+	/*
 	inline Bool4 operator < (const Float4& a, const Float4& b)
 	{
 		return { a._x < b._x, a._y < b._y, a._z < b._z, a._w < b._w };
@@ -1587,6 +1614,7 @@ namespace Ceng::Pshader
 	{
 		return { a._x >= b._x, a._y >= b._y, a._z >= b._z, a._w >= b._w };
 	}
+	*/
 
 	class SampleTexture2D
 	{
