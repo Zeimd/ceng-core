@@ -2145,1710 +2145,1710 @@ namespace Ceng::Shader
 
 	inline SwizzledFloat Float4::x()
 	{
-
+		return SwizzledFloat(&_x, 0);
 	}
 
 	inline SwizzledFloat Float4::y()
 	{
-
+		return SwizzledFloat(&_x, 1);
 	}
 
 	inline SwizzledFloat Float4::z()
 	{
-
+		return SwizzledFloat(&_x, 2);
 	}
 
 	inline SwizzledFloat Float4::w()
 	{
-
+		return SwizzledFloat(&_x, 3);
 	}
 
 	inline SwizzledFloat2 Float4::xx()
 	{
-
+		return SwizzledFloat2(&_x, 0, 0);
 	}
 
 	inline SwizzledFloat2 Float4::xy()
 	{
-
+		return SwizzledFloat2(&_x, 0, 1);
 	}
 
 	inline SwizzledFloat2 Float4::xz()
 	{
-
+		return SwizzledFloat2(&_x, 0, 2);
 	}
 
 	inline SwizzledFloat2 Float4::xw()
 	{
-
+		return SwizzledFloat2(&_x, 0, 3);
 	}
 
 	inline SwizzledFloat2 Float4::yx()
 	{
-
+		return SwizzledFloat2(&_x, 1, 0);
 	}
 
 	inline SwizzledFloat2 Float4::yy()
 	{
-
+		return SwizzledFloat2(&_x, 1, 1);
 	}
 
 	inline SwizzledFloat2 Float4::yz()
 	{
-
+		return SwizzledFloat2(&_x, 1, 2);
 	}
 
 	inline SwizzledFloat2 Float4::yw()
 	{
-
+		return SwizzledFloat2(&_x, 1, 3);
 	}
 
 	inline SwizzledFloat2 Float4::zx()
 	{
-
+		return SwizzledFloat2(&_x, 2, 0);
 	}
 
 	inline SwizzledFloat2 Float4::zy()
 	{
-
+		return SwizzledFloat2(&_x, 2, 1);
 	}
 
 	inline SwizzledFloat2 Float4::zz()
 	{
-
+		return SwizzledFloat2(&_x, 2, 2);
 	}
 
 	inline SwizzledFloat2 Float4::zw()
 	{
-		
+		return SwizzledFloat2(&_x, 2, 3);
 	}
 
 	inline SwizzledFloat2 Float4::wx()
 	{
-
+		return SwizzledFloat2(&_x, 3, 0);
 	}
 
 	inline SwizzledFloat2 Float4::wy()
 	{
-
+		return SwizzledFloat2(&_x, 3, 1);
 	}
 
 	inline SwizzledFloat2 Float4::wz()
 	{
-
+		return SwizzledFloat2(&_x, 3, 2);
 	}
 
 	inline SwizzledFloat2 Float4::ww()
 	{
-
+		return SwizzledFloat2(&_x, 3, 3);
 	}
 
 	inline SwizzledFloat3 Float4::xxx()
 	{
-
+		return SwizzledFloat3(&_x, 0, 0, 0);
 	}
 
 	inline SwizzledFloat3 Float4::xxy()
 	{
-
+		return SwizzledFloat3(&_x, 0, 0, 1);
 	}
 
 	inline SwizzledFloat3 Float4::xxz()
 	{
-
+		return SwizzledFloat3(&_x, 0, 0, 2);
 	}
 
 	inline SwizzledFloat3 Float4::xxw()
 	{
-
+		return SwizzledFloat3(&_x, 0, 0, 3);
 	}
 
 	inline SwizzledFloat3 Float4::xyx()
 	{
-
+		return SwizzledFloat3(&_x, 0, 1, 0);
 	}
 
 	inline SwizzledFloat3 Float4::xyy()
 	{
-
+		return SwizzledFloat3(&_x, 0, 1, 1);
 	}
 
 	inline SwizzledFloat3 Float4::xyz()
 	{
-
+		return SwizzledFloat3(&_x, 0, 1, 2);
 	}
 
 	inline SwizzledFloat3 Float4::xyw()
 	{
-
+		return SwizzledFloat3(&_x, 0, 1, 3);
 	}
 
 	inline SwizzledFloat3 Float4::xzx()
 	{
-
+		return SwizzledFloat3(&_x, 0, 2, 0);
 	}
 
 	inline SwizzledFloat3 Float4::xzy()
 	{
-
+		return SwizzledFloat3(&_x, 0, 2, 1);
 	}
 
 	inline SwizzledFloat3 Float4::xzz()
 	{
-
+		return SwizzledFloat3(&_x, 0, 2, 2);
 	}
 
 	inline SwizzledFloat3 Float4::xzw()
 	{
-
+		return SwizzledFloat3(&_x, 0, 2, 3);
 	}
 
 	inline SwizzledFloat3 Float4::xwx()
 	{
-
+		return SwizzledFloat3(&_x, 0, 3, 0);
 	}
 
 	inline SwizzledFloat3 Float4::xwy()
 	{
-
+		return SwizzledFloat3(&_x, 0, 3, 1);
 	}
 
 	inline SwizzledFloat3 Float4::xwz()
 	{
-
+		return SwizzledFloat3(&_x, 0, 3, 2);
 	}
 
 	inline SwizzledFloat3 Float4::xww()
 	{
-
+		return SwizzledFloat3(&_x, 0, 3, 3);
 	}
 
 	inline SwizzledFloat3 Float4::yxx()
 	{
-
+		return SwizzledFloat3(&_x, 1, 0, 0);
 	}
 
 	inline SwizzledFloat3 Float4::yxy()
 	{
-
+		return SwizzledFloat3(&_x, 1, 0, 1);
 	}
 
 	inline SwizzledFloat3 Float4::yxz()
 	{
-
+		return SwizzledFloat3(&_x, 1, 0, 2);
 	}
 
 	inline SwizzledFloat3 Float4::yxw()
 	{
-
+		return SwizzledFloat3(&_x, 1, 0, 3);
 	}
 
 	inline SwizzledFloat3 Float4::yyx()
 	{
-
+		return SwizzledFloat3(&_x, 1, 1, 0);
 	}
 
 	inline SwizzledFloat3 Float4::yyy()
 	{
-
+		return SwizzledFloat3(&_x, 1, 1, 1);
 	}
 
 	inline SwizzledFloat3 Float4::yyz()
 	{
-
+		return SwizzledFloat3(&_x, 1, 1, 2);
 	}
 
 	inline SwizzledFloat3 Float4::yyw()
 	{
-
+		return SwizzledFloat3(&_x, 1, 1, 3);
 	}
 
 	inline SwizzledFloat3 Float4::yzx()
 	{
-
+		return SwizzledFloat3(&_x, 1, 2, 0);
 	}
 
 	inline SwizzledFloat3 Float4::yzy()
 	{
-
+		return SwizzledFloat3(&_x, 1, 2, 1);
 	}
 
 	inline SwizzledFloat3 Float4::yzz()
 	{
-
+		return SwizzledFloat3(&_x, 1, 2, 2);
 	}
 
 	inline SwizzledFloat3 Float4::yzw()
 	{
-
+		return SwizzledFloat3(&_x, 1, 2, 3);
 	}
 
 	inline SwizzledFloat3 Float4::ywx()
 	{
-
+		return SwizzledFloat3(&_x, 1, 3, 0);
 	}
 
 	inline SwizzledFloat3 Float4::ywy()
 	{
-
+		return SwizzledFloat3(&_x, 1, 3, 1);
 	}
 
 	inline SwizzledFloat3 Float4::ywz()
 	{
-
+		return SwizzledFloat3(&_x, 1, 3, 2);
 	}
 
 	inline SwizzledFloat3 Float4::yww()
 	{
-
+		return SwizzledFloat3(&_x, 1, 3, 3);
 	}		
 
 	inline SwizzledFloat3 Float4::zxx()
 	{
-
+		return SwizzledFloat3(&_x, 2, 0, 0);
 	}
 
 	inline SwizzledFloat3 Float4::zxy()
 	{
-
+		return SwizzledFloat3(&_x, 2, 0, 1);
 	}
 
 	inline SwizzledFloat3 Float4::zxz()
 	{
-
+		return SwizzledFloat3(&_x, 2, 0, 2);
 	}
 
 	inline SwizzledFloat3 Float4::zxw()
 	{
-
+		return SwizzledFloat3(&_x, 2, 0, 3);
 	}
 
 	inline SwizzledFloat3 Float4::zyx()
 	{
-
+		return SwizzledFloat3(&_x, 2, 1, 0);
 	}
 
 	inline SwizzledFloat3 Float4::zyy()
 	{
-
+		return SwizzledFloat3(&_x, 2, 1, 1);
 	}
 
 	inline SwizzledFloat3 Float4::zyz()
 	{
-
+		return SwizzledFloat3(&_x, 2, 1, 2);
 	}
 
 	inline SwizzledFloat3 Float4::zyw()
 	{
-
+		return SwizzledFloat3(&_x, 2, 1, 3);
 	}
 
 	inline SwizzledFloat3 Float4::zzx()
 	{
-
+		return SwizzledFloat3(&_x, 2, 2, 0);
 	}
 
 	inline SwizzledFloat3 Float4::zzy()
 	{
-
+		return SwizzledFloat3(&_x, 2, 2, 1);
 	}
 
 	inline SwizzledFloat3 Float4::zzz()
 	{
-
+		return SwizzledFloat3(&_x, 2, 2, 2);
 	}
 
 	inline SwizzledFloat3 Float4::zzw()
 	{
-
+		return SwizzledFloat3(&_x, 2, 2, 3);
 	}
 
 	inline SwizzledFloat3 Float4::zwx()
 	{
-
+		return SwizzledFloat3(&_x, 2, 3, 0);
 	}
 
 	inline SwizzledFloat3 Float4::zwy()
 	{
-
+		return SwizzledFloat3(&_x, 2, 3, 1);
 	}
 
 	inline SwizzledFloat3 Float4::zwz()
 	{
-
+		return SwizzledFloat3(&_x, 2, 3, 2);
 	}
 
 	inline 	SwizzledFloat3 Float4::zww()
 	{
-
+		return SwizzledFloat3(&_x, 2, 3, 3);
 	}
 
 	inline SwizzledFloat3 Float4::wxx()
 	{
-
+		return SwizzledFloat3(&_x, 3, 0, 0);
 	}
 
 	inline SwizzledFloat3 Float4::wxy()
 	{
-
+		return SwizzledFloat3(&_x, 3, 0, 1);
 	}
 
 	inline SwizzledFloat3 Float4::wxz()
 	{
-
+		return SwizzledFloat3(&_x, 3, 0, 2);
 	}
 
 	inline SwizzledFloat3 Float4::wxw()
 	{
-
+		return SwizzledFloat3(&_x, 3, 0, 3);
 	}
 
 	inline SwizzledFloat3 Float4::wyx()
 	{
-
+		return SwizzledFloat3(&_x, 3, 1, 0);
 	}
 
 	inline SwizzledFloat3 Float4::wyy()
 	{
-
+		return SwizzledFloat3(&_x, 3, 1, 1);
 	}
 
 	inline SwizzledFloat3 Float4::wyz()
 	{
-
+		return SwizzledFloat3(&_x, 3, 1, 2);
 	}
 
 	inline SwizzledFloat3 Float4::wyw()
 	{
-
+		return SwizzledFloat3(&_x, 3, 1, 3);
 	}
 
 	inline SwizzledFloat3 Float4::wzx()
 	{
-
+		return SwizzledFloat3(&_x, 3, 2, 0);
 	}
 
 	inline SwizzledFloat3 Float4::wzy()
 	{
-
+		return SwizzledFloat3(&_x, 3, 2, 1);
 	}
 
 	inline SwizzledFloat3 Float4::wzz()
 	{
-
+		return SwizzledFloat3(&_x, 3, 2, 2);
 	}
 
 	inline SwizzledFloat3 Float4::wzw()
 	{
-
+		return SwizzledFloat3(&_x, 3, 2, 3);
 	}
 
 	inline SwizzledFloat3 Float4::wwx()
 	{
-
+		return SwizzledFloat3(&_x, 3, 3, 0);
 	}
 
 	inline SwizzledFloat3 Float4::wwy()
 	{
-
+		return SwizzledFloat3(&_x, 3, 3, 1);
 	}
 
 	inline SwizzledFloat3 Float4::wwz()
 	{
-
+		return SwizzledFloat3(&_x, 3, 3, 2);
 	}
 
 	inline SwizzledFloat3 Float4::www()
 	{
-
+		return SwizzledFloat3(&_x, 3, 3, 3);
 	}
 
 	// swizzles x---
 
 	inline SwizzledFloat4 Float4::xxxx()
 	{
-
+		return SwizzledFloat4(&_x, 0, 0, 0, 0);
 	}
 
 	inline SwizzledFloat4 Float4::xxxy()
 	{
-
+		return SwizzledFloat4(&_x, 0, 0, 0, 1);
 	}
 
 	inline SwizzledFloat4 Float4::xxxz()
 	{
-
+		return SwizzledFloat4(&_x, 0, 0, 0, 2);
 	}
 
 	inline 	SwizzledFloat4 Float4::xxxw()
 	{
-
+		return SwizzledFloat4(&_x, 0, 0, 0, 3);
 	}
 
 	inline SwizzledFloat4 Float4::xxyx()
 	{
-
+		return SwizzledFloat4(&_x, 0, 0, 1, 0);
 	}
 
 	inline SwizzledFloat4 Float4::xxyy()
 	{
-
+		return SwizzledFloat4(&_x, 0, 0, 1, 1);
 	}
 
 	inline SwizzledFloat4 Float4::xxyz()
 	{
-
+		return SwizzledFloat4(&_x, 0, 0, 1, 2);
 	}
 
 	inline SwizzledFloat4 Float4::xxyw()
 	{
-
+		return SwizzledFloat4(&_x, 0, 0, 1, 3);
 	}
 
 	inline SwizzledFloat4 Float4::xxzx()
 	{
-
+		return SwizzledFloat4(&_x, 0, 0, 2, 0);
 	}
 
 	inline SwizzledFloat4 Float4::xxzy()
 	{
-
+		return SwizzledFloat4(&_x, 0, 0, 2, 1);
 	}
 
 	inline SwizzledFloat4 Float4::xxzz()
 	{
-
+		return SwizzledFloat4(&_x, 0, 0, 2, 2);
 	}
 
 	inline SwizzledFloat4 Float4::xxzw()
 	{
-
+		return SwizzledFloat4(&_x, 0, 0, 2, 3);
 	}
 
 	inline SwizzledFloat4 Float4::xxwx()
 	{
-
+		return SwizzledFloat4(&_x, 0, 0, 3, 0);
 	}
 
 	inline SwizzledFloat4 Float4::xxwy()
 	{
-
+		return SwizzledFloat4(&_x, 0, 0, 3, 1);
 	}
 
 	inline SwizzledFloat4 Float4::xxwz()
 	{
-
+		return SwizzledFloat4(&_x, 0, 0, 3, 2);
 	}
 
 	inline SwizzledFloat4 Float4::xxww()
 	{
-
+		return SwizzledFloat4(&_x, 0, 0, 3, 3);
 	}
 
 	inline SwizzledFloat4 Float4::xyxx()
 	{
-
+		return SwizzledFloat4(&_x, 0, 1, 0, 0);
 	}
 
 	inline SwizzledFloat4 Float4::xyxy()
 	{
-
+		return SwizzledFloat4(&_x, 0, 1, 0, 1);
 	}
 
 	inline SwizzledFloat4 Float4::xyxz()
 	{
-
+		return SwizzledFloat4(&_x, 0, 1, 0, 2);
 	}
 
 	inline SwizzledFloat4 Float4::xyxw()
 	{
-
+		return SwizzledFloat4(&_x, 0, 1, 0, 3);
 	}
 
 	inline SwizzledFloat4 Float4::xyyx()
 	{
-
+		return SwizzledFloat4(&_x, 0, 1, 1, 0);
 	}
 
 	inline SwizzledFloat4 Float4::xyyy()
 	{
-
+		return SwizzledFloat4(&_x, 0, 1, 1, 1);
 	}
 
 	inline SwizzledFloat4 Float4::xyyz()
 	{
-
+		return SwizzledFloat4(&_x, 0, 1, 1, 2);
 	}
 
 	inline SwizzledFloat4 Float4::xyyw()
 	{
-
+		return SwizzledFloat4(&_x, 0, 1, 1, 3);
 	}
 
 	inline SwizzledFloat4 Float4::xyzx()
 	{
-
+		return SwizzledFloat4(&_x, 0, 1, 2, 0);
 	}
 
 	inline SwizzledFloat4 Float4::xyzy()
 	{
-
+		return SwizzledFloat4(&_x, 0, 1, 2, 1);
 	}
 
 	inline SwizzledFloat4 Float4::xyzz()
 	{
-
+		return SwizzledFloat4(&_x, 0, 1, 2, 2);
 	}
 
 	inline SwizzledFloat4 Float4::xyzw()
 	{
-
+		return SwizzledFloat4(&_x, 0, 1, 2, 3);
 	}
 
 	inline SwizzledFloat4 Float4::xywx()
 	{
-
+		return SwizzledFloat4(&_x, 0, 1, 3, 0);
 	}
 
 	inline SwizzledFloat4 Float4::xywy()
 	{
-
+		return SwizzledFloat4(&_x, 0, 1, 3, 1);
 	}
 
 	inline SwizzledFloat4 Float4::xywz()
 	{
-
+		return SwizzledFloat4(&_x, 0, 1, 3, 2);
 	}
 
 	inline SwizzledFloat4 Float4::xyww()
 	{
-
+		return SwizzledFloat4(&_x, 0, 1, 3, 3);
 	}
 
 	inline SwizzledFloat4 Float4::xzxx()
 	{
-
+		return SwizzledFloat4(&_x, 0, 2, 0, 0);
 	}
 
 	inline SwizzledFloat4 Float4::xzxy()
 	{
-
+		return SwizzledFloat4(&_x, 0, 2, 0, 1);
 	}
 
 	inline SwizzledFloat4 Float4::xzxz()
 	{
-
+		return SwizzledFloat4(&_x, 0, 2, 0, 2);
 	}
 
 	inline SwizzledFloat4 Float4::xzxw()
 	{
-
+		return SwizzledFloat4(&_x, 0, 2, 0, 3);
 	}
 
 	inline SwizzledFloat4 Float4::xzyx()
 	{
-
+		return SwizzledFloat4(&_x, 0, 2, 1, 0);
 	}
 
 	inline SwizzledFloat4 Float4::xzyy()
 	{
-
+		return SwizzledFloat4(&_x, 0, 2, 1, 1);
 	}
 
 	inline SwizzledFloat4 Float4::xzyz()
 	{
-
+		return SwizzledFloat4(&_x, 0, 2, 1, 2);
 	}
 
 	inline SwizzledFloat4 Float4::xzyw()
 	{
-
+		return SwizzledFloat4(&_x, 0, 2, 1, 3);
 	}
 
 	inline SwizzledFloat4 Float4::xzzx()
 	{
-
+		return SwizzledFloat4(&_x, 0, 2, 2, 0);
 	}
 
 	inline SwizzledFloat4 Float4::xzzy()
 	{
-
+		return SwizzledFloat4(&_x, 0, 2, 2, 1);
 	}
 
 	inline SwizzledFloat4 Float4::xzzz()
 	{
-
+		return SwizzledFloat4(&_x, 0, 2, 2, 2);
 	}
 
 	inline SwizzledFloat4 Float4::xzzw()
 	{
-
+		return SwizzledFloat4(&_x, 0, 2, 2, 3);
 	}
 
 	inline 	SwizzledFloat4 Float4::xzwx()
 	{
-
+		return SwizzledFloat4(&_x, 0, 2, 3, 0);
 	}
 
 	inline SwizzledFloat4 Float4::xzwy()
 	{
-
+		return SwizzledFloat4(&_x, 0, 2, 3, 1);
 	}
 
 	inline SwizzledFloat4 Float4::xzwz()
 	{
-
+		return SwizzledFloat4(&_x, 0, 2, 3, 2);
 	}
 
 	inline SwizzledFloat4 Float4::xzww()
 	{
-
+		return SwizzledFloat4(&_x, 0, 2, 3, 3);
 	}
 
 	inline SwizzledFloat4 Float4::xwxx()
 	{
-
+		return SwizzledFloat4(&_x, 0, 3, 0, 0);
 	}
 
 	inline SwizzledFloat4 Float4::xwxy()
 	{
-
+		return SwizzledFloat4(&_x, 0, 3, 0, 1);
 	}
 
 	inline SwizzledFloat4 Float4::xwxz()
 	{
-
+		return SwizzledFloat4(&_x, 0, 3, 0, 2);
 	}
 
 	inline SwizzledFloat4 Float4::xwxw()
 	{
-
+		return SwizzledFloat4(&_x, 0, 3, 0, 3);
 	}
 
 	inline SwizzledFloat4 Float4::xwyx()
 	{
-
+		return SwizzledFloat4(&_x, 0, 3, 1, 0);
 	}
 
 	inline SwizzledFloat4 Float4::xwyy()
 	{
-
+		return SwizzledFloat4(&_x, 0, 3, 1, 1);
 	}
 
 	inline SwizzledFloat4 Float4::xwyz()
 	{
-
+		return SwizzledFloat4(&_x, 0, 3, 1, 2);
 	}
 
 	inline SwizzledFloat4 Float4::xwyw()
 	{
-
+		return SwizzledFloat4(&_x, 0, 3, 1, 3);
 	}
 
 	inline SwizzledFloat4 Float4::xwzx()
 	{
-
+		return SwizzledFloat4(&_x, 0, 3, 2, 0);
 	}
 
 	inline SwizzledFloat4 Float4::xwzy()
 	{
-
+		return SwizzledFloat4(&_x, 0, 3, 2, 1);
 	}
 
 	inline SwizzledFloat4 Float4::xwzz()
 	{
-
+		return SwizzledFloat4(&_x, 0, 3, 2, 2);
 	}
 
 	inline SwizzledFloat4 Float4::xwzw()
 	{
-
+		return SwizzledFloat4(&_x, 0, 3, 2, 3);
 	}
 
 	inline SwizzledFloat4 Float4::xwwx()
 	{
-
+		return SwizzledFloat4(&_x, 0, 3, 3, 0);
 	}
 
 	inline SwizzledFloat4 Float4::xwwy()
 	{
-
+		return SwizzledFloat4(&_x, 0, 3, 3, 1);
 	}
 
 	inline SwizzledFloat4 Float4::xwwz()
 	{
-
+		return SwizzledFloat4(&_x, 0, 3, 3, 2);
 	}
 
 	inline SwizzledFloat4 Float4::xwww()
 	{
-
+		return SwizzledFloat4(&_x, 0, 3, 3, 3);
 	}
 
 	// swizzles y---
 
 	inline SwizzledFloat4 Float4::yxxx()
 	{
-
+		return SwizzledFloat4(&_x, 1, 0, 0, 0);
 	}
 
 	inline SwizzledFloat4 Float4::yxxy()
 	{
-
+		return SwizzledFloat4(&_x, 1, 0, 0, 1);
 	}
 
 	inline SwizzledFloat4 Float4::yxxz()
 	{
-
+		return SwizzledFloat4(&_x, 1, 0, 0, 2);
 	}
 
 	inline SwizzledFloat4 Float4::yxxw()
 	{
-
+		return SwizzledFloat4(&_x, 1, 0, 0, 3);
 	}
 
 	inline SwizzledFloat4 Float4::yxyx()
 	{
-
+		return SwizzledFloat4(&_x, 1, 0, 1, 0);
 	}
 
 	inline SwizzledFloat4 Float4::yxyy()
 	{
-
+		return SwizzledFloat4(&_x, 1, 0, 1, 1);
 	}
 
 	inline SwizzledFloat4 Float4::yxyz()
 	{
-
+		return SwizzledFloat4(&_x, 1, 0, 1, 2);
 	}
 
 	inline SwizzledFloat4 Float4::yxyw()
 	{
-
+		return SwizzledFloat4(&_x, 1, 0, 1, 3);
 	}
 
 	inline SwizzledFloat4 Float4::yxzx()
 	{
-
+		return SwizzledFloat4(&_x, 1, 0, 2, 0);
 	}
 
 	inline SwizzledFloat4 Float4::yxzy()
 	{
-
+		return SwizzledFloat4(&_x, 1, 0, 2, 1);
 	}
 
 	inline SwizzledFloat4 Float4::yxzz()
 	{
-
+		return SwizzledFloat4(&_x, 1, 0, 2, 2);
 	}
 
 	inline SwizzledFloat4 Float4::yxzw()
 	{
-
+		return SwizzledFloat4(&_x, 1, 0, 2, 3);
 	}
 
 	inline SwizzledFloat4 Float4::yxwx()
 	{
-
+		return SwizzledFloat4(&_x, 1, 0, 3, 0);
 	}
 
 	inline SwizzledFloat4 Float4::yxwy()
 	{
-
+		return SwizzledFloat4(&_x, 1, 0, 3, 1);
 	}
 
 	inline SwizzledFloat4 Float4::yxwz()
 	{
-
+		return SwizzledFloat4(&_x, 1, 0, 3, 2);
 	}
 
 	inline SwizzledFloat4 Float4::yxww()
 	{
-
+		return SwizzledFloat4(&_x, 1, 0, 3, 3);
 	}
 
 	inline SwizzledFloat4 Float4::yyxx()
 	{
-
+		return SwizzledFloat4(&_x, 1, 1, 0, 0);
 	}
 
 	inline SwizzledFloat4 Float4::yyxy()
 	{
-
+		return SwizzledFloat4(&_x, 1, 1, 0, 1);
 	}
 
 	inline SwizzledFloat4 Float4::yyxz()
 	{
-
+		return SwizzledFloat4(&_x, 1, 1, 0, 2);
 	}
 
 	inline SwizzledFloat4 Float4::yyxw()
 	{
-
+		return SwizzledFloat4(&_x, 1, 1, 0, 3);
 	}
 
 	inline SwizzledFloat4 Float4::yyyx()
 	{
-
+		return SwizzledFloat4(&_x, 1, 1, 1, 0);
 	}
 
 	inline SwizzledFloat4 Float4::yyyy()
 	{
-
+		return SwizzledFloat4(&_x, 1, 1, 1, 1);
 	}
 
 	inline SwizzledFloat4 Float4::yyyz()
 	{
-
+		return SwizzledFloat4(&_x, 1, 1, 1, 2);
 	}
 
 	inline SwizzledFloat4 Float4::yyyw()
 	{
-
+		return SwizzledFloat4(&_x, 1, 1, 1, 3);
 	}
 
 	inline SwizzledFloat4 Float4::yyzx()
 	{
-
+		return SwizzledFloat4(&_x, 1, 1, 2, 0);
 	}
 
 	inline SwizzledFloat4 Float4::yyzy()
 	{
-
+		return SwizzledFloat4(&_x, 1, 1, 2, 1);
 	}
 
 	inline SwizzledFloat4 Float4::yyzz()
 	{
-
+		return SwizzledFloat4(&_x, 1, 1, 2, 2);
 	}
 
 	inline SwizzledFloat4 Float4::yyzw()
 	{
-
+		return SwizzledFloat4(&_x, 1, 1, 2, 3);
 	}
 
 	inline SwizzledFloat4 Float4::yywx()
 	{
-
+		return SwizzledFloat4(&_x, 1, 1, 3, 0);
 	}
 
 	inline SwizzledFloat4 Float4::yywy()
 	{
-
+		return SwizzledFloat4(&_x, 1, 1, 3, 1);
 	}
 
 	inline SwizzledFloat4 Float4::yywz()
 	{
-
+		return SwizzledFloat4(&_x, 1, 1, 3, 2);
 	}
 
 	inline SwizzledFloat4 Float4::yyww()
 	{
-
+		return SwizzledFloat4(&_x, 1, 1, 3, 3);
 	}
 
 	inline SwizzledFloat4 Float4::yzxx()
 	{
-
+		return SwizzledFloat4(&_x, 1, 2, 0, 0);
 	}
 
 	inline SwizzledFloat4 Float4::yzxy()
 	{
-
+		return SwizzledFloat4(&_x, 1, 2, 0, 1);
 	}
 
 	inline SwizzledFloat4 Float4::yzxz()
 	{
-
+		return SwizzledFloat4(&_x, 1, 2, 0, 2);
 	}
 
 	inline SwizzledFloat4 Float4::yzxw()
 	{
-
+		return SwizzledFloat4(&_x, 1, 2, 0, 3);
 	}
 
 	inline SwizzledFloat4 Float4::yzyx()
 	{
-
+		return SwizzledFloat4(&_x, 1, 2, 1, 0);
 	}
 
 	inline SwizzledFloat4 Float4::yzyy()
 	{
-
+		return SwizzledFloat4(&_x, 1, 2, 1, 1);
 	}
 
 	inline SwizzledFloat4 Float4::yzyz()
 	{
-
+		return SwizzledFloat4(&_x, 1, 2, 1, 2);
 	}
 
 	inline SwizzledFloat4 Float4::yzyw()
 	{
-
+		return SwizzledFloat4(&_x, 1, 2, 1, 3);
 	}
 
 	inline SwizzledFloat4 Float4::yzzx()
 	{
-
+		return SwizzledFloat4(&_x, 1, 2, 2, 0);
 	}
 
 	inline SwizzledFloat4 Float4::yzzy()
 	{
-
+		return SwizzledFloat4(&_x, 1, 2, 2, 1);
 	}
 
 	inline SwizzledFloat4 Float4::yzzz()
 	{
-
+		return SwizzledFloat4(&_x, 1, 2, 2, 2);
 	}
 
 	inline SwizzledFloat4 Float4::yzzw()
 	{
-
+		return SwizzledFloat4(&_x, 1, 2, 2, 3);
 	}
 
 	inline SwizzledFloat4 Float4::yzwx()
 	{
-
+		return SwizzledFloat4(&_x, 1, 2, 3, 0);
 	}
 
 	inline SwizzledFloat4 Float4::yzwy()
 	{
-
+		return SwizzledFloat4(&_x, 1, 2, 3, 1);
 	}
 
 	inline SwizzledFloat4 Float4::yzwz()
 	{
-
+		return SwizzledFloat4(&_x, 1, 2, 3, 2);
 	}
 
 	inline SwizzledFloat4 Float4::yzww()
 	{
-
+		return SwizzledFloat4(&_x, 1, 2, 3, 3);
 	}
 
 	inline SwizzledFloat4 Float4::ywxx()
 	{
-
+		return SwizzledFloat4(&_x, 1, 3, 0, 0);
 	}
 
 	inline SwizzledFloat4 Float4::ywxy()
 	{
-
+		return SwizzledFloat4(&_x, 1, 3, 0, 1);
 	}
 
 	inline SwizzledFloat4 Float4::ywxz()
 	{
-
+		return SwizzledFloat4(&_x, 1, 3, 0, 2);
 	}
 
 	inline SwizzledFloat4 Float4::ywxw()
 	{
-
+		return SwizzledFloat4(&_x, 1, 3, 0, 3);
 	}
 
 	inline SwizzledFloat4 Float4::ywyx()
 	{
-
+		return SwizzledFloat4(&_x, 1, 3, 1, 0);
 	}
 
 	inline SwizzledFloat4 Float4::ywyy()
 	{
-
+		return SwizzledFloat4(&_x, 1, 3, 1, 1);
 	}
 
 	inline SwizzledFloat4 Float4::ywyz()
 	{
-
+		return SwizzledFloat4(&_x, 1, 3, 1, 2);
 	}
 
 	inline SwizzledFloat4 Float4::ywyw()
 	{
-
+		return SwizzledFloat4(&_x, 1, 3, 1, 3);
 	}
 
 	inline SwizzledFloat4 Float4::ywzx()
 	{
-
+		return SwizzledFloat4(&_x, 1, 3, 2, 0);
 	}
 
 	inline SwizzledFloat4 Float4::ywzy()
 	{
-
+		return SwizzledFloat4(&_x, 1, 3, 2, 1);
 	}
 
 	inline SwizzledFloat4 Float4::ywzz()
 	{
-
+		return SwizzledFloat4(&_x, 1, 3, 2, 2);
 	}
 
 	inline SwizzledFloat4 Float4::ywzw()
 	{
-
+		return SwizzledFloat4(&_x, 1, 3, 2, 3);
 	}
 
 	inline SwizzledFloat4 Float4::ywwx()
 	{
-
+		return SwizzledFloat4(&_x, 1, 3, 3, 0);
 	}
 
 	inline 	SwizzledFloat4 Float4::ywwy()
 	{
-
+		return SwizzledFloat4(&_x, 1, 3, 3, 1);
 	}
 
 	inline SwizzledFloat4 Float4::ywwz()
 	{
-
+		return SwizzledFloat4(&_x, 1, 3, 3, 2);
 	}
 
 	inline SwizzledFloat4 Float4::ywww()
 	{
-
+		return SwizzledFloat4(&_x, 1, 3, 3, 3);
 	}
 
 	// swizzles z---
 
 	inline SwizzledFloat4 Float4::zxxx()
 	{
-
+		return SwizzledFloat4(&_x, 2, 0, 0, 0);
 	}
 
 	inline SwizzledFloat4 Float4::zxxy()
 	{
-
+		return SwizzledFloat4(&_x, 2, 0, 0, 1);
 	}
 
 	inline SwizzledFloat4 Float4::zxxz()
 	{
-
+		return SwizzledFloat4(&_x, 2, 0, 0, 2);
 	}
 
 	inline SwizzledFloat4 Float4::zxxw()
 	{
-
+		return SwizzledFloat4(&_x, 2, 0, 0, 3);
 	}
 
 	inline SwizzledFloat4 Float4::zxyx()
 	{
-
+		return SwizzledFloat4(&_x, 2, 0, 1, 0);
 	}
 
 	inline SwizzledFloat4 Float4::zxyy()
 	{
-
+		return SwizzledFloat4(&_x, 2, 0, 1, 1);
 	}
 
 	inline SwizzledFloat4 Float4::zxyz()
 	{
-
+		return SwizzledFloat4(&_x, 2, 0, 1, 2);
 	}
 
 	inline SwizzledFloat4 Float4::zxyw()
 	{
-
+		return SwizzledFloat4(&_x, 2, 0, 1, 3);
 	}
 
 	inline SwizzledFloat4 Float4::zxzx()
 	{
-
+		return SwizzledFloat4(&_x, 2, 0, 2, 0);
 	}
 
 	inline SwizzledFloat4 Float4::zxzy()
 	{
-
+		return SwizzledFloat4(&_x, 2, 0, 2, 1);
 	}
 
 	inline SwizzledFloat4 Float4::zxzz()
 	{
-
+		return SwizzledFloat4(&_x, 2, 0, 2, 2);
 	}
 
 	inline SwizzledFloat4 Float4::zxzw()
 	{
-
+		return SwizzledFloat4(&_x, 2, 0, 2, 3);
 	}
 
 	inline SwizzledFloat4 Float4::zxwx()
 	{
-
+		return SwizzledFloat4(&_x, 2, 0, 3, 0);
 	}
 
 	inline SwizzledFloat4 Float4::zxwy()
 	{
-
+		return SwizzledFloat4(&_x, 2, 0, 3, 1);
 	}
 
 	inline SwizzledFloat4 Float4::zxwz()
 	{
-
+		return SwizzledFloat4(&_x, 2, 0, 3, 2);
 	}
 
 	inline 	SwizzledFloat4 Float4::zxww()
 	{
-
+		return SwizzledFloat4(&_x, 2, 0, 3, 3);
 	}
 
 	inline SwizzledFloat4 Float4::zyxx()
 	{
-
+		return SwizzledFloat4(&_x, 2, 1, 0, 0);
 	}
 
 	inline SwizzledFloat4 Float4::zyxy()
 	{
-
+		return SwizzledFloat4(&_x, 2, 1, 0, 1);
 	}
 
 	inline SwizzledFloat4 Float4::zyxz()
 	{
-
+		return SwizzledFloat4(&_x, 2, 1, 0, 2);
 	}
 
 	inline SwizzledFloat4 Float4::zyxw()
 	{
-
+		return SwizzledFloat4(&_x, 2, 1, 0, 3);
 	}
 
 	inline SwizzledFloat4 Float4::zyyx()
 	{
-
+		return SwizzledFloat4(&_x, 2, 1, 1, 0);
 	}
 
 	inline SwizzledFloat4 Float4::zyyy()
 	{
-
+		return SwizzledFloat4(&_x, 2, 1, 1, 1);
 	}
 
 	inline SwizzledFloat4 Float4::zyyz()
 	{
-
+		return SwizzledFloat4(&_x, 2, 1, 1, 2);
 	}
 
 	inline SwizzledFloat4 Float4::zyyw()
 	{
-
+		return SwizzledFloat4(&_x, 2, 1, 1, 3);
 	}
 
 	inline SwizzledFloat4 Float4::zyzx()
 	{
-
+		return SwizzledFloat4(&_x, 2, 1, 2, 0);
 	}
 
 	inline SwizzledFloat4 Float4::zyzy()
 	{
-
+		return SwizzledFloat4(&_x, 2, 1, 2, 1);
 	}
 
 	inline SwizzledFloat4 Float4::zyzz()
 	{
-
+		return SwizzledFloat4(&_x, 2, 1, 2, 2);
 	}
 
 	inline SwizzledFloat4 Float4::zyzw()
 	{
-
+		return SwizzledFloat4(&_x, 2, 1, 2, 3);
 	}
 
 	inline SwizzledFloat4 Float4::zywx()
 	{
-
+		return SwizzledFloat4(&_x, 2, 1, 3, 0);
 	}
 
 	inline SwizzledFloat4 Float4::zywy()
 	{
-
+		return SwizzledFloat4(&_x, 2, 1, 3, 1);
 	}
 
 	inline SwizzledFloat4 Float4::zywz()
 	{
-
+		return SwizzledFloat4(&_x, 2, 1, 3, 2);
 	}
 
 	inline SwizzledFloat4 Float4::zyww()
 	{
-
+		return SwizzledFloat4(&_x, 2, 1, 3, 3);
 	}
 
 	inline SwizzledFloat4 Float4::zzxx()
 	{
-
+		return SwizzledFloat4(&_x, 2, 2, 0, 0);
 	}
 
 	inline SwizzledFloat4 Float4::zzxy()
 	{
-
+		return SwizzledFloat4(&_x, 2, 2, 0, 1);
 	}
 
 	inline SwizzledFloat4 Float4::zzxz()
 	{
-
+		return SwizzledFloat4(&_x, 2, 2, 0, 2);
 	}
 
 	inline SwizzledFloat4 Float4::zzxw()
 	{
-
+		return SwizzledFloat4(&_x, 2, 2, 0, 3);
 	}
 
 	inline SwizzledFloat4 Float4::zzyx()
 	{
-
+		return SwizzledFloat4(&_x, 2, 2, 1, 0);
 	}
 
 	inline SwizzledFloat4 Float4::zzyy()
 	{
-
+		return SwizzledFloat4(&_x, 2, 2, 1, 1);
 	}
 
 	inline SwizzledFloat4 Float4::zzyz()
 	{
-
+		return SwizzledFloat4(&_x, 2, 2, 1, 2);
 	}
 
 	inline SwizzledFloat4 Float4::zzyw()
 	{
-
+		return SwizzledFloat4(&_x, 2, 2, 1, 3);
 	}
 
 	inline SwizzledFloat4 Float4::zzzx()
 	{
-
+		return SwizzledFloat4(&_x, 2, 2, 2, 0);
 	}
 
 	inline SwizzledFloat4 Float4::zzzy()
 	{
-
+		return SwizzledFloat4(&_x, 2, 2, 2, 1);
 	}
 
 	inline SwizzledFloat4 Float4::zzzz()
 	{
-
+		return SwizzledFloat4(&_x, 2, 2, 2, 2);
 	}
 
 	inline SwizzledFloat4 Float4::zzzw()
 	{
-
+		return SwizzledFloat4(&_x, 2, 2, 2, 3);
 	}
 
 	inline SwizzledFloat4 Float4::zzwx()
 	{
-
+		return SwizzledFloat4(&_x, 2, 2, 3, 0);
 	}
 
 	inline SwizzledFloat4 Float4::zzwy()
 	{
-
+		return SwizzledFloat4(&_x, 2, 2, 3, 1);
 	}
 
 	inline SwizzledFloat4 Float4::zzwz()
 	{
-
+		return SwizzledFloat4(&_x, 2, 2, 3, 2);
 	}
 
 	inline SwizzledFloat4 Float4::zzww()
 	{
-
+		return SwizzledFloat4(&_x, 2, 2, 3, 3);
 	}
 
 	inline SwizzledFloat4 Float4::zwxx()
 	{
-
+		return SwizzledFloat4(&_x, 2, 3, 0, 0);
 	}
 
 	inline SwizzledFloat4 Float4::zwxy()
 	{
-
+		return SwizzledFloat4(&_x, 2, 3, 0, 1);
 	}
 
 	inline SwizzledFloat4 Float4::zwxz()
 	{
-
+		return SwizzledFloat4(&_x, 2, 3, 0, 2);
 	}
 
 	inline SwizzledFloat4 Float4::zwxw()
 	{
-
+		return SwizzledFloat4(&_x, 2, 3, 0, 3);
 	}
 
 	inline SwizzledFloat4 Float4::zwyx()
 	{
-
+		return SwizzledFloat4(&_x, 2, 3, 1, 0);
 	}
 
 	inline SwizzledFloat4 Float4::zwyy()
 	{
-
+		return SwizzledFloat4(&_x, 2, 3, 1, 1);
 	}
 
 	inline SwizzledFloat4 Float4::zwyz()
 	{
-
+		return SwizzledFloat4(&_x, 2, 3, 1, 2);
 	}
 		
 	inline SwizzledFloat4 Float4::zwyw()
 	{
-
+		return SwizzledFloat4(&_x, 2, 3, 1, 3);
 	}
 
 	inline SwizzledFloat4 Float4::zwzx()
 	{
-
+		return SwizzledFloat4(&_x, 2, 3, 2, 0);
 	}
 
 	inline SwizzledFloat4 Float4::zwzy()
 	{
-
+		return SwizzledFloat4(&_x, 2, 3, 2, 1);
 	}
 
 	inline SwizzledFloat4 Float4::zwzz()
 	{
-
+		return SwizzledFloat4(&_x, 2, 3, 2, 2);
 	}
 
 	inline SwizzledFloat4 Float4::zwzw()
 	{
-
+		return SwizzledFloat4(&_x, 2, 3, 2, 3);
 	}
 
 	inline SwizzledFloat4 Float4::zwwx()
 	{
-
+		return SwizzledFloat4(&_x, 2, 3, 3, 0);
 	}
 
 	inline SwizzledFloat4 Float4::zwwy()
 	{
-
+		return SwizzledFloat4(&_x, 2, 3, 3, 1);
 	}
 
 	inline SwizzledFloat4 Float4::zwwz()
 	{
-
+		return SwizzledFloat4(&_x, 2, 3, 3, 2);
 	}
 
 	inline SwizzledFloat4 Float4::zwww()
 	{
-
+		return SwizzledFloat4(&_x, 2, 3, 3, 3);
 	}
 
 	// swizzles w---
 
 	inline SwizzledFloat4 Float4::wxxx()
 	{
-
+		return SwizzledFloat4(&_x, 3, 0, 0, 0);
 	}
 
 	inline SwizzledFloat4 Float4::wxxy()
 	{
-
+		return SwizzledFloat4(&_x, 3, 0, 0, 1);
 	}
 
 	inline SwizzledFloat4 Float4::wxxz()
 	{
-
+		return SwizzledFloat4(&_x, 3, 0, 0, 2);
 	}
 
 	inline SwizzledFloat4 Float4::wxxw()
 	{
-
+		return SwizzledFloat4(&_x, 3, 0, 0, 3);
 	}
 
 	inline SwizzledFloat4 Float4::wxyx()
 	{
-
+		return SwizzledFloat4(&_x, 3, 0, 1, 0);
 	}
 
 	inline SwizzledFloat4 Float4::wxyy()
 	{
-
+		return SwizzledFloat4(&_x, 3, 0, 1, 1);
 	}
 
 	inline SwizzledFloat4 Float4::wxyz()
 	{
-
+		return SwizzledFloat4(&_x, 3, 0, 1, 2);
 	}
 
 	inline SwizzledFloat4 Float4::wxyw()
 	{
-
+		return SwizzledFloat4(&_x, 3, 0, 1, 3);
 	}
 
 	inline SwizzledFloat4 Float4::wxzx()
 	{
-
+		return SwizzledFloat4(&_x, 3, 0, 2, 0);
 	}
 
 	inline SwizzledFloat4 Float4::wxzy()
 	{
-
+		return SwizzledFloat4(&_x, 3, 0, 2, 1);
 	}
 
 	inline SwizzledFloat4 Float4::wxzz()
 	{
-
+		return SwizzledFloat4(&_x, 3, 0, 2, 2);
 	}
 
 	inline SwizzledFloat4 Float4::wxzw()
 	{
-
+		return SwizzledFloat4(&_x, 3, 0, 2, 3);
 	}
 
 	inline SwizzledFloat4 Float4::wxwx()
 	{
-
+		return SwizzledFloat4(&_x, 3, 0, 3, 0);
 	}
 
 	inline SwizzledFloat4 Float4::wxwy()
 	{
-
+		return SwizzledFloat4(&_x, 3, 0, 3, 1);
 	}
 
 	inline SwizzledFloat4 Float4::wxwz()
 	{
-
+		return SwizzledFloat4(&_x, 3, 0, 3, 2);
 	}
 
 	inline SwizzledFloat4 Float4::wxww()
 	{
-
+		return SwizzledFloat4(&_x, 3, 0, 3, 3);
 	}
 
 	inline SwizzledFloat4 Float4::wyxx()
 	{
-
+		return SwizzledFloat4(&_x, 3, 1, 0, 0);
 	}
 
 	inline SwizzledFloat4 Float4::wyxy()
 	{
-
+		return SwizzledFloat4(&_x, 3, 1, 0, 1);
 	}
 
 	inline SwizzledFloat4 Float4::wyxz()
 	{
-
+		return SwizzledFloat4(&_x, 3, 1, 0, 2);
 	}
 
 	inline SwizzledFloat4 Float4::wyxw()
 	{
-
+		return SwizzledFloat4(&_x, 3, 1, 0, 3);
 	}
 
 	inline SwizzledFloat4 Float4::wyyx()
 	{
-
+		return SwizzledFloat4(&_x, 3, 1, 1, 0);
 	}
 
 	inline SwizzledFloat4 Float4::wyyy()
 	{
-
+		return SwizzledFloat4(&_x, 3, 1, 1, 1);
 	}
 
 	inline SwizzledFloat4 Float4::wyyz()
 	{
-
+		return SwizzledFloat4(&_x, 3, 1, 1, 2);
 	}
 
 	inline SwizzledFloat4 Float4::wyyw()
 	{
-
+		return SwizzledFloat4(&_x, 3, 1, 1, 3);
 	}
 
 	inline SwizzledFloat4 Float4::wyzx()
 	{
-
+		return SwizzledFloat4(&_x, 3, 1, 2, 0);
 	}
 
 	inline SwizzledFloat4 Float4::wyzy()
 	{
-
+		return SwizzledFloat4(&_x, 3, 1, 2, 1);
 	}
 
 	inline SwizzledFloat4 Float4::wyzz()
 	{
-
+		return SwizzledFloat4(&_x, 3, 1, 2, 2);
 	}
 
 	inline SwizzledFloat4 Float4::wyzw()
 	{
-
+		return SwizzledFloat4(&_x, 3, 1, 2, 3);
 	}
 
 	inline SwizzledFloat4 Float4::wywx()
 	{
-
+		return SwizzledFloat4(&_x, 3, 1, 3, 0);
 	}
 
 	inline SwizzledFloat4 Float4::wywy()
 	{
-
+		return SwizzledFloat4(&_x, 3, 1, 3, 1);
 	}
 
 	inline SwizzledFloat4 Float4::wywz()
 	{
-
+		return SwizzledFloat4(&_x, 3, 1, 3, 2);
 	}
 
 	inline SwizzledFloat4 Float4::wyww()
 	{
-
+		return SwizzledFloat4(&_x, 3, 1, 3, 3);
 	}
 
 	inline SwizzledFloat4 Float4::wzxx()
 	{
-
+		return SwizzledFloat4(&_x, 3, 2, 0, 0);
 	}
 
 	inline SwizzledFloat4 Float4::wzxy()
 	{
-
+		return SwizzledFloat4(&_x, 3, 2, 0, 1);
 	}
 
 	inline SwizzledFloat4 Float4::wzxz()
 	{
-
+		return SwizzledFloat4(&_x, 3, 2, 0, 2);
 	}
 
 	inline SwizzledFloat4 Float4::wzxw()
 	{
-
+		return SwizzledFloat4(&_x, 3, 2, 0, 3);
 	}
 
 	inline SwizzledFloat4 Float4::wzyx()
 	{
-
+		return SwizzledFloat4(&_x, 3, 2, 1, 0);
 	}
 
 	inline SwizzledFloat4 Float4::wzyy()
 	{
-
+		return SwizzledFloat4(&_x, 3, 2, 1, 1);
 	}
 
 	inline SwizzledFloat4 Float4::wzyz()
 	{
-
+		return SwizzledFloat4(&_x, 3, 2, 1, 2);
 	}
 
 	inline SwizzledFloat4 Float4::wzyw()
 	{
-
+		return SwizzledFloat4(&_x, 3, 2, 1, 3);
 	}
 
 	inline SwizzledFloat4 Float4::wzzx()
 	{
-
+		return SwizzledFloat4(&_x, 3, 2, 2, 0);
 	}
 
 	inline SwizzledFloat4 Float4::wzzy()
 	{
-
+		return SwizzledFloat4(&_x, 3, 2, 2, 1);
 	}
 
 	inline SwizzledFloat4 Float4::wzzz()
 	{
-
+		return SwizzledFloat4(&_x, 3, 2, 2, 2);
 	}
 
 	inline SwizzledFloat4 Float4::wzzw()
 	{
-
+		return SwizzledFloat4(&_x, 3, 2, 2, 3);
 	}
 
 	inline SwizzledFloat4 Float4::wzwx()
 	{
-
+		return SwizzledFloat4(&_x, 3, 2, 3, 0);
 	}
 
 	inline SwizzledFloat4 Float4::wzwy()
 	{
-
+		return SwizzledFloat4(&_x, 3, 2, 3, 1);
 	}
 
 	inline SwizzledFloat4 Float4::wzwz()
 	{
-
+		return SwizzledFloat4(&_x, 3, 2, 3, 2);
 	}
 
 	inline SwizzledFloat4 Float4::wzww()
 	{
-
+		return SwizzledFloat4(&_x, 3, 2, 3, 3);
 	}
 
 	inline SwizzledFloat4 Float4::wwxx()
 	{
-
+		return SwizzledFloat4(&_x, 3, 3, 0, 0);
 	}
 
 	inline SwizzledFloat4 Float4::wwxy()
 	{
-
+		return SwizzledFloat4(&_x, 3, 3, 0, 1);
 	}
 
 	inline SwizzledFloat4 Float4::wwxz()
 	{
-
+		return SwizzledFloat4(&_x, 3, 3, 0, 2);
 	}
 
 	inline SwizzledFloat4 Float4::wwxw()
 	{
-
+		return SwizzledFloat4(&_x, 3, 3, 0, 3);
 	}
 
 	inline SwizzledFloat4 Float4::wwyx()
 	{
-
+		return SwizzledFloat4(&_x, 3, 3, 1, 0);
 	}
 
 	inline SwizzledFloat4 Float4::wwyy()
 	{
-
+		return SwizzledFloat4(&_x, 3, 3, 1, 1);
 	}
 
 	inline SwizzledFloat4 Float4::wwyz()
 	{
-
+		return SwizzledFloat4(&_x, 3, 3, 1, 2);
 	}
 
 	inline SwizzledFloat4 Float4::wwyw()
 	{
-
+		return SwizzledFloat4(&_x, 3, 3, 1, 3);
 	}
 
 	inline SwizzledFloat4 Float4::wwzx()
 	{
-
+		return SwizzledFloat4(&_x, 3, 3, 2, 0);
 	}
 
 	inline SwizzledFloat4 Float4::wwzy()
 	{
-
+		return SwizzledFloat4(&_x, 3, 3, 2, 1);
 	}
 
 	inline SwizzledFloat4 Float4::wwzz()
 	{
-
+		return SwizzledFloat4(&_x, 3, 3, 2, 2);
 	}
 
 	inline SwizzledFloat4 Float4::wwzw()
 	{
-
+		return SwizzledFloat4(&_x, 3, 3, 2, 3);
 	}
 
 	inline SwizzledFloat4 Float4::wwwx()
 	{
-
+		return SwizzledFloat4(&_x, 3, 3, 3, 0);
 	}
 
 	inline SwizzledFloat4 Float4::wwwy()
 	{
-
+		return SwizzledFloat4(&_x, 3, 3, 3, 1);
 	}
 
 	inline SwizzledFloat4 Float4::wwwz()
 	{
-
+		return SwizzledFloat4(&_x, 3, 3, 3, 2);
 	}
 
 	inline SwizzledFloat4 Float4::wwww()
 	{
-
+		return SwizzledFloat4(&_x, 3, 3, 3, 3);
 	}
 
 	//**********************************************************
