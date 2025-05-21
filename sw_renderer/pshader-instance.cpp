@@ -23,6 +23,7 @@
 #include "shader-link.h"
 
 #include "pshader-types.h"
+#include "pshader-util.h"
 
 using namespace Ceng;
 

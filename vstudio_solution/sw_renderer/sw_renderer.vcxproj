@@ -220,6 +220,7 @@
     <ClInclude Include="..\..\sw_renderer\CyclicCounter.h" />
     <ClInclude Include="..\..\sw_renderer\future.h" />
     <ClInclude Include="..\..\sw_renderer\PixelShaderInstanceCommon.h" />
+    <ClInclude Include="..\..\sw_renderer\pshader-util.h" />
     <ClInclude Include="..\..\sw_renderer\ShaderLinkInstance.h" />
     <ClInclude Include="..\..\sw_renderer\SimpleGroupingStage.h" />
     <ClInclude Include="..\..\sw_renderer\SimpleStage.h" />
