@@ -98,7 +98,7 @@ namespace Ceng
 
 			__m128 colorScaleVec = _mm_load1_ps(&colorScaleScalar);
 
-			float *sourcePtr = (float*)&source.x;
+			float *sourcePtr = (float*)&source._x;
 
 			__m128 blueChannel = _mm_load_ps(&sourcePtr[0]);
 			__m128 greenChannel = _mm_load_ps(&sourcePtr[4]);

@@ -894,10 +894,10 @@ namespace Ceng::Shader
 	class alignas(16) Float4
 	{
 	public:
-		SOAVecFloat x;
-		SOAVecFloat y;
-		SOAVecFloat z;
-		SOAVecFloat w;
+		SOAVecFloat _x;
+		SOAVecFloat _y;
+		SOAVecFloat _z;
+		SOAVecFloat _w;
 
 	public:
 		inline Float4()
@@ -906,53 +906,53 @@ namespace Ceng::Shader
 		}
 
 		inline Float4(const SOAVecFloat& x, const SOAVecFloat& y, const SOAVecFloat& z, const SOAVecFloat& w)
-			: x(x), y(y), z(z), w(w)
+			: _x(x), _y(y), _z(z), _w(w)
 		{
 
 		}
 
 		inline Float4(Ceng::FLOAT32 x, Ceng::FLOAT32 y, Ceng::FLOAT32 z, Ceng::FLOAT32 w)
-			: x(x), y(y), z(z), w(w)
+			: _x(x), _y(y), _z(z), _w(w)
 		{
 
 		}
 
 		inline Float4& operator= (const Float& other)
 		{
-			x = other.x;
-			y = 0.0f;
-			z = 0.0f;
-			w = 1.0f;
+			_x = other.x;
+			_y = 0.0f;
+			_z = 0.0f;
+			_w = 1.0f;
 
 			return *this;
 		}
 
 		inline Float4& operator= (const Float2& other)
 		{
-			x = other._x;
-			y = other._y;
-			z = 0.0f;
-			w = 1.0f;
+			_x = other._x;
+			_y = other._y;
+			_z = 0.0f;
+			_w = 1.0f;
 
 			return *this;
 		}
 
 		inline Float4& operator= (const Float3& other)
 		{
-			x = other._x;
-			y = other._y;
-			z = other._z;
-			w = 1.0f;
+			_x = other._x;
+			_y = other._y;
+			_z = other._z;
+			_w = 1.0f;
 
 			return *this;
 		}
 
 		inline Float4& operator= (const Float4& other)
 		{
-			x = other.x;
-			y = other.y;
-			z = other.z;
-			w = other.w;
+			_x = other._x;
+			_y = other._y;
+			_z = other._z;
+			_w = other._w;
 
 			return *this;
 		}
@@ -960,46 +960,46 @@ namespace Ceng::Shader
 
 		inline Float4& operator = (const CR_PixelShaderInput& source)
 		{
-			source.MoveToFloat4(&x);
+			source.MoveToFloat4(&_x);
 			return *this;
 		}
 
 		inline Float4& operator += (const Float4& other)
 		{
-			x += other.x;
-			y += other.y;
-			z += other.z;
-			w += other.w;
+			_x += other._x;
+			_y += other._y;
+			_z += other._z;
+			_w += other._w;
 
 			return *this;
 		}
 
 		inline Float4& operator -= (const Float4& other)
 		{
-			x -= other.x;
-			y -= other.y;
-			z -= other.z;
-			w -= other.w;
+			_x -= other._x;
+			_y -= other._y;
+			_z -= other._z;
+			_w -= other._w;
 
 			return *this;
 		}
 
 		inline Float4& operator *= (const Float4& other)
 		{
-			x *= other.x;
-			y *= other.y;
-			z *= other.z;
-			w *= other.w;
+			_x *= other._x;
+			_y *= other._y;
+			_z *= other._z;
+			_w *= other._w;
 
 			return *this;
 		}
 
 		inline Float4& operator /= (const Float4& other)
 		{
-			x /= other.x;
-			y /= other.y;
-			z /= other.z;
-			w /= other.w;
+			_x /= other._x;
+			_y /= other._y;
+			_z /= other._z;
+			_w /= other._w;
 
 			return *this;
 		}
@@ -1071,30 +1071,31 @@ namespace Ceng::Shader
 	{
 	public:
 		SOAVecFloat* base;
+		Ceng::UINT32 a;
 
 	public:
 
-		inline SwizzledFloat(SOAVecFloat* base)
-			: base(base)
+		inline SwizzledFloat(SOAVecFloat* base, Ceng::UINT32 a)
+			: base(base), a(a)
 		{
 
 		}
 
 		inline SwizzledFloat& operator = (Ceng::FLOAT32 x)
 		{
-			*base = x;
+			base[a] = x;
 			return *this;
 		}
 
 		inline SwizzledFloat& operator = (const Float& source)
 		{
-			*base = source.x;
+			base[a] = source.x;
 			return *this;
 		}
 
 		inline SwizzledFloat& operator = (const SwizzledFloat& source)
 		{
-			*base = *source.base;
+			base[a] = source.base[source.a];
 			return *this;
 		}
 
@@ -1121,15 +1122,43 @@ namespace Ceng::Shader
 
 		inline SwizzledFloat2& operator = (const Float2& source)
 		{
-			base[a] = source._x;
-			base[b] = source._y;
+			if (base == &source._x)
+			{
+				SOAVecFloat temp[2];
+
+				temp[0] = source._x;
+				temp[1] = source._y;
+
+				base[a] = temp[0];
+				base[b] = temp[1];
+			}
+			else
+			{
+				base[a] = source._x;
+				base[b] = source._y;
+			}
+
 			return *this;
 		}
 
 		inline SwizzledFloat2& operator = (const SwizzledFloat2& source)
 		{
-			base[a] = source.base[source.a];
-			base[b] = source.base[source.b];
+			if (base == source.base)
+			{
+				SOAVecFloat temp[2];
+
+				temp[0] = base[0];
+				temp[1] = base[1];
+
+				base[a] = temp[source.a];
+				base[b] = temp[source.b];
+			}
+			else
+			{
+				base[a] = source.base[source.a];
+				base[b] = source.base[source.b];
+			}
+			
 			return *this;
 		}
 
@@ -1162,18 +1191,48 @@ namespace Ceng::Shader
 
 		inline SwizzledFloat3& operator = (const Float3& source)
 		{
-			base[a] = source._x;
-			base[b] = source._y;
-			base[c] = source._z;
+			if (base == &source._x)
+			{
+				SOAVecFloat temp[3];
+
+				temp[0] = source._x;
+				temp[1] = source._y;
+				temp[2] = source._z;
+
+				base[a] = temp[0];
+				base[b] = temp[1];
+				base[c] = temp[2];
+			}
+			else
+			{
+				base[a] = source._x;
+				base[b] = source._y;
+				base[c] = source._z;
+			}			
 
 			return *this;
 		}
 
 		inline SwizzledFloat3& operator = (const SwizzledFloat3& source)
 		{
-			base[a] = source.base[source.a];
-			base[b] = source.base[source.b];
-			base[c] = source.base[source.c];
+			if (base == source.base)
+			{
+				SOAVecFloat temp[3];
+
+				temp[0] = base[0];
+				temp[1] = base[1];
+				temp[2] = base[2];
+
+				base[a] = temp[source.a];
+				base[b] = temp[source.b];
+				base[c] = temp[source.c];
+			}
+			else
+			{
+				base[a] = source.base[source.a];
+				base[b] = source.base[source.b];
+				base[c] = source.base[source.c];
+			}			
 
 			return *this;
 		}
@@ -1213,20 +1272,54 @@ namespace Ceng::Shader
 
 		inline SwizzledFloat4& operator = (const Float4& source)
 		{
-			base[a] = source.x;
-			base[b] = source.y;
-			base[c] = source.z;
-			base[d] = source.w;
+			if (base == &source._x)
+			{
+				SOAVecFloat temp[4];
+
+				temp[0] = source._x;
+				temp[1] = source._y;
+				temp[2] = source._z;
+				temp[3] = source._w;
+
+				base[a] = temp[0];
+				base[b] = temp[1];
+				base[c] = temp[2];
+				base[d] = temp[3];
+			}
+			else
+			{
+				base[a] = source._x;
+				base[b] = source._y;
+				base[c] = source._z;
+				base[d] = source._w;
+			}			
 
 			return *this;
 		}
 
 		inline SwizzledFloat4& operator = (const SwizzledFloat4& source)
 		{
-			base[a] = source.base[source.a];
-			base[b] = source.base[source.b];
-			base[c] = source.base[source.c];
-			base[d] = source.base[source.d];
+			if (base == source.base)
+			{
+				SOAVecFloat temp[4];
+
+				temp[0] = base[0];
+				temp[1] = base[1];
+				temp[2] = base[2];
+				temp[3] = base[3];
+
+				base[a] = temp[source.a];
+				base[b] = temp[source.b];
+				base[c] = temp[source.c];
+				base[d] = temp[source.d];
+			}
+			else
+			{
+				base[a] = source.base[source.a];
+				base[b] = source.base[source.b];
+				base[c] = source.base[source.c];
+				base[d] = source.base[source.d];
+			}			
 
 			return *this;
 		}
@@ -1269,7 +1362,7 @@ namespace Ceng::Shader
 
 	inline Float& Float::operator= (const Float4& other)
 	{
-		x = other.x;
+		x = other._x;
 		return *this;
 	}
 
@@ -1292,8 +1385,8 @@ namespace Ceng::Shader
 
 	inline Float2& Float2::operator= (const Float4& other)
 	{
-		_x = other.x;
-		_y = other.y;
+		_x = other._x;
+		_y = other._y;
 
 		return *this;
 	}
@@ -1321,12 +1414,12 @@ namespace Ceng::Shader
 
 	inline SwizzledFloat Float2::x() 
 	{
-		return SwizzledFloat(&_x);
+		return SwizzledFloat(&_x, 0);
 	}
 
 	inline SwizzledFloat Float2::y() 
 	{
-		return SwizzledFloat(&_y);
+		return SwizzledFloat(&_y, 1);
 	}
 
 	inline SwizzledFloat2 Float2::xx() 
@@ -1354,9 +1447,9 @@ namespace Ceng::Shader
 
 	inline Float3& Float3::operator= (const Float4& other)
 	{
-		_x = other.x;
-		_y = other.y;
-		_z = other.z;
+		_x = other._x;
+		_y = other._y;
+		_z = other._z;
 
 		return *this;
 	}
@@ -1387,17 +1480,17 @@ namespace Ceng::Shader
 
 	inline SwizzledFloat Float3::x()
 	{
-		return SwizzledFloat(&_x);
+		return SwizzledFloat(&_x, 0);
 	}
 
 	inline SwizzledFloat Float3::y()
 	{
-		return SwizzledFloat(&_y);
+		return SwizzledFloat(&_y, 1);
 	}
 
 	inline SwizzledFloat Float3::z()
 	{
-		return SwizzledFloat(&_z);
+		return SwizzledFloat(&_z, 2);
 	}
 
 	inline SwizzledFloat2 Float3::xx()
@@ -1585,7 +1678,7 @@ namespace Ceng::Shader
 
 	inline Float4& Float4::operator = (const SampleTexture2D& source)
 	{
-		(*call_mov_float4)((void*)&x, (void*)source.dataAddress);
+		(*call_mov_float4)((void*)&_x, (void*)source.dataAddress);
 		return *this;
 	}
 
