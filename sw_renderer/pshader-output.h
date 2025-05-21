@@ -16,7 +16,7 @@
 
 #include "crender-base.h"
 
-#include "shader-datatype.h"
+#include "pshader-types.h"
 
 namespace Ceng
 {
@@ -71,7 +71,7 @@ namespace Ceng
 		{
 		}
 
-		inline CR_psOutputRegister& operator = (const Shader::Float &source)
+		inline CR_psOutputRegister& operator = (const Pshader::Float &source)
 		{
 			POINTER *localWrite = (POINTER*)(inputAddress);
 
@@ -82,7 +82,7 @@ namespace Ceng
 			return *this;
 		}
 
-		inline CR_psOutputRegister& operator = (const Shader::Float4 &source)
+		inline CR_psOutputRegister& operator = (const Pshader::Float4 &source)
 		{
 			POINTER *localWrite = (POINTER*)(inputAddress);			
 
@@ -213,7 +213,7 @@ namespace Ceng
 
 		};
 
-		inline void Write(const Shader::SampleTexture2D &source, const Ceng::INT32 coverageIndex)
+		inline void Write(const Pshader::SampleTexture2D &source, const Ceng::INT32 coverageIndex)
 		{
 			_declspec(align(16)) Ceng::FLOAT32 writeBuffer[16];
 
@@ -299,7 +299,7 @@ namespace Ceng
 			*localWrite += 16;
 		}
 
-		inline CR_psOutputRegister& operator = (const Shader::SampleTexture2D &source)
+		inline CR_psOutputRegister& operator = (const Pshader::SampleTexture2D &source)
 		{
 			POINTER *localWrite = (POINTER*)(inputAddress);
 

@@ -20,8 +20,6 @@
 
 #include "crender-base.h"
 
-#include "shader-datatype.h"
-
 #include "triangle-data.h"
 
 #include "cr-shader-const.h"

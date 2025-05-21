@@ -9,8 +9,6 @@
 #ifndef CRENDER_PSHADER_OUTPUT_SEMANTIC_H
 #define CRENDER_PSHADER_OUTPUT_SEMANTIC_H
 
-#include "shader-datatype.h"
-
 namespace Ceng
 {
 	class CR_PixelShaderTarget

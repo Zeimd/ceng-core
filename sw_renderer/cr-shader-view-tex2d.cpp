@@ -10,7 +10,7 @@
 
 #include "cr-shader-view-tex2d.h"
 
-#include "shader-datatype.h"
+#include "pshader-types.h"
 
 using namespace Ceng;
 
@@ -67,7 +67,7 @@ _declspec(align(16)) const Ceng::FLOAT32 mulToFX16[] = { 65536.0f, 65536.0f, 655
 
 const Ceng::FLOAT32 distVal = 2.0f;
 
-void CR_ShaderViewTex2D::Sample2D(Shader::Float2 &uv, const CR_SamplerState *sampler,
+void CR_ShaderViewTex2D::Sample2D(Pshader::Float2 &uv, const CR_SamplerState *sampler,
 	Ceng::FLOAT32 *out_colorVecs)
 {
 	Ceng::FLOAT32 *uvData = (Ceng::FLOAT32*)&uv._x;

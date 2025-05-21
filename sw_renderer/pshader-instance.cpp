@@ -22,6 +22,8 @@
 
 #include "shader-link.h"
 
+#include "pshader-types.h"
+
 using namespace Ceng;
 
 PixelShaderInstance::~PixelShaderInstance()
@@ -862,14 +864,14 @@ void PixelShaderInstance::ShaderFunction(const FLOAT32 *perspective,
 	// NOTE: Read input registers / write outputs only once because of
 	//       automatic pixel stepping
 
-	Shader::Float2 uvDiffuse;
+	Pshader::Float2 uvDiffuse;
 	
 	uvDiffuse = *IN_TEXCOORD0;
 
 	//shaderLocal_temp = *IN_COLOR0;
 
-	Shader::Float4 shaderLocal_temp;
-	Shader::Float shaderLocal_colorScale;
+	Pshader::Float4 shaderLocal_temp;
+	Pshader::Float shaderLocal_colorScale;
 
 
 

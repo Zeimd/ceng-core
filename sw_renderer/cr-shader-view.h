@@ -13,12 +13,12 @@
 
 namespace Ceng
 {
-	class CR_SamplerState;
-
-	namespace Shader
+	namespace Pshader
 	{
 		class Float2;
 	}
+
+	class CR_SamplerState;
 
 	class CR_ShaderResourceView : public ShaderResourceView
 	{
@@ -31,7 +31,7 @@ namespace Ceng
 		{
 		}
 
-		virtual void Sample2D(Shader::Float2 &uv,const CR_SamplerState *sampler,
+		virtual void Sample2D(Pshader::Float2 &uv,const CR_SamplerState *sampler,
 								Ceng::FLOAT32 *out_colorVecs) =0;
 	};
 }

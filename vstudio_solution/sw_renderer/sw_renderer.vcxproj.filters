@@ -192,7 +192,7 @@
     <ClInclude Include="..\..\sw_renderer\shader-const-data.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sw_renderer\shader-datatype.h">
+    <ClInclude Include="..\..\sw_renderer\pshader-types.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\..\sw_renderer\shader-link.h">

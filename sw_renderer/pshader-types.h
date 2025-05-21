@@ -20,7 +20,7 @@
 
 #include "cr-shader-view.h"
 
-namespace Ceng::Shader
+namespace Ceng::Pshader
 {
 	void PS_MOV_FLOAT4_FLOAT4_X86_SSE(void *dest,void *source);
 
@@ -1482,8 +1482,8 @@ namespace Ceng::Shader
 	{
 	public:
 
-		TextureUnit *unit;
-		Shader::Float2 *uv;
+		Ceng::TextureUnit *unit;
+		Float2 *uv;
 
 		void *dataAddress;
 
@@ -1496,7 +1496,7 @@ namespace Ceng::Shader
 		}
 
 		//SampleTexture2D& operator()(const Ceng::UINT32 index, Shader::Float2 &uv);
-		SampleTexture2D& operator()(TextureUnit &texture, Shader::Float2 &uv);
+		SampleTexture2D& operator()(TextureUnit &texture, Float2 &uv);
 
 		void SampleToFloat4(void *destBuffer) const;
 	};
@@ -3854,7 +3854,7 @@ namespace Ceng::Shader
 	//**********************************************************
 	// SampleTexture2D methods
 
-	inline SampleTexture2D& SampleTexture2D::operator()(TextureUnit &texture, Shader::Float2 &uv)
+	inline SampleTexture2D& SampleTexture2D::operator()(TextureUnit &texture, Float2 &uv)
 	{
 		unit = &texture;
 		this->uv = &uv;

@@ -114,7 +114,7 @@ namespace Ceng
 		CR_psOutputRegister *OUT_DEPTH;
 		CR_psOutputRegister *OUT_STENCIL;
 
-		Shader::SampleTexture2D sample2d;
+		Pshader::SampleTexture2D sample2d;
 
 		TextureUnit diffuseTexUnit;
 

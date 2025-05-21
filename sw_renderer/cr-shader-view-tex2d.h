@@ -41,7 +41,7 @@ namespace Ceng
 
 		virtual void Release() override;
 
-		virtual void Sample2D(Shader::Float2 &uv, const CR_SamplerState *sampler,
+		virtual void Sample2D(Pshader::Float2 &uv, const CR_SamplerState *sampler,
 			Ceng::FLOAT32 *out_colorVecs) override;
 
 	protected:
