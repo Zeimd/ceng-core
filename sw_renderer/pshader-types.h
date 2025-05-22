@@ -434,6 +434,11 @@ namespace Ceng::Pshader
 	class SwizzledFloat3;
 	class SwizzledFloat4;
 
+	class ConstSwizzledFloat;
+	class ConstSwizzledFloat2;
+	class ConstSwizzledFloat3;
+	class ConstSwizzledFloat4;
+
 	class SampleTexture2D;
 
 	class alignas(16) Float
@@ -606,6 +611,8 @@ namespace Ceng::Pshader
 
 		Float2& operator= (const SwizzledFloat2& other);
 
+		Float2& operator= (const ConstSwizzledFloat2& other);
+
 		inline Float2& operator = (const CR_PixelShaderInput& source)
 		{
 			source.MoveToFloat2(&_x);
@@ -647,10 +654,10 @@ namespace Ceng::Pshader
 		SwizzledFloat x();
 		SwizzledFloat y();
 
-		SwizzledFloat2 xx();
+		ConstSwizzledFloat2 xx();
 		SwizzledFloat2 xy();
 		SwizzledFloat2 yx();
-		SwizzledFloat2 yy();
+		ConstSwizzledFloat2 yy();
 	};
 
 	inline Float2 operator + (const Float2& a, const Float2& b)
@@ -802,57 +809,59 @@ namespace Ceng::Pshader
 
 		Float3& operator= (const SwizzledFloat3& other);
 
+		Float3& operator= (const ConstSwizzledFloat3& other);
+
 		SwizzledFloat x();
 		SwizzledFloat y();
 		SwizzledFloat z();
 
-		SwizzledFloat2 xx();
+		ConstSwizzledFloat2 xx();
 		SwizzledFloat2 xy();
 		SwizzledFloat2 xz();
 
 		SwizzledFloat2 yx();
-		SwizzledFloat2 yy();
+		ConstSwizzledFloat2 yy();
 		SwizzledFloat2 yz();
 
 		SwizzledFloat2 zx();
 		SwizzledFloat2 zy();
-		SwizzledFloat2 zz();
+		ConstSwizzledFloat2 zz();
 
-		SwizzledFloat3 xxx();
-		SwizzledFloat3 xxy();
-		SwizzledFloat3 xxz();
+		ConstSwizzledFloat3 xxx();
+		ConstSwizzledFloat3 xxy();
+		ConstSwizzledFloat3 xxz();
 
-		SwizzledFloat3 xyx();
-		SwizzledFloat3 xyy();
+		ConstSwizzledFloat3 xyx();
+		ConstSwizzledFloat3 xyy();
 		SwizzledFloat3 xyz();
 
-		SwizzledFloat3 xzx();
+		ConstSwizzledFloat3 xzx();
 		SwizzledFloat3 xzy();
-		SwizzledFloat3 xzz();
+		ConstSwizzledFloat3 xzz();
 
-		SwizzledFloat3 yxx();
-		SwizzledFloat3 yxy();
+		ConstSwizzledFloat3 yxx();
+		ConstSwizzledFloat3 yxy();
 		SwizzledFloat3 yxz();
 
-		SwizzledFloat3 yyx();
-		SwizzledFloat3 yyy();
-		SwizzledFloat3 yyz();
+		ConstSwizzledFloat3 yyx();
+		ConstSwizzledFloat3 yyy();
+		ConstSwizzledFloat3 yyz();
 
 		SwizzledFloat3 yzx();
-		SwizzledFloat3 yzy();
-		SwizzledFloat3 yzz();
+		ConstSwizzledFloat3 yzy();
+		ConstSwizzledFloat3 yzz();
 
-		SwizzledFloat3 zxx();
+		ConstSwizzledFloat3 zxx();
 		SwizzledFloat3 zxy();
-		SwizzledFloat3 zxz();
+		ConstSwizzledFloat3 zxz();
 
 		SwizzledFloat3 zyx();
-		SwizzledFloat3 zyy();
-		SwizzledFloat3 zyz();
+		ConstSwizzledFloat3 zyy();
+		ConstSwizzledFloat3 zyz();
 
-		SwizzledFloat3 zzx();
-		SwizzledFloat3 zzy();
-		SwizzledFloat3 zzz();
+		ConstSwizzledFloat3 zzx();
+		ConstSwizzledFloat3 zzy();
+		ConstSwizzledFloat3 zzz();
 		
 	};
 
@@ -1023,438 +1032,440 @@ namespace Ceng::Pshader
 
 		Float4& operator = (const SwizzledFloat4& source);
 
+		Float4& operator = (const ConstSwizzledFloat4& source);
+
 		SwizzledFloat x();
 		SwizzledFloat y();
 		SwizzledFloat z();
 		SwizzledFloat w();
 
-		SwizzledFloat2 xx();
+		ConstSwizzledFloat2 xx();
 		SwizzledFloat2 xy();
 		SwizzledFloat2 xz();
 		SwizzledFloat2 xw();
 
 		SwizzledFloat2 yx();
-		SwizzledFloat2 yy();
+		ConstSwizzledFloat2 yy();
 		SwizzledFloat2 yz();
 		SwizzledFloat2 yw();
 
 		SwizzledFloat2 zx();
 		SwizzledFloat2 zy();
-		SwizzledFloat2 zz();
+		ConstSwizzledFloat2 zz();
 		SwizzledFloat2 zw();
 
 		SwizzledFloat2 wx();
 		SwizzledFloat2 wy();
 		SwizzledFloat2 wz();
-		SwizzledFloat2 ww();
+		ConstSwizzledFloat2 ww();
 
-		SwizzledFloat3 xxx();
-		SwizzledFloat3 xxy();
-		SwizzledFloat3 xxz();
-		SwizzledFloat3 xxw();
+		ConstSwizzledFloat3 xxx();
+		ConstSwizzledFloat3 xxy();
+		ConstSwizzledFloat3 xxz();
+		ConstSwizzledFloat3 xxw();
 
-		SwizzledFloat3 xyx();
-		SwizzledFloat3 xyy();
+		ConstSwizzledFloat3 xyx();
+		ConstSwizzledFloat3 xyy();
 		SwizzledFloat3 xyz();
 		SwizzledFloat3 xyw();
 
-		SwizzledFloat3 xzx();
+		ConstSwizzledFloat3 xzx();
 		SwizzledFloat3 xzy();
-		SwizzledFloat3 xzz();
+		ConstSwizzledFloat3 xzz();
 		SwizzledFloat3 xzw();
 
-		SwizzledFloat3 xwx();
+		ConstSwizzledFloat3 xwx();
 		SwizzledFloat3 xwy();
 		SwizzledFloat3 xwz();
-		SwizzledFloat3 xww();
+		ConstSwizzledFloat3 xww();
 
-		SwizzledFloat3 yxx();
-		SwizzledFloat3 yxy();
+		ConstSwizzledFloat3 yxx();
+		ConstSwizzledFloat3 yxy();
 		SwizzledFloat3 yxz();
 		SwizzledFloat3 yxw();
 
-		SwizzledFloat3 yyx();
-		SwizzledFloat3 yyy();
-		SwizzledFloat3 yyz();
-		SwizzledFloat3 yyw();
+		ConstSwizzledFloat3 yyx();
+		ConstSwizzledFloat3 yyy();
+		ConstSwizzledFloat3 yyz();
+		ConstSwizzledFloat3 yyw();
 
 		SwizzledFloat3 yzx();
-		SwizzledFloat3 yzy();
-		SwizzledFloat3 yzz();
+		ConstSwizzledFloat3 yzy();
+		ConstSwizzledFloat3 yzz();
 		SwizzledFloat3 yzw();
 
 		SwizzledFloat3 ywx();
-		SwizzledFloat3 ywy();
+		ConstSwizzledFloat3 ywy();
 		SwizzledFloat3 ywz();
-		SwizzledFloat3 yww();
+		ConstSwizzledFloat3 yww();
 
-		SwizzledFloat3 zxx();
+		ConstSwizzledFloat3 zxx();
 		SwizzledFloat3 zxy();
-		SwizzledFloat3 zxz();
+		ConstSwizzledFloat3 zxz();
 		SwizzledFloat3 zxw();
 
 		SwizzledFloat3 zyx();
-		SwizzledFloat3 zyy();
-		SwizzledFloat3 zyz();
+		ConstSwizzledFloat3 zyy();
+		ConstSwizzledFloat3 zyz();
 		SwizzledFloat3 zyw();
 
-		SwizzledFloat3 zzx();
-		SwizzledFloat3 zzy();
-		SwizzledFloat3 zzz();
-		SwizzledFloat3 zzw();
+		ConstSwizzledFloat3 zzx();
+		ConstSwizzledFloat3 zzy();
+		ConstSwizzledFloat3 zzz();
+		ConstSwizzledFloat3 zzw();
 
 		SwizzledFloat3 zwx();
 		SwizzledFloat3 zwy();
-		SwizzledFloat3 zwz();
-		SwizzledFloat3 zww();
+		ConstSwizzledFloat3 zwz();
+		ConstSwizzledFloat3 zww();
 
-		SwizzledFloat3 wxx();
+		ConstSwizzledFloat3 wxx();
 		SwizzledFloat3 wxy();
 		SwizzledFloat3 wxz();
-		SwizzledFloat3 wxw();
+		ConstSwizzledFloat3 wxw();
 
 		SwizzledFloat3 wyx();
-		SwizzledFloat3 wyy();
+		ConstSwizzledFloat3 wyy();
 		SwizzledFloat3 wyz();
-		SwizzledFloat3 wyw();
+		ConstSwizzledFloat3 wyw();
 
 		SwizzledFloat3 wzx();
 		SwizzledFloat3 wzy();
-		SwizzledFloat3 wzz();
-		SwizzledFloat3 wzw();
+		ConstSwizzledFloat3 wzz();
+		ConstSwizzledFloat3 wzw();
 
-		SwizzledFloat3 wwx();
-		SwizzledFloat3 wwy();
-		SwizzledFloat3 wwz();
-		SwizzledFloat3 www();
+		ConstSwizzledFloat3 wwx();
+		ConstSwizzledFloat3 wwy();
+		ConstSwizzledFloat3 wwz();
+		ConstSwizzledFloat3 www();
 
 		// swizzles x---
 
-		SwizzledFloat4 xxxx();
-		SwizzledFloat4 xxxy();
-		SwizzledFloat4 xxxz();
-		SwizzledFloat4 xxxw();
+		ConstSwizzledFloat4 xxxx();
+		ConstSwizzledFloat4 xxxy();
+		ConstSwizzledFloat4 xxxz();
+		ConstSwizzledFloat4 xxxw();
 
-		SwizzledFloat4 xxyx();
-		SwizzledFloat4 xxyy();
-		SwizzledFloat4 xxyz();
-		SwizzledFloat4 xxyw();
+		ConstSwizzledFloat4 xxyx();
+		ConstSwizzledFloat4 xxyy();
+		ConstSwizzledFloat4 xxyz();
+		ConstSwizzledFloat4 xxyw();
 
-		SwizzledFloat4 xxzx();
-		SwizzledFloat4 xxzy();
-		SwizzledFloat4 xxzz();
-		SwizzledFloat4 xxzw();
+		ConstSwizzledFloat4 xxzx();
+		ConstSwizzledFloat4 xxzy();
+		ConstSwizzledFloat4 xxzz();
+		ConstSwizzledFloat4 xxzw();
 
-		SwizzledFloat4 xxwx();
-		SwizzledFloat4 xxwy();
-		SwizzledFloat4 xxwz();
-		SwizzledFloat4 xxww();
+		ConstSwizzledFloat4 xxwx();
+		ConstSwizzledFloat4 xxwy();
+		ConstSwizzledFloat4 xxwz();
+		ConstSwizzledFloat4 xxww();
 
-		SwizzledFloat4 xyxx();
-		SwizzledFloat4 xyxy();
-		SwizzledFloat4 xyxz();
-		SwizzledFloat4 xyxw();
+		ConstSwizzledFloat4 xyxx();
+		ConstSwizzledFloat4 xyxy();
+		ConstSwizzledFloat4 xyxz();
+		ConstSwizzledFloat4 xyxw();
 
-		SwizzledFloat4 xyyx();
-		SwizzledFloat4 xyyy();
-		SwizzledFloat4 xyyz();
-		SwizzledFloat4 xyyw();
+		ConstSwizzledFloat4 xyyx();
+		ConstSwizzledFloat4 xyyy();
+		ConstSwizzledFloat4 xyyz();
+		ConstSwizzledFloat4 xyyw();
 
-		SwizzledFloat4 xyzx();
-		SwizzledFloat4 xyzy();
-		SwizzledFloat4 xyzz();
+		ConstSwizzledFloat4 xyzx();
+		ConstSwizzledFloat4 xyzy();
+		ConstSwizzledFloat4 xyzz();
 		SwizzledFloat4 xyzw();
 
-		SwizzledFloat4 xywx();
-		SwizzledFloat4 xywy();
+		ConstSwizzledFloat4 xywx();
+		ConstSwizzledFloat4 xywy();
 		SwizzledFloat4 xywz();
-		SwizzledFloat4 xyww();
+		ConstSwizzledFloat4 xyww();
 
-		SwizzledFloat4 xzxx();
-		SwizzledFloat4 xzxy();
-		SwizzledFloat4 xzxz();
-		SwizzledFloat4 xzxw();
+		ConstSwizzledFloat4 xzxx();
+		ConstSwizzledFloat4 xzxy();
+		ConstSwizzledFloat4 xzxz();
+		ConstSwizzledFloat4 xzxw();
 
-		SwizzledFloat4 xzyx();
-		SwizzledFloat4 xzyy();
-		SwizzledFloat4 xzyz();
+		ConstSwizzledFloat4 xzyx();
+		ConstSwizzledFloat4 xzyy();
+		ConstSwizzledFloat4 xzyz();
 		SwizzledFloat4 xzyw();
 
-		SwizzledFloat4 xzzx();
-		SwizzledFloat4 xzzy();
-		SwizzledFloat4 xzzz();
-		SwizzledFloat4 xzzw();
+		ConstSwizzledFloat4 xzzx();
+		ConstSwizzledFloat4 xzzy();
+		ConstSwizzledFloat4 xzzz();
+		ConstSwizzledFloat4 xzzw();
 
-		SwizzledFloat4 xzwx();
+		ConstSwizzledFloat4 xzwx();
 		SwizzledFloat4 xzwy();
-		SwizzledFloat4 xzwz();
-		SwizzledFloat4 xzww();
+		ConstSwizzledFloat4 xzwz();
+		ConstSwizzledFloat4 xzww();
 
-		SwizzledFloat4 xwxx();
-		SwizzledFloat4 xwxy();
-		SwizzledFloat4 xwxz();
-		SwizzledFloat4 xwxw();
+		ConstSwizzledFloat4 xwxx();
+		ConstSwizzledFloat4 xwxy();
+		ConstSwizzledFloat4 xwxz();
+		ConstSwizzledFloat4 xwxw();
 
-		SwizzledFloat4 xwyx();
-		SwizzledFloat4 xwyy();
+		ConstSwizzledFloat4 xwyx();
+		ConstSwizzledFloat4 xwyy();
 		SwizzledFloat4 xwyz();
-		SwizzledFloat4 xwyw();
+		ConstSwizzledFloat4 xwyw();
 
-		SwizzledFloat4 xwzx();
+		ConstSwizzledFloat4 xwzx();
 		SwizzledFloat4 xwzy();
-		SwizzledFloat4 xwzz();
-		SwizzledFloat4 xwzw();
+		ConstSwizzledFloat4 xwzz();
+		ConstSwizzledFloat4 xwzw();
 
-		SwizzledFloat4 xwwx();
-		SwizzledFloat4 xwwy();
-		SwizzledFloat4 xwwz();
-		SwizzledFloat4 xwww();
+		ConstSwizzledFloat4 xwwx();
+		ConstSwizzledFloat4 xwwy();
+		ConstSwizzledFloat4 xwwz();
+		ConstSwizzledFloat4 xwww();
 
 		// swizzles y---
 
-		SwizzledFloat4 yxxx();
-		SwizzledFloat4 yxxy();
-		SwizzledFloat4 yxxz();
-		SwizzledFloat4 yxxw();
+		ConstSwizzledFloat4 yxxx();
+		ConstSwizzledFloat4 yxxy();
+		ConstSwizzledFloat4 yxxz();
+		ConstSwizzledFloat4 yxxw();
 
-		SwizzledFloat4 yxyx();
-		SwizzledFloat4 yxyy();
-		SwizzledFloat4 yxyz();
-		SwizzledFloat4 yxyw();
+		ConstSwizzledFloat4 yxyx();
+		ConstSwizzledFloat4 yxyy();
+		ConstSwizzledFloat4 yxyz();
+		ConstSwizzledFloat4 yxyw();
 
-		SwizzledFloat4 yxzx();
-		SwizzledFloat4 yxzy();
-		SwizzledFloat4 yxzz();
+		ConstSwizzledFloat4 yxzx();
+		ConstSwizzledFloat4 yxzy();
+		ConstSwizzledFloat4 yxzz();
 		SwizzledFloat4 yxzw();
 
-		SwizzledFloat4 yxwx();
-		SwizzledFloat4 yxwy();
+		ConstSwizzledFloat4 yxwx();
+		ConstSwizzledFloat4 yxwy();
 		SwizzledFloat4 yxwz();
-		SwizzledFloat4 yxww();
+		ConstSwizzledFloat4 yxww();
 
-		SwizzledFloat4 yyxx();
-		SwizzledFloat4 yyxy();
-		SwizzledFloat4 yyxz();
-		SwizzledFloat4 yyxw();
+		ConstSwizzledFloat4 yyxx();
+		ConstSwizzledFloat4 yyxy();
+		ConstSwizzledFloat4 yyxz();
+		ConstSwizzledFloat4 yyxw();
 
-		SwizzledFloat4 yyyx();
-		SwizzledFloat4 yyyy();
-		SwizzledFloat4 yyyz();
-		SwizzledFloat4 yyyw();
+		ConstSwizzledFloat4 yyyx();
+		ConstSwizzledFloat4 yyyy();
+		ConstSwizzledFloat4 yyyz();
+		ConstSwizzledFloat4 yyyw();
 
-		SwizzledFloat4 yyzx();
-		SwizzledFloat4 yyzy();
-		SwizzledFloat4 yyzz();
-		SwizzledFloat4 yyzw();
+		ConstSwizzledFloat4 yyzx();
+		ConstSwizzledFloat4 yyzy();
+		ConstSwizzledFloat4 yyzz();
+		ConstSwizzledFloat4 yyzw();
 
-		SwizzledFloat4 yywx();
-		SwizzledFloat4 yywy();
-		SwizzledFloat4 yywz();
-		SwizzledFloat4 yyww();
+		ConstSwizzledFloat4 yywx();
+		ConstSwizzledFloat4 yywy();
+		ConstSwizzledFloat4 yywz();
+		ConstSwizzledFloat4 yyww();
 
-		SwizzledFloat4 yzxx();
-		SwizzledFloat4 yzxy();
-		SwizzledFloat4 yzxz();
+		ConstSwizzledFloat4 yzxx();
+		ConstSwizzledFloat4 yzxy();
+		ConstSwizzledFloat4 yzxz();
 		SwizzledFloat4 yzxw();
 
-		SwizzledFloat4 yzyx();
-		SwizzledFloat4 yzyy();
-		SwizzledFloat4 yzyz();
-		SwizzledFloat4 yzyw();
+		ConstSwizzledFloat4 yzyx();
+		ConstSwizzledFloat4 yzyy();
+		ConstSwizzledFloat4 yzyz();
+		ConstSwizzledFloat4 yzyw();
 
-		SwizzledFloat4 yzzx();
-		SwizzledFloat4 yzzy();
-		SwizzledFloat4 yzzz();
-		SwizzledFloat4 yzzw();
+		ConstSwizzledFloat4 yzzx();
+		ConstSwizzledFloat4 yzzy();
+		ConstSwizzledFloat4 yzzz();
+		ConstSwizzledFloat4 yzzw();
 
 		SwizzledFloat4 yzwx();
-		SwizzledFloat4 yzwy();
-		SwizzledFloat4 yzwz();
-		SwizzledFloat4 yzww();
+		ConstSwizzledFloat4 yzwy();
+		ConstSwizzledFloat4 yzwz();
+		ConstSwizzledFloat4 yzww();
 
-		SwizzledFloat4 ywxx();
-		SwizzledFloat4 ywxy();
+		ConstSwizzledFloat4 ywxx();
+		ConstSwizzledFloat4 ywxy();
 		SwizzledFloat4 ywxz();
-		SwizzledFloat4 ywxw();
+		ConstSwizzledFloat4 ywxw();
 
-		SwizzledFloat4 ywyx();
-		SwizzledFloat4 ywyy();
-		SwizzledFloat4 ywyz();
-		SwizzledFloat4 ywyw();
+		ConstSwizzledFloat4 ywyx();
+		ConstSwizzledFloat4 ywyy();
+		ConstSwizzledFloat4 ywyz();
+		ConstSwizzledFloat4 ywyw();
 
 		SwizzledFloat4 ywzx();
-		SwizzledFloat4 ywzy();
-		SwizzledFloat4 ywzz();
-		SwizzledFloat4 ywzw();
+		ConstSwizzledFloat4 ywzy();
+		ConstSwizzledFloat4 ywzz();
+		ConstSwizzledFloat4 ywzw();
 
-		SwizzledFloat4 ywwx();
-		SwizzledFloat4 ywwy();
-		SwizzledFloat4 ywwz();
-		SwizzledFloat4 ywww();
+		ConstSwizzledFloat4 ywwx();
+		ConstSwizzledFloat4 ywwy();
+		ConstSwizzledFloat4 ywwz();
+		ConstSwizzledFloat4 ywww();
 
 		// swizzles z---
 
-		SwizzledFloat4 zxxx();
-		SwizzledFloat4 zxxy();
-		SwizzledFloat4 zxxz();
-		SwizzledFloat4 zxxw();
+		ConstSwizzledFloat4 zxxx();
+		ConstSwizzledFloat4 zxxy();
+		ConstSwizzledFloat4 zxxz();
+		ConstSwizzledFloat4 zxxw();
 
-		SwizzledFloat4 zxyx();
-		SwizzledFloat4 zxyy();
-		SwizzledFloat4 zxyz();
+		ConstSwizzledFloat4 zxyx();
+		ConstSwizzledFloat4 zxyy();
+		ConstSwizzledFloat4 zxyz();
 		SwizzledFloat4 zxyw();
 
-		SwizzledFloat4 zxzx();
-		SwizzledFloat4 zxzy();
-		SwizzledFloat4 zxzz();
-		SwizzledFloat4 zxzw();
+		ConstSwizzledFloat4 zxzx();
+		ConstSwizzledFloat4 zxzy();
+		ConstSwizzledFloat4 zxzz();
+		ConstSwizzledFloat4 zxzw();
 
-		SwizzledFloat4 zxwx();
+		ConstSwizzledFloat4 zxwx();
 		SwizzledFloat4 zxwy();
-		SwizzledFloat4 zxwz();
-		SwizzledFloat4 zxww();
+		ConstSwizzledFloat4 zxwz();
+		ConstSwizzledFloat4 zxww();
 
-		SwizzledFloat4 zyxx();
-		SwizzledFloat4 zyxy();
-		SwizzledFloat4 zyxz();
+		ConstSwizzledFloat4 zyxx();
+		ConstSwizzledFloat4 zyxy();
+		ConstSwizzledFloat4 zyxz();
 		SwizzledFloat4 zyxw();
 
-		SwizzledFloat4 zyyx();
-		SwizzledFloat4 zyyy();
-		SwizzledFloat4 zyyz();
-		SwizzledFloat4 zyyw();
+		ConstSwizzledFloat4 zyyx();
+		ConstSwizzledFloat4 zyyy();
+		ConstSwizzledFloat4 zyyz();
+		ConstSwizzledFloat4 zyyw();
 
-		SwizzledFloat4 zyzx();
-		SwizzledFloat4 zyzy();
-		SwizzledFloat4 zyzz();
-		SwizzledFloat4 zyzw();
+		ConstSwizzledFloat4 zyzx();
+		ConstSwizzledFloat4 zyzy();
+		ConstSwizzledFloat4 zyzz();
+		ConstSwizzledFloat4 zyzw();
 
 		SwizzledFloat4 zywx();
-		SwizzledFloat4 zywy();
-		SwizzledFloat4 zywz();
-		SwizzledFloat4 zyww();
+		ConstSwizzledFloat4 zywy();
+		ConstSwizzledFloat4 zywz();
+		ConstSwizzledFloat4 zyww();
 
-		SwizzledFloat4 zzxx();
-		SwizzledFloat4 zzxy();
-		SwizzledFloat4 zzxz();
-		SwizzledFloat4 zzxw();
+		ConstSwizzledFloat4 zzxx();
+		ConstSwizzledFloat4 zzxy();
+		ConstSwizzledFloat4 zzxz();
+		ConstSwizzledFloat4 zzxw();
 
-		SwizzledFloat4 zzyx();
-		SwizzledFloat4 zzyy();
-		SwizzledFloat4 zzyz();
-		SwizzledFloat4 zzyw();
+		ConstSwizzledFloat4 zzyx();
+		ConstSwizzledFloat4 zzyy();
+		ConstSwizzledFloat4 zzyz();
+		ConstSwizzledFloat4 zzyw();
 
-		SwizzledFloat4 zzzx();
-		SwizzledFloat4 zzzy();
-		SwizzledFloat4 zzzz();
-		SwizzledFloat4 zzzw();
+		ConstSwizzledFloat4 zzzx();
+		ConstSwizzledFloat4 zzzy();
+		ConstSwizzledFloat4 zzzz();
+		ConstSwizzledFloat4 zzzw();
 
-		SwizzledFloat4 zzwx();
-		SwizzledFloat4 zzwy();
-		SwizzledFloat4 zzwz();
-		SwizzledFloat4 zzww();
+		ConstSwizzledFloat4 zzwx();
+		ConstSwizzledFloat4 zzwy();
+		ConstSwizzledFloat4 zzwz();
+		ConstSwizzledFloat4 zzww();
 
-		SwizzledFloat4 zwxx();
+		ConstSwizzledFloat4 zwxx();
 		SwizzledFloat4 zwxy();
-		SwizzledFloat4 zwxz();
-		SwizzledFloat4 zwxw();
+		ConstSwizzledFloat4 zwxz();
+		ConstSwizzledFloat4 zwxw();
 
 		SwizzledFloat4 zwyx();
-		SwizzledFloat4 zwyy();
-		SwizzledFloat4 zwyz();
-		SwizzledFloat4 zwyw();
+		ConstSwizzledFloat4 zwyy();
+		ConstSwizzledFloat4 zwyz();
+		ConstSwizzledFloat4 zwyw();
 
-		SwizzledFloat4 zwzx();
-		SwizzledFloat4 zwzy();
-		SwizzledFloat4 zwzz();
-		SwizzledFloat4 zwzw();
+		ConstSwizzledFloat4 zwzx();
+		ConstSwizzledFloat4 zwzy();
+		ConstSwizzledFloat4 zwzz();
+		ConstSwizzledFloat4 zwzw();
 
-		SwizzledFloat4 zwwx();
-		SwizzledFloat4 zwwy();
-		SwizzledFloat4 zwwz();
-		SwizzledFloat4 zwww();
+		ConstSwizzledFloat4 zwwx();
+		ConstSwizzledFloat4 zwwy();
+		ConstSwizzledFloat4 zwwz();
+		ConstSwizzledFloat4 zwww();
 
 		// swizzles w---
 
-		SwizzledFloat4 wxxx();
-		SwizzledFloat4 wxxy();
-		SwizzledFloat4 wxxz();
-		SwizzledFloat4 wxxw();
+		ConstSwizzledFloat4 wxxx();
+		ConstSwizzledFloat4 wxxy();
+		ConstSwizzledFloat4 wxxz();
+		ConstSwizzledFloat4 wxxw();
 
-		SwizzledFloat4 wxyx();
-		SwizzledFloat4 wxyy();
+		ConstSwizzledFloat4 wxyx();
+		ConstSwizzledFloat4 wxyy();
 		SwizzledFloat4 wxyz();
-		SwizzledFloat4 wxyw();
+		ConstSwizzledFloat4 wxyw();
 
-		SwizzledFloat4 wxzx();
+		ConstSwizzledFloat4 wxzx();
 		SwizzledFloat4 wxzy();
-		SwizzledFloat4 wxzz();
-		SwizzledFloat4 wxzw();
+		ConstSwizzledFloat4 wxzz();
+		ConstSwizzledFloat4 wxzw();
 
-		SwizzledFloat4 wxwx();
-		SwizzledFloat4 wxwy();
-		SwizzledFloat4 wxwz();
-		SwizzledFloat4 wxww();
+		ConstSwizzledFloat4 wxwx();
+		ConstSwizzledFloat4 wxwy();
+		ConstSwizzledFloat4 wxwz();
+		ConstSwizzledFloat4 wxww();
 
-		SwizzledFloat4 wyxx();
-		SwizzledFloat4 wyxy();
+		ConstSwizzledFloat4 wyxx();
+		ConstSwizzledFloat4 wyxy();
 		SwizzledFloat4 wyxz();
-		SwizzledFloat4 wyxw();
+		ConstSwizzledFloat4 wyxw();
 
-		SwizzledFloat4 wyyx();
-		SwizzledFloat4 wyyy();
-		SwizzledFloat4 wyyz();
-		SwizzledFloat4 wyyw();
+		ConstSwizzledFloat4 wyyx();
+		ConstSwizzledFloat4 wyyy();
+		ConstSwizzledFloat4 wyyz();
+		ConstSwizzledFloat4 wyyw();
 
 		SwizzledFloat4 wyzx();
-		SwizzledFloat4 wyzy();
-		SwizzledFloat4 wyzz();
-		SwizzledFloat4 wyzw();
+		ConstSwizzledFloat4 wyzy();
+		ConstSwizzledFloat4 wyzz();
+		ConstSwizzledFloat4 wyzw();
 
-		SwizzledFloat4 wywx();
-		SwizzledFloat4 wywy();
-		SwizzledFloat4 wywz();
-		SwizzledFloat4 wyww();
+		ConstSwizzledFloat4 wywx();
+		ConstSwizzledFloat4 wywy();
+		ConstSwizzledFloat4 wywz();
+		ConstSwizzledFloat4 wyww();
 
-		SwizzledFloat4 wzxx();
+		ConstSwizzledFloat4 wzxx();
 		SwizzledFloat4 wzxy();
-		SwizzledFloat4 wzxz();
-		SwizzledFloat4 wzxw();
+		ConstSwizzledFloat4 wzxz();
+		ConstSwizzledFloat4 wzxw();
 
 		SwizzledFloat4 wzyx();
-		SwizzledFloat4 wzyy();
-		SwizzledFloat4 wzyz();
-		SwizzledFloat4 wzyw();
+		ConstSwizzledFloat4 wzyy();
+		ConstSwizzledFloat4 wzyz();
+		ConstSwizzledFloat4 wzyw();
 
-		SwizzledFloat4 wzzx();
-		SwizzledFloat4 wzzy();
-		SwizzledFloat4 wzzz();
-		SwizzledFloat4 wzzw();
+		ConstSwizzledFloat4 wzzx();
+		ConstSwizzledFloat4 wzzy();
+		ConstSwizzledFloat4 wzzz();
+		ConstSwizzledFloat4 wzzw();
 
-		SwizzledFloat4 wzwx();
-		SwizzledFloat4 wzwy();
-		SwizzledFloat4 wzwz();
-		SwizzledFloat4 wzww();
+		ConstSwizzledFloat4 wzwx();
+		ConstSwizzledFloat4 wzwy();
+		ConstSwizzledFloat4 wzwz();
+		ConstSwizzledFloat4 wzww();
 
-		SwizzledFloat4 wwxx();
-		SwizzledFloat4 wwxy();
-		SwizzledFloat4 wwxz();
-		SwizzledFloat4 wwxw();
+		ConstSwizzledFloat4 wwxx();
+		ConstSwizzledFloat4 wwxy();
+		ConstSwizzledFloat4 wwxz();
+		ConstSwizzledFloat4 wwxw();
 
-		SwizzledFloat4 wwyx();
-		SwizzledFloat4 wwyy();
-		SwizzledFloat4 wwyz();
-		SwizzledFloat4 wwyw();
+		ConstSwizzledFloat4 wwyx();
+		ConstSwizzledFloat4 wwyy();
+		ConstSwizzledFloat4 wwyz();
+		ConstSwizzledFloat4 wwyw();
 
-		SwizzledFloat4 wwzx();
-		SwizzledFloat4 wwzy();
-		SwizzledFloat4 wwzz();
-		SwizzledFloat4 wwzw();
+		ConstSwizzledFloat4 wwzx();
+		ConstSwizzledFloat4 wwzy();
+		ConstSwizzledFloat4 wwzz();
+		ConstSwizzledFloat4 wwzw();
 
-		SwizzledFloat4 wwwx();
-		SwizzledFloat4 wwwy();
-		SwizzledFloat4 wwwz();
-		SwizzledFloat4 wwww();
+		ConstSwizzledFloat4 wwwx();
+		ConstSwizzledFloat4 wwwy();
+		ConstSwizzledFloat4 wwwz();
+		ConstSwizzledFloat4 wwww();
 
 		/*
 		inline Float4& Float4::operator *= (const Float &other)
@@ -1644,6 +1655,26 @@ namespace Ceng::Pshader
 		{
 			base[a] /= source.base[source.a];
 			return *this;
+		}
+
+		inline operator Float() const
+		{
+			return *base;
+		}
+	};
+
+	class ConstSwizzledFloat
+	{
+	public:
+		SOAVecFloat* base;
+		Ceng::UINT32 a;
+
+	public:
+
+		inline ConstSwizzledFloat(SOAVecFloat* base, Ceng::UINT32 a)
+			: base(base), a(a)
+		{
+
 		}
 
 		inline operator Float() const
@@ -1875,6 +1906,32 @@ namespace Ceng::Pshader
 			}
 
 			return *this;
+		}
+
+		inline operator Float() const
+		{
+			return *base;
+		}
+
+		inline operator Float2() const
+		{
+			return { base[a],base[b] };
+		}
+	};
+
+	class ConstSwizzledFloat2
+	{
+	public:
+		SOAVecFloat* base;
+		Ceng::UINT32 a;
+		Ceng::UINT32 b;
+
+	public:
+
+		inline ConstSwizzledFloat2(SOAVecFloat* base, Ceng::UINT32 a, Ceng::UINT32 b)
+			: base(base), a(a), b(b)
+		{
+
 		}
 
 		inline operator Float() const
@@ -2157,6 +2214,38 @@ namespace Ceng::Pshader
 		inline operator Float3() const
 		{
 			return { base[a],base[b], base[c] };
+		}
+	};
+
+	class ConstSwizzledFloat3
+	{
+	public:
+		SOAVecFloat* base;
+		Ceng::UINT32 a;
+		Ceng::UINT32 b;
+		Ceng::UINT32 c;
+
+	public:
+
+		inline ConstSwizzledFloat3(SOAVecFloat* base, Ceng::UINT32 a, Ceng::UINT32 b, Ceng::UINT32 c)
+			: base(base), a(a), b(b), c(c)
+		{
+
+		}
+
+		inline operator Float() const
+		{
+			return *base;
+		}
+
+		inline operator Float2() const
+		{
+			return { base[a],base[b] };
+		}
+
+		inline operator Float3() const
+		{
+			return { base[a],base[b],base[c]};
 		}
 	};
 
@@ -2468,6 +2557,44 @@ namespace Ceng::Pshader
 		}
 	};
 
+	class ConstSwizzledFloat4
+	{
+	public:
+		SOAVecFloat* base;
+		Ceng::UINT32 a;
+		Ceng::UINT32 b;
+		Ceng::UINT32 c;
+		Ceng::UINT32 d;
+
+	public:
+
+		inline ConstSwizzledFloat4(SOAVecFloat* base, Ceng::UINT32 a, Ceng::UINT32 b, Ceng::UINT32 c, Ceng::UINT32 d)
+			: base(base), a(a), b(b), c(c), d(d)
+		{
+
+		}
+
+		inline operator Float() const
+		{
+			return *base;
+		}
+
+		inline operator Float2() const
+		{
+			return { base[a],base[b] };
+		}
+
+		inline operator Float3() const
+		{
+			return { base[a],base[b],base[c] };
+		}
+
+		inline operator Float4() const
+		{
+			return { base[a],base[b],base[c],base[d]};
+		}
+	};
+
 	//**********************************************************
 	// Shader::Float methods
 
@@ -2535,6 +2662,27 @@ namespace Ceng::Pshader
 		return *this;
 	}
 
+	inline Float2& Float2::operator= (const ConstSwizzledFloat2& other)
+	{
+		if (other.base == &_x)
+		{
+			SOAVecFloat temp[2];
+
+			temp[0] = _x;
+			temp[1] = _y;
+
+			_x = temp[other.a];
+			_y = temp[other.b];
+		}
+		else
+		{
+			_x = other.base[other.a];
+			_y = other.base[other.b];
+		}
+
+		return *this;
+	}
+
 	inline SwizzledFloat Float2::x() 
 	{
 		return SwizzledFloat(&_x, 0);
@@ -2545,9 +2693,9 @@ namespace Ceng::Pshader
 		return SwizzledFloat(&_y, 1);
 	}
 
-	inline SwizzledFloat2 Float2::xx() 
+	inline ConstSwizzledFloat2 Float2::xx()
 	{
-		return SwizzledFloat2(&_x,0,0);
+		return ConstSwizzledFloat2(&_x,0,0);
 	}
 
 	inline SwizzledFloat2 Float2::xy() 
@@ -2560,9 +2708,9 @@ namespace Ceng::Pshader
 		return SwizzledFloat2(&_x, 1, 0);
 	}
 
-	inline SwizzledFloat2 Float2::yy() 
+	inline ConstSwizzledFloat2 Float2::yy()
 	{
-		return SwizzledFloat2(&_x, 1, 1);
+		return ConstSwizzledFloat2(&_x, 1, 1);
 	}
 
 	//**********************************************************
@@ -2601,6 +2749,30 @@ namespace Ceng::Pshader
 		return *this;
 	}
 
+	inline Float3& Float3::operator= (const ConstSwizzledFloat3& other)
+	{
+		if (other.base == &_x)
+		{
+			SOAVecFloat temp[3];
+
+			temp[0] = _x;
+			temp[1] = _y;
+			temp[2] = _z;
+
+			_x = temp[other.a];
+			_y = temp[other.b];
+			_z = temp[other.c];
+		}
+		else
+		{
+			_x = other.base[other.a];
+			_y = other.base[other.b];
+			_z = other.base[other.c];
+		}
+
+		return *this;
+	}
+
 	inline SwizzledFloat Float3::x()
 	{
 		return SwizzledFloat(&_x, 0);
@@ -2616,9 +2788,9 @@ namespace Ceng::Pshader
 		return SwizzledFloat(&_z, 2);
 	}
 
-	inline SwizzledFloat2 Float3::xx()
+	inline ConstSwizzledFloat2 Float3::xx()
 	{
-		return SwizzledFloat2(&_x,0,0);
+		return ConstSwizzledFloat2(&_x,0,0);
 	}
 
 	inline SwizzledFloat2 Float3::xy()
@@ -2636,9 +2808,9 @@ namespace Ceng::Pshader
 		return SwizzledFloat2(&_x, 1, 0);
 	}
 
-	inline SwizzledFloat2 Float3::yy()
+	inline ConstSwizzledFloat2 Float3::yy()
 	{
-		return SwizzledFloat2(&_x, 1, 1);
+		return ConstSwizzledFloat2(&_x, 1, 1);
 	}
 
 	inline SwizzledFloat2 Float3::yz()
@@ -2656,34 +2828,34 @@ namespace Ceng::Pshader
 		return SwizzledFloat2(&_x, 2, 1);
 	}
 
-	inline SwizzledFloat2 Float3::zz()
+	inline ConstSwizzledFloat2 Float3::zz()
 	{
-		return SwizzledFloat2(&_x, 2, 2);
+		return ConstSwizzledFloat2(&_x, 2, 2);
 	}
 
-	inline SwizzledFloat3 Float3::xxx()
+	inline ConstSwizzledFloat3 Float3::xxx()
 	{
-		return SwizzledFloat3(&_x, 0, 0, 0);
+		return ConstSwizzledFloat3(&_x, 0, 0, 0);
 	}
 
-	inline SwizzledFloat3 Float3::xxy()
+	inline ConstSwizzledFloat3 Float3::xxy()
 	{
-		return SwizzledFloat3(&_x, 0, 0, 1);
+		return ConstSwizzledFloat3(&_x, 0, 0, 1);
 	}
 
-	inline SwizzledFloat3 Float3::xxz()
+	inline ConstSwizzledFloat3 Float3::xxz()
 	{
-		return SwizzledFloat3(&_x, 0, 0, 2);
+		return ConstSwizzledFloat3(&_x, 0, 0, 2);
 	}
 
-	inline SwizzledFloat3 Float3::xyx()
+	inline ConstSwizzledFloat3 Float3::xyx()
 	{
-		return SwizzledFloat3(&_x, 0, 1, 0);
+		return ConstSwizzledFloat3(&_x, 0, 1, 0);
 	}
 
-	inline SwizzledFloat3 Float3::xyy()
+	inline ConstSwizzledFloat3 Float3::xyy()
 	{
-		return SwizzledFloat3(&_x, 0, 1, 1);
+		return ConstSwizzledFloat3(&_x, 0, 1, 1);
 	}
 
 	inline SwizzledFloat3 Float3::xyz()
@@ -2691,9 +2863,9 @@ namespace Ceng::Pshader
 		return SwizzledFloat3(&_x, 0, 1, 2);
 	}
 
-	inline SwizzledFloat3 Float3::xzx()
+	inline ConstSwizzledFloat3 Float3::xzx()
 	{
-		return SwizzledFloat3(&_x, 0, 2, 0);
+		return ConstSwizzledFloat3(&_x, 0, 2, 0);
 	}
 
 	inline SwizzledFloat3 Float3::xzy()
@@ -2701,19 +2873,19 @@ namespace Ceng::Pshader
 		return SwizzledFloat3(&_x, 0, 2, 1);
 	}
 
-	inline SwizzledFloat3 Float3::xzz()
+	inline ConstSwizzledFloat3 Float3::xzz()
 	{
-		return SwizzledFloat3(&_x, 0, 2, 2);
+		return ConstSwizzledFloat3(&_x, 0, 2, 2);
 	}
 
-	inline SwizzledFloat3 Float3::yxx()
+	inline ConstSwizzledFloat3 Float3::yxx()
 	{
-		return SwizzledFloat3(&_x, 1, 0, 0);
+		return ConstSwizzledFloat3(&_x, 1, 0, 0);
 	}
 
-	inline SwizzledFloat3 Float3::yxy()
+	inline ConstSwizzledFloat3 Float3::yxy()
 	{
-		return SwizzledFloat3(&_x, 1, 0, 1);
+		return ConstSwizzledFloat3(&_x, 1, 0, 1);
 	}
 
 	inline SwizzledFloat3 Float3::yxz()
@@ -2721,19 +2893,19 @@ namespace Ceng::Pshader
 		return SwizzledFloat3(&_x, 1, 0, 2);
 	}
 
-	inline SwizzledFloat3 Float3::yyx()
+	inline ConstSwizzledFloat3 Float3::yyx()
 	{
-		return SwizzledFloat3(&_x, 1, 1, 0);
+		return ConstSwizzledFloat3(&_x, 1, 1, 0);
 	}
 
-	inline SwizzledFloat3 Float3::yyy()
+	inline ConstSwizzledFloat3 Float3::yyy()
 	{
-		return SwizzledFloat3(&_x, 1, 1, 1);
+		return ConstSwizzledFloat3(&_x, 1, 1, 1);
 	}
 
-	inline SwizzledFloat3 Float3::yyz()
+	inline ConstSwizzledFloat3 Float3::yyz()
 	{
-		return SwizzledFloat3(&_x, 1, 1, 2);
+		return ConstSwizzledFloat3(&_x, 1, 1, 2);
 	}
 
 	inline SwizzledFloat3 Float3::yzx()
@@ -2741,19 +2913,19 @@ namespace Ceng::Pshader
 		return SwizzledFloat3(&_x, 1, 2, 0);
 	}
 
-	inline SwizzledFloat3 Float3::yzy()
+	inline ConstSwizzledFloat3 Float3::yzy()
 	{
-		return SwizzledFloat3(&_x, 1, 2, 1);
+		return ConstSwizzledFloat3(&_x, 1, 2, 1);
 	}
 
-	inline SwizzledFloat3 Float3::yzz()
+	inline ConstSwizzledFloat3 Float3::yzz()
 	{
-		return SwizzledFloat3(&_x, 1, 2, 2);
+		return ConstSwizzledFloat3(&_x, 1, 2, 2);
 	}
 
-	inline SwizzledFloat3 Float3::zxx()
+	inline ConstSwizzledFloat3 Float3::zxx()
 	{
-		return SwizzledFloat3(&_x, 2, 0, 0);
+		return ConstSwizzledFloat3(&_x, 2, 0, 0);
 	}
 
 	inline SwizzledFloat3 Float3::zxy()
@@ -2761,9 +2933,9 @@ namespace Ceng::Pshader
 		return SwizzledFloat3(&_x, 2, 0, 1);
 	}
 
-	inline SwizzledFloat3 Float3::zxz()
+	inline ConstSwizzledFloat3 Float3::zxz()
 	{
-		return SwizzledFloat3(&_x, 2, 0, 2);
+		return ConstSwizzledFloat3(&_x, 2, 0, 2);
 	}
 
 	inline SwizzledFloat3 Float3::zyx()
@@ -2771,29 +2943,29 @@ namespace Ceng::Pshader
 		return SwizzledFloat3(&_x, 2, 1, 0);
 	}
 
-	inline SwizzledFloat3 Float3::zyy()
+	inline ConstSwizzledFloat3 Float3::zyy()
 	{
-		return SwizzledFloat3(&_x, 2, 1, 1);
+		return ConstSwizzledFloat3(&_x, 2, 1, 1);
 	}
 
-	inline SwizzledFloat3 Float3::zyz()
+	inline ConstSwizzledFloat3 Float3::zyz()
 	{
-		return SwizzledFloat3(&_x, 2, 1, 2);
+		return ConstSwizzledFloat3(&_x, 2, 1, 2);
 	}
 
-	inline SwizzledFloat3 Float3::zzx()
+	inline ConstSwizzledFloat3 Float3::zzx()
 	{
-		return SwizzledFloat3(&_x, 2, 2, 0);
+		return ConstSwizzledFloat3(&_x, 2, 2, 0);
 	}
 
-	inline SwizzledFloat3 Float3::zzy()
+	inline ConstSwizzledFloat3 Float3::zzy()
 	{
-		return SwizzledFloat3(&_x, 2, 2, 1);
+		return ConstSwizzledFloat3(&_x, 2, 2, 1);
 	}
 
-	inline SwizzledFloat3 Float3::zzz()
+	inline ConstSwizzledFloat3 Float3::zzz()
 	{
-		return SwizzledFloat3(&_x, 2, 2, 2);
+		return ConstSwizzledFloat3(&_x, 2, 2, 2);
 	}
 
 	//**********************************************************
@@ -2806,6 +2978,33 @@ namespace Ceng::Pshader
 	}
 
 	inline Float4& Float4::operator = (const SwizzledFloat4& source)
+	{
+		if (source.base == &_x)
+		{
+			SOAVecFloat temp[4];
+
+			temp[0] = _x;
+			temp[1] = _y;
+			temp[2] = _z;
+			temp[3] = _w;
+
+			_x = temp[source.a];
+			_y = temp[source.b];
+			_z = temp[source.c];
+			_w = temp[source.d];
+		}
+		else
+		{
+			_x = source.base[source.a];
+			_y = source.base[source.b];
+			_z = source.base[source.c];
+			_w = source.base[source.d];
+		}
+
+		return *this;
+	}
+
+	inline Float4& Float4::operator = (const ConstSwizzledFloat4& source)
 	{
 		if (source.base == &_x)
 		{
@@ -2852,9 +3051,9 @@ namespace Ceng::Pshader
 		return SwizzledFloat(&_x, 3);
 	}
 
-	inline SwizzledFloat2 Float4::xx()
+	inline ConstSwizzledFloat2 Float4::xx()
 	{
-		return SwizzledFloat2(&_x, 0, 0);
+		return ConstSwizzledFloat2(&_x, 0, 0);
 	}
 
 	inline SwizzledFloat2 Float4::xy()
@@ -2877,9 +3076,9 @@ namespace Ceng::Pshader
 		return SwizzledFloat2(&_x, 1, 0);
 	}
 
-	inline SwizzledFloat2 Float4::yy()
+	inline ConstSwizzledFloat2 Float4::yy()
 	{
-		return SwizzledFloat2(&_x, 1, 1);
+		return ConstSwizzledFloat2(&_x, 1, 1);
 	}
 
 	inline SwizzledFloat2 Float4::yz()
@@ -2902,9 +3101,9 @@ namespace Ceng::Pshader
 		return SwizzledFloat2(&_x, 2, 1);
 	}
 
-	inline SwizzledFloat2 Float4::zz()
+	inline ConstSwizzledFloat2 Float4::zz()
 	{
-		return SwizzledFloat2(&_x, 2, 2);
+		return ConstSwizzledFloat2(&_x, 2, 2);
 	}
 
 	inline SwizzledFloat2 Float4::zw()
@@ -2927,39 +3126,39 @@ namespace Ceng::Pshader
 		return SwizzledFloat2(&_x, 3, 2);
 	}
 
-	inline SwizzledFloat2 Float4::ww()
+	inline ConstSwizzledFloat2 Float4::ww()
 	{
-		return SwizzledFloat2(&_x, 3, 3);
+		return ConstSwizzledFloat2(&_x, 3, 3);
 	}
 
-	inline SwizzledFloat3 Float4::xxx()
+	inline ConstSwizzledFloat3 Float4::xxx()
 	{
-		return SwizzledFloat3(&_x, 0, 0, 0);
+		return ConstSwizzledFloat3(&_x, 0, 0, 0);
 	}
 
-	inline SwizzledFloat3 Float4::xxy()
+	inline ConstSwizzledFloat3 Float4::xxy()
 	{
-		return SwizzledFloat3(&_x, 0, 0, 1);
+		return ConstSwizzledFloat3(&_x, 0, 0, 1);
 	}
 
-	inline SwizzledFloat3 Float4::xxz()
+	inline ConstSwizzledFloat3 Float4::xxz()
 	{
-		return SwizzledFloat3(&_x, 0, 0, 2);
+		return ConstSwizzledFloat3(&_x, 0, 0, 2);
 	}
 
-	inline SwizzledFloat3 Float4::xxw()
+	inline ConstSwizzledFloat3 Float4::xxw()
 	{
-		return SwizzledFloat3(&_x, 0, 0, 3);
+		return ConstSwizzledFloat3(&_x, 0, 0, 3);
 	}
 
-	inline SwizzledFloat3 Float4::xyx()
+	inline ConstSwizzledFloat3 Float4::xyx()
 	{
-		return SwizzledFloat3(&_x, 0, 1, 0);
+		return ConstSwizzledFloat3(&_x, 0, 1, 0);
 	}
 
-	inline SwizzledFloat3 Float4::xyy()
+	inline ConstSwizzledFloat3 Float4::xyy()
 	{
-		return SwizzledFloat3(&_x, 0, 1, 1);
+		return ConstSwizzledFloat3(&_x, 0, 1, 1);
 	}
 
 	inline SwizzledFloat3 Float4::xyz()
@@ -2972,9 +3171,9 @@ namespace Ceng::Pshader
 		return SwizzledFloat3(&_x, 0, 1, 3);
 	}
 
-	inline SwizzledFloat3 Float4::xzx()
+	inline ConstSwizzledFloat3 Float4::xzx()
 	{
-		return SwizzledFloat3(&_x, 0, 2, 0);
+		return ConstSwizzledFloat3(&_x, 0, 2, 0);
 	}
 
 	inline SwizzledFloat3 Float4::xzy()
@@ -2982,9 +3181,9 @@ namespace Ceng::Pshader
 		return SwizzledFloat3(&_x, 0, 2, 1);
 	}
 
-	inline SwizzledFloat3 Float4::xzz()
+	inline ConstSwizzledFloat3 Float4::xzz()
 	{
-		return SwizzledFloat3(&_x, 0, 2, 2);
+		return ConstSwizzledFloat3(&_x, 0, 2, 2);
 	}
 
 	inline SwizzledFloat3 Float4::xzw()
@@ -2992,9 +3191,9 @@ namespace Ceng::Pshader
 		return SwizzledFloat3(&_x, 0, 2, 3);
 	}
 
-	inline SwizzledFloat3 Float4::xwx()
+	inline ConstSwizzledFloat3 Float4::xwx()
 	{
-		return SwizzledFloat3(&_x, 0, 3, 0);
+		return ConstSwizzledFloat3(&_x, 0, 3, 0);
 	}
 
 	inline SwizzledFloat3 Float4::xwy()
@@ -3007,19 +3206,19 @@ namespace Ceng::Pshader
 		return SwizzledFloat3(&_x, 0, 3, 2);
 	}
 
-	inline SwizzledFloat3 Float4::xww()
+	inline ConstSwizzledFloat3 Float4::xww()
 	{
-		return SwizzledFloat3(&_x, 0, 3, 3);
+		return ConstSwizzledFloat3(&_x, 0, 3, 3);
 	}
 
-	inline SwizzledFloat3 Float4::yxx()
+	inline ConstSwizzledFloat3 Float4::yxx()
 	{
-		return SwizzledFloat3(&_x, 1, 0, 0);
+		return ConstSwizzledFloat3(&_x, 1, 0, 0);
 	}
 
-	inline SwizzledFloat3 Float4::yxy()
+	inline ConstSwizzledFloat3 Float4::yxy()
 	{
-		return SwizzledFloat3(&_x, 1, 0, 1);
+		return ConstSwizzledFloat3(&_x, 1, 0, 1);
 	}
 
 	inline SwizzledFloat3 Float4::yxz()
@@ -3032,24 +3231,24 @@ namespace Ceng::Pshader
 		return SwizzledFloat3(&_x, 1, 0, 3);
 	}
 
-	inline SwizzledFloat3 Float4::yyx()
+	inline ConstSwizzledFloat3 Float4::yyx()
 	{
-		return SwizzledFloat3(&_x, 1, 1, 0);
+		return ConstSwizzledFloat3(&_x, 1, 1, 0);
 	}
 
-	inline SwizzledFloat3 Float4::yyy()
+	inline ConstSwizzledFloat3 Float4::yyy()
 	{
-		return SwizzledFloat3(&_x, 1, 1, 1);
+		return ConstSwizzledFloat3(&_x, 1, 1, 1);
 	}
 
-	inline SwizzledFloat3 Float4::yyz()
+	inline ConstSwizzledFloat3 Float4::yyz()
 	{
-		return SwizzledFloat3(&_x, 1, 1, 2);
+		return ConstSwizzledFloat3(&_x, 1, 1, 2);
 	}
 
-	inline SwizzledFloat3 Float4::yyw()
+	inline ConstSwizzledFloat3 Float4::yyw()
 	{
-		return SwizzledFloat3(&_x, 1, 1, 3);
+		return ConstSwizzledFloat3(&_x, 1, 1, 3);
 	}
 
 	inline SwizzledFloat3 Float4::yzx()
@@ -3057,14 +3256,14 @@ namespace Ceng::Pshader
 		return SwizzledFloat3(&_x, 1, 2, 0);
 	}
 
-	inline SwizzledFloat3 Float4::yzy()
+	inline ConstSwizzledFloat3 Float4::yzy()
 	{
-		return SwizzledFloat3(&_x, 1, 2, 1);
+		return ConstSwizzledFloat3(&_x, 1, 2, 1);
 	}
 
-	inline SwizzledFloat3 Float4::yzz()
+	inline ConstSwizzledFloat3 Float4::yzz()
 	{
-		return SwizzledFloat3(&_x, 1, 2, 2);
+		return ConstSwizzledFloat3(&_x, 1, 2, 2);
 	}
 
 	inline SwizzledFloat3 Float4::yzw()
@@ -3077,9 +3276,9 @@ namespace Ceng::Pshader
 		return SwizzledFloat3(&_x, 1, 3, 0);
 	}
 
-	inline SwizzledFloat3 Float4::ywy()
+	inline ConstSwizzledFloat3 Float4::ywy()
 	{
-		return SwizzledFloat3(&_x, 1, 3, 1);
+		return ConstSwizzledFloat3(&_x, 1, 3, 1);
 	}
 
 	inline SwizzledFloat3 Float4::ywz()
@@ -3087,14 +3286,14 @@ namespace Ceng::Pshader
 		return SwizzledFloat3(&_x, 1, 3, 2);
 	}
 
-	inline SwizzledFloat3 Float4::yww()
+	inline ConstSwizzledFloat3 Float4::yww()
 	{
-		return SwizzledFloat3(&_x, 1, 3, 3);
+		return ConstSwizzledFloat3(&_x, 1, 3, 3);
 	}		
 
-	inline SwizzledFloat3 Float4::zxx()
+	inline ConstSwizzledFloat3 Float4::zxx()
 	{
-		return SwizzledFloat3(&_x, 2, 0, 0);
+		return ConstSwizzledFloat3(&_x, 2, 0, 0);
 	}
 
 	inline SwizzledFloat3 Float4::zxy()
@@ -3102,9 +3301,9 @@ namespace Ceng::Pshader
 		return SwizzledFloat3(&_x, 2, 0, 1);
 	}
 
-	inline SwizzledFloat3 Float4::zxz()
+	inline ConstSwizzledFloat3 Float4::zxz()
 	{
-		return SwizzledFloat3(&_x, 2, 0, 2);
+		return ConstSwizzledFloat3(&_x, 2, 0, 2);
 	}
 
 	inline SwizzledFloat3 Float4::zxw()
@@ -3117,14 +3316,14 @@ namespace Ceng::Pshader
 		return SwizzledFloat3(&_x, 2, 1, 0);
 	}
 
-	inline SwizzledFloat3 Float4::zyy()
+	inline ConstSwizzledFloat3 Float4::zyy()
 	{
-		return SwizzledFloat3(&_x, 2, 1, 1);
+		return ConstSwizzledFloat3(&_x, 2, 1, 1);
 	}
 
-	inline SwizzledFloat3 Float4::zyz()
+	inline ConstSwizzledFloat3 Float4::zyz()
 	{
-		return SwizzledFloat3(&_x, 2, 1, 2);
+		return ConstSwizzledFloat3(&_x, 2, 1, 2);
 	}
 
 	inline SwizzledFloat3 Float4::zyw()
@@ -3132,24 +3331,24 @@ namespace Ceng::Pshader
 		return SwizzledFloat3(&_x, 2, 1, 3);
 	}
 
-	inline SwizzledFloat3 Float4::zzx()
+	inline ConstSwizzledFloat3 Float4::zzx()
 	{
-		return SwizzledFloat3(&_x, 2, 2, 0);
+		return ConstSwizzledFloat3(&_x, 2, 2, 0);
 	}
 
-	inline SwizzledFloat3 Float4::zzy()
+	inline ConstSwizzledFloat3 Float4::zzy()
 	{
-		return SwizzledFloat3(&_x, 2, 2, 1);
+		return ConstSwizzledFloat3(&_x, 2, 2, 1);
 	}
 
-	inline SwizzledFloat3 Float4::zzz()
+	inline ConstSwizzledFloat3 Float4::zzz()
 	{
-		return SwizzledFloat3(&_x, 2, 2, 2);
+		return ConstSwizzledFloat3(&_x, 2, 2, 2);
 	}
 
-	inline SwizzledFloat3 Float4::zzw()
+	inline ConstSwizzledFloat3 Float4::zzw()
 	{
-		return SwizzledFloat3(&_x, 2, 2, 3);
+		return ConstSwizzledFloat3(&_x, 2, 2, 3);
 	}
 
 	inline SwizzledFloat3 Float4::zwx()
@@ -3162,19 +3361,19 @@ namespace Ceng::Pshader
 		return SwizzledFloat3(&_x, 2, 3, 1);
 	}
 
-	inline SwizzledFloat3 Float4::zwz()
+	inline ConstSwizzledFloat3 Float4::zwz()
 	{
-		return SwizzledFloat3(&_x, 2, 3, 2);
+		return ConstSwizzledFloat3(&_x, 2, 3, 2);
 	}
 
-	inline 	SwizzledFloat3 Float4::zww()
+	inline ConstSwizzledFloat3 Float4::zww()
 	{
-		return SwizzledFloat3(&_x, 2, 3, 3);
+		return ConstSwizzledFloat3(&_x, 2, 3, 3);
 	}
 
-	inline SwizzledFloat3 Float4::wxx()
+	inline ConstSwizzledFloat3 Float4::wxx()
 	{
-		return SwizzledFloat3(&_x, 3, 0, 0);
+		return ConstSwizzledFloat3(&_x, 3, 0, 0);
 	}
 
 	inline SwizzledFloat3 Float4::wxy()
@@ -3187,9 +3386,9 @@ namespace Ceng::Pshader
 		return SwizzledFloat3(&_x, 3, 0, 2);
 	}
 
-	inline SwizzledFloat3 Float4::wxw()
+	inline ConstSwizzledFloat3 Float4::wxw()
 	{
-		return SwizzledFloat3(&_x, 3, 0, 3);
+		return ConstSwizzledFloat3(&_x, 3, 0, 3);
 	}
 
 	inline SwizzledFloat3 Float4::wyx()
@@ -3197,9 +3396,9 @@ namespace Ceng::Pshader
 		return SwizzledFloat3(&_x, 3, 1, 0);
 	}
 
-	inline SwizzledFloat3 Float4::wyy()
+	inline ConstSwizzledFloat3 Float4::wyy()
 	{
-		return SwizzledFloat3(&_x, 3, 1, 1);
+		return ConstSwizzledFloat3(&_x, 3, 1, 1);
 	}
 
 	inline SwizzledFloat3 Float4::wyz()
@@ -3207,9 +3406,9 @@ namespace Ceng::Pshader
 		return SwizzledFloat3(&_x, 3, 1, 2);
 	}
 
-	inline SwizzledFloat3 Float4::wyw()
+	inline ConstSwizzledFloat3 Float4::wyw()
 	{
-		return SwizzledFloat3(&_x, 3, 1, 3);
+		return ConstSwizzledFloat3(&_x, 3, 1, 3);
 	}
 
 	inline SwizzledFloat3 Float4::wzx()
@@ -3222,171 +3421,171 @@ namespace Ceng::Pshader
 		return SwizzledFloat3(&_x, 3, 2, 1);
 	}
 
-	inline SwizzledFloat3 Float4::wzz()
+	inline ConstSwizzledFloat3 Float4::wzz()
 	{
-		return SwizzledFloat3(&_x, 3, 2, 2);
+		return ConstSwizzledFloat3(&_x, 3, 2, 2);
 	}
 
-	inline SwizzledFloat3 Float4::wzw()
+	inline ConstSwizzledFloat3 Float4::wzw()
 	{
-		return SwizzledFloat3(&_x, 3, 2, 3);
+		return ConstSwizzledFloat3(&_x, 3, 2, 3);
 	}
 
-	inline SwizzledFloat3 Float4::wwx()
+	inline ConstSwizzledFloat3 Float4::wwx()
 	{
-		return SwizzledFloat3(&_x, 3, 3, 0);
+		return ConstSwizzledFloat3(&_x, 3, 3, 0);
 	}
 
-	inline SwizzledFloat3 Float4::wwy()
+	inline ConstSwizzledFloat3 Float4::wwy()
 	{
-		return SwizzledFloat3(&_x, 3, 3, 1);
+		return ConstSwizzledFloat3(&_x, 3, 3, 1);
 	}
 
-	inline SwizzledFloat3 Float4::wwz()
+	inline ConstSwizzledFloat3 Float4::wwz()
 	{
-		return SwizzledFloat3(&_x, 3, 3, 2);
+		return ConstSwizzledFloat3(&_x, 3, 3, 2);
 	}
 
-	inline SwizzledFloat3 Float4::www()
+	inline ConstSwizzledFloat3 Float4::www()
 	{
-		return SwizzledFloat3(&_x, 3, 3, 3);
+		return ConstSwizzledFloat3(&_x, 3, 3, 3);
 	}
 
 	// swizzles x---
 
-	inline SwizzledFloat4 Float4::xxxx()
+	inline ConstSwizzledFloat4 Float4::xxxx()
 	{
-		return SwizzledFloat4(&_x, 0, 0, 0, 0);
+		return ConstSwizzledFloat4(&_x, 0, 0, 0, 0);
 	}
 
-	inline SwizzledFloat4 Float4::xxxy()
+	inline ConstSwizzledFloat4 Float4::xxxy()
 	{
-		return SwizzledFloat4(&_x, 0, 0, 0, 1);
+		return ConstSwizzledFloat4(&_x, 0, 0, 0, 1);
 	}
 
-	inline SwizzledFloat4 Float4::xxxz()
+	inline ConstSwizzledFloat4 Float4::xxxz()
 	{
-		return SwizzledFloat4(&_x, 0, 0, 0, 2);
+		return ConstSwizzledFloat4(&_x, 0, 0, 0, 2);
 	}
 
-	inline 	SwizzledFloat4 Float4::xxxw()
+	inline ConstSwizzledFloat4 Float4::xxxw()
 	{
-		return SwizzledFloat4(&_x, 0, 0, 0, 3);
+		return ConstSwizzledFloat4(&_x, 0, 0, 0, 3);
 	}
 
-	inline SwizzledFloat4 Float4::xxyx()
+	inline ConstSwizzledFloat4 Float4::xxyx()
 	{
-		return SwizzledFloat4(&_x, 0, 0, 1, 0);
+		return ConstSwizzledFloat4(&_x, 0, 0, 1, 0);
 	}
 
-	inline SwizzledFloat4 Float4::xxyy()
+	inline ConstSwizzledFloat4 Float4::xxyy()
 	{
-		return SwizzledFloat4(&_x, 0, 0, 1, 1);
+		return ConstSwizzledFloat4(&_x, 0, 0, 1, 1);
 	}
 
-	inline SwizzledFloat4 Float4::xxyz()
+	inline ConstSwizzledFloat4 Float4::xxyz()
 	{
-		return SwizzledFloat4(&_x, 0, 0, 1, 2);
+		return ConstSwizzledFloat4(&_x, 0, 0, 1, 2);
 	}
 
-	inline SwizzledFloat4 Float4::xxyw()
+	inline ConstSwizzledFloat4 Float4::xxyw()
 	{
-		return SwizzledFloat4(&_x, 0, 0, 1, 3);
+		return ConstSwizzledFloat4(&_x, 0, 0, 1, 3);
 	}
 
-	inline SwizzledFloat4 Float4::xxzx()
+	inline ConstSwizzledFloat4 Float4::xxzx()
 	{
-		return SwizzledFloat4(&_x, 0, 0, 2, 0);
+		return ConstSwizzledFloat4(&_x, 0, 0, 2, 0);
 	}
 
-	inline SwizzledFloat4 Float4::xxzy()
+	inline ConstSwizzledFloat4 Float4::xxzy()
 	{
-		return SwizzledFloat4(&_x, 0, 0, 2, 1);
+		return ConstSwizzledFloat4(&_x, 0, 0, 2, 1);
 	}
 
-	inline SwizzledFloat4 Float4::xxzz()
+	inline ConstSwizzledFloat4 Float4::xxzz()
 	{
-		return SwizzledFloat4(&_x, 0, 0, 2, 2);
+		return ConstSwizzledFloat4(&_x, 0, 0, 2, 2);
 	}
 
-	inline SwizzledFloat4 Float4::xxzw()
+	inline ConstSwizzledFloat4 Float4::xxzw()
 	{
-		return SwizzledFloat4(&_x, 0, 0, 2, 3);
+		return ConstSwizzledFloat4(&_x, 0, 0, 2, 3);
 	}
 
-	inline SwizzledFloat4 Float4::xxwx()
+	inline ConstSwizzledFloat4 Float4::xxwx()
 	{
-		return SwizzledFloat4(&_x, 0, 0, 3, 0);
+		return ConstSwizzledFloat4(&_x, 0, 0, 3, 0);
 	}
 
-	inline SwizzledFloat4 Float4::xxwy()
+	inline ConstSwizzledFloat4 Float4::xxwy()
 	{
-		return SwizzledFloat4(&_x, 0, 0, 3, 1);
+		return ConstSwizzledFloat4(&_x, 0, 0, 3, 1);
 	}
 
-	inline SwizzledFloat4 Float4::xxwz()
+	inline ConstSwizzledFloat4 Float4::xxwz()
 	{
-		return SwizzledFloat4(&_x, 0, 0, 3, 2);
+		return ConstSwizzledFloat4(&_x, 0, 0, 3, 2);
 	}
 
-	inline SwizzledFloat4 Float4::xxww()
+	inline ConstSwizzledFloat4 Float4::xxww()
 	{
-		return SwizzledFloat4(&_x, 0, 0, 3, 3);
+		return ConstSwizzledFloat4(&_x, 0, 0, 3, 3);
 	}
 
-	inline SwizzledFloat4 Float4::xyxx()
+	inline ConstSwizzledFloat4 Float4::xyxx()
 	{
-		return SwizzledFloat4(&_x, 0, 1, 0, 0);
+		return ConstSwizzledFloat4(&_x, 0, 1, 0, 0);
 	}
 
-	inline SwizzledFloat4 Float4::xyxy()
+	inline ConstSwizzledFloat4 Float4::xyxy()
 	{
-		return SwizzledFloat4(&_x, 0, 1, 0, 1);
+		return ConstSwizzledFloat4(&_x, 0, 1, 0, 1);
 	}
 
-	inline SwizzledFloat4 Float4::xyxz()
+	inline ConstSwizzledFloat4 Float4::xyxz()
 	{
-		return SwizzledFloat4(&_x, 0, 1, 0, 2);
+		return ConstSwizzledFloat4(&_x, 0, 1, 0, 2);
 	}
 
-	inline SwizzledFloat4 Float4::xyxw()
+	inline ConstSwizzledFloat4 Float4::xyxw()
 	{
-		return SwizzledFloat4(&_x, 0, 1, 0, 3);
+		return ConstSwizzledFloat4(&_x, 0, 1, 0, 3);
 	}
 
-	inline SwizzledFloat4 Float4::xyyx()
+	inline ConstSwizzledFloat4 Float4::xyyx()
 	{
-		return SwizzledFloat4(&_x, 0, 1, 1, 0);
+		return ConstSwizzledFloat4(&_x, 0, 1, 1, 0);
 	}
 
-	inline SwizzledFloat4 Float4::xyyy()
+	inline ConstSwizzledFloat4 Float4::xyyy()
 	{
-		return SwizzledFloat4(&_x, 0, 1, 1, 1);
+		return ConstSwizzledFloat4(&_x, 0, 1, 1, 1);
 	}
 
-	inline SwizzledFloat4 Float4::xyyz()
+	inline ConstSwizzledFloat4 Float4::xyyz()
 	{
-		return SwizzledFloat4(&_x, 0, 1, 1, 2);
+		return ConstSwizzledFloat4(&_x, 0, 1, 1, 2);
 	}
 
-	inline SwizzledFloat4 Float4::xyyw()
+	inline ConstSwizzledFloat4 Float4::xyyw()
 	{
-		return SwizzledFloat4(&_x, 0, 1, 1, 3);
+		return ConstSwizzledFloat4(&_x, 0, 1, 1, 3);
 	}
 
-	inline SwizzledFloat4 Float4::xyzx()
+	inline ConstSwizzledFloat4 Float4::xyzx()
 	{
-		return SwizzledFloat4(&_x, 0, 1, 2, 0);
+		return ConstSwizzledFloat4(&_x, 0, 1, 2, 0);
 	}
 
-	inline SwizzledFloat4 Float4::xyzy()
+	inline ConstSwizzledFloat4 Float4::xyzy()
 	{
-		return SwizzledFloat4(&_x, 0, 1, 2, 1);
+		return ConstSwizzledFloat4(&_x, 0, 1, 2, 1);
 	}
 
-	inline SwizzledFloat4 Float4::xyzz()
+	inline ConstSwizzledFloat4 Float4::xyzz()
 	{
-		return SwizzledFloat4(&_x, 0, 1, 2, 2);
+		return ConstSwizzledFloat4(&_x, 0, 1, 2, 2);
 	}
 
 	inline SwizzledFloat4 Float4::xyzw()
@@ -3394,14 +3593,14 @@ namespace Ceng::Pshader
 		return SwizzledFloat4(&_x, 0, 1, 2, 3);
 	}
 
-	inline SwizzledFloat4 Float4::xywx()
+	inline ConstSwizzledFloat4 Float4::xywx()
 	{
-		return SwizzledFloat4(&_x, 0, 1, 3, 0);
+		return ConstSwizzledFloat4(&_x, 0, 1, 3, 0);
 	}
 
-	inline SwizzledFloat4 Float4::xywy()
+	inline ConstSwizzledFloat4 Float4::xywy()
 	{
-		return SwizzledFloat4(&_x, 0, 1, 3, 1);
+		return ConstSwizzledFloat4(&_x, 0, 1, 3, 1);
 	}
 
 	inline SwizzledFloat4 Float4::xywz()
@@ -3409,44 +3608,44 @@ namespace Ceng::Pshader
 		return SwizzledFloat4(&_x, 0, 1, 3, 2);
 	}
 
-	inline SwizzledFloat4 Float4::xyww()
+	inline ConstSwizzledFloat4 Float4::xyww()
 	{
-		return SwizzledFloat4(&_x, 0, 1, 3, 3);
+		return ConstSwizzledFloat4(&_x, 0, 1, 3, 3);
 	}
 
-	inline SwizzledFloat4 Float4::xzxx()
+	inline ConstSwizzledFloat4 Float4::xzxx()
 	{
-		return SwizzledFloat4(&_x, 0, 2, 0, 0);
+		return ConstSwizzledFloat4(&_x, 0, 2, 0, 0);
 	}
 
-	inline SwizzledFloat4 Float4::xzxy()
+	inline ConstSwizzledFloat4 Float4::xzxy()
 	{
-		return SwizzledFloat4(&_x, 0, 2, 0, 1);
+		return ConstSwizzledFloat4(&_x, 0, 2, 0, 1);
 	}
 
-	inline SwizzledFloat4 Float4::xzxz()
+	inline ConstSwizzledFloat4 Float4::xzxz()
 	{
-		return SwizzledFloat4(&_x, 0, 2, 0, 2);
+		return ConstSwizzledFloat4(&_x, 0, 2, 0, 2);
 	}
 
-	inline SwizzledFloat4 Float4::xzxw()
+	inline ConstSwizzledFloat4 Float4::xzxw()
 	{
-		return SwizzledFloat4(&_x, 0, 2, 0, 3);
+		return ConstSwizzledFloat4(&_x, 0, 2, 0, 3);
 	}
 
-	inline SwizzledFloat4 Float4::xzyx()
+	inline ConstSwizzledFloat4 Float4::xzyx()
 	{
-		return SwizzledFloat4(&_x, 0, 2, 1, 0);
+		return ConstSwizzledFloat4(&_x, 0, 2, 1, 0);
 	}
 
-	inline SwizzledFloat4 Float4::xzyy()
+	inline ConstSwizzledFloat4 Float4::xzyy()
 	{
-		return SwizzledFloat4(&_x, 0, 2, 1, 1);
+		return ConstSwizzledFloat4(&_x, 0, 2, 1, 1);
 	}
 
-	inline SwizzledFloat4 Float4::xzyz()
+	inline ConstSwizzledFloat4 Float4::xzyz()
 	{
-		return SwizzledFloat4(&_x, 0, 2, 1, 2);
+		return ConstSwizzledFloat4(&_x, 0, 2, 1, 2);
 	}
 
 	inline SwizzledFloat4 Float4::xzyw()
@@ -3454,29 +3653,29 @@ namespace Ceng::Pshader
 		return SwizzledFloat4(&_x, 0, 2, 1, 3);
 	}
 
-	inline SwizzledFloat4 Float4::xzzx()
+	inline ConstSwizzledFloat4 Float4::xzzx()
 	{
-		return SwizzledFloat4(&_x, 0, 2, 2, 0);
+		return ConstSwizzledFloat4(&_x, 0, 2, 2, 0);
 	}
 
-	inline SwizzledFloat4 Float4::xzzy()
+	inline ConstSwizzledFloat4 Float4::xzzy()
 	{
-		return SwizzledFloat4(&_x, 0, 2, 2, 1);
+		return ConstSwizzledFloat4(&_x, 0, 2, 2, 1);
 	}
 
-	inline SwizzledFloat4 Float4::xzzz()
+	inline ConstSwizzledFloat4 Float4::xzzz()
 	{
-		return SwizzledFloat4(&_x, 0, 2, 2, 2);
+		return ConstSwizzledFloat4(&_x, 0, 2, 2, 2);
 	}
 
-	inline SwizzledFloat4 Float4::xzzw()
+	inline ConstSwizzledFloat4 Float4::xzzw()
 	{
-		return SwizzledFloat4(&_x, 0, 2, 2, 3);
+		return ConstSwizzledFloat4(&_x, 0, 2, 2, 3);
 	}
 
-	inline 	SwizzledFloat4 Float4::xzwx()
+	inline ConstSwizzledFloat4 Float4::xzwx()
 	{
-		return SwizzledFloat4(&_x, 0, 2, 3, 0);
+		return ConstSwizzledFloat4(&_x, 0, 2, 3, 0);
 	}
 
 	inline SwizzledFloat4 Float4::xzwy()
@@ -3484,44 +3683,44 @@ namespace Ceng::Pshader
 		return SwizzledFloat4(&_x, 0, 2, 3, 1);
 	}
 
-	inline SwizzledFloat4 Float4::xzwz()
+	inline ConstSwizzledFloat4 Float4::xzwz()
 	{
-		return SwizzledFloat4(&_x, 0, 2, 3, 2);
+		return ConstSwizzledFloat4(&_x, 0, 2, 3, 2);
 	}
 
-	inline SwizzledFloat4 Float4::xzww()
+	inline ConstSwizzledFloat4 Float4::xzww()
 	{
-		return SwizzledFloat4(&_x, 0, 2, 3, 3);
+		return ConstSwizzledFloat4(&_x, 0, 2, 3, 3);
 	}
 
-	inline SwizzledFloat4 Float4::xwxx()
+	inline ConstSwizzledFloat4 Float4::xwxx()
 	{
-		return SwizzledFloat4(&_x, 0, 3, 0, 0);
+		return ConstSwizzledFloat4(&_x, 0, 3, 0, 0);
 	}
 
-	inline SwizzledFloat4 Float4::xwxy()
+	inline ConstSwizzledFloat4 Float4::xwxy()
 	{
-		return SwizzledFloat4(&_x, 0, 3, 0, 1);
+		return ConstSwizzledFloat4(&_x, 0, 3, 0, 1);
 	}
 
-	inline SwizzledFloat4 Float4::xwxz()
+	inline ConstSwizzledFloat4 Float4::xwxz()
 	{
-		return SwizzledFloat4(&_x, 0, 3, 0, 2);
+		return ConstSwizzledFloat4(&_x, 0, 3, 0, 2);
 	}
 
-	inline SwizzledFloat4 Float4::xwxw()
+	inline ConstSwizzledFloat4 Float4::xwxw()
 	{
-		return SwizzledFloat4(&_x, 0, 3, 0, 3);
+		return ConstSwizzledFloat4(&_x, 0, 3, 0, 3);
 	}
 
-	inline SwizzledFloat4 Float4::xwyx()
+	inline ConstSwizzledFloat4 Float4::xwyx()
 	{
-		return SwizzledFloat4(&_x, 0, 3, 1, 0);
+		return ConstSwizzledFloat4(&_x, 0, 3, 1, 0);
 	}
 
-	inline SwizzledFloat4 Float4::xwyy()
+	inline ConstSwizzledFloat4 Float4::xwyy()
 	{
-		return SwizzledFloat4(&_x, 0, 3, 1, 1);
+		return ConstSwizzledFloat4(&_x, 0, 3, 1, 1);
 	}
 
 	inline SwizzledFloat4 Float4::xwyz()
@@ -3529,14 +3728,14 @@ namespace Ceng::Pshader
 		return SwizzledFloat4(&_x, 0, 3, 1, 2);
 	}
 
-	inline SwizzledFloat4 Float4::xwyw()
+	inline ConstSwizzledFloat4 Float4::xwyw()
 	{
-		return SwizzledFloat4(&_x, 0, 3, 1, 3);
+		return ConstSwizzledFloat4(&_x, 0, 3, 1, 3);
 	}
 
-	inline SwizzledFloat4 Float4::xwzx()
+	inline ConstSwizzledFloat4 Float4::xwzx()
 	{
-		return SwizzledFloat4(&_x, 0, 3, 2, 0);
+		return ConstSwizzledFloat4(&_x, 0, 3, 2, 0);
 	}
 
 	inline SwizzledFloat4 Float4::xwzy()
@@ -3544,91 +3743,91 @@ namespace Ceng::Pshader
 		return SwizzledFloat4(&_x, 0, 3, 2, 1);
 	}
 
-	inline SwizzledFloat4 Float4::xwzz()
+	inline ConstSwizzledFloat4 Float4::xwzz()
 	{
-		return SwizzledFloat4(&_x, 0, 3, 2, 2);
+		return ConstSwizzledFloat4(&_x, 0, 3, 2, 2);
 	}
 
-	inline SwizzledFloat4 Float4::xwzw()
+	inline ConstSwizzledFloat4 Float4::xwzw()
 	{
-		return SwizzledFloat4(&_x, 0, 3, 2, 3);
+		return ConstSwizzledFloat4(&_x, 0, 3, 2, 3);
 	}
 
-	inline SwizzledFloat4 Float4::xwwx()
+	inline ConstSwizzledFloat4 Float4::xwwx()
 	{
-		return SwizzledFloat4(&_x, 0, 3, 3, 0);
+		return ConstSwizzledFloat4(&_x, 0, 3, 3, 0);
 	}
 
-	inline SwizzledFloat4 Float4::xwwy()
+	inline ConstSwizzledFloat4 Float4::xwwy()
 	{
-		return SwizzledFloat4(&_x, 0, 3, 3, 1);
+		return ConstSwizzledFloat4(&_x, 0, 3, 3, 1);
 	}
 
-	inline SwizzledFloat4 Float4::xwwz()
+	inline ConstSwizzledFloat4 Float4::xwwz()
 	{
-		return SwizzledFloat4(&_x, 0, 3, 3, 2);
+		return ConstSwizzledFloat4(&_x, 0, 3, 3, 2);
 	}
 
-	inline SwizzledFloat4 Float4::xwww()
+	inline ConstSwizzledFloat4 Float4::xwww()
 	{
-		return SwizzledFloat4(&_x, 0, 3, 3, 3);
+		return ConstSwizzledFloat4(&_x, 0, 3, 3, 3);
 	}
 
 	// swizzles y---
 
-	inline SwizzledFloat4 Float4::yxxx()
+	inline ConstSwizzledFloat4 Float4::yxxx()
 	{
-		return SwizzledFloat4(&_x, 1, 0, 0, 0);
+		return ConstSwizzledFloat4(&_x, 1, 0, 0, 0);
 	}
 
-	inline SwizzledFloat4 Float4::yxxy()
+	inline ConstSwizzledFloat4 Float4::yxxy()
 	{
-		return SwizzledFloat4(&_x, 1, 0, 0, 1);
+		return ConstSwizzledFloat4(&_x, 1, 0, 0, 1);
 	}
 
-	inline SwizzledFloat4 Float4::yxxz()
+	inline ConstSwizzledFloat4 Float4::yxxz()
 	{
-		return SwizzledFloat4(&_x, 1, 0, 0, 2);
+		return ConstSwizzledFloat4(&_x, 1, 0, 0, 2);
 	}
 
-	inline SwizzledFloat4 Float4::yxxw()
+	inline ConstSwizzledFloat4 Float4::yxxw()
 	{
-		return SwizzledFloat4(&_x, 1, 0, 0, 3);
+		return ConstSwizzledFloat4(&_x, 1, 0, 0, 3);
 	}
 
-	inline SwizzledFloat4 Float4::yxyx()
+	inline ConstSwizzledFloat4 Float4::yxyx()
 	{
-		return SwizzledFloat4(&_x, 1, 0, 1, 0);
+		return ConstSwizzledFloat4(&_x, 1, 0, 1, 0);
 	}
 
-	inline SwizzledFloat4 Float4::yxyy()
+	inline ConstSwizzledFloat4 Float4::yxyy()
 	{
-		return SwizzledFloat4(&_x, 1, 0, 1, 1);
+		return ConstSwizzledFloat4(&_x, 1, 0, 1, 1);
 	}
 
-	inline SwizzledFloat4 Float4::yxyz()
+	inline ConstSwizzledFloat4 Float4::yxyz()
 	{
-		return SwizzledFloat4(&_x, 1, 0, 1, 2);
+		return ConstSwizzledFloat4(&_x, 1, 0, 1, 2);
 	}
 
-	inline SwizzledFloat4 Float4::yxyw()
+	inline ConstSwizzledFloat4 Float4::yxyw()
 	{
-		return SwizzledFloat4(&_x, 1, 0, 1, 3);
+		return ConstSwizzledFloat4(&_x, 1, 0, 1, 3);
 	}
 
-	inline SwizzledFloat4 Float4::yxzx()
+	inline ConstSwizzledFloat4 Float4::yxzx()
 	{
-		return SwizzledFloat4(&_x, 1, 0, 2, 0);
+		return ConstSwizzledFloat4(&_x, 1, 0, 2, 0);
 	}
 
-	inline SwizzledFloat4 Float4::yxzy()
+	inline ConstSwizzledFloat4 Float4::yxzy()
 	{
-		return SwizzledFloat4(&_x, 1, 0, 2, 1);
+		return ConstSwizzledFloat4(&_x, 1, 0, 2, 1);
 	}
 
-	inline SwizzledFloat4 Float4::yxzz()
+	inline ConstSwizzledFloat4 Float4::yxzz()
 	{
-		return SwizzledFloat4(&_x, 1, 0, 2, 2);
+		return ConstSwizzledFloat4(&_x, 1, 0, 2, 2);
 	}
 
 	inline SwizzledFloat4 Float4::yxzw()
@@ -3636,14 +3835,14 @@ namespace Ceng::Pshader
 		return SwizzledFloat4(&_x, 1, 0, 2, 3);
 	}
 
-	inline SwizzledFloat4 Float4::yxwx()
+	inline ConstSwizzledFloat4 Float4::yxwx()
 	{
-		return SwizzledFloat4(&_x, 1, 0, 3, 0);
+		return ConstSwizzledFloat4(&_x, 1, 0, 3, 0);
 	}
 
-	inline SwizzledFloat4 Float4::yxwy()
+	inline ConstSwizzledFloat4 Float4::yxwy()
 	{
-		return SwizzledFloat4(&_x, 1, 0, 3, 1);
+		return ConstSwizzledFloat4(&_x, 1, 0, 3, 1);
 	}
 
 	inline SwizzledFloat4 Float4::yxwz()
@@ -3651,104 +3850,104 @@ namespace Ceng::Pshader
 		return SwizzledFloat4(&_x, 1, 0, 3, 2);
 	}
 
-	inline SwizzledFloat4 Float4::yxww()
+	inline ConstSwizzledFloat4 Float4::yxww()
 	{
-		return SwizzledFloat4(&_x, 1, 0, 3, 3);
+		return ConstSwizzledFloat4(&_x, 1, 0, 3, 3);
 	}
 
-	inline SwizzledFloat4 Float4::yyxx()
+	inline ConstSwizzledFloat4 Float4::yyxx()
 	{
-		return SwizzledFloat4(&_x, 1, 1, 0, 0);
+		return ConstSwizzledFloat4(&_x, 1, 1, 0, 0);
 	}
 
-	inline SwizzledFloat4 Float4::yyxy()
+	inline ConstSwizzledFloat4 Float4::yyxy()
 	{
-		return SwizzledFloat4(&_x, 1, 1, 0, 1);
+		return ConstSwizzledFloat4(&_x, 1, 1, 0, 1);
 	}
 
-	inline SwizzledFloat4 Float4::yyxz()
+	inline ConstSwizzledFloat4 Float4::yyxz()
 	{
-		return SwizzledFloat4(&_x, 1, 1, 0, 2);
+		return ConstSwizzledFloat4(&_x, 1, 1, 0, 2);
 	}
 
-	inline SwizzledFloat4 Float4::yyxw()
+	inline ConstSwizzledFloat4 Float4::yyxw()
 	{
-		return SwizzledFloat4(&_x, 1, 1, 0, 3);
+		return ConstSwizzledFloat4(&_x, 1, 1, 0, 3);
 	}
 
-	inline SwizzledFloat4 Float4::yyyx()
+	inline ConstSwizzledFloat4 Float4::yyyx()
 	{
-		return SwizzledFloat4(&_x, 1, 1, 1, 0);
+		return ConstSwizzledFloat4(&_x, 1, 1, 1, 0);
 	}
 
-	inline SwizzledFloat4 Float4::yyyy()
+	inline ConstSwizzledFloat4 Float4::yyyy()
 	{
-		return SwizzledFloat4(&_x, 1, 1, 1, 1);
+		return ConstSwizzledFloat4(&_x, 1, 1, 1, 1);
 	}
 
-	inline SwizzledFloat4 Float4::yyyz()
+	inline ConstSwizzledFloat4 Float4::yyyz()
 	{
-		return SwizzledFloat4(&_x, 1, 1, 1, 2);
+		return ConstSwizzledFloat4(&_x, 1, 1, 1, 2);
 	}
 
-	inline SwizzledFloat4 Float4::yyyw()
+	inline ConstSwizzledFloat4 Float4::yyyw()
 	{
-		return SwizzledFloat4(&_x, 1, 1, 1, 3);
+		return ConstSwizzledFloat4(&_x, 1, 1, 1, 3);
 	}
 
-	inline SwizzledFloat4 Float4::yyzx()
+	inline ConstSwizzledFloat4 Float4::yyzx()
 	{
-		return SwizzledFloat4(&_x, 1, 1, 2, 0);
+		return ConstSwizzledFloat4(&_x, 1, 1, 2, 0);
 	}
 
-	inline SwizzledFloat4 Float4::yyzy()
+	inline ConstSwizzledFloat4 Float4::yyzy()
 	{
-		return SwizzledFloat4(&_x, 1, 1, 2, 1);
+		return ConstSwizzledFloat4(&_x, 1, 1, 2, 1);
 	}
 
-	inline SwizzledFloat4 Float4::yyzz()
+	inline ConstSwizzledFloat4 Float4::yyzz()
 	{
-		return SwizzledFloat4(&_x, 1, 1, 2, 2);
+		return ConstSwizzledFloat4(&_x, 1, 1, 2, 2);
 	}
 
-	inline SwizzledFloat4 Float4::yyzw()
+	inline ConstSwizzledFloat4 Float4::yyzw()
 	{
-		return SwizzledFloat4(&_x, 1, 1, 2, 3);
+		return ConstSwizzledFloat4(&_x, 1, 1, 2, 3);
 	}
 
-	inline SwizzledFloat4 Float4::yywx()
+	inline ConstSwizzledFloat4 Float4::yywx()
 	{
-		return SwizzledFloat4(&_x, 1, 1, 3, 0);
+		return ConstSwizzledFloat4(&_x, 1, 1, 3, 0);
 	}
 
-	inline SwizzledFloat4 Float4::yywy()
+	inline ConstSwizzledFloat4 Float4::yywy()
 	{
-		return SwizzledFloat4(&_x, 1, 1, 3, 1);
+		return ConstSwizzledFloat4(&_x, 1, 1, 3, 1);
 	}
 
-	inline SwizzledFloat4 Float4::yywz()
+	inline ConstSwizzledFloat4 Float4::yywz()
 	{
-		return SwizzledFloat4(&_x, 1, 1, 3, 2);
+		return ConstSwizzledFloat4(&_x, 1, 1, 3, 2);
 	}
 
-	inline SwizzledFloat4 Float4::yyww()
+	inline ConstSwizzledFloat4 Float4::yyww()
 	{
-		return SwizzledFloat4(&_x, 1, 1, 3, 3);
+		return ConstSwizzledFloat4(&_x, 1, 1, 3, 3);
 	}
 
-	inline SwizzledFloat4 Float4::yzxx()
+	inline ConstSwizzledFloat4 Float4::yzxx()
 	{
-		return SwizzledFloat4(&_x, 1, 2, 0, 0);
+		return ConstSwizzledFloat4(&_x, 1, 2, 0, 0);
 	}
 
-	inline SwizzledFloat4 Float4::yzxy()
+	inline ConstSwizzledFloat4 Float4::yzxy()
 	{
-		return SwizzledFloat4(&_x, 1, 2, 0, 1);
+		return ConstSwizzledFloat4(&_x, 1, 2, 0, 1);
 	}
 
-	inline SwizzledFloat4 Float4::yzxz()
+	inline ConstSwizzledFloat4 Float4::yzxz()
 	{
-		return SwizzledFloat4(&_x, 1, 2, 0, 2);
+		return ConstSwizzledFloat4(&_x, 1, 2, 0, 2);
 	}
 
 	inline SwizzledFloat4 Float4::yzxw()
@@ -3756,44 +3955,44 @@ namespace Ceng::Pshader
 		return SwizzledFloat4(&_x, 1, 2, 0, 3);
 	}
 
-	inline SwizzledFloat4 Float4::yzyx()
+	inline ConstSwizzledFloat4 Float4::yzyx()
 	{
-		return SwizzledFloat4(&_x, 1, 2, 1, 0);
+		return ConstSwizzledFloat4(&_x, 1, 2, 1, 0);
 	}
 
-	inline SwizzledFloat4 Float4::yzyy()
+	inline ConstSwizzledFloat4 Float4::yzyy()
 	{
-		return SwizzledFloat4(&_x, 1, 2, 1, 1);
+		return ConstSwizzledFloat4(&_x, 1, 2, 1, 1);
 	}
 
-	inline SwizzledFloat4 Float4::yzyz()
+	inline ConstSwizzledFloat4 Float4::yzyz()
 	{
-		return SwizzledFloat4(&_x, 1, 2, 1, 2);
+		return ConstSwizzledFloat4(&_x, 1, 2, 1, 2);
 	}
 
-	inline SwizzledFloat4 Float4::yzyw()
+	inline ConstSwizzledFloat4 Float4::yzyw()
 	{
-		return SwizzledFloat4(&_x, 1, 2, 1, 3);
+		return ConstSwizzledFloat4(&_x, 1, 2, 1, 3);
 	}
 
-	inline SwizzledFloat4 Float4::yzzx()
+	inline ConstSwizzledFloat4 Float4::yzzx()
 	{
-		return SwizzledFloat4(&_x, 1, 2, 2, 0);
+		return ConstSwizzledFloat4(&_x, 1, 2, 2, 0);
 	}
 
-	inline SwizzledFloat4 Float4::yzzy()
+	inline ConstSwizzledFloat4 Float4::yzzy()
 	{
-		return SwizzledFloat4(&_x, 1, 2, 2, 1);
+		return ConstSwizzledFloat4(&_x, 1, 2, 2, 1);
 	}
 
-	inline SwizzledFloat4 Float4::yzzz()
+	inline ConstSwizzledFloat4 Float4::yzzz()
 	{
-		return SwizzledFloat4(&_x, 1, 2, 2, 2);
+		return ConstSwizzledFloat4(&_x, 1, 2, 2, 2);
 	}
 
-	inline SwizzledFloat4 Float4::yzzw()
+	inline ConstSwizzledFloat4 Float4::yzzw()
 	{
-		return SwizzledFloat4(&_x, 1, 2, 2, 3);
+		return ConstSwizzledFloat4(&_x, 1, 2, 2, 3);
 	}
 
 	inline SwizzledFloat4 Float4::yzwx()
@@ -3801,29 +4000,29 @@ namespace Ceng::Pshader
 		return SwizzledFloat4(&_x, 1, 2, 3, 0);
 	}
 
-	inline SwizzledFloat4 Float4::yzwy()
+	inline ConstSwizzledFloat4 Float4::yzwy()
 	{
-		return SwizzledFloat4(&_x, 1, 2, 3, 1);
+		return ConstSwizzledFloat4(&_x, 1, 2, 3, 1);
 	}
 
-	inline SwizzledFloat4 Float4::yzwz()
+	inline ConstSwizzledFloat4 Float4::yzwz()
 	{
-		return SwizzledFloat4(&_x, 1, 2, 3, 2);
+		return ConstSwizzledFloat4(&_x, 1, 2, 3, 2);
 	}
 
-	inline SwizzledFloat4 Float4::yzww()
+	inline ConstSwizzledFloat4 Float4::yzww()
 	{
-		return SwizzledFloat4(&_x, 1, 2, 3, 3);
+		return ConstSwizzledFloat4(&_x, 1, 2, 3, 3);
 	}
 
-	inline SwizzledFloat4 Float4::ywxx()
+	inline ConstSwizzledFloat4 Float4::ywxx()
 	{
-		return SwizzledFloat4(&_x, 1, 3, 0, 0);
+		return ConstSwizzledFloat4(&_x, 1, 3, 0, 0);
 	}
 
-	inline SwizzledFloat4 Float4::ywxy()
+	inline ConstSwizzledFloat4 Float4::ywxy()
 	{
-		return SwizzledFloat4(&_x, 1, 3, 0, 1);
+		return ConstSwizzledFloat4(&_x, 1, 3, 0, 1);
 	}
 
 	inline SwizzledFloat4 Float4::ywxz()
@@ -3831,29 +4030,29 @@ namespace Ceng::Pshader
 		return SwizzledFloat4(&_x, 1, 3, 0, 2);
 	}
 
-	inline SwizzledFloat4 Float4::ywxw()
+	inline ConstSwizzledFloat4 Float4::ywxw()
 	{
-		return SwizzledFloat4(&_x, 1, 3, 0, 3);
+		return ConstSwizzledFloat4(&_x, 1, 3, 0, 3);
 	}
 
-	inline SwizzledFloat4 Float4::ywyx()
+	inline ConstSwizzledFloat4 Float4::ywyx()
 	{
-		return SwizzledFloat4(&_x, 1, 3, 1, 0);
+		return ConstSwizzledFloat4(&_x, 1, 3, 1, 0);
 	}
 
-	inline SwizzledFloat4 Float4::ywyy()
+	inline ConstSwizzledFloat4 Float4::ywyy()
 	{
-		return SwizzledFloat4(&_x, 1, 3, 1, 1);
+		return ConstSwizzledFloat4(&_x, 1, 3, 1, 1);
 	}
 
-	inline SwizzledFloat4 Float4::ywyz()
+	inline ConstSwizzledFloat4 Float4::ywyz()
 	{
-		return SwizzledFloat4(&_x, 1, 3, 1, 2);
+		return ConstSwizzledFloat4(&_x, 1, 3, 1, 2);
 	}
 
-	inline SwizzledFloat4 Float4::ywyw()
+	inline ConstSwizzledFloat4 Float4::ywyw()
 	{
-		return SwizzledFloat4(&_x, 1, 3, 1, 3);
+		return ConstSwizzledFloat4(&_x, 1, 3, 1, 3);
 	}
 
 	inline SwizzledFloat4 Float4::ywzx()
@@ -3861,76 +4060,76 @@ namespace Ceng::Pshader
 		return SwizzledFloat4(&_x, 1, 3, 2, 0);
 	}
 
-	inline SwizzledFloat4 Float4::ywzy()
+	inline ConstSwizzledFloat4 Float4::ywzy()
 	{
-		return SwizzledFloat4(&_x, 1, 3, 2, 1);
+		return ConstSwizzledFloat4(&_x, 1, 3, 2, 1);
 	}
 
-	inline SwizzledFloat4 Float4::ywzz()
+	inline ConstSwizzledFloat4 Float4::ywzz()
 	{
-		return SwizzledFloat4(&_x, 1, 3, 2, 2);
+		return ConstSwizzledFloat4(&_x, 1, 3, 2, 2);
 	}
 
-	inline SwizzledFloat4 Float4::ywzw()
+	inline ConstSwizzledFloat4 Float4::ywzw()
 	{
-		return SwizzledFloat4(&_x, 1, 3, 2, 3);
+		return ConstSwizzledFloat4(&_x, 1, 3, 2, 3);
 	}
 
-	inline SwizzledFloat4 Float4::ywwx()
+	inline ConstSwizzledFloat4 Float4::ywwx()
 	{
-		return SwizzledFloat4(&_x, 1, 3, 3, 0);
+		return ConstSwizzledFloat4(&_x, 1, 3, 3, 0);
 	}
 
-	inline 	SwizzledFloat4 Float4::ywwy()
+	inline ConstSwizzledFloat4 Float4::ywwy()
 	{
-		return SwizzledFloat4(&_x, 1, 3, 3, 1);
+		return ConstSwizzledFloat4(&_x, 1, 3, 3, 1);
 	}
 
-	inline SwizzledFloat4 Float4::ywwz()
+	inline ConstSwizzledFloat4 Float4::ywwz()
 	{
-		return SwizzledFloat4(&_x, 1, 3, 3, 2);
+		return ConstSwizzledFloat4(&_x, 1, 3, 3, 2);
 	}
 
-	inline SwizzledFloat4 Float4::ywww()
+	inline ConstSwizzledFloat4 Float4::ywww()
 	{
-		return SwizzledFloat4(&_x, 1, 3, 3, 3);
+		return ConstSwizzledFloat4(&_x, 1, 3, 3, 3);
 	}
 
 	// swizzles z---
 
-	inline SwizzledFloat4 Float4::zxxx()
+	inline ConstSwizzledFloat4 Float4::zxxx()
 	{
-		return SwizzledFloat4(&_x, 2, 0, 0, 0);
+		return ConstSwizzledFloat4(&_x, 2, 0, 0, 0);
 	}
 
-	inline SwizzledFloat4 Float4::zxxy()
+	inline ConstSwizzledFloat4 Float4::zxxy()
 	{
-		return SwizzledFloat4(&_x, 2, 0, 0, 1);
+		return ConstSwizzledFloat4(&_x, 2, 0, 0, 1);
 	}
 
-	inline SwizzledFloat4 Float4::zxxz()
+	inline ConstSwizzledFloat4 Float4::zxxz()
 	{
-		return SwizzledFloat4(&_x, 2, 0, 0, 2);
+		return ConstSwizzledFloat4(&_x, 2, 0, 0, 2);
 	}
 
-	inline SwizzledFloat4 Float4::zxxw()
+	inline ConstSwizzledFloat4 Float4::zxxw()
 	{
-		return SwizzledFloat4(&_x, 2, 0, 0, 3);
+		return ConstSwizzledFloat4(&_x, 2, 0, 0, 3);
 	}
 
-	inline SwizzledFloat4 Float4::zxyx()
+	inline ConstSwizzledFloat4 Float4::zxyx()
 	{
-		return SwizzledFloat4(&_x, 2, 0, 1, 0);
+		return ConstSwizzledFloat4(&_x, 2, 0, 1, 0);
 	}
 
-	inline SwizzledFloat4 Float4::zxyy()
+	inline ConstSwizzledFloat4 Float4::zxyy()
 	{
-		return SwizzledFloat4(&_x, 2, 0, 1, 1);
+		return ConstSwizzledFloat4(&_x, 2, 0, 1, 1);
 	}
 
-	inline SwizzledFloat4 Float4::zxyz()
+	inline ConstSwizzledFloat4 Float4::zxyz()
 	{
-		return SwizzledFloat4(&_x, 2, 0, 1, 2);
+		return ConstSwizzledFloat4(&_x, 2, 0, 1, 2);
 	}
 
 	inline SwizzledFloat4 Float4::zxyw()
@@ -3938,29 +4137,29 @@ namespace Ceng::Pshader
 		return SwizzledFloat4(&_x, 2, 0, 1, 3);
 	}
 
-	inline SwizzledFloat4 Float4::zxzx()
+	inline ConstSwizzledFloat4 Float4::zxzx()
 	{
-		return SwizzledFloat4(&_x, 2, 0, 2, 0);
+		return ConstSwizzledFloat4(&_x, 2, 0, 2, 0);
 	}
 
-	inline SwizzledFloat4 Float4::zxzy()
+	inline ConstSwizzledFloat4 Float4::zxzy()
 	{
-		return SwizzledFloat4(&_x, 2, 0, 2, 1);
+		return ConstSwizzledFloat4(&_x, 2, 0, 2, 1);
 	}
 
-	inline SwizzledFloat4 Float4::zxzz()
+	inline ConstSwizzledFloat4 Float4::zxzz()
 	{
-		return SwizzledFloat4(&_x, 2, 0, 2, 2);
+		return ConstSwizzledFloat4(&_x, 2, 0, 2, 2);
 	}
 
-	inline SwizzledFloat4 Float4::zxzw()
+	inline ConstSwizzledFloat4 Float4::zxzw()
 	{
-		return SwizzledFloat4(&_x, 2, 0, 2, 3);
+		return ConstSwizzledFloat4(&_x, 2, 0, 2, 3);
 	}
 
-	inline SwizzledFloat4 Float4::zxwx()
+	inline ConstSwizzledFloat4 Float4::zxwx()
 	{
-		return SwizzledFloat4(&_x, 2, 0, 3, 0);
+		return ConstSwizzledFloat4(&_x, 2, 0, 3, 0);
 	}
 
 	inline SwizzledFloat4 Float4::zxwy()
@@ -3968,29 +4167,29 @@ namespace Ceng::Pshader
 		return SwizzledFloat4(&_x, 2, 0, 3, 1);
 	}
 
-	inline SwizzledFloat4 Float4::zxwz()
+	inline ConstSwizzledFloat4 Float4::zxwz()
 	{
-		return SwizzledFloat4(&_x, 2, 0, 3, 2);
+		return ConstSwizzledFloat4(&_x, 2, 0, 3, 2);
 	}
 
-	inline 	SwizzledFloat4 Float4::zxww()
+	inline ConstSwizzledFloat4 Float4::zxww()
 	{
-		return SwizzledFloat4(&_x, 2, 0, 3, 3);
+		return ConstSwizzledFloat4(&_x, 2, 0, 3, 3);
 	}
 
-	inline SwizzledFloat4 Float4::zyxx()
+	inline ConstSwizzledFloat4 Float4::zyxx()
 	{
-		return SwizzledFloat4(&_x, 2, 1, 0, 0);
+		return ConstSwizzledFloat4(&_x, 2, 1, 0, 0);
 	}
 
-	inline SwizzledFloat4 Float4::zyxy()
+	inline ConstSwizzledFloat4 Float4::zyxy()
 	{
-		return SwizzledFloat4(&_x, 2, 1, 0, 1);
+		return ConstSwizzledFloat4(&_x, 2, 1, 0, 1);
 	}
 
-	inline SwizzledFloat4 Float4::zyxz()
+	inline ConstSwizzledFloat4 Float4::zyxz()
 	{
-		return SwizzledFloat4(&_x, 2, 1, 0, 2);
+		return ConstSwizzledFloat4(&_x, 2, 1, 0, 2);
 	}
 
 	inline SwizzledFloat4 Float4::zyxw()
@@ -3998,44 +4197,44 @@ namespace Ceng::Pshader
 		return SwizzledFloat4(&_x, 2, 1, 0, 3);
 	}
 
-	inline SwizzledFloat4 Float4::zyyx()
+	inline ConstSwizzledFloat4 Float4::zyyx()
 	{
-		return SwizzledFloat4(&_x, 2, 1, 1, 0);
+		return ConstSwizzledFloat4(&_x, 2, 1, 1, 0);
 	}
 
-	inline SwizzledFloat4 Float4::zyyy()
+	inline ConstSwizzledFloat4 Float4::zyyy()
 	{
-		return SwizzledFloat4(&_x, 2, 1, 1, 1);
+		return ConstSwizzledFloat4(&_x, 2, 1, 1, 1);
 	}
 
-	inline SwizzledFloat4 Float4::zyyz()
+	inline ConstSwizzledFloat4 Float4::zyyz()
 	{
-		return SwizzledFloat4(&_x, 2, 1, 1, 2);
+		return ConstSwizzledFloat4(&_x, 2, 1, 1, 2);
 	}
 
-	inline SwizzledFloat4 Float4::zyyw()
+	inline ConstSwizzledFloat4 Float4::zyyw()
 	{
-		return SwizzledFloat4(&_x, 2, 1, 1, 3);
+		return ConstSwizzledFloat4(&_x, 2, 1, 1, 3);
 	}
 
-	inline SwizzledFloat4 Float4::zyzx()
+	inline ConstSwizzledFloat4 Float4::zyzx()
 	{
-		return SwizzledFloat4(&_x, 2, 1, 2, 0);
+		return ConstSwizzledFloat4(&_x, 2, 1, 2, 0);
 	}
 
-	inline SwizzledFloat4 Float4::zyzy()
+	inline ConstSwizzledFloat4 Float4::zyzy()
 	{
-		return SwizzledFloat4(&_x, 2, 1, 2, 1);
+		return ConstSwizzledFloat4(&_x, 2, 1, 2, 1);
 	}
 
-	inline SwizzledFloat4 Float4::zyzz()
+	inline ConstSwizzledFloat4 Float4::zyzz()
 	{
-		return SwizzledFloat4(&_x, 2, 1, 2, 2);
+		return ConstSwizzledFloat4(&_x, 2, 1, 2, 2);
 	}
 
-	inline SwizzledFloat4 Float4::zyzw()
+	inline ConstSwizzledFloat4 Float4::zyzw()
 	{
-		return SwizzledFloat4(&_x, 2, 1, 2, 3);
+		return ConstSwizzledFloat4(&_x, 2, 1, 2, 3);
 	}
 
 	inline SwizzledFloat4 Float4::zywx()
@@ -4043,104 +4242,104 @@ namespace Ceng::Pshader
 		return SwizzledFloat4(&_x, 2, 1, 3, 0);
 	}
 
-	inline SwizzledFloat4 Float4::zywy()
+	inline ConstSwizzledFloat4 Float4::zywy()
 	{
-		return SwizzledFloat4(&_x, 2, 1, 3, 1);
+		return ConstSwizzledFloat4(&_x, 2, 1, 3, 1);
 	}
 
-	inline SwizzledFloat4 Float4::zywz()
+	inline ConstSwizzledFloat4 Float4::zywz()
 	{
-		return SwizzledFloat4(&_x, 2, 1, 3, 2);
+		return ConstSwizzledFloat4(&_x, 2, 1, 3, 2);
 	}
 
-	inline SwizzledFloat4 Float4::zyww()
+	inline ConstSwizzledFloat4 Float4::zyww()
 	{
-		return SwizzledFloat4(&_x, 2, 1, 3, 3);
+		return ConstSwizzledFloat4(&_x, 2, 1, 3, 3);
 	}
 
-	inline SwizzledFloat4 Float4::zzxx()
+	inline ConstSwizzledFloat4 Float4::zzxx()
 	{
-		return SwizzledFloat4(&_x, 2, 2, 0, 0);
+		return ConstSwizzledFloat4(&_x, 2, 2, 0, 0);
 	}
 
-	inline SwizzledFloat4 Float4::zzxy()
+	inline ConstSwizzledFloat4 Float4::zzxy()
 	{
-		return SwizzledFloat4(&_x, 2, 2, 0, 1);
+		return ConstSwizzledFloat4(&_x, 2, 2, 0, 1);
 	}
 
-	inline SwizzledFloat4 Float4::zzxz()
+	inline ConstSwizzledFloat4 Float4::zzxz()
 	{
-		return SwizzledFloat4(&_x, 2, 2, 0, 2);
+		return ConstSwizzledFloat4(&_x, 2, 2, 0, 2);
 	}
 
-	inline SwizzledFloat4 Float4::zzxw()
+	inline ConstSwizzledFloat4 Float4::zzxw()
 	{
-		return SwizzledFloat4(&_x, 2, 2, 0, 3);
+		return ConstSwizzledFloat4(&_x, 2, 2, 0, 3);
 	}
 
-	inline SwizzledFloat4 Float4::zzyx()
+	inline ConstSwizzledFloat4 Float4::zzyx()
 	{
-		return SwizzledFloat4(&_x, 2, 2, 1, 0);
+		return ConstSwizzledFloat4(&_x, 2, 2, 1, 0);
 	}
 
-	inline SwizzledFloat4 Float4::zzyy()
+	inline ConstSwizzledFloat4 Float4::zzyy()
 	{
-		return SwizzledFloat4(&_x, 2, 2, 1, 1);
+		return ConstSwizzledFloat4(&_x, 2, 2, 1, 1);
 	}
 
-	inline SwizzledFloat4 Float4::zzyz()
+	inline ConstSwizzledFloat4 Float4::zzyz()
 	{
-		return SwizzledFloat4(&_x, 2, 2, 1, 2);
+		return ConstSwizzledFloat4(&_x, 2, 2, 1, 2);
 	}
 
-	inline SwizzledFloat4 Float4::zzyw()
+	inline ConstSwizzledFloat4 Float4::zzyw()
 	{
-		return SwizzledFloat4(&_x, 2, 2, 1, 3);
+		return ConstSwizzledFloat4(&_x, 2, 2, 1, 3);
 	}
 
-	inline SwizzledFloat4 Float4::zzzx()
+	inline ConstSwizzledFloat4 Float4::zzzx()
 	{
-		return SwizzledFloat4(&_x, 2, 2, 2, 0);
+		return ConstSwizzledFloat4(&_x, 2, 2, 2, 0);
 	}
 
-	inline SwizzledFloat4 Float4::zzzy()
+	inline ConstSwizzledFloat4 Float4::zzzy()
 	{
-		return SwizzledFloat4(&_x, 2, 2, 2, 1);
+		return ConstSwizzledFloat4(&_x, 2, 2, 2, 1);
 	}
 
-	inline SwizzledFloat4 Float4::zzzz()
+	inline ConstSwizzledFloat4 Float4::zzzz()
 	{
-		return SwizzledFloat4(&_x, 2, 2, 2, 2);
+		return ConstSwizzledFloat4(&_x, 2, 2, 2, 2);
 	}
 
-	inline SwizzledFloat4 Float4::zzzw()
+	inline ConstSwizzledFloat4 Float4::zzzw()
 	{
-		return SwizzledFloat4(&_x, 2, 2, 2, 3);
+		return ConstSwizzledFloat4(&_x, 2, 2, 2, 3);
 	}
 
-	inline SwizzledFloat4 Float4::zzwx()
+	inline ConstSwizzledFloat4 Float4::zzwx()
 	{
-		return SwizzledFloat4(&_x, 2, 2, 3, 0);
+		return ConstSwizzledFloat4(&_x, 2, 2, 3, 0);
 	}
 
-	inline SwizzledFloat4 Float4::zzwy()
+	inline ConstSwizzledFloat4 Float4::zzwy()
 	{
-		return SwizzledFloat4(&_x, 2, 2, 3, 1);
+		return ConstSwizzledFloat4(&_x, 2, 2, 3, 1);
 	}
 
-	inline SwizzledFloat4 Float4::zzwz()
+	inline ConstSwizzledFloat4 Float4::zzwz()
 	{
-		return SwizzledFloat4(&_x, 2, 2, 3, 2);
+		return ConstSwizzledFloat4(&_x, 2, 2, 3, 2);
 	}
 
-	inline SwizzledFloat4 Float4::zzww()
+	inline ConstSwizzledFloat4 Float4::zzww()
 	{
-		return SwizzledFloat4(&_x, 2, 2, 3, 3);
+		return ConstSwizzledFloat4(&_x, 2, 2, 3, 3);
 	}
 
-	inline SwizzledFloat4 Float4::zwxx()
+	inline ConstSwizzledFloat4 Float4::zwxx()
 	{
-		return SwizzledFloat4(&_x, 2, 3, 0, 0);
+		return ConstSwizzledFloat4(&_x, 2, 3, 0, 0);
 	}
 
 	inline SwizzledFloat4 Float4::zwxy()
@@ -4148,14 +4347,14 @@ namespace Ceng::Pshader
 		return SwizzledFloat4(&_x, 2, 3, 0, 1);
 	}
 
-	inline SwizzledFloat4 Float4::zwxz()
+	inline ConstSwizzledFloat4 Float4::zwxz()
 	{
-		return SwizzledFloat4(&_x, 2, 3, 0, 2);
+		return ConstSwizzledFloat4(&_x, 2, 3, 0, 2);
 	}
 
-	inline SwizzledFloat4 Float4::zwxw()
+	inline ConstSwizzledFloat4 Float4::zwxw()
 	{
-		return SwizzledFloat4(&_x, 2, 3, 0, 3);
+		return ConstSwizzledFloat4(&_x, 2, 3, 0, 3);
 	}
 
 	inline SwizzledFloat4 Float4::zwyx()
@@ -4163,91 +4362,91 @@ namespace Ceng::Pshader
 		return SwizzledFloat4(&_x, 2, 3, 1, 0);
 	}
 
-	inline SwizzledFloat4 Float4::zwyy()
+	inline ConstSwizzledFloat4 Float4::zwyy()
 	{
-		return SwizzledFloat4(&_x, 2, 3, 1, 1);
+		return ConstSwizzledFloat4(&_x, 2, 3, 1, 1);
 	}
 
-	inline SwizzledFloat4 Float4::zwyz()
+	inline ConstSwizzledFloat4 Float4::zwyz()
 	{
-		return SwizzledFloat4(&_x, 2, 3, 1, 2);
+		return ConstSwizzledFloat4(&_x, 2, 3, 1, 2);
 	}
 		
-	inline SwizzledFloat4 Float4::zwyw()
+	inline ConstSwizzledFloat4 Float4::zwyw()
 	{
-		return SwizzledFloat4(&_x, 2, 3, 1, 3);
+		return ConstSwizzledFloat4(&_x, 2, 3, 1, 3);
 	}
 
-	inline SwizzledFloat4 Float4::zwzx()
+	inline ConstSwizzledFloat4 Float4::zwzx()
 	{
-		return SwizzledFloat4(&_x, 2, 3, 2, 0);
+		return ConstSwizzledFloat4(&_x, 2, 3, 2, 0);
 	}
 
-	inline SwizzledFloat4 Float4::zwzy()
+	inline ConstSwizzledFloat4 Float4::zwzy()
 	{
-		return SwizzledFloat4(&_x, 2, 3, 2, 1);
+		return ConstSwizzledFloat4(&_x, 2, 3, 2, 1);
 	}
 
-	inline SwizzledFloat4 Float4::zwzz()
+	inline ConstSwizzledFloat4 Float4::zwzz()
 	{
-		return SwizzledFloat4(&_x, 2, 3, 2, 2);
+		return ConstSwizzledFloat4(&_x, 2, 3, 2, 2);
 	}
 
-	inline SwizzledFloat4 Float4::zwzw()
+	inline ConstSwizzledFloat4 Float4::zwzw()
 	{
-		return SwizzledFloat4(&_x, 2, 3, 2, 3);
+		return ConstSwizzledFloat4(&_x, 2, 3, 2, 3);
 	}
 
-	inline SwizzledFloat4 Float4::zwwx()
+	inline ConstSwizzledFloat4 Float4::zwwx()
 	{
-		return SwizzledFloat4(&_x, 2, 3, 3, 0);
+		return ConstSwizzledFloat4(&_x, 2, 3, 3, 0);
 	}
 
-	inline SwizzledFloat4 Float4::zwwy()
+	inline ConstSwizzledFloat4 Float4::zwwy()
 	{
-		return SwizzledFloat4(&_x, 2, 3, 3, 1);
+		return ConstSwizzledFloat4(&_x, 2, 3, 3, 1);
 	}
 
-	inline SwizzledFloat4 Float4::zwwz()
+	inline ConstSwizzledFloat4 Float4::zwwz()
 	{
-		return SwizzledFloat4(&_x, 2, 3, 3, 2);
+		return ConstSwizzledFloat4(&_x, 2, 3, 3, 2);
 	}
 
-	inline SwizzledFloat4 Float4::zwww()
+	inline ConstSwizzledFloat4 Float4::zwww()
 	{
-		return SwizzledFloat4(&_x, 2, 3, 3, 3);
+		return ConstSwizzledFloat4(&_x, 2, 3, 3, 3);
 	}
 
 	// swizzles w---
 
-	inline SwizzledFloat4 Float4::wxxx()
+	inline ConstSwizzledFloat4 Float4::wxxx()
 	{
-		return SwizzledFloat4(&_x, 3, 0, 0, 0);
+		return ConstSwizzledFloat4(&_x, 3, 0, 0, 0);
 	}
 
-	inline SwizzledFloat4 Float4::wxxy()
+	inline ConstSwizzledFloat4 Float4::wxxy()
 	{
-		return SwizzledFloat4(&_x, 3, 0, 0, 1);
+		return ConstSwizzledFloat4(&_x, 3, 0, 0, 1);
 	}
 
-	inline SwizzledFloat4 Float4::wxxz()
+	inline ConstSwizzledFloat4 Float4::wxxz()
 	{
-		return SwizzledFloat4(&_x, 3, 0, 0, 2);
+		return ConstSwizzledFloat4(&_x, 3, 0, 0, 2);
 	}
 
-	inline SwizzledFloat4 Float4::wxxw()
+	inline ConstSwizzledFloat4 Float4::wxxw()
 	{
-		return SwizzledFloat4(&_x, 3, 0, 0, 3);
+		return ConstSwizzledFloat4(&_x, 3, 0, 0, 3);
 	}
 
-	inline SwizzledFloat4 Float4::wxyx()
+	inline ConstSwizzledFloat4 Float4::wxyx()
 	{
-		return SwizzledFloat4(&_x, 3, 0, 1, 0);
+		return ConstSwizzledFloat4(&_x, 3, 0, 1, 0);
 	}
 
-	inline SwizzledFloat4 Float4::wxyy()
+	inline ConstSwizzledFloat4 Float4::wxyy()
 	{
-		return SwizzledFloat4(&_x, 3, 0, 1, 1);
+		return ConstSwizzledFloat4(&_x, 3, 0, 1, 1);
 	}
 
 	inline SwizzledFloat4 Float4::wxyz()
@@ -4255,14 +4454,14 @@ namespace Ceng::Pshader
 		return SwizzledFloat4(&_x, 3, 0, 1, 2);
 	}
 
-	inline SwizzledFloat4 Float4::wxyw()
+	inline ConstSwizzledFloat4 Float4::wxyw()
 	{
-		return SwizzledFloat4(&_x, 3, 0, 1, 3);
+		return ConstSwizzledFloat4(&_x, 3, 0, 1, 3);
 	}
 
-	inline SwizzledFloat4 Float4::wxzx()
+	inline ConstSwizzledFloat4 Float4::wxzx()
 	{
-		return SwizzledFloat4(&_x, 3, 0, 2, 0);
+		return ConstSwizzledFloat4(&_x, 3, 0, 2, 0);
 	}
 
 	inline SwizzledFloat4 Float4::wxzy()
@@ -4270,44 +4469,44 @@ namespace Ceng::Pshader
 		return SwizzledFloat4(&_x, 3, 0, 2, 1);
 	}
 
-	inline SwizzledFloat4 Float4::wxzz()
+	inline ConstSwizzledFloat4 Float4::wxzz()
 	{
-		return SwizzledFloat4(&_x, 3, 0, 2, 2);
+		return ConstSwizzledFloat4(&_x, 3, 0, 2, 2);
 	}
 
-	inline SwizzledFloat4 Float4::wxzw()
+	inline ConstSwizzledFloat4 Float4::wxzw()
 	{
-		return SwizzledFloat4(&_x, 3, 0, 2, 3);
+		return ConstSwizzledFloat4(&_x, 3, 0, 2, 3);
 	}
 
-	inline SwizzledFloat4 Float4::wxwx()
+	inline ConstSwizzledFloat4 Float4::wxwx()
 	{
-		return SwizzledFloat4(&_x, 3, 0, 3, 0);
+		return ConstSwizzledFloat4(&_x, 3, 0, 3, 0);
 	}
 
-	inline SwizzledFloat4 Float4::wxwy()
+	inline ConstSwizzledFloat4 Float4::wxwy()
 	{
-		return SwizzledFloat4(&_x, 3, 0, 3, 1);
+		return ConstSwizzledFloat4(&_x, 3, 0, 3, 1);
 	}
 
-	inline SwizzledFloat4 Float4::wxwz()
+	inline ConstSwizzledFloat4 Float4::wxwz()
 	{
-		return SwizzledFloat4(&_x, 3, 0, 3, 2);
+		return ConstSwizzledFloat4(&_x, 3, 0, 3, 2);
 	}
 
-	inline SwizzledFloat4 Float4::wxww()
+	inline ConstSwizzledFloat4 Float4::wxww()
 	{
-		return SwizzledFloat4(&_x, 3, 0, 3, 3);
+		return ConstSwizzledFloat4(&_x, 3, 0, 3, 3);
 	}
 
-	inline SwizzledFloat4 Float4::wyxx()
+	inline ConstSwizzledFloat4 Float4::wyxx()
 	{
-		return SwizzledFloat4(&_x, 3, 1, 0, 0);
+		return ConstSwizzledFloat4(&_x, 3, 1, 0, 0);
 	}
 
-	inline SwizzledFloat4 Float4::wyxy()
+	inline ConstSwizzledFloat4 Float4::wyxy()
 	{
-		return SwizzledFloat4(&_x, 3, 1, 0, 1);
+		return ConstSwizzledFloat4(&_x, 3, 1, 0, 1);
 	}
 
 	inline SwizzledFloat4 Float4::wyxz()
@@ -4315,29 +4514,29 @@ namespace Ceng::Pshader
 		return SwizzledFloat4(&_x, 3, 1, 0, 2);
 	}
 
-	inline SwizzledFloat4 Float4::wyxw()
+	inline ConstSwizzledFloat4 Float4::wyxw()
 	{
-		return SwizzledFloat4(&_x, 3, 1, 0, 3);
+		return ConstSwizzledFloat4(&_x, 3, 1, 0, 3);
 	}
 
-	inline SwizzledFloat4 Float4::wyyx()
+	inline ConstSwizzledFloat4 Float4::wyyx()
 	{
-		return SwizzledFloat4(&_x, 3, 1, 1, 0);
+		return ConstSwizzledFloat4(&_x, 3, 1, 1, 0);
 	}
 
-	inline SwizzledFloat4 Float4::wyyy()
+	inline ConstSwizzledFloat4 Float4::wyyy()
 	{
-		return SwizzledFloat4(&_x, 3, 1, 1, 1);
+		return ConstSwizzledFloat4(&_x, 3, 1, 1, 1);
 	}
 
-	inline SwizzledFloat4 Float4::wyyz()
+	inline ConstSwizzledFloat4 Float4::wyyz()
 	{
-		return SwizzledFloat4(&_x, 3, 1, 1, 2);
+		return ConstSwizzledFloat4(&_x, 3, 1, 1, 2);
 	}
 
-	inline SwizzledFloat4 Float4::wyyw()
+	inline ConstSwizzledFloat4 Float4::wyyw()
 	{
-		return SwizzledFloat4(&_x, 3, 1, 1, 3);
+		return ConstSwizzledFloat4(&_x, 3, 1, 1, 3);
 	}
 
 	inline SwizzledFloat4 Float4::wyzx()
@@ -4345,44 +4544,44 @@ namespace Ceng::Pshader
 		return SwizzledFloat4(&_x, 3, 1, 2, 0);
 	}
 
-	inline SwizzledFloat4 Float4::wyzy()
+	inline ConstSwizzledFloat4 Float4::wyzy()
 	{
-		return SwizzledFloat4(&_x, 3, 1, 2, 1);
+		return ConstSwizzledFloat4(&_x, 3, 1, 2, 1);
 	}
 
-	inline SwizzledFloat4 Float4::wyzz()
+	inline ConstSwizzledFloat4 Float4::wyzz()
 	{
-		return SwizzledFloat4(&_x, 3, 1, 2, 2);
+		return ConstSwizzledFloat4(&_x, 3, 1, 2, 2);
 	}
 
-	inline SwizzledFloat4 Float4::wyzw()
+	inline ConstSwizzledFloat4 Float4::wyzw()
 	{
-		return SwizzledFloat4(&_x, 3, 1, 2, 3);
+		return ConstSwizzledFloat4(&_x, 3, 1, 2, 3);
 	}
 
-	inline SwizzledFloat4 Float4::wywx()
+	inline ConstSwizzledFloat4 Float4::wywx()
 	{
-		return SwizzledFloat4(&_x, 3, 1, 3, 0);
+		return ConstSwizzledFloat4(&_x, 3, 1, 3, 0);
 	}
 
-	inline SwizzledFloat4 Float4::wywy()
+	inline ConstSwizzledFloat4 Float4::wywy()
 	{
-		return SwizzledFloat4(&_x, 3, 1, 3, 1);
+		return ConstSwizzledFloat4(&_x, 3, 1, 3, 1);
 	}
 
-	inline SwizzledFloat4 Float4::wywz()
+	inline ConstSwizzledFloat4 Float4::wywz()
 	{
-		return SwizzledFloat4(&_x, 3, 1, 3, 2);
+		return ConstSwizzledFloat4(&_x, 3, 1, 3, 2);
 	}
 
-	inline SwizzledFloat4 Float4::wyww()
+	inline ConstSwizzledFloat4 Float4::wyww()
 	{
-		return SwizzledFloat4(&_x, 3, 1, 3, 3);
+		return ConstSwizzledFloat4(&_x, 3, 1, 3, 3);
 	}
 
-	inline SwizzledFloat4 Float4::wzxx()
+	inline ConstSwizzledFloat4 Float4::wzxx()
 	{
-		return SwizzledFloat4(&_x, 3, 2, 0, 0);
+		return ConstSwizzledFloat4(&_x, 3, 2, 0, 0);
 	}
 
 	inline SwizzledFloat4 Float4::wzxy()
@@ -4390,14 +4589,14 @@ namespace Ceng::Pshader
 		return SwizzledFloat4(&_x, 3, 2, 0, 1);
 	}
 
-	inline SwizzledFloat4 Float4::wzxz()
+	inline ConstSwizzledFloat4 Float4::wzxz()
 	{
-		return SwizzledFloat4(&_x, 3, 2, 0, 2);
+		return ConstSwizzledFloat4(&_x, 3, 2, 0, 2);
 	}
 
-	inline SwizzledFloat4 Float4::wzxw()
+	inline ConstSwizzledFloat4 Float4::wzxw()
 	{
-		return SwizzledFloat4(&_x, 3, 2, 0, 3);
+		return ConstSwizzledFloat4(&_x, 3, 2, 0, 3);
 	}
 
 	inline SwizzledFloat4 Float4::wzyx()
@@ -4405,139 +4604,139 @@ namespace Ceng::Pshader
 		return SwizzledFloat4(&_x, 3, 2, 1, 0);
 	}
 
-	inline SwizzledFloat4 Float4::wzyy()
+	inline ConstSwizzledFloat4 Float4::wzyy()
 	{
-		return SwizzledFloat4(&_x, 3, 2, 1, 1);
+		return ConstSwizzledFloat4(&_x, 3, 2, 1, 1);
 	}
 
-	inline SwizzledFloat4 Float4::wzyz()
+	inline ConstSwizzledFloat4 Float4::wzyz()
 	{
-		return SwizzledFloat4(&_x, 3, 2, 1, 2);
+		return ConstSwizzledFloat4(&_x, 3, 2, 1, 2);
 	}
 
-	inline SwizzledFloat4 Float4::wzyw()
+	inline ConstSwizzledFloat4 Float4::wzyw()
 	{
-		return SwizzledFloat4(&_x, 3, 2, 1, 3);
+		return ConstSwizzledFloat4(&_x, 3, 2, 1, 3);
 	}
 
-	inline SwizzledFloat4 Float4::wzzx()
+	inline ConstSwizzledFloat4 Float4::wzzx()
 	{
-		return SwizzledFloat4(&_x, 3, 2, 2, 0);
+		return ConstSwizzledFloat4(&_x, 3, 2, 2, 0);
 	}
 
-	inline SwizzledFloat4 Float4::wzzy()
+	inline ConstSwizzledFloat4 Float4::wzzy()
 	{
-		return SwizzledFloat4(&_x, 3, 2, 2, 1);
+		return ConstSwizzledFloat4(&_x, 3, 2, 2, 1);
 	}
 
-	inline SwizzledFloat4 Float4::wzzz()
+	inline ConstSwizzledFloat4 Float4::wzzz()
 	{
-		return SwizzledFloat4(&_x, 3, 2, 2, 2);
+		return ConstSwizzledFloat4(&_x, 3, 2, 2, 2);
 	}
 
-	inline SwizzledFloat4 Float4::wzzw()
+	inline ConstSwizzledFloat4 Float4::wzzw()
 	{
-		return SwizzledFloat4(&_x, 3, 2, 2, 3);
+		return ConstSwizzledFloat4(&_x, 3, 2, 2, 3);
 	}
 
-	inline SwizzledFloat4 Float4::wzwx()
+	inline ConstSwizzledFloat4 Float4::wzwx()
 	{
-		return SwizzledFloat4(&_x, 3, 2, 3, 0);
+		return ConstSwizzledFloat4(&_x, 3, 2, 3, 0);
 	}
 
-	inline SwizzledFloat4 Float4::wzwy()
+	inline ConstSwizzledFloat4 Float4::wzwy()
 	{
-		return SwizzledFloat4(&_x, 3, 2, 3, 1);
+		return ConstSwizzledFloat4(&_x, 3, 2, 3, 1);
 	}
 
-	inline SwizzledFloat4 Float4::wzwz()
+	inline ConstSwizzledFloat4 Float4::wzwz()
 	{
-		return SwizzledFloat4(&_x, 3, 2, 3, 2);
+		return ConstSwizzledFloat4(&_x, 3, 2, 3, 2);
 	}
 
-	inline SwizzledFloat4 Float4::wzww()
+	inline ConstSwizzledFloat4 Float4::wzww()
 	{
-		return SwizzledFloat4(&_x, 3, 2, 3, 3);
+		return ConstSwizzledFloat4(&_x, 3, 2, 3, 3);
 	}
 
-	inline SwizzledFloat4 Float4::wwxx()
+	inline ConstSwizzledFloat4 Float4::wwxx()
 	{
-		return SwizzledFloat4(&_x, 3, 3, 0, 0);
+		return ConstSwizzledFloat4(&_x, 3, 3, 0, 0);
 	}
 
-	inline SwizzledFloat4 Float4::wwxy()
+	inline ConstSwizzledFloat4 Float4::wwxy()
 	{
-		return SwizzledFloat4(&_x, 3, 3, 0, 1);
+		return ConstSwizzledFloat4(&_x, 3, 3, 0, 1);
 	}
 
-	inline SwizzledFloat4 Float4::wwxz()
+	inline ConstSwizzledFloat4 Float4::wwxz()
 	{
-		return SwizzledFloat4(&_x, 3, 3, 0, 2);
+		return ConstSwizzledFloat4(&_x, 3, 3, 0, 2);
 	}
 
-	inline SwizzledFloat4 Float4::wwxw()
+	inline ConstSwizzledFloat4 Float4::wwxw()
 	{
-		return SwizzledFloat4(&_x, 3, 3, 0, 3);
+		return ConstSwizzledFloat4(&_x, 3, 3, 0, 3);
 	}
 
-	inline SwizzledFloat4 Float4::wwyx()
+	inline ConstSwizzledFloat4 Float4::wwyx()
 	{
-		return SwizzledFloat4(&_x, 3, 3, 1, 0);
+		return ConstSwizzledFloat4(&_x, 3, 3, 1, 0);
 	}
 
-	inline SwizzledFloat4 Float4::wwyy()
+	inline ConstSwizzledFloat4 Float4::wwyy()
 	{
-		return SwizzledFloat4(&_x, 3, 3, 1, 1);
+		return ConstSwizzledFloat4(&_x, 3, 3, 1, 1);
 	}
 
-	inline SwizzledFloat4 Float4::wwyz()
+	inline ConstSwizzledFloat4 Float4::wwyz()
 	{
-		return SwizzledFloat4(&_x, 3, 3, 1, 2);
+		return ConstSwizzledFloat4(&_x, 3, 3, 1, 2);
 	}
 
-	inline SwizzledFloat4 Float4::wwyw()
+	inline ConstSwizzledFloat4 Float4::wwyw()
 	{
-		return SwizzledFloat4(&_x, 3, 3, 1, 3);
+		return ConstSwizzledFloat4(&_x, 3, 3, 1, 3);
 	}
 
-	inline SwizzledFloat4 Float4::wwzx()
+	inline ConstSwizzledFloat4 Float4::wwzx()
 	{
-		return SwizzledFloat4(&_x, 3, 3, 2, 0);
+		return ConstSwizzledFloat4(&_x, 3, 3, 2, 0);
 	}
 
-	inline SwizzledFloat4 Float4::wwzy()
+	inline ConstSwizzledFloat4 Float4::wwzy()
 	{
-		return SwizzledFloat4(&_x, 3, 3, 2, 1);
+		return ConstSwizzledFloat4(&_x, 3, 3, 2, 1);
 	}
 
-	inline SwizzledFloat4 Float4::wwzz()
+	inline ConstSwizzledFloat4 Float4::wwzz()
 	{
-		return SwizzledFloat4(&_x, 3, 3, 2, 2);
+		return ConstSwizzledFloat4(&_x, 3, 3, 2, 2);
 	}
 
-	inline SwizzledFloat4 Float4::wwzw()
+	inline ConstSwizzledFloat4 Float4::wwzw()
 	{
-		return SwizzledFloat4(&_x, 3, 3, 2, 3);
+		return ConstSwizzledFloat4(&_x, 3, 3, 2, 3);
 	}
 
-	inline SwizzledFloat4 Float4::wwwx()
+	inline ConstSwizzledFloat4 Float4::wwwx()
 	{
-		return SwizzledFloat4(&_x, 3, 3, 3, 0);
+		return ConstSwizzledFloat4(&_x, 3, 3, 3, 0);
 	}
 
-	inline SwizzledFloat4 Float4::wwwy()
+	inline ConstSwizzledFloat4 Float4::wwwy()
 	{
-		return SwizzledFloat4(&_x, 3, 3, 3, 1);
+		return ConstSwizzledFloat4(&_x, 3, 3, 3, 1);
 	}
 
-	inline SwizzledFloat4 Float4::wwwz()
+	inline ConstSwizzledFloat4 Float4::wwwz()
 	{
-		return SwizzledFloat4(&_x, 3, 3, 3, 2);
+		return ConstSwizzledFloat4(&_x, 3, 3, 3, 2);
 	}
 
-	inline SwizzledFloat4 Float4::wwww()
+	inline ConstSwizzledFloat4 Float4::wwww()
 	{
-		return SwizzledFloat4(&_x, 3, 3, 3, 3);
+		return ConstSwizzledFloat4(&_x, 3, 3, 3, 3);
 	}
 
 	//**********************************************************
