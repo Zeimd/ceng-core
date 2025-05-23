@@ -45,6 +45,14 @@ Texture sampling
 
     Texture samplers output texture's native format by default. This type can then be promoted if operations are performed on it.
 
+Discard
+
+    Discard is a special instruction that aborts shading of the current pixel. It can be called from anywhere. The only way to handle it is to mark the pixel
+    as skipped in the quad's coverage mask. If all pixels discard, it's possible to exit shader function.
+
+    Discard also prevents use of early depth test, since the result must be as if no buffer writes were done. The only way to handle this is to cache all shader
+    writes until entire shader has executed. Only then cached values can be written to render targets.
+
 -------------------------------------------------
 Quad Pixel shader
 
@@ -60,9 +68,6 @@ This is abstracted by shader datatypes that look scalar but handle this duplicat
 How to handle branches since each pixel in the quad might have different condition?
 
     In AOS, branches require array indices to select affected pixels.
-
-        "Discard" is a special instruction that aborts shading of the current pixel. It can be called from anywhere. The only way to handle it is to mark the pixel
-        as skipped in the quad's coverage mask. If all pixels discard, it's possible to exit shader function.
 
         Comparisons of shader datatypes, such as Shader::Float, produce Shader::Bool. It will be used to produce operation mask for each case.
 
@@ -228,7 +233,7 @@ How to handle branches since each pixel in the quad might have different conditi
 
     In SOA, branches require operation masking to affect only selected pixels.
 
-        
+
 
 
 How to implement swizzles?
