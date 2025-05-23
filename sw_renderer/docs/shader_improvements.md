@@ -32,14 +32,7 @@ Changes:
   user land.
 
 -------------------------------------------------
-Pixel shader
-
-Current pixel shader processes entire quad in one iteration. This is abstracted by shader datatypes that look scalar but handle this duplication internally.
-There are two data layouts:
-
-    - SOA: in this approach one 4 component vector holds x components, second hold 4 y values etc. It is optimal for most arithmetic purposes. 
-
-    - AOS: in this approach there is a struct of 4 xyzw vectors. 
+Pixel shader common
 
 Explicitly typed input registers? 
 
@@ -48,6 +41,22 @@ Explicitly typed input registers?
 
     Metadata for initializing explicit registers in a loop
 
+Texture sampling
+
+    Texture samplers output texture's native format by default. This type can then be promoted if operations are performed on it.
+
+-------------------------------------------------
+Quad Pixel shader
+
+This pixel shader processes entire quad in one call. This has many advantages: it reduces number of function calls, branches and loops by 75%, and allows
+derivatives of variables to be calculated, including MIP-map levels.
+
+This is abstracted by shader datatypes that look scalar but handle this duplication internally. There are two data layouts:
+
+    - SOA: in this approach one 4 component vector holds x components, second hold 4 y values etc. It is optimal for most arithmetic purposes. 
+
+    - AOS: in this approach there is a struct of 4 vectors of correct length (one per pixel). Basically the way C++ struct store data.
+
 How to handle branches since each pixel in the quad might have different condition?
 
     In SOA, branches require operation masking to affect only selected pixels.
@@ -55,6 +64,9 @@ How to handle branches since each pixel in the quad might have different conditi
     In AOS, branches require array indices to select affected pixels.
 
     C++ interface:
+
+        "Discard" is a special instruction that aborts shading of the current pixel. It can be called from anywhere. The only way to handle it is to mark the pixel
+        as skipped in the quad's coverage mask.
 
         Comparisons produce Shader::Boolean<N>. It will be used to produce operation mask for each case.
 
@@ -109,9 +121,9 @@ How to handle branches since each pixel in the quad might have different conditi
 
         Lambda would be used as
 
-        Shader::Float y;
+        Shader::Float x,y;
 
-        Shader::If(condition,
+        Shader::If(x < 1.0f,
             [&](int i)
             {
                 y[i] += 0.5f;
@@ -124,9 +136,48 @@ How to handle branches since each pixel in the quad might have different conditi
 
         As can be seen, it would require some manual work, but relatively minor compared to the SOA version.
 
+        An approach similar to if-else can be taken with switch-case. There are two problems. First, case values aren't necessarily continuous. This means that effort
+        must be spent to find the correct case to execute. The second problem is case fall-through. For starters, the fall-through is to the next label in the declaration, 
+        not the next label numerically. 
 
-        Switch statements are also difficult to do. Since each pixel performs its own branching. The basic solution is to perform up to 4 different cases and then
-        merge them according to the path each pixel took.
+        A dictionary or map would be the obvious choice because it allows sparse values, but search time might be too long for shader code.
+
+        A jump table would be the optimal approach. Jump table consists of entries with a range and an array. If the test value is within the range, the array is indexed 
+        directly. If not, we move to the next table. Finding the correct range could be done with a search tree, though. 
+
+            TBC: would it be possible to construct this via templates since case labels are known at compile time?
+
+        Constructing the jump table entries manually would be hazardous work though, as gaps would have to be added to the array where needed. For throwaway work like 
+        these hard-coded shaders, a simple table scan would probably be best:
+
+            Shader::Switch(variable, table)
+            {
+                defaultIndex = table.findDefault();
+
+                for(int pixel=0; pixel < 4; pixel++)
+                {
+                    index = table.find(variable[pixel]);
+
+                    bool isBreak = false;
+
+                    if (index == -1)
+                    {
+                        index = defaultIndex;
+                    }
+
+                    do
+                        table[index].execute(pixel, isBreak)
+                        ++index;
+                    while (isBreak == false);
+                }                
+            }
+
+        The case functions would then be
+
+            void case_function(int pixel, bool& isBreak)
+            {
+                BREAK(); // macro for isBreak = true
+            }
 
         Loop implementation is complicated, because each pixel in the quad can potentially have different number of iterations.
 
@@ -173,8 +224,4 @@ How to implement swizzles?
 
         Two member functions that take indices as params would be less work but more verbose, but enough for throwaway work of hardcoded shaders. One would be for
         duplicate swizzles, other for the rest. Either enums or structs would be needed to group them as function params.
-
-Texture sampling
-
-    Texture samplers output texture's native format by default. This type can then be promoted if operations are performed on it.
 
