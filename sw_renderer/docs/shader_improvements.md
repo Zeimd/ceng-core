@@ -50,15 +50,32 @@ Explicitly typed input registers?
 
 How to handle branches since each pixel in the quad might have different condition?
 
-    Comparisons produce Shader::Boolean 
+    In SOA, branches require operation masking to affect only selected pixels.
 
-    Special Shader::If(...) with lambdas? In this case lambdas corresponding to both true and false branches would be executed. The results are then merged.
-    This gets complex quickly, since each branch could write to multiple variables, call functions and even write to output registers.
+    In AOS, branches require array indices to select affected pixels.
 
+    C++ interface:
 
+        Comparisons produce Shader::Boolean<N>. It will be used to produce operation mask for each case.
 
-    Switch statements are also difficult to do. Since each pixel performs its own branching. The basic solution is to perform up to 4 different cases and then
-    merge them according to the path each pixel took.
+        In general it seems that there isn't a way to abstract away the fact that all operators inside branches, loops, etc. need to be masked.
+
+        Special Shader::If(...) with lambdas? In this case lambdas corresponding to both true and false branches would be executed. The results are then merged.
+        This gets complex quickly, since each branch could write to multiple variables, call functions and even write to output registers.
+
+        Switch statements are also difficult to do. Since each pixel performs its own branching. The basic solution is to perform up to 4 different cases and then
+        merge them according to the path each pixel took.
+
+        Loop implementation is complicated, because each pixel in the quad can potentially have different number of iterations.
+
+            Loop ends when all pixels have hit loop condition
+
+            Alternative loop end conditions: all pixels have used "break;", "discard;" or "return;"
+
+            Once loop ends for a pixel, subsequent operations must mask out that pixel
+
+            "continue;" is straightforward only if all pixels use it. Otherwise the pixel that used continue needs to be masked out for the
+            remaining instruc
 
 How to implement swizzles?
 
@@ -68,9 +85,11 @@ How to implement swizzles?
 
     In comparison, AOS requires shuffles, masks and blending in SIMD form to achieve the same. 
 
-        1. Mask is only applied to the lhs size of swizzle (assignment operators)
+        1. If lhs and rhs are both swizzles, the swizzle operations are merged
 
-        2. For arithmetic operations, vector fields not indicated by mask are replaced by corresponding null operation
+        2. Source operand is swizzled into correct positions. Write mask is generated so that only the selected indices of dest are touched.
+
+        3. For arithmetic operations, vector fields not indicated by mask are replaced by corresponding null operation
 
             addition, shift: zero
 
@@ -80,7 +99,7 @@ How to implement swizzles?
 
             logical and: true           (doesn't turn true in dest into false)
 
-        3. For assignment, destination and source are blended so that only masked entries are taken from source.
+        4. For assignment, destination and source are blended so that only masked entries are taken from source.
 
     C++ side interface:
 
@@ -93,17 +112,7 @@ How to implement swizzles?
         Two member functions that take indices as params would be less work but more verbose, but enough for throwaway work of hardcoded shaders. One would be for
         duplicate swizzles, other for the rest. Either enums or structs would be needed to group them as function params.
 
-Texture samplers output texture's native format by default. This type can then be promoted if operations are performed on it.
+Texture sampling
 
-Loop implementation is complicated, because each pixel in the quad can potentially have different number of iterations.
-
-    Loop ends when all pixels have hit loop condition
-
-    Alternative loop end conditions: all pixels have used "break;", "discard;" or "return;"
-
-    Once loop ends for a pixel, subsequent operations must mask out that pixel
-
-    "continue;" is straightforward only if all pixels use it. Otherwise the pixel that used continue needs to be masked out for the
-    remaining instruc
-
+    Texture samplers output texture's native format by default. This type can then be promoted if operations are performed on it.
 
