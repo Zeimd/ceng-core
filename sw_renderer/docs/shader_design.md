@@ -230,6 +230,31 @@ Scalar pixel shader
 
 Due to the considerable issues with expressing a quad pixel shader via C++ code, a scalar pixel shader can be considered. Datawise everything works like normal C++ code.
 
-We are still rasterizing quads though, but via 4 shader calls instead of one. To get access to derivatives, the entire quad's data must be generated before calling the
-shader. Shader inputs need to be stepped to correct offsets within this buffer between calls.
+We are still rasterizing quads though, but via 4 shader calls instead of one. 
+
+Calculating MIP-map level is a problem though. The packed shader has access to texture coordinates for all 4 pixels when sampling the texture. It is possible to calculate
+shader input values for each pixel before any shader code executes, but the texture coordinates might be modified or generated entirely within the shader.
+
+The only way to solve this would be to synchronize the threads rendering the pixels of the quad so that they wait until all 4 have generated the texture coordinates used
+for sampling.
+
+If the pixels are rendered sequentially by a single thread, it's possible to instead split the shader execution into parts that end just before derivatives must be
+calculated. In the C++ abstraction this would have to be done manually:
+
+    for(int i=0; i < 4; i++)
+    {
+        shader_part1();
+    }
+
+    for(int i=0; i < 4; i++)
+    {
+        shader_part2();
+    }
+
+As a downside all local variables that need derivatives would have to be stored at class level to ensure visibility over multiple functions.
+
+
+
+
+
 
