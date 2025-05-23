@@ -58,10 +58,72 @@ How to handle branches since each pixel in the quad might have different conditi
 
         Comparisons produce Shader::Boolean<N>. It will be used to produce operation mask for each case.
 
-        In general it seems that there isn't a way to abstract away the fact that all operators inside branches, loops, etc. need to be masked.
+        In general it seems that there isn't a way to abstract away the fact that all operations inside branches, loops, etc. need to be masked.
 
-        Special Shader::If(...) with lambdas? In this case lambdas corresponding to both true and false branches would be executed. The results are then merged.
-        This gets complex quickly, since each branch could write to multiple variables, call functions and even write to output registers.
+        In case of AOS, the boolean value for the pixel becomes a yes/no for the entire branch:
+
+            if (x > 1.0f)
+            {
+                y += 0.5;
+            }
+            else
+            {
+                y -= 0.5;
+            }
+
+        Expands to                
+
+            Shader::Bool condition = x > 1.0f;
+
+            for(pixel=0; pixel < 4; pixel++)
+            {
+                if (condition[pixel])
+                {
+                    y[pixel] += 0.5f;
+                }
+                else
+                {
+                    y[pixel] -= 0.5;
+                }
+            }
+
+        A special template might be possible:
+
+        template\<typename TRUE_CASE, typename FALSE_CASE\>
+        Shader::If(Shader::Bool& condition, TRUE_CASE && trueLambda, FALSE_CASE && falseLambda )
+        {
+            for(pixel=0; pixel < 4; ++pixel)
+            {
+                if (condition[pixel])
+                {
+
+                    trueLambda(pixel);
+                }
+                else
+                {
+                    falseLambda(pixel);    
+                }
+                
+            }            
+        }
+
+        Lambda would be used as
+
+        Shader::Float y;
+
+        Shader::If(condition,
+            [&](int i)
+            {
+                y[i] += 0.5f;
+            },
+            [&](int i)
+            {
+                y[i] -= 0.5f;
+            }
+        );
+
+        As can be seen, it would require some manual work, but relatively minor compared to the SOA version.
+
 
         Switch statements are also difficult to do. Since each pixel performs its own branching. The basic solution is to perform up to 4 different cases and then
         merge them according to the path each pixel took.
