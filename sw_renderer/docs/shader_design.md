@@ -225,3 +225,11 @@ How to implement swizzles?
         Two member functions that take indices as params would be less work but more verbose, but enough for throwaway work of hardcoded shaders. One would be for
         duplicate swizzles, other for the rest. Either enums or structs would be needed to group them as function params.
 
+------------------------------------------------------------------------
+Scalar pixel shader
+
+Due to the considerable issues with expressing a quad pixel shader via C++ code, a scalar pixel shader can be considered. Datawise everything works like normal C++ code.
+
+We are still rasterizing quads though, but via 4 shader calls instead of one. To get access to derivatives, the entire quad's data must be generated before calling the
+shader. Shader inputs need to be stepped to correct offsets within this buffer between calls.
+
