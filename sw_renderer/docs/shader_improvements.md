@@ -34,6 +34,13 @@ Changes:
 -------------------------------------------------
 Pixel shader
 
+Current pixel shader processes entire quad in one iteration. This is abstracted by shader datatypes that look scalar but handle this duplication internally.
+There are two data layouts:
+
+    - SOA: in this approach one 4 component vector holds x components, second hold 4 y values etc. It is optimal for most arithmetic purposes. 
+
+    - AOS: in this approach there is a struct of 4 xyzw vectors. 
+
 Explicitly typed input registers? 
 
     Convert to format expected by pixel shader already at the end of previous shader stage (or interstage). This reduces conversion costs significantly as they
@@ -55,10 +62,36 @@ How to handle branches since each pixel in the quad might have different conditi
 
 How to implement swizzles?
 
-    The vertical layout (SOA) for four pixels makes swizzles kind of trivial since one vector has x-components, second has y, etc. so swizzle turns into array indexing.
+    NOTE: swizzles where component appears more than once should be read only
 
-    Helper functions in the style of xxz() that return either swizzled copy or lazy evaluation class with references to original. Lazy evaluation of course has the risk
-    that the source values get changed before it is evaluated.
+    The SOA layout turns swizzles into array indexing.
+
+    In comparison, AOS requires shuffles, masks and blending in SIMD form to achieve the same. 
+
+        1. Mask is only applied to the lhs size of swizzle (assignment operators)
+
+        2. For arithmetic operations, vector fields not indicated by mask are replaced by corresponding null operation
+
+            addition, shift: zero
+
+            mul, div: one
+
+            logical or: false           (doesn't turn false in dest into true)
+
+            logical and: true           (doesn't turn true in dest into false)
+
+        3. For assignment, destination and source are blended so that only masked entries are taken from source.
+
+    C++ side interface:
+
+        Helper functions in the style of xxz() that return either swizzled copy or lazy evaluation class with references to original. Lazy evaluation of course has the risk
+        that the source values get changed before it is evaluated.
+
+        Implementing as member functions is a lot of work. It might be possible to use templates to write them 
+        only once for all types, but if any SIMD specialization is needed, it could be difficult to add.
+
+        Two member functions that take indices as params would be less work but more verbose, but enough for throwaway work of hardcoded shaders. One would be for
+        duplicate swizzles, other for the rest. Either enums or structs would be needed to group them as function params.
 
 Texture samplers output texture's native format by default. This type can then be promoted if operations are performed on it.
 
@@ -71,8 +104,6 @@ Loop implementation is complicated, because each pixel in the quad can potential
     Once loop ends for a pixel, subsequent operations must mask out that pixel
 
     "continue;" is straightforward only if all pixels use it. Otherwise the pixel that used continue needs to be masked out for the
-    remaining instructions in the loop iteration
-
-
+    remaining instruc
 
 
