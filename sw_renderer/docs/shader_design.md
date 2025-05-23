@@ -59,16 +59,12 @@ This is abstracted by shader datatypes that look scalar but handle this duplicat
 
 How to handle branches since each pixel in the quad might have different condition?
 
-    In SOA, branches require operation masking to affect only selected pixels.
-
     In AOS, branches require array indices to select affected pixels.
 
-    C++ interface:
-
         "Discard" is a special instruction that aborts shading of the current pixel. It can be called from anywhere. The only way to handle it is to mark the pixel
-        as skipped in the quad's coverage mask.
+        as skipped in the quad's coverage mask. If all pixels discard, it's possible to exit shader function.
 
-        Comparisons produce Shader::Boolean<N>. It will be used to produce operation mask for each case.
+        Comparisons of shader datatypes, such as Shader::Float, produce Shader::Bool. It will be used to produce operation mask for each case.
 
         In general it seems that there isn't a way to abstract away the fact that all operations inside branches, loops, etc. need to be masked.
 
@@ -108,7 +104,6 @@ How to handle branches since each pixel in the quad might have different conditi
             {
                 if (condition[pixel])
                 {
-
                     trueLambda(pixel);
                 }
                 else
@@ -134,7 +129,28 @@ How to handle branches since each pixel in the quad might have different conditi
             }
         );
 
-        As can be seen, it would require some manual work, but relatively minor compared to the SOA version.
+        As can be seen, it would require some manual work, but relatively minor compared to the SOA version. A GLSL compiler could propably convert simple
+        if statement into branchless mix instructions.
+
+        A template variant could be added which adds "all true" and "all false" paths for less branching.
+
+        Nested control blocks are written like normal C++ code:
+
+        Shader::If(x < 1.0f,
+            [&](int i)
+            {
+                y[i] += 0.5f;
+
+                if (x[i] < 0.0f)
+                {
+                    y[i] += 0.5f;
+                }
+            },
+            [&](int i)
+            {
+                y[i] -= 0.5f;
+            }
+        );
 
         An approach similar to if-else can be taken with switch-case. There are two problems. First, case values aren't necessarily continuous. This means that effort
         must be spent to find the correct case to execute. The second problem is case fall-through. For starters, the fall-through is to the next label in the declaration, 
@@ -179,16 +195,41 @@ How to handle branches since each pixel in the quad might have different conditi
                 BREAK(); // macro for isBreak = true
             }
 
-        Loop implementation is complicated, because each pixel in the quad can potentially have different number of iterations.
+        Loop implementation is complicated, because each pixel in the quad can potentially have different number of iterations. We also need to handle
+        break, discard and return, which can end loop execution early.
 
-            Loop ends when all pixels have hit loop condition
+            template<typename INIT_TYPE, typename CONDITION_TYPE, typename STEP_TYPE, typename BODY_TYPE
+            Shader::For(INIT_TYPE&& initLambda, CONDITION_TYPE&& conditionLambda, STEP_TYPE&& stepLambda, BODY_TYPE&& bodyLambda)
+            {
+                for(int i=0; i < 4; i++)
+                {
+                    initLambda(i);
 
-            Alternative loop end conditions: all pixels have used "break;", "discard;" or "return;"
+                    if (conditionLambda(i)) continue;
 
-            Once loop ends for a pixel, subsequent operations must mask out that pixel
+                    do
+                    {
+                        result = bodyLambda(i);
 
-            "continue;" is straightforward only if all pixels use it. Otherwise the pixel that used continue needs to be masked out for the
-            remaining instruc
+                        switch(result)
+                        {
+                        discard:
+                        break:
+                        return:
+                        }
+
+                        stepLambda(i);
+
+                    } while(conditionLambda(i) == false);
+                }                
+            }
+
+        Like if-else statements, the lambdas work on only one pixel's values at a time. 
+
+    In SOA, branches require operation masking to affect only selected pixels.
+
+        
+
 
 How to implement swizzles?
 
