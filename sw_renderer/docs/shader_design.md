@@ -282,7 +282,7 @@ How to handle branches since each pixel in the quad might have different conditi
     break, discard and return, which can end loop execution early.
 
         template<typename INIT_TYPE, typename CONDITION_TYPE, typename STEP_TYPE, typename BODY_TYPE
-        Shader::For(INIT_TYPE&& initLambda, CONDITION_TYPE&& conditionLambda, STEP_TYPE&& stepLambda, BODY_TYPE&& bodyLambda)
+        Shader::SerialFor(INIT_TYPE&& initLambda, CONDITION_TYPE&& conditionLambda, STEP_TYPE&& stepLambda, BODY_TYPE&& bodyLambda)
         {
             for(int i=0; i < 4; i++)
             {
@@ -361,19 +361,111 @@ for sampling.
 If the pixels are rendered sequentially by a single thread, it's possible to instead split the shader execution into parts that end just before derivatives must be
 calculated. In the C++ abstraction this would have to be done manually:
 
+    // Calculate input values for entire quad
+
     for(int i=0; i < 4; i++)
     {
         shader_part1();
+        // Step variables
     }
+
+    // Reset variable steppings
 
     for(int i=0; i < 4; i++)
     {
         shader_part2();
+        // Step variables
     }
 
-As a downside all local variables that need derivatives would have to be stored at class level to ensure visibility over multiple functions.
+This approach doesn't work well if the texture is sampled in a shader sub-function.
 
-This approach doesn't work if the texture is sampled in a shader sub-function.
+As a downside all local variables that need derivatives would have to be stored at class level to ensure visibility over multiple functions. Inputs and locals would now use
+the following storage formats:
+
+    class alignas(16) Float
+    {
+        float pixel[4];
+    }
+
+    struct alignas(8) Vec2
+    {
+        float x;
+        float y;
+    }
+
+    class alignas(16) Float2
+    {
+        Vec2 pixel[4];
+    }
+
+    struct alignas(16) Vec3
+    {
+        float x;
+        float y;
+        float z;
+    }
+
+    class alignas(16) Float3
+    {
+        Vec3 pixel[4];
+    }
+
+    struct alignas(16) Vec4
+    {
+        float x;
+        float y;
+        float z;
+        float w;
+    }
+
+    class alignas(16) Float4
+    {
+        Vec4 pixel[4];
+    }
+
+whereas inputs and local variables would use
+
+    template<class T>
+    class Variable
+    {
+        using ContainerType = BasicType<T>
+
+        // Used for calculating derivatives
+        ContainerType* block;
+
+        // Used for current pixel
+        T* current;
+
+        POINTER step;
+
+        void ResetCurrent()
+        {
+            current = blockStart;
+        }
+
+        void StepCurrent()
+        {
+            current += step;
+        }
+
+        T dfdx()
+        {
+            return block[1] - block[0];
+        }
+
+        T dfdy()
+        {
+            return block[0] - block[2];
+        }
+
+        Variable& operator = (const Variable& source)
+        {
+            *current = *source.current;
+        }
+    }
+
+
+
 
 
 
