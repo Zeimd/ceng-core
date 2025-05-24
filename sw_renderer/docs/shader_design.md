@@ -464,9 +464,31 @@ whereas inputs and local variables would use
         }
     }
 
+For cache locality it might be better to group everything:
 
+    struct Input
+    {
+        Vec2 textureUV
+        Vec2 lightmapUV;
+    }
 
+    struct Locals
+    {
 
+    }
+
+    struct AllData
+    {
+        Input in;
+        Locals local;
+    }
+
+    struct Quad
+    {
+        AllData pixel[4];
+    }
+
+It is assumed that calculating derivatives is the exception rather than norm.
 
 
 
