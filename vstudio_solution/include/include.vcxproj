@@ -146,6 +146,8 @@
     <ClInclude Include="..\..\inc\ceng\datatypes\mutex.h" />
     <ClInclude Include="..\..\inc\ceng\datatypes\platform\vstudio-win32.h" />
     <ClInclude Include="..\..\inc\ceng\datatypes\promise.h" />
+    <ClInclude Include="..\..\inc\ceng\datatypes\pshader-input-desc.h" />
+    <ClInclude Include="..\..\inc\ceng\datatypes\pshader-output-desc.h" />
     <ClInclude Include="..\..\inc\ceng\datatypes\rectangle.h" />
     <ClInclude Include="..\..\inc\ceng\datatypes\release-deleter.h" />
     <ClInclude Include="..\..\inc\ceng\datatypes\render-target-view-desc.h" />
@@ -163,6 +165,7 @@
     <ClInclude Include="..\..\inc\ceng\datatypes\shader-res-tex2d.h" />
     <ClInclude Include="..\..\inc\ceng\datatypes\shader-res-tex3d.h" />
     <ClInclude Include="..\..\inc\ceng\datatypes\shader-resource-view-desc.h" />
+    <ClInclude Include="..\..\inc\ceng\datatypes\shader-uniform-desc.h" />
     <ClInclude Include="..\..\inc\ceng\datatypes\sliding-window.h" />
     <ClInclude Include="..\..\inc\ceng\datatypes\string-manipulator.h" />
     <ClInclude Include="..\..\inc\ceng\datatypes\strings\buffer-ref.h" />
@@ -194,6 +197,7 @@
     <ClInclude Include="..\..\inc\ceng\enums\multisample-type.h" />
     <ClInclude Include="..\..\inc\ceng\enums\present-options.h" />
     <ClInclude Include="..\..\inc\ceng\enums\primitive-type.h" />
+    <ClInclude Include="..\..\inc\ceng\enums\pshader-output-semantic.h" />
     <ClInclude Include="..\..\inc\ceng\enums\renderer-type.h" />
     <ClInclude Include="..\..\inc\ceng\enums\resource-type.h" />
     <ClInclude Include="..\..\inc\ceng\enums\resource-usage.h" />

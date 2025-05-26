@@ -5,8 +5,14 @@
 
 #include "base-interface.h"
 
+#include "../datatypes/pshader-input-desc.h"
+#include "../datatypes/pshader-output-desc.h"
+#include "../datatypes/shader-uniform-desc.h"
+
 namespace Ceng
 {
+	class PixelShaderInstance;
+
 	class PixelShaderDescriptor : public BASE_INTERFACE
 	{
 	protected:
@@ -17,6 +23,20 @@ namespace Ceng
 		}
 
 	public:
+
+		virtual Ceng::UINT32 InputAmount() = 0;
+
+		virtual PixelShaderInputDesc* InputArray() = 0;
+
+		virtual Ceng::UINT32 UniformAmount() = 0;
+
+		virtual ShaderUniformDesc* UniformArray() = 0;
+
+		virtual Ceng::UINT32 OutputAmount() = 0;
+
+		virtual PixelShaderOutputDesc* OutputArray() = 0;
+
+		virtual PixelShaderInstance* GetInstance() = 0;
 		
 	};
 }

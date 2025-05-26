@@ -462,5 +462,17 @@
     <ClInclude Include="..\..\inc\ceng\interfaces\vshader-descriptor.h">
       <Filter>Header Files\ceng\interfaces</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\pshader-input-desc.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\shader-uniform-desc.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\enums\pshader-output-semantic.h">
+      <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\pshader-output-desc.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

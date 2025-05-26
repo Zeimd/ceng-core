@@ -7,6 +7,8 @@
 
 namespace Ceng
 {
+	class VertexShaderInstance;
+
 	class VertexShaderDescriptor : public BASE_INTERFACE
 	{
 	protected:
@@ -17,7 +19,8 @@ namespace Ceng
 		}
 
 	public:
-		
+
+		virtual VertexShaderInstance* GetInstance() = 0;
 	};
 }
 
