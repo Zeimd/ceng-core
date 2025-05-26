@@ -80,7 +80,7 @@ CRESULT CR_VertexShader::GetConstant(const char *variableName,
 	size_t k;
 	for(k=0;k<uniformList.size();k++)
 	{
-		if (uniformList[k].name == variableName)
+		if (strcmp(uniformList[k].name,variableName) == 0)
 		{
 			out_index = Ceng::UINT32(k);
 			out_type = uniformList[k].dataType;

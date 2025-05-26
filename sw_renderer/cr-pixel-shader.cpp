@@ -89,7 +89,7 @@ CRESULT CR_PixelShader::GetConstant(const char *variableName,
 
 	for(k=0;k<uniformList.size();k++)
 	{
-		if (uniformList[k].name == variableName)
+		if (strcmp(uniformList[k].name, variableName) == 0)
 		{
 			out_index = k;
 			out_type = uniformList[k].dataType;
