@@ -227,6 +227,8 @@
     <ClInclude Include="..\..\inc\ceng\interfaces\index-buffer.h" />
     <ClInclude Include="..\..\inc\ceng\interfaces\mouse-device.h" />
     <ClInclude Include="..\..\inc\ceng\interfaces\pixel-shader.h" />
+    <ClInclude Include="..\..\inc\ceng\interfaces\pshader-descriptor.h" />
+    <ClInclude Include="..\..\inc\ceng\interfaces\pshader-instance.h" />
     <ClInclude Include="..\..\inc\ceng\interfaces\rasterizer-state.h" />
     <ClInclude Include="..\..\inc\ceng\interfaces\render-context.h" />
     <ClInclude Include="..\..\inc\ceng\interfaces\render-device.h" />
@@ -245,6 +247,8 @@
     <ClInclude Include="..\..\inc\ceng\interfaces\vertex-decl.h" />
     <ClInclude Include="..\..\inc\ceng\interfaces\vertex-format.h" />
     <ClInclude Include="..\..\inc\ceng\interfaces\vertex-shader.h" />
+    <ClInclude Include="..\..\inc\ceng\interfaces\vshader-descriptor.h" />
+    <ClInclude Include="..\..\inc\ceng\interfaces\vshader-instance.h" />
     <ClInclude Include="..\..\inc\ceng\lib\liblog.h" />
     <ClInclude Include="..\..\inc\ceng\lib\timerlib.h" />
     <ClInclude Include="..\..\inc\ceng\math\ce-matrix.h" />

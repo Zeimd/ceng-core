@@ -450,5 +450,17 @@
     <ClInclude Include="..\..\inc\ceng\math\sse_intrinsics.h">
       <Filter>Header Files\ceng\math</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\pshader-instance.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\pshader-descriptor.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\vshader-instance.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\interfaces\vshader-descriptor.h">
+      <Filter>Header Files\ceng\interfaces</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -72,6 +72,10 @@ namespace Ceng
 	class ShaderProgram;
 
 	class ShaderConstant;
+
+	class VertexShaderDescriptor;
+	class PixelShaderDescriptor;
+
 		
 	//**************************************************
 	// Render device interface
@@ -89,6 +93,10 @@ namespace Ceng
 		}
 
 		virtual const Ceng::CRESULT CreateVertexShader(const Ceng::StringUtf8 &shaderText, Ceng::VertexShader **shaderPtr) = 0;
+
+		// Create vertex shader for software rendering.
+		// Other implementations can ignore this.
+		virtual const Ceng::CRESULT CreateVertexShader(const VertexShaderDescriptor* desc, Ceng::PixelShader** shaderPtr) = 0;
 		
 		virtual CRESULT CreateVertexFormat(const std::vector<Ceng::VertexDeclData> 
 											&vertexDecl,
@@ -113,6 +121,10 @@ namespace Ceng
 		virtual const Ceng::UINT32 GetOptimalIndexElements() = 0;
 
 		virtual const Ceng::CRESULT CreatePixelShader(const Ceng::StringUtf8 &shaderText, Ceng::PixelShader **shaderPtr) = 0;
+
+		// Create pixel shader for software rendering
+		// Other implementations can ignore this.
+		virtual const Ceng::CRESULT CreatePixelShader(const PixelShaderDescriptor* desc, Ceng::PixelShader** shaderPtr) = 0;
 
 		virtual const Ceng::CRESULT CreateShaderProgram(Ceng::VertexShader *vertexShader, Ceng::PixelShader *pixelShader, Ceng::ShaderProgram **program) = 0;
 

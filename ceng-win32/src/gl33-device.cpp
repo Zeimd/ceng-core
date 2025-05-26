@@ -62,6 +62,11 @@ const Ceng::CRESULT GL33_RenderDevice::CreateVertexShader(const Ceng::StringUtf8
 	return CE_OK;
 }
 
+const Ceng::CRESULT GL33_RenderDevice::CreateVertexShader(const VertexShaderDescriptor* desc, Ceng::PixelShader** shaderPtr)
+{
+	return CE_ERR_NOT_SUPPORTED;
+}
+
 CRESULT GL33_RenderDevice::CreateVertexFormat(const std::vector < Ceng::VertexDeclData > &vertexDecl,
 	Ceng::VertexFormat **format)
 {
@@ -127,6 +132,11 @@ const Ceng::CRESULT GL33_RenderDevice::CreatePixelShader(const Ceng::StringUtf8 
 
 	*shaderPtr = (PixelShader*)gl_shader;
 	return CE_OK;
+}
+
+const Ceng::CRESULT GL33_RenderDevice::CreatePixelShader(const PixelShaderDescriptor* desc, Ceng::PixelShader** shaderPtr)
+{
+	return CE_ERR_NOT_SUPPORTED;
 }
 
 const Ceng::CRESULT GL33_RenderDevice::CreateShaderProgram(Ceng::VertexShader *vertexShader, 
