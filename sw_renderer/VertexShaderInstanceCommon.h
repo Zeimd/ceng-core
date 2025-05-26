@@ -9,7 +9,7 @@
 
 #include "texture-unit.h"
 
-#include "shader-const-data.h"
+#include <ceng/datatypes/shader-uniform-desc.h>
 
 #include "vshader-input-semantic.h"
 
@@ -59,7 +59,7 @@ namespace Ceng
 
 		const CRESULT ConfigureInput(const std::vector<CR_vsInputSemantic>& inputSemantics);
 
-		const CRESULT ConfigureUniforms(const std::vector<CR_ShaderConstantData>& uniformList,
+		const CRESULT ConfigureUniforms(const std::vector<ShaderUniformDesc>& uniformList,
 			const Ceng::UINT32 bufferSize);
 	};
 }

@@ -22,8 +22,6 @@
 
 #include "quad-format.h"
 
-#include "shader-common.h"
-
 using namespace Ceng;
 
 CR_PixelShader::CR_PixelShader()

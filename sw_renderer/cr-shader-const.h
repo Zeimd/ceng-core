@@ -11,7 +11,7 @@
 
 #include <ceng/interfaces/shader-const.h>
 
-#include "shader-const-data.h"
+#include <ceng/datatypes/shader-uniform-desc.h>
 
 #include "shader-wrapper.h"
 

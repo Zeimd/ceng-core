@@ -108,6 +108,8 @@ namespace Ceng
 
 		const Ceng::CRESULT CreateVertexShader(const Ceng::StringUtf8& shaderText, Ceng::VertexShader** shaderPtr) override;
 
+		const Ceng::CRESULT CreateVertexShader(const VertexShaderDescriptor* desc, Ceng::PixelShader** shaderPtr) override;
+
 		CRESULT CreateVertexFormat(const std::vector<Ceng::VertexDeclData>
 			& vertexDecl,
 			Ceng::VertexFormat** format) override;
@@ -131,6 +133,8 @@ namespace Ceng
 		const Ceng::UINT32 GetOptimalIndexElements() override;
 
 		const Ceng::CRESULT CreatePixelShader(const Ceng::StringUtf8& shaderText, Ceng::PixelShader** shaderPtr) override;
+
+		const Ceng::CRESULT CreatePixelShader(const PixelShaderDescriptor* desc, Ceng::PixelShader** shaderPtr) override;
 
 		const Ceng::CRESULT CreateShaderProgram(Ceng::VertexShader* vertexShader, Ceng::PixelShader* pixelShader, Ceng::ShaderProgram** program) override;
 

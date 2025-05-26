@@ -17,7 +17,7 @@
 #include "vshader-output.h"
 #include "pshader-input.h"
 
-#include "pshader-input-semantic.h"
+#include <ceng/datatypes/pshader-input-desc.h>
 
 namespace Ceng
 {
@@ -87,11 +87,11 @@ namespace Ceng
 		}
 
 		CRESULT Configure(std::vector<Ceng::CR_vsOutputSemantic> &vshaderOut,
-							std::vector<Ceng::CR_PixelShaderSemantic> &pshaderIn);
+							std::vector<PixelShaderInputDesc> &pshaderIn);
 
 		CRESULT LinkSemantics(std::vector<CR_vsOutputSemantic> &linkedSemantics,
 										 std::vector<CR_vsOutputSemantic> &vshaderOut,
-										 std::vector<CR_PixelShaderSemantic> &pshaderIn);
+										 std::vector<PixelShaderInputDesc> &pshaderIn);
 
 
 		void Reset();

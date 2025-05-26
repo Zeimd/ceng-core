@@ -147,16 +147,10 @@
     <ClInclude Include="..\..\sw_renderer\pshader-input.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sw_renderer\pshader-input-semantic.h">
-      <Filter>Header Files\sw_renderer</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\sw_renderer\pshader-instance.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\..\sw_renderer\pshader-output.h">
-      <Filter>Header Files\sw_renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\sw_renderer\pshader-output-semantic.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\..\sw_renderer\pshader-texture.h">
@@ -184,12 +178,6 @@
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\..\sw_renderer\rtarget-data.h">
-      <Filter>Header Files\sw_renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\sw_renderer\shader-common.h">
-      <Filter>Header Files\sw_renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\sw_renderer\shader-const-data.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\..\sw_renderer\pshader-types.h">

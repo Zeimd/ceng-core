@@ -5,11 +5,13 @@
 
 #include <vector>
 
+#include <ceng/datatypes/shader-uniform-desc.h>
+
 #include <ceng/datatypes/aligned-buffer.h>
 
 #include "texture-unit.h"
 
-#include "shader-const-data.h"
+#include <ceng/datatypes/shader-uniform-desc.h>
 
 namespace Ceng
 {
@@ -45,7 +47,7 @@ namespace Ceng
 
 		PixelShaderInstanceCommon(const PixelShaderInstanceCommon& source);
 
-		const CRESULT ConfigureUniforms(const std::vector<CR_ShaderConstantData>& uniformList,
+		const CRESULT ConfigureUniforms(const std::vector<ShaderUniformDesc>& uniformList,
 			const Ceng::UINT32 bufferSize);
 	};
 }

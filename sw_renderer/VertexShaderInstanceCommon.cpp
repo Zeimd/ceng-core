@@ -86,7 +86,7 @@ const CRESULT VertexShaderInstanceCommon::ConfigureInput(const std::vector<CR_vs
 	return CE_OK;
 }
 
-const CRESULT VertexShaderInstanceCommon::ConfigureUniforms(const std::vector<CR_ShaderConstantData>& uniformList,
+const CRESULT VertexShaderInstanceCommon::ConfigureUniforms(const std::vector<ShaderUniformDesc>& uniformList,
 	const Ceng::UINT32 bufferSize)
 {
 	uniformBuffer = AlignedBuffer<UINT8>(shader->uniformBufferSize, shader->cacheLine);

@@ -53,7 +53,7 @@ PixelShaderInstanceCommon::PixelShaderInstanceCommon(const PixelShaderInstanceCo
 	}
 }
 
-const CRESULT PixelShaderInstanceCommon::ConfigureUniforms(const std::vector<CR_ShaderConstantData>& uniformList,
+const CRESULT PixelShaderInstanceCommon::ConfigureUniforms(const std::vector<ShaderUniformDesc>& uniformList,
 	const Ceng::UINT32 bufferSize)
 {
 	uniformBuffer = AlignedBuffer<UINT8>(shader->uniformBufferSize, shader->cacheLine);

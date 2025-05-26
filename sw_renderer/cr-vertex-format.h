@@ -26,8 +26,6 @@
 // Vertex format interface definitions
 #include "crender-base.h"
 
-#include "shader-common.h"
-
 #include "vertex-variable.h"
 
 namespace Ceng

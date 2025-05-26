@@ -1,5 +1,7 @@
 #include "cr-uniform-mat4.h"
 
+#include <string.h>
+
 using namespace Ceng;
 
 CR_UniformMat4::CR_UniformMat4() : CR_ShaderConstant()

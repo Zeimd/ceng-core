@@ -33,7 +33,7 @@
 
 #include "vshader-instance.h"
 
-#include "shader-const-data.h"
+#include <ceng/datatypes/shader-uniform-desc.h>
 
 #include "vshader-wrapper.h"
 
@@ -66,7 +66,7 @@ namespace Ceng
 
 		VertexShaderWrapper wrapper;
 
-		std::vector<CR_ShaderConstantData> uniformList;
+		std::vector<ShaderUniformDesc> uniformList;
 
 		Ceng::UINT32 uniformBufferSize;
 

@@ -18,19 +18,21 @@
 
 #include <ceng/interfaces/pixel-shader.h>
 
+#include <ceng/datatypes/pshader-input-desc.h>
+#include <ceng/datatypes/pshader-output-desc.h>
+#include <ceng/datatypes/shader-uniform-desc.h>
+
 #include "crender-base.h"
 
 #include "triangle-data.h"
 
 #include "cr-shader-const.h"
 
-#include "pshader-input-semantic.h"
+#include <ceng/datatypes/pshader-input-desc.h>
 #include "pshader-input.h"
 
-#include "pshader-output-semantic.h"
+#include <ceng/datatypes/pshader-output-desc.h>
 #include "pshader-output.h"
-
-#include "shader-common.h"
 
 #include "pshader-instance.h"
 
@@ -58,13 +60,13 @@ namespace Ceng
 		std::shared_ptr<PixelShaderInstanceCommon> nextInstance;
 		std::shared_ptr<PixelShaderInstanceCommon> currentInstance;
 
-		std::vector<CR_PixelShaderSemantic> inputSemantics;
+		std::vector<PixelShaderInputDesc> inputSemantics;
 
-		std::vector<CR_PixelShaderTarget> renderTargets;
+		std::vector<PixelShaderOutputDesc> renderTargets;
 
 		CR_NewTargetData *targetHandle[2+8];
 
-		std::vector<CR_ShaderConstantData> uniformList;
+		std::vector<ShaderUniformDesc> uniformList;
 
 		Ceng::UINT32 uniformBufferSize;
 

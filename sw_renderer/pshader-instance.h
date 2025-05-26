@@ -12,17 +12,17 @@
 #include <memory>
 #include <ceng/datatypes/aligned-buffer.h>
 
-#include "pshader-input-semantic.h"
+#include <ceng/datatypes/pshader-input-desc.h>
 #include "pshader-input.h"
 
-#include "pshader-output-semantic.h"
+#include <ceng/datatypes/pshader-output-desc.h>
 #include "pshader-output.h"
 
 #include "rtarget-data.h"
 
 #include "texture-unit.h"
 
-#include "shader-const-data.h"
+#include <ceng/datatypes/shader-uniform-desc.h>
 
 #include "PixelShaderInstanceCommon.h"
 
@@ -140,16 +140,16 @@ namespace Ceng
 
 		PixelShaderInstance(std::shared_ptr<PixelShaderInstanceCommon>& common);
 
-		const CRESULT ConfigureInput(std::vector<CR_PixelShaderSemantic> &inputSemantics);
+		const CRESULT ConfigureInput(std::vector<PixelShaderInputDesc> &inputSemantics);
 
-		const CRESULT ConfigureOutput(std::vector<CR_PixelShaderTarget> &renderTargets);
+		const CRESULT ConfigureOutput(std::vector<PixelShaderOutputDesc> &renderTargets);
 		
 		const CRESULT ConfigureLocals();
 
-		const CRESULT SetFragmentFormat(const std::vector<CR_PixelShaderSemantic> &inputSemantics,
-										const std::vector<CR_PixelShaderTarget> &targetSemantics);
+		const CRESULT SetFragmentFormat(const std::vector<PixelShaderInputDesc> &inputSemantics,
+										const std::vector<PixelShaderOutputDesc> &targetSemantics);
 
-		const CRESULT SetRenderTargets(const std::vector<CR_PixelShaderTarget> &targetSemantics);			
+		const CRESULT SetRenderTargets(const std::vector<PixelShaderOutputDesc> &targetSemantics);			
 		
 	};
 }

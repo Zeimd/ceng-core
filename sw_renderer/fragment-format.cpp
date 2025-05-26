@@ -23,7 +23,7 @@ using namespace Ceng;
  */
 CRESULT CR_FragmentFormat::LinkSemantics(std::vector<CR_vsOutputSemantic> &linkedSemantics,
 										 std::vector<CR_vsOutputSemantic> &vshaderOut,
-										 std::vector<CR_PixelShaderSemantic> &pshaderIn)
+										 std::vector<PixelShaderInputDesc> &pshaderIn)
 {
 	Log::Print("FragmentFormat.LinkSemantics : method start");
 
@@ -89,7 +89,7 @@ void CR_FragmentFormat::Reset()
  * NOTE: Assumes that vertex shader and pixel shader are valid.
  */
 CRESULT CR_FragmentFormat::Configure(std::vector<CR_vsOutputSemantic> &vshaderOut,
-									 std::vector<CR_PixelShaderSemantic> &pshaderIn)
+									 std::vector<PixelShaderInputDesc> &pshaderIn)
 {
 	//************************
 	// Select vertex shader output semantics that are consumed by pixel shader

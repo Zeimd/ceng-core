@@ -14,7 +14,9 @@
 #ifndef CRENDER_SHADER_WRAPPER_H
 #define CRENDER_SHADER_WRAPPER_H
 
-#include "shader-const-data.h"
+#include <ceng/datatypes/return-val.h>
+
+#include <ceng/datatypes/shader-uniform-desc.h>
 
 namespace Ceng
 {

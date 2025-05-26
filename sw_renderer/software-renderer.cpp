@@ -590,7 +590,7 @@ const Ceng::CRESULT SoftwareRenderer::CreateVertexShader(const Ceng::StringUtf8&
 
 	// Set constants
 
-	Ceng::CR_ShaderConstantData tempShaderConst;
+	Ceng::ShaderUniformDesc tempShaderConst;
 
 	tempShaderConst.name = "fullVertexTransform";
 	tempShaderConst.dataType = Ceng::SHADER_DATATYPE::FLOAT4x4;
@@ -607,6 +607,11 @@ const Ceng::CRESULT SoftwareRenderer::CreateVertexShader(const Ceng::StringUtf8&
 
 	return CE_OK;
 
+}
+
+const Ceng::CRESULT SoftwareRenderer::CreateVertexShader(const VertexShaderDescriptor* desc, Ceng::PixelShader** shaderPtr)
+{
+	return CE_ERR_NOT_SUPPORTED;
 }
 
 const Ceng::CRESULT SoftwareRenderer::CreateIndexBuffer(const Ceng::UINT32 elementSize, const Ceng::UINT32 elements,
@@ -640,7 +645,7 @@ const Ceng::CRESULT SoftwareRenderer::CreatePixelShader(const Ceng::StringUtf8& 
 		return CE_ERR_OUT_OF_MEMORY;
 	}
 
-	Ceng::CR_PixelShaderSemantic psTempRegister;
+	Ceng::PixelShaderInputDesc psTempRegister;
 
 	
 	psTempRegister.semantic = Ceng::SHADER_SEMANTIC::NORMAL;
@@ -655,7 +660,7 @@ const Ceng::CRESULT SoftwareRenderer::CreatePixelShader(const Ceng::StringUtf8& 
 	psTempRegister.semantic = Ceng::SHADER_SEMANTIC::TEXCOORD_1;
 	pixelShader->inputSemantics.push_back(psTempRegister);
 	
-	Ceng::CR_ShaderConstantData tempConst;
+	Ceng::ShaderUniformDesc tempConst;
 
 	tempConst.dataType = SHADER_DATATYPE::UINT;
 	tempConst.name = "diffuseTexture";
@@ -664,14 +669,19 @@ const Ceng::CRESULT SoftwareRenderer::CreatePixelShader(const Ceng::StringUtf8& 
 
 	pixelShader->ConfigureConstants();
 
-	Ceng::CR_PixelShaderTarget psTempTarget;
+	Ceng::PixelShaderOutputDesc psTempTarget;
 
-	psTempTarget.target = Ceng::CR_SHADER_TARGET0;
+	psTempTarget.target = PSHADER_OUTPUT_SEMANTIC::CR_SHADER_TARGET0;
 	pixelShader->renderTargets.push_back(psTempTarget);
 
 	*shaderPtr = (Ceng::PixelShader*)pixelShader;
 	 
 	return Ceng::CE_OK;
+}
+
+const Ceng::CRESULT SoftwareRenderer::CreatePixelShader(const PixelShaderDescriptor* desc, Ceng::PixelShader** shaderPtr)
+{
+	return CE_ERR_NOT_SUPPORTED;
 }
 
 const Ceng::CRESULT SoftwareRenderer::CreateShaderProgram(Ceng::VertexShader* vertexShader, Ceng::PixelShader* pixelShader, Ceng::ShaderProgram** program)

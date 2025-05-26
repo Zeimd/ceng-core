@@ -236,10 +236,8 @@
     <ClInclude Include="..\..\sw_renderer\pipeline-stage.h" />
     <ClInclude Include="..\..\sw_renderer\pipeline.h" />
     <ClInclude Include="..\..\sw_renderer\primitive-data.h" />
-    <ClInclude Include="..\..\sw_renderer\pshader-input-semantic.h" />
     <ClInclude Include="..\..\sw_renderer\pshader-input.h" />
     <ClInclude Include="..\..\sw_renderer\pshader-instance.h" />
-    <ClInclude Include="..\..\sw_renderer\pshader-output-semantic.h" />
     <ClInclude Include="..\..\sw_renderer\pshader-output.h" />
     <ClInclude Include="..\..\sw_renderer\pshader-texture.h" />
     <ClInclude Include="..\..\sw_renderer\pshader-wrapper.h" />
@@ -250,8 +248,6 @@
     <ClInclude Include="..\..\sw_renderer\render-task.h" />
     <ClInclude Include="..\..\sw_renderer\render-thread.h" />
     <ClInclude Include="..\..\sw_renderer\rtarget-data.h" />
-    <ClInclude Include="..\..\sw_renderer\shader-common.h" />
-    <ClInclude Include="..\..\sw_renderer\shader-const-data.h" />
     <ClInclude Include="..\..\sw_renderer\pshader-types.h" />
     <ClInclude Include="..\..\sw_renderer\shader-link.h" />
     <ClInclude Include="..\..\sw_renderer\shader-manager.h" />

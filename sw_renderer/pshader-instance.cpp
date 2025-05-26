@@ -7,7 +7,8 @@
 *****************************************************************************/
 
 #include "pshader-instance.h"
-#include "shader-common.h"
+
+#include <ceng/enums/pshader-output-semantic.h>
 
 #include "cr-pixel-shader.h"
 
@@ -125,7 +126,7 @@ PixelShaderInstance::PixelShaderInstance(std::shared_ptr<PixelShaderInstanceComm
 	
 }
 
-const CRESULT PixelShaderInstance::ConfigureInput(std::vector<CR_PixelShaderSemantic> &inputSemantics)
+const CRESULT PixelShaderInstance::ConfigureInput(std::vector<PixelShaderInputDesc> &inputSemantics)
 {
 	UINT32 k;
 
@@ -193,7 +194,7 @@ const CRESULT PixelShaderInstance::ConfigureInput(std::vector<CR_PixelShaderSema
 	return CE_OK;
 }
 
-const CRESULT PixelShaderInstance::ConfigureOutput(std::vector<CR_PixelShaderTarget> &renderTargets)
+const CRESULT PixelShaderInstance::ConfigureOutput(std::vector<PixelShaderOutputDesc> &renderTargets)
 {
 	UINT32 k;
 
@@ -206,34 +207,34 @@ const CRESULT PixelShaderInstance::ConfigureOutput(std::vector<CR_PixelShaderTar
 
 		switch(renderTargets[k].target)
 		{
-		case CR_SHADER_TARGET0:
+		case PSHADER_OUTPUT_SEMANTIC::CR_SHADER_TARGET0:
 			OUT_TARGET0 = &outputRegisters[k];
 			break;
-		case CR_SHADER_TARGET1:
+		case PSHADER_OUTPUT_SEMANTIC::CR_SHADER_TARGET1:
 			OUT_TARGET1 = &outputRegisters[k];
 			break;
-		case CR_SHADER_TARGET2:
+		case PSHADER_OUTPUT_SEMANTIC::CR_SHADER_TARGET2:
 			OUT_TARGET2 = &outputRegisters[k];
 			break;
-		case CR_SHADER_TARGET3:
+		case PSHADER_OUTPUT_SEMANTIC::CR_SHADER_TARGET3:
 			OUT_TARGET3 = &outputRegisters[k];
 			break;
-		case CR_SHADER_TARGET4:
+		case PSHADER_OUTPUT_SEMANTIC::CR_SHADER_TARGET4:
 			OUT_TARGET4 = &outputRegisters[k];
 			break;
-		case CR_SHADER_TARGET5:
+		case PSHADER_OUTPUT_SEMANTIC::CR_SHADER_TARGET5:
 			OUT_TARGET5 = &outputRegisters[k];
 			break;
-		case CR_SHADER_TARGET6:
+		case PSHADER_OUTPUT_SEMANTIC::CR_SHADER_TARGET6:
 			OUT_TARGET6 = &outputRegisters[k];
 			break;
-		case CR_SHADER_TARGET7:
+		case PSHADER_OUTPUT_SEMANTIC::CR_SHADER_TARGET7:
 			OUT_TARGET7 = &outputRegisters[k];
 			break;
-		case CR_SHADER_TARGET_DEPTH:
+		case PSHADER_OUTPUT_SEMANTIC::CR_SHADER_TARGET_DEPTH:
 			OUT_DEPTH = &outputRegisters[k];
 			break;
-		case CR_SHADER_TARGET_STENCIL:
+		case PSHADER_OUTPUT_SEMANTIC::CR_SHADER_TARGET_STENCIL:
 			OUT_STENCIL = &outputRegisters[k];
 			break;
 		default:
@@ -268,8 +269,8 @@ const CRESULT PixelShaderInstance::ConfigureLocals()
 }
 
 
-const CRESULT PixelShaderInstance::SetFragmentFormat(const std::vector<CR_PixelShaderSemantic> &inputSemantics,
-													 const std::vector<CR_PixelShaderTarget> &targetSemantics)
+const CRESULT PixelShaderInstance::SetFragmentFormat(const std::vector<PixelShaderInputDesc> &inputSemantics,
+													 const std::vector<PixelShaderOutputDesc> &targetSemantics)
 {
 	UINT32 k,j;
 	
@@ -318,7 +319,7 @@ const CRESULT PixelShaderInstance::SetFragmentFormat(const std::vector<CR_PixelS
 	return CE_OK;
 }
 
-const CRESULT PixelShaderInstance::SetRenderTargets(const std::vector<CR_PixelShaderTarget> &targetSemantics)
+const CRESULT PixelShaderInstance::SetRenderTargets(const std::vector<PixelShaderOutputDesc> &targetSemantics)
 {
 	Ceng::UINT32 k,j;
 

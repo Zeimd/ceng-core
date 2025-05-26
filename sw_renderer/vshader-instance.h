@@ -16,7 +16,7 @@
 #include "vshader-input.h"
 #include "vshader-output.h"
 
-#include "shader-const-data.h"
+#include <ceng/datatypes/shader-uniform-desc.h>
 
 #include "SimpleStage.h"
 #include "task-clipper.h"
