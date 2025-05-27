@@ -54,7 +54,7 @@ namespace Ceng::SWRender
 			return outputs.size();
 		}
 
-		PixelShaderOutputDesc* OutputArray() override;
+		PixelShaderOutputDesc* OutputArray() override
 		{
 			return &outputs[0];
 		}
