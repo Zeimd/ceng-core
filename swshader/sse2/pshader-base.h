@@ -8,6 +8,7 @@
 #include <ceng/datatypes/aligned-buffer.h>
 
 #include "pshader-input.h"
+#include "pshader-output.h"
 
 namespace Ceng::SWRender
 {

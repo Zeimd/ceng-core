@@ -6,7 +6,7 @@
 
 #include "pshader-types.h"
 
-namespace Ceng::SWrender
+namespace Ceng::SWRender
 {
 	const FLOAT32 colorScaleScalar = FLOAT32(255.0f);
 
