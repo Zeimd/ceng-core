@@ -5,6 +5,8 @@
 
 #include <ceng/interfaces/pshader-instance.h>
 
+#include <ceng/datatypes/return-val.h>
+
 #include <ceng/datatypes/aligned-buffer.h>
 
 #include "pshader-input.h"
@@ -93,8 +95,10 @@ namespace Ceng::SWRender
 			delete this;
 		}
 
-		
-
+		virtual CRESULT ShaderFunction(const FLOAT32* perspective,
+										const FLOAT32* invertW,
+										const INT32 coverageIndex,
+										const Ceng::INT32 threadId) = 0;
 	};
 }
 
