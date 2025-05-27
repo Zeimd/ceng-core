@@ -81,7 +81,13 @@ Pixel shader
 
 - [ ] Implement Shader::mat\<N\>
 
+------------------------------------------------------------------
+External shaders
 
+Many issues caused by fact that shader instance is now created on client side but needs to communicate with pipeline on the DLL side.
 
+- [ ] How to handle common data when instancing? 
 
+- [ ] How to handle texture unit access?
 
+- [ ] How to provide batch data for processing quads?
