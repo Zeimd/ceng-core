@@ -179,6 +179,8 @@
     <ClInclude Include="..\..\inc\ceng\datatypes\tex2d-desc-gl.h" />
     <ClInclude Include="..\..\inc\ceng\datatypes\tex2d-desc.h" />
     <ClInclude Include="..\..\inc\ceng\datatypes\thread.h" />
+    <ClInclude Include="..\..\inc\ceng\datatypes\vshader-input-desc.h" />
+    <ClInclude Include="..\..\inc\ceng\datatypes\vshader-output-desc.h" />
     <ClInclude Include="..\..\inc\ceng\datatypes\window.h" />
     <ClInclude Include="..\..\inc\ceng\enums\buffer-binding.h" />
     <ClInclude Include="..\..\inc\ceng\enums\buffer-cpu-access.h" />

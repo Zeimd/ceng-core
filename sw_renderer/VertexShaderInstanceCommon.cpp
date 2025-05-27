@@ -48,7 +48,7 @@ VertexShaderInstanceCommon::VertexShaderInstanceCommon(const VertexShaderInstanc
 	}
 }
 
-const CRESULT VertexShaderInstanceCommon::ConfigureInput(const std::vector<CR_vsInputSemantic>& inputSemantics)
+const CRESULT VertexShaderInstanceCommon::ConfigureInput(const std::vector<VertexShaderInputDesc>& inputSemantics)
 {
 	sourceIndex = AlignedBuffer<Ceng::UINT32>(inputSemantics.size(), shader->cacheLine);
 

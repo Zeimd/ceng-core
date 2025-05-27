@@ -11,6 +11,8 @@
 
 #include <vector>
 
+#include <ceng/datatypes/vshader-output-desc.h>
+
 #include "crender-base.h"
 #include "fragment-var.h"
 
@@ -86,19 +88,19 @@ namespace Ceng
 			variables = std::vector<CR_FragmentVariable>();
 		}
 
-		CRESULT Configure(std::vector<Ceng::CR_vsOutputSemantic> &vshaderOut,
+		CRESULT Configure(std::vector<VertexShaderOutputDesc> &vshaderOut,
 							std::vector<PixelShaderInputDesc> &pshaderIn);
 
-		CRESULT LinkSemantics(std::vector<CR_vsOutputSemantic> &linkedSemantics,
-										 std::vector<CR_vsOutputSemantic> &vshaderOut,
+		CRESULT LinkSemantics(std::vector<VertexShaderOutputDesc> &linkedSemantics,
+										 std::vector<VertexShaderOutputDesc> &vshaderOut,
 										 std::vector<PixelShaderInputDesc> &pshaderIn);
 
 
 		void Reset();
 
-		UINT32 AssignFloats(UINT32 startOffset,std::vector<CR_vsOutputSemantic> &linkSemantics);
-		UINT32 AssignDoubles(UINT32 startOffset,std::vector<CR_vsOutputSemantic> &linkSemantics);
-		UINT32 AssignConstants(UINT32 startOffset,std::vector<CR_vsOutputSemantic> &linkSemantics);
+		UINT32 AssignFloats(UINT32 startOffset,std::vector<VertexShaderOutputDesc> &linkSemantics);
+		UINT32 AssignDoubles(UINT32 startOffset,std::vector<VertexShaderOutputDesc> &linkSemantics);
+		UINT32 AssignConstants(UINT32 startOffset,std::vector<VertexShaderOutputDesc> &linkSemantics);
 	};
 
 };

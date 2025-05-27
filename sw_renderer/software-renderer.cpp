@@ -519,7 +519,7 @@ const Ceng::CRESULT SoftwareRenderer::CreateVertexShader(const Ceng::StringUtf8&
 		return CE_ERR_OUT_OF_MEMORY;
 	}
 
-	Ceng::CR_vsInputSemantic vsTempInput;
+	Ceng::VertexShaderInputDesc vsTempInput;
 
 	// Set inputs registers
 
@@ -556,7 +556,7 @@ const Ceng::CRESULT SoftwareRenderer::CreateVertexShader(const Ceng::StringUtf8&
 
 	// Set output registers
 
-	Ceng::CR_vsOutputSemantic vShaderOutput;
+	VertexShaderOutputDesc vShaderOutput;
 
 	vShaderOutput.semantic = Ceng::SHADER_SEMANTIC::POSITION;
 	vShaderOutput.dataType = Ceng::SHADER_DATATYPE::FLOAT4;

@@ -21,8 +21,8 @@ using namespace Ceng;
 /**
  * 
  */
-CRESULT CR_FragmentFormat::LinkSemantics(std::vector<CR_vsOutputSemantic> &linkedSemantics,
-										 std::vector<CR_vsOutputSemantic> &vshaderOut,
+CRESULT CR_FragmentFormat::LinkSemantics(std::vector<VertexShaderOutputDesc> &linkedSemantics,
+										 std::vector<VertexShaderOutputDesc> &vshaderOut,
 										 std::vector<PixelShaderInputDesc> &pshaderIn)
 {
 	Log::Print("FragmentFormat.LinkSemantics : method start");
@@ -88,13 +88,13 @@ void CR_FragmentFormat::Reset()
  * Constructs intermediate fragment format for clipper and rasterizer.
  * NOTE: Assumes that vertex shader and pixel shader are valid.
  */
-CRESULT CR_FragmentFormat::Configure(std::vector<CR_vsOutputSemantic> &vshaderOut,
+CRESULT CR_FragmentFormat::Configure(std::vector<VertexShaderOutputDesc> &vshaderOut,
 									 std::vector<PixelShaderInputDesc> &pshaderIn)
 {
 	//************************
 	// Select vertex shader output semantics that are consumed by pixel shader
 
-	std::vector<CR_vsOutputSemantic> linkedSemantic;
+	std::vector<VertexShaderOutputDesc> linkedSemantic;
 
 	CRESULT cresult;
 
@@ -242,7 +242,7 @@ CRESULT CR_FragmentFormat::Configure(std::vector<CR_vsOutputSemantic> &vshaderOu
 	return CE_OK;
 }
 
-Ceng::UINT32 CR_FragmentFormat::AssignFloats(Ceng::UINT32 startOffset,std::vector<CR_vsOutputSemantic> &linkSemantics)
+Ceng::UINT32 CR_FragmentFormat::AssignFloats(Ceng::UINT32 startOffset,std::vector<VertexShaderOutputDesc> &linkSemantics)
 {
 	UINT32 currentOffset = startOffset;
 
@@ -387,7 +387,7 @@ Ceng::UINT32 CR_FragmentFormat::AssignFloats(Ceng::UINT32 startOffset,std::vecto
 	return currentOffset-16;
 }
 
-Ceng::UINT32 CR_FragmentFormat::AssignDoubles(Ceng::UINT32 startOffset,std::vector<CR_vsOutputSemantic> &linkedSemantics)
+Ceng::UINT32 CR_FragmentFormat::AssignDoubles(Ceng::UINT32 startOffset,std::vector<VertexShaderOutputDesc> &linkedSemantics)
 {
 	//*********************************************************
 	// DOUBLE type variables
@@ -397,7 +397,7 @@ Ceng::UINT32 CR_FragmentFormat::AssignDoubles(Ceng::UINT32 startOffset,std::vect
 	return currentOffset;
 }
 
-Ceng::UINT32 CR_FragmentFormat::AssignConstants(Ceng::UINT32 startOffset,std::vector<CR_vsOutputSemantic> &linkedSemantics)
+Ceng::UINT32 CR_FragmentFormat::AssignConstants(Ceng::UINT32 startOffset,std::vector<VertexShaderOutputDesc> &linkedSemantics)
 {
 	//*********************************************************
 	// Constant blocks

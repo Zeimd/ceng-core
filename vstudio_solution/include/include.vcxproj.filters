@@ -474,5 +474,11 @@
     <ClInclude Include="..\..\inc\ceng\datatypes\pshader-output-desc.h">
       <Filter>Header Files\ceng\datatypes</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\vshader-output-desc.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\vshader-input-desc.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -11,7 +11,7 @@
 
 #include <ceng/datatypes/shader-uniform-desc.h>
 
-#include "vshader-input-semantic.h"
+#include <ceng/datatypes/vshader-input-desc.h>
 
 namespace Ceng
 {
@@ -57,7 +57,7 @@ namespace Ceng
 
 		VertexShaderInstanceCommon(const VertexShaderInstanceCommon& source);
 
-		const CRESULT ConfigureInput(const std::vector<CR_vsInputSemantic>& inputSemantics);
+		const CRESULT ConfigureInput(const std::vector<VertexShaderInputDesc>& inputSemantics);
 
 		const CRESULT ConfigureUniforms(const std::vector<ShaderUniformDesc>& uniformList,
 			const Ceng::UINT32 bufferSize);

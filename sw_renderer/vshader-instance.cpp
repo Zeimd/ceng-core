@@ -19,7 +19,7 @@
 
 #include "fragment-format.h"
 
-#include "vshader-input-semantic.h"
+#include <ceng/datatypes/vshader-input-desc.h>
 
 #include "cr-vertex-shader.h"
 
@@ -82,7 +82,7 @@ CR_VertexShaderInstance::~CR_VertexShaderInstance()
 {
 }
 
-const CRESULT CR_VertexShaderInstance::ConfigureInput(const std::vector<CR_vsInputSemantic> &inputSemantics)
+const CRESULT CR_VertexShaderInstance::ConfigureInput(const std::vector<VertexShaderInputDesc> &inputSemantics)
 {
 	// TODO: Provide as input parameter
 

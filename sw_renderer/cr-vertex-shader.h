@@ -27,7 +27,8 @@
 #include "vshader-input.h"
 #include "vshader-output.h"
 
-#include "vshader-input-semantic.h"
+#include <ceng/datatypes/vshader-input-desc.h>
+#include <ceng/datatypes/vshader-output-desc.h>
 
 #include "pshader-input.h"
 
@@ -77,18 +78,18 @@ namespace Ceng
 		/**
 		 * List of input semantics the shader uses.
 		 */
-		std::vector<CR_vsInputSemantic> inputSemantics;
+		std::vector<VertexShaderInputDesc> inputSemantics;
 
 		/**
 		 * List of output semantics the shader can use.
 		 */
-		std::vector<CR_vsOutputSemantic> outputSemantics;
+		std::vector<VertexShaderOutputDesc> outputSemantics;
 
 		/**
 		 * Used to temporarily store semantics that appear both in vertex shader
 		 * output and pixel shader input. POSITION-semantic excluded.
 		 */
-		std::vector<CR_vsOutputSemantic> linkedOutput;
+		std::vector<VertexShaderOutputDesc> linkedOutput;
 
 		std::shared_ptr<VertexShaderInstanceCommon> nextInstance;
 		std::shared_ptr<VertexShaderInstanceCommon> currentInstance;

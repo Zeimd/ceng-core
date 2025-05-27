@@ -94,21 +94,6 @@ namespace Ceng
 			vertexConst = nullptr;
 		}
 	};
-
-	class CR_vsOutputSemantic
-	{
-	public:
-		Ceng::SHADER_SEMANTIC::value semantic;
-		Ceng::SHADER_DATATYPE::value dataType;
-		UINT32 options;
-
-		CR_vsOutputSemantic()
-		{
-			semantic = SHADER_SEMANTIC::FORMAT_END;
-			dataType = SHADER_DATATYPE::FLOAT4;
-			options = 0;
-		}
-	};
 	
 	/**
 	 *  Size of each Ceng::SHADER_DATATYPE in bytes.
@@ -167,29 +152,6 @@ namespace Ceng
 
 	//*********************************************************************************
 	// Vertex shader output (fragment) format
-
-	enum CR_FRAGMENT_VARIABLE_OPTIONS
-	{
-		/**
-		 * If set, do not interpolate the variable
-		 * over the triangle.
-		 */
-		CR_FRAGMENT_VAR_CONST = 1 ,
-
-		/**
-		 * If set, pixel shader doesn't use this
-		 * variable, and it shouldn't be in the
-		 * fragment format.
-		 */
-		CR_FRAGMENT_VAR_NOWRITE = 2 ,
-
-		/**
-		 * Reading returns default value for given data type.
-		 */
-		CR_FRAGMENT_VAR_DEFAULT = 4 ,
-
-		CR_FRAGMENT_VAR_FORCE_32B = 1 << 30 ,
-	};
 
 	struct CR_FragmentVariable
 	{

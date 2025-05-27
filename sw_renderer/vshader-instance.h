@@ -120,7 +120,7 @@ namespace Ceng
 
 		virtual ~CR_VertexShaderInstance();
 
-		const CRESULT ConfigureInput(const std::vector<CR_vsInputSemantic> &inputSemantics);
+		const CRESULT ConfigureInput(const std::vector<VertexShaderInputDesc> &inputSemantics);
 		
 		const CRESULT SetFragmentFormat();
 
