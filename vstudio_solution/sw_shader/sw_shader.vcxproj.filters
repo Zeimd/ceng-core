@@ -13,5 +13,25 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\SSE2">
+      <UniqueIdentifier>{77465689-7476-4da3-8413-8e903a1687d0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\swshader\sse2\pshader-base.h">
+      <Filter>Header Files\SSE2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\swshader\sse2\pshader-input.h">
+      <Filter>Header Files\SSE2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\swshader\sse2\pshader-output.h">
+      <Filter>Header Files\SSE2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\swshader\sse2\pshader-types.h">
+      <Filter>Header Files\SSE2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\swshader\sse2\pshader-decl.h">
+      <Filter>Header Files\SSE2</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
