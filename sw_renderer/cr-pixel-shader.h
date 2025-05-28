@@ -110,11 +110,8 @@ namespace Ceng
 		CRESULT SetRenderTargets(UINT32 amount,std::shared_ptr<CR_NewTargetData> targets[],
 									std::shared_ptr<CR_NewTargetData> &depthStencil);
 
-		CRESULT SetGradients(CR_FloatFragment *floatVariable,CR_DoubleFragment *doubleVariable,
-								UINT8 *variableStep);
-
-		const CRESULT GetInstances(std::vector<std::shared_ptr<PixelShaderInstance>> &instances,
-									const Ceng::UINT32 renderThreads);
+		virtual CRESULT GetInstances(std::vector<std::shared_ptr<PixelShaderInstance>> &instances,
+									const Ceng::UINT32 renderThreads) = 0;
 
 	};
 

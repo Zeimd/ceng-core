@@ -11,8 +11,6 @@
 
 #include "texture-unit.h"
 
-#include <ceng/datatypes/shader-uniform-desc.h>
-
 namespace Ceng
 {
 	class CR_PixelShader;

@@ -19,13 +19,13 @@ namespace Ceng
 	{
 	public:
 
-		CR_PixelShader *shader;
+		CR_PixelShader* shader;
 
 	public:
 
-		virtual const CRESULT ReadUniform(const Ceng::UINT32 index,void *destBuffer) override;
+		const CRESULT ReadUniform(const Ceng::UINT32 index, void* destBuffer) override;
 
-		virtual const CRESULT WriteUniform(const Ceng::UINT32 index,void *sourceBuffer) override;
+		const CRESULT WriteUniform(const Ceng::UINT32 index, void* sourceBuffer) override;
 
 	};
 }

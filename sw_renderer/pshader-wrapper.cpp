@@ -12,12 +12,12 @@
 
 using namespace Ceng;
 
-const CRESULT PixelShaderWrapper::ReadUniform(const Ceng::UINT32 index,void *destBuffer)
+const CRESULT PixelShaderWrapper::ReadUniform(const Ceng::UINT32 index, void* destBuffer)
 {
-	return shader->ReadUniform(index,destBuffer);
+	return shader->ReadUniform(index, destBuffer);
 }
 
-const CRESULT PixelShaderWrapper::WriteUniform(const Ceng::UINT32 index,void *sourceBuffer)
+const CRESULT PixelShaderWrapper::WriteUniform(const Ceng::UINT32 index, void* sourceBuffer)
 {
-	return shader->WriteUniform(index,sourceBuffer);
+	return shader->WriteUniform(index, sourceBuffer);
 }

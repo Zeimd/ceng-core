@@ -218,7 +218,9 @@
     <ClInclude Include="..\..\sw_renderer\crender-base.h" />
     <ClInclude Include="..\..\sw_renderer\crender-context.h" />
     <ClInclude Include="..\..\sw_renderer\CyclicCounter.h" />
+    <ClInclude Include="..\..\sw_renderer\extern-pshader.h" />
     <ClInclude Include="..\..\sw_renderer\future.h" />
+    <ClInclude Include="..\..\sw_renderer\internal-pshader.h" />
     <ClInclude Include="..\..\sw_renderer\PixelShaderInstanceCommon.h" />
     <ClInclude Include="..\..\sw_renderer\pshader-util.h" />
     <ClInclude Include="..\..\sw_renderer\ShaderLinkInstance.h" />
@@ -298,6 +300,8 @@
     <ClCompile Include="..\..\sw_renderer\cr-target-tex2d.cpp" />
     <ClCompile Include="..\..\sw_renderer\cr-uniform-mat4.cpp" />
     <ClCompile Include="..\..\sw_renderer\cr-uniform-uint.cpp" />
+    <ClCompile Include="..\..\sw_renderer\extern-pshader.cpp" />
+    <ClCompile Include="..\..\sw_renderer\internal-pshader.cpp" />
     <ClCompile Include="..\..\sw_renderer\PixelShaderInstanceCommon.cpp" />
     <ClCompile Include="..\..\sw_renderer\ShaderLinkInstance.cpp" />
     <ClCompile Include="..\..\sw_renderer\software-renderer.cpp" />

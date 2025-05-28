@@ -43,6 +43,8 @@
 
 #include "texture-copy.h"
 
+#include "internal-pshader.h"
+
 using namespace Ceng;
 
 //***************************************************************************
@@ -632,13 +634,13 @@ const Ceng::UINT32 SoftwareRenderer::GetOptimalIndexElements()
 
 const Ceng::CRESULT SoftwareRenderer::CreatePixelShader(const Ceng::StringUtf8& shaderText, Ceng::PixelShader** shaderPtr)
 {
-	Ceng::CR_PixelShader *pixelShader;
+	InternalPixelShader* pixelShader;
 
 	*shaderPtr = nullptr;
 
 	try
 	{
-		pixelShader = new CR_PixelShader();
+		pixelShader = new InternalPixelShader();
 	}
 	catch(std::bad_alloc&)
 	{
