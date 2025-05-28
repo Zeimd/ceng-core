@@ -1061,17 +1061,17 @@ namespace Ceng::Pshader
 	//**********************************
 	// Vector form for < operator
 
-	Bool2 LessThan(const Float2& a, const Float2& b)
+	inline Bool2 LessThan(const Float2& a, const Float2& b)
 	{
 		return  { a._x < b._x, a._y < b._y };
 	}
 
-	Bool3 LessThan(const Float3& a, const Float3& b)
+	inline Bool3 LessThan(const Float3& a, const Float3& b)
 	{
 		return  { a._x < b._x, a._y < b._y, a._z < b._z};
 	}
 
-	Bool4 LessThan(const Float4& a, const Float4& b)
+	inline Bool4 LessThan(const Float4& a, const Float4& b)
 	{
 		return  { a._x < b._x, a._y < b._y, a._z < b._z, a._w < b._w };
 	}
@@ -1079,17 +1079,17 @@ namespace Ceng::Pshader
 	//**********************************
 	// Vector form for <= operator
 
-	Bool2 LessThanEqual(const Float2& a, const Float2& b)
+	inline Bool2 LessThanEqual(const Float2& a, const Float2& b)
 	{
 		return  { a._x <= b._x, a._y <= b._y };
 	}
 
-	Bool3 LessThanEqual(const Float3& a, const Float3& b)
+	inline Bool3 LessThanEqual(const Float3& a, const Float3& b)
 	{
 		return  { a._x <= b._x, a._y <= b._y, a._z <= b._z };
 	}
 
-	Bool4 LessThanEqual(const Float4& a, const Float4& b)
+	inline Bool4 LessThanEqual(const Float4& a, const Float4& b)
 	{
 		return  { a._x <= b._x, a._y <= b._y, a._z <= b._z, a._w <= b._w };
 	}
@@ -1097,17 +1097,17 @@ namespace Ceng::Pshader
 	//**********************************
 	// Vector form for > operator
 
-	Bool2 GreaterThan(const Float2& a, const Float2& b)
+	inline Bool2 GreaterThan(const Float2& a, const Float2& b)
 	{
 		return  { a._x > b._x, a._y > b._y };
 	}
 
-	Bool3 GreaterThan(const Float3& a, const Float3& b)
+	inline Bool3 GreaterThan(const Float3& a, const Float3& b)
 	{
 		return  { a._x > b._x, a._y > b._y, a._z > b._z };
 	}
 
-	Bool4 GreaterThan(const Float4& a, const Float4& b)
+	inline Bool4 GreaterThan(const Float4& a, const Float4& b)
 	{
 		return  { a._x > b._x, a._y > b._y, a._z > b._z, a._w > b._w };
 	}
@@ -1115,17 +1115,17 @@ namespace Ceng::Pshader
 	//**********************************
 	// Vector form for <= operator
 
-	Bool2 GreaterThanEqual(const Float2& a, const Float2& b)
+	inline Bool2 GreaterThanEqual(const Float2& a, const Float2& b)
 	{
 		return  { a._x >= b._x, a._y >= b._y };
 	}
 
-	Bool3 GreaterThanEqual(const Float3& a, const Float3& b)
+	inline Bool3 GreaterThanEqual(const Float3& a, const Float3& b)
 	{
 		return  { a._x >= b._x, a._y >= b._y, a._z >= b._z };
 	}
 
-	Bool4 GreaterThanEqual(const Float4& a, const Float4& b)
+	inline Bool4 GreaterThanEqual(const Float4& a, const Float4& b)
 	{
 		return  { a._x >= b._x, a._y >= b._y, a._z >= b._z, a._w >= b._w };
 	}
@@ -1133,17 +1133,17 @@ namespace Ceng::Pshader
 	//**********************************
 	// Vector form for == operator
 
-	Bool2 Equal(const Float2& a, const Float2& b)
+	inline Bool2 Equal(const Float2& a, const Float2& b)
 	{
 		return  { a._x == b._x, a._y == b._y };
 	}
 
-	Bool3 Equal(const Float3& a, const Float3& b)
+	inline Bool3 Equal(const Float3& a, const Float3& b)
 	{
 		return  { a._x == b._x, a._y == b._y, a._z == b._z };
 	}
 
-	Bool4 Equal(const Float4& a, const Float4& b)
+	inline Bool4 Equal(const Float4& a, const Float4& b)
 	{
 		return  { a._x == b._x, a._y == b._y, a._z == b._z, a._w == b._w };
 	}
@@ -1151,17 +1151,17 @@ namespace Ceng::Pshader
 	//**********************************
 	// Vector form for != operator
 
-	Bool2 NotEqual(const Float2& a, const Float2& b)
+	inline Bool2 NotEqual(const Float2& a, const Float2& b)
 	{
 		return  { a._x != b._x, a._y != b._y };
 	}
 
-	Bool3 NotEqual(const Float3& a, const Float3& b)
+	inline Bool3 NotEqual(const Float3& a, const Float3& b)
 	{
 		return  { a._x != b._x, a._y != b._y, a._z != b._z };
 	}
 
-	Bool4 NotEqual(const Float4& a, const Float4& b)
+	inline Bool4 NotEqual(const Float4& a, const Float4& b)
 	{
 		return  { a._x != b._x, a._y != b._y, a._z != b._z, a._w != b._w };
 	}
@@ -1169,17 +1169,17 @@ namespace Ceng::Pshader
 	//**********************************
 	// Any bool check
 
-	Bool Any(const Bool2& a)
+	inline Bool Any(const Bool2& a)
 	{
 		return LogicalOr(a.x, a.y);
 	}
 
-	Bool Any(const Bool3& a)
+	inline Bool Any(const Bool3& a)
 	{
 		return LogicalOr(LogicalOr(a.x, a.y),a.z);
 	}
 
-	Bool Any(const Bool4& a)
+	inline Bool Any(const Bool4& a)
 	{
 		return LogicalOr(LogicalOr(LogicalOr(a.x, a.y), a.z), a.w);
 	}
@@ -1187,17 +1187,17 @@ namespace Ceng::Pshader
 	//**********************************
 	// All bool check
 
-	Bool All(const Bool2& a)
+	inline Bool All(const Bool2& a)
 	{
 		return LogicalAnd(a.x, a.y);
 	}
 
-	Bool All(const Bool3& a)
+	inline Bool All(const Bool3& a)
 	{
 		return LogicalAnd(LogicalAnd(a.x, a.y), a.z);
 	}
 
-	Bool All(const Bool4& a)
+	inline Bool All(const Bool4& a)
 	{
 		return LogicalAnd(LogicalAnd(LogicalAnd(a.x, a.y), a.z), a.w);
 	}
@@ -1205,17 +1205,17 @@ namespace Ceng::Pshader
 	//**********************************
 	// Boolean vector negation
 
-	Bool2 Not(const Bool2& a)
+	inline Bool2 Not(const Bool2& a)
 	{
 		return { LogicalNot(a.x),LogicalNot(a.y) };
 	}
 
-	Bool3 Not(const Bool3& a)
+	inline Bool3 Not(const Bool3& a)
 	{
 		return { LogicalNot(a.x),LogicalNot(a.y),LogicalNot(a.z) };
 	}
 
-	Bool4 Not(const Bool4& a)
+	inline Bool4 Not(const Bool4& a)
 	{
 		return { LogicalNot(a.x),LogicalNot(a.y),LogicalNot(a.z),LogicalNot(a.w) };
 	}
