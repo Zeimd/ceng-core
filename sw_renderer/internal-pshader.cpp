@@ -1,5 +1,7 @@
 #include "internal-pshader.h"
 
+#include "internal-pshader-instance.h"
+
 using namespace Ceng;
 
 CRESULT InternalPixelShader::GetInstances(std::vector<std::shared_ptr<PixelShaderInstance>>& instances,
@@ -15,7 +17,7 @@ CRESULT InternalPixelShader::GetInstances(std::vector<std::shared_ptr<PixelShade
 
 	for (Ceng::UINT32 k = 0; k < instances.size(); k++)
 	{
-		CRESULT cresult = PixelShaderInstance::GetInstance(currentInstance, instances[k]);
+		CRESULT cresult = InternalPixelShaderInstance::GetInstance(currentInstance, instances[k]);
 
 		if (cresult != CE_OK)
 		{

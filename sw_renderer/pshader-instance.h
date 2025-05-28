@@ -51,105 +51,34 @@ namespace Ceng
 
 		std::shared_ptr<PixelShaderInstanceCommon> common;
 
-		// Output format
+	protected:
 
-		AlignedBuffer<CR_PixelShaderInput> inputRegisters;
+		PixelShaderInstance()
+		{
 
-		POINTER quadTargetStart;
-
-		/**
-		 * Temporary buffer for current quad.
-		 */
-		AlignedBuffer<Ceng::UINT8> quadBuffer;
-
-		// w for each pixel in a quad (4xFLOAT or 4xDOUBLE)
-		// must be 16-byte aligned
-		AlignedBuffer<Ceng::UINT8> perspectiveTemp;
-
-		/**
-		 * Pixel coverage mask for render target writes.
-		 * Accessed through pointers.
-		 */
-		POINTER coverageAddress;
-
-		POINTER inputBaseAddress;
-
-		POINTER stepBufferPtr;
-
-		AlignedBuffer<CR_psOutputRegister> outputRegisters;
-
-		// Semantic links
-
-		// Input references
-		CR_PixelShaderInput *IN_POSITION;
-		CR_PixelShaderInput *IN_SCREENPOS;
-	
-		CR_PixelShaderInput *IN_NORMAL;
-		CR_PixelShaderInput *IN_BINORMAL;
-		CR_PixelShaderInput *IN_TANGENT;
-
-		CR_PixelShaderInput *IN_COLOR0;
-		CR_PixelShaderInput *IN_COLOR1;
-	
-		CR_PixelShaderInput *IN_TEXCOORD0;
-		CR_PixelShaderInput *IN_TEXCOORD1;
-		CR_PixelShaderInput *IN_TEXCOORD2;
-		CR_PixelShaderInput *IN_TEXCOORD3;
-		CR_PixelShaderInput *IN_TEXCOORD4;
-		CR_PixelShaderInput *IN_TEXCOORD5;
-		CR_PixelShaderInput *IN_TEXCOORD6;
-		CR_PixelShaderInput *IN_TEXCOORD7;
-
-		// Output references
-
-		CR_psOutputRegister *OUT_TARGET0;
-		CR_psOutputRegister *OUT_TARGET1;
-		CR_psOutputRegister *OUT_TARGET2;
-		CR_psOutputRegister *OUT_TARGET3;
-		CR_psOutputRegister *OUT_TARGET4;
-		CR_psOutputRegister *OUT_TARGET5;
-		CR_psOutputRegister *OUT_TARGET6;
-		CR_psOutputRegister *OUT_TARGET7;
-
-		CR_psOutputRegister *OUT_DEPTH;
-		CR_psOutputRegister *OUT_STENCIL;
-
-		Pshader::SampleTexture2D sample2d;
-
-		TextureUnit diffuseTexUnit;
-
+		}
 
 	public:		
 
+		virtual ~PixelShaderInstance()
+		{
+
+		}		
+
+		virtual CRESULT ProcessQuads(Task_PixelShader *batch,const Ceng::INT32 threadId) = 0;
+
+		virtual CRESULT ProcessQuads(Experimental::Task_PixelShader* batch, const Ceng::INT32 threadId) = 0;		
+
+		virtual CRESULT ConfigureInput(std::vector<PixelShaderInputDesc> &inputSemantics) = 0;
+
+		virtual CRESULT ConfigureOutput(std::vector<PixelShaderOutputDesc> &renderTargets) = 0;
 		
+		virtual CRESULT ConfigureLocals() = 0;
 
-		~PixelShaderInstance();
+		virtual CRESULT SetFragmentFormat(const std::vector<PixelShaderInputDesc> &inputSemantics,
+										const std::vector<PixelShaderOutputDesc> &targetSemantics) = 0;
 
-		static CRESULT GetInstance(std::shared_ptr<PixelShaderInstanceCommon>& common, std::shared_ptr<PixelShaderInstance>& out);
-
-		const CRESULT ProcessQuads(Task_PixelShader *batch,const Ceng::INT32 threadId);
-
-		const CRESULT ProcessQuads(Experimental::Task_PixelShader* batch, const Ceng::INT32 threadId);
-
-		void ShaderFunction(const FLOAT32* perspective, const FLOAT32* invertW,
-			const Ceng::INT32 coverage, const Ceng::INT32 threadId);
-
-	private:
-
-		PixelShaderInstance() = delete;
-
-		PixelShaderInstance(std::shared_ptr<PixelShaderInstanceCommon>& common);
-
-		const CRESULT ConfigureInput(std::vector<PixelShaderInputDesc> &inputSemantics);
-
-		const CRESULT ConfigureOutput(std::vector<PixelShaderOutputDesc> &renderTargets);
-		
-		const CRESULT ConfigureLocals();
-
-		const CRESULT SetFragmentFormat(const std::vector<PixelShaderInputDesc> &inputSemantics,
-										const std::vector<PixelShaderOutputDesc> &targetSemantics);
-
-		const CRESULT SetRenderTargets(const std::vector<PixelShaderOutputDesc> &targetSemantics);			
+		virtual CRESULT SetRenderTargets(const std::vector<PixelShaderOutputDesc> &targetSemantics) = 0;			
 		
 	};
 }
