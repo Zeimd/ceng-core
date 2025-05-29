@@ -13,7 +13,28 @@ namespace Ceng
 	{
 	public:
 
-		PixelShaderInstance* externInstance;
+		PixelShaderInstance* instance;
+
+	public:
+
+		ExternalPixelShaderContext(PixelShaderInstance* instance, std::shared_ptr<PixelShaderContextCommon>& common);
+
+		~ExternalPixelShaderContext() override;
+
+		CRESULT ProcessQuads(Task_PixelShader* batch, const Ceng::INT32 threadId) override;
+
+		CRESULT ProcessQuads(Experimental::Task_PixelShader* batch, const Ceng::INT32 threadId) override;
+
+		CRESULT ConfigureInput(std::vector<PixelShaderInputDesc>& inputSemantics) override;
+
+		CRESULT ConfigureOutput(std::vector<PixelShaderOutputDesc>& renderTargets) override;
+
+		CRESULT ConfigureLocals() override;
+
+		CRESULT SetFragmentFormat(const std::vector<PixelShaderInputDesc>& inputSemantics,
+			const std::vector<PixelShaderOutputDesc>& targetSemantics) override;
+
+		CRESULT SetRenderTargets(const std::vector<PixelShaderOutputDesc>& targetSemantics) override;
 	};
 }
 
