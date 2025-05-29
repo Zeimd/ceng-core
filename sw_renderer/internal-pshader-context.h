@@ -3,11 +3,11 @@
 #ifndef CENG_SWR_INTERNAL_PSHADER_INSTANCE_H
 #define CENG_SWR_INTERNAL_PSHADER_INSTANCE_H
 
-#include "pshader-instance.h"
+#include "pshader-context.h"
 
 namespace Ceng
 {
-	class InternalPixelShaderInstance : public PixelShaderInstance
+	class InternalPixelShaderContext : public PixelShaderContext
 	{
 	public:
 
@@ -80,11 +80,11 @@ namespace Ceng
 
 	public:
 
-		InternalPixelShaderInstance(std::shared_ptr<PixelShaderInstanceCommon>& common);
+		InternalPixelShaderContext(std::shared_ptr<PixelShaderContextCommon>& common);
 
-		~InternalPixelShaderInstance() override;
+		~InternalPixelShaderContext() override;
 
-		static CRESULT GetInstance(std::shared_ptr<PixelShaderInstanceCommon>& common, std::shared_ptr<PixelShaderInstance>& out);
+		static CRESULT GetInstance(std::shared_ptr<PixelShaderContextCommon>& common, std::shared_ptr<PixelShaderContext>& out);
 
 		void ShaderFunction(const FLOAT32* perspective, const FLOAT32* invertW,
 			const Ceng::INT32 coverage, const Ceng::INT32 threadId);

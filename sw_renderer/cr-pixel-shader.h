@@ -28,19 +28,17 @@
 
 #include "cr-shader-const.h"
 
-#include <ceng/datatypes/pshader-input-desc.h>
 #include "pshader-input.h"
 
-#include <ceng/datatypes/pshader-output-desc.h>
 #include "pshader-output.h"
 
-#include "pshader-instance.h"
+#include "pshader-context.h"
 
 #include "pshader-wrapper.h"
 
 #include "texture-unit.h"
 
-#include "PixelShaderInstanceCommon.h"
+#include "PixelShaderContextCommon.h"
 
 namespace Ceng
 {
@@ -57,8 +55,8 @@ namespace Ceng
 
 		PixelShaderWrapper wrapper;
 
-		std::shared_ptr<PixelShaderInstanceCommon> nextInstance;
-		std::shared_ptr<PixelShaderInstanceCommon> currentInstance;
+		std::shared_ptr<PixelShaderContextCommon> nextInstance;
+		std::shared_ptr<PixelShaderContextCommon> currentInstance;
 
 		std::vector<PixelShaderInputDesc> inputSemantics;
 
@@ -110,7 +108,7 @@ namespace Ceng
 		CRESULT SetRenderTargets(UINT32 amount,std::shared_ptr<CR_NewTargetData> targets[],
 									std::shared_ptr<CR_NewTargetData> &depthStencil);
 
-		virtual CRESULT GetInstances(std::vector<std::shared_ptr<PixelShaderInstance>> &instances,
+		virtual CRESULT GetInstances(std::vector<std::shared_ptr<PixelShaderContext>> &instances,
 									const Ceng::UINT32 renderThreads) = 0;
 
 	};

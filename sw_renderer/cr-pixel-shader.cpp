@@ -32,7 +32,7 @@ CR_PixelShader::CR_PixelShader()
 
 	wrapper.shader = this;
 
-	nextInstance = std::make_shared< Ceng::PixelShaderInstanceCommon>(this);
+	nextInstance = std::make_shared< Ceng::PixelShaderContextCommon>(this);
 
 	// Set up a NULL input and output registers 
 	// to guard against exceptions from use

@@ -22,7 +22,7 @@ namespace Ceng
 
 		}
 
-		CRESULT GetInstances(std::vector<std::shared_ptr<PixelShaderInstance>>& instances,
+		CRESULT GetInstances(std::vector<std::shared_ptr<PixelShaderContext>>& instances,
 			const Ceng::UINT32 renderThreads) override;
 	};
 }

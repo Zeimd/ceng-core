@@ -24,7 +24,7 @@
 
 #include <ceng/datatypes/shader-uniform-desc.h>
 
-#include "PixelShaderInstanceCommon.h"
+#include "PixelShaderContextCommon.h"
 
 namespace Ceng::Experimental
 {
@@ -45,22 +45,22 @@ namespace Ceng
 
 	class ShaderLinkInstance;
 
-	class PixelShaderInstance
+	class PixelShaderContext
 	{
 	public:
 
-		std::shared_ptr<PixelShaderInstanceCommon> common;
+		std::shared_ptr<PixelShaderContextCommon> common;
 
 	protected:
 
-		PixelShaderInstance()
+		PixelShaderContext()
 		{
 
 		}
 
 	public:		
 
-		virtual ~PixelShaderInstance()
+		virtual ~PixelShaderContext()
 		{
 
 		}		

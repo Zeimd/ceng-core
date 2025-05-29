@@ -1,10 +1,10 @@
-#include "PixelShaderInstanceCommon.h"
+#include "PixelShaderContextCommon.h"
 
 #include "cr-pixel-shader.h"
 
 using namespace Ceng;
 
-PixelShaderInstanceCommon::PixelShaderInstanceCommon(CR_PixelShader* shader)
+PixelShaderContextCommon::PixelShaderContextCommon(CR_PixelShader* shader)
 {
 	this->shader = shader;
 
@@ -23,7 +23,7 @@ PixelShaderInstanceCommon::PixelShaderInstanceCommon(CR_PixelShader* shader)
 	}
 }
 
-PixelShaderInstanceCommon::PixelShaderInstanceCommon(const PixelShaderInstanceCommon& source)
+PixelShaderContextCommon::PixelShaderContextCommon(const PixelShaderContextCommon& source)
 {
 	shader = source.shader;
 	
@@ -53,7 +53,7 @@ PixelShaderInstanceCommon::PixelShaderInstanceCommon(const PixelShaderInstanceCo
 	}
 }
 
-const CRESULT PixelShaderInstanceCommon::ConfigureUniforms(const std::vector<ShaderUniformDesc>& uniformList,
+const CRESULT PixelShaderContextCommon::ConfigureUniforms(const std::vector<ShaderUniformDesc>& uniformList,
 	const Ceng::UINT32 bufferSize)
 {
 	uniformBuffer = AlignedBuffer<UINT8>(shader->uniformBufferSize, shader->cacheLine);

@@ -48,7 +48,7 @@ CRESULT ExternalPixelShader::Create(PixelShaderDescriptor* desc, ExternalPixelSh
 	temp->wrapper.shader = temp;
 	temp->cacheLine = 64;
 
-	temp->nextInstance = std::make_shared< Ceng::PixelShaderInstanceCommon>(temp);
+	temp->nextInstance = std::make_shared< Ceng::PixelShaderContextCommon>(temp);
 
 	// Set up a NULL input and output registers 
 	// to guard against exceptions from use
@@ -90,7 +90,7 @@ ExternalPixelShader::~ExternalPixelShader()
 
 }
 
-CRESULT ExternalPixelShader::GetInstances(std::vector<std::shared_ptr<PixelShaderInstance>>& instances,
+CRESULT ExternalPixelShader::GetInstances(std::vector<std::shared_ptr<PixelShaderContext>>& instances,
 	const Ceng::UINT32 renderThreads)
 {
 	return CE_ERR_UNIMPLEMENTED;

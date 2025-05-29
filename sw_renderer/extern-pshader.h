@@ -22,13 +22,13 @@
 #include "pshader-input.h"
 #include "pshader-output.h"
 
-#include "pshader-instance.h"
+#include "pshader-context.h"
 
 #include "pshader-wrapper.h"
 
 #include "texture-unit.h"
 
-#include "PixelShaderInstanceCommon.h"
+#include "PixelShaderContextCommon.h"
 
 #include "cr-pixel-shader.h"
 
@@ -53,7 +53,7 @@ namespace Ceng
 
 	public:
 
-		CRESULT GetInstances(std::vector<std::shared_ptr<PixelShaderInstance>>& instances,
+		CRESULT GetInstances(std::vector<std::shared_ptr<PixelShaderContext>>& instances,
 			const Ceng::UINT32 renderThreads) override;
 
 	};

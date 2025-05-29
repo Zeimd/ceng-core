@@ -1,5 +1,5 @@
 #include "internal-pshader.h"
-#include "internal-pshader-instance.h"
+#include "internal-pshader-context.h"
 
 #include <ceng/enums/pshader-output-semantic.h>
 
@@ -20,7 +20,7 @@
 
 using namespace Ceng;
 
-InternalPixelShaderInstance::InternalPixelShaderInstance(std::shared_ptr<PixelShaderInstanceCommon>& common)
+InternalPixelShaderContext::InternalPixelShaderContext(std::shared_ptr<PixelShaderContextCommon>& common)
 {
 	this->common = common;
 
@@ -64,11 +64,11 @@ InternalPixelShaderInstance::InternalPixelShaderInstance(std::shared_ptr<PixelSh
 	OUT_TARGET7 = &common->shader->nullOutput;
 }
 
-CRESULT InternalPixelShaderInstance::GetInstance(std::shared_ptr<PixelShaderInstanceCommon>& common, std::shared_ptr<PixelShaderInstance>& out)
+CRESULT InternalPixelShaderContext::GetInstance(std::shared_ptr<PixelShaderContextCommon>& common, std::shared_ptr<PixelShaderContext>& out)
 {
 	out = nullptr;
 
-	PixelShaderInstance* temp = new InternalPixelShaderInstance(common);
+	PixelShaderContext* temp = new InternalPixelShaderContext(common);
 
 	CRESULT cresult;
 
@@ -107,17 +107,17 @@ CRESULT InternalPixelShaderInstance::GetInstance(std::shared_ptr<PixelShaderInst
 		return cresult;
 	}
 
-	out = std::shared_ptr<PixelShaderInstance>(temp);
+	out = std::shared_ptr<PixelShaderContext>(temp);
 
 	return CE_OK;
 }
 
-InternalPixelShaderInstance::~InternalPixelShaderInstance()
+InternalPixelShaderContext::~InternalPixelShaderContext()
 {
 
 }
 
-CRESULT InternalPixelShaderInstance::ConfigureInput(std::vector<PixelShaderInputDesc>& inputSemantics)
+CRESULT InternalPixelShaderContext::ConfigureInput(std::vector<PixelShaderInputDesc>& inputSemantics)
 {
 	UINT32 k;
 
@@ -185,7 +185,7 @@ CRESULT InternalPixelShaderInstance::ConfigureInput(std::vector<PixelShaderInput
 	return CE_OK;
 }
 
-CRESULT InternalPixelShaderInstance::ConfigureOutput(std::vector<PixelShaderOutputDesc>& renderTargets)
+CRESULT InternalPixelShaderContext::ConfigureOutput(std::vector<PixelShaderOutputDesc>& renderTargets)
 {
 	UINT32 k;
 
@@ -236,7 +236,7 @@ CRESULT InternalPixelShaderInstance::ConfigureOutput(std::vector<PixelShaderOutp
 	return CE_OK;
 }
 
-CRESULT InternalPixelShaderInstance::ConfigureLocals()
+CRESULT InternalPixelShaderContext::ConfigureLocals()
 {
 	/*
 	Ceng::UINT32 localBufferSize = 0;
@@ -260,7 +260,7 @@ CRESULT InternalPixelShaderInstance::ConfigureLocals()
 }
 
 
-CRESULT InternalPixelShaderInstance::SetFragmentFormat(const std::vector<PixelShaderInputDesc>& inputSemantics,
+CRESULT InternalPixelShaderContext::SetFragmentFormat(const std::vector<PixelShaderInputDesc>& inputSemantics,
 	const std::vector<PixelShaderOutputDesc>& targetSemantics)
 {
 	UINT32 k, j;
@@ -310,7 +310,7 @@ CRESULT InternalPixelShaderInstance::SetFragmentFormat(const std::vector<PixelSh
 	return CE_OK;
 }
 
-CRESULT InternalPixelShaderInstance::SetRenderTargets(const std::vector<PixelShaderOutputDesc>& targetSemantics)
+CRESULT InternalPixelShaderContext::SetRenderTargets(const std::vector<PixelShaderOutputDesc>& targetSemantics)
 {
 	Ceng::UINT32 k, j;
 
@@ -370,7 +370,7 @@ _declspec(align(16)) const Ceng::FLOAT32 allOnes[4] = { 1.0f,1.0f,1.0f,1.0f };
 
 _declspec(align(16)) const Ceng::FLOAT32 colorScaleVec[4] = { 255.0f,255.0f,255.0f,255.0f };
 
-void InternalPixelShaderInstance::ShaderFunction(const FLOAT32* perspective, const FLOAT32* invertW,
+void InternalPixelShaderContext::ShaderFunction(const FLOAT32* perspective, const FLOAT32* invertW,
 	const Ceng::INT32 coverageIndex, const Ceng::INT32 threadId)
 {
 	// ***** Constant setup
@@ -467,7 +467,7 @@ void InternalPixelShaderInstance::ShaderFunction(const FLOAT32* perspective, con
 	OUT_TARGET0->Write(sample2d(diffuseTexUnit, uvDiffuse), coverageIndex);
 }
 
-CRESULT InternalPixelShaderInstance::ProcessQuads(Task_PixelShader* batch, const Ceng::INT32 threadId)
+CRESULT InternalPixelShaderContext::ProcessQuads(Task_PixelShader* batch, const Ceng::INT32 threadId)
 {
 	UINT32 k;
 
@@ -705,7 +705,7 @@ CRESULT InternalPixelShaderInstance::ProcessQuads(Task_PixelShader* batch, const
 	return CE_OK;
 }
 
-CRESULT InternalPixelShaderInstance::ProcessQuads(Experimental::Task_PixelShader* batch, const Ceng::INT32 threadId)
+CRESULT InternalPixelShaderContext::ProcessQuads(Experimental::Task_PixelShader* batch, const Ceng::INT32 threadId)
 {
 	UINT32 k;
 

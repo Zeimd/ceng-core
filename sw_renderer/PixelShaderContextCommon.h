@@ -17,7 +17,7 @@ namespace Ceng
 
 	class ShaderLinkInstance;
 
-	class PixelShaderInstanceCommon
+	class PixelShaderContextCommon
 	{
 	public:
 
@@ -39,11 +39,11 @@ namespace Ceng
 
 	public:
 
-		PixelShaderInstanceCommon() = delete;
+		PixelShaderContextCommon() = delete;
 
-		PixelShaderInstanceCommon(CR_PixelShader* shader);
+		PixelShaderContextCommon(CR_PixelShader* shader);
 
-		PixelShaderInstanceCommon(const PixelShaderInstanceCommon& source);
+		PixelShaderContextCommon(const PixelShaderContextCommon& source);
 
 		const CRESULT ConfigureUniforms(const std::vector<ShaderUniformDesc>& uniformList,
 			const Ceng::UINT32 bufferSize);

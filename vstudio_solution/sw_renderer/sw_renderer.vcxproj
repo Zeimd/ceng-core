@@ -220,9 +220,9 @@
     <ClInclude Include="..\..\sw_renderer\CyclicCounter.h" />
     <ClInclude Include="..\..\sw_renderer\extern-pshader.h" />
     <ClInclude Include="..\..\sw_renderer\future.h" />
-    <ClInclude Include="..\..\sw_renderer\internal-pshader-instance.h" />
+    <ClInclude Include="..\..\sw_renderer\internal-pshader-context.h" />
     <ClInclude Include="..\..\sw_renderer\internal-pshader.h" />
-    <ClInclude Include="..\..\sw_renderer\PixelShaderInstanceCommon.h" />
+    <ClInclude Include="..\..\sw_renderer\PixelShaderContextCommon.h" />
     <ClInclude Include="..\..\sw_renderer\pshader-util.h" />
     <ClInclude Include="..\..\sw_renderer\ShaderLinkInstance.h" />
     <ClInclude Include="..\..\sw_renderer\SimpleGroupingStage.h" />
@@ -240,7 +240,7 @@
     <ClInclude Include="..\..\sw_renderer\pipeline.h" />
     <ClInclude Include="..\..\sw_renderer\primitive-data.h" />
     <ClInclude Include="..\..\sw_renderer\pshader-input.h" />
-    <ClInclude Include="..\..\sw_renderer\pshader-instance.h" />
+    <ClInclude Include="..\..\sw_renderer\pshader-context.h" />
     <ClInclude Include="..\..\sw_renderer\pshader-output.h" />
     <ClInclude Include="..\..\sw_renderer\pshader-texture.h" />
     <ClInclude Include="..\..\sw_renderer\pshader-wrapper.h" />
@@ -302,9 +302,9 @@
     <ClCompile Include="..\..\sw_renderer\cr-uniform-mat4.cpp" />
     <ClCompile Include="..\..\sw_renderer\cr-uniform-uint.cpp" />
     <ClCompile Include="..\..\sw_renderer\extern-pshader.cpp" />
-    <ClCompile Include="..\..\sw_renderer\internal-pshader-instance.cpp" />
+    <ClCompile Include="..\..\sw_renderer\internal-pshader-context.cpp" />
     <ClCompile Include="..\..\sw_renderer\internal-pshader.cpp" />
-    <ClCompile Include="..\..\sw_renderer\PixelShaderInstanceCommon.cpp" />
+    <ClCompile Include="..\..\sw_renderer\PixelShaderContextCommon.cpp" />
     <ClCompile Include="..\..\sw_renderer\ShaderLinkInstance.cpp" />
     <ClCompile Include="..\..\sw_renderer\software-renderer.cpp" />
     <ClCompile Include="..\..\sw_renderer\cr-shader-const.cpp" />
@@ -326,7 +326,6 @@
     <ClCompile Include="..\..\sw_renderer\pipeline-stage.cpp" />
     <ClCompile Include="..\..\sw_renderer\pipeline.cpp" />
     <ClCompile Include="..\..\sw_renderer\pshader-input.cpp" />
-    <ClCompile Include="..\..\sw_renderer\pshader-instance.cpp" />
     <ClCompile Include="..\..\sw_renderer\pshader-output.cpp" />
     <ClCompile Include="..\..\sw_renderer\pshader-wrapper.cpp" />
     <ClCompile Include="..\..\sw_renderer\quad-format.cpp" />

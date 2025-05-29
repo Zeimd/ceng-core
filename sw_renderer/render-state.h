@@ -24,7 +24,7 @@
 
 #include "rtarget-data.h"
 
-#include "pshader-instance.h"
+#include "pshader-context.h"
 
 #include "clipper-state.h"
 #include "viewport-state.h"
@@ -48,7 +48,7 @@ namespace Ceng
 	class CR_QuadGenerator;
 
 	typedef std::shared_ptr<CR_VertexShaderInstance> VshaderInstancePtr;
-	typedef std::shared_ptr<PixelShaderInstance> PshaderInstancePtr;
+	typedef std::shared_ptr<PixelShaderContext> PshaderInstancePtr;
 
 	class RenderState
 	{
