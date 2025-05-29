@@ -44,10 +44,6 @@ namespace Ceng
 
 		PixelShaderDescriptor* desc;
 
-	protected:
-
-		BOOL compiled;
-
 	public:
 		ExternalPixelShader();
 
