@@ -15,12 +15,12 @@ ExternalPixelShaderContext::~ExternalPixelShaderContext()
 
 CRESULT ExternalPixelShaderContext::ConfigureInput(std::vector<PixelShaderInputDesc>& inputSemantics)
 {
-	return CE_OK;
+	return instance->ConfigureInput(&inputSemantics[0], inputSemantics.size());
 }
 
 CRESULT ExternalPixelShaderContext::ConfigureOutput(std::vector<PixelShaderOutputDesc>& renderTargets)
 {
-	return CE_OK;
+	return instance->ConfigureOutput(&renderTargets[0], renderTargets.size());
 }
 
 CRESULT ExternalPixelShaderContext::ConfigureLocals()
@@ -31,12 +31,13 @@ CRESULT ExternalPixelShaderContext::ConfigureLocals()
 CRESULT ExternalPixelShaderContext::SetFragmentFormat(const std::vector<PixelShaderInputDesc>& inputSemantics,
 	const std::vector<PixelShaderOutputDesc>& targetSemantics)
 {
-	return CE_OK;
+	return instance->SetFragmentFormat(&inputSemantics[0], inputSemantics.size(),
+		&targetSemantics[0], targetSemantics.size());
 }
 
 CRESULT ExternalPixelShaderContext::SetRenderTargets(const std::vector<PixelShaderOutputDesc>& targetSemantics)
 {
-	return CE_OK;
+	return instance->SetRenderTargets(&targetSemantics[0], targetSemantics.size());
 }
 
 CRESULT ExternalPixelShaderContext::ProcessQuads(Task_PixelShader* batch, const Ceng::INT32 threadId)
