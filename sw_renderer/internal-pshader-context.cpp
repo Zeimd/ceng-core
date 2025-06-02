@@ -16,6 +16,7 @@
 
 #include "pshader-types.h"
 #include "pshader-util.h"
+#include "quad-header.h"
 
 
 using namespace Ceng;

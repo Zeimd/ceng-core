@@ -17,7 +17,7 @@
 
 #include "render-task.h"
 
-#include "quad-format.h"
+#include "quad-header.h"
 
 namespace Ceng
 {

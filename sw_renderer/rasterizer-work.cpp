@@ -24,6 +24,8 @@
 
 #include "CyclicCounter.h"
 
+#include "quad-header.h"
+
 using namespace Ceng;
 
 const CRESULT CR_Rasterizer::Rasterize(std::shared_ptr<RasterizerBatch> &batch,

@@ -1,5 +1,7 @@
+
 #include "ShaderLinkInstance.h"
 
+#include "quad-header.h"
 #include "shader-link.h"
 #include "cr-pixel-shader.h"
 

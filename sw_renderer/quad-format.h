@@ -16,6 +16,8 @@
 
 #include "crender-base.h"
 
+#include "quad-variable.h"
+
 namespace Ceng
 {
 	struct CR_TriangleData;
@@ -23,71 +25,6 @@ namespace Ceng
 	class CR_FragmentFormat;
 	class CR_FloatFragment;
 	class CR_DoubleFragment;
-
-	/**
-	 * Quad format's fixed header.
-	 *
-	 * NOTE: Struct size must be divisible by 16
-	 */
-	struct alignas(16) CR_QuadHeader
-	{
-		/**
-		 * How many continuous horizontal quads.
-		 */
-		UINT32 chainLength;
-
-		/**
-		 * Screen location of the top-left corner.
-		 * Must be 8-byte aligned.
-		 */
-		UINT32 screenX;
-		UINT32 screenY;
-
-		UINT32 padding;
-
-		/**
-		 * Coverage values for up to 32 quads.
-		 */
-		UINT32 coverageMask[4];
-	};
-
-	class CR_QuadVariable
-	{
-	public:
-		Ceng::SHADER_SEMANTIC::value semantic;
-		Ceng::SHADER_DATATYPE::value format;
-
-		/**
-		 * Position within vertex shader output struct.
-		 */
-		UINT32 fragmentOffset;
-
-		/**
-		 * Position within quad struct.
-		 */
-		UINT32 quadOffset;
-
-		/**
-		 * Address for pixel stepping values
-		 */
-		UINT32 gradientOffset;
-
-		/**
-		 * For pixel shader input register optimization.
-		 */
-		UINT32 options;
-
-		CR_QuadVariable()
-		{
-			semantic = SHADER_SEMANTIC::FORMAT_END;
-			format = SHADER_DATATYPE::UNKNOWN;
-
-			fragmentOffset = 0;
-			quadOffset = 0;
-			gradientOffset = 0;
-			options = 0;
-		}
-	};
 
 	class CR_QuadFormat
 	{

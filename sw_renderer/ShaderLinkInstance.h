@@ -5,11 +5,15 @@
 
 #include <ceng/datatypes/aligned-buffer.h>
 
-#include "quad-format.h"
+#include <ceng/datatypes/return-val.h>
 
 namespace Ceng
 {
 	class CR_ShaderLink;
+
+	struct CR_QuadHeader;
+	class CR_FloatFragment;
+	class CR_DoubleFragment;
 
 	class ShaderLinkInstance
 	{
