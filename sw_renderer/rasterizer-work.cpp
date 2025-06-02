@@ -813,10 +813,6 @@ const CRESULT CR_Rasterizer::GenerateChain(Task_PixelShader *batch,
 	
 	CR_QuadHeader *headerPtr = &(batch->quadList)[batch->quadCount];
 
-	// Triangle index (used to read correct
-	// per-primitive constants)
-	headerPtr->triangle = batch->rasterizerBatch->triangle.get();
-
 	headerPtr->chainLength = (endQuadX-startQuadX) >> 1;
 
 	headerPtr->screenX = startQuadX;
@@ -1559,10 +1555,6 @@ const CRESULT CR_Rasterizer::GenerateChain(Experimental::Task_PixelShader* batch
 	batch->quadList.PushBack(CR_QuadHeader());
 
 	CR_QuadHeader* headerPtr = &(batch->quadList)[batch->quadCount];
-
-	// Triangle index (used to read correct
-	// per-primitive constants)
-	headerPtr->triangle = batch->rasterizerBatch->triangle.get();
 
 	headerPtr->chainLength = (endQuadX - startQuadX) >> 1;
 

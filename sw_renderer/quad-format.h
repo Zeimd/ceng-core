@@ -29,14 +29,8 @@ namespace Ceng
 	 *
 	 * NOTE: Struct size must be divisible by 16
 	 */
-	struct CR_QuadHeader
+	struct alignas(16) CR_QuadHeader
 	{
-		/**
-		 * Selects correct constants and variable
-		 * deltas.
-		 */
-		CR_TriangleData *triangle;
-
 		/**
 		 * How many continuous horizontal quads.
 		 */
@@ -48,6 +42,8 @@ namespace Ceng
 		 */
 		UINT32 screenX;
 		UINT32 screenY;
+
+		UINT32 padding;
 
 		/**
 		 * Coverage values for up to 32 quads.
