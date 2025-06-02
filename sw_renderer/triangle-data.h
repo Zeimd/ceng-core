@@ -60,6 +60,83 @@ namespace Ceng
 		INT32 toNextRow[4];
 	};
 
+	class CR_FloatFragment
+	{
+	public:
+
+		VectorF4 startValue;
+		VectorF4 step_dx;
+		VectorF4 step_dy;
+
+		CR_FloatFragment()
+		{
+			startValue = VectorF4(0, 0, 0, 0);
+			step_dx = VectorF4(0, 0, 0, 0);
+			step_dy = VectorF4(0, 0, 0, 0);
+		}
+	};
+
+	class CR_FloatPixelStep
+	{
+	public:
+		VectorF4 step_dx; // += dx
+		VectorF4 step_ndx_dy; // += dy - dx
+
+		CR_FloatPixelStep()
+		{
+			step_dx = VectorF4(0, 0, 0, 0);
+			step_ndx_dy = VectorF4(0, 0, 0, 0);
+		}
+	};
+
+	class CR_DoubleFragment
+	{
+	public:
+		VectorD2 startValue;
+		VectorD2 step_dx;
+		VectorD2 step_dy;
+
+		CR_DoubleFragment()
+		{
+			startValue = VectorD2(0, 0);
+			step_dx = VectorD2(0, 0);
+			step_dy = VectorD2(0, 0);
+		}
+	};
+
+	class CR_DoublePixelStep
+	{
+	public:
+		VectorD2 step_dx; // += dx
+		VectorD2 step_ndx_dy; // += dy - dx
+
+		CR_DoublePixelStep()
+		{
+			step_dx = VectorD2(0, 0);
+			step_ndx_dy = VectorD2(0, 0);
+		}
+	};
+
+	class CR_FragmentData
+	{
+	public:
+		CR_FloatFragment* floatBlock;
+		CR_DoubleFragment* doubleBlock;
+
+		UINT8* variableStep;
+
+		INT32* vertexConst;
+
+		CR_FragmentData()
+		{
+			floatBlock = nullptr;
+			doubleBlock = nullptr;
+
+			variableStep = nullptr;
+			vertexConst = nullptr;
+		}
+	};
+
 	struct alignas(16) CR_TriangleData 
 	{
 		VectorF4 packedZ;
