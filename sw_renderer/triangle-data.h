@@ -60,7 +60,7 @@ namespace Ceng
 		INT32 toNextRow[4];
 	};
 
-	struct Base_TriangleData
+	struct alignas(16) CR_TriangleData 
 	{
 		VectorF4 packedZ;
 		VectorF4 packedZ_dx;
@@ -98,11 +98,6 @@ namespace Ceng
 		FLOAT32 gradientDiv;
 
 		CR_FragmentData fragment;
-	};
-
-	struct CR_TriangleData : public Base_TriangleData
-	{
-		UINT8 padding[ (( sizeof(Base_TriangleData) + 15) & ~15) - sizeof(Base_TriangleData)];
 	};
 };
 
