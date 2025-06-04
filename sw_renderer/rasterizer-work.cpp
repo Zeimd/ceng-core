@@ -24,7 +24,7 @@
 
 #include "CyclicCounter.h"
 
-#include "quad-header.h"
+#include "pshader-quad-batch.h"
 
 using namespace Ceng;
 
@@ -811,9 +811,9 @@ const CRESULT CR_Rasterizer::GenerateChain(Task_PixelShader *batch,
 
 	// Write quad header
 
-	batch->quadList.PushBack(CR_QuadHeader());
+	batch->quadList.PushBack(SWRender::PixelShaderQuadBatch());
 	
-	CR_QuadHeader *headerPtr = &(batch->quadList)[batch->quadCount];
+	SWRender::PixelShaderQuadBatch* headerPtr = &(batch->quadList)[batch->quadCount];
 
 	headerPtr->chainLength = (endQuadX-startQuadX) >> 1;
 
@@ -1554,9 +1554,9 @@ const CRESULT CR_Rasterizer::GenerateChain(Experimental::Task_PixelShader* batch
 
 	// Write quad header
 
-	batch->quadList.PushBack(CR_QuadHeader());
+	batch->quadList.PushBack(SWRender::PixelShaderQuadBatch());
 
-	CR_QuadHeader* headerPtr = &(batch->quadList)[batch->quadCount];
+	SWRender::PixelShaderQuadBatch* headerPtr = &(batch->quadList)[batch->quadCount];
 
 	headerPtr->chainLength = (endQuadX - startQuadX) >> 1;
 

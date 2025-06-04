@@ -16,7 +16,7 @@
 
 #include "pshader-types.h"
 #include "pshader-util.h"
-#include "quad-header.h"
+#include "pshader-quad-batch.h"
 
 
 using namespace Ceng;
@@ -507,7 +507,7 @@ CRESULT InternalPixelShaderContext::ProcessQuads(Task_PixelShader* batch, const 
 
 	for (k = 0; k < batch->quadCount; k++)
 	{
-		CR_QuadHeader* quad = &batch->quadList[k];
+		SWRender::PixelShaderQuadBatch* quad = &batch->quadList[k];
 
 		stepBufferPtr = (POINTER)(triangle->fragment.variableStep);
 
@@ -745,7 +745,7 @@ CRESULT InternalPixelShaderContext::ProcessQuads(Experimental::Task_PixelShader*
 
 	for (k = 0; k < batch->quadCount; k++)
 	{
-		CR_QuadHeader* quad = &batch->quadList[k];
+		SWRender::PixelShaderQuadBatch* quad = &batch->quadList[k];
 
 		stepBufferPtr = (POINTER)(triangle->fragment.variableStep);
 

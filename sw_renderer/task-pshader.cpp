@@ -24,7 +24,7 @@ Task_PixelShader::~Task_PixelShader()
 Task_PixelShader::Task_PixelShader(std::shared_ptr<RasterizerBatch> &rasterizerBatch)
 	: rasterizerBatch(rasterizerBatch)
 {
-	quadList = LeafVector<CR_QuadHeader>(128,64);
+	quadList = LeafVector<SWRender::PixelShaderQuadBatch>(128,64);
 
 	quadCount = 0;
 }
@@ -62,7 +62,7 @@ Experimental::Task_PixelShader::~Task_PixelShader()
 Experimental::Task_PixelShader::Task_PixelShader(std::shared_ptr<RasterizerBatch>& rasterizerBatch)
 	: rasterizerBatch(rasterizerBatch)
 {
-	quadList = LeafVector<CR_QuadHeader>(128, 64);
+	quadList = LeafVector<SWRender::PixelShaderQuadBatch>(128, 64);
 
 	quadCount = 0;
 }

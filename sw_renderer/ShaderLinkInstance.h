@@ -9,9 +9,13 @@
 
 namespace Ceng
 {
+	namespace SWRender
+	{
+		struct PixelShaderQuadBatch;
+	}
+
 	class CR_ShaderLink;
 
-	struct CR_QuadHeader;
 	class CR_FloatFragment;
 	class CR_DoubleFragment;
 
@@ -48,7 +52,7 @@ namespace Ceng
 
 		AlignedBuffer<Ceng::UINT8>* GetShaderStepBuffer();
 
-		AlignedBuffer<CR_QuadHeader>* GetQuadCache(const Ceng::UINT32 maxQuads);
+		AlignedBuffer<SWRender::PixelShaderQuadBatch>* GetQuadCache(const Ceng::UINT32 maxQuads);
 
 		AlignedBuffer<Ceng::UINT8>* GetClipperCache(const Ceng::UINT32 batchSize);
 

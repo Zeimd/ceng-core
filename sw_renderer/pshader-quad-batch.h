@@ -1,18 +1,18 @@
 #pragma once
 
-#ifndef CENG_SWR_QUAD_HEADER_H
-#define CENG_SWR_QUAD_HEADER_H
+#ifndef CENG_SWR_PSHADER_QUAD_BATCH_H
+#define CENG_SWR_PSHADER_QUAD_BATCH_H
 
 #include <ceng/datatypes/basic-types.h>
 
-namespace Ceng
+namespace Ceng::SWRender
 {
 	/**
 	 * Quad format's fixed header.
 	 *
 	 * NOTE: Struct size must be divisible by 16
 	 */
-	struct alignas(16) CR_QuadHeader
+	struct alignas(16) PixelShaderQuadBatch
 	{
 		/**
 		 * How many continuous horizontal quads.

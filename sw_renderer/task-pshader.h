@@ -17,7 +17,7 @@
 
 #include "render-task.h"
 
-#include "quad-header.h"
+#include "pshader-quad-batch.h"
 
 namespace Ceng
 {
@@ -29,7 +29,7 @@ namespace Ceng
 
 		std::shared_ptr<RasterizerBatch> rasterizerBatch;
 
-		LeafVector<CR_QuadHeader> quadList;
+		LeafVector<SWRender::PixelShaderQuadBatch> quadList;
 
 		Ceng::UINT32 quadCount;
 
@@ -56,7 +56,7 @@ namespace Ceng::Experimental
 
 		std::shared_ptr<RasterizerBatch> rasterizerBatch;
 
-		LeafVector<CR_QuadHeader> quadList;
+		LeafVector<SWRender::PixelShaderQuadBatch> quadList;
 
 		Ceng::UINT32 quadCount;
 		

@@ -1,7 +1,7 @@
 
 #include "ShaderLinkInstance.h"
 
-#include "quad-header.h"
+#include "pshader-quad-batch.h"
 #include "shader-link.h"
 #include "cr-pixel-shader.h"
 
@@ -90,7 +90,7 @@ CRESULT ShaderLinkInstance::SyncQuadCache()
 {
 	// TODO: Pad width,height to nearest power of two
 
-	quadCacheSize = (maxViewWidth >> 1) * (maxViewHeight >> 1) * sizeof(CR_QuadHeader);
+	quadCacheSize = (maxViewWidth >> 1) * (maxViewHeight >> 1) * sizeof(SWRender::PixelShaderQuadBatch);
 
 	return CE_OK;
 }
@@ -120,7 +120,7 @@ AlignedBuffer<CR_DoubleFragment>* ShaderLinkInstance::GetDoubleVariableBuffer()
 	return new AlignedBuffer<CR_DoubleFragment>(link->quadFormat.doubleBlocks, link->cacheLineSize);
 }
 
-AlignedBuffer<CR_QuadHeader>* ShaderLinkInstance::GetQuadCache(const Ceng::UINT32 maxQuadCount)
+AlignedBuffer<SWRender::PixelShaderQuadBatch>* ShaderLinkInstance::GetQuadCache(const Ceng::UINT32 maxQuadCount)
 {
-	return new AlignedBuffer<CR_QuadHeader>(maxQuadCount * sizeof(CR_QuadHeader), link->cacheLineSize);
+	return new AlignedBuffer<SWRender::PixelShaderQuadBatch>(maxQuadCount * sizeof(SWRender::PixelShaderQuadBatch), link->cacheLineSize);
 }

@@ -318,7 +318,7 @@
     <ClInclude Include="..\..\sw_renderer\quad-variable.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sw_renderer\quad-header.h">
+    <ClInclude Include="..\..\sw_renderer\pshader-quad-batch.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
   </ItemGroup>
