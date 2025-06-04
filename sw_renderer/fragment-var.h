@@ -6,15 +6,15 @@
 *
 *****************************************************************************/
 
-#ifndef _CENG_CR_FRAGMENT_VAR_H
-#define _CENG_CR_FRAGMENT_VAR_H
+#pragma once
+
+#ifndef CENG_SWRENDER_FRAGMENT_VAR_H
+#define CENG_SWRENDER_FRAGMENT_VAR_H
+
+#include <ceng/datatypes/basic-types.h>
 
 #include <ceng/enums/shader-datatype.h>
 #include <ceng/enums/shader-semantic.h>
-
-#include "crender-base.h"
-
-#include <ceng/math/ce-vector.h>
 
 namespace Ceng
 {
