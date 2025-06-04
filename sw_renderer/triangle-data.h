@@ -17,7 +17,7 @@
 
 #include <ceng/datatypes/basic-types.h>
 
-#include "pshader-triangle-data.h"
+#include <ceng/datatypes/pshader-triangle-data.h>
 
 namespace Ceng
 {

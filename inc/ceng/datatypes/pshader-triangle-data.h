@@ -3,7 +3,7 @@
 #ifndef CENG_SWR_PSHADER_TRIANGLE_DATA_H
 #define CENG_SWR_PSHADER_TRIANGLE_DATA_H
 
-#include <ceng/math/ce-vector.h>
+#include "../math/ce-vector.h"
 
 namespace Ceng::SWRender
 {

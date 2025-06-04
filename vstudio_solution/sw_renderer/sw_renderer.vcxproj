@@ -224,7 +224,6 @@
     <ClInclude Include="..\..\sw_renderer\internal-pshader-context.h" />
     <ClInclude Include="..\..\sw_renderer\internal-pshader.h" />
     <ClInclude Include="..\..\sw_renderer\PixelShaderContextCommon.h" />
-    <ClInclude Include="..\..\sw_renderer\pshader-triangle-data.h" />
     <ClInclude Include="..\..\sw_renderer\pshader-util.h" />
     <ClInclude Include="..\..\sw_renderer\quad-variable.h" />
     <ClInclude Include="..\..\sw_renderer\ShaderLinkInstance.h" />
