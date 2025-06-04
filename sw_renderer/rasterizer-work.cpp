@@ -166,11 +166,11 @@ const Ceng::INT32 CR_Rasterizer::RasterizeTriangle(std::vector<Task_PixelShader*
 									temp_packedZ_quad_dx,
 									temp_packedZ_quad_dy;
 
-	temp_packedZ_dx = triangle->packedZ_dx;
-	temp_packedZ_dy = triangle->packedZ_dy;
+	temp_packedZ_dx = triangle->pshaderData.packedZ_dx;
+	temp_packedZ_dy = triangle->pshaderData.packedZ_dy;
 
 	temp_packedZ_quad_dx = temp_packedZ_dx*2;
-	temp_packedZ_quad_dy = triangle->packedZ_quad_dy;
+	temp_packedZ_quad_dy = triangle->pshaderData.packedZ_quad_dy;
 
 	UINT64 depthMask;
 	UINT64 tileMask = 0;
@@ -457,7 +457,7 @@ const Ceng::INT32 CR_Rasterizer::RasterizeTriangle(std::vector<Task_PixelShader*
 
 			// Step z , 1/w to top-left corner of the tile
 
-			temp_packedZ = triangle->packedZ;
+			temp_packedZ = triangle->pshaderData.packedZ;
 			temp_packedZ += temp_packedZ_dx * FLOAT32(j);
 			temp_packedZ += temp_packedZ_dy * FLOAT32(k);
 
@@ -909,11 +909,11 @@ const Ceng::INT32 CR_Rasterizer::RasterizeTriangle(std::vector<Experimental::Tas
 		temp_packedZ_quad_dx,
 		temp_packedZ_quad_dy;
 
-	temp_packedZ_dx = triangle->packedZ_dx;
-	temp_packedZ_dy = triangle->packedZ_dy;
+	temp_packedZ_dx = triangle->pshaderData.packedZ_dx;
+	temp_packedZ_dy = triangle->pshaderData.packedZ_dy;
 
 	temp_packedZ_quad_dx = temp_packedZ_dx * 2;
-	temp_packedZ_quad_dy = triangle->packedZ_quad_dy;
+	temp_packedZ_quad_dy = triangle->pshaderData.packedZ_quad_dy;
 
 	UINT64 depthMask;
 	UINT64 tileMask = 0;
@@ -1200,7 +1200,7 @@ const Ceng::INT32 CR_Rasterizer::RasterizeTriangle(std::vector<Experimental::Tas
 
 			// Step z , 1/w to top-left corner of the tile
 
-			temp_packedZ = triangle->packedZ;
+			temp_packedZ = triangle->pshaderData.packedZ;
 			temp_packedZ += temp_packedZ_dx * FLOAT32(j);
 			temp_packedZ += temp_packedZ_dy * FLOAT32(k);
 

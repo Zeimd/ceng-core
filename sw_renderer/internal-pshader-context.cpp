@@ -509,7 +509,7 @@ CRESULT InternalPixelShaderContext::ProcessQuads(Task_PixelShader* batch, const 
 	{
 		SWRender::PixelShaderQuadBatch* quad = &batch->quadList[k];
 
-		stepBufferPtr = (POINTER)(triangle->fragment.variableStep);
+		stepBufferPtr = (POINTER)(triangle->pshaderData.fragment.variableStep);
 
 		UINT8* localSteps = (UINT8*)stepBufferPtr;
 
@@ -519,16 +519,16 @@ CRESULT InternalPixelShaderContext::ProcessQuads(Task_PixelShader* batch, const 
 		UINT32 floatBlockSize = common->link->link->quadFormat.floatBlocks;
 		UINT32 doubleBlockSize = common->link->link->quadFormat.doubleBlocks;
 
-		CR_FloatFragment* floatParam = (CR_FloatFragment*)triangle->fragment.floatBlock;
-		CR_DoubleFragment* doubleParam = (CR_DoubleFragment*)triangle->fragment.doubleBlock;
+		CR_FloatFragment* floatParam = (CR_FloatFragment*)triangle->pshaderData.fragment.floatBlock;
+		CR_DoubleFragment* doubleParam = (CR_DoubleFragment*)triangle->pshaderData.fragment.doubleBlock;
 
 		FLOAT32 screenX = FLOAT32(quad->screenX);
 		FLOAT32 screenY = FLOAT32(quad->screenY);
 
-		packedW = triangle->packedW;
+		packedW = triangle->pshaderData.packedW;
 
-		packedW += triangle->packedW_dx * (screenX);
-		packedW += triangle->packedW_dy * (screenY);
+		packedW += triangle->pshaderData.packedW_dx * (screenX);
+		packedW += triangle->pshaderData.packedW_dy * (screenY);
 
 		VectorF4* destF4 = (VectorF4*)&quadBuffer[quadFloatOffset];
 
@@ -586,7 +586,7 @@ CRESULT InternalPixelShaderContext::ProcessQuads(Task_PixelShader* batch, const 
 
 		__m128 allOnesVec = _mm_load_ps((float*)allOnes);
 
-		__m128 quadStepVec = _mm_loadu_ps((float*)&triangle->packedW_quad_dx);
+		__m128 quadStepVec = _mm_loadu_ps((float*)&triangle->pshaderData.packedW_quad_dx);
 
 		__m128 invertVecW = _mm_load_ps((float*)invertW);
 
@@ -747,7 +747,7 @@ CRESULT InternalPixelShaderContext::ProcessQuads(Experimental::Task_PixelShader*
 	{
 		SWRender::PixelShaderQuadBatch* quad = &batch->quadList[k];
 
-		stepBufferPtr = (POINTER)(triangle->fragment.variableStep);
+		stepBufferPtr = (POINTER)(triangle->pshaderData.fragment.variableStep);
 
 		UINT8* localSteps = (UINT8*)stepBufferPtr;
 
@@ -757,16 +757,16 @@ CRESULT InternalPixelShaderContext::ProcessQuads(Experimental::Task_PixelShader*
 		UINT32 floatBlockSize = common->link->link->quadFormat.floatBlocks;
 		UINT32 doubleBlockSize = common->link->link->quadFormat.doubleBlocks;
 
-		CR_FloatFragment* floatParam = (CR_FloatFragment*)triangle->fragment.floatBlock;
-		CR_DoubleFragment* doubleParam = (CR_DoubleFragment*)triangle->fragment.doubleBlock;
+		CR_FloatFragment* floatParam = (CR_FloatFragment*)triangle->pshaderData.fragment.floatBlock;
+		CR_DoubleFragment* doubleParam = (CR_DoubleFragment*)triangle->pshaderData.fragment.doubleBlock;
 
 		FLOAT32 screenX = FLOAT32(quad->screenX);
 		FLOAT32 screenY = FLOAT32(quad->screenY);
 
-		packedW = triangle->packedW;
+		packedW = triangle->pshaderData.packedW;
 
-		packedW += triangle->packedW_dx * (screenX);
-		packedW += triangle->packedW_dy * (screenY);
+		packedW += triangle->pshaderData.packedW_dx * (screenX);
+		packedW += triangle->pshaderData.packedW_dy * (screenY);
 
 		VectorF4* destF4 = (VectorF4*)&quadBuffer[quadFloatOffset];
 
@@ -824,7 +824,7 @@ CRESULT InternalPixelShaderContext::ProcessQuads(Experimental::Task_PixelShader*
 
 		__m128 allOnesVec = _mm_load_ps((float*)allOnes);
 
-		__m128 quadStepVec = _mm_loadu_ps((float*)&triangle->packedW_quad_dx);
+		__m128 quadStepVec = _mm_loadu_ps((float*)&triangle->pshaderData.packedW_quad_dx);
 
 		__m128 invertVecW = _mm_load_ps((float*)invertW);
 

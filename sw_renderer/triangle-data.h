@@ -8,12 +8,14 @@
 *
 *****************************************************************************/
 
+#pragma once
+
 #ifndef _CENG_CR_TRIANGLE_DATA_H
 #define _CENG_CR_TRIANGLE_DATA_H
 
-#include "crender-base.h"
+#include <ceng/math/ce-vector.h>
 
-#include "fragment-var.h"
+#include <ceng/datatypes/basic-types.h>
 
 namespace Ceng
 {
@@ -137,7 +139,7 @@ namespace Ceng
 		}
 	};
 
-	struct alignas(16) CR_TriangleData 
+	struct alignas(16) PixelShaderTriangleData
 	{
 		VectorF4 packedZ;
 		VectorF4 packedZ_dx;
@@ -149,8 +151,15 @@ namespace Ceng
 		VectorF4 packedW_dx;
 		VectorF4 packedW_dy;
 		VectorF4 packedW_quad_dx;
-		VectorF4 packedW_quad_dy;	
+		VectorF4 packedW_quad_dy;
 
+		FLOAT32 gradientDiv;
+
+		CR_FragmentData fragment;
+	};
+
+	struct alignas(16) CR_TriangleData 
+	{
 		/**
 		 * Steps edge equations of a quad 2 pixels right.
 		 */
@@ -172,9 +181,7 @@ namespace Ceng
 		INT32 minPixelStepX[4];
 		INT32 minPixelStepY[4];
 	
-		FLOAT32 gradientDiv;
-
-		CR_FragmentData fragment;
+		PixelShaderTriangleData pshaderData;
 	};
 };
 

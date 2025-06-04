@@ -337,7 +337,7 @@ const CRESULT CR_Rasterizer::TriangleSetup(CR_PrimitiveData &primitive,
 
 	std::shared_ptr<CR_TriangleData> triangle = std::make_shared<CR_TriangleData>();
 
-	triangle->gradientDiv = gradientDiv;
+	triangle->pshaderData.gradientDiv = gradientDiv;
 
 	for(Ceng::UINT32 k=0; k < outputBatch.size(); k++)
 	{
@@ -711,30 +711,30 @@ const CRESULT CR_Rasterizer::TriangleSetup(CR_PrimitiveData &primitive,
 	// Pseudo-depth value at (xMin,yMin)
 	float_start = position[0].z + initialStepX * float_dx +	initialStepY * float_dy;
 
-	triangle->packedZ.x = float_start;
-	triangle->packedZ.y = float_start + float_dx;
-	triangle->packedZ.z = float_start + float_dy;
-	triangle->packedZ.w = float_start + float_dx + float_dy;
+	triangle->pshaderData.packedZ.x = float_start;
+	triangle->pshaderData.packedZ.y = float_start + float_dx;
+	triangle->pshaderData.packedZ.z = float_start + float_dy;
+	triangle->pshaderData.packedZ.w = float_start + float_dx + float_dy;
 
-	triangle->packedZ_dx.x = float_dx;
-	triangle->packedZ_dx.y = float_dx;
-	triangle->packedZ_dx.z = float_dx;
-	triangle->packedZ_dx.w = float_dx;
+	triangle->pshaderData.packedZ_dx.x = float_dx;
+	triangle->pshaderData.packedZ_dx.y = float_dx;
+	triangle->pshaderData.packedZ_dx.z = float_dx;
+	triangle->pshaderData.packedZ_dx.w = float_dx;
 
-	triangle->packedZ_quad_dx.x = 2*float_dx;
-	triangle->packedZ_quad_dx.y = 2*float_dx;
-	triangle->packedZ_quad_dx.z = 2*float_dx;
-	triangle->packedZ_quad_dx.w = 2*float_dx;
+	triangle->pshaderData.packedZ_quad_dx.x = 2*float_dx;
+	triangle->pshaderData.packedZ_quad_dx.y = 2*float_dx;
+	triangle->pshaderData.packedZ_quad_dx.z = 2*float_dx;
+	triangle->pshaderData.packedZ_quad_dx.w = 2*float_dx;
 
-	triangle->packedZ_dy.x = float_dy;
-	triangle->packedZ_dy.y = float_dy;
-	triangle->packedZ_dy.z = float_dy;
-	triangle->packedZ_dy.w = float_dy;
+	triangle->pshaderData.packedZ_dy.x = float_dy;
+	triangle->pshaderData.packedZ_dy.y = float_dy;
+	triangle->pshaderData.packedZ_dy.z = float_dy;
+	triangle->pshaderData.packedZ_dy.w = float_dy;
 
-	triangle->packedZ_quad_dy.x = -(TILE_SIZE-2)*float_dx + 2*float_dy;
-	triangle->packedZ_quad_dy.y = -(TILE_SIZE-2)*float_dx + 2*float_dy;
-	triangle->packedZ_quad_dy.z = -(TILE_SIZE-2)*float_dx + 2*float_dy;
-	triangle->packedZ_quad_dy.w = -(TILE_SIZE-2)*float_dx + 2*float_dy;
+	triangle->pshaderData.packedZ_quad_dy.x = -(TILE_SIZE-2)*float_dx + 2*float_dy;
+	triangle->pshaderData.packedZ_quad_dy.y = -(TILE_SIZE-2)*float_dx + 2*float_dy;
+	triangle->pshaderData.packedZ_quad_dy.z = -(TILE_SIZE-2)*float_dx + 2*float_dy;
+	triangle->pshaderData.packedZ_quad_dy.w = -(TILE_SIZE-2)*float_dx + 2*float_dy;
 
 	//***************************************************
 	// Perspective correction term (1/w) interpolant
@@ -752,30 +752,30 @@ const CRESULT CR_Rasterizer::TriangleSetup(CR_PrimitiveData &primitive,
 
 	float_start = position[0].w + initialStepX * float_dx + initialStepY * float_dy;
 
-	triangle->packedW.x = float_start;
-	triangle->packedW.y = float_start + float_dx;
-	triangle->packedW.z = float_start + float_dy;
-	triangle->packedW.w = float_start + float_dx + float_dy;
+	triangle->pshaderData.packedW.x = float_start;
+	triangle->pshaderData.packedW.y = float_start + float_dx;
+	triangle->pshaderData.packedW.z = float_start + float_dy;
+	triangle->pshaderData.packedW.w = float_start + float_dx + float_dy;
 
-	triangle->packedW_dx.x = float_dx;
-	triangle->packedW_dx.y = float_dx;
-	triangle->packedW_dx.z = float_dx;
-	triangle->packedW_dx.w = float_dx;
+	triangle->pshaderData.packedW_dx.x = float_dx;
+	triangle->pshaderData.packedW_dx.y = float_dx;
+	triangle->pshaderData.packedW_dx.z = float_dx;
+	triangle->pshaderData.packedW_dx.w = float_dx;
 
-	triangle->packedW_quad_dx.x = 2*float_dx;
-	triangle->packedW_quad_dx.y = 2*float_dx;
-	triangle->packedW_quad_dx.z = 2*float_dx;
-	triangle->packedW_quad_dx.w = 2*float_dx;
+	triangle->pshaderData.packedW_quad_dx.x = 2*float_dx;
+	triangle->pshaderData.packedW_quad_dx.y = 2*float_dx;
+	triangle->pshaderData.packedW_quad_dx.z = 2*float_dx;
+	triangle->pshaderData.packedW_quad_dx.w = 2*float_dx;
 
-	triangle->packedW_dy.x = float_dy;
-	triangle->packedW_dy.y = float_dy;
-	triangle->packedW_dy.z = float_dy;
-	triangle->packedW_dy.w = float_dy;
+	triangle->pshaderData.packedW_dy.x = float_dy;
+	triangle->pshaderData.packedW_dy.y = float_dy;
+	triangle->pshaderData.packedW_dy.z = float_dy;
+	triangle->pshaderData.packedW_dy.w = float_dy;
 
-	triangle->packedW_quad_dy.x = -(TILE_SIZE-2)*float_dx + 2*float_dy;
-	triangle->packedW_quad_dy.y = -(TILE_SIZE-2)*float_dx + 2*float_dy;
-	triangle->packedW_quad_dy.z = -(TILE_SIZE-2)*float_dx + 2*float_dy;
-	triangle->packedW_quad_dy.w = -(TILE_SIZE-2)*float_dx + 2*float_dy;
+	triangle->pshaderData.packedW_quad_dy.x = -(TILE_SIZE-2)*float_dx + 2*float_dy;
+	triangle->pshaderData.packedW_quad_dy.y = -(TILE_SIZE-2)*float_dx + 2*float_dy;
+	triangle->pshaderData.packedW_quad_dy.z = -(TILE_SIZE-2)*float_dx + 2*float_dy;
+	triangle->pshaderData.packedW_quad_dy.w = -(TILE_SIZE-2)*float_dx + 2*float_dy;
 	
 	//*********************************************
 	// Generate proto-quad
@@ -820,10 +820,10 @@ const CRESULT CR_Rasterizer::TriangleSetup(CR_PrimitiveData &primitive,
 												&(*doubleVariables)[0],
 												&(*shaderSteps)[0]);
 											
-	triangle->fragment.floatBlock = *floatVariables;
-	triangle->fragment.doubleBlock = *doubleVariables;
-	triangle->fragment.variableStep = *shaderSteps;
-	triangle->fragment.vertexConst = nullptr;
+	triangle->pshaderData.fragment.floatBlock = *floatVariables;
+	triangle->pshaderData.fragment.doubleBlock = *doubleVariables;
+	triangle->pshaderData.fragment.variableStep = *shaderSteps;
+	triangle->pshaderData.fragment.vertexConst = nullptr;
 
 	for(Ceng::UINT32 k=0; k < outputBatch.size(); k++)
 	{
