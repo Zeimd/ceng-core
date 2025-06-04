@@ -519,8 +519,8 @@ CRESULT InternalPixelShaderContext::ProcessQuads(Task_PixelShader* batch, const 
 		UINT32 floatBlockSize = common->link->link->quadFormat.floatBlocks;
 		UINT32 doubleBlockSize = common->link->link->quadFormat.doubleBlocks;
 
-		CR_FloatFragment* floatParam = (CR_FloatFragment*)triangle->pshaderData.fragment.floatBlock;
-		CR_DoubleFragment* doubleParam = (CR_DoubleFragment*)triangle->pshaderData.fragment.doubleBlock;
+		SWRender::CR_FloatFragment* floatParam = (SWRender::CR_FloatFragment*)triangle->pshaderData.fragment.floatBlock;
+		SWRender::CR_DoubleFragment* doubleParam = (SWRender::CR_DoubleFragment*)triangle->pshaderData.fragment.doubleBlock;
 
 		FLOAT32 screenX = FLOAT32(quad->screenX);
 		FLOAT32 screenY = FLOAT32(quad->screenY);
@@ -757,8 +757,8 @@ CRESULT InternalPixelShaderContext::ProcessQuads(Experimental::Task_PixelShader*
 		UINT32 floatBlockSize = common->link->link->quadFormat.floatBlocks;
 		UINT32 doubleBlockSize = common->link->link->quadFormat.doubleBlocks;
 
-		CR_FloatFragment* floatParam = (CR_FloatFragment*)triangle->pshaderData.fragment.floatBlock;
-		CR_DoubleFragment* doubleParam = (CR_DoubleFragment*)triangle->pshaderData.fragment.doubleBlock;
+		SWRender::CR_FloatFragment* floatParam = (SWRender::CR_FloatFragment*)triangle->pshaderData.fragment.floatBlock;
+		SWRender::CR_DoubleFragment* doubleParam = (SWRender::CR_DoubleFragment*)triangle->pshaderData.fragment.doubleBlock;
 
 		FLOAT32 screenX = FLOAT32(quad->screenX);
 		FLOAT32 screenY = FLOAT32(quad->screenY);

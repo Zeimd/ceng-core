@@ -17,6 +17,8 @@
 
 #include <ceng/datatypes/basic-types.h>
 
+#include "pshader-triangle-data.h"
+
 namespace Ceng
 {
 	struct CR_QuadEdges
@@ -62,102 +64,6 @@ namespace Ceng
 		INT32 toNextRow[4];
 	};
 
-	class CR_FloatFragment
-	{
-	public:
-
-		VectorF4 startValue;
-		VectorF4 step_dx;
-		VectorF4 step_dy;
-
-		CR_FloatFragment()
-		{
-			startValue = VectorF4(0, 0, 0, 0);
-			step_dx = VectorF4(0, 0, 0, 0);
-			step_dy = VectorF4(0, 0, 0, 0);
-		}
-	};
-
-	class CR_FloatPixelStep
-	{
-	public:
-		VectorF4 step_dx; // += dx
-		VectorF4 step_ndx_dy; // += dy - dx
-
-		CR_FloatPixelStep()
-		{
-			step_dx = VectorF4(0, 0, 0, 0);
-			step_ndx_dy = VectorF4(0, 0, 0, 0);
-		}
-	};
-
-	class CR_DoubleFragment
-	{
-	public:
-		VectorD2 startValue;
-		VectorD2 step_dx;
-		VectorD2 step_dy;
-
-		CR_DoubleFragment()
-		{
-			startValue = VectorD2(0, 0);
-			step_dx = VectorD2(0, 0);
-			step_dy = VectorD2(0, 0);
-		}
-	};
-
-	class CR_DoublePixelStep
-	{
-	public:
-		VectorD2 step_dx; // += dx
-		VectorD2 step_ndx_dy; // += dy - dx
-
-		CR_DoublePixelStep()
-		{
-			step_dx = VectorD2(0, 0);
-			step_ndx_dy = VectorD2(0, 0);
-		}
-	};
-
-	class CR_FragmentData
-	{
-	public:
-		CR_FloatFragment* floatBlock;
-		CR_DoubleFragment* doubleBlock;
-
-		UINT8* variableStep;
-
-		INT32* vertexConst;
-
-		CR_FragmentData()
-		{
-			floatBlock = nullptr;
-			doubleBlock = nullptr;
-
-			variableStep = nullptr;
-			vertexConst = nullptr;
-		}
-	};
-
-	struct alignas(16) PixelShaderTriangleData
-	{
-		VectorF4 packedZ;
-		VectorF4 packedZ_dx;
-		VectorF4 packedZ_dy;
-		VectorF4 packedZ_quad_dx;
-		VectorF4 packedZ_quad_dy;
-
-		VectorF4 packedW;
-		VectorF4 packedW_dx;
-		VectorF4 packedW_dy;
-		VectorF4 packedW_quad_dx;
-		VectorF4 packedW_quad_dy;
-
-		FLOAT32 gradientDiv;
-
-		CR_FragmentData fragment;
-	};
-
 	struct alignas(16) CR_TriangleData 
 	{
 		/**
@@ -181,7 +87,7 @@ namespace Ceng
 		INT32 minPixelStepX[4];
 		INT32 minPixelStepY[4];
 	
-		PixelShaderTriangleData pshaderData;
+		SWRender::PixelShaderTriangleData pshaderData;
 	};
 };
 

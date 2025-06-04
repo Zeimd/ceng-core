@@ -111,14 +111,14 @@ AlignedBuffer<Ceng::UINT8>* ShaderLinkInstance::GetFragmentCache(const Ceng::UIN
 	return new AlignedBuffer<Ceng::UINT8>(batchSize * link->fragmentFormat.size, link->cacheLineSize);
 }
 
-AlignedBuffer<CR_FloatFragment>* ShaderLinkInstance::GetFloatVariableBuffer()
+AlignedBuffer<SWRender::CR_FloatFragment>* ShaderLinkInstance::GetFloatVariableBuffer()
 {
-	return new AlignedBuffer<CR_FloatFragment>(link->quadFormat.floatBlocks, link->cacheLineSize);
+	return new AlignedBuffer<SWRender::CR_FloatFragment>(link->quadFormat.floatBlocks, link->cacheLineSize);
 }
 
-AlignedBuffer<CR_DoubleFragment>* ShaderLinkInstance::GetDoubleVariableBuffer()
+AlignedBuffer<SWRender::CR_DoubleFragment>* ShaderLinkInstance::GetDoubleVariableBuffer()
 {
-	return new AlignedBuffer<CR_DoubleFragment>(link->quadFormat.doubleBlocks, link->cacheLineSize);
+	return new AlignedBuffer<SWRender::CR_DoubleFragment>(link->quadFormat.doubleBlocks, link->cacheLineSize);
 }
 
 AlignedBuffer<SWRender::PixelShaderQuadBatch>* ShaderLinkInstance::GetQuadCache(const Ceng::UINT32 maxQuadCount)

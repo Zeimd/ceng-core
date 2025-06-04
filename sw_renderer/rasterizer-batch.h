@@ -49,8 +49,8 @@ namespace Ceng
 		Ceng::INT32 xMin,yMin;
 		Ceng::INT32 xMax,yMax;
 
-		std::shared_ptr<AlignedBuffer<CR_FloatFragment>> floatVariables;
-		std::shared_ptr<AlignedBuffer<CR_DoubleFragment>> doubleVariables;
+		std::shared_ptr<AlignedBuffer<SWRender::CR_FloatFragment>> floatVariables;
+		std::shared_ptr<AlignedBuffer<SWRender::CR_DoubleFragment>> doubleVariables;
 		std::shared_ptr<AlignedBuffer<Ceng::UINT8>> shaderSteps;
 
 	public:

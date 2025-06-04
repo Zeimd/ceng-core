@@ -12,12 +12,11 @@ namespace Ceng
 	namespace SWRender
 	{
 		struct PixelShaderQuadBatch;
+		class CR_FloatFragment;
+		class CR_DoubleFragment;
 	}
 
 	class CR_ShaderLink;
-
-	class CR_FloatFragment;
-	class CR_DoubleFragment;
 
 	class ShaderLinkInstance
 	{
@@ -46,9 +45,9 @@ namespace Ceng
 
 		AlignedBuffer<Ceng::UINT8>* GetFragmentCache(const Ceng::UINT32 batchSize);
 
-		AlignedBuffer<CR_FloatFragment>* GetFloatVariableBuffer();
+		AlignedBuffer<SWRender::CR_FloatFragment>* GetFloatVariableBuffer();
 
-		AlignedBuffer<CR_DoubleFragment>* GetDoubleVariableBuffer();
+		AlignedBuffer<SWRender::CR_DoubleFragment>* GetDoubleVariableBuffer();
 
 		AlignedBuffer<Ceng::UINT8>* GetShaderStepBuffer();
 

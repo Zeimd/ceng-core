@@ -47,8 +47,8 @@ CRESULT CR_QuadFormat::TranslateFragment(Ceng::UINT8 *fragmentIn[3],
 										 FLOAT32 *vdx10,FLOAT32 *vdx21,
 										 FLOAT32 *gradientDiv,
 										 FLOAT32 *initialStepX,FLOAT32 *initialStepY,
-										 CR_FloatFragment *floatVariables,
-										 CR_DoubleFragment *doubleVariables,
+										 SWRender::CR_FloatFragment *floatVariables,
+										 SWRender::CR_DoubleFragment *doubleVariables,
 										 Ceng::UINT8 *variableStep)
 {
 	UINT32 k;

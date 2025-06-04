@@ -20,11 +20,15 @@
 
 namespace Ceng
 {
+	namespace SWRender
+	{
+		class CR_FloatFragment;
+		class CR_DoubleFragment;
+	}
+
 	struct CR_TriangleData;
 
 	class CR_FragmentFormat;
-	class CR_FloatFragment;
-	class CR_DoubleFragment;
 
 	class CR_QuadFormat
 	{
@@ -90,8 +94,8 @@ namespace Ceng
 										 FLOAT32 *vdx10,FLOAT32 *vdx21,
 										 FLOAT32 *gradientDiv,
 										 FLOAT32 *initialStepX,FLOAT32 *initialStepY,
-										 CR_FloatFragment *floatVariables,
-										 CR_DoubleFragment *doubleVariables,
+										 SWRender::CR_FloatFragment *floatVariables,
+										 SWRender::CR_DoubleFragment *doubleVariables,
 										 UINT8 *variableStep);
 
 		

@@ -801,10 +801,10 @@ const CRESULT CR_Rasterizer::TriangleSetup(CR_PrimitiveData &primitive,
 
 	FLOAT32 *positionW[3] = {&position[0].w,&position[1].w,&position[2].w};
 
-	auto floatVariables = std::shared_ptr<Ceng::AlignedBuffer<CR_FloatFragment>>
+	auto floatVariables = std::shared_ptr<Ceng::AlignedBuffer<SWRender::CR_FloatFragment>>
 		(renderState->linkInstance.GetFloatVariableBuffer());
 
-	auto doubleVariables = std::shared_ptr<Ceng::AlignedBuffer<CR_DoubleFragment>>
+	auto doubleVariables = std::shared_ptr<Ceng::AlignedBuffer<SWRender::CR_DoubleFragment>>
 		(renderState->linkInstance.GetDoubleVariableBuffer());
 
 	auto shaderSteps = std::shared_ptr<Ceng::AlignedBuffer<UINT8>>
