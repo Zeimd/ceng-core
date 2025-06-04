@@ -16,7 +16,7 @@
 
 #include "pshader-types.h"
 #include "pshader-util.h"
-#include "pshader-quad-batch.h"
+#include <ceng/datatypes/pshader-quad-batch.h>
 
 
 using namespace Ceng;

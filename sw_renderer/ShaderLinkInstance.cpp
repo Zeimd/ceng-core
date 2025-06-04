@@ -1,7 +1,8 @@
 
+#include <ceng/datatypes/pshader-quad-batch.h>
+
 #include "ShaderLinkInstance.h"
 
-#include "pshader-quad-batch.h"
 #include "shader-link.h"
 #include "cr-pixel-shader.h"
 

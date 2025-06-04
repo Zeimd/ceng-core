@@ -17,7 +17,7 @@
 
 #include "render-task.h"
 
-#include "pshader-quad-batch.h"
+#include <ceng/datatypes/pshader-quad-batch.h>
 
 namespace Ceng
 {

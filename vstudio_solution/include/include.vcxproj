@@ -150,6 +150,7 @@
     <ClInclude Include="..\..\inc\ceng\datatypes\promise.h" />
     <ClInclude Include="..\..\inc\ceng\datatypes\pshader-input-desc.h" />
     <ClInclude Include="..\..\inc\ceng\datatypes\pshader-output-desc.h" />
+    <ClInclude Include="..\..\inc\ceng\datatypes\pshader-quad-batch.h" />
     <ClInclude Include="..\..\inc\ceng\datatypes\rectangle.h" />
     <ClInclude Include="..\..\inc\ceng\datatypes\release-deleter.h" />
     <ClInclude Include="..\..\inc\ceng\datatypes\render-target-view-desc.h" />

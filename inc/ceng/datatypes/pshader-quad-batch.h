@@ -3,7 +3,7 @@
 #ifndef CENG_SWR_PSHADER_QUAD_BATCH_H
 #define CENG_SWR_PSHADER_QUAD_BATCH_H
 
-#include <ceng/datatypes/basic-types.h>
+#include "basic-types.h"
 
 namespace Ceng::SWRender
 {
