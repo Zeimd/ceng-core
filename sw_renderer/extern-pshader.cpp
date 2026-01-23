@@ -1,8 +1,10 @@
 #include "extern-pshader.h"
+#include "extern-pshader-context.h"
 
 using namespace Ceng;
 
 ExternalPixelShader::ExternalPixelShader()
+	: desc(nullptr)
 {
 
 }
@@ -80,6 +82,14 @@ CRESULT ExternalPixelShader::Create(PixelShaderDescriptor* desc, ExternalPixelSh
 		}
 	}
 
+	CRESULT cresult = temp->ConfigureConstants();
+
+	if (cresult != Ceng::CE_OK)
+	{
+		temp->Release();
+		return cresult;
+	}
+
 	*out = temp;
 
 	return CE_OK;
@@ -93,5 +103,64 @@ ExternalPixelShader::~ExternalPixelShader()
 CRESULT ExternalPixelShader::GetInstances(std::vector<std::shared_ptr<PixelShaderContext>>& instances,
 	const Ceng::UINT32 renderThreads)
 {
-	return CE_ERR_UNIMPLEMENTED;
+	currentInstance = nextInstance;
+
+	nextInstance = std::make_shared<PixelShaderContextCommon>(*currentInstance);
+
+	instances = std::vector<std::shared_ptr<PixelShaderContext>>(renderThreads);
+
+	for (Ceng::UINT32 k = 0; k < instances.size(); k++)
+	{
+		//CRESULT cresult = ExternalPixelShaderContext::GetInstance(currentInstance, instances[k]);
+
+		PixelShaderInstance* instance = desc->GetInstance();
+
+		if (instance == nullptr)
+		{
+			instances.clear();
+			return CE_ERR_FAIL;
+		}
+
+		std::shared_ptr<ExternalPixelShaderContext> context =
+			std::make_shared<ExternalPixelShaderContext>(instance, currentInstance);
+
+		CRESULT cresult = context->ConfigureInput(currentInstance->shader->inputSemantics);
+
+		if (cresult != CE_OK)
+		{
+			return cresult;
+		}
+
+		cresult = context->ConfigureOutput(currentInstance->shader->renderTargets);
+
+		if (cresult != CE_OK)
+		{
+			return cresult;
+		}
+
+		cresult = context->SetFragmentFormat(currentInstance->shader->inputSemantics, currentInstance->shader->renderTargets);
+
+		if (cresult != CE_OK)
+		{
+			return cresult;
+		}
+
+		cresult = context->SetRenderTargets(currentInstance->shader->renderTargets);
+
+		if (cresult != CE_OK)
+		{
+			return cresult;
+		}
+
+		cresult = context->ConfigureLocals();
+
+		if (cresult != CE_OK)
+		{
+			return cresult;
+		}
+
+		instances.push_back(context);
+	}
+	
+	return CE_OK;
 }

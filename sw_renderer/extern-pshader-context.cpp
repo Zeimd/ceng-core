@@ -25,7 +25,7 @@ CRESULT ExternalPixelShaderContext::ConfigureOutput(std::vector<PixelShaderOutpu
 
 CRESULT ExternalPixelShaderContext::ConfigureLocals()
 {
-	return CE_OK;
+	return instance->ConfigureLocals();
 }
 
 CRESULT ExternalPixelShaderContext::SetFragmentFormat(const std::vector<PixelShaderInputDesc>& inputSemantics,

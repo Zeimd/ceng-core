@@ -42,6 +42,7 @@ namespace Ceng
 	{
 	public:
 
+		// Pointer to externally controlled descriptor
 		PixelShaderDescriptor* desc;
 
 	public:

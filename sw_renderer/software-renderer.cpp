@@ -44,6 +44,7 @@
 #include "texture-copy.h"
 
 #include "internal-pshader.h"
+#include "extern-pshader.h"
 
 using namespace Ceng;
 
@@ -681,9 +682,20 @@ const Ceng::CRESULT SoftwareRenderer::CreatePixelShader(const Ceng::StringUtf8& 
 	return Ceng::CE_OK;
 }
 
-const Ceng::CRESULT SoftwareRenderer::CreatePixelShader(const PixelShaderDescriptor* desc, Ceng::PixelShader** shaderPtr)
+const Ceng::CRESULT SoftwareRenderer::CreatePixelShader(PixelShaderDescriptor* desc, Ceng::PixelShader** shaderPtr)
 {
-	return CE_ERR_NOT_SUPPORTED;
+	ExternalPixelShader* pixelShader;
+
+	*shaderPtr = nullptr;
+
+	CRESULT cresult = ExternalPixelShader::Create(desc, &pixelShader);
+
+	if (cresult != Ceng::CE_OK)
+	{
+		return cresult;
+	}
+
+	return CE_OK;
 }
 
 const Ceng::CRESULT SoftwareRenderer::CreateShaderProgram(Ceng::VertexShader* vertexShader, Ceng::PixelShader* pixelShader, Ceng::ShaderProgram** program)

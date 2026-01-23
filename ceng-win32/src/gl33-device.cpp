@@ -134,7 +134,7 @@ const Ceng::CRESULT GL33_RenderDevice::CreatePixelShader(const Ceng::StringUtf8 
 	return CE_OK;
 }
 
-const Ceng::CRESULT GL33_RenderDevice::CreatePixelShader(const PixelShaderDescriptor* desc, Ceng::PixelShader** shaderPtr)
+const Ceng::CRESULT GL33_RenderDevice::CreatePixelShader(PixelShaderDescriptor* desc, Ceng::PixelShader** shaderPtr)
 {
 	return CE_ERR_NOT_SUPPORTED;
 }

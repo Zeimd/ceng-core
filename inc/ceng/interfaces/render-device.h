@@ -124,7 +124,7 @@ namespace Ceng
 
 		// Create pixel shader for software rendering
 		// Other implementations can ignore this.
-		virtual const Ceng::CRESULT CreatePixelShader(const PixelShaderDescriptor* desc, Ceng::PixelShader** shaderPtr) = 0;
+		virtual const Ceng::CRESULT CreatePixelShader(PixelShaderDescriptor* desc, Ceng::PixelShader** shaderPtr) = 0;
 
 		virtual const Ceng::CRESULT CreateShaderProgram(Ceng::VertexShader *vertexShader, Ceng::PixelShader *pixelShader, Ceng::ShaderProgram **program) = 0;
 

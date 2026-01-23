@@ -63,7 +63,7 @@ namespace Ceng
 
 		const Ceng::CRESULT CreatePixelShader(const Ceng::StringUtf8 &shaderText, Ceng::PixelShader **shaderPtr) override;
 
-		const Ceng::CRESULT CreatePixelShader(const PixelShaderDescriptor* desc, Ceng::PixelShader** shaderPtr) override;
+		const Ceng::CRESULT CreatePixelShader(PixelShaderDescriptor* desc, Ceng::PixelShader** shaderPtr) override;
 
 		const Ceng::CRESULT CreateShaderProgram(Ceng::VertexShader *vertexShader, Ceng::PixelShader *pixelShader, Ceng::ShaderProgram **program) override;
 
