@@ -3,17 +3,27 @@
 #ifndef CENG_SWR_INTERNAL_PSHADER_INSTANCE_H
 #define CENG_SWR_INTERNAL_PSHADER_INSTANCE_H
 
+#include <array>
+
 #include "pshader-context.h"
 
 namespace Ceng
 {
+	struct PixelShaderInputRegister
+	{
+		CR_PixelShaderInput* variable;
+		Ceng::SHADER_SEMANTIC::value semantic;
+	};
+
+	struct PixelShaderOutputRegister
+	{
+		CR_psOutputRegister* variable;
+		PSHADER_OUTPUT_SEMANTIC::value target;
+	};
+
 	class InternalPixelShaderContext : public PixelShaderContext
 	{
 	public:
-
-		// Output format
-
-		AlignedBuffer<CR_PixelShaderInput> inputRegisters;
 
 		POINTER quadTargetStart;
 
@@ -36,43 +46,26 @@ namespace Ceng
 
 		POINTER stepBufferPtr;
 
-		AlignedBuffer<CR_psOutputRegister> outputRegisters;
+		std::array<PixelShaderInputRegister,4> inputRegisters;
 
-		// Semantic links
+		CR_PixelShaderInput normal;
+		CR_PixelShaderInput tangent;
+		CR_PixelShaderInput texCoord0;
+		CR_PixelShaderInput texCoord1;
 
-		// Input references
-		CR_PixelShaderInput* IN_POSITION;
-		CR_PixelShaderInput* IN_SCREENPOS;
+		std::array<PixelShaderOutputRegister, 10> outputRegisters;
 
-		CR_PixelShaderInput* IN_NORMAL;
-		CR_PixelShaderInput* IN_BINORMAL;
-		CR_PixelShaderInput* IN_TANGENT;
+		CR_psOutputRegister OUT_STENCIL;
+		CR_psOutputRegister OUT_DEPTH;
 
-		CR_PixelShaderInput* IN_COLOR0;
-		CR_PixelShaderInput* IN_COLOR1;
-
-		CR_PixelShaderInput* IN_TEXCOORD0;
-		CR_PixelShaderInput* IN_TEXCOORD1;
-		CR_PixelShaderInput* IN_TEXCOORD2;
-		CR_PixelShaderInput* IN_TEXCOORD3;
-		CR_PixelShaderInput* IN_TEXCOORD4;
-		CR_PixelShaderInput* IN_TEXCOORD5;
-		CR_PixelShaderInput* IN_TEXCOORD6;
-		CR_PixelShaderInput* IN_TEXCOORD7;
-
-		// Output references
-
-		CR_psOutputRegister* OUT_TARGET0;
-		CR_psOutputRegister* OUT_TARGET1;
-		CR_psOutputRegister* OUT_TARGET2;
-		CR_psOutputRegister* OUT_TARGET3;
-		CR_psOutputRegister* OUT_TARGET4;
-		CR_psOutputRegister* OUT_TARGET5;
-		CR_psOutputRegister* OUT_TARGET6;
-		CR_psOutputRegister* OUT_TARGET7;
-
-		CR_psOutputRegister* OUT_DEPTH;
-		CR_psOutputRegister* OUT_STENCIL;
+		CR_psOutputRegister OUT_TARGET0;
+		CR_psOutputRegister OUT_TARGET1;
+		CR_psOutputRegister OUT_TARGET2;
+		CR_psOutputRegister OUT_TARGET3;
+		CR_psOutputRegister OUT_TARGET4;
+		CR_psOutputRegister OUT_TARGET5;
+		CR_psOutputRegister OUT_TARGET6;
+		CR_psOutputRegister OUT_TARGET7;
 
 		Pshader::SampleTexture2D sample2d;
 

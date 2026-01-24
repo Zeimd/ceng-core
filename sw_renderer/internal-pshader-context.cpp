@@ -33,36 +33,60 @@ InternalPixelShaderContext::InternalPixelShaderContext(std::shared_ptr<PixelShad
 	inputBaseAddress = NULL;
 	stepBufferPtr = NULL;
 
-	IN_POSITION = &common->shader->nullInput;
-	IN_SCREENPOS = &common->shader->nullInput;
+	inputRegisters[0].variable = &normal;
+	inputRegisters[0].semantic = SHADER_SEMANTIC::NORMAL;
 
-	IN_NORMAL = &common->shader->nullInput;
-	IN_BINORMAL = &common->shader->nullInput;
-	IN_TANGENT = &common->shader->nullInput;
+	inputRegisters[1].variable = &tangent;
+	inputRegisters[1].semantic = SHADER_SEMANTIC::TANGENT;
 
-	IN_COLOR0 = &common->shader->nullInput;
-	IN_COLOR1 = &common->shader->nullInput;
+	inputRegisters[2].variable = &texCoord0;
+	inputRegisters[2].semantic = SHADER_SEMANTIC::TEXCOORD_0;
 
-	IN_TEXCOORD0 = &common->shader->nullInput;
-	IN_TEXCOORD1 = &common->shader->nullInput;
-	IN_TEXCOORD2 = &common->shader->nullInput;
-	IN_TEXCOORD3 = &common->shader->nullInput;
-	IN_TEXCOORD4 = &common->shader->nullInput;
-	IN_TEXCOORD5 = &common->shader->nullInput;
-	IN_TEXCOORD6 = &common->shader->nullInput;
-	IN_TEXCOORD7 = &common->shader->nullInput;
+	inputRegisters[3].variable = &texCoord1;
+	inputRegisters[3].semantic = SHADER_SEMANTIC::TEXCOORD_1;
 
-	OUT_DEPTH = &common->shader->nullOutput;
-	OUT_STENCIL = &common->shader->nullOutput;
+	for (int k = 0; k < inputRegisters.size(); ++k)
+	{
+		*(inputRegisters[k].variable) = common->shader->nullInput;
+	}
 
-	OUT_TARGET0 = &common->shader->nullOutput;
-	OUT_TARGET1 = &common->shader->nullOutput;
-	OUT_TARGET2 = &common->shader->nullOutput;
-	OUT_TARGET3 = &common->shader->nullOutput;
-	OUT_TARGET4 = &common->shader->nullOutput;
-	OUT_TARGET5 = &common->shader->nullOutput;
-	OUT_TARGET6 = &common->shader->nullOutput;
-	OUT_TARGET7 = &common->shader->nullOutput;
+	outputRegisters[0].variable = &OUT_DEPTH;
+	outputRegisters[0].target = PSHADER_OUTPUT_SEMANTIC::CR_SHADER_TARGET_DEPTH;
+
+	outputRegisters[1].variable = &OUT_STENCIL;
+	outputRegisters[1].target = PSHADER_OUTPUT_SEMANTIC::CR_SHADER_TARGET_STENCIL;
+
+	outputRegisters[1].variable = &OUT_TARGET0;
+	outputRegisters[1].target = PSHADER_OUTPUT_SEMANTIC::CR_SHADER_TARGET0;
+
+	outputRegisters[2].variable = &OUT_TARGET0;
+	outputRegisters[2].target = PSHADER_OUTPUT_SEMANTIC::CR_SHADER_TARGET0;
+
+	outputRegisters[3].variable = &OUT_TARGET1;
+	outputRegisters[3].target = PSHADER_OUTPUT_SEMANTIC::CR_SHADER_TARGET1;
+
+	outputRegisters[4].variable = &OUT_TARGET2;
+	outputRegisters[4].target = PSHADER_OUTPUT_SEMANTIC::CR_SHADER_TARGET2;
+
+	outputRegisters[5].variable = &OUT_TARGET3;
+	outputRegisters[5].target = PSHADER_OUTPUT_SEMANTIC::CR_SHADER_TARGET3;
+
+	outputRegisters[6].variable = &OUT_TARGET4;
+	outputRegisters[6].target = PSHADER_OUTPUT_SEMANTIC::CR_SHADER_TARGET4;
+
+	outputRegisters[7].variable = &OUT_TARGET5;
+	outputRegisters[7].target = PSHADER_OUTPUT_SEMANTIC::CR_SHADER_TARGET5;
+
+	outputRegisters[8].variable = &OUT_TARGET6;
+	outputRegisters[8].target = PSHADER_OUTPUT_SEMANTIC::CR_SHADER_TARGET6;
+
+	outputRegisters[9].variable = &OUT_TARGET7;
+	outputRegisters[9].target = PSHADER_OUTPUT_SEMANTIC::CR_SHADER_TARGET7;
+
+	for (int k = 0; k < outputRegisters.size(); ++k)
+	{
+		*(outputRegisters[k].variable) = common->shader->nullOutput;
+	}
 }
 
 CRESULT InternalPixelShaderContext::GetInstance(std::shared_ptr<PixelShaderContextCommon>& common, std::shared_ptr<PixelShaderContext>& out)
@@ -88,111 +112,6 @@ InternalPixelShaderContext::~InternalPixelShaderContext()
 CRESULT InternalPixelShaderContext::Configure(std::vector<PixelShaderInputDesc>& inputSemantics,
 	std::vector<PixelShaderOutputDesc>& renderTargets)
 {
-	inputRegisters = AlignedBuffer<CR_PixelShaderInput>(
-		Ceng::UINT32(inputSemantics.size()), common->shader->cacheLine);
-
-	// Set up references to input variables
-	for (Ceng::UINT32 k = 0; k < inputSemantics.size(); k++)
-	{
-		inputRegisters[k].stepBuffer = &stepBufferPtr;
-		inputRegisters[k].perspective = (void*)perspectiveTemp;
-
-		switch (inputSemantics[k].semantic)
-		{
-		case Ceng::SHADER_SEMANTIC::POSITION:
-			IN_POSITION = &inputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::SCREENPOS:
-			IN_SCREENPOS = &inputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::NORMAL:
-			IN_NORMAL = &inputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::BINORMAL:
-			IN_BINORMAL = &inputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::TANGENT:
-			IN_TANGENT = &inputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::COLOR_0:
-			IN_COLOR0 = &inputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::COLOR_1:
-			IN_COLOR1 = &inputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::TEXCOORD_0:
-			IN_TEXCOORD0 = &inputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::TEXCOORD_1:
-			IN_TEXCOORD1 = &inputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::TEXCOORD_2:
-			IN_TEXCOORD2 = &inputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::TEXCOORD_3:
-			IN_TEXCOORD3 = &inputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::TEXCOORD_4:
-			IN_TEXCOORD4 = &inputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::TEXCOORD_5:
-			IN_TEXCOORD5 = &inputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::TEXCOORD_6:
-			IN_TEXCOORD6 = &inputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::TEXCOORD_7:
-			IN_TEXCOORD7 = &inputRegisters[k];
-			break;
-		default:
-			break;
-		}
-	}
-
-	outputRegisters = AlignedBuffer<CR_psOutputRegister>(
-		Ceng::UINT32(renderTargets.size()), common->shader->cacheLine);
-
-	for (Ceng::UINT32 k = 0; k < renderTargets.size(); k++)
-	{
-		outputRegisters[k].coverageAddress = &coverageAddress;
-
-		switch (renderTargets[k].target)
-		{
-		case PSHADER_OUTPUT_SEMANTIC::CR_SHADER_TARGET0:
-			OUT_TARGET0 = &outputRegisters[k];
-			break;
-		case PSHADER_OUTPUT_SEMANTIC::CR_SHADER_TARGET1:
-			OUT_TARGET1 = &outputRegisters[k];
-			break;
-		case PSHADER_OUTPUT_SEMANTIC::CR_SHADER_TARGET2:
-			OUT_TARGET2 = &outputRegisters[k];
-			break;
-		case PSHADER_OUTPUT_SEMANTIC::CR_SHADER_TARGET3:
-			OUT_TARGET3 = &outputRegisters[k];
-			break;
-		case PSHADER_OUTPUT_SEMANTIC::CR_SHADER_TARGET4:
-			OUT_TARGET4 = &outputRegisters[k];
-			break;
-		case PSHADER_OUTPUT_SEMANTIC::CR_SHADER_TARGET5:
-			OUT_TARGET5 = &outputRegisters[k];
-			break;
-		case PSHADER_OUTPUT_SEMANTIC::CR_SHADER_TARGET6:
-			OUT_TARGET6 = &outputRegisters[k];
-			break;
-		case PSHADER_OUTPUT_SEMANTIC::CR_SHADER_TARGET7:
-			OUT_TARGET7 = &outputRegisters[k];
-			break;
-		case PSHADER_OUTPUT_SEMANTIC::CR_SHADER_TARGET_DEPTH:
-			OUT_DEPTH = &outputRegisters[k];
-			break;
-		case PSHADER_OUTPUT_SEMANTIC::CR_SHADER_TARGET_STENCIL:
-			OUT_STENCIL = &outputRegisters[k];
-			break;
-		default:
-			break;
-		};
-	}
-
 	// Allocate space for a quad's varying data
 
 	if (quadBuffer == nullptr)
@@ -204,8 +123,11 @@ CRESULT InternalPixelShaderContext::Configure(std::vector<PixelShaderInputDesc>&
 
 	// Set up input register offsets within the quad format
 
-	for (Ceng::UINT32 k = 0; k < inputSemantics.size(); k++)
+	for (Ceng::UINT32 k = 0; k < inputRegisters.size(); k++)
 	{
+		inputRegisters[k].variable->stepBuffer = &stepBufferPtr;
+		inputRegisters[k].variable->perspective = (void*)perspectiveTemp;
+
 		for (Ceng::UINT32 j = 0; j < common->link->link->quadFormat.variables.size(); j++)
 		{
 			// Link all input registers to the variable
@@ -213,43 +135,39 @@ CRESULT InternalPixelShaderContext::Configure(std::vector<PixelShaderInputDesc>&
 
 			// NOTE: Multiple registers can map to one semantic
 
-			if (inputSemantics[k].semantic == common->link->link->quadFormat.variables[j].semantic)
+			if (inputRegisters[k].semantic == common->link->link->quadFormat.variables[j].semantic)
 			{
-				inputRegisters[k].inputAddress = (POINTER)((UINT8*)quadBuffer) +
+				inputRegisters[k].variable->inputAddress = (POINTER)((UINT8*)quadBuffer) +
 					common->link->link->quadFormat.variables[j].quadOffset;
 
 				// TODO: Set staticly
-				inputRegisters[k].inputFormat = common->link->link->quadFormat.variables[j].format;
+				inputRegisters[k].variable->inputFormat = common->link->link->quadFormat.variables[j].format;
 
-				inputRegisters[k].variableStep = common->link->link->quadFormat.variables[j].gradientOffset;
+				inputRegisters[k].variable->variableStep = common->link->link->quadFormat.variables[j].gradientOffset;
 			}
 		}
 	}
 
-
 	// Set up render target address locations within the quad format
 
-	for (Ceng::UINT32 k = 0; k < renderTargets.size(); k++)
+	for (Ceng::UINT32 k = 2; k < outputRegisters.size(); k++)
 	{
-		outputRegisters[k].inputAddress = (POINTER)((UINT8*)quadBuffer) +
-			common->link->link->quadFormat.targetStart + renderTargets[k].target * sizeof(POINTER);
-	}
+		outputRegisters[k].variable->coverageAddress = &coverageAddress;
 
-	for (Ceng::UINT32 k = 0; k < renderTargets.size(); k++)
-	{
-		// NOTE: these should be set up at configuration time
+		outputRegisters[k].variable->inputAddress = (POINTER)((UINT8*)quadBuffer) +
+			common->link->link->quadFormat.targetStart + outputRegisters[k].target * sizeof(POINTER);
 
 		Ceng::UINT32 j;
 
 		for (j = 2; j < common->activeRenderTargets; j++)
 		{
-			if (renderTargets[k].target == common->targetHandles[j]->shaderSemantic)
+			if (outputRegisters[k].target == common->targetHandles[j]->shaderSemantic)
 			{
-				outputRegisters[k].bufferFormat = common->targetHandles[j]->bufferFormat;
+				outputRegisters[k].variable->bufferFormat = common->targetHandles[j]->bufferFormat;
 
 				if (common->targetHandles[j]->baseAddress == NULL)
 				{
-					outputRegisters[k].bufferFormat = Ceng::IMAGE_FORMAT::UNKNOWN;
+					outputRegisters[k].variable->bufferFormat = Ceng::IMAGE_FORMAT::UNKNOWN;
 				}
 
 				break;
@@ -259,9 +177,8 @@ CRESULT InternalPixelShaderContext::Configure(std::vector<PixelShaderInputDesc>&
 		if (j == common->activeRenderTargets)
 		{
 			// No match found
-			outputRegisters[k].bufferFormat = Ceng::IMAGE_FORMAT::UNKNOWN;
-		}
-
+			outputRegisters[k].variable->bufferFormat = Ceng::IMAGE_FORMAT::UNKNOWN;
+		}		
 	}
 
 	// TODO: Configure locals
@@ -323,7 +240,7 @@ void InternalPixelShaderContext::ShaderFunction(const FLOAT32* perspective, cons
 
 	Pshader::Float2 uvDiffuse;
 
-	uvDiffuse = *IN_TEXCOORD0;
+	uvDiffuse = texCoord0;
 
 	//uvDiffuse = uvDiffuse.yx();
 
@@ -405,7 +322,7 @@ void InternalPixelShaderContext::ShaderFunction(const FLOAT32* perspective, cons
 	//OUT_TARGET0->Write(color,coverageIndex);
 
 
-	OUT_TARGET0->Write(sample2d(diffuseTexUnit, uvDiffuse), coverageIndex);
+	OUT_TARGET0.Write(sample2d(diffuseTexUnit, uvDiffuse), coverageIndex);
 }
 
 CRESULT InternalPixelShaderContext::ProcessQuads(Task_PixelShader* batch, const Ceng::INT32 threadId)
