@@ -73,40 +73,7 @@ CRESULT InternalPixelShaderContext::GetInstance(std::shared_ptr<PixelShaderConte
 
 	CRESULT cresult;
 
-	cresult = temp->ConfigureInput(common->shader->inputSemantics);
-
-	if (cresult != CE_OK)
-	{
-		return cresult;
-	}
-
-	cresult = temp->ConfigureOutput(common->shader->renderTargets);
-
-	if (cresult != CE_OK)
-	{
-		return cresult;
-	}
-
-	cresult = temp->SetFragmentFormat(common->shader->inputSemantics, common->shader->renderTargets);
-
-	if (cresult != CE_OK)
-	{
-		return cresult;
-	}
-
-	cresult = temp->SetRenderTargets(common->shader->renderTargets);
-
-	if (cresult != CE_OK)
-	{
-		return cresult;
-	}
-
-	cresult = temp->ConfigureLocals();
-
-	if (cresult != CE_OK)
-	{
-		return cresult;
-	}
+	cresult = temp->Configure(common->shader->inputSemantics, common->shader->renderTargets);
 
 	out = std::shared_ptr<PixelShaderContext>(temp);
 
@@ -118,15 +85,14 @@ InternalPixelShaderContext::~InternalPixelShaderContext()
 
 }
 
-CRESULT InternalPixelShaderContext::ConfigureInput(std::vector<PixelShaderInputDesc>& inputSemantics)
+CRESULT InternalPixelShaderContext::Configure(std::vector<PixelShaderInputDesc>& inputSemantics,
+	std::vector<PixelShaderOutputDesc>& renderTargets)
 {
-	UINT32 k;
-
 	inputRegisters = AlignedBuffer<CR_PixelShaderInput>(
 		Ceng::UINT32(inputSemantics.size()), common->shader->cacheLine);
 
 	// Set up references to input variables
-	for (k = 0; k < inputSemantics.size(); k++)
+	for (Ceng::UINT32 k = 0; k < inputSemantics.size(); k++)
 	{
 		inputRegisters[k].stepBuffer = &stepBufferPtr;
 		inputRegisters[k].perspective = (void*)perspectiveTemp;
@@ -183,17 +149,10 @@ CRESULT InternalPixelShaderContext::ConfigureInput(std::vector<PixelShaderInputD
 		}
 	}
 
-	return CE_OK;
-}
-
-CRESULT InternalPixelShaderContext::ConfigureOutput(std::vector<PixelShaderOutputDesc>& renderTargets)
-{
-	UINT32 k;
-
 	outputRegisters = AlignedBuffer<CR_psOutputRegister>(
 		Ceng::UINT32(renderTargets.size()), common->shader->cacheLine);
 
-	for (k = 0; k < renderTargets.size(); k++)
+	for (Ceng::UINT32 k = 0; k < renderTargets.size(); k++)
 	{
 		outputRegisters[k].coverageAddress = &coverageAddress;
 
@@ -234,38 +193,6 @@ CRESULT InternalPixelShaderContext::ConfigureOutput(std::vector<PixelShaderOutpu
 		};
 	}
 
-	return CE_OK;
-}
-
-CRESULT InternalPixelShaderContext::ConfigureLocals()
-{
-	/*
-	Ceng::UINT32 localBufferSize = 0;
-
-	localBufferSize += 16 * 4; // shaderLocal_temp
-	localBufferSize += 16 * 4; // sample2d cache
-	localBufferSize += 8 * 4; // shaderLocal_uvDiffuse
-	localBufferSize += 4 * 4; // shaderLocal_colorScale
-
-	localVariables = AlignedBuffer<Ceng::UINT8>(localBufferSize,common->shader->cacheLine);
-
-	shaderLocal_temp.dataAddress = &localVariables[0];
-	sample2d.dataAddress = &localVariables[16 * 4];
-	shaderLocal_uvDiffuse.dataAddress = &localVariables[16 * 4 + 16 * 4];
-	shaderLocal_colorScale.dataAddress = &localVariables[16 * 4 + 16 * 4 + 8 * 4];
-
-	//sample2d.textureUnits = &textureUnits;
-	*/
-
-	return CE_OK;
-}
-
-
-CRESULT InternalPixelShaderContext::SetFragmentFormat(const std::vector<PixelShaderInputDesc>& inputSemantics,
-	const std::vector<PixelShaderOutputDesc>& targetSemantics)
-{
-	UINT32 k, j;
-
 	// Allocate space for a quad's varying data
 
 	if (quadBuffer == nullptr)
@@ -277,9 +204,9 @@ CRESULT InternalPixelShaderContext::SetFragmentFormat(const std::vector<PixelSha
 
 	// Set up input register offsets within the quad format
 
-	for (k = 0; k < inputSemantics.size(); k++)
+	for (Ceng::UINT32 k = 0; k < inputSemantics.size(); k++)
 	{
-		for (j = 0; j < common->link->link->quadFormat.variables.size(); j++)
+		for (Ceng::UINT32 j = 0; j < common->link->link->quadFormat.variables.size(); j++)
 		{
 			// Link all input registers to the variable
 			// with a matching semantic
@@ -302,27 +229,21 @@ CRESULT InternalPixelShaderContext::SetFragmentFormat(const std::vector<PixelSha
 
 	// Set up render target address locations within the quad format
 
-	for (k = 0; k < targetSemantics.size(); k++)
+	for (Ceng::UINT32 k = 0; k < renderTargets.size(); k++)
 	{
 		outputRegisters[k].inputAddress = (POINTER)((UINT8*)quadBuffer) +
-			common->link->link->quadFormat.targetStart + targetSemantics[k].target * sizeof(POINTER);
+			common->link->link->quadFormat.targetStart + renderTargets[k].target * sizeof(POINTER);
 	}
 
-	return CE_OK;
-}
-
-CRESULT InternalPixelShaderContext::SetRenderTargets(const std::vector<PixelShaderOutputDesc>& targetSemantics)
-{
-	Ceng::UINT32 k, j;
-
-	for (k = 0; k < targetSemantics.size(); k++)
+	for (Ceng::UINT32 k = 0; k < renderTargets.size(); k++)
 	{
 		// NOTE: these should be set up at configuration time
 
+		Ceng::UINT32 j;
 
 		for (j = 2; j < common->activeRenderTargets; j++)
 		{
-			if (targetSemantics[k].target == common->targetHandles[j]->shaderSemantic)
+			if (renderTargets[k].target == common->targetHandles[j]->shaderSemantic)
 			{
 				outputRegisters[k].bufferFormat = common->targetHandles[j]->bufferFormat;
 
@@ -343,9 +264,28 @@ CRESULT InternalPixelShaderContext::SetRenderTargets(const std::vector<PixelShad
 
 	}
 
+	// TODO: Configure locals
+
+		/*
+	Ceng::UINT32 localBufferSize = 0;
+
+	localBufferSize += 16 * 4; // shaderLocal_temp
+	localBufferSize += 16 * 4; // sample2d cache
+	localBufferSize += 8 * 4; // shaderLocal_uvDiffuse
+	localBufferSize += 4 * 4; // shaderLocal_colorScale
+
+	localVariables = AlignedBuffer<Ceng::UINT8>(localBufferSize,common->shader->cacheLine);
+
+	shaderLocal_temp.dataAddress = &localVariables[0];
+	sample2d.dataAddress = &localVariables[16 * 4];
+	shaderLocal_uvDiffuse.dataAddress = &localVariables[16 * 4 + 16 * 4];
+	shaderLocal_colorScale.dataAddress = &localVariables[16 * 4 + 16 * 4 + 8 * 4];
+
+	//sample2d.textureUnits = &textureUnits;
+	*/
+
 	return CE_OK;
 }
-
 
 _declspec(align(64)) const Ceng::INT8 newVertTable[16][4] =
 {

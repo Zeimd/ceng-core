@@ -86,23 +86,15 @@ namespace Ceng
 
 		static CRESULT GetInstance(std::shared_ptr<PixelShaderContextCommon>& common, std::shared_ptr<PixelShaderContext>& out);
 
+		CRESULT Configure(std::vector<PixelShaderInputDesc>& inputSemantics,
+			std::vector<PixelShaderOutputDesc>& renderTargets) override;
+
 		void ShaderFunction(const FLOAT32* perspective, const FLOAT32* invertW,
 			const Ceng::INT32 coverage, const Ceng::INT32 threadId);
 
 		CRESULT ProcessQuads(Task_PixelShader* batch, const Ceng::INT32 threadId) override;
 
 		CRESULT ProcessQuads(Experimental::Task_PixelShader* batch, const Ceng::INT32 threadId) override;
-
-		CRESULT ConfigureInput(std::vector<PixelShaderInputDesc>& inputSemantics) override;
-
-		CRESULT ConfigureOutput(std::vector<PixelShaderOutputDesc>& renderTargets) override;
-
-		CRESULT ConfigureLocals() override;
-
-		CRESULT SetFragmentFormat(const std::vector<PixelShaderInputDesc>& inputSemantics,
-			const std::vector<PixelShaderOutputDesc>& targetSemantics) override;
-
-		CRESULT SetRenderTargets(const std::vector<PixelShaderOutputDesc>& targetSemantics) override;
 	};
 }
 

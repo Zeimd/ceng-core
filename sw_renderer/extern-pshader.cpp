@@ -124,35 +124,8 @@ CRESULT ExternalPixelShader::GetInstances(std::vector<std::shared_ptr<PixelShade
 		std::shared_ptr<ExternalPixelShaderContext> context =
 			std::make_shared<ExternalPixelShaderContext>(instance, currentInstance);
 
-		CRESULT cresult = context->ConfigureInput(currentInstance->shader->inputSemantics);
-
-		if (cresult != CE_OK)
-		{
-			return cresult;
-		}
-
-		cresult = context->ConfigureOutput(currentInstance->shader->renderTargets);
-
-		if (cresult != CE_OK)
-		{
-			return cresult;
-		}
-
-		cresult = context->SetFragmentFormat(currentInstance->shader->inputSemantics, currentInstance->shader->renderTargets);
-
-		if (cresult != CE_OK)
-		{
-			return cresult;
-		}
-
-		cresult = context->SetRenderTargets(currentInstance->shader->renderTargets);
-
-		if (cresult != CE_OK)
-		{
-			return cresult;
-		}
-
-		cresult = context->ConfigureLocals();
+		CRESULT cresult = context->Configure(currentInstance->shader->inputSemantics,
+			currentInstance->shader->renderTargets);
 
 		if (cresult != CE_OK)
 		{

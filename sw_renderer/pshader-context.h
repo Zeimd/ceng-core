@@ -65,21 +65,12 @@ namespace Ceng
 
 		}		
 
+		virtual CRESULT Configure(std::vector<PixelShaderInputDesc>& inputSemantics,
+			std::vector<PixelShaderOutputDesc>& renderTargets) = 0;
+
 		virtual CRESULT ProcessQuads(Task_PixelShader *batch,const Ceng::INT32 threadId) = 0;
 
 		virtual CRESULT ProcessQuads(Experimental::Task_PixelShader* batch, const Ceng::INT32 threadId) = 0;		
-
-		virtual CRESULT ConfigureInput(std::vector<PixelShaderInputDesc> &inputSemantics) = 0;
-
-		virtual CRESULT ConfigureOutput(std::vector<PixelShaderOutputDesc> &renderTargets) = 0;
-		
-		virtual CRESULT ConfigureLocals() = 0;
-
-		virtual CRESULT SetFragmentFormat(const std::vector<PixelShaderInputDesc> &inputSemantics,
-										const std::vector<PixelShaderOutputDesc> &targetSemantics) = 0;
-
-		virtual CRESULT SetRenderTargets(const std::vector<PixelShaderOutputDesc> &targetSemantics) = 0;			
-		
 	};
 }
 

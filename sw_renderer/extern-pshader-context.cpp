@@ -13,31 +13,48 @@ ExternalPixelShaderContext::~ExternalPixelShaderContext()
 	instance->Release();
 }
 
-CRESULT ExternalPixelShaderContext::ConfigureInput(std::vector<PixelShaderInputDesc>& inputSemantics)
+CRESULT ExternalPixelShaderContext::Configure(std::vector<PixelShaderInputDesc>& inputSemantics,
+	std::vector<PixelShaderOutputDesc>& renderTargets)
 {
-	return instance->ConfigureInput(&inputSemantics[0], inputSemantics.size());
-}
+	CRESULT cresult;
 
-CRESULT ExternalPixelShaderContext::ConfigureOutput(std::vector<PixelShaderOutputDesc>& renderTargets)
-{
-	return instance->ConfigureOutput(&renderTargets[0], renderTargets.size());
-}
+	cresult = instance->ConfigureInput(&inputSemantics[0], inputSemantics.size());
 
-CRESULT ExternalPixelShaderContext::ConfigureLocals()
-{
-	return instance->ConfigureLocals();
-}
+	if (cresult != CE_OK)
+	{
+		return cresult;
+	}
 
-CRESULT ExternalPixelShaderContext::SetFragmentFormat(const std::vector<PixelShaderInputDesc>& inputSemantics,
-	const std::vector<PixelShaderOutputDesc>& targetSemantics)
-{
-	return instance->SetFragmentFormat(&inputSemantics[0], inputSemantics.size(),
-		&targetSemantics[0], targetSemantics.size());
-}
+	cresult = instance->ConfigureOutput(&renderTargets[0], renderTargets.size());
 
-CRESULT ExternalPixelShaderContext::SetRenderTargets(const std::vector<PixelShaderOutputDesc>& targetSemantics)
-{
-	return instance->SetRenderTargets(&targetSemantics[0], targetSemantics.size());
+	if (cresult != CE_OK)
+	{
+		return cresult;
+	}
+
+	cresult = instance->SetFragmentFormat(&inputSemantics[0], inputSemantics.size(),
+		&renderTargets[0], renderTargets.size());
+
+	if (cresult != CE_OK)
+	{
+		return cresult;
+	}
+
+	cresult = instance->SetRenderTargets(&renderTargets[0], renderTargets.size());
+
+	if (cresult != CE_OK)
+	{
+		return cresult;
+	}
+
+	cresult = instance->ConfigureLocals();
+
+	if (cresult != CE_OK)
+	{
+		return cresult;
+	}
+
+	return CE_OK;
 }
 
 CRESULT ExternalPixelShaderContext::ProcessQuads(Task_PixelShader* batch, const Ceng::INT32 threadId)
