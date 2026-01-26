@@ -39,7 +39,7 @@ CR_PixelShader::CR_PixelShader()
 	// of undefined semantic links
 
 	//nullInput.semantic = Ceng::SHADER_SEMANTIC::POSITION;
-	nullInput.inputFormat = Ceng::SHADER_DATATYPE::UNKNOWN;
+	//nullInput.inputFormat = Ceng::SHADER_DATATYPE::UNKNOWN;
 
 	//nullOutput.target = CR_SHADER_TARGET0;
 	nullOutput.bufferFormat = Ceng::IMAGE_FORMAT::UNKNOWN;

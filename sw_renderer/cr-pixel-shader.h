@@ -73,7 +73,7 @@ namespace Ceng
 		UINT32 disableStencil;
 		UINT32 disableDepth;
 
-		CR_PixelShaderInput nullInput;
+		Pshader::CR_PixelShaderInput nullInput;
 		CR_psOutputRegister nullOutput;
 
 	protected:

@@ -15,6 +15,7 @@
 
 using namespace Ceng;
 
+/*
 void (*CR_PixelShaderInput::call_to_float[32])(void*,void*,void*,void*) =
 	{
 		nullptr , // UNKNWON
@@ -52,42 +53,7 @@ namespace Ceng
 {
 	void PSIN_FLOAT_FLOAT_X86_SSE(void *dest,void *source,void *perspective,void *steps)
 	{
-		__m128 sourceVec = _mm_load_ps((float*)source);
-
-		__m128 stepVec = _mm_load_ps((float*)steps);
-
-		__m128 sourceOut = _mm_add_ps(sourceVec, stepVec);
-
-		_mm_store_ps((float*)source, sourceOut);
-
-		__m128 perspectiveVec = _mm_load_ps((float*)perspective);
-
-		sourceVec = _mm_mul_ps(sourceVec, perspectiveVec);
-
-		_mm_store_ps((float*)dest, sourceVec);
-
-		/*
-		// Horizontal -> vertical
-		__asm
-		{
-			mov ecx,steps;
-			mov eax,perspective;
-			
-			mov esi,source;
-			mov edi,dest;
-
-			movaps xmm0,[esi];
-			
-			movaps xmm1,xmm0;
-
-			addps xmm0,[ecx]; // Step to next quad
-			
-			mulps xmm1,[eax]; // Perspective correction
-
-			movaps [esi],xmm0;
-			movaps [edi],xmm1;
-		}
-		*/
+		
 	}
 
 	void PSIN_FLOAT2_FLOAT2_X86_SSE(void *dest, void *source, void *perspective, void *steps)
@@ -184,3 +150,4 @@ namespace Ceng
 		_mm_store_ps(&outPtr[12], *wVec);
 	}
 };
+*/

@@ -328,7 +328,6 @@
     <ClCompile Include="..\..\sw_renderer\pipeline-batch.cpp" />
     <ClCompile Include="..\..\sw_renderer\pipeline-stage.cpp" />
     <ClCompile Include="..\..\sw_renderer\pipeline.cpp" />
-    <ClCompile Include="..\..\sw_renderer\pshader-input.cpp" />
     <ClCompile Include="..\..\sw_renderer\pshader-output.cpp" />
     <ClCompile Include="..\..\sw_renderer\pshader-wrapper.cpp" />
     <ClCompile Include="..\..\sw_renderer\quad-format.cpp" />

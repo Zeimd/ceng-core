@@ -8,8 +8,10 @@
 *
 *****************************************************************************/
 
-#ifndef CENG_SHADER_DATATYPE_H
-#define CENG_SHADER_DATATYPE_H
+#pragma once
+
+#ifndef CENG_PSHADER_TYPES_H
+#define CENG_PSHADER_TYPES_H
 
 #include <vector>
 
@@ -478,7 +480,7 @@ namespace Ceng::Pshader
 
 		Float& operator= (const SwizzledFloat& other);
 
-		inline Float& operator = (const CR_PixelShaderInput& source)
+		inline Float& operator = (const Ceng::Pshader::InFloat& source)
 		{
 			source.MoveToFloat(&x);
 			return *this;
@@ -613,7 +615,7 @@ namespace Ceng::Pshader
 
 		Float2& operator= (const ConstSwizzledFloat2& other);
 
-		inline Float2& operator = (const CR_PixelShaderInput& source)
+		inline Float2& operator = (const Ceng::Pshader::InFloat2& source)
 		{
 			source.MoveToFloat2(&_x);
 			return *this;
@@ -765,7 +767,7 @@ namespace Ceng::Pshader
 
 		Float3& operator= (const Float4& other);
 
-		inline Float3& operator = (const CR_PixelShaderInput& source)
+		inline Float3& operator = (const Ceng::Pshader::InFloat3& source)
 		{
 			source.MoveToFloat3(&_x);
 			return *this;
@@ -982,7 +984,7 @@ namespace Ceng::Pshader
 		}
 
 
-		inline Float4& operator = (const CR_PixelShaderInput& source)
+		inline Float4& operator = (const Ceng::Pshader::InFloat4& source)
 		{
 			source.MoveToFloat4(&_x);
 			return *this;

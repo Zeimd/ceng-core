@@ -57,7 +57,7 @@ CRESULT ExternalPixelShader::Create(PixelShaderDescriptor* desc, ExternalPixelSh
 	// of undefined semantic links
 
 	//nullInput.semantic = Ceng::SHADER_SEMANTIC::POSITION;
-	temp->nullInput.inputFormat = Ceng::SHADER_DATATYPE::UNKNOWN;
+	//temp->nullInput.inputFormat = Ceng::SHADER_DATATYPE::UNKNOWN;
 
 	//nullOutput.target = CR_SHADER_TARGET0;
 	temp->nullOutput.bufferFormat = Ceng::IMAGE_FORMAT::UNKNOWN;

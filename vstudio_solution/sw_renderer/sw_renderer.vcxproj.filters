@@ -401,9 +401,6 @@
     <ClCompile Include="..\..\sw_renderer\pshader-output.cpp">
       <Filter>Source Files\sw_renderer</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sw_renderer\pshader-input.cpp">
-      <Filter>Source Files\sw_renderer</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\sw_renderer\pipeline-stage.cpp">
       <Filter>Source Files\sw_renderer</Filter>
     </ClCompile>

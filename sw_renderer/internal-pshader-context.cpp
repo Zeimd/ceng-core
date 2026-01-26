@@ -141,7 +141,7 @@ CRESULT InternalPixelShaderContext::Configure(std::vector<PixelShaderInputDesc>&
 					common->link->link->quadFormat.variables[j].quadOffset;
 
 				// TODO: Set staticly
-				inputRegisters[k].variable->inputFormat = common->link->link->quadFormat.variables[j].format;
+				//inputRegisters[k].variable->inputFormat = common->link->link->quadFormat.variables[j].format;
 
 				inputRegisters[k].variable->variableStep = common->link->link->quadFormat.variables[j].gradientOffset;
 			}

@@ -11,7 +11,7 @@ namespace Ceng
 {
 	struct PixelShaderInputRegister
 	{
-		CR_PixelShaderInput* variable;
+		Pshader::CR_PixelShaderInput* variable;
 		Ceng::SHADER_SEMANTIC::value semantic;
 	};
 
@@ -48,10 +48,10 @@ namespace Ceng
 
 		std::array<PixelShaderInputRegister,4> inputRegisters;
 
-		CR_PixelShaderInput normal;
-		CR_PixelShaderInput tangent;
-		CR_PixelShaderInput texCoord0;
-		CR_PixelShaderInput texCoord1;
+		Pshader::InFloat4 normal;
+		Pshader::InFloat4 tangent;
+		Pshader::InFloat2 texCoord0;
+		Pshader::InFloat2 texCoord1;
 
 		std::array<PixelShaderOutputRegister, 10> outputRegisters;
 
