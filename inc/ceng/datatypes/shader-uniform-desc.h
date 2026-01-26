@@ -10,6 +10,8 @@ namespace Ceng
 {
 	struct ShaderUniformDesc
 	{
+		const char* blockName;
+
 		const char* name;
 
 		Ceng::SHADER_DATATYPE::value dataType;
@@ -20,6 +22,11 @@ namespace Ceng
 
 		// Size of the constant in bytes.
 		UINT32 size;
+
+		ShaderUniformDesc()
+		{
+			blockName = nullptr;
+		}
 	};
 }
 

@@ -40,11 +40,12 @@
 
 #include "PixelShaderContextCommon.h"
 
+#include "UniformBlock.h"
+
 namespace Ceng
 {
 	class CR_NewTargetData;
 
-	
 	struct CR_QuadHeader;
 
 	class CR_PixelShader : public Ceng::PixelShader
@@ -65,6 +66,10 @@ namespace Ceng
 		CR_NewTargetData *targetHandle[2+8];
 
 		std::vector<ShaderUniformDesc> uniformList;
+
+		std::vector<UniformBlock> uniformBlocks;
+
+		std::vector<UniformAllocation> uniformAllocation;
 
 		Ceng::UINT32 uniformBufferSize;
 
@@ -110,6 +115,14 @@ namespace Ceng
 
 		virtual CRESULT GetInstances(std::vector<std::shared_ptr<PixelShaderContext>> &instances,
 									const Ceng::UINT32 renderThreads) = 0;
+
+	protected:
+
+		void GatherUniformBlocks();
+
+		
+
+		static Ceng::UINT32 AlignOffset(Ceng::UINT32 offset, Ceng::UINT32 alignment);
 
 	};
 

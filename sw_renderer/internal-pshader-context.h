@@ -6,6 +6,7 @@
 #include <array>
 
 #include "pshader-context.h"
+#include "pshader-uniform.h"
 
 namespace Ceng
 {
@@ -18,6 +19,11 @@ namespace Ceng
 	{
 		CR_psOutputRegister* variable;
 		PSHADER_OUTPUT_SEMANTIC::value target;
+	};
+
+	struct PixelShaderUniform
+	{
+		Pshader::UniformBase* variable;
 	};
 
 	class InternalPixelShaderContext : public PixelShaderContext
@@ -52,6 +58,10 @@ namespace Ceng
 		Pshader::InFloat4 tangent;
 		Pshader::InFloat2 texCoord0;
 		Pshader::InFloat2 texCoord1;
+
+		std::array<PixelShaderUniform, 1> uniforms;
+
+		Pshader::UniformSampler2d diffuseTex;
 
 		std::array<PixelShaderOutputRegister, 10> outputRegisters;
 

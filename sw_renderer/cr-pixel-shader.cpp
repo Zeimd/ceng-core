@@ -66,22 +66,58 @@ const Ceng::BOOL CR_PixelShader::Compiled()
 	return compiled;
 }
 
+
+
+void CR_PixelShader::GatherUniformBlocks()
+{
+	for (UINT32 k = 0; k < uniformList.size(); ++k)
+	{
+		Ceng::INT32 index = UniformBlock::FindUniformBlock(uniformList[k].blockName, uniformBlocks);
+
+		if (index == -1)
+		{
+			uniformBlocks.emplace_back(uniformList[k].blockName);
+		}
+	}
+}
+
+Ceng::UINT32 CR_PixelShader::AlignOffset(Ceng::UINT32 offset, Ceng::UINT32 alignment)
+{
+	Ceng::UINT32 remainder = offset % alignment;
+
+	if (remainder > 0)
+	{
+		return offset + (alignment - remainder);
+	}
+
+	return offset;
+}
+
 CRESULT CR_PixelShader::ConfigureConstants()
 {
 	UINT32 k;
 	UINT32 currentOffset = 0;
 
+	GatherUniformBlocks();
+
 	for(k=0;k<uniformList.size();k++)
 	{
-		uniformList[k].bufferOffset = currentOffset;
+		Ceng::INT32 index = UniformBlock::FindUniformBlock(uniformList[k].blockName, uniformBlocks);
 
-		uniformList[k].size = CR_SHADER_DATA_TYPE_SIZE[uniformList[k].dataType];
-		currentOffset += CR_SHADER_DATA_TYPE_SIZE[uniformList[k].dataType];
+		UniformBlock& block = uniformBlocks[index];
+
+		UniformAllocation alloc;
+
+		alloc.bufferId = index;
+		alloc.offset = AlignOffset(block.size, CR_SHADER_DATA_TYPE_ALIGNMENT[uniformList[k].dataType]);
+		alloc.size = CR_SHADER_DATA_TYPE_SIZE[uniformList[k].dataType];
+
+		uniformAllocation.push_back(alloc);
+
+		block.size = alloc.offset + CR_SHADER_DATA_TYPE_SIZE[uniformList[k].dataType];		
 	}
 
-	uniformBufferSize = currentOffset;
-
-	return nextInstance->ConfigureUniforms(uniformList,uniformBufferSize);
+	return nextInstance->ConfigureUniforms(uniformList, uniformAllocation, uniformBlocks);
 }
 
 CRESULT CR_PixelShader::GetConstant(const char *variableName,
@@ -104,7 +140,7 @@ CRESULT CR_PixelShader::GetConstant(const char *variableName,
 
 const CRESULT CR_PixelShader::ReadUniform(const Ceng::UINT32 index,void *destBuffer)
 {
-	memcpy(destBuffer,nextInstance->uniformPtr[index],uniformList[index].size);
+	memcpy(destBuffer,nextInstance->uniformPtr[index],uniformAllocation[index].size);
 
 	return CE_OK;
 }
@@ -112,7 +148,7 @@ const CRESULT CR_PixelShader::ReadUniform(const Ceng::UINT32 index,void *destBuf
 
 const CRESULT CR_PixelShader::WriteUniform(const Ceng::UINT32 index,void *sourceBuffer)
 {
-	memcpy(nextInstance->uniformPtr[index],sourceBuffer,uniformList[index].size);
+	memcpy(nextInstance->uniformPtr[index],sourceBuffer,uniformAllocation[index].size);
 
 	return CE_OK;
 }
