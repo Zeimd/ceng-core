@@ -63,6 +63,62 @@ namespace Ceng
 		4, // samplerCube
 	};
 
+	const UINT32 CR_SHADER_DATA_TYPE_ALIGNMENT[] =
+	{
+		0 ,  // UNKNOWN
+
+		4 , // FLOAT
+		8 , // FLOAT2
+		16 , // FLOAT3
+		16 , // FLOAT4
+
+		8 , // DOUBLE
+		16 , // DOUBLE2
+		32 , // DOUBLE3
+		32 , // DOUBLE4
+
+		4 , // UINT
+		8 , // UINT2
+		16 , // UINT3
+		16 , // UINT4
+
+		4 , // INT
+		8 , // INT2
+		16 , // INT3
+		16 , // INT4
+
+		4 , // BOOL
+		8 , // BOOL2
+		16 , // BOOL3
+		16 , // BOOL4
+
+		16 , // FLOAT4x4
+		16 , // FLOAT3x3
+		16 , // FLOAT2x2
+
+		32 , // DOUBLE4x4
+		32 , // DOUBLE3x3
+		32 , // DOUBLE2x2
+
+		16 , // UINT4x4
+		16 , // UINT3x3
+		16 , // UINT2x2
+
+		16 , // INT4x4
+		16 , // INT3x3
+		16 , // INT2x2
+
+		16 , // BOOL4x4
+		16 , // BOOL3x3
+		16 , // BOOL2x2
+
+		4 , // sampler1d
+		4 , // sampler2d
+		4 , // sampler3d
+
+		4, // samplerCube
+	};
+
 	// Is the shader datatype valid as pixel shader input
 	const Ceng::BOOL CR_PSHADER_VALID_INPUT_TYPE[] =
 	{

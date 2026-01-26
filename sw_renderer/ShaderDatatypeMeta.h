@@ -10,7 +10,8 @@
 
 namespace Ceng
 {
-	extern const UINT32 CR_SHADER_DATA_TYPE_SIZE[];
+	extern const Ceng::UINT32 CR_SHADER_DATA_TYPE_SIZE[];
+	extern const Ceng::UINT32 CR_SHADER_DATA_TYPE_ALIGNMENT[];
 	extern const Ceng::BOOL CR_PSHADER_VALID_INPUT_TYPE[];
 	extern const Ceng::BOOL CR_SHADER_VALID_UNIFORM_TYPE[];
 	extern const SHADER_DATATYPE::value CR_SHADER_UNIFORM_EFFECTIVE_TYPE[];
