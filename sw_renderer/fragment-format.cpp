@@ -43,6 +43,12 @@ CRESULT CR_FragmentFormat::LinkSemantics(std::vector<VertexShaderOutputDesc> &li
 				continue;
 			}
 
+			if (pshaderIn[j].dataType != vshaderOut[k].dataType)
+			{
+				// Data type mismatch.
+				continue;
+			}
+
 			// NOTE: Multiple pixel shader inputs can map into the same vertex shader output
 
 			if (vshaderOut[k].semantic == pshaderIn[j].semantic)

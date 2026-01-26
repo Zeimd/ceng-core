@@ -12,7 +12,6 @@ namespace Ceng
 	struct PixelShaderInputRegister
 	{
 		Pshader::CR_PixelShaderInput* variable;
-		Ceng::SHADER_SEMANTIC::value semantic;
 	};
 
 	struct PixelShaderOutputRegister

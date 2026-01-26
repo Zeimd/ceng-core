@@ -34,16 +34,9 @@ InternalPixelShaderContext::InternalPixelShaderContext(std::shared_ptr<PixelShad
 	stepBufferPtr = NULL;
 
 	inputRegisters[0].variable = &normal;
-	inputRegisters[0].semantic = SHADER_SEMANTIC::NORMAL;
-
 	inputRegisters[1].variable = &tangent;
-	inputRegisters[1].semantic = SHADER_SEMANTIC::TANGENT;
-
 	inputRegisters[2].variable = &texCoord0;
-	inputRegisters[2].semantic = SHADER_SEMANTIC::TEXCOORD_0;
-
 	inputRegisters[3].variable = &texCoord1;
-	inputRegisters[3].semantic = SHADER_SEMANTIC::TEXCOORD_1;
 
 	for (int k = 0; k < inputRegisters.size(); ++k)
 	{
@@ -135,7 +128,7 @@ CRESULT InternalPixelShaderContext::Configure(std::vector<PixelShaderInputDesc>&
 
 			// NOTE: Multiple registers can map to one semantic
 
-			if (inputRegisters[k].semantic == common->link->link->quadFormat.variables[j].semantic)
+			if (inputSemantics[k].semantic == common->link->link->quadFormat.variables[j].semantic)
 			{
 				inputRegisters[k].variable->inputAddress = (POINTER)((UINT8*)quadBuffer) +
 					common->link->link->quadFormat.variables[j].quadOffset;

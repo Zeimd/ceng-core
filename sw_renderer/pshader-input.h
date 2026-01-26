@@ -27,11 +27,6 @@ namespace Ceng::Pshader
 	{
 	public:
 
-		/**
-		 * A CR_SHADER_DATA_TYPE value.
-		 */
-		 //Ceng::SHADER_DATATYPE::value inputFormat;
-
 		 /**
 		  * Location of input data.
 		  */

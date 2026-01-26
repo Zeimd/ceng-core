@@ -651,15 +651,23 @@ const Ceng::CRESULT SoftwareRenderer::CreatePixelShader(const Ceng::StringUtf8& 
 	Ceng::PixelShaderInputDesc psTempRegister;
 
 	
+	psTempRegister.dataType = Ceng::SHADER_DATATYPE::FLOAT4;
+	psTempRegister.name = "normal";
 	psTempRegister.semantic = Ceng::SHADER_SEMANTIC::NORMAL;
 	pixelShader->inputSemantics.push_back(psTempRegister);
-	
+
+	psTempRegister.dataType = Ceng::SHADER_DATATYPE::FLOAT4;
+	psTempRegister.name = "tangent";
 	psTempRegister.semantic = Ceng::SHADER_SEMANTIC::TANGENT;
 	pixelShader->inputSemantics.push_back(psTempRegister);
 
+	psTempRegister.dataType = Ceng::SHADER_DATATYPE::FLOAT2;
+	psTempRegister.name = "texCoord0";
 	psTempRegister.semantic = Ceng::SHADER_SEMANTIC::TEXCOORD_0;
 	pixelShader->inputSemantics.push_back(psTempRegister);
 
+	psTempRegister.dataType = Ceng::SHADER_DATATYPE::FLOAT2;
+	psTempRegister.name = "texCoord1";
 	psTempRegister.semantic = Ceng::SHADER_SEMANTIC::TEXCOORD_1;
 	pixelShader->inputSemantics.push_back(psTempRegister);
 	
