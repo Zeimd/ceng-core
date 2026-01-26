@@ -6,8 +6,10 @@
 *
 *****************************************************************************/
 
-#ifndef _CENG_CRENDER_BASE_H
-#define _CENG_CRENDER_BASE_H
+#pragma once
+
+#ifndef CENG_CRENDER_BASE_H
+#define CENG_CRENDER_BASE_H
 
 #include <ceng/datatypes/basic-types.h>
 #include <ceng/datatypes/return-val.h>

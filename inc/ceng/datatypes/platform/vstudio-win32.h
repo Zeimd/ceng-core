@@ -6,6 +6,8 @@
 *
 *****************************************************************************/
 
+#pragma once
+
 #ifndef CENG_VSTUDIO_WIN32_H
 #define CENG_VSTUDIO_WIN32_H
 

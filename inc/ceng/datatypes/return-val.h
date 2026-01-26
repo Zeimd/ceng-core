@@ -6,8 +6,10 @@
 *
 *****************************************************************************/
 
-#ifndef _CONCEPT2_RETURN_VAL_H
-#define _CONCEPT2_RETURN_VAL_H
+#pragma once
+
+#ifndef CENG_RETURN_VAL_H
+#define CENG_RETURN_VAL_H
 
 //******************************************************************
 // Function return codes

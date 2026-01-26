@@ -8,8 +8,10 @@
 *
 *****************************************************************************/
 
-#ifndef _CONCEPT2_BOOLEAN_H
-#define _CONCEPT2_BOOLEAN_H
+#pragma once
+
+#ifndef CENG_BOOLEAN_H
+#define CENG_BOOLEAN_H
 
 #include "basic-types.h"
 

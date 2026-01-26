@@ -6,6 +6,8 @@
 *
 *****************************************************************************/
 
+#pragma once
+
 #ifndef CENG_BASIC_TYPES_H
 #define CENG_BASIC_TYPES_H
 

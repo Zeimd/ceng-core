@@ -6,8 +6,10 @@
 *
 *****************************************************************************/
 
-#ifndef _CENG_SHADER_SEMANTIC_H
-#define _CENG_SHADER_SEMANTIC_H
+#pragma once
+
+#ifndef CENG_SHADER_SEMANTIC_H
+#define CENG_SHADER_SEMANTIC_H
 
 namespace Ceng
 {

@@ -6,8 +6,10 @@
 *
 *****************************************************************************/
 
-#ifndef _CENG_SHADER_DATATYPE_H
-#define _CENG_SHADER_DATATYPE_H
+#pragma once
+
+#ifndef CENG_SHADER_DATATYPE_H
+#define CENG_SHADER_DATATYPE_H
 
 #include "../datatypes/basic-types.h"
 
