@@ -77,10 +77,6 @@ namespace Ceng
 		CR_psOutputRegister OUT_TARGET6;
 		CR_psOutputRegister OUT_TARGET7;
 
-		Pshader::SampleTexture2D sample2d;
-
-		TextureUnit diffuseTexUnit;
-
 	public:
 
 		InternalPixelShaderContext(std::shared_ptr<PixelShaderContextCommon>& common);
@@ -90,7 +86,8 @@ namespace Ceng
 		static CRESULT GetInstance(std::shared_ptr<PixelShaderContextCommon>& common, std::shared_ptr<PixelShaderContext>& out);
 
 		CRESULT Configure(std::vector<PixelShaderInputDesc>& inputSemantics,
-			std::vector<PixelShaderOutputDesc>& renderTargets) override;
+			std::vector<PixelShaderOutputDesc>& renderTargets,
+			UniformManager& manager) override;
 
 		void ShaderFunction(const FLOAT32* perspective, const FLOAT32* invertW,
 			const Ceng::INT32 coverage, const Ceng::INT32 threadId);

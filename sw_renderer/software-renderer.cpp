@@ -673,7 +673,7 @@ const Ceng::CRESULT SoftwareRenderer::CreatePixelShader(const Ceng::StringUtf8& 
 	
 	Ceng::ShaderUniformDesc tempConst;
 
-	tempConst.dataType = SHADER_DATATYPE::UINT;
+	tempConst.dataType = SHADER_DATATYPE::sampler2d;
 	tempConst.name = "diffuseTexture";
 
 	pixelShader->uniformList.push_back(tempConst);

@@ -18,6 +18,9 @@
 
 #include "pshader-types.h"
 
+#include "pshader-uniform.h"
+#include "pshader-sampler.h"
+
 namespace Ceng
 {
 	const FLOAT32 colorScaleScalar = FLOAT32(255.0f);
@@ -213,6 +216,7 @@ namespace Ceng
 
 		};
 
+		/*
 		inline void Write(const Pshader::SampleTexture2D &source, const Ceng::INT32 coverageIndex)
 		{
 			_declspec(align(16)) Ceng::FLOAT32 writeBuffer[16];
@@ -296,10 +300,97 @@ namespace Ceng
 			*/
 
 			// Step quad chain's target address to next quad on the right
+			//*localWrite += 16;
+		//}
+		
+
+		inline void Write(const Pshader::DelayedSampler2D& source, const Ceng::INT32 coverageIndex)
+		{
+			_declspec(align(16)) Ceng::FLOAT32 writeBuffer[16];
+
+			source.SampleToFloat4(writeBuffer);
+
+			POINTER* localWrite = (POINTER*)(inputAddress);
+
+			float* sourcePtr = writeBuffer;
+			float* dest = (float*)(*localWrite);
+
+			const INT8* coverage = &coverageTable8[coverageIndex][0];
+
+			// Source is ubyte4
+
+			__m128i writeVec;
+
+			__m128* writeVecF = (__m128*) & writeVec;
+
+			*writeVecF = _mm_load_ps(sourcePtr);
+
+			__m128 coverageVecF = _mm_load1_ps((float*)coverage);
+
+			__m128i* coverageVec = (__m128i*) & coverageVecF;
+
+			__m128i destVec = _mm_load_si128((__m128i*)dest);
+
+			// Select pixels from render target that won't be overwritten
+			destVec = _mm_andnot_si128(*coverageVec, destVec);
+
+			// Select pixels from input that will be written
+			writeVec = _mm_and_si128(*coverageVec, writeVec);
+
+			// Combine pixels
+			writeVec = _mm_or_si128(writeVec, destVec);
+
+			_mm_store_si128((__m128i*)dest, writeVec);
+
+			/*
+
+			// Source is float4
+
+			__m128 colorScaleVec = _mm_load1_ps(&colorScaleScalar);
+
+			__m128 blueChannel = _mm_load_ps(&sourcePtr[0]);
+			__m128 greenChannel = _mm_load_ps(&sourcePtr[4]);
+			__m128 redChannel = _mm_load_ps(&sourcePtr[8]);
+			__m128 alphaChannel = _mm_load_ps(&sourcePtr[12]);
+
+			blueChannel = _mm_mul_ps(blueChannel, colorScaleVec);
+			greenChannel = _mm_mul_ps(greenChannel, colorScaleVec);
+			redChannel = _mm_mul_ps(redChannel, colorScaleVec);
+			alphaChannel = _mm_mul_ps(alphaChannel, colorScaleVec);
+
+			__m128i blueInt = _mm_cvtps_epi32(blueChannel);
+			__m128i greenInt = _mm_cvtps_epi32(greenChannel);
+			__m128i redInt = _mm_cvtps_epi32(redChannel);
+			__m128i alphaInt = _mm_cvtps_epi32(alphaChannel);
+
+			__m128i br_Word = _mm_packs_epi32(blueInt, redInt);
+			__m128i ga_Word = _mm_packs_epi32(greenInt, alphaInt);
+
+			__m128i writeVec = _mm_packus_epi16(br_Word, ga_Word);
+
+			__m128 coverageVecF = _mm_load1_ps((float*)coverage);
+
+			__m128i *coverageVec = (__m128i*)&coverageVecF;
+
+			__m128i destVec = _mm_load_si128((__m128i*)dest);
+
+			// Select pixels from render target that won't be overwritten
+			destVec = _mm_andnot_si128(*coverageVec, destVec);
+
+			// Select pixels from input that will be written
+			writeVec = _mm_and_si128(*coverageVec, writeVec);
+
+			// Combine pixels
+			writeVec = _mm_or_si128(writeVec, destVec);
+
+			_mm_store_si128((__m128i*)dest, writeVec);
+			*/
+
+			// Step quad chain's target address to next quad on the right
 			*localWrite += 16;
 		}
 
-		inline CR_psOutputRegister& operator = (const Pshader::SampleTexture2D &source)
+		inline CR_psOutputRegister& operator = (const Pshader::DelayedSampler2D &source)
 		{
 			POINTER *localWrite = (POINTER*)(inputAddress);
 

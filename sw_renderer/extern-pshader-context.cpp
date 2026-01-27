@@ -14,7 +14,8 @@ ExternalPixelShaderContext::~ExternalPixelShaderContext()
 }
 
 CRESULT ExternalPixelShaderContext::Configure(std::vector<PixelShaderInputDesc>& inputSemantics,
-	std::vector<PixelShaderOutputDesc>& renderTargets)
+	std::vector<PixelShaderOutputDesc>& renderTargets,
+	UniformManager& uniformManager)
 {
 	CRESULT cresult;
 

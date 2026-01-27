@@ -18,6 +18,8 @@
 #include "pshader-util.h"
 #include <ceng/datatypes/pshader-quad-batch.h>
 
+#include "pshader-sampler.h"
+
 
 using namespace Ceng;
 
@@ -80,6 +82,8 @@ InternalPixelShaderContext::InternalPixelShaderContext(std::shared_ptr<PixelShad
 	{
 		*(outputRegisters[k].variable) = common->shader->nullOutput;
 	}
+
+	uniforms[0].variable = &diffuseTex;
 }
 
 CRESULT InternalPixelShaderContext::GetInstance(std::shared_ptr<PixelShaderContextCommon>& common, std::shared_ptr<PixelShaderContext>& out)
@@ -90,7 +94,7 @@ CRESULT InternalPixelShaderContext::GetInstance(std::shared_ptr<PixelShaderConte
 
 	CRESULT cresult;
 
-	cresult = temp->Configure(common->shader->inputSemantics, common->shader->renderTargets);
+	cresult = temp->Configure(common->shader->inputSemantics, common->shader->renderTargets,common->shader->uniformManager);
 
 	out = std::shared_ptr<PixelShaderContext>(temp);
 
@@ -103,7 +107,8 @@ InternalPixelShaderContext::~InternalPixelShaderContext()
 }
 
 CRESULT InternalPixelShaderContext::Configure(std::vector<PixelShaderInputDesc>& inputSemantics,
-	std::vector<PixelShaderOutputDesc>& renderTargets)
+	std::vector<PixelShaderOutputDesc>& renderTargets,
+	UniformManager& manager)
 {
 	// Allocate space for a quad's varying data
 
@@ -172,6 +177,22 @@ CRESULT InternalPixelShaderContext::Configure(std::vector<PixelShaderInputDesc>&
 			// No match found
 			outputRegisters[k].variable->bufferFormat = Ceng::IMAGE_FORMAT::UNKNOWN;
 		}		
+	}
+
+	for (Ceng::UINT32 k = 0; k < uniforms.size(); ++k)
+	{
+		uniforms[k].variable->dataPtr = (void*)common->uniformBuffer.uniformPtr[k];
+
+		switch (common->shader->uniformList[k].dataType)
+		{
+		case SHADER_DATATYPE::sampler2d:			
+			Pshader::UniformSampler2d* ptr_sampler2d = (Pshader::UniformSampler2d*)uniforms[k].variable;
+
+			Ceng::UINT32* unitIndex = (Ceng::UINT32*)uniforms[k].variable->dataPtr;
+
+			ptr_sampler2d->unit = common->textureUnits[*unitIndex];
+			break;
+		}
 	}
 
 	// TODO: Configure locals
@@ -314,8 +335,7 @@ void InternalPixelShaderContext::ShaderFunction(const FLOAT32* perspective, cons
 
 	//OUT_TARGET0->Write(color,coverageIndex);
 
-
-	OUT_TARGET0.Write(sample2d(diffuseTexUnit, uvDiffuse), coverageIndex);
+	OUT_TARGET0.Write(sample2d(diffuseTex, uvDiffuse), coverageIndex);
 }
 
 CRESULT InternalPixelShaderContext::ProcessQuads(Task_PixelShader* batch, const Ceng::INT32 threadId)
@@ -328,12 +348,6 @@ CRESULT InternalPixelShaderContext::ProcessQuads(Task_PixelShader* batch, const 
 	inputBaseAddress = (POINTER)((UINT8*)quadBuffer);
 
 	FLOAT32* localPerspective = (FLOAT32*)&perspectiveTemp[0];
-
-	// ***** Constant setup
-
-	const Ceng::UINT32* diffuseTexture = (Ceng::UINT32*)common->uniformBuffer.uniformPtr[0];
-
-	diffuseTexUnit = common->textureUnits[*diffuseTexture];
 
 	UINT32 chainIndex;
 
@@ -566,12 +580,6 @@ CRESULT InternalPixelShaderContext::ProcessQuads(Experimental::Task_PixelShader*
 	inputBaseAddress = (POINTER)((UINT8*)quadBuffer);
 
 	FLOAT32* localPerspective = (FLOAT32*)&perspectiveTemp[0];
-
-	// ***** Constant setup
-
-	const Ceng::UINT32* diffuseTexture = (Ceng::UINT32*)common->uniformBuffer.uniformPtr[0];
-
-	diffuseTexUnit = common->textureUnits[*diffuseTexture];
 
 	UINT32 chainIndex;
 

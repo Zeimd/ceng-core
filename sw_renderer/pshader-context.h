@@ -66,7 +66,8 @@ namespace Ceng
 		}		
 
 		virtual CRESULT Configure(std::vector<PixelShaderInputDesc>& inputSemantics,
-			std::vector<PixelShaderOutputDesc>& renderTargets) = 0;
+			std::vector<PixelShaderOutputDesc>& renderTargets,
+			UniformManager& manager) = 0;
 
 		virtual CRESULT ProcessQuads(Task_PixelShader *batch,const Ceng::INT32 threadId) = 0;
 

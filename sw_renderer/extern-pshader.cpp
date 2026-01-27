@@ -125,7 +125,8 @@ CRESULT ExternalPixelShader::GetInstances(std::vector<std::shared_ptr<PixelShade
 			std::make_shared<ExternalPixelShaderContext>(instance, currentInstance);
 
 		CRESULT cresult = context->Configure(currentInstance->shader->inputSemantics,
-			currentInstance->shader->renderTargets);
+			currentInstance->shader->renderTargets,
+			currentInstance->shader->uniformManager);
 
 		if (cresult != CE_OK)
 		{

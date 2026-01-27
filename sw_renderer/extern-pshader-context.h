@@ -22,7 +22,8 @@ namespace Ceng
 		~ExternalPixelShaderContext() override;
 
 		CRESULT Configure(std::vector<PixelShaderInputDesc>& inputSemantics,
-			std::vector<PixelShaderOutputDesc>& renderTargets) override;
+			std::vector<PixelShaderOutputDesc>& renderTargets,
+			UniformManager& uniformManager) override;
 
 		CRESULT ProcessQuads(Task_PixelShader* batch, const Ceng::INT32 threadId) override;
 

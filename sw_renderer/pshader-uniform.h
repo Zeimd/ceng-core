@@ -3,6 +3,8 @@
 #ifndef CENG_PSHADER_UNIFORM_H
 #define CENG_PSHADER_UNIFORM_H
 
+#include "texture-unit.h"
+
 namespace Ceng::Pshader
 {
 	class UniformBase
@@ -97,7 +99,7 @@ namespace Ceng::Pshader
 	{
 	public:
 
-		CallbackSampler2d sampler;
+		Ceng::TextureUnit unit;
 	};
 }
 

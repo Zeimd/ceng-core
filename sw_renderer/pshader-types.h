@@ -1556,29 +1556,6 @@ namespace Ceng::Pshader
 		return LogicalOr(LogicalOr(LogicalOr(a._x != b._x, a._y != b._y), a._z != b._z), a._w != b._w);
 	}
 
-	class SampleTexture2D
-	{
-	public:
-
-		Ceng::TextureUnit *unit;
-		Float2 *uv;
-
-		void *dataAddress;
-
-		//std::vector<TextureUnit> *textureUnits;
-
-	public:
-
-		SampleTexture2D() : unit(nullptr),uv(nullptr), dataAddress(nullptr)
-		{
-		}
-
-		//SampleTexture2D& operator()(const Ceng::UINT32 index, Shader::Float2 &uv);
-		SampleTexture2D& operator()(TextureUnit &texture, Float2 &uv);
-
-		void SampleToFloat4(void *destBuffer) const;
-	};
-
 	class SwizzledFloat
 	{
 	public:
@@ -2973,11 +2950,13 @@ namespace Ceng::Pshader
 	//**********************************************************
 	// Shader::Float4 methods		
 
+	/*
 	inline Float4& Float4::operator = (const SampleTexture2D& source)
 	{
 		(*call_mov_float4)((void*)&_x, (void*)source.dataAddress);
 		return *this;
 	}
+	*/
 
 	inline Float4& Float4::operator = (const SwizzledFloat4& source)
 	{
@@ -4739,24 +4718,6 @@ namespace Ceng::Pshader
 	inline ConstSwizzledFloat4 Float4::wwww()
 	{
 		return ConstSwizzledFloat4(&_x, 3, 3, 3, 3);
-	}
-
-	//**********************************************************
-	// SampleTexture2D methods
-
-	inline SampleTexture2D& SampleTexture2D::operator()(TextureUnit &texture, Float2 &uv)
-	{
-		unit = &texture;
-		this->uv = &uv;
-
-		//texture.view->Sample2D(uv, texture.sampler, (Ceng::FLOAT32*)dataAddress);
-
-		return *this;
-	}
-
-	inline void SampleTexture2D::SampleToFloat4(void *destBuffer) const
-	{
-		unit->view->Sample2D(*uv, unit->sampler, (Ceng::FLOAT32*)destBuffer);
 	}
 
 }; // namespace Ceng::Shader
