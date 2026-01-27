@@ -83,7 +83,7 @@ CRESULT CR_PixelShader::GetConstant(const char *variableName,
 		if (strcmp(uniformList[k].name, variableName) == 0)
 		{
 			out_index = k;
-			out_type = uniformList[k].dataType;
+			out_type = CR_SHADER_UNIFORM_EFFECTIVE_TYPE[uniformList[k].dataType];
 			return CE_OK;
 		}
 	}
