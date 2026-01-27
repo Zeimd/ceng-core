@@ -30,7 +30,7 @@ namespace Ceng
 
 	public:
 
-		static Ceng::INT32 FindUniformBlock(const char* name, std::vector<UniformBlock>& blocks);
+		
 	};
 
 	

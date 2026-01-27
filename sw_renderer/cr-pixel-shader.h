@@ -40,7 +40,7 @@
 
 #include "PixelShaderContextCommon.h"
 
-#include "UniformBlock.h"
+#include "UniformManager.h"
 
 namespace Ceng
 {
@@ -67,9 +67,7 @@ namespace Ceng
 
 		std::vector<ShaderUniformDesc> uniformList;
 
-		std::vector<UniformBlock> uniformBlocks;
-
-		std::vector<UniformAllocation> uniformAllocation;
+		UniformManager uniformManager;
 
 		Ceng::UINT32 uniformBufferSize;
 
@@ -118,11 +116,7 @@ namespace Ceng
 
 	protected:
 
-		void GatherUniformBlocks();
-
 		
-
-		static Ceng::UINT32 AlignOffset(Ceng::UINT32 offset, Ceng::UINT32 alignment);
 
 	};
 

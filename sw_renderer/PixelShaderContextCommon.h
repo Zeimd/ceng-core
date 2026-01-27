@@ -11,7 +11,7 @@
 
 #include "texture-unit.h"
 
-#include "UniformBlock.h"
+#include "UniformManager.h"
 
 namespace Ceng
 {
@@ -50,8 +50,7 @@ namespace Ceng
 		PixelShaderContextCommon(const PixelShaderContextCommon& source);
 
 		const CRESULT ConfigureUniforms(const std::vector<ShaderUniformDesc>& uniformList,
-			const std::vector<UniformAllocation>& allocations,
-			const std::vector<UniformBlock>& blocks);
+			const UniformManager& uniformManager);
 	};
 }
 
