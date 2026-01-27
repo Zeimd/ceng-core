@@ -93,7 +93,7 @@ CRESULT CR_PixelShader::GetConstant(const char *variableName,
 
 const CRESULT CR_PixelShader::ReadUniform(const Ceng::UINT32 index,void *destBuffer)
 {
-	memcpy(destBuffer,nextInstance->uniformPtr[index],uniformManager.uniformAllocation[index].size);
+	memcpy(destBuffer,nextInstance->uniformBuffer.uniformPtr[index],uniformManager.uniformAllocation[index].size);
 
 	return CE_OK;
 }
@@ -101,7 +101,7 @@ const CRESULT CR_PixelShader::ReadUniform(const Ceng::UINT32 index,void *destBuf
 
 const CRESULT CR_PixelShader::WriteUniform(const Ceng::UINT32 index,void *sourceBuffer)
 {
-	memcpy(nextInstance->uniformPtr[index],sourceBuffer,uniformManager.uniformAllocation[index].size);
+	memcpy(nextInstance->uniformBuffer.uniformPtr[index],sourceBuffer,uniformManager.uniformAllocation[index].size);
 
 	return CE_OK;
 }

@@ -12,14 +12,13 @@
 #include "texture-unit.h"
 
 #include "UniformManager.h"
+#include "UniformBufferInstance.h"
 
 namespace Ceng
 {
 	class CR_PixelShader;
 
-	class ShaderLinkInstance;
-
-	using UniformBufferContainer = AlignedBuffer<Ceng::UINT8>;
+	class ShaderLinkInstance;	
 
 	class PixelShaderContextCommon
 	{
@@ -27,9 +26,7 @@ namespace Ceng
 
 		CR_PixelShader* shader;
 
-		AlignedBuffer<Ceng::UINT8*> uniformPtr;
-
-		std::vector<UniformBufferContainer> uniformBuffer;
+		UniformBufferInstance uniformBuffer;
 
 		ShaderLinkInstance* link;
 
@@ -50,7 +47,7 @@ namespace Ceng
 		PixelShaderContextCommon(const PixelShaderContextCommon& source);
 
 		const CRESULT ConfigureUniforms(const std::vector<ShaderUniformDesc>& uniformList,
-			const UniformManager& uniformManager);
+			UniformManager& uniformManager);
 	};
 }
 

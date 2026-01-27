@@ -42,31 +42,14 @@ PixelShaderContextCommon::PixelShaderContextCommon(const PixelShaderContextCommo
 		targetHandles[k] = source.targetHandles[k];
 	}
 
+	
 	uniformBuffer = source.uniformBuffer;
-
-	uniformPtr = AlignedBuffer<UINT8*>(
-		Ceng::UINT32(shader->uniformList.size()), shader->cacheLine);
-
-	for (k = 0; k < shader->uniformList.size(); k++)
-	{
-		uniformPtr[k] = &uniformBuffer[shader->uniformManager.uniformAllocation[k].bufferId][shader->uniformManager.uniformAllocation[k].offset];
-	}
 }
 
 const CRESULT PixelShaderContextCommon::ConfigureUniforms(const std::vector<ShaderUniformDesc>& uniformList,
-	const UniformManager& uniformManager)
+	UniformManager& uniformManager)
 {
-	for (int k = 0; k < uniformManager.uniformBlocks.size(); ++k)
-	{
-		uniformBuffer.emplace_back(uniformManager.uniformBlocks[k].size, shader->cacheLine);
-	}
-
-	uniformPtr = AlignedBuffer<UINT8*>(Ceng::UINT32(shader->uniformList.size()), shader->cacheLine);
-
-	for (int k = 0; k < uniformList.size(); ++k)
-	{
-		uniformPtr[k] = &uniformBuffer[uniformManager.uniformAllocation[k].bufferId][uniformManager.uniformAllocation[k].offset];
-	}
+	uniformBuffer.Configure(&uniformManager, shader->cacheLine);
 
 	return CE_OK;
 }

@@ -331,7 +331,7 @@ CRESULT InternalPixelShaderContext::ProcessQuads(Task_PixelShader* batch, const 
 
 	// ***** Constant setup
 
-	const Ceng::UINT32* diffuseTexture = (Ceng::UINT32*)common->uniformPtr[0];
+	const Ceng::UINT32* diffuseTexture = (Ceng::UINT32*)common->uniformBuffer.uniformPtr[0];
 
 	diffuseTexUnit = common->textureUnits[*diffuseTexture];
 
@@ -569,7 +569,7 @@ CRESULT InternalPixelShaderContext::ProcessQuads(Experimental::Task_PixelShader*
 
 	// ***** Constant setup
 
-	const Ceng::UINT32* diffuseTexture = (Ceng::UINT32*)common->uniformPtr[0];
+	const Ceng::UINT32* diffuseTexture = (Ceng::UINT32*)common->uniformBuffer.uniformPtr[0];
 
 	diffuseTexUnit = common->textureUnits[*diffuseTexture];
 

@@ -330,6 +330,9 @@
     <ClInclude Include="..\..\sw_renderer\UniformManager.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\UniformBufferInstance.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -570,6 +573,9 @@
       <Filter>Source Files\sw_renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\..\sw_renderer\UniformManager.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\UniformBufferInstance.cpp">
       <Filter>Source Files\sw_renderer</Filter>
     </ClCompile>
   </ItemGroup>
