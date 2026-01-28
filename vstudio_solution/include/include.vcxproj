@@ -207,6 +207,7 @@
     <ClInclude Include="..\..\inc\ceng\enums\renderer-type.h" />
     <ClInclude Include="..\..\inc\ceng\enums\resource-type.h" />
     <ClInclude Include="..\..\inc\ceng\enums\resource-usage.h" />
+    <ClInclude Include="..\..\inc\ceng\enums\ResourceViewType.h" />
     <ClInclude Include="..\..\inc\ceng\enums\scanline-order.h" />
     <ClInclude Include="..\..\inc\ceng\enums\shader-datatype.h" />
     <ClInclude Include="..\..\inc\ceng\enums\shader-semantic.h" />

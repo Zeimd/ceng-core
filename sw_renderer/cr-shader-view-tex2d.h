@@ -37,12 +37,14 @@ namespace Ceng
 		CR_ShaderViewTex2D();
 		CR_ShaderViewTex2D(const Texture2dDesc &desc, TextureMipVector &&textures);
 
-		virtual ~CR_ShaderViewTex2D();
+		~CR_ShaderViewTex2D() override;
 
-		virtual void Release() override;
+		void Release() override;
 
-		virtual void Sample2D(Pshader::Float2 &uv, const CR_SamplerState *sampler,
+		void Sample2D(Pshader::Float2 &uv, const CR_SamplerState *sampler,
 			Ceng::FLOAT32 *out_colorVecs) override;
+
+		ResourceViewType::value ViewType() override;
 
 	protected:
 

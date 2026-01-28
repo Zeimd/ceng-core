@@ -486,5 +486,8 @@
     <ClInclude Include="..\..\inc\ceng\datatypes\pshader-triangle-data.h">
       <Filter>Header Files\ceng\datatypes</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\enums\ResourceViewType.h">
+      <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

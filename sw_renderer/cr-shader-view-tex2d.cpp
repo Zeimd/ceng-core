@@ -52,6 +52,12 @@ void CR_ShaderViewTex2D::Release()
 	delete this;
 }
 
+ResourceViewType::value CR_ShaderViewTex2D::ViewType()
+{
+	return ResourceViewType::texture_2d;
+}
+
+
 // NOTE: This is a debug value, dividend should be 1.0
 const Ceng::FLOAT32 colorScale = 0.6f / 255.0f;
 

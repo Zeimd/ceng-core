@@ -11,6 +11,8 @@
 
 #include "base-interface.h"
 
+#include "../enums/ResourceViewType.h"
+
 namespace Ceng
 {
 	class ShaderResourceView : public BASE_INTERFACE
@@ -27,6 +29,8 @@ namespace Ceng
 		}
 
 		virtual void Release() = 0;
+
+		virtual ResourceViewType::value ViewType() = 0;
 
 	};
 }
