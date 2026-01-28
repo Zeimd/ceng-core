@@ -29,6 +29,8 @@ namespace Ceng
 		GL32_ShaderViewCubemap();
 		GL32_ShaderViewCubemap(GL32_Cubemap *texture,const GLint baseMipLevel, const GLint maxMipLevel);
 
+		ResourceViewType::value ViewType() override;
+
 		virtual ~GL32_ShaderViewCubemap();
 
 		virtual void Release() override;

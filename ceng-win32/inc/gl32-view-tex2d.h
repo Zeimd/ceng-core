@@ -31,6 +31,8 @@ namespace Ceng
 		virtual ~GL32_ShaderViewTex2D();
 		virtual void Release() override;
 
+		ResourceViewType::value ViewType() override;
+
 		/**
 		* Bind this resource to texture unit.
 		*/

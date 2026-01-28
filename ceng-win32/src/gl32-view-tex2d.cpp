@@ -30,6 +30,11 @@ void GL32_ShaderViewTex2D::Release()
 	delete this;
 }
 
+ResourceViewType::value GL32_ShaderViewTex2D::ViewType()
+{
+	return ResourceViewType::texture_2d;
+}
+
 void GL32_ShaderViewTex2D::GL_Bind()
 {
 	glBindTexture(GL_TEXTURE_2D, gl_textureID);

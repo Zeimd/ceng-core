@@ -29,6 +29,11 @@ void GL32_ShaderViewCubemap::Release()
 	delete this;
 }
 
+ResourceViewType::value GL32_ShaderViewCubemap::ViewType()
+{
+	return ResourceViewType::cubemap;
+}
+
 void GL32_ShaderViewCubemap::GL_Bind()
 {
 	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->gl_textureID);
