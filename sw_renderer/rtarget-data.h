@@ -90,6 +90,8 @@ namespace Ceng
 
 		CRESULT ClearTarget(const CE_Color &color,const Ceng::Rectangle *scissorRect);
 
+		CRESULT ClearTarget_new(const CE_Color& color, const Ceng::Rectangle* scissorRect);
+
 		CRESULT ClearTarget(const CE_Color& color, const Ceng::Rectangle* scissorRect, Ceng::INT32 startY, Ceng::INT32 fillHeight);
 
 		CRESULT ClearDepth(const FLOAT32 depth);
@@ -136,6 +138,8 @@ namespace Ceng
 										const Ceng::UINT32 tileSize);
 
 	protected:
+
+		CRESULT ClearTargetComplex(const CE_Color& color, const Ceng::Rectangle& localRect);
 
 		void (*clear_bufferBlock)(void *bufferPtr,void *fillVec,POINTER vecAmount);
 	};

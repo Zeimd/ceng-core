@@ -13,7 +13,7 @@
 
 using namespace Ceng;
 
-CRESULT CR_NewTargetData::ClearTarget(const CE_Color &color,const Ceng::Rectangle *scissorRect)
+CRESULT CR_NewTargetData::ClearTarget(const CE_Color& color, const Ceng::Rectangle* scissorRect)
 {
 	// Clip scissor rectangle against render target boundaries
 
@@ -25,7 +25,7 @@ CRESULT CR_NewTargetData::ClearTarget(const CE_Color &color,const Ceng::Rectangl
 	localRect.bottom = bufferHeight;
 	localRect.right = bufferWidth;
 
-	if (scissorRect != NULL)
+	if (scissorRect != nullptr)
 	{
 		if (scissorRect->top < localRect.bottom)
 		{
@@ -65,9 +65,9 @@ CRESULT CR_NewTargetData::ClearTarget(const CE_Color &color,const Ceng::Rectangl
 	_declspec(align(16)) UINT32 colorValueVec[4];
 
 	UINT32 tempColor = color.ExtractColor32();
-	UINT8 *channel = (UINT8*)&tempColor;
+	UINT8* channel = (UINT8*)&tempColor;
 
-	UINT8 *colorVec = (UINT8*)&colorValueVec[0];
+	UINT8* colorVec = (UINT8*)&colorValueVec[0];
 
 	colorVec[0] = channel[0];
 	colorVec[1] = channel[0];
@@ -77,20 +77,20 @@ CRESULT CR_NewTargetData::ClearTarget(const CE_Color &color,const Ceng::Rectangl
 	// NOTE: swap green and red so that post-processing
 	//       is faster
 
-	colorVec[4+0] = channel[2];
-	colorVec[4+1] = channel[2];
-	colorVec[4+2] = channel[2];
-	colorVec[4+3] = channel[2];
+	colorVec[4 + 0] = channel[2];
+	colorVec[4 + 1] = channel[2];
+	colorVec[4 + 2] = channel[2];
+	colorVec[4 + 3] = channel[2];
 
-	colorVec[8+0] = channel[1];
-	colorVec[8+1] = channel[1];
-	colorVec[8+2] = channel[1];
-	colorVec[8+3] = channel[1];
+	colorVec[8 + 0] = channel[1];
+	colorVec[8 + 1] = channel[1];
+	colorVec[8 + 2] = channel[1];
+	colorVec[8 + 3] = channel[1];
 
-	colorVec[12+0] = channel[3];
-	colorVec[12+1] = channel[3];
-	colorVec[12+2] = channel[3];
-	colorVec[12+3] = channel[3];
+	colorVec[12 + 0] = channel[3];
+	colorVec[12 + 1] = channel[3];
+	colorVec[12 + 2] = channel[3];
+	colorVec[12 + 3] = channel[3];
 
 	INT32 width = localRect.right - localRect.left;
 	INT32 height = localRect.bottom - localRect.top;
@@ -102,16 +102,16 @@ CRESULT CR_NewTargetData::ClearTarget(const CE_Color &color,const Ceng::Rectangl
 	INT32 yFullStart = (localRect.top + 1) >> 1;
 	INT32 yFullEnd = localRect.bottom >> 1;
 
-	INT32 k,j;
+	INT32 k, j;
 
-	UINT32 *colorAddress;
-	UINT8 *partialWrite;
+	UINT32* colorAddress;
+	UINT8* partialWrite;
 
 	if (localRect.top & 1)
 	{
 		// Start from first row with any coverage
 
-		partialWrite = (UINT8*)(baseAddress + (localRect.top >> 1)*tileYstep);
+		partialWrite = (UINT8*)(baseAddress + (localRect.top >> 1) * tileYstep);
 
 		if (localRect.left & 1)
 		{
@@ -119,27 +119,27 @@ CRESULT CR_NewTargetData::ClearTarget(const CE_Color &color,const Ceng::Rectangl
 
 			j = localRect.left >> 1;
 
-			partialWrite[16*j+3] = channel[0];
-			partialWrite[16*j+4+3] = channel[2];
-			partialWrite[16*j+8+3] = channel[1];
-			partialWrite[16*j+12+3] = channel[3];
+			partialWrite[16 * j + 3] = channel[0];
+			partialWrite[16 * j + 4 + 3] = channel[2];
+			partialWrite[16 * j + 8 + 3] = channel[1];
+			partialWrite[16 * j + 12 + 3] = channel[3];
 		}
 
-		for(j = xFullStart; j < xFullEnd; j++)
+		for (j = xFullStart; j < xFullEnd; j++)
 		{
 			// Write bottom-left and bottom-right pixels of a quad
 
-			partialWrite[16*j+2] = channel[0];
-			partialWrite[16*j+3] = channel[0];
+			partialWrite[16 * j + 2] = channel[0];
+			partialWrite[16 * j + 3] = channel[0];
 
-			partialWrite[16*j+4+2] = channel[2];
-			partialWrite[16*j+4+3] = channel[2];
+			partialWrite[16 * j + 4 + 2] = channel[2];
+			partialWrite[16 * j + 4 + 3] = channel[2];
 
-			partialWrite[16*j+8+2] = channel[1];
-			partialWrite[16*j+8+3] = channel[1];
+			partialWrite[16 * j + 8 + 2] = channel[1];
+			partialWrite[16 * j + 8 + 3] = channel[1];
 
-			partialWrite[16*j+12+2] = channel[3];
-			partialWrite[16*j+12+3] = channel[3];
+			partialWrite[16 * j + 12 + 2] = channel[3];
+			partialWrite[16 * j + 12 + 3] = channel[3];
 		}
 
 		if (localRect.right & 1)
@@ -149,106 +149,428 @@ CRESULT CR_NewTargetData::ClearTarget(const CE_Color &color,const Ceng::Rectangl
 
 			// Write bottom-left pixel of a quad
 
-			j = (localRect.right-1) >> 1;
+			j = (localRect.right - 1) >> 1;
 
-			partialWrite[16*j+2] = channel[0];
-			partialWrite[16*j+4+2] = channel[2];
-			partialWrite[16*j+8+2] = channel[1];
-			partialWrite[16*j+12+2] = channel[3];
+			partialWrite[16 * j + 2] = channel[0];
+			partialWrite[16 * j + 4 + 2] = channel[2];
+			partialWrite[16 * j + 8 + 2] = channel[1];
+			partialWrite[16 * j + 12 + 2] = channel[3];
 		}
 	}
 
-	for(k = yFullStart; k < yFullEnd; k++)
+	for (k = yFullStart; k < yFullEnd; k++)
 	{
-		colorAddress = (UINT32*)(baseAddress + k*tileYstep);
+		colorAddress = (UINT32*)(baseAddress + k * tileYstep);
 
 		if (localRect.left & 1)
 		{
 			// Write top-right and bottom-right pixels of a quad
 
-			partialWrite = (UINT8*)&colorAddress[4*(localRect.left>>1)];
-			
+			partialWrite = (UINT8*)&colorAddress[4 * (localRect.left >> 1)];
+
 			partialWrite[1] = channel[0];
 			partialWrite[3] = channel[0];
 
-			partialWrite[4+1] = channel[2];
-			partialWrite[4+3] = channel[2];
+			partialWrite[4 + 1] = channel[2];
+			partialWrite[4 + 3] = channel[2];
 
-			partialWrite[8+1] = channel[1];
-			partialWrite[8+3] = channel[1];
-			
-			partialWrite[12+1] = channel[3];
-			partialWrite[12+3] = channel[3];
+			partialWrite[8 + 1] = channel[1];
+			partialWrite[8 + 3] = channel[1];
+
+			partialWrite[12 + 1] = channel[3];
+			partialWrite[12 + 3] = channel[3];
 		}
 
-		for(j = xFullStart; j < xFullEnd; j++)
+		for (j = xFullStart; j < xFullEnd; j++)
 		{
 			// Write full quads
-			colorAddress[4*j] = colorValueVec[0];
-			colorAddress[4*j+1] = colorValueVec[1];
-			colorAddress[4*j+2] = colorValueVec[2];
-			colorAddress[4*j+3] = colorValueVec[3];
+			colorAddress[4 * j] = colorValueVec[0];
+			colorAddress[4 * j + 1] = colorValueVec[1];
+			colorAddress[4 * j + 2] = colorValueVec[2];
+			colorAddress[4 * j + 3] = colorValueVec[3];
 		}
 
 		if (localRect.right & 1)
 		{
-			j = (localRect.right-1) >> 1;
+			j = (localRect.right - 1) >> 1;
 
-			partialWrite = (UINT8*)&colorAddress[4*j];
-			
+			partialWrite = (UINT8*)&colorAddress[4 * j];
+
 			partialWrite[0] = channel[0];
 			partialWrite[2] = channel[0];
 
 			partialWrite[4] = channel[2];
-			partialWrite[4+2] = channel[2];
+			partialWrite[4 + 2] = channel[2];
 
 			partialWrite[8] = channel[1];
-			partialWrite[8+2] = channel[1];
+			partialWrite[8 + 2] = channel[1];
 
 			partialWrite[12] = channel[3];
-			partialWrite[12+2] = channel[3];
+			partialWrite[12 + 2] = channel[3];
 		}
 	}
 
-	if ( localRect.bottom & 1 )
+	if (localRect.bottom & 1)
 	{
 		// Last visible row is even
 
-		partialWrite = (UINT8*)(baseAddress + (localRect.bottom >> 1)*tileYstep);
-	
+		partialWrite = (UINT8*)(baseAddress + (localRect.bottom >> 1) * tileYstep);
+
 		if (localRect.left & 1)
 		{
 			j = localRect.left >> 1;
 
-			partialWrite[16*j + 1] = channel[0];
-			partialWrite[16*j + 4+1] = channel[2];
-			partialWrite[16*j + 8+1] = channel[1];
-			partialWrite[16*j + 12+1] = channel[3];
+			partialWrite[16 * j + 1] = channel[0];
+			partialWrite[16 * j + 4 + 1] = channel[2];
+			partialWrite[16 * j + 8 + 1] = channel[1];
+			partialWrite[16 * j + 12 + 1] = channel[3];
 		}
-		
-		for(j = xFullStart; j < xFullEnd; j++)
+
+		for (j = xFullStart; j < xFullEnd; j++)
 		{
-			partialWrite[16*j] = channel[0];
-			partialWrite[16*j+1] = channel[0];
+			partialWrite[16 * j] = channel[0];
+			partialWrite[16 * j + 1] = channel[0];
 
-			partialWrite[16*j+4] = channel[2];
-			partialWrite[16*j+4+1] = channel[2];
+			partialWrite[16 * j + 4] = channel[2];
+			partialWrite[16 * j + 4 + 1] = channel[2];
 
-			partialWrite[16*j+8] = channel[1];
-			partialWrite[16*j+8+1] = channel[1];
+			partialWrite[16 * j + 8] = channel[1];
+			partialWrite[16 * j + 8 + 1] = channel[1];
 
-			partialWrite[16*j+12] = channel[3];
-			partialWrite[16*j+12+1] = channel[3];
+			partialWrite[16 * j + 12] = channel[3];
+			partialWrite[16 * j + 12 + 1] = channel[3];
 		}
 
 		if (localRect.right & 1)
 		{
-			j = (localRect.right-1) >> 1;
+			j = (localRect.right - 1) >> 1;
 
-			partialWrite[16*j] = channel[0];
-			partialWrite[16*j+4] = channel[2];
-			partialWrite[16*j+8] = channel[1];
-			partialWrite[16*j+12] = channel[3];
+			partialWrite[16 * j] = channel[0];
+			partialWrite[16 * j + 4] = channel[2];
+			partialWrite[16 * j + 8] = channel[1];
+			partialWrite[16 * j + 12] = channel[3];
+		}
+	}
+
+	return CE_OK;
+}
+
+CRESULT CR_NewTargetData::ClearTarget_new(const CE_Color &color,const Ceng::Rectangle *scissorRect)
+{
+	Rectangle localRect;
+
+	localRect.top = 0;
+	localRect.left = 0;
+
+	localRect.bottom = bufferHeight;
+	localRect.right = bufferWidth;
+
+	if (scissorRect != nullptr)
+	{
+		if (scissorRect->top < localRect.bottom)
+		{
+			if (scissorRect->top > localRect.top)
+			{
+				localRect.top = scissorRect->top;
+			}
+		}
+
+		if (scissorRect->left < localRect.right)
+		{
+			if (scissorRect->left > localRect.left)
+			{
+				localRect.left = scissorRect->left;
+			}
+		}
+
+		if (scissorRect->bottom > localRect.top)
+		{
+			if (scissorRect->bottom < localRect.bottom)
+			{
+				localRect.bottom = scissorRect->bottom;
+			}
+		}
+
+		if (scissorRect->right > localRect.left)
+		{
+			if (scissorRect->right < localRect.right)
+			{
+				localRect.right = scissorRect->right;
+			}
+		}
+	}
+
+	UINT32 simpleCheck = (localRect.top & 1) + (localRect.bottom & 1) + (localRect.left & 1) + (localRect.right & 1);
+
+	if (simpleCheck > 0)
+	{
+		return ClearTargetComplex(color, localRect);
+	}
+
+	INT32 width = localRect.right - localRect.left;
+	INT32 height = localRect.bottom - localRect.top;
+
+	// NOTE: Assumes BUFFER_TILING::LQUADS and ARGB32
+	
+	_declspec(align(16)) UINT32 colorValueVec[4];
+
+	UINT32 tempColor = color.ExtractColor32();
+	UINT8* channel = (UINT8*)&tempColor;
+
+	UINT8* colorVec = (UINT8*)&colorValueVec[0];
+
+	// NOTE: swap green and red so that post-processing
+	//       is faster
+
+	colorVec[0] = channel[0];
+	colorVec[1] = channel[0];
+	colorVec[2] = channel[0];
+	colorVec[3] = channel[0];
+
+	colorVec[4 + 0] = channel[2];
+	colorVec[4 + 1] = channel[2];
+	colorVec[4 + 2] = channel[2];
+	colorVec[4 + 3] = channel[2];
+
+	colorVec[8 + 0] = channel[1];
+	colorVec[8 + 1] = channel[1];
+	colorVec[8 + 2] = channel[1];
+	colorVec[8 + 3] = channel[1];
+
+	colorVec[12 + 0] = channel[3];
+	colorVec[12 + 1] = channel[3];
+	colorVec[12 + 2] = channel[3];
+	colorVec[12 + 3] = channel[3];
+
+	UINT32 horizQuads = width >> 1;
+	UINT32 vertQuads = height >> 1;
+
+	UINT32 quadX, quadY;
+
+	UINT32 colorDepth = channels[0].bytesPerPixel;
+	UINT32 destPitch = channels[0].unitYstep;
+
+	UINT32 destOffset = 0;
+
+	UINT8* destPtr = (UINT8*)(baseAddress + channels[0].bufferOffset);
+
+	__m128i colorWrite = _mm_load_si128((__m128i*)&colorValueVec[0]);
+
+	for (quadY = 0; quadY < vertQuads; quadY++)
+	{
+		destOffset = destPitch * quadY;
+
+		for (quadX = 0; quadX < horizQuads; quadX++)
+		{
+			Ceng::UINT32* write = (Ceng::UINT32*) & destPtr[destOffset];
+
+			_mm_store_si128((__m128i*) & destPtr[destOffset], colorWrite);
+
+			/*
+			write[0] = colorValueVec[0];
+			write[1] = colorValueVec[1];
+			write[2] = colorValueVec[2];
+			write[3] = colorValueVec[3];
+			*/
+
+			destOffset += 4 * colorDepth;
+		}
+	}
+
+	return CE_OK;
+}
+
+CRESULT CR_NewTargetData::ClearTargetComplex(const CE_Color& color, const Ceng::Rectangle& localRect)
+{
+	// NOTE: Assumes BUFFER_TILING::LQUADS and ARGB32
+
+	_declspec(align(16)) UINT32 colorValueVec[4];
+
+	UINT32 tempColor = color.ExtractColor32();
+	UINT8* channel = (UINT8*)&tempColor;
+
+	UINT8* colorVec = (UINT8*)&colorValueVec[0];
+
+	colorVec[0] = channel[0];
+	colorVec[1] = channel[0];
+	colorVec[2] = channel[0];
+	colorVec[3] = channel[0];
+
+	// NOTE: swap green and red so that post-processing
+	//       is faster
+
+	colorVec[4 + 0] = channel[2];
+	colorVec[4 + 1] = channel[2];
+	colorVec[4 + 2] = channel[2];
+	colorVec[4 + 3] = channel[2];
+
+	colorVec[8 + 0] = channel[1];
+	colorVec[8 + 1] = channel[1];
+	colorVec[8 + 2] = channel[1];
+	colorVec[8 + 3] = channel[1];
+
+	colorVec[12 + 0] = channel[3];
+	colorVec[12 + 1] = channel[3];
+	colorVec[12 + 2] = channel[3];
+	colorVec[12 + 3] = channel[3];
+
+	INT32 width = localRect.right - localRect.left;
+	INT32 height = localRect.bottom - localRect.top;
+
+
+	INT32 xFullStart = (localRect.left + 1) >> 1; // Ceil to even
+	INT32 xFullEnd = localRect.right >> 1; // Floor to even
+
+	INT32 yFullStart = (localRect.top + 1) >> 1;
+	INT32 yFullEnd = localRect.bottom >> 1;
+
+	INT32 k, j;
+
+	UINT32* colorAddress;
+	UINT8* partialWrite;
+
+	if (localRect.top & 1)
+	{
+		// Start from first row with any coverage
+
+		partialWrite = (UINT8*)(baseAddress + (localRect.top >> 1) * tileYstep);
+
+		if (localRect.left & 1)
+		{
+			// Write bottom-right pixel of a quad
+
+			j = localRect.left >> 1;
+
+			partialWrite[16 * j + 3] = channel[0];
+			partialWrite[16 * j + 4 + 3] = channel[2];
+			partialWrite[16 * j + 8 + 3] = channel[1];
+			partialWrite[16 * j + 12 + 3] = channel[3];
+		}
+
+		for (j = xFullStart; j < xFullEnd; j++)
+		{
+			// Write bottom-left and bottom-right pixels of a quad
+
+			partialWrite[16 * j + 2] = channel[0];
+			partialWrite[16 * j + 3] = channel[0];
+
+			partialWrite[16 * j + 4 + 2] = channel[2];
+			partialWrite[16 * j + 4 + 3] = channel[2];
+
+			partialWrite[16 * j + 8 + 2] = channel[1];
+			partialWrite[16 * j + 8 + 3] = channel[1];
+
+			partialWrite[16 * j + 12 + 2] = channel[3];
+			partialWrite[16 * j + 12 + 3] = channel[3];
+		}
+
+		if (localRect.right & 1)
+		{
+			// NOTE: localRect.right is exclusive, so right-1 is last
+			//       filled coordinate
+
+			// Write bottom-left pixel of a quad
+
+			j = (localRect.right - 1) >> 1;
+
+			partialWrite[16 * j + 2] = channel[0];
+			partialWrite[16 * j + 4 + 2] = channel[2];
+			partialWrite[16 * j + 8 + 2] = channel[1];
+			partialWrite[16 * j + 12 + 2] = channel[3];
+		}
+	}
+
+	for (k = yFullStart; k < yFullEnd; k++)
+	{
+		colorAddress = (UINT32*)(baseAddress + k * tileYstep);
+
+		if (localRect.left & 1)
+		{
+			// Write top-right and bottom-right pixels of a quad
+
+			partialWrite = (UINT8*)&colorAddress[4 * (localRect.left >> 1)];
+
+			partialWrite[1] = channel[0];
+			partialWrite[3] = channel[0];
+
+			partialWrite[4 + 1] = channel[2];
+			partialWrite[4 + 3] = channel[2];
+
+			partialWrite[8 + 1] = channel[1];
+			partialWrite[8 + 3] = channel[1];
+
+			partialWrite[12 + 1] = channel[3];
+			partialWrite[12 + 3] = channel[3];
+		}
+
+		for (j = xFullStart; j < xFullEnd; j++)
+		{
+			// Write full quads
+			colorAddress[4 * j] = colorValueVec[0];
+			colorAddress[4 * j + 1] = colorValueVec[1];
+			colorAddress[4 * j + 2] = colorValueVec[2];
+			colorAddress[4 * j + 3] = colorValueVec[3];
+		}
+
+		if (localRect.right & 1)
+		{
+			j = (localRect.right - 1) >> 1;
+
+			partialWrite = (UINT8*)&colorAddress[4 * j];
+
+			partialWrite[0] = channel[0];
+			partialWrite[2] = channel[0];
+
+			partialWrite[4] = channel[2];
+			partialWrite[4 + 2] = channel[2];
+
+			partialWrite[8] = channel[1];
+			partialWrite[8 + 2] = channel[1];
+
+			partialWrite[12] = channel[3];
+			partialWrite[12 + 2] = channel[3];
+		}
+	}
+
+	if (localRect.bottom & 1)
+	{
+		// Last visible row is even
+
+		partialWrite = (UINT8*)(baseAddress + (localRect.bottom >> 1) * tileYstep);
+
+		if (localRect.left & 1)
+		{
+			j = localRect.left >> 1;
+
+			partialWrite[16 * j + 1] = channel[0];
+			partialWrite[16 * j + 4 + 1] = channel[2];
+			partialWrite[16 * j + 8 + 1] = channel[1];
+			partialWrite[16 * j + 12 + 1] = channel[3];
+		}
+
+		for (j = xFullStart; j < xFullEnd; j++)
+		{
+			partialWrite[16 * j] = channel[0];
+			partialWrite[16 * j + 1] = channel[0];
+
+			partialWrite[16 * j + 4] = channel[2];
+			partialWrite[16 * j + 4 + 1] = channel[2];
+
+			partialWrite[16 * j + 8] = channel[1];
+			partialWrite[16 * j + 8 + 1] = channel[1];
+
+			partialWrite[16 * j + 12] = channel[3];
+			partialWrite[16 * j + 12 + 1] = channel[3];
+		}
+
+		if (localRect.right & 1)
+		{
+			j = (localRect.right - 1) >> 1;
+
+			partialWrite[16 * j] = channel[0];
+			partialWrite[16 * j + 4] = channel[2];
+			partialWrite[16 * j + 8] = channel[1];
+			partialWrite[16 * j + 12] = channel[3];
 		}
 	}
 

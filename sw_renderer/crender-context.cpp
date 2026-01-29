@@ -756,6 +756,7 @@ const CRESULT CR_RenderContext::Execute_ClearTarget(Ceng::RenderTargetView* targ
 	}
 	*/
 
+	//return target->ClearTarget_new(color, &renderState->activeRect);
 	return target->ClearTarget(color, &renderState->activeRect);
 
 	/*
