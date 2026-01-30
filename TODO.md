@@ -95,3 +95,4 @@ Software renderer
 
 - [ ] Finish conversion of depth-stencil test to SIMD intrinsics
 
+- [ ] When copying render state, ensure that all substates point to the new copy.
