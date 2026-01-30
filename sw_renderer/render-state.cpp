@@ -94,6 +94,8 @@ RenderState::RenderState(const RenderState &source)
 	{
 		renderTargets[k] = source.renderTargets[k];
 	}
+
+	// TODO: update pixel shader instance state to point to correct texture vector
 }
 
 RenderState::~RenderState()
