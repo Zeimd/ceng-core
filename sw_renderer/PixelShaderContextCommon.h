@@ -32,7 +32,7 @@ namespace Ceng
 
 		UINT32 quadSizeBytes;
 
-		std::vector<TextureUnit> textureUnits;
+		std::vector<TextureUnit>* textureUnits;
 
 		UINT32 activeRenderTargets;
 

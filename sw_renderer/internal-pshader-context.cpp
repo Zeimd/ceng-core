@@ -190,7 +190,7 @@ CRESULT InternalPixelShaderContext::Configure(std::vector<PixelShaderInputDesc>&
 
 			Ceng::UINT32* unitIndex = (Ceng::UINT32*)uniforms[k].variable->dataPtr;
 
-			ptr_sampler2d->sampler = common->textureUnits[*unitIndex].samplerObject;
+			ptr_sampler2d->sampler = (*(common->textureUnits))[*unitIndex].samplerObject;
 			break;
 		}
 	}

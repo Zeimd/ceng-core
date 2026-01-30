@@ -13,7 +13,7 @@ PixelShaderContextCommon::PixelShaderContextCommon(CR_PixelShader* shader)
 
 	activeRenderTargets = 0;
 
-	textureUnits = std::vector<TextureUnit>(CRENDER_MAX_SHADER_TEXTURES);
+	textureUnits = nullptr;
 
 	Ceng::UINT32 k;
 

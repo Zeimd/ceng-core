@@ -115,7 +115,7 @@ CRESULT CR_PixelShader::SetShaderLink(ShaderLinkInstance* link)
 
 const CRESULT CR_PixelShader::SetTextureUnits(std::vector<TextureUnit> &source)
 {
-	nextInstance->textureUnits = source;
+	nextInstance->textureUnits = &source;
 	return CE_OK;
 }
 
