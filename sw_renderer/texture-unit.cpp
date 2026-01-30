@@ -16,6 +16,18 @@ TextureUnit::TextureUnit()
 
 }
 
+TextureUnit::TextureUnit(CR_SamplerState* sampler, CR_ShaderResourceView* view)
+	: sampler(sampler), view(view), samplerObject(nullptr)
+{
+
+}
+
+TextureUnit::TextureUnit(const TextureUnit& source)
+	: sampler(source.sampler), view(source.view), samplerObject(nullptr)
+{
+
+}
+
 TextureUnit::~TextureUnit()
 {
 	if (samplerObject != nullptr)

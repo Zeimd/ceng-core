@@ -33,6 +33,8 @@ namespace Ceng
 
 	public:
 		TextureUnit();
+		TextureUnit(CR_SamplerState* sampler, CR_ShaderResourceView* view);
+		TextureUnit(const TextureUnit& source);
 
 		~TextureUnit();
 
