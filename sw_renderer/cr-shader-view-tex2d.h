@@ -41,6 +41,8 @@ namespace Ceng
 
 		void Release() override;
 
+		Pshader::PShaderTextureUnitSampler* GetSampler(CR_SamplerState* sampler) override;
+
 		void Sample2D(Pshader::Float2 &uv, const CR_SamplerState *sampler,
 			Ceng::FLOAT32 *out_colorVecs) override;
 

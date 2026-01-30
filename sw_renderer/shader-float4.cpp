@@ -8,7 +8,7 @@
 
 #include <xmmintrin.h>
 
-#include "pshader-types.h"
+#include <ceng/swshader/pshader-types.h>
 
 using namespace Ceng;
 

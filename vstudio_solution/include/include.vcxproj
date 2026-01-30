@@ -267,6 +267,12 @@
     <ClInclude Include="..\..\inc\ceng\math\ce-vector.h" />
     <ClInclude Include="..\..\inc\ceng\math\sse_intrinsics.h" />
     <ClInclude Include="..\..\inc\ceng\platform.h" />
+    <ClInclude Include="..\..\inc\ceng\swshader\pshader-input.h" />
+    <ClInclude Include="..\..\inc\ceng\swshader\pshader-sampler.h" />
+    <ClInclude Include="..\..\inc\ceng\swshader\pshader-types.h" />
+    <ClInclude Include="..\..\inc\ceng\swshader\pshader-uniform.h" />
+    <ClInclude Include="..\..\inc\ceng\swshader\pshader-util.h" />
+    <ClInclude Include="..\..\inc\ceng\swshader\PShaderTextureUnitSampler.h" />
     <ClInclude Include="..\..\inc\deps\MurmurHash3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

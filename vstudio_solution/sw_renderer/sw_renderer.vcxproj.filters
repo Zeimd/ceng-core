@@ -144,9 +144,6 @@
     <ClInclude Include="..\..\sw_renderer\primitive-data.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sw_renderer\pshader-input.h">
-      <Filter>Header Files\sw_renderer</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\sw_renderer\pshader-context.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
@@ -178,9 +175,6 @@
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\..\sw_renderer\rtarget-data.h">
-      <Filter>Header Files\sw_renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\sw_renderer\pshader-types.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\..\sw_renderer\shader-link.h">
@@ -300,9 +294,6 @@
     <ClInclude Include="..\..\sw_renderer\VertexShaderInstanceCommon.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sw_renderer\pshader-util.h">
-      <Filter>Header Files\sw_renderer</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\sw_renderer\extern-pshader.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
@@ -321,9 +312,6 @@
     <ClInclude Include="..\..\sw_renderer\ShaderDatatypeMeta.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sw_renderer\pshader-uniform.h">
-      <Filter>Header Files\sw_renderer</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\sw_renderer\UniformBlock.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
@@ -333,7 +321,7 @@
     <ClInclude Include="..\..\sw_renderer\UniformBufferInstance.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sw_renderer\pshader-sampler.h">
+    <ClInclude Include="..\..\sw_renderer\TextureSampler2d.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
   </ItemGroup>
@@ -579,6 +567,9 @@
       <Filter>Source Files\sw_renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\..\sw_renderer\UniformBufferInstance.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\TextureSampler2d.cpp">
       <Filter>Source Files\sw_renderer</Filter>
     </ClCompile>
   </ItemGroup>

@@ -13,7 +13,7 @@
 #include <ceng/datatypes/aligned-buffer.h>
 
 #include <ceng/datatypes/pshader-input-desc.h>
-#include "pshader-input.h"
+#include <ceng/swshader/pshader-input.h>
 
 #include <ceng/datatypes/pshader-output-desc.h>
 #include "pshader-output.h"

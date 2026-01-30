@@ -13,11 +13,12 @@
 
 #include <ceng/datatypes/vshader-output-desc.h>
 
+#include <ceng/swshader/pshader-input.h>
+
 #include "crender-base.h"
 #include "fragment-var.h"
 
 #include "vshader-output.h"
-#include "pshader-input.h"
 
 #include <ceng/datatypes/pshader-input-desc.h>
 

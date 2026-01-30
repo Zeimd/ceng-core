@@ -15,12 +15,15 @@
 
 #include <vector>
 
-#include "crender-base.h"
+#include "../datatypes/basic-types.h"
+#include "../datatypes/boolean.h"
+
+//#include "crender-base.h"
 #include "pshader-input.h"
 
-#include "texture-unit.h"
+//#include "texture-unit.h"
 
-#include "cr-shader-view.h"
+//#include "cr-shader-view.h"
 
 namespace Ceng::Pshader
 {

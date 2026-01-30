@@ -6,7 +6,7 @@
 #include <array>
 
 #include "pshader-context.h"
-#include "pshader-uniform.h"
+#include <ceng/swshader/pshader-uniform.h>
 
 namespace Ceng
 {

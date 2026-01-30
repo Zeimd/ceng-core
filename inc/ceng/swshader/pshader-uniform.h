@@ -3,7 +3,7 @@
 #ifndef CENG_PSHADER_UNIFORM_H
 #define CENG_PSHADER_UNIFORM_H
 
-#include "texture-unit.h"
+#include "PShaderTextureUnitSampler.h"
 
 namespace Ceng::Pshader
 {
@@ -11,6 +11,14 @@ namespace Ceng::Pshader
 	{
 	public:
 		void* dataPtr;
+
+	public:
+
+		UniformBase()
+			: dataPtr(nullptr)
+		{
+
+		}
 	};
 
 	class UniformFloat : public UniformBase
@@ -93,13 +101,14 @@ namespace Ceng::Pshader
 
 	};
 
-	typedef void (*CallbackSampler2d)();
-
 	class UniformSampler2d : public UniformBase
 	{
 	public:
 
-		Ceng::TextureUnit unit;
+		PShaderTextureUnitSampler* sampler;
+
+	public:
+		
 	};
 }
 

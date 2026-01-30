@@ -14,12 +14,13 @@
 #include <ceng/math/ce-vector.h>
 #include <ceng/enums/image-formats.h>
 
+#include <ceng/swshader/pshader-types.h>
+
 #include "crender-base.h"
 
-#include "pshader-types.h"
 
-#include "pshader-uniform.h"
-#include "pshader-sampler.h"
+#include <ceng/swshader/pshader-uniform.h>
+#include <ceng/swshader/pshader-sampler.h>
 
 namespace Ceng
 {

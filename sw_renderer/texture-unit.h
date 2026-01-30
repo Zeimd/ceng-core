@@ -17,6 +17,8 @@
 
 #include "cr-shader-view-tex2d.h"
 
+#include <ceng/swshader/PShaderTextureUnitSampler.h>
+
 namespace Ceng
 {
 	class TextureUnit
@@ -27,12 +29,17 @@ namespace Ceng
 
 		CR_ShaderResourceView *view;
 
+		Pshader::PShaderTextureUnitSampler* samplerObject;
+
 	public:
 		TextureUnit();
+
 		~TextureUnit();
 
 		const CRESULT SetSampler(CR_SamplerState *sampler);
 		const CRESULT SetView(CR_ShaderResourceView *view);
+
+		void ConfigureState();
 
 	};
 }

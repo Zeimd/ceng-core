@@ -14,11 +14,11 @@
 
 #include "shader-link.h"
 
-#include "pshader-types.h"
-#include "pshader-util.h"
+#include <ceng/swshader/pshader-types.h>
+#include <ceng/swshader/pshader-util.h>
 #include <ceng/datatypes/pshader-quad-batch.h>
 
-#include "pshader-sampler.h"
+#include <ceng/swshader/pshader-sampler.h>
 
 
 using namespace Ceng;
@@ -190,7 +190,7 @@ CRESULT InternalPixelShaderContext::Configure(std::vector<PixelShaderInputDesc>&
 
 			Ceng::UINT32* unitIndex = (Ceng::UINT32*)uniforms[k].variable->dataPtr;
 
-			ptr_sampler2d->unit = common->textureUnits[*unitIndex];
+			ptr_sampler2d->sampler = common->textureUnits[*unitIndex].samplerObject;
 			break;
 		}
 	}

@@ -9,6 +9,8 @@
 #ifndef CENG_CR_SHADER_VIEW_H
 #define CENG_CR_SHADER_VIEW_H
 
+#include <ceng/swshader/PShaderTextureUnitSampler.h>
+
 #include <ceng/interfaces/shader-resource-view.h>
 
 namespace Ceng
@@ -30,6 +32,8 @@ namespace Ceng
 		virtual ~CR_ShaderResourceView()
 		{
 		}
+
+		virtual Pshader::PShaderTextureUnitSampler* GetSampler(CR_SamplerState* sampler) = 0;
 
 		virtual void Sample2D(Pshader::Float2 &uv,const CR_SamplerState *sampler,
 								Ceng::FLOAT32 *out_colorVecs) =0;

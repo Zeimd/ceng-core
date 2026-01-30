@@ -224,9 +224,6 @@
     <ClInclude Include="..\..\sw_renderer\internal-pshader-context.h" />
     <ClInclude Include="..\..\sw_renderer\internal-pshader.h" />
     <ClInclude Include="..\..\sw_renderer\PixelShaderContextCommon.h" />
-    <ClInclude Include="..\..\sw_renderer\pshader-sampler.h" />
-    <ClInclude Include="..\..\sw_renderer\pshader-uniform.h" />
-    <ClInclude Include="..\..\sw_renderer\pshader-util.h" />
     <ClInclude Include="..\..\sw_renderer\quad-variable.h" />
     <ClInclude Include="..\..\sw_renderer\ShaderDatatypeMeta.h" />
     <ClInclude Include="..\..\sw_renderer\ShaderLinkInstance.h" />
@@ -244,7 +241,6 @@
     <ClInclude Include="..\..\sw_renderer\pipeline-stage.h" />
     <ClInclude Include="..\..\sw_renderer\pipeline.h" />
     <ClInclude Include="..\..\sw_renderer\primitive-data.h" />
-    <ClInclude Include="..\..\sw_renderer\pshader-input.h" />
     <ClInclude Include="..\..\sw_renderer\pshader-context.h" />
     <ClInclude Include="..\..\sw_renderer\pshader-output.h" />
     <ClInclude Include="..\..\sw_renderer\pshader-texture.h" />
@@ -256,7 +252,6 @@
     <ClInclude Include="..\..\sw_renderer\render-task.h" />
     <ClInclude Include="..\..\sw_renderer\render-thread.h" />
     <ClInclude Include="..\..\sw_renderer\rtarget-data.h" />
-    <ClInclude Include="..\..\sw_renderer\pshader-types.h" />
     <ClInclude Include="..\..\sw_renderer\shader-link.h" />
     <ClInclude Include="..\..\sw_renderer\shader-manager.h" />
     <ClInclude Include="..\..\sw_renderer\shader-wrapper.h" />
@@ -271,6 +266,7 @@
     <ClInclude Include="..\..\sw_renderer\TaskGroup.h" />
     <ClInclude Include="..\..\sw_renderer\texture-copy.h" />
     <ClInclude Include="..\..\sw_renderer\texture-unit.h" />
+    <ClInclude Include="..\..\sw_renderer\TextureSampler2d.h" />
     <ClInclude Include="..\..\sw_renderer\triangle-batch.h" />
     <ClInclude Include="..\..\sw_renderer\triangle-data.h" />
     <ClInclude Include="..\..\sw_renderer\UniformBlock.h" />
@@ -359,6 +355,7 @@
     <ClCompile Include="..\..\sw_renderer\task-vshader.cpp" />
     <ClCompile Include="..\..\sw_renderer\texture-copy.cpp" />
     <ClCompile Include="..\..\sw_renderer\texture-unit.cpp" />
+    <ClCompile Include="..\..\sw_renderer\TextureSampler2d.cpp" />
     <ClCompile Include="..\..\sw_renderer\triangle-batch.cpp" />
     <ClCompile Include="..\..\sw_renderer\UniformBlock.cpp" />
     <ClCompile Include="..\..\sw_renderer\UniformBufferInstance.cpp" />

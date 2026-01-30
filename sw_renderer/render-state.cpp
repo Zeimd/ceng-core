@@ -111,6 +111,11 @@ const CRESULT RenderState::CommitState(const RenderState &oldState,	const Ceng::
 		depthBuffer->SetDepthStencilState(&depthStencilState);
 	}
 
+	for (int k = 0; k < textureUnits.size(); ++k)
+	{
+		textureUnits[k].ConfigureState();
+	}
+
 	linkInstance.SetRenderTargets(activeTargets);
 
 	if (vertexShader != nullptr)
@@ -166,6 +171,8 @@ const CRESULT RenderState::CommitState(const RenderState &oldState,	const Ceng::
 
 	if (rasterizerState.scissorEnable)
 	{	
+		// TODO: clip scissor against viewport
+
 		activeRect.top = scissorRect.top;
 		activeRect.left = scissorRect.left;
 		

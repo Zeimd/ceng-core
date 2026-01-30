@@ -19,7 +19,7 @@
 
 #include "cr-shader-const.h"
 
-#include "pshader-input.h"
+#include <ceng/swshader/pshader-input.h>
 #include "pshader-output.h"
 
 #include "pshader-context.h"

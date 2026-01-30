@@ -15,11 +15,10 @@
 
 #include <immintrin.h>
 
-#include <ceng/enums/shader-semantic.h>
-#include <ceng/enums/shader-datatype.h>
+#include "../enums/shader-semantic.h"
+#include "../enums/shader-datatype.h"
 
-#include "crender-base.h"
-
+//#include "crender-base.h"
 
 namespace Ceng::Pshader
 {

@@ -30,7 +30,7 @@
 #include <ceng/datatypes/vshader-input-desc.h>
 #include <ceng/datatypes/vshader-output-desc.h>
 
-#include "pshader-input.h"
+#include <ceng/swshader/pshader-input.h>
 
 #include "vshader-instance.h"
 

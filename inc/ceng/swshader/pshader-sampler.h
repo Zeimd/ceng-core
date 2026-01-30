@@ -1,6 +1,5 @@
 #pragma once
 
-#include "texture-unit.h"
 #include "pshader-types.h"
 #include "pshader-uniform.h"
 
@@ -10,7 +9,7 @@ namespace Ceng::Pshader
 	{
 	public:
 
-		Ceng::TextureUnit* unit;
+		Pshader::PShaderTextureUnitSampler* unit;
 		Pshader::Float2* uv;
 
 		void* dataAddress;
@@ -21,7 +20,7 @@ namespace Ceng::Pshader
 		{
 		}
 
-		DelayedSampler2D(Ceng::TextureUnit* unit, Pshader::Float2* uv)
+		DelayedSampler2D(PShaderTextureUnitSampler* unit, Pshader::Float2* uv)
 			: unit(unit), uv(uv), dataAddress(nullptr)
 		{
 
@@ -35,11 +34,11 @@ namespace Ceng::Pshader
 
 	inline void DelayedSampler2D::SampleToFloat4(void* destBuffer) const
 	{
-		unit->view->Sample2D(*uv, unit->sampler, (Ceng::FLOAT32*)destBuffer);
+		unit->Sample2d(*uv, (Ceng::FLOAT32*)destBuffer);
 	}
 
 	inline DelayedSampler2D sample2d(Pshader::UniformSampler2d& sampler, Pshader::Float2& uv)
 	{
-		return DelayedSampler2D(&sampler.unit, &uv);
+		return DelayedSampler2D(sampler.sampler, &uv);
 	}
 }

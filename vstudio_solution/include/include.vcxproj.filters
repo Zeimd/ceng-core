@@ -40,6 +40,9 @@
     <Filter Include="Header Files\ceng\math">
       <UniqueIdentifier>{f01509ee-9f3d-4bf4-911f-80e3bd7b0c35}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\ceng\swshader">
+      <UniqueIdentifier>{ac3ff3e2-63b7-4078-a140-eeaf8b0c92e7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\inc\ceng.h">
@@ -488,6 +491,24 @@
     </ClInclude>
     <ClInclude Include="..\..\inc\ceng\enums\ResourceViewType.h">
       <Filter>Header Files\ceng\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\swshader\pshader-types.h">
+      <Filter>Header Files\ceng\swshader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\swshader\pshader-input.h">
+      <Filter>Header Files\ceng\swshader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\swshader\pshader-util.h">
+      <Filter>Header Files\ceng\swshader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\swshader\PShaderTextureUnitSampler.h">
+      <Filter>Header Files\ceng\swshader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\swshader\pshader-uniform.h">
+      <Filter>Header Files\ceng\swshader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\swshader\pshader-sampler.h">
+      <Filter>Header Files\ceng\swshader</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
