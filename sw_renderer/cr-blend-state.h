@@ -3,6 +3,8 @@
 #ifndef CR_BLEND_STATE_H
 #define CR_BLEND_STATE_H
 
+#include <vector>
+
 #include <ceng/datatypes/blend-state-desc.h>
 
 #include <ceng/interfaces/blend-state.h>
@@ -14,6 +16,8 @@ namespace Ceng
 	public:
 
 		BlendStateDesc state;
+
+		std::vector< RenderTargetBlendDesc > targetState;
 
 	protected:
 
