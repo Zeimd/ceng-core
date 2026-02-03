@@ -83,7 +83,8 @@ namespace Ceng
 
 		~InternalPixelShaderContext() override;
 
-		static CRESULT GetInstance(std::shared_ptr<PixelShaderContextCommon>& common, std::shared_ptr<PixelShaderContext>& out);
+		static CRESULT GetInstance(Ceng::UINT32 index,
+			std::shared_ptr<PixelShaderContextCommon>& common, std::shared_ptr<PixelShaderContext>& out);
 
 		CRESULT Configure(std::vector<PixelShaderInputDesc>& inputSemantics,
 			std::vector<PixelShaderOutputDesc>& renderTargets,

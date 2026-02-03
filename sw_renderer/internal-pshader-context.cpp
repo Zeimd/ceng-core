@@ -78,21 +78,25 @@ InternalPixelShaderContext::InternalPixelShaderContext(std::shared_ptr<PixelShad
 	outputRegisters[9].variable = &OUT_TARGET7;
 	outputRegisters[9].target = PSHADER_OUTPUT_SEMANTIC::CR_SHADER_TARGET7;
 
+	/*
 	for (int k = 0; k < outputRegisters.size(); ++k)
 	{
 		*(outputRegisters[k].variable) = common->shader->nullOutput;
 	}
+	*/
 
 	uniforms[0].variable = &diffuseTex;
 }
 
-CRESULT InternalPixelShaderContext::GetInstance(std::shared_ptr<PixelShaderContextCommon>& common, std::shared_ptr<PixelShaderContext>& out)
+CRESULT InternalPixelShaderContext::GetInstance(Ceng::UINT32 index, std::shared_ptr<PixelShaderContextCommon>& common, std::shared_ptr<PixelShaderContext>& out)
 {
 	out = nullptr;
 
 	PixelShaderContext* temp = new InternalPixelShaderContext(common);
 
 	CRESULT cresult;
+
+	temp->instanceIndex = index;
 
 	cresult = temp->Configure(common->shader->inputSemantics, common->shader->renderTargets,common->shader->uniformManager);
 

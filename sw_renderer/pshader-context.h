@@ -49,11 +49,14 @@ namespace Ceng
 	{
 	public:
 
+		Ceng::UINT32 instanceIndex;
+
 		std::shared_ptr<PixelShaderContextCommon> common;
 
 	protected:
 
 		PixelShaderContext()
+			: instanceIndex(0)
 		{
 
 		}

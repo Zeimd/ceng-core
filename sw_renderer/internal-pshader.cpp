@@ -17,7 +17,7 @@ CRESULT InternalPixelShader::GetInstances(std::vector<std::shared_ptr<PixelShade
 
 	for (Ceng::UINT32 k = 0; k < instances.size(); k++)
 	{
-		CRESULT cresult = InternalPixelShaderContext::GetInstance(currentInstance, instances[k]);
+		CRESULT cresult = InternalPixelShaderContext::GetInstance(k, currentInstance, instances[k]);
 
 		if (cresult != CE_OK)
 		{
