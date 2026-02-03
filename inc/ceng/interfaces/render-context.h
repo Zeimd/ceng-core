@@ -94,7 +94,7 @@ namespace Ceng
 
 		virtual const Ceng::CRESULT SetRenderTarget(const Ceng::UINT32 index, RenderTargetView *view) = 0;
 
-		virtual const Ceng::CRESULT SetBlendState(BlendState *state, Ceng::FLOAT32 *blendFactor) = 0;
+		virtual const Ceng::CRESULT SetBlendState(BlendState *state, Ceng::FLOAT32 *blendFactor, Ceng::UINT32 sampleMask) = 0;
 
 		virtual const Ceng::CRESULT SetDepth(RenderTargetView *view) = 0;
 

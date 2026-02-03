@@ -262,7 +262,7 @@ const Ceng::CRESULT CR_RenderContext::SetRenderTarget(const Ceng::UINT32 index, 
 	return CE_OK;
 }
 
-const Ceng::CRESULT CR_RenderContext::SetBlendState(BlendState* state, Ceng::FLOAT32* blendFactor)
+const Ceng::CRESULT CR_RenderContext::SetBlendState(BlendState* state, Ceng::FLOAT32* blendFactor, Ceng::UINT32 sampleMask)
 {
 	return CE_ERR_UNIMPLEMENTED;
 }

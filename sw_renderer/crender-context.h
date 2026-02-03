@@ -133,7 +133,7 @@ namespace Ceng
 
 		const Ceng::CRESULT SetRenderTarget(const Ceng::UINT32 index, RenderTargetView* view) override;
 
-		const Ceng::CRESULT SetBlendState(BlendState* state, Ceng::FLOAT32* blendFactor) override;
+		const Ceng::CRESULT SetBlendState(BlendState* state, Ceng::FLOAT32* blendFactor, Ceng::UINT32 sampleMask) override;
 
 		const Ceng::CRESULT SetDepth(RenderTargetView* view) override;
 

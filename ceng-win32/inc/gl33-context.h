@@ -268,7 +268,7 @@ namespace Ceng
 
 		virtual const Ceng::CRESULT SetRenderTarget(const Ceng::UINT32 index, RenderTargetView *view) override;
 
-		virtual const Ceng::CRESULT SetBlendState(BlendState *state, Ceng::FLOAT32 *blendFactor) override;
+		virtual const Ceng::CRESULT SetBlendState(BlendState *state, Ceng::FLOAT32 *blendFactor, Ceng::UINT32 sampleMask) override;
 
 		virtual const Ceng::CRESULT SetDepth(RenderTargetView *view) override; 
 		virtual const Ceng::CRESULT SetDepthStencil(RenderTargetView *view) override;

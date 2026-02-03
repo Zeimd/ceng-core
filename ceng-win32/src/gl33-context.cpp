@@ -437,7 +437,7 @@ GL33_RenderContext::GL33_RenderContext(PlatformWindow *window, ::HDC deviceHandl
 
 	SetDepthStencilState(defaultDepthStencilState);
 
-	SetBlendState(defaultBlendState, nullptr);
+	SetBlendState(defaultBlendState, nullptr, 0);
 
 	SetRenderTarget(0, frontBufferTarget);
 
@@ -563,7 +563,7 @@ void GL33_RenderContext::Present()
 
 	SetVertexStream(0, quadBuffer, sizeof(VertexData), 0);
 
-	SetBlendState(nullptr, nullptr);
+	SetBlendState(nullptr, nullptr, 0);
 
 	SetDepthStencilState(nullptr);
 
@@ -583,7 +583,7 @@ void GL33_RenderContext::Present()
 
 	SetShaderProgram(oldProgram);
 
-	SetBlendState(oldBlendState, nullptr);
+	SetBlendState(oldBlendState, nullptr, 0);
 
 	SetDepthStencilState(oldDepthState);
 }
@@ -859,7 +859,7 @@ const Ceng::CRESULT GL33_RenderContext::SetRasterizerState(const Ceng::Rasterize
 	return CE_OK;
 }
 
-const Ceng::CRESULT GL33_RenderContext::SetBlendState(BlendState *state, Ceng::FLOAT32 *blendFactor)
+const Ceng::CRESULT GL33_RenderContext::SetBlendState(BlendState *state, Ceng::FLOAT32 *blendFactor, Ceng::UINT32 sampleMask)
 {
 	if (blendState != state)
 	{
