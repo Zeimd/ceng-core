@@ -234,3 +234,8 @@ POINTER CR_NewTargetData::GetTileAddress(const Ceng::UINT32 tileSize,const Ceng:
 
 	return 0;
 }
+
+Pshader::PshaderTargetWriter* CR_NewTargetData::GetWriter(CombinedBlendState* blendState)
+{
+	return nullptr;
+}

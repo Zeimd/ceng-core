@@ -31,7 +31,7 @@
 #include "cr-shader-const.h"
 
 
-#include "pshader-output.h"
+#include <ceng/swshader/pshader-output.h>
 
 #include "pshader-context.h"
 
@@ -44,6 +44,8 @@
 #include "UniformManager.h"
 
 #include "CombinedBlendState.h"
+
+#include "Writer_null.h"
 
 namespace Ceng
 {
@@ -80,7 +82,9 @@ namespace Ceng
 		UINT32 disableDepth;
 
 		Pshader::CR_PixelShaderInput nullInput;
-		CR_psOutputRegister nullOutput;
+		//CR_psOutputRegister nullOutput;
+
+		Writer_null* nullWriter;
 
 	protected:
 

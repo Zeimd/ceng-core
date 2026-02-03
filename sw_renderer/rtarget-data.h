@@ -26,6 +26,9 @@
 #include "buffer-tiling.h"
 #include "buffer-layout.h"
 
+#include <ceng/swshader/PshaderTargetWriter.h>
+
+#include "CombinedBlendState.h"
 
 namespace Ceng
 {
@@ -136,6 +139,8 @@ namespace Ceng
 
 		const CRESULT UpdateBucketAreas(const Ceng::UINT32 maxBucketCount,
 										const Ceng::UINT32 tileSize);
+
+		Pshader::PshaderTargetWriter* GetWriter(CombinedBlendState* blendState);
 
 	protected:
 

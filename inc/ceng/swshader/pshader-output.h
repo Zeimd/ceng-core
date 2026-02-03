@@ -1,28 +1,18 @@
-/*****************************************************************************
-*
-* cr-pshader-output.h
-*
-* By Jari Korkala 4/2013
-*
-* File created as part of project refactoring.
-*
-*****************************************************************************/
+#pragma once
 
-#ifndef _CENG_CR_PSHADER_OUTPUT_H
-#define _CENG_CR_PSHADER_OUTPUT_H
+#ifndef CENG_PSHADER_OUTPUT_H
+#define CENG_PSHADER_OUTPUT_H
 
-#include <ceng/math/ce-vector.h>
-#include <ceng/enums/image-formats.h>
+#include "../math/ce-vector.h"
 
-#include <ceng/swshader/pshader-types.h>
+#include "pshader-types.h"
 
-#include "crender-base.h"
+#include "pshader-uniform.h"
+#include "pshader-sampler.h"
 
+#include "PshaderTargetWriter.h"
 
-#include <ceng/swshader/pshader-uniform.h>
-#include <ceng/swshader/pshader-sampler.h>
-
-namespace Ceng
+namespace Ceng::Pshader
 {
 	const FLOAT32 colorScaleScalar = FLOAT32(255.0f);
 
@@ -49,46 +39,54 @@ namespace Ceng
 	class CR_psOutputRegister
 	{
 	public:
-		
-		/**
-		 * A CE_BUFFER_TYPE value.
-		 */
-		UINT32 bufferFormat;
 
-		/**
-		 * Location of render target address.
-		 */
+		Pshader::PshaderTargetWriter* writer;
+
+		// Location of render target address.
 		POINTER inputAddress;
 
-		POINTER *coverageAddress;
+		// Pointer to quad coverage values
+		Ceng::UINT32* coverageMask;
 
+	};
+
+	class OutFloat : public CR_psOutputRegister
+	{
+	};
+
+	class OutFloat2 : public CR_psOutputRegister
+	{
+	};
+
+	class OutFloat3 : public CR_psOutputRegister
+	{
+	};
+
+	class OutFloat4 : public CR_psOutputRegister
+	{
 	public:
-		CR_psOutputRegister()
-		{
-			// Default to a format that doesn't write to a
-			// render target
 
-			bufferFormat = Ceng::IMAGE_FORMAT::UNKNOWN;
-		}
-
-		~CR_psOutputRegister()
+		inline OutFloat4& operator = (const Pshader::Float &source)
 		{
-		}
-
-		inline CR_psOutputRegister& operator = (const Pshader::Float &source)
-		{
+			/*
 			POINTER *localWrite = (POINTER*)(inputAddress);
 
 			(*call_from_Float[bufferFormat])((void*)(*localWrite),(void*)&source.x,
 												(void*)(*coverageAddress));
+			*/
+			//POINTER* localWrite = (POINTER*)(inputAddress);
+
+			POINTER* localWrite = (POINTER*)(inputAddress);
+
+			writer->WriteFloat(source, (void*)(*localWrite), *coverageMask);
 
 			*localWrite += 16;
-			return *this;
+			return *this;			
 		}
 
-		inline CR_psOutputRegister& operator = (const Pshader::Float4 &source)
+		inline OutFloat4& operator = (const Pshader::Float4 &source)
 		{
-			POINTER *localWrite = (POINTER*)(inputAddress);			
+			//POINTER *localWrite = (POINTER*)(inputAddress);			
 
 			/*
 			(*call_from_Float4[bufferFormat]) ( (void*)(*localWrite),(void*)source.dataAddress,
@@ -96,6 +94,9 @@ namespace Ceng
 													*/
 													
 			
+			/*
+			// NOTE: use this code blob
+
 			float *dest = (float*)(*localWrite);
 
 			const INT8 *coverage = &coverageTable8[(INT32)(*coverageAddress)][0];
@@ -140,20 +141,25 @@ namespace Ceng
 			writeVec = _mm_or_si128(writeVec, destVec);
 
 			_mm_store_si128((__m128i*)dest, writeVec);
+			*/
 
-			// Step quad chain's target address to next quad on the right
+			POINTER *localWrite = (POINTER*)(inputAddress);	
+
+			writer->WriteFloat4(source, (void*)*localWrite, *coverageMask);
+
 			*localWrite += 16;
 			return *this;
 		}
 
+		/*
 		inline void Write(const Ceng::VectorF4 &source,const Ceng::INT32 coverageIndex)
 		{
 			POINTER *localWrite = (POINTER*)(inputAddress);
 
-			/*
-			(*call_from_Float[bufferFormat])((void*)(*localWrite), (void*)source,
-				(void*)(*coverageAddress));
-				*/
+			
+			//(*call_from_Float[bufferFormat])((void*)(*localWrite), (void*)source,
+				//(void*)(*coverageAddress));
+				
 
 			const INT8 *coverage = &coverageTable8[coverageIndex][0];
 
@@ -216,6 +222,7 @@ namespace Ceng
 			*localWrite += 16;
 
 		};
+		*/
 
 		/*
 		inline void Write(const Pshader::SampleTexture2D &source, const Ceng::INT32 coverageIndex)
@@ -391,7 +398,7 @@ namespace Ceng
 			*localWrite += 16;
 		}
 
-		inline CR_psOutputRegister& operator = (const Pshader::DelayedSampler2D &source)
+		inline OutFloat4& operator = (const Pshader::DelayedSampler2D &source)
 		{
 			POINTER *localWrite = (POINTER*)(inputAddress);
 
@@ -402,7 +409,7 @@ namespace Ceng
 
 			float *dest = (float*)(*localWrite);
 
-			const INT8 *coverage = &coverageTable8[(INT32)(*coverageAddress)][0];
+			const INT8 *coverage = &coverageTable8[*coverageMask][0];
 
 			__m128 colorScaleVec = _mm_load1_ps(&colorScaleScalar);
 
@@ -448,18 +455,8 @@ namespace Ceng
 			// Step quad chain's target address to next quad on the right
 			*localWrite += 16;
 			return *this;
-		}
-
-	public:
-
-		static void (*call_from_Float[128])(void *dest,void *source,void *coverageMask);
-		static void (*call_from_Float4[128])(void *dest,void *source,void *coverageMask);
+		}	
 	};
-
-	void PSOUT_NULL(void *dest,void *source,void *coverageMask);
-
-	void PSOUT_C32_ARGB_FLOAT_X86_SSE2 (void *dest,void *source,void *coverageMask);
-	void PSOUT_C32_ARGB_FLOAT4_X86_SSE2 (void *dest,void *source,void *coverageMask);
 };
 
 #endif

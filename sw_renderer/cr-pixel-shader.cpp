@@ -34,6 +34,8 @@ CR_PixelShader::CR_PixelShader()
 
 	wrapper.shader = this;
 
+	nullWriter = new Writer_null();
+
 	nextInstance = std::make_shared< Ceng::PixelShaderContextCommon>(this);
 
 	// Set up a NULL input and output registers 
@@ -44,11 +46,12 @@ CR_PixelShader::CR_PixelShader()
 	//nullInput.inputFormat = Ceng::SHADER_DATATYPE::UNKNOWN;
 
 	//nullOutput.target = CR_SHADER_TARGET0;
-	nullOutput.bufferFormat = Ceng::IMAGE_FORMAT::UNKNOWN;
+	//nullOutput.bufferFormat = Ceng::IMAGE_FORMAT::UNKNOWN;
 }
 
 CR_PixelShader::~CR_PixelShader()
 {
+	nullWriter->Release();
 }
 
 void CR_PixelShader::Release()
@@ -136,9 +139,23 @@ CRESULT CR_PixelShader::SetRenderTargets(Ceng::UINT32 amount,
 	for(k=0;k<amount;k++)
 	{
 		nextInstance->targetHandles[k] = targets[k];
-	}
 
-	nextInstance->activeRenderTargets = amount;
+		if (targets[k] != nullptr)
+		{
+			Pshader::PshaderTargetWriter* writer = targets[k]->GetWriter(blendState);
+
+			if (writer == nullptr)
+			{
+				writer = nullWriter;
+			}
+
+			nextInstance->targetWriters[k] = writer;
+		}
+		else
+		{
+			nextInstance->targetWriters[k] = nullWriter;
+		}		
+	}
 
 	return CE_OK;	
 }

@@ -60,7 +60,7 @@ CRESULT ExternalPixelShader::Create(PixelShaderDescriptor* desc, ExternalPixelSh
 	//temp->nullInput.inputFormat = Ceng::SHADER_DATATYPE::UNKNOWN;
 
 	//nullOutput.target = CR_SHADER_TARGET0;
-	temp->nullOutput.bufferFormat = Ceng::IMAGE_FORMAT::UNKNOWN;
+	//temp->nullOutput.bufferFormat = Ceng::IMAGE_FORMAT::UNKNOWN;
 
 	temp->desc = desc;
 

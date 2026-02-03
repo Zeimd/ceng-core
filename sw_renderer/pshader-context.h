@@ -16,7 +16,7 @@
 #include <ceng/swshader/pshader-input.h>
 
 #include <ceng/datatypes/pshader-output-desc.h>
-#include "pshader-output.h"
+#include <ceng/swshader/pshader-output.h>
 
 #include "rtarget-data.h"
 

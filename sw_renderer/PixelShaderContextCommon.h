@@ -14,6 +14,10 @@
 #include "UniformManager.h"
 #include "UniformBufferInstance.h"
 
+#include "CombinedBlendState.h"
+
+#include <ceng/swshader/PshaderTargetWriter.h>
+
 namespace Ceng
 {
 	class CR_PixelShader;
@@ -25,6 +29,8 @@ namespace Ceng
 	public:
 
 		CR_PixelShader* shader;
+
+		CombinedBlendState* blendState;
 
 		UniformBufferInstance uniformBuffer;
 
@@ -38,9 +44,13 @@ namespace Ceng
 
 		std::shared_ptr<CR_NewTargetData> targetHandles[2 + CRENDER_MAX_COLOR_TARGETS];
 
+		Pshader::PshaderTargetWriter* targetWriters[2 + CRENDER_MAX_COLOR_TARGETS];
+
 	public:
 
 		PixelShaderContextCommon() = delete;
+
+		~PixelShaderContextCommon();
 
 		PixelShaderContextCommon(CR_PixelShader* shader);
 

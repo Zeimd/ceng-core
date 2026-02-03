@@ -244,7 +244,6 @@
     <ClInclude Include="..\..\sw_renderer\pipeline.h" />
     <ClInclude Include="..\..\sw_renderer\primitive-data.h" />
     <ClInclude Include="..\..\sw_renderer\pshader-context.h" />
-    <ClInclude Include="..\..\sw_renderer\pshader-output.h" />
     <ClInclude Include="..\..\sw_renderer\pshader-texture.h" />
     <ClInclude Include="..\..\sw_renderer\pshader-wrapper.h" />
     <ClInclude Include="..\..\sw_renderer\quad-format.h" />

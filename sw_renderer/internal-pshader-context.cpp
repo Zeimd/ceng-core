@@ -154,7 +154,7 @@ CRESULT InternalPixelShaderContext::Configure(std::vector<PixelShaderInputDesc>&
 
 	for (Ceng::UINT32 k = 2; k < outputRegisters.size(); k++)
 	{
-		outputRegisters[k].variable->coverageAddress = &coverageAddress;
+		outputRegisters[k].variable->coverageMask = &coverageAddress;
 
 		outputRegisters[k].variable->inputAddress = (POINTER)((UINT8*)quadBuffer) +
 			common->link->link->quadFormat.targetStart + outputRegisters[k].target * sizeof(POINTER);
@@ -165,12 +165,18 @@ CRESULT InternalPixelShaderContext::Configure(std::vector<PixelShaderInputDesc>&
 		{
 			if (outputRegisters[k].target == common->targetHandles[j]->shaderSemantic)
 			{
-				outputRegisters[k].variable->bufferFormat = common->targetHandles[j]->bufferFormat;
+				outputRegisters[k].variable->writer = common->targetWriters[j];
 
+				/*
 				if (common->targetHandles[j]->baseAddress == NULL)
 				{
-					outputRegisters[k].variable->bufferFormat = Ceng::IMAGE_FORMAT::UNKNOWN;
+					// TODO: set null writer
 				}
+				else
+				{
+					// TODO: set normal output writer
+				}
+				*/
 
 				break;
 			}
@@ -178,8 +184,10 @@ CRESULT InternalPixelShaderContext::Configure(std::vector<PixelShaderInputDesc>&
 
 		if (j == common->activeRenderTargets)
 		{
+			// TODO: attach null writer
+
 			// No match found
-			outputRegisters[k].variable->bufferFormat = Ceng::IMAGE_FORMAT::UNKNOWN;
+			//outputRegisters[k].variable->bufferFormat = Ceng::IMAGE_FORMAT::UNKNOWN;
 		}		
 	}
 

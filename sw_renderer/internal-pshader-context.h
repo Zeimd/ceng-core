@@ -17,7 +17,7 @@ namespace Ceng
 
 	struct PixelShaderOutputRegister
 	{
-		CR_psOutputRegister* variable;
+		Pshader::CR_psOutputRegister* variable;
 		PSHADER_OUTPUT_SEMANTIC::value target;
 	};
 
@@ -45,7 +45,7 @@ namespace Ceng
 		 * Pixel coverage mask for render target writes.
 		 * Accessed through pointers.
 		 */
-		POINTER coverageAddress;
+		Ceng::UINT32 coverageAddress;
 
 		POINTER inputBaseAddress;
 
@@ -65,17 +65,17 @@ namespace Ceng
 
 		std::array<PixelShaderOutputRegister, 10> outputRegisters;
 
-		CR_psOutputRegister OUT_STENCIL;
-		CR_psOutputRegister OUT_DEPTH;
+		Pshader::OutFloat OUT_STENCIL;
+		Pshader::OutFloat OUT_DEPTH;
 
-		CR_psOutputRegister OUT_TARGET0;
-		CR_psOutputRegister OUT_TARGET1;
-		CR_psOutputRegister OUT_TARGET2;
-		CR_psOutputRegister OUT_TARGET3;
-		CR_psOutputRegister OUT_TARGET4;
-		CR_psOutputRegister OUT_TARGET5;
-		CR_psOutputRegister OUT_TARGET6;
-		CR_psOutputRegister OUT_TARGET7;
+		Pshader::OutFloat4 OUT_TARGET0;
+		Pshader::OutFloat4 OUT_TARGET1;
+		Pshader::OutFloat4 OUT_TARGET2;
+		Pshader::OutFloat4 OUT_TARGET3;
+		Pshader::OutFloat4 OUT_TARGET4;
+		Pshader::OutFloat4 OUT_TARGET5;
+		Pshader::OutFloat4 OUT_TARGET6;
+		Pshader::OutFloat4 OUT_TARGET7;
 
 	public:
 

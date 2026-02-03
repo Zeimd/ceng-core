@@ -14,6 +14,7 @@
 *
 ****************************************************************************/
 
+/*
 #include <xmmintrin.h>
 #include <emmintrin.h>
 
@@ -173,7 +174,7 @@ namespace Ceng
 			movdqa [eax],xmm0;
 		}
 		*/
-	}
+	//}
 
 	/*
 	_declspec(align(64)) const Ceng::INT8 coverageTable8[16][4] =
@@ -197,6 +198,7 @@ namespace Ceng
 	};
 	*/
 
+/*
 	void PSOUT_C32_ARGB_FLOAT4_X86_SSE2 (void *dest,void *source,void *coverageMask)
 	{
 		//_declspec(align(16)) const FLOAT32 testColor[4][4] = { {0.25,0,0,1} , {0,0.5,0,1} , {0,0,0.75,1} , {0,0,0,0} };
@@ -359,6 +361,9 @@ namespace Ceng
 		}		
 		*/
 
+		/*
+		// current version
+		
 		
 
 		__m128 colorScaleVec = _mm_load1_ps(&colorScaleScalar);
@@ -401,6 +406,10 @@ namespace Ceng
 		writeVec = _mm_or_si128(writeVec, destVec);
 
 		_mm_store_si128((__m128i*)dest, writeVec);
+
+		*/
 	
+/*
 	}
-};
+	*/
+//};
