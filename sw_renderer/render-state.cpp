@@ -25,6 +25,10 @@ RenderState::RenderState(const Ceng::UINT32 maxVertexStreams,const Ceng::UINT32 
 {
 	rasterizer = nullptr;
 	clipper = nullptr;
+	
+	blendState = nullptr;
+	blendFactor = { 1.0f,1.0f,1.0f,1.0f };
+	blendSampleMask = -1;
 
 	vertexShader = nullptr;
 
@@ -55,6 +59,10 @@ RenderState::RenderState(const RenderState &source)
 {
 	rasterizer = source.rasterizer;
 	clipper = source.clipper;
+	
+	blendState = source.blendState;
+	blendFactor = source.blendFactor;
+	blendSampleMask = source.blendSampleMask;
 
 	vertexShader = source.vertexShader;
 

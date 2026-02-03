@@ -10,6 +10,7 @@
 #define CRENDER_RENDER_STATE_H
 
 #include <memory>
+#include <array>
 
 #include <ceng/interfaces/rasterizer-state.h>
 #include <ceng/interfaces/depth-stencil-desc.h>
@@ -31,6 +32,8 @@
 
 #include "texture-unit.h"
 #include "ShaderLinkInstance.h"
+
+#include "cr-blend-state.h"
 
 namespace Ceng
 {
@@ -70,6 +73,12 @@ namespace Ceng
 		Ceng::CR_Clipper *clipper;
 
 		Ceng::ViewportState viewportState;
+
+		Ceng::CR_BlendState* blendState;
+
+		std::array<Ceng::FLOAT32, 4> blendFactor;
+
+		Ceng::UINT32 blendSampleMask;
 
 		// Vertex shader state
 

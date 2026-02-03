@@ -291,6 +291,27 @@ const Ceng::CRESULT CR_RenderContext::SetRenderTarget(const Ceng::UINT32 index, 
 
 const Ceng::CRESULT CR_RenderContext::SetBlendState(BlendState* state, Ceng::FLOAT32* blendFactor, Ceng::UINT32 sampleMask)
 {
+	if (state == nullptr)
+	{
+		nextRenderState->blendState = defaultBlendState;
+	}
+	else
+	{
+		nextRenderState->blendState = (CR_BlendState*)state;
+	}
+
+	if (blendFactor == nullptr)
+	{
+		nextRenderState->blendFactor = { 1.0f,1.0f,1.0f,1.0f };
+	}
+	else
+	{
+		memcpy(&nextRenderState->blendFactor, blendFactor, 4 * sizeof(Ceng::FLOAT32));
+	}
+
+	nextRenderState->blendSampleMask = sampleMask;
+
+
 	return CE_ERR_UNIMPLEMENTED;
 }
 
