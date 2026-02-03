@@ -91,6 +91,8 @@ namespace Ceng
 		Ceng::BlendOp::value blendAlphaOp;
 
 		Ceng::UINT8 writeMask;
+
+		static const Ceng::UINT32 WRITE_ENABLE_ALL = 255;
 	};
 
 	class BlendStateDesc
