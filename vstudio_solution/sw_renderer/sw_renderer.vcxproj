@@ -282,6 +282,8 @@
     <ClInclude Include="..\..\sw_renderer\vshader-instance.h" />
     <ClInclude Include="..\..\sw_renderer\vshader-output.h" />
     <ClInclude Include="..\..\sw_renderer\vshader-wrapper.h" />
+    <ClInclude Include="..\..\sw_renderer\Writer_null.h" />
+    <ClInclude Include="..\..\sw_renderer\Writer_r8g8b8a8.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
@@ -296,6 +298,7 @@
     <ClCompile Include="..\..\sw_renderer\cmd-draw.cpp" />
     <ClCompile Include="..\..\sw_renderer\cmd-flip-buffers.cpp" />
     <ClCompile Include="..\..\sw_renderer\command-thread.cpp" />
+    <ClCompile Include="..\..\sw_renderer\cr-blend-state.cpp" />
     <ClCompile Include="..\..\sw_renderer\cr-depthstencil-state.cpp" />
     <ClCompile Include="..\..\sw_renderer\cr-image-buffer.cpp" />
     <ClCompile Include="..\..\sw_renderer\cr-pixel-shader.cpp" />
@@ -366,6 +369,8 @@
     <ClCompile Include="..\..\sw_renderer\vshader-instance.cpp" />
     <ClCompile Include="..\..\sw_renderer\vshader-output.cpp" />
     <ClCompile Include="..\..\sw_renderer\vshader-wrapper.cpp" />
+    <ClCompile Include="..\..\sw_renderer\Writer_null.cpp" />
+    <ClCompile Include="..\..\sw_renderer\Writer_r8g8b8a8.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

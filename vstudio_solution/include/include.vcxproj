@@ -272,6 +272,7 @@
     <ClInclude Include="..\..\inc\ceng\swshader\pshader-types.h" />
     <ClInclude Include="..\..\inc\ceng\swshader\pshader-uniform.h" />
     <ClInclude Include="..\..\inc\ceng\swshader\pshader-util.h" />
+    <ClInclude Include="..\..\inc\ceng\swshader\PshaderTargetWriter.h" />
     <ClInclude Include="..\..\inc\ceng\swshader\PShaderTextureUnitSampler.h" />
     <ClInclude Include="..\..\inc\deps\MurmurHash3.h" />
   </ItemGroup>

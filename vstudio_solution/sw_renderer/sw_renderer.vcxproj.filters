@@ -324,6 +324,12 @@
     <ClInclude Include="..\..\sw_renderer\TextureSampler2d.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\Writer_r8g8b8a8.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\Writer_null.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\sw_renderer\cr-blend-state.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
@@ -573,6 +579,12 @@
       <Filter>Source Files\sw_renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\..\sw_renderer\TextureSampler2d.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\Writer_r8g8b8a8.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\Writer_null.cpp">
       <Filter>Source Files\sw_renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\..\sw_renderer\cr-blend-state.cpp">
