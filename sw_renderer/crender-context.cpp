@@ -44,6 +44,29 @@
 
 using namespace Ceng;
 
+static RenderTargetBlendDesc defaultTargetBlend
+{
+	false,
+	BlendType::one,
+	BlendType::zero,
+	BlendOp::add,
+
+	BlendType::one,
+	BlendType::zero,
+	BlendOp::add,
+
+	RenderTargetBlendDesc::WRITE_ENABLE_ALL,
+
+};
+
+static BlendStateDesc defaultBlendDesc
+{
+	false,
+	false,
+	1,
+	& defaultTargetBlend,
+};
+
 CR_RenderContext::CR_RenderContext()
 {
 	cmdThread = nullptr;
@@ -53,6 +76,8 @@ CR_RenderContext::CR_RenderContext()
 	activeClipper = nullptr;
 
 	scene = false;
+
+	defaultBlendState = new CR_BlendState(defaultBlendDesc);
 
 	nextRenderState = std::shared_ptr<RenderState>(new RenderState(CRENDER_MAX_VERTEX_STREAMS,
 		CRENDER_MAX_SHADER_TEXTURES));
@@ -76,6 +101,8 @@ CR_RenderContext::~CR_RenderContext()
 		delete activeClipper;
 		activeClipper = nullptr;
 	}
+
+	defaultBlendState->Release();
 }
 
 void CR_RenderContext::Release()

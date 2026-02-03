@@ -14,11 +14,15 @@
 #include <ceng/interfaces/render-context.h>
 #include <ceng/datatypes/ring-buffer.h>
 
+#include <ceng/datatypes/blend-state-desc.h>
+
 #include "command-thread.h"
 
 #include "pipeline.h"
 
 #include "shader-link.h"
+
+#include "cr-blend-state.h"
 
 namespace Ceng
 {
@@ -89,6 +93,8 @@ namespace Ceng
 		* Height of output window for this frame.
 		*/
 		UINT32 windowHeight;
+
+		CR_BlendState* defaultBlendState;
 
 	public:
 
