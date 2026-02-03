@@ -26,9 +26,9 @@ RenderState::RenderState(const Ceng::UINT32 maxVertexStreams,const Ceng::UINT32 
 	rasterizer = nullptr;
 	clipper = nullptr;
 	
-	blendState = nullptr;
-	blendFactor = { 1.0f,1.0f,1.0f,1.0f };
-	blendSampleMask = -1;
+	blendState.state = nullptr;
+	blendState.factors = { 1.0f,1.0f,1.0f,1.0f };
+	blendState.sampleMask = -1;
 
 	vertexShader = nullptr;
 
@@ -61,9 +61,7 @@ RenderState::RenderState(const RenderState &source)
 	clipper = source.clipper;
 	
 	blendState = source.blendState;
-	blendFactor = source.blendFactor;
-	blendSampleMask = source.blendSampleMask;
-
+	
 	vertexShader = source.vertexShader;
 
 	vshaderInstance = source.vshaderInstance;
@@ -157,7 +155,7 @@ const CRESULT RenderState::CommitState(const RenderState &oldState,	const Ceng::
 
 	if (pixelShader != nullptr)
 	{
-		cresult = pixelShader->SetRenderTargets(activeTargets,renderTargets,depthBuffer);
+		cresult = pixelShader->SetRenderTargets(activeTargets,renderTargets,depthBuffer, &blendState);
 
 		if (cresult != CE_OK)
 		{

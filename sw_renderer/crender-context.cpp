@@ -81,6 +81,8 @@ CR_RenderContext::CR_RenderContext()
 
 	nextRenderState = std::shared_ptr<RenderState>(new RenderState(CRENDER_MAX_VERTEX_STREAMS,
 		CRENDER_MAX_SHADER_TEXTURES));
+
+	nextRenderState->blendState.state = defaultBlendState;
 }
 
 CR_RenderContext::~CR_RenderContext()
@@ -293,23 +295,23 @@ const Ceng::CRESULT CR_RenderContext::SetBlendState(BlendState* state, Ceng::FLO
 {
 	if (state == nullptr)
 	{
-		nextRenderState->blendState = defaultBlendState;
+		nextRenderState->blendState.state = defaultBlendState;
 	}
 	else
 	{
-		nextRenderState->blendState = (CR_BlendState*)state;
+		nextRenderState->blendState.state = (CR_BlendState*)state;
 	}
 
 	if (blendFactor == nullptr)
 	{
-		nextRenderState->blendFactor = { 1.0f,1.0f,1.0f,1.0f };
+		nextRenderState->blendState.factors = { 1.0f,1.0f,1.0f,1.0f };
 	}
 	else
 	{
-		memcpy(&nextRenderState->blendFactor, blendFactor, 4 * sizeof(Ceng::FLOAT32));
+		memcpy(&nextRenderState->blendState.factors[0], blendFactor, 4 * sizeof(Ceng::FLOAT32));
 	}
 
-	nextRenderState->blendSampleMask = sampleMask;
+	nextRenderState->blendState.sampleMask = sampleMask;
 
 
 	return CE_ERR_UNIMPLEMENTED;

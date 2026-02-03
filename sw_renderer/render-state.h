@@ -35,6 +35,8 @@
 
 #include "cr-blend-state.h"
 
+#include "CombinedBlendState.h"
+
 namespace Ceng
 {
 	class CR_VertexFormat;
@@ -74,11 +76,7 @@ namespace Ceng
 
 		Ceng::ViewportState viewportState;
 
-		Ceng::CR_BlendState* blendState;
-
-		std::array<Ceng::FLOAT32, 4> blendFactor;
-
-		Ceng::UINT32 blendSampleMask;
+		CombinedBlendState blendState;
 
 		// Vertex shader state
 

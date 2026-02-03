@@ -43,6 +43,8 @@
 
 #include "UniformManager.h"
 
+#include "CombinedBlendState.h"
+
 namespace Ceng
 {
 	class CR_NewTargetData;
@@ -110,7 +112,8 @@ namespace Ceng
 		const CRESULT SetTextureUnits(std::vector<TextureUnit> &source);
 
 		CRESULT SetRenderTargets(UINT32 amount,std::shared_ptr<CR_NewTargetData> targets[],
-									std::shared_ptr<CR_NewTargetData> &depthStencil);
+									std::shared_ptr<CR_NewTargetData> &depthStencil,
+									CombinedBlendState* blendState);
 
 		virtual CRESULT GetInstances(std::vector<std::shared_ptr<PixelShaderContext>> &instances,
 									const Ceng::UINT32 renderThreads) = 0;

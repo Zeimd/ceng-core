@@ -120,13 +120,18 @@ const CRESULT CR_PixelShader::SetTextureUnits(std::vector<TextureUnit> &source)
 }
 
 CRESULT CR_PixelShader::SetRenderTargets(Ceng::UINT32 amount,
-										 std::shared_ptr<CR_NewTargetData> targets[],
-										 std::shared_ptr<CR_NewTargetData> &depthStencil)
+	std::shared_ptr<CR_NewTargetData> targets[],
+	std::shared_ptr<CR_NewTargetData> &depthStencil,
+	CombinedBlendState* blendState)
 {
 
 	UINT32 k;
 
 	UINT32 tempFlags = 0;
+
+	nextInstance->activeRenderTargets = amount;
+
+	nextInstance->blendState = blendState;
 
 	for(k=0;k<amount;k++)
 	{

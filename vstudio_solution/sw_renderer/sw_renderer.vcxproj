@@ -194,6 +194,7 @@
     <ClInclude Include="..\..\sw_renderer\clipper-batch.h" />
     <ClInclude Include="..\..\sw_renderer\clipper-state.h" />
     <ClInclude Include="..\..\sw_renderer\clipper.h" />
+    <ClInclude Include="..\..\sw_renderer\CombinedBlendState.h" />
     <ClInclude Include="..\..\sw_renderer\command-thread.h" />
     <ClInclude Include="..\..\sw_renderer\cr-blend-state.h" />
     <ClInclude Include="..\..\sw_renderer\cr-depthstencil-state.h" />
