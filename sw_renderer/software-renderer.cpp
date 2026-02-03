@@ -41,6 +41,8 @@
 
 #include "cr-shader-program.h"
 
+#include "cr-blend-state.h"
+
 #include "texture-copy.h"
 
 #include "internal-pshader.h"
@@ -724,7 +726,11 @@ const Ceng::CRESULT SoftwareRenderer::CreateShaderProgram(Ceng::VertexShader* ve
 
 const CRESULT SoftwareRenderer::CreateBlendState(BlendStateDesc* desc, BlendState** statePtr)
 {
-	return CE_ERR_UNIMPLEMENTED;
+	CR_BlendState* state = new CR_BlendState(*desc);
+
+	*statePtr = state;
+
+	return CE_OK;
 }
 
 const Ceng::CRESULT SoftwareRenderer::CreateDepthStencilState(const DepthStencilDesc& desc, DepthStencilState** statePtr)
