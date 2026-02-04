@@ -136,31 +136,7 @@ CRESULT CR_PixelShader::SetRenderTargets(Ceng::UINT32 amount,
 
 	nextInstance->blendState = blendState;
 
-	for(k=0;k<amount;k++)
-	{
-		nextInstance->targetHandles[k] = targets[k];
-
-		if (targets[k] != nullptr)
-		{
-			Pshader::PshaderTargetWriter* writer = targets[k]->GetWriter(blendState);
-
-			if (writer != nullptr)
-			{
-				nextInstance->targetWriters[k].writer = writer;
-				nextInstance->targetWriters[k].isNull = false;
-			}
-			else
-			{
-				nextInstance->targetWriters[k].writer = nullWriter;
-				nextInstance->targetWriters[k].isNull = true;
-			}			
-		}
-		else
-		{
-			nextInstance->targetWriters[k].writer = nullWriter;
-			nextInstance->targetWriters[k].isNull = true;
-		}		
-	}
+	nextInstance->ConfigureRenderTargets(targets);
 
 	return CE_OK;	
 }

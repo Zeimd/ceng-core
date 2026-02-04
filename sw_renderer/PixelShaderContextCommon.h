@@ -48,9 +48,11 @@ namespace Ceng
 
 		UINT32 activeRenderTargets;
 
-		std::shared_ptr<CR_NewTargetData> targetHandles[2 + CRENDER_MAX_COLOR_TARGETS];
+		static const Ceng::UINT32 maxTargets = 2 + CRENDER_MAX_COLOR_TARGETS;
 
-		WriterData targetWriters[2 + CRENDER_MAX_COLOR_TARGETS];
+		std::shared_ptr<CR_NewTargetData> targetHandles[maxTargets];
+
+		WriterData targetWriters[maxTargets];
 
 	public:
 
@@ -64,6 +66,8 @@ namespace Ceng
 
 		const CRESULT ConfigureUniforms(const std::vector<ShaderUniformDesc>& uniformList,
 			UniformManager& uniformManager);
+
+		CRESULT ConfigureRenderTargets(const std::shared_ptr<CR_NewTargetData> targets[]);
 	};
 }
 

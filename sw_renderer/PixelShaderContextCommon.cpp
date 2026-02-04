@@ -49,16 +49,25 @@ PixelShaderContextCommon::PixelShaderContextCommon(const PixelShaderContextCommo
 	activeRenderTargets = source.activeRenderTargets;
 
 	textureUnits = source.textureUnits;
+	
+	uniformBuffer = source.uniformBuffer;
 
+	blendState = source.blendState;
+
+	ConfigureRenderTargets(source.targetHandles);
+}
+
+CRESULT PixelShaderContextCommon::ConfigureRenderTargets(const std::shared_ptr<CR_NewTargetData> targets[])
+{
 	Ceng::UINT32 k;
 
 	for (k = 0; k < 2 + CRENDER_MAX_COLOR_TARGETS; k++)
 	{
-		targetHandles[k] = source.targetHandles[k];
+		targetHandles[k] = targets[k];
 
 		if (targetHandles[k] != nullptr)
 		{
-			Pshader::PshaderTargetWriter* writer = source.targetHandles[k]->GetWriter(blendState);
+			Pshader::PshaderTargetWriter* writer = targets[k]->GetWriter(blendState);
 
 			if (writer != nullptr)
 			{
@@ -78,8 +87,7 @@ PixelShaderContextCommon::PixelShaderContextCommon(const PixelShaderContextCommo
 		}
 	}
 
-	
-	uniformBuffer = source.uniformBuffer;
+	return CE_OK;
 }
 
 const CRESULT PixelShaderContextCommon::ConfigureUniforms(const std::vector<ShaderUniformDesc>& uniformList,
