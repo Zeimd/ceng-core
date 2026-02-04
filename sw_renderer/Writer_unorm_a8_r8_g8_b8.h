@@ -7,11 +7,11 @@
 
 namespace Ceng
 {
-	class Writer_r8g8b8a8 : public Pshader::PshaderTargetWriter
+	class Writer_unorm_a8_r8_g8_b8 : public Pshader::PshaderTargetWriter
 	{
 	protected:
 
-		~Writer_r8g8b8a8() override;
+		~Writer_unorm_a8_r8_g8_b8() override;
 
 	public:
 

@@ -9,6 +9,8 @@
 #include "buffer-clear.h"
 #include "rtarget-data.h"
 
+#include "Writer_unorm_a8_r8_g8_b8.h"
+
 using namespace Ceng;
 
 CR_NewTargetData::CR_NewTargetData()
@@ -237,5 +239,273 @@ POINTER CR_NewTargetData::GetTileAddress(const Ceng::UINT32 tileSize,const Ceng:
 
 Pshader::PshaderTargetWriter* CR_NewTargetData::GetWriter(CombinedBlendState* blendState)
 {
+	switch (bufferFormat)
+	{
+	case IMAGE_FORMAT::D16:
+		return nullptr;
+	case IMAGE_FORMAT::D16_S8:
+		return nullptr;
+	case IMAGE_FORMAT::D16_S16:
+		return nullptr;
+	case IMAGE_FORMAT::D24_S8:
+		return nullptr;
+	case IMAGE_FORMAT::D24_S16:
+		return nullptr;
+	case IMAGE_FORMAT::D32F:
+		return nullptr;
+	case IMAGE_FORMAT::D32F_S8:
+		return nullptr;
+	case IMAGE_FORMAT::D32F_S16:
+		return nullptr;
+	case IMAGE_FORMAT::D32F_IW:
+		return nullptr;
+	case IMAGE_FORMAT::D32F_IW_S8:
+		return nullptr;
+	case IMAGE_FORMAT::D32F_IW_S16:
+		return nullptr;
+	case IMAGE_FORMAT::D32F_W:
+		return nullptr;
+	case IMAGE_FORMAT::D32F_W_S8:
+		return nullptr;
+	case IMAGE_FORMAT::D32F_W_S16:
+		return nullptr;
+	case IMAGE_FORMAT::D64F:
+		return nullptr;
+	case IMAGE_FORMAT::D64F_S8:
+		return nullptr;
+	case IMAGE_FORMAT::D64F_S16:
+		return nullptr;
+	case IMAGE_FORMAT::D64F_IW:
+		return nullptr;
+	case IMAGE_FORMAT::D64F_IW_S8:
+		return nullptr;
+	case IMAGE_FORMAT::D64F_IW_S16:
+		return nullptr;
+	case IMAGE_FORMAT::D64F_W:
+		return nullptr;
+	case IMAGE_FORMAT::D64F_W_S8:
+		return nullptr;
+	case IMAGE_FORMAT::D64F_W_S16:
+		return nullptr;			
+	case IMAGE_FORMAT::s8:		
+		return nullptr;
+	case IMAGE_FORMAT::s16:
+		return nullptr;
+	case IMAGE_FORMAT::D32:
+		return nullptr;
+	case IMAGE_FORMAT::D15_S1:
+		return nullptr;
+	case IMAGE_FORMAT::D24_X8:
+		return nullptr;
+	case IMAGE_FORMAT::D24_X4_S4:
+		return nullptr;
+	case IMAGE_FORMAT::D24F_S8:
+		return nullptr;
+	case IMAGE_FORMAT::unorm_r8:
+		return nullptr;
+	case IMAGE_FORMAT::uint_r8:
+		return nullptr;
+	case IMAGE_FORMAT::int_r8:
+		return nullptr;
+	case IMAGE_FORMAT::unorm_r16:
+		return nullptr;
+	case IMAGE_FORMAT::uint_r16:
+		return nullptr;
+	case IMAGE_FORMAT::int_r16:
+		return nullptr;
+	case IMAGE_FORMAT::fp32_r:
+		return nullptr;
+	case IMAGE_FORMAT::fp16_r:
+		return nullptr;
+	case IMAGE_FORMAT::fp16_gray:
+		return nullptr;
+	case IMAGE_FORMAT::gray_8:
+		return nullptr;
+	case IMAGE_FORMAT::gray_16:
+		return nullptr;
+	case IMAGE_FORMAT::gray_24:
+		return nullptr;
+	case IMAGE_FORMAT::gray_32:
+		return nullptr;
+	case IMAGE_FORMAT::alpha_8:
+		return nullptr;
+	case IMAGE_FORMAT::unorm_r8_g8:
+		return nullptr;
+	case IMAGE_FORMAT::uint_r8_g8:
+		return nullptr;
+	case IMAGE_FORMAT::int_r8_g8:
+		return nullptr;
+	case IMAGE_FORMAT::unorm_g8_r8:
+		return nullptr;
+	case IMAGE_FORMAT::uint_g8_r8:
+		return nullptr;
+	case IMAGE_FORMAT::int_g8_r8:
+		return nullptr;
+	case IMAGE_FORMAT::unorm_r16_g16:
+		return nullptr;
+	case IMAGE_FORMAT::uint_r16_g16:
+		return nullptr;
+	case IMAGE_FORMAT::int_r16_g16:
+		return nullptr;
+	case IMAGE_FORMAT::unorm_g16_r16:
+		return nullptr;
+	case IMAGE_FORMAT::uint_g16_r16:
+		return nullptr;
+	case IMAGE_FORMAT::int_g16_r16:
+		return nullptr;
+	case IMAGE_FORMAT::fp32_gr:
+		return nullptr;
+	case IMAGE_FORMAT::fp32_rg:
+		return nullptr;
+	case IMAGE_FORMAT::fp16_gr:
+		return nullptr;
+	case IMAGE_FORMAT::fp16_rg:
+		return nullptr;
+	case IMAGE_FORMAT::unorm_r8_g8_b8:
+		return nullptr;
+	case IMAGE_FORMAT::uint_r8_g8_b8:
+		return nullptr;
+	case IMAGE_FORMAT::int_r8_g8_b8:
+		return nullptr;
+	case IMAGE_FORMAT::unorm_b8_g8_r8:
+		return nullptr;
+	case IMAGE_FORMAT::uint_b8_g8_r8:
+		return nullptr;
+	case IMAGE_FORMAT::int_b8_g8_r8:
+		return nullptr;
+	case IMAGE_FORMAT::unorm_b32_g32_r32:
+		return nullptr;
+	case IMAGE_FORMAT::fp32_bgr:
+		return nullptr;
+	case IMAGE_FORMAT::fp32_rgb:
+		return nullptr;
+	case IMAGE_FORMAT::unorm_a8_r8_g8_b8:
+		return new Writer_unorm_a8_r8_g8_b8();
+	case IMAGE_FORMAT::uint_a8_r8_g8_b8:
+		return nullptr;
+	case IMAGE_FORMAT::int_a8_r8_g8_b8:
+		return nullptr;
+	case IMAGE_FORMAT::unorm_a8_b8_g8_r8:
+		return nullptr;
+	case IMAGE_FORMAT::uint_a8_b8_g8_r8:
+		return nullptr;
+	case IMAGE_FORMAT::int_a8_b8_g8_r8:
+		return nullptr;
+	case IMAGE_FORMAT::unorm_a16_b16_g16_r16:
+		return nullptr;
+	case IMAGE_FORMAT::uint_a16_b16_g16_r16:
+		return nullptr;
+	case IMAGE_FORMAT::int_a16_b16_g16_r16:
+		return nullptr;
+	case IMAGE_FORMAT::unorm_a16_r16_g16_b16:
+		return nullptr;
+	case IMAGE_FORMAT::unorm_a32_b32_g32_r32:
+		return nullptr;
+	case IMAGE_FORMAT::fp32_abgr:
+		return nullptr;
+	case IMAGE_FORMAT::fp32_argb:
+		return nullptr;
+	case IMAGE_FORMAT::fp16_abgr:
+		return nullptr;
+	case IMAGE_FORMAT::fp16_argb:
+		return nullptr;
+	case IMAGE_FORMAT::unorm_r5_g6_b5:
+		return nullptr;
+	case IMAGE_FORMAT::unorm_b5_g6_r5:
+		return nullptr;
+	case IMAGE_FORMAT::unorm_a1_r5_g5_b5:
+		return nullptr;
+	case IMAGE_FORMAT::unorm_a1_b5_g5_r5:
+		return nullptr;
+	case IMAGE_FORMAT::unorm_a2_r10_g10_b10:
+		return nullptr;
+	case IMAGE_FORMAT::unorm_a2_b10_g10_r10:
+		return nullptr;
+	case IMAGE_FORMAT::unorm_r3_g3_b2:
+		return nullptr;
+	case IMAGE_FORMAT::unorm_b2_g3_r3:
+		return nullptr;
+	case IMAGE_FORMAT::unorm_x8_r8_g8_b8:
+		return nullptr;
+	case IMAGE_FORMAT::unorm_x8_b8_g8_r8:
+		return nullptr;
+	case IMAGE_FORMAT::unorm_x1_r5_g5_b5:
+		return nullptr;
+	case IMAGE_FORMAT::unorm_a4_r4_g4_b4:
+		return nullptr;
+	case IMAGE_FORMAT::unorm_a4_b4_g4_r4:
+		return nullptr;
+	case IMAGE_FORMAT::unorm_x4_r4_g4_b4:
+		return nullptr;
+	case IMAGE_FORMAT::unorm_x4_b4_g4_r4:
+		return nullptr;
+	case IMAGE_FORMAT::unorm_a8_r3_g3_b2:
+		return nullptr;
+	case IMAGE_FORMAT::unorm_a8_b2_g3_r3:
+		return nullptr;
+
+	case IMAGE_FORMAT::dxt1:
+		return nullptr;
+	case IMAGE_FORMAT::dxt2:
+		return nullptr;
+	case IMAGE_FORMAT::dxt3:
+		return nullptr;
+	case IMAGE_FORMAT::dxt4:
+		return nullptr;
+	case IMAGE_FORMAT::dxt5:
+		return nullptr;
+
+	case IMAGE_FORMAT::normal_3dc:
+		return nullptr;
+
+	case IMAGE_FORMAT::bc7_rgba_unorm:
+		return nullptr;
+	case IMAGE_FORMAT::bc7_srgb_alpha_unorm:
+		return nullptr;
+
+	case IMAGE_FORMAT::bc6_rgb_float:
+		return nullptr;
+	case IMAGE_FORMAT::bc6_rgb_unsigned_float:
+		return nullptr;
+
+	case IMAGE_FORMAT::etc2_rgb8:
+		return nullptr;
+	case IMAGE_FORMAT::etc2_srgb8:
+		return nullptr;
+
+	case IMAGE_FORMAT::etc2_rgb8_a1:
+		return nullptr;
+	case IMAGE_FORMAT::etc2_srgb8_a1:
+		return nullptr;
+
+	case IMAGE_FORMAT::etc2_rgba8:
+		return nullptr;
+	case IMAGE_FORMAT::etc2_srgb8_a8:
+		return nullptr;
+
+	case IMAGE_FORMAT::eac_r11_unsigned:
+		return nullptr;
+	case IMAGE_FORMAT::eac_r11_signed:
+		return nullptr;
+
+	case IMAGE_FORMAT::eac_rg11_unsigned:
+		return nullptr;
+	case IMAGE_FORMAT::eac_rg11_signed:
+		return nullptr;
+
+	case IMAGE_FORMAT::etc1_rgb:
+		return nullptr;
+
+	case IMAGE_FORMAT::bc5_rg_unorm:
+		return nullptr;
+	case IMAGE_FORMAT::bc5_rg_snorm:
+		return nullptr;
+
+	case IMAGE_FORMAT::bc4_r_unorm:
+		return nullptr;
+	case IMAGE_FORMAT::bc4_r_snorm:
+		return nullptr;
+	}
+
 	return nullptr;
 }

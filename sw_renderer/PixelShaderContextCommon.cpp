@@ -65,6 +65,13 @@ CRESULT PixelShaderContextCommon::ConfigureRenderTargets(const std::shared_ptr<C
 	{
 		targetHandles[k] = targets[k];
 
+		if (targetWriters[k].writer != nullptr && targetWriters[k].isNull == false)
+		{
+			targetWriters[k].writer->Release();
+			targetWriters[k].writer = nullptr;
+			targetWriters[k].isNull = false;
+		}
+
 		if (targetHandles[k] != nullptr)
 		{
 			Pshader::PshaderTargetWriter* writer = targets[k]->GetWriter(blendState);
