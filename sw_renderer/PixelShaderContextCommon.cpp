@@ -22,7 +22,8 @@ PixelShaderContextCommon::PixelShaderContextCommon(CR_PixelShader* shader)
 	for (k = 0; k < 2 + CRENDER_MAX_COLOR_TARGETS; k++)
 	{
 		targetHandles[k] = nullptr;
-		targetWriters[k] = nullptr;
+		targetWriters[k].writer = nullptr;
+		targetWriters[k].isNull = true;
 	}
 }
 
@@ -30,12 +31,9 @@ PixelShaderContextCommon::~PixelShaderContextCommon()
 {
 	for (Ceng::UINT32 k = 0; k < 2 + CRENDER_MAX_COLOR_TARGETS; k++)
 	{
-		if (targetWriters[k] != nullptr)
+		if (targetWriters[k].isNull == false)
 		{
-			if (targetWriters[k] != shader->nullWriter)
-			{
-				targetWriters[k]->Release();
-			}			
+			targetWriters[k].writer->Release();
 		}		
 	}
 }
@@ -62,16 +60,21 @@ PixelShaderContextCommon::PixelShaderContextCommon(const PixelShaderContextCommo
 		{
 			Pshader::PshaderTargetWriter* writer = source.targetHandles[k]->GetWriter(blendState);
 
-			if (writer == nullptr)
+			if (writer != nullptr)
+			{
+				targetWriters[k].writer = writer;
+				targetWriters[k].isNull = false;
+			}
+			else
 			{
 				writer = shader->nullWriter;
+				targetWriters[k].isNull = true;
 			}
-
-			targetWriters[k] = writer;
 		}
 		else
 		{
-			targetWriters[k] = shader->nullWriter;
+			targetWriters[k].writer = shader->nullWriter;
+			targetWriters[k].isNull = true;
 		}
 	}
 

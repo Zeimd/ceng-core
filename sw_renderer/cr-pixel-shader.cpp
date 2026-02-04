@@ -144,16 +144,21 @@ CRESULT CR_PixelShader::SetRenderTargets(Ceng::UINT32 amount,
 		{
 			Pshader::PshaderTargetWriter* writer = targets[k]->GetWriter(blendState);
 
-			if (writer == nullptr)
+			if (writer != nullptr)
 			{
-				writer = nullWriter;
+				nextInstance->targetWriters[k].writer = writer;
+				nextInstance->targetWriters[k].isNull = false;
 			}
-
-			nextInstance->targetWriters[k] = writer;
+			else
+			{
+				nextInstance->targetWriters[k].writer = nullWriter;
+				nextInstance->targetWriters[k].isNull = true;
+			}			
 		}
 		else
 		{
-			nextInstance->targetWriters[k] = nullWriter;
+			nextInstance->targetWriters[k].writer = nullWriter;
+			nextInstance->targetWriters[k].isNull = true;
 		}		
 	}
 

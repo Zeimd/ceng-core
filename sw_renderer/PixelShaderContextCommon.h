@@ -24,6 +24,12 @@ namespace Ceng
 
 	class ShaderLinkInstance;	
 
+	struct WriterData
+	{
+		Pshader::PshaderTargetWriter* writer;
+		bool isNull;
+	};
+
 	class PixelShaderContextCommon
 	{
 	public:
@@ -44,7 +50,7 @@ namespace Ceng
 
 		std::shared_ptr<CR_NewTargetData> targetHandles[2 + CRENDER_MAX_COLOR_TARGETS];
 
-		Pshader::PshaderTargetWriter* targetWriters[2 + CRENDER_MAX_COLOR_TARGETS];
+		WriterData targetWriters[2 + CRENDER_MAX_COLOR_TARGETS];
 
 	public:
 

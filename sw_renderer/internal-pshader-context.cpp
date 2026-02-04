@@ -165,7 +165,7 @@ CRESULT InternalPixelShaderContext::Configure(std::vector<PixelShaderInputDesc>&
 		{
 			if (outputRegisters[k].target == common->targetHandles[j]->shaderSemantic)
 			{
-				outputRegisters[k].variable->writer = common->targetWriters[j];
+				outputRegisters[k].variable->writer = common->targetWriters[j].writer;
 
 				/*
 				if (common->targetHandles[j]->baseAddress == NULL)
