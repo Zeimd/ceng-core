@@ -1,5 +1,7 @@
 #include "Writer_unorm_a8_r8_g8_b8.h"
 
+#include "WriterCommon.h"
+
 using namespace Ceng;
 
 Writer_unorm_a8_r8_g8_b8::~Writer_unorm_a8_r8_g8_b8()
