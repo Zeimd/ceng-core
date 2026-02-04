@@ -17,9 +17,12 @@ PixelShaderContextCommon::PixelShaderContextCommon(CR_PixelShader* shader)
 
 	textureUnits = nullptr;
 
-	Ceng::UINT32 k;
+	InitWriterData();
+}
 
-	for (k = 0; k < 2 + CRENDER_MAX_COLOR_TARGETS; k++)
+void PixelShaderContextCommon::InitWriterData()
+{
+	for (Ceng::UINT32 k = 0; k < maxTargets; k++)
 	{
 		targetHandles[k] = nullptr;
 		targetWriters[k].writer = nullptr;
@@ -29,7 +32,7 @@ PixelShaderContextCommon::PixelShaderContextCommon(CR_PixelShader* shader)
 
 PixelShaderContextCommon::~PixelShaderContextCommon()
 {
-	for (Ceng::UINT32 k = 0; k < 2 + CRENDER_MAX_COLOR_TARGETS; k++)
+	for (Ceng::UINT32 k = 0; k < maxTargets; k++)
 	{
 		if (targetWriters[k].isNull == false)
 		{
@@ -46,22 +49,24 @@ PixelShaderContextCommon::PixelShaderContextCommon(const PixelShaderContextCommo
 
 	quadSizeBytes = source.quadSizeBytes;
 
-	activeRenderTargets = source.activeRenderTargets;
-
 	textureUnits = source.textureUnits;
 	
 	uniformBuffer = source.uniformBuffer;
 
 	blendState = source.blendState;
 
-	ConfigureRenderTargets(source.targetHandles);
+	InitWriterData();
+
+	ConfigureRenderTargets(source.activeRenderTargets, source.targetHandles);
 }
 
-CRESULT PixelShaderContextCommon::ConfigureRenderTargets(const std::shared_ptr<CR_NewTargetData> targets[])
+CRESULT PixelShaderContextCommon::ConfigureRenderTargets(Ceng::UINT32 amount, const std::shared_ptr<CR_NewTargetData> targets[])
 {
 	Ceng::UINT32 k;
 
-	for (k = 0; k < 2 + CRENDER_MAX_COLOR_TARGETS; k++)
+	activeRenderTargets = amount;
+
+	for (k = 2; k < amount; k++)
 	{
 		targetHandles[k] = targets[k];
 
@@ -69,7 +74,7 @@ CRESULT PixelShaderContextCommon::ConfigureRenderTargets(const std::shared_ptr<C
 		{
 			targetWriters[k].writer->Release();
 			targetWriters[k].writer = nullptr;
-			targetWriters[k].isNull = false;
+			targetWriters[k].isNull = true;
 		}
 
 		if (targetHandles[k] != nullptr)
@@ -92,6 +97,18 @@ CRESULT PixelShaderContextCommon::ConfigureRenderTargets(const std::shared_ptr<C
 			targetWriters[k].writer = shader->nullWriter;
 			targetWriters[k].isNull = true;
 		}
+	}
+
+	for (k = amount; k < maxTargets; ++k)
+	{
+		if (targetWriters[k].writer != nullptr && targetWriters[k].isNull == false)
+		{
+			targetWriters[k].writer->Release();
+		}
+
+		targetHandles[k] = nullptr;
+		targetWriters[k].writer = shader->nullWriter;
+		targetWriters[k].isNull = true;
 	}
 
 	return CE_OK;

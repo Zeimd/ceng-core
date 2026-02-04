@@ -67,7 +67,11 @@ namespace Ceng
 		const CRESULT ConfigureUniforms(const std::vector<ShaderUniformDesc>& uniformList,
 			UniformManager& uniformManager);
 
-		CRESULT ConfigureRenderTargets(const std::shared_ptr<CR_NewTargetData> targets[]);
+		CRESULT ConfigureRenderTargets(Ceng::UINT32 amount, const std::shared_ptr<CR_NewTargetData> targets[]);
+
+	protected:
+
+		void InitWriterData();
 	};
 }
 

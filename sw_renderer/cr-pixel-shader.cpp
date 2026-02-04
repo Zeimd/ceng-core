@@ -132,11 +132,9 @@ CRESULT CR_PixelShader::SetRenderTargets(Ceng::UINT32 amount,
 
 	UINT32 tempFlags = 0;
 
-	nextInstance->activeRenderTargets = amount;
-
 	nextInstance->blendState = blendState;
 
-	nextInstance->ConfigureRenderTargets(targets);
+	nextInstance->ConfigureRenderTargets(amount, targets);
 
 	return CE_OK;	
 }
