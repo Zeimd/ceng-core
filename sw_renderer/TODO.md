@@ -88,6 +88,10 @@ Pixels shader abstraction in C++ cannot automatically stich together a shader th
 minimum amount of operations. For that reason additional types are needed so that when programmer knows
 what is enough, they are available for optimization.
 
+- [X] SOA vectors for byte, ubyte, nbyte, unbyte, fixed7.8, fixed8.8
+
+- [X] Barebone unbyte4 and fixed7.8_vec4, fixed8.8_vec4 types
+
 - [ ] byte, ubyte, nbyte, unbyte
 
         NOTE: Used to represent common texture reads in compact form
@@ -98,13 +102,13 @@ what is enough, they are available for optimization.
 
 - [ ] Signed fixed point types 7.8 and 15.16
 
-        NOTE: Used for intermediate result of arithmetic involving normalized bytes and fixed point formats
+        NOTE: Used for intermediate result of arithmetic involving normalized and fixed point formats
 
         NOTE: Possibly also as intermediate storage for floating point textures
 
 - [ ] Unsigned fixed point 8.8 and 16.16
 
-        NOTE: Used for intermediate result of arithmetic involving normalized bytes and fixed point formats
+        NOTE: Used for intermediate result of arithmetic involving normalized and fixed point formats
 
         NOTE: Possibly also as intermediate storage for floating point textures
 
@@ -120,9 +124,19 @@ what is enough, they are available for optimization.
 
             Multiply 16 bit integers, keep highest 16 bits as result
 
+- [ ] Multiplication of fixed point types
+
+- [ ] For complicated math functions, such as trig, exp, sqrt, convert integer types to floating point
+
+            TBC: convert back or promote type?
 
 - [ ] Implement division of 8 and 16 bit integer types (incl. fixed point) by converting to float, 
       which can represent entire 16 bit integer exactly in the mantissa. This allows division to be vectorized.
+
+            div = floor(a / b)
+            remainder = a - b * div
+
+            NOTE: when a fixed point type is used as divisor, the result can be higher than numerator.
 
 - [ ] Implement division of 32 bit integer types by converting to double, which can represent entire 32 bit integer
       exactly in the mantissa. This allows division to be vectorized.

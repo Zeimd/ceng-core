@@ -12,6 +12,8 @@
 
 using namespace Ceng;
 
+/*
+
 void (*Pshader::Float4::call_mov_float4)(void*,void*) = &Pshader::PS_MOV_FLOAT4_FLOAT4_X86_SSE;
 
 void (*Pshader::Float4::call_mul_local_float)(void*,void*) = &Pshader::PS_MUL_FLOAT4_LOCAL_FLOAT_X86_SSE;
@@ -129,6 +131,6 @@ namespace Ceng::Pshader
 			movaps [ecx+48],xmm3;				
 		}
 		*/
-	}
+	//}
 	
-}; // Namespace Ceng::Pshader
+//}; // Namespace Ceng::Pshader

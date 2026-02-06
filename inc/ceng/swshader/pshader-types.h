@@ -18,21 +18,31 @@
 #include "../datatypes/basic-types.h"
 #include "../datatypes/boolean.h"
 
-//#include "crender-base.h"
 #include "pshader-input.h"
-
-//#include "texture-unit.h"
-
-//#include "cr-shader-view.h"
 
 namespace Ceng::Pshader
 {
-	void PS_MOV_FLOAT4_FLOAT4_X86_SSE(void *dest,void *source);
+	class SOAVecByte;
+	class SOAVecUbyte;
+	
+	class SOAVecNbyte;
+	class SOAVecUnByte;
 
-	void PS_MUL_FLOAT4_LOCAL_FLOAT_X86_SSE(void *dest,void *source);
+	class SOAVecShort;
+	class SOAVecUShort;
 
-	void PS_MUL_FLOAT4_FLOAT4_X86_SSE(void *dest,void *source);
-	void PS_MUL_FLOAT4_FLOAT_X86_SSE(void *dest,void *source);
+	class SOAVecNShort;
+	class SOAVecUnShort;
+
+	class SOAVecFixed_7_8;
+	class SOAVecFixed_8_8;
+	class SOAVecFixed_15_16;
+	class SOAVecFixed_16_16;
+
+	class SOAVecInt;
+	class SOAVecUint;
+
+	//**************************************************************************************
 
 	struct alignas(16) SOAVecBool
 	{
@@ -148,6 +158,8 @@ namespace Ceng::Pshader
 	{
 		return { ~x.a, ~x.b, ~x.c, ~x.d };
 	}
+
+	//**************************************************************************************
 
 	class alignas(16) SOAVecFloat
 	{
@@ -274,6 +286,1458 @@ namespace Ceng::Pshader
 	{
 		return { x.a >= y.a, x.b >= y.b, x.c >= y.c, x.d >= y.d };
 	}
+
+	//**************************************************************************************
+
+
+	class alignas(16) SOAVecByte
+	{
+	public:
+
+		union
+		{
+			Ceng::INT8 arr[4];
+			struct
+			{
+				Ceng::INT8 a;
+				Ceng::INT8 b;
+				Ceng::INT8 c;
+				Ceng::INT8 d;
+			};
+		};
+
+	public:
+
+		inline SOAVecByte()
+		{
+
+		}
+
+		inline SOAVecByte(Ceng::INT8 a, Ceng::INT8 b, Ceng::INT8 c, Ceng::INT8 d)
+			: a(a), b(b), c(c), d(d)
+		{
+
+		}
+
+		inline SOAVecByte(Ceng::INT8 a)
+			: a(a), b(a), c(a), d(a)
+		{
+
+		}
+
+		inline SOAVecByte& operator += (const SOAVecByte& other)
+		{
+			a += other.a;
+			b += other.b;
+			c += other.c;
+			d += other.d;
+
+			return *this;
+		}
+
+		inline SOAVecByte& operator -= (const SOAVecByte& other)
+		{
+			a -= other.a;
+			b -= other.b;
+			c -= other.c;
+			d -= other.d;
+
+			return *this;
+		}
+
+		inline SOAVecByte& operator *= (const SOAVecByte& other)
+		{
+			a *= other.a;
+			b *= other.b;
+			c *= other.c;
+			d *= other.d;
+
+			return *this;
+		}
+
+		inline SOAVecByte& operator /= (const SOAVecByte& other)
+		{
+			a /= other.a;
+			b /= other.b;
+			c /= other.c;
+			d /= other.d;
+
+			return *this;
+		}
+	};
+
+	inline SOAVecByte operator + (const SOAVecByte& x, const SOAVecByte& y)
+	{
+		return { Ceng::INT8(x.a + y.a), 
+			 Ceng::INT8(x.b + y.b), 
+			 Ceng::INT8(x.c + y.c), 
+			 Ceng::INT8(x.d + y.d) };
+	}
+
+	inline SOAVecByte operator - (const SOAVecByte& x, const SOAVecByte& y)
+	{
+		return { Ceng::INT8(x.a - y.a), 
+			 Ceng::INT8(x.b - y.b),
+			 Ceng::INT8(x.c - y.c), 
+			 Ceng::INT8(x.d - y.d) };
+	}
+
+	inline SOAVecByte operator * (const SOAVecByte& x, const SOAVecByte& y)
+	{
+		return { Ceng::INT8(x.a * y.a), 
+			 Ceng::INT8(x.b * y.b), 
+			 Ceng::INT8(x.c * y.c), 
+			 Ceng::INT8(x.d * y.d) };
+	}
+
+	inline SOAVecByte operator / (const SOAVecByte& x, const SOAVecByte& y)
+	{
+		return { Ceng::INT8(x.a / y.a), 
+			 Ceng::INT8(x.b / y.b), 
+			 Ceng::INT8(x.c / y.c), 
+			 Ceng::INT8(x.d / y.d) };
+	}
+
+	inline SOAVecBool operator == (const SOAVecByte& x, const SOAVecByte& y)
+	{
+		return { x.a == y.a, x.b == y.b, x.c == y.c, x.d == y.d };
+	}
+
+	inline SOAVecBool operator != (const SOAVecByte& x, const SOAVecByte& y)
+	{
+		return { x.a != y.a, x.b != y.b, x.c != y.c, x.d != y.d };
+	}
+
+	inline SOAVecBool operator < (const SOAVecByte& x, const SOAVecByte& y)
+	{
+		return { x.a < y.a, x.b < y.b, x.c < y.c, x.d < y.d };
+	}
+
+	inline SOAVecBool operator <= (const SOAVecByte& x, const SOAVecByte& y)
+	{
+		return { x.a <= y.a, x.b <= y.b, x.c <= y.c, x.d <= y.d };
+	}
+
+	inline SOAVecBool operator > (const SOAVecByte& x, const SOAVecByte& y)
+	{
+		return { x.a > y.a, x.b > y.b, x.c > y.c, x.d > y.d };
+	}
+
+	inline SOAVecBool operator >= (const SOAVecByte& x, const SOAVecByte& y)
+	{
+		return { x.a >= y.a, x.b >= y.b, x.c >= y.c, x.d >= y.d };
+	}
+
+	//**************************************************************************************
+
+	class alignas(16) SOAVecUbyte
+	{
+	public:
+		union
+		{
+			Ceng::UINT8 arr[4];
+			struct
+			{
+				Ceng::UINT8 a;
+				Ceng::UINT8 b;
+				Ceng::UINT8 c;
+				Ceng::UINT8 d;
+			};
+		};
+
+	public:
+
+		inline SOAVecUbyte()
+		{
+
+		}
+
+		inline SOAVecUbyte(Ceng::UINT8 a, Ceng::UINT8 b, Ceng::UINT8 c, Ceng::UINT8 d)
+			: a(a), b(b), c(c), d(d)
+		{
+
+		}
+
+		inline SOAVecUbyte(Ceng::UINT8 a)
+			: a(a), b(a), c(a), d(a)
+		{
+
+		}
+
+		inline SOAVecUbyte& operator += (const SOAVecUbyte& other)
+		{
+			a += other.a;
+			b += other.b;
+			c += other.c;
+			d += other.d;
+
+			return *this;
+		}
+
+		inline SOAVecUbyte& operator -= (const SOAVecUbyte& other)
+		{
+			a -= other.a;
+			b -= other.b;
+			c -= other.c;
+			d -= other.d;
+
+			return *this;
+		}
+
+		inline SOAVecUbyte& operator *= (const SOAVecUbyte& other)
+		{
+			a *= other.a;
+			b *= other.b;
+			c *= other.c;
+			d *= other.d;
+
+			return *this;
+		}
+
+		inline SOAVecUbyte& operator /= (const SOAVecUbyte& other)
+		{
+			a /= other.a;
+			b /= other.b;
+			c /= other.c;
+			d /= other.d;
+
+			return *this;
+		}
+	};
+
+	inline SOAVecUbyte operator + (const SOAVecUbyte& x, const SOAVecUbyte& y)
+	{
+		return { Ceng::UINT8(x.a + y.a), 
+			Ceng::UINT8(x.b + y.b), 
+			Ceng::UINT8(x.c + y.c), 
+			Ceng::UINT8(x.d + y.d) };
+	}
+
+	inline SOAVecUbyte operator - (const SOAVecUbyte& x, const SOAVecUbyte& y)
+	{
+		return { Ceng::UINT8(x.a - y.a), 
+			Ceng::UINT8(x.b - y.b), 
+			Ceng::UINT8(x.c - y.c), 
+			Ceng::UINT8(x.d - y.d) };
+	}
+
+	inline SOAVecUbyte operator * (const SOAVecUbyte& x, const SOAVecUbyte& y)
+	{
+		return { Ceng::UINT8(x.a * y.a), 
+			Ceng::UINT8(x.b * y.b), 
+			Ceng::UINT8(x.c * y.c), 
+			Ceng::UINT8(x.d * y.d) };
+	}
+
+	inline SOAVecUbyte operator / (const SOAVecUbyte& x, const SOAVecUbyte& y)
+	{
+		return { Ceng::UINT8(x.a / y.a), 
+			Ceng::UINT8(x.b / y.b), 
+			Ceng::UINT8(x.c / y.c), 
+			Ceng::UINT8(x.d / y.d) };
+	}
+
+	inline SOAVecBool operator == (const SOAVecUbyte& x, const SOAVecUbyte& y)
+	{
+		return { x.a == y.a, x.b == y.b, x.c == y.c, x.d == y.d };
+	}
+
+	inline SOAVecBool operator != (const SOAVecUbyte& x, const SOAVecUbyte& y)
+	{
+		return { x.a != y.a, x.b != y.b, x.c != y.c, x.d != y.d };
+	}
+
+	inline SOAVecBool operator < (const SOAVecUbyte& x, const SOAVecUbyte& y)
+	{
+		return { x.a < y.a, x.b < y.b, x.c < y.c, x.d < y.d };
+	}
+
+	inline SOAVecBool operator <= (const SOAVecUbyte& x, const SOAVecUbyte& y)
+	{
+		return { x.a <= y.a, x.b <= y.b, x.c <= y.c, x.d <= y.d };
+	}
+
+	inline SOAVecBool operator > (const SOAVecUbyte& x, const SOAVecUbyte& y)
+	{
+		return { x.a > y.a, x.b > y.b, x.c > y.c, x.d > y.d };
+	}
+
+	inline SOAVecBool operator >= (const SOAVecUbyte& x, const SOAVecUbyte& y)
+	{
+		return { x.a >= y.a, x.b >= y.b, x.c >= y.c, x.d >= y.d };
+	}
+
+	//**************************************************************************************
+
+	class alignas(16) SOAVecNbyte
+	{
+	public:
+
+		union
+		{
+			Ceng::INT8 arr[4];
+			struct
+			{
+				Ceng::INT8 a;
+				Ceng::INT8 b;
+				Ceng::INT8 c;
+				Ceng::INT8 d;
+			};
+		};
+
+		inline SOAVecNbyte()
+		{
+
+		}
+
+		inline SOAVecNbyte(Ceng::INT8 a, Ceng::INT8 b, Ceng::INT8 c, Ceng::INT8 d)
+			: a(a), b(b), c(c), d(d)
+		{
+
+		}
+
+		inline SOAVecNbyte(Ceng::INT8 a)
+			: a(a), b(a), c(a), d(a)
+		{
+
+		}
+
+		inline SOAVecNbyte& operator += (const SOAVecNbyte& other) = delete;
+
+		inline SOAVecNbyte& operator -= (const SOAVecNbyte& other) = delete;
+
+		inline SOAVecNbyte& operator *= (const SOAVecNbyte& other)
+		{
+			a *= other.a;
+			b *= other.b;
+			c *= other.c;
+			d *= other.d;
+
+			return *this;
+		}
+
+		inline SOAVecNbyte& operator /= (const SOAVecNbyte& other) = delete;
+	};
+
+	//**************************************************************************************
+
+	class UnsignedNormalizedByte
+	{
+	public:
+		Ceng::UINT8 value;
+
+	public:
+
+		UnsignedNormalizedByte& operator += (const UnsignedNormalizedByte& other) = delete;
+		UnsignedNormalizedByte& operator -= (const UnsignedNormalizedByte& other) = delete;
+		UnsignedNormalizedByte& operator /= (const UnsignedNormalizedByte& other) = delete;
+
+		UnsignedNormalizedByte& operator *= (const UnsignedNormalizedByte& other)
+		{
+			value = (Ceng::UINT32(value) * Ceng::UINT32(other.value)) >> 8;
+			return *this;
+		}
+
+		Ceng::BOOL operator == (const UnsignedNormalizedByte& other)
+		{
+			return value == other.value;
+		}
+
+		Ceng::BOOL operator != (const UnsignedNormalizedByte& other)
+		{
+			return value != other.value;
+		}
+
+		Ceng::BOOL operator < (const UnsignedNormalizedByte& other)
+		{
+			return value < other.value;
+		}
+
+		Ceng::BOOL operator <= (const UnsignedNormalizedByte& other)
+		{
+			return value < other.value;
+		}
+
+		Ceng::BOOL operator > (const UnsignedNormalizedByte& other)
+		{
+			return value > other.value;
+		}
+
+		Ceng::BOOL operator >= (const UnsignedNormalizedByte& other)
+		{
+			return value > other.value;
+		}
+	};
+
+	
+
+	//**************************************************************************************
+
+	class alignas(16) SOAVecUnbyte
+	{
+	public:
+		union
+		{
+			Ceng::UINT8 arr[4];
+			struct
+			{
+				Ceng::UINT8 a;
+				Ceng::UINT8 b;
+				Ceng::UINT8 c;
+				Ceng::UINT8 d;
+			};
+		};
+
+	public:
+
+		inline SOAVecUnbyte()
+		{
+
+		}
+
+		inline SOAVecUnbyte(Ceng::UINT8 a, Ceng::UINT8 b, Ceng::UINT8 c, Ceng::UINT8 d)
+			: a(a), b(b), c(c), d(d)
+		{
+
+		}
+
+		inline SOAVecUnbyte(Ceng::UINT8 a)
+			: a(a), b(a), c(a), d(a)
+		{
+
+		}
+
+		inline SOAVecUnbyte& operator += (const SOAVecUnbyte& other) = delete;
+
+		inline SOAVecUnbyte& operator -= (const SOAVecUnbyte& other) = delete;
+
+		inline SOAVecUnbyte& operator *= (const SOAVecUnbyte& other)
+		{
+			a *= other.a;
+			b *= other.b;
+			c *= other.c;
+			d *= other.d;
+
+			return *this;
+		}
+
+		inline SOAVecUnbyte& operator /= (const SOAVecUnbyte& other) = delete;
+
+	};
+
+	//**************************************************************************************
+
+	class alignas(16) SOAVecShort
+	{
+	public:
+
+		union
+		{
+			Ceng::INT16 arr[4];
+			struct
+			{
+				Ceng::INT16 a;
+				Ceng::INT16 b;
+				Ceng::INT16 c;
+				Ceng::INT16 d;
+			};
+		};
+
+	public:
+
+		inline SOAVecShort()
+		{
+
+		}
+
+		inline SOAVecShort(Ceng::INT16 a, Ceng::INT16 b, Ceng::INT16 c, Ceng::INT16 d)
+			: a(a), b(b), c(c), d(d)
+		{
+
+		}
+
+		inline SOAVecShort(Ceng::INT16 a)
+			: a(a), b(a), c(a), d(a)
+		{
+
+		}
+
+		inline SOAVecShort& operator += (const SOAVecShort& other)
+		{
+			a += other.a;
+			b += other.b;
+			c += other.c;
+			d += other.d;
+
+			return *this;
+		}
+
+		inline SOAVecShort& operator -= (const SOAVecShort& other)
+		{
+			a -= other.a;
+			b -= other.b;
+			c -= other.c;
+			d -= other.d;
+
+			return *this;
+		}
+
+		inline SOAVecShort& operator *= (const SOAVecShort& other)
+		{
+			a *= other.a;
+			b *= other.b;
+			c *= other.c;
+			d *= other.d;
+
+			return *this;
+		}
+
+		inline SOAVecShort& operator /= (const SOAVecShort& other)
+		{
+			a /= other.a;
+			b /= other.b;
+			c /= other.c;
+			d /= other.d;
+
+			return *this;
+		}
+	};
+
+	inline SOAVecShort operator + (const SOAVecShort& x, const SOAVecShort& y)
+	{
+		return { Ceng::INT16(x.a + y.a), 
+			Ceng::INT16(x.b + y.b), 
+			Ceng::INT16(x.c + y.c), 
+			Ceng::INT16(x.d + y.d) };
+	}
+
+	inline SOAVecShort operator - (const SOAVecShort& x, const SOAVecShort& y)
+	{
+		return { Ceng::INT16(x.a - y.a), 
+			Ceng::INT16(x.b - y.b), 
+			Ceng::INT16(x.c - y.c), 
+			Ceng::INT16(x.d - y.d) };
+	}
+
+	inline SOAVecShort operator * (const SOAVecShort& x, const SOAVecShort& y)
+	{
+		return { Ceng::INT16(x.a * y.a), 
+			Ceng::INT16(x.b * y.b), 
+			Ceng::INT16(x.c * y.c), 
+			Ceng::INT16(x.d * y.d) };
+	}
+
+	inline SOAVecShort operator / (const SOAVecShort& x, const SOAVecShort& y)
+	{
+		return { Ceng::INT16(x.a / y.a), 
+			Ceng::INT16(x.b / y.b), 
+			Ceng::INT16(x.c / y.c), 
+			Ceng::INT16(x.d / y.d) };
+	}
+
+	inline SOAVecBool operator == (const SOAVecShort& x, const SOAVecShort& y)
+	{
+		return { x.a == y.a, x.b == y.b, x.c == y.c, x.d == y.d };
+	}
+
+	inline SOAVecBool operator != (const SOAVecShort& x, const SOAVecShort& y)
+	{
+		return { x.a != y.a, x.b != y.b, x.c != y.c, x.d != y.d };
+	}
+
+	inline SOAVecBool operator < (const SOAVecShort& x, const SOAVecShort& y)
+	{
+		return { x.a < y.a, x.b < y.b, x.c < y.c, x.d < y.d };
+	}
+
+	inline SOAVecBool operator <= (const SOAVecShort& x, const SOAVecShort& y)
+	{
+		return { x.a <= y.a, x.b <= y.b, x.c <= y.c, x.d <= y.d };
+	}
+
+	inline SOAVecBool operator > (const SOAVecShort& x, const SOAVecShort& y)
+	{
+		return { x.a > y.a, x.b > y.b, x.c > y.c, x.d > y.d };
+	}
+
+	inline SOAVecBool operator >= (const SOAVecShort& x, const SOAVecShort& y)
+	{
+		return { x.a >= y.a, x.b >= y.b, x.c >= y.c, x.d >= y.d };
+	}
+
+	//**************************************************************************************
+
+	class alignas(16) SOAVecUShort
+	{
+	public:
+
+		union
+		{
+			Ceng::UINT16 arr[4];
+			struct
+			{
+				Ceng::UINT16 a;
+				Ceng::UINT16 b;
+				Ceng::UINT16 c;
+				Ceng::UINT16 d;
+			};
+		};
+
+	public:
+
+		inline SOAVecUShort()
+		{
+
+		}
+
+		inline SOAVecUShort(Ceng::UINT16 a, Ceng::UINT16 b, Ceng::UINT16 c, Ceng::UINT16 d)
+			: a(a), b(b), c(c), d(d)
+		{
+
+		}
+
+		inline SOAVecUShort(Ceng::UINT16 a)
+			: a(a), b(a), c(a), d(a)
+		{
+
+		}
+
+		inline SOAVecUShort& operator += (const SOAVecUShort& other)
+		{
+			a += other.a;
+			b += other.b;
+			c += other.c;
+			d += other.d;
+
+			return *this;
+		}
+
+		inline SOAVecUShort& operator -= (const SOAVecUShort& other)
+		{
+			a -= other.a;
+			b -= other.b;
+			c -= other.c;
+			d -= other.d;
+
+			return *this;
+		}
+
+		inline SOAVecUShort& operator *= (const SOAVecUShort& other)
+		{
+			a *= other.a;
+			b *= other.b;
+			c *= other.c;
+			d *= other.d;
+
+			return *this;
+		}
+
+		inline SOAVecUShort& operator /= (const SOAVecUShort& other)
+		{
+			a /= other.a;
+			b /= other.b;
+			c /= other.c;
+			d /= other.d;
+
+			return *this;
+		}
+	};
+
+	inline SOAVecUShort operator + (const SOAVecUShort& x, const SOAVecUShort& y)
+	{
+		return { Ceng::UINT16(x.a + y.a), 
+			Ceng::UINT16(x.b + y.b), 
+			Ceng::UINT16(x.c + y.c), 
+			Ceng::UINT16(x.d + y.d) };
+	}
+
+	inline SOAVecUShort operator - (const SOAVecUShort& x, const SOAVecUShort& y)
+	{
+		return { Ceng::UINT16(x.a - y.a), 
+			Ceng::UINT16(x.b - y.b), 
+			Ceng::UINT16(x.c - y.c), 
+			Ceng::UINT16(x.d - y.d) };
+	}
+
+	inline SOAVecUShort operator * (const SOAVecUShort& x, const SOAVecUShort& y)
+	{
+		return { Ceng::UINT16(x.a * y.a), 
+			Ceng::UINT16(x.b * y.b), 
+			Ceng::UINT16(x.c * y.c),
+			Ceng::UINT16(x.d * y.d) };
+	}
+
+	inline SOAVecUShort operator / (const SOAVecUShort& x, const SOAVecUShort& y)
+	{
+		return { Ceng::UINT16(x.a / y.a), 
+			Ceng::UINT16(x.b / y.b), 
+			Ceng::UINT16(x.c / y.c), 
+			Ceng::UINT16(x.d / y.d) };
+	}
+
+	inline SOAVecBool operator == (const SOAVecUShort& x, const SOAVecUShort& y)
+	{
+		return { x.a == y.a, x.b == y.b, x.c == y.c, x.d == y.d };
+	}
+
+	inline SOAVecBool operator != (const SOAVecUShort& x, const SOAVecUShort& y)
+	{
+		return { x.a != y.a, x.b != y.b, x.c != y.c, x.d != y.d };
+	}
+
+	inline SOAVecBool operator < (const SOAVecUShort& x, const SOAVecUShort& y)
+	{
+		return { x.a < y.a, x.b < y.b, x.c < y.c, x.d < y.d };
+	}
+
+	inline SOAVecBool operator <= (const SOAVecUShort& x, const SOAVecUShort& y)
+	{
+		return { x.a <= y.a, x.b <= y.b, x.c <= y.c, x.d <= y.d };
+	}
+
+	inline SOAVecBool operator > (const SOAVecUShort& x, const SOAVecUShort& y)
+	{
+		return { x.a > y.a, x.b > y.b, x.c > y.c, x.d > y.d };
+	}
+
+	inline SOAVecBool operator >= (const SOAVecUShort& x, const SOAVecUShort& y)
+	{
+		return { x.a >= y.a, x.b >= y.b, x.c >= y.c, x.d >= y.d };
+	}
+
+	//**************************************************************************************
+
+	class alignas(16) SOAVecNShort
+	{
+
+	};
+
+
+	//**************************************************************************************
+
+	class alignas(16) SOAVecUnShort
+	{
+	};
+
+	//**************************************************************************************
+
+	class Fixedpoint_7_8
+	{
+	public:
+		Ceng::INT16 value;
+
+	private:
+		const Ceng::FLOAT32 fromFloat = 256.0f;
+		const Ceng::FLOAT32 toFloat = 1.0f / 256.0f;
+
+	public:
+
+		Fixedpoint_7_8(const Fixedpoint_7_8& other)
+			: value(other.value)
+		{
+
+		}
+
+		Fixedpoint_7_8(UnsignedNormalizedByte a)
+			: value(a.value)
+		{
+
+		}
+
+		Fixedpoint_7_8(Ceng::INT8 a)
+			: value(a << 8)
+		{
+
+		}
+
+		Fixedpoint_7_8(Ceng::UINT8 a)
+			: value(a << 8)
+		{
+
+		}
+
+		Fixedpoint_7_8(Ceng::FLOAT32 a)
+			: value(Ceng::INT16(a* fromFloat))
+		{
+
+		}
+
+		operator Ceng::UINT8()
+		{
+			return value >> 8;
+		}
+
+		operator Ceng::FLOAT32()
+		{
+			return Ceng::FLOAT32(value) * toFloat;
+		}
+
+		inline Fixedpoint_7_8& operator += (const Fixedpoint_7_8& other)
+		{
+			value += other.value;
+
+			return *this;
+		}
+
+		inline Fixedpoint_7_8& operator -= (const Fixedpoint_7_8& other)
+		{
+			value -= other.value;
+
+			return *this;
+		}
+
+		inline Fixedpoint_7_8& operator *= (const Fixedpoint_7_8& other)
+		{
+			value = Ceng::UINT32(value) * Ceng::UINT32(other.value) >> 16;
+
+			return *this;
+		}
+
+		inline Fixedpoint_7_8& operator /= (const Fixedpoint_7_8& other)
+		{
+			// TODO: hangle sign correctly if result takes all 32 bits
+
+			value = (Ceng::UINT32(value) << 16) / Ceng::UINT32(other.value);
+
+			return *this;
+		}
+	};
+
+	inline Fixedpoint_7_8 operator + (const Fixedpoint_7_8& x, const Fixedpoint_7_8& y)
+	{
+		Fixedpoint_7_8 temp = x;
+
+		return temp += y;
+	}
+
+	inline Fixedpoint_7_8 operator - (const Fixedpoint_7_8& x, const Fixedpoint_7_8& y)
+	{
+		Fixedpoint_7_8 temp = x;
+
+		return temp -= y;
+	}
+
+	inline Fixedpoint_7_8 operator * (const Fixedpoint_7_8& x, const Fixedpoint_7_8& y)
+	{
+		Fixedpoint_7_8 temp = x;
+
+		return temp *= y;
+	}
+
+	inline Fixedpoint_7_8 operator / (const Fixedpoint_7_8& x, const Fixedpoint_7_8& y)
+	{
+		Fixedpoint_7_8 temp = x;
+
+		return temp /= y;
+	}
+
+	inline Ceng::BOOL operator == (const Fixedpoint_7_8& a, const Fixedpoint_7_8& b)
+	{
+		return a.value == b.value;
+	}
+
+	inline Ceng::BOOL operator != (const Fixedpoint_7_8& a, const Fixedpoint_7_8& b)
+	{
+		return a.value != b.value;
+	}
+
+	inline Ceng::BOOL operator < (const Fixedpoint_7_8& a, const Fixedpoint_7_8& b)
+	{
+		return a.value < b.value;
+	}
+
+	inline Ceng::BOOL operator <= (const Fixedpoint_7_8& a, const Fixedpoint_7_8& b)
+	{
+		return a.value <= b.value;
+	}
+
+	inline Ceng::BOOL operator > (const Fixedpoint_7_8& a, const Fixedpoint_7_8& b)
+	{
+		return a.value > b.value;
+	}
+
+	inline Ceng::BOOL operator >= (const Fixedpoint_7_8& a, const Fixedpoint_7_8& b)
+	{
+		return a.value >= b.value;
+	}
+
+
+	class alignas(16) SOAVecFixed_7_8
+	{
+	public:
+
+		union
+		{
+			Fixedpoint_7_8 arr[4];
+			struct
+			{
+				Fixedpoint_7_8 a;
+				Fixedpoint_7_8 b;
+				Fixedpoint_7_8 c;
+				Fixedpoint_7_8 d;
+			};
+		};
+
+	public:
+
+		inline SOAVecFixed_7_8()
+		{
+
+		}
+
+		inline SOAVecFixed_7_8(const SOAVecFixed_7_8& source)
+			: a(source.a), b(source.b), c(source.c), d(source.d)
+		{
+
+		}
+
+		inline SOAVecFixed_7_8(const SOAVecUnbyte& source)
+			: a(source.a), b(source.b), c(source.c), d(source.d)
+		{
+
+		}
+
+		inline SOAVecFixed_7_8(const SOAVecNbyte& source)
+			: a(source.a), b(source.b), c(source.c), d(source.d)
+		{
+
+		}
+
+		inline SOAVecFixed_7_8(Fixedpoint_7_8 a, Fixedpoint_7_8 b, Fixedpoint_7_8 c, Fixedpoint_7_8 d)
+			: a(a), b(b), c(c), d(d)
+		{
+
+		}
+
+		inline SOAVecFixed_7_8(Fixedpoint_7_8 a)
+			: a(a), b(a), c(a), d(a)
+		{
+
+		}
+
+		inline SOAVecFixed_7_8& operator += (const SOAVecFixed_7_8& other)
+		{
+			a += other.a;
+			b += other.b;
+			c += other.c;
+			d += other.d;
+
+			return *this;
+		}
+
+		inline SOAVecFixed_7_8& operator -= (const SOAVecFixed_7_8& other)
+		{
+			a -= other.a;
+			b -= other.b;
+			c -= other.c;
+			d -= other.d;
+
+			return *this;
+		}
+
+		inline SOAVecFixed_7_8& operator *= (const SOAVecFixed_7_8& other)
+		{
+			a *= other.a;
+			b *= other.b;
+			c *= other.c;
+			d *= other.d;
+
+			return *this;
+		}
+
+		inline SOAVecFixed_7_8& operator /= (const SOAVecFixed_7_8& other)
+		{
+			a /= other.a;
+			b /= other.b;
+			c /= other.c;
+			d /= other.d;
+
+			return *this;
+		}
+	};
+
+	inline SOAVecFixed_7_8 operator + (const SOAVecFixed_7_8& x, const SOAVecFixed_7_8& y)
+	{
+		return { x.a + y.a, x.b + y.b, x.c + y.c, x.d + y.d };
+	}
+
+	inline SOAVecFixed_7_8 operator - (const SOAVecFixed_7_8& x, const SOAVecFixed_7_8& y)
+	{
+		return { x.a - y.a, x.b - y.b, x.c - y.c, x.d - y.d };
+	}
+
+	inline SOAVecFixed_7_8 operator * (const SOAVecFixed_7_8& x, const SOAVecFixed_7_8& y)
+	{
+		return { x.a * y.a, x.b * y.b, x.c * y.c, x.d * y.d };
+	}
+
+	inline SOAVecFixed_7_8 operator / (const SOAVecFixed_7_8& x, const SOAVecFixed_7_8& y)
+	{
+		return { x.a / y.a, x.b / y.b, x.c / y.c, x.d / y.d };
+	}
+
+	inline SOAVecBool operator == (const SOAVecFixed_7_8& x, const SOAVecFixed_7_8& y)
+	{
+		return { x.a == y.a, x.b == y.b, x.c == y.c, x.d == y.d };
+	}
+
+	inline SOAVecBool operator != (const SOAVecFixed_7_8& x, const SOAVecFixed_7_8& y)
+	{
+		return { x.a != y.a, x.b != y.b, x.c != y.c, x.d != y.d };
+	}
+
+	inline SOAVecBool operator < (const SOAVecFixed_7_8& x, const SOAVecFixed_7_8& y)
+	{
+		return { x.a < y.a, x.b < y.b, x.c < y.c, x.d < y.d };
+	}
+
+	inline SOAVecBool operator <= (const SOAVecFixed_7_8& x, const SOAVecFixed_7_8& y)
+	{
+		return { x.a <= y.a, x.b <= y.b, x.c <= y.c, x.d <= y.d };
+	}
+
+	inline SOAVecBool operator > (const SOAVecFixed_7_8& x, const SOAVecFixed_7_8& y)
+	{
+		return { x.a > y.a, x.b > y.b, x.c > y.c, x.d > y.d };
+	}
+
+	inline SOAVecBool operator >= (const SOAVecFixed_7_8& x, const SOAVecFixed_7_8& y)
+	{
+		return { x.a >= y.a, x.b >= y.b, x.c >= y.c, x.d >= y.d };
+	}
+
+	//**************************************************************************************
+
+	class Fixedpoint_8_8
+	{
+	public:
+		Ceng::UINT16 value;
+
+		const Ceng::FLOAT32 fromFloat = 256.0f;
+		const Ceng::FLOAT32 toFloat = 1.0f / 256.0f;
+
+	public:
+
+		inline Fixedpoint_8_8()
+		{
+
+		}
+
+		// Treats the given value as internal fixed point representation rather than normal integer
+		Fixedpoint_8_8(Ceng::UINT16 value, Ceng::BOOL padding)
+			: value(value)
+		{
+
+		}
+
+		Fixedpoint_8_8(const Fixedpoint_8_8& other)
+			: value(other.value)
+		{
+
+		}
+	
+		Fixedpoint_8_8(Ceng::UINT8 a)
+			: value(a << 8)
+		{
+
+		}
+
+		Fixedpoint_8_8(UnsignedNormalizedByte a)
+			: value(a.value)
+		{
+
+		}
+
+		Fixedpoint_8_8(Ceng::FLOAT32 a)
+			: value(Ceng::UINT16(a * fromFloat))
+		{
+
+		}
+
+		operator Ceng::UINT8()
+		{
+			return value >> 8;
+		}
+
+		operator Ceng::FLOAT32()
+		{
+			return Ceng::FLOAT32(value) * toFloat;
+		}
+
+		inline Fixedpoint_8_8& operator += (const Fixedpoint_8_8& other)
+		{
+			value += other.value;		
+
+			return *this;
+		}
+
+		inline Fixedpoint_8_8& operator -= (const Fixedpoint_8_8& other)
+		{
+			value -= other.value;
+
+			return *this;
+		}
+
+		inline Fixedpoint_8_8& operator *= (const Fixedpoint_8_8& other)
+		{
+			value = Ceng::UINT32(value) * Ceng::UINT32(other.value) >> 16;
+
+			return *this;
+		}
+
+		inline Fixedpoint_8_8& operator /= (const Fixedpoint_8_8& other)
+		{
+			value = (Ceng::UINT32(value) << 16) / Ceng::UINT32(other.value);
+
+			return *this;
+		}
+	};
+
+	inline Fixedpoint_8_8 operator + (const Fixedpoint_8_8& x, const Fixedpoint_8_8& y)
+	{
+		Fixedpoint_8_8 temp = x;
+
+		return temp += y;
+	}
+
+	inline Fixedpoint_8_8 operator - (const Fixedpoint_8_8& x, const Fixedpoint_8_8& y)
+	{
+		Fixedpoint_8_8 temp = x;
+
+		return temp -= y;
+	}
+
+	inline Fixedpoint_8_8 operator * (const Fixedpoint_8_8& x, const Fixedpoint_8_8& y)
+	{
+		Fixedpoint_8_8 temp = x;
+
+		return temp *= y;
+	}
+
+	inline Fixedpoint_8_8 operator / (const Fixedpoint_8_8& x, const Fixedpoint_8_8& y)
+	{
+		Fixedpoint_8_8 temp = x;
+
+		return temp /= y;
+	}
+
+	inline Ceng::BOOL operator == (const Fixedpoint_8_8& a, const Fixedpoint_8_8& b)
+	{
+		return a.value == b.value;
+	}
+
+	inline Ceng::BOOL operator != (const Fixedpoint_8_8& a, const Fixedpoint_8_8& b)
+	{
+		return a.value != b.value;
+	}
+
+	inline Ceng::BOOL operator < (const Fixedpoint_8_8& a, const Fixedpoint_8_8& b)
+	{
+		return a.value < b.value;
+	}
+
+	inline Ceng::BOOL operator <= (const Fixedpoint_8_8& a, const Fixedpoint_8_8& b)
+	{
+		return a.value <= b.value;
+	}
+
+	inline Ceng::BOOL operator > (const Fixedpoint_8_8& a, const Fixedpoint_8_8& b)
+	{
+		return a.value > b.value;
+	}
+
+	inline Ceng::BOOL operator >= (const Fixedpoint_8_8& a, const Fixedpoint_8_8& b)
+	{
+		return a.value >= b.value;
+	}
+
+	class alignas(16) SOAVecFixed_8_8
+	{
+	public:
+
+		union
+		{
+			Fixedpoint_8_8 arr[4];
+			struct
+			{
+				Fixedpoint_8_8 a;
+				Fixedpoint_8_8 b;
+				Fixedpoint_8_8 c;
+				Fixedpoint_8_8 d;
+			};
+		};
+
+	public:
+
+		inline SOAVecFixed_8_8()
+		{
+
+		}
+
+		inline SOAVecFixed_8_8(const SOAVecFixed_8_8& source)
+			: a(source.a),b(source.b),c(source.c),d(source.d)
+		{
+
+		}
+
+		inline SOAVecFixed_8_8(const SOAVecUnbyte& source)
+			: a(source.a), b(source.b), c(source.c), d(source.d)
+		{
+
+		}
+
+		inline SOAVecFixed_8_8(Fixedpoint_8_8 a, Fixedpoint_8_8 b, Fixedpoint_8_8 c, Fixedpoint_8_8 d)
+			: a(a), b(b), c(c), d(d)
+		{
+
+		}
+
+		inline SOAVecFixed_8_8(Fixedpoint_8_8 a)
+			: a(a), b(a), c(a), d(a)
+		{
+
+		}
+
+		inline SOAVecFixed_8_8& operator += (const SOAVecFixed_8_8& other)
+		{
+			a += other.a;
+			b += other.b;
+			c += other.c;
+			d += other.d;
+
+			return *this;
+		}
+
+		inline SOAVecFixed_8_8& operator -= (const SOAVecFixed_8_8& other)
+		{
+			a -= other.a;
+			b -= other.b;
+			c -= other.c;
+			d -= other.d;
+
+			return *this;
+		}
+
+		inline SOAVecFixed_8_8& operator *= (const SOAVecFixed_8_8& other)
+		{
+			a *= other.a;
+			b *= other.b;
+			c *= other.c;
+			d *= other.d;
+
+			return *this;
+		}
+
+		inline SOAVecFixed_8_8& operator /= (const SOAVecFixed_8_8& other)
+		{
+			a /= other.a;
+			b /= other.b;
+			c /= other.c;
+			d /= other.d;
+
+			return *this;
+		}
+	};
+
+	inline SOAVecFixed_8_8 operator + (const SOAVecFixed_8_8& x, const SOAVecFixed_8_8& y)
+	{
+		return { x.a + y.a, x.b + y.b, x.c + y.c, x.d + y.d };
+	}
+
+	inline SOAVecFixed_8_8 operator - (const SOAVecFixed_8_8& x, const SOAVecFixed_8_8& y)
+	{
+		return { x.a - y.a, x.b - y.b, x.c - y.c, x.d - y.d };
+	}
+
+	inline SOAVecFixed_8_8 operator * (const SOAVecFixed_8_8& x, const SOAVecFixed_8_8& y)
+	{
+		return { x.a * y.a, x.b * y.b, x.c * y.c, x.d * y.d };
+	}
+
+	inline SOAVecFixed_8_8 operator / (const SOAVecFixed_8_8& x, const SOAVecFixed_8_8& y)
+	{
+		return { x.a / y.a, x.b / y.b, x.c / y.c, x.d / y.d };
+	}
+
+	inline SOAVecBool operator == (const SOAVecFixed_8_8& x, const SOAVecFixed_8_8& y)
+	{
+		return { x.a == y.a, x.b == y.b, x.c == y.c, x.d == y.d };
+	}
+
+	inline SOAVecBool operator != (const SOAVecFixed_8_8& x, const SOAVecFixed_8_8& y)
+	{
+		return { x.a != y.a, x.b != y.b, x.c != y.c, x.d != y.d };
+	}
+
+	inline SOAVecBool operator < (const SOAVecFixed_8_8& x, const SOAVecFixed_8_8& y)
+	{
+		return { x.a < y.a, x.b < y.b, x.c < y.c, x.d < y.d };
+	}
+
+	inline SOAVecBool operator <= (const SOAVecFixed_8_8& x, const SOAVecFixed_8_8& y)
+	{
+		return { x.a <= y.a, x.b <= y.b, x.c <= y.c, x.d <= y.d };
+	}
+
+	inline SOAVecBool operator > (const SOAVecFixed_8_8& x, const SOAVecFixed_8_8& y)
+	{
+		return { x.a > y.a, x.b > y.b, x.c > y.c, x.d > y.d };
+	}
+
+	inline SOAVecBool operator >= (const SOAVecFixed_8_8& x, const SOAVecFixed_8_8& y)
+	{
+		return { x.a >= y.a, x.b >= y.b, x.c >= y.c, x.d >= y.d };
+	}
+
+	//**************************************************************************************
+
+	class alignas(16) SOAVecFixed_15_16
+	{
+	};
+
+	//**************************************************************************************
+
+	class alignas(16) SOAVecFixed_16_16
+	{
+	};
+
+	//****************************************************
+	// UnsignedNormalizedByte methods
+
+	inline Fixedpoint_8_8 operator + (const UnsignedNormalizedByte& x, const UnsignedNormalizedByte& y)
+	{
+		return Fixedpoint_8_8(x) + Fixedpoint_8_8(y);
+	}
+
+	inline Fixedpoint_7_8 operator - (const UnsignedNormalizedByte& x, const UnsignedNormalizedByte& y)
+	{
+		return Fixedpoint_7_8(x) - Fixedpoint_7_8(y);
+	}
+
+	inline UnsignedNormalizedByte operator * (const UnsignedNormalizedByte& x, const UnsignedNormalizedByte& y)
+	{
+		UnsignedNormalizedByte temp = x;
+
+		return temp *= y;
+	}
+
+	inline Fixedpoint_8_8 operator / (const UnsignedNormalizedByte& x, const UnsignedNormalizedByte& y)
+	{
+		return Fixedpoint_8_8(x) / Fixedpoint_8_8(y);
+	}
+
+	//**************************************************************************
+	// SOAVecUnbyte methods
+
+	inline SOAVecFixed_8_8 operator + (const SOAVecUnbyte& x, const SOAVecUnbyte& y)
+	{
+		return SOAVecFixed_8_8(x) + SOAVecFixed_8_8(y);
+	}
+
+	inline SOAVecFixed_7_8 operator - (const SOAVecUnbyte& x, const SOAVecUnbyte& y)
+	{
+		return SOAVecFixed_7_8(x) - SOAVecFixed_7_8(y);
+	}
+
+	inline SOAVecUnbyte operator * (const SOAVecUnbyte& x, const SOAVecUnbyte& y)
+	{
+		return { Ceng::UINT8(x.a * y.a), 
+			Ceng::UINT8(x.b * y.b), 
+			Ceng::UINT8(x.c * y.c), 
+			Ceng::UINT8(x.d * y.d) };
+	}
+
+	inline SOAVecFixed_8_8 operator / (const SOAVecUnbyte& x, const SOAVecUnbyte& y)
+	{
+		return SOAVecFixed_8_8(x) / SOAVecFixed_8_8(y);
+	}
+
+	inline SOAVecBool operator == (const SOAVecUnbyte& x, const SOAVecUnbyte& y)
+	{
+		return { x.a == y.a, x.b == y.b, x.c == y.c, x.d == y.d };
+	}
+
+	inline SOAVecBool operator != (const SOAVecUnbyte& x, const SOAVecUnbyte& y)
+	{
+		return { x.a != y.a, x.b != y.b, x.c != y.c, x.d != y.d };
+	}
+
+	inline SOAVecBool operator < (const SOAVecUnbyte& x, const SOAVecUnbyte& y)
+	{
+		return { x.a < y.a, x.b < y.b, x.c < y.c, x.d < y.d };
+	}
+
+	inline SOAVecBool operator <= (const SOAVecUnbyte& x, const SOAVecUnbyte& y)
+	{
+		return { x.a <= y.a, x.b <= y.b, x.c <= y.c, x.d <= y.d };
+	}
+
+	inline SOAVecBool operator > (const SOAVecUnbyte& x, const SOAVecUnbyte& y)
+	{
+		return { x.a > y.a, x.b > y.b, x.c > y.c, x.d > y.d };
+	}
+
+	inline SOAVecBool operator >= (const SOAVecUnbyte& x, const SOAVecUnbyte& y)
+	{
+		return { x.a >= y.a, x.b >= y.b, x.c >= y.c, x.d >= y.d };
+	}
+
+	//**************************************************************************************
+	// SOAVecNbyte operators
+
+	inline SOAVecFixed_7_8 operator + (const SOAVecNbyte& x, const SOAVecNbyte& y)
+	{
+		return SOAVecFixed_7_8(x) + SOAVecFixed_7_8(y);
+	}
+
+	inline SOAVecFixed_7_8 operator - (const SOAVecNbyte& x, const SOAVecNbyte& y)
+	{
+		return SOAVecFixed_7_8(x) - SOAVecFixed_7_8(y);
+	}
+
+	inline SOAVecNbyte operator * (const SOAVecNbyte& x, const SOAVecNbyte& y)
+	{
+		SOAVecNbyte temp = x;
+
+		return temp *= y;
+	}
+
+	inline SOAVecFixed_7_8 operator / (const SOAVecNbyte& x, const SOAVecNbyte& y)
+	{
+		return SOAVecFixed_7_8(x) / SOAVecFixed_7_8(y);
+	}
+
+	inline SOAVecBool operator == (const SOAVecNbyte& x, const SOAVecNbyte& y)
+	{
+		return { x.a == y.a, x.b == y.b, x.c == y.c, x.d == y.d };
+	}
+
+	inline SOAVecBool operator != (const SOAVecNbyte& x, const SOAVecNbyte& y)
+	{
+		return { x.a != y.a, x.b != y.b, x.c != y.c, x.d != y.d };
+	}
+
+	inline SOAVecBool operator < (const SOAVecNbyte& x, const SOAVecNbyte& y)
+	{
+		return { x.a < y.a, x.b < y.b, x.c < y.c, x.d < y.d };
+	}
+
+	inline SOAVecBool operator <= (const SOAVecNbyte& x, const SOAVecNbyte& y)
+	{
+		return { x.a <= y.a, x.b <= y.b, x.c <= y.c, x.d <= y.d };
+	}
+
+	inline SOAVecBool operator > (const SOAVecNbyte& x, const SOAVecNbyte& y)
+	{
+		return { x.a > y.a, x.b > y.b, x.c > y.c, x.d > y.d };
+	}
+
+	inline SOAVecBool operator >= (const SOAVecNbyte& x, const SOAVecNbyte& y)
+	{
+		return { x.a >= y.a, x.b >= y.b, x.c >= y.c, x.d >= y.d };
+	}
+
+	//**************************************************************************************
 
 	class alignas(16) Bool
 	{
@@ -433,6 +1897,36 @@ namespace Ceng::Pshader
 	class Float2;
 	class Float3;
 	class Float4;
+
+	class Byte;
+	class Byte2;
+	class Byte3;
+	class Byte4;
+
+	class UByte;
+	class UByte2;
+	class UByte3;
+	class UByte4;
+
+	class Nbyte;
+	class Nbyte2;
+	class Nbyte3;
+	class Nbyte4;
+
+	class Unbyte;
+	class Unbyte2;
+	class Unbyte3;
+	class Unbyte4;
+
+	class Fixed_8_8;
+	class Fixed_8_8_vec2;
+	class Fixed_8_8_vec3;
+	class Fixed_8_8_vec4;
+
+	class Fixed_7_8;
+	class Fixed_7_8_vec2;
+	class Fixed_7_8_vec3;
+	class Fixed_7_8_vec4;
 
 	class SwizzledFloat;
 	class SwizzledFloat2;
@@ -1472,41 +2966,6 @@ namespace Ceng::Pshader
 		ConstSwizzledFloat4 wwwz();
 		ConstSwizzledFloat4 wwww();
 
-		/*
-		inline Float4& Float4::operator *= (const Float &other)
-		{
-			(*call_mul_varying_float)((void*)dataAddress,(void*)other.dataAddress);
-			return *this;
-		}
-
-		inline Float4& Float4::operator *= (const Float4 &other)
-		{
-			(*call_mul_varying_float4)((void*)dataAddress,(void*)other.dataAddress);
-			return *this;
-		}
-
-		inline Float4& Float4::operator *= (const FLOAT32 &other)
-		{
-			(*call_mul_local_float)((void*)dataAddress,(void*)&other);
-			return *this;
-		}
-
-		inline Float4& Float4::operator /= (const Float4 &other)
-		{
-			return *this;
-		}
-		*/
-
-	public:
-
-		static void (*call_mov_float4)(void *dest,void *source);
-
-		static void (*call_mul_varying_float4)(void *dest,void *source);
-		static void (*call_mul_local_float)(void *dest,void *source);
-			
-		static void (*call_mul_varying_float)(void *dest,void *source);
-
-			
 	};
 
 	inline Float4 operator + (const Float4& a, const Float4& b)
@@ -1558,6 +3017,356 @@ namespace Ceng::Pshader
 	{
 		return LogicalOr(LogicalOr(LogicalOr(a._x != b._x, a._y != b._y), a._z != b._z), a._w != b._w);
 	}
+
+	class alignas(16) Fixed_8_8
+	{
+	public:
+		SOAVecFixed_8_8 _x;
+	};
+
+	class alignas(16) Fixed_8_8_vec2
+	{
+	public:
+		SOAVecFixed_8_8 _x;
+		SOAVecFixed_8_8 _y;
+	};
+
+	class alignas(16) Fixed_8_8_vec3
+	{
+	public:
+		SOAVecFixed_8_8 _x;
+		SOAVecFixed_8_8 _y;
+		SOAVecFixed_8_8 _z;
+	};
+
+	class alignas(16) Fixed_8_8_vec4
+	{
+	public:
+		SOAVecFixed_8_8 _x;
+		SOAVecFixed_8_8 _y;
+		SOAVecFixed_8_8 _z;
+		SOAVecFixed_8_8 _w;
+
+	public:
+
+		Fixed_8_8_vec4(const Unbyte4& source);
+
+		inline Fixed_8_8_vec4(const SOAVecFixed_8_8& x, const SOAVecFixed_8_8& y, const SOAVecFixed_8_8& z, const SOAVecFixed_8_8& w)
+			: _x(x), _y(y), _z(z), _w(w)
+		{
+
+		}
+
+		inline Fixed_8_8_vec4(Fixedpoint_8_8 x, Fixedpoint_8_8 y, Fixedpoint_8_8 z, Fixedpoint_8_8 w)
+			: _x(x), _y(y), _z(z), _w(w)
+		{
+
+		}
+	};
+
+	inline Fixed_8_8_vec4 operator + (const Fixed_8_8_vec4& x, const Fixed_8_8_vec4& y);
+
+	inline Fixed_8_8_vec4 operator - (const Fixed_8_8_vec4& x, const Fixed_8_8_vec4& y);
+
+	inline Fixed_8_8_vec4 operator * (const Fixed_8_8_vec4& x, const Fixed_8_8_vec4& y);
+
+	inline Fixed_8_8_vec4 operator / (const Fixed_8_8_vec4& x, const Fixed_8_8_vec4& y);
+
+	inline Bool operator == (const Fixed_8_8_vec4& a, const Fixed_8_8_vec4& b);
+
+	inline Bool operator != (const Fixed_8_8_vec4& a, const Fixed_8_8_vec4& b);
+
+	//*************************************************************************************
+
+	class alignas(16) Fixed_7_8
+	{
+	public:
+		SOAVecFixed_7_8 _x;
+	};
+
+	class alignas(16) Fixed_7_8_vec2
+	{
+	public:
+		SOAVecFixed_7_8 _x;
+		SOAVecFixed_7_8 _y;
+	};
+
+	class alignas(16) Fixed_7_8_vec3
+	{
+	public:
+		SOAVecFixed_7_8 _x;
+		SOAVecFixed_7_8 _y;
+		SOAVecFixed_7_8 _z;
+	};
+
+	class alignas(16) Fixed_7_8_vec4
+	{
+	public:
+		SOAVecFixed_7_8 _x;
+		SOAVecFixed_7_8 _y;
+		SOAVecFixed_7_8 _z;
+		SOAVecFixed_7_8 _w;
+
+	public:
+
+		inline Fixed_7_8_vec4(const Unbyte4& source);
+
+		inline Fixed_7_8_vec4(const SOAVecFixed_7_8& x, const SOAVecFixed_7_8& y, const SOAVecFixed_7_8& z, const SOAVecFixed_7_8& w)
+			: _x(x), _y(y), _z(z), _w(w)
+		{
+
+		}
+
+		inline Fixed_7_8_vec4(Fixedpoint_7_8 x, Fixedpoint_7_8 y, Fixedpoint_7_8 z, Fixedpoint_7_8 w)
+			: _x(x), _y(y), _z(z), _w(w)
+		{
+
+		}
+	};
+
+	inline Fixed_7_8_vec4 operator + (const Fixed_7_8_vec4& x, const Fixed_7_8_vec4& y);
+
+	inline Fixed_7_8_vec4 operator - (const Fixed_7_8_vec4& x, const Fixed_7_8_vec4& y);
+
+	inline Fixed_7_8_vec4 operator * (const Fixed_7_8_vec4& x, const Fixed_7_8_vec4& y);
+
+	inline Fixed_7_8_vec4 operator / (const Fixed_7_8_vec4& x, const Fixed_7_8_vec4& y);
+
+	inline Bool operator == (const Fixed_7_8_vec4& a, const Fixed_7_8_vec4& b);	
+
+	inline Bool operator != (const Fixed_7_8_vec4& a, const Fixed_7_8_vec4& b);
+
+	//********************************************************************************
+
+
+	class alignas(16) Unbyte
+	{
+	public:
+		SOAVecUnbyte _x;
+	};
+
+	class alignas(16) Unbyte2
+	{
+	public:
+		SOAVecUnbyte _x;
+		SOAVecUnbyte _y;
+	};
+
+	class alignas(16) Unbyte3
+	{
+	public:
+		SOAVecUnbyte _x;
+		SOAVecUnbyte _y;
+		SOAVecUnbyte _z;
+	};
+
+	class alignas(16) Unbyte4
+	{
+	public:
+		SOAVecUnbyte _x;
+		SOAVecUnbyte _y;
+		SOAVecUnbyte _z;
+		SOAVecUnbyte _w;
+
+	public:
+		inline Unbyte4()
+		{
+
+		}
+
+		inline Unbyte4(const SOAVecUnbyte& x, const SOAVecUnbyte& y, const SOAVecUnbyte& z, const SOAVecUnbyte& w)
+			: _x(x), _y(y), _z(z), _w(w)
+		{
+
+		}
+
+		inline Unbyte4(Ceng::UINT8 x, Ceng::UINT8 y, Ceng::UINT8 z, Ceng::UINT8 w)
+			: _x(x), _y(y), _z(z), _w(w)
+		{
+
+		}
+
+		inline Unbyte4& operator= (const Unbyte& other)
+		{
+			_x = other._x;
+			_y = 0;
+			_z = 0;
+			_w = 255;
+
+			return *this;
+		}
+
+		inline Unbyte4& operator= (const Unbyte2& other)
+		{
+			_x = other._x;
+			_y = other._y;
+			_z = 0;
+			_w = 255;
+
+			return *this;
+		}
+
+		inline Unbyte4& operator= (const Unbyte3& other)
+		{
+			_x = other._x;
+			_y = other._y;
+			_z = other._z;
+			_w = 255;
+
+			return *this;
+		}
+
+		inline Unbyte4& operator= (const Unbyte4& other)
+		{
+			_x = other._x;
+			_y = other._y;
+			_z = other._z;
+			_w = other._w;
+
+			return *this;
+		}
+
+
+		inline Unbyte4& operator = (const Ceng::Pshader::InFloat4& source)
+		{
+			source.MoveToFloat4(&_x);
+			return *this;
+		}
+
+		inline Unbyte4& operator += (const Unbyte4& other) = delete;
+
+		inline Unbyte4& operator -= (const Unbyte4& other) = delete;
+
+		inline Unbyte4& operator *= (const Unbyte4& other)
+		{
+			_x *= other._x;
+			_y *= other._y;
+			_z *= other._z;
+			_w *= other._w;
+
+			return *this;
+		}
+
+		inline Unbyte4& operator /= (const Unbyte4& other) = delete;
+
+		Unbyte4& operator = (const SampleTexture2D& source);
+
+		/*
+		Unbyte4& operator = (const SwizzledUnByte4& source);
+
+		Unbyte4& operator = (const ConstSwizzledUnByte4& source);
+		*/
+	};
+
+	inline Fixed_8_8_vec4 operator + (const Unbyte4& x, const Unbyte4& y)
+	{
+		return Fixed_8_8_vec4(x) + Fixed_8_8_vec4(y);
+	}
+
+	inline Fixed_7_8_vec4 operator - (const Unbyte4& x, const Unbyte4& y)
+	{
+		return Fixed_7_8_vec4(x) - Fixed_7_8_vec4(y);
+	}
+
+	inline Unbyte4 operator * (const Unbyte4& x, const Unbyte4& y)
+	{
+		return {x._x * y._x, x._y * y._y, x._z * y._z, x._w * y._w};
+	}
+
+	inline Fixed_8_8_vec4 operator / (const Unbyte4& x, const Unbyte4& y)
+	{
+		return Fixed_8_8_vec4(x) / Fixed_8_8_vec4(y);
+	}
+
+	inline Bool operator == (const Unbyte4& a, const Unbyte4& b)
+	{
+		return LogicalAnd(LogicalAnd(LogicalAnd(a._x == b._x, a._y == b._y), a._z == b._z), a._w == b._w);
+	}
+
+	inline Bool operator != (const Unbyte4& a, const Unbyte4& b)
+	{
+		return LogicalOr(LogicalOr(LogicalOr(a._x != b._x, a._y != b._y), a._z != b._z), a._w != b._w);
+	}
+
+	//************************************************************************************
+	// Fixed_7_8_vec4 methods
+
+	inline Fixed_7_8_vec4::Fixed_7_8_vec4(const Unbyte4& source)
+		: _x(source._x), _y(source._y), _z(source._z), _w(source._w)
+	{
+
+	}
+
+	inline Fixed_7_8_vec4 operator + (const Fixed_7_8_vec4& x, const Fixed_7_8_vec4& y)
+	{
+		return { x._x + y._x, x._y + y._y, x._z + y._z, x._w + y._w };
+	}
+
+	inline Fixed_7_8_vec4 operator - (const Fixed_7_8_vec4& x, const Fixed_7_8_vec4& y)
+	{
+		return { x._x - y._x, x._y - y._y, x._z - y._z, x._w - y._w };
+	}
+
+	inline Fixed_7_8_vec4 operator * (const Fixed_7_8_vec4& x, const Fixed_7_8_vec4& y)
+	{
+		return { x._x * y._x, x._y * y._y, x._z * y._z, x._w * y._w };
+	}
+
+	inline Fixed_7_8_vec4 operator / (const Fixed_7_8_vec4& x, const Fixed_7_8_vec4& y)
+	{
+		return { x._x / y._x, x._y / y._y, x._z / y._z, x._w / y._w };
+	}
+
+	inline Bool operator == (const Fixed_7_8_vec4& a, const Fixed_7_8_vec4& b)
+	{
+		return LogicalAnd(LogicalAnd(LogicalAnd(a._x == b._x, a._y == b._y), a._z == b._z), a._w == b._w);
+	}
+
+	inline Bool operator != (const Fixed_7_8_vec4& a, const Fixed_7_8_vec4& b)
+	{
+		return LogicalOr(LogicalOr(LogicalOr(a._x != b._x, a._y != b._y), a._z != b._z), a._w != b._w);
+	}
+
+	//************************************************************************************
+	// Fixed_8_8_vec4 methods
+
+	inline Fixed_8_8_vec4::Fixed_8_8_vec4(const Unbyte4& source)
+		: _x(source._x), _y(source._y), _z(source._z), _w(source._w)
+	{
+
+	}
+
+	inline Fixed_8_8_vec4 operator + (const Fixed_8_8_vec4& x, const Fixed_8_8_vec4& y)
+	{
+		return { x._x + y._x, x._y + y._y, x._z + y._z, x._w + y._w };
+	}
+
+	inline Fixed_8_8_vec4 operator - (const Fixed_8_8_vec4& x, const Fixed_8_8_vec4& y)
+	{
+		return { x._x - y._x, x._y - y._y, x._z - y._z, x._w - y._w };
+	}
+
+	inline Fixed_8_8_vec4 operator * (const Fixed_8_8_vec4& x, const Fixed_8_8_vec4& y)
+	{
+		return { x._x * y._x, x._y * y._y, x._z * y._z, x._w * y._w };
+	}
+
+	inline Fixed_8_8_vec4 operator / (const Fixed_8_8_vec4& x, const Fixed_8_8_vec4& y)
+	{
+		return { x._x / y._x, x._y / y._y, x._z / y._z, x._w / y._w };
+	}
+
+	inline Bool operator == (const Fixed_8_8_vec4& a, const Fixed_8_8_vec4& b)
+	{
+		return LogicalAnd(LogicalAnd(LogicalAnd(a._x == b._x, a._y == b._y), a._z == b._z), a._w == b._w);
+	}
+
+	inline Bool operator != (const Fixed_8_8_vec4& a, const Fixed_8_8_vec4& b)
+	{
+		return LogicalOr(LogicalOr(LogicalOr(a._x != b._x, a._y != b._y), a._z != b._z), a._w != b._w);
+	}
+
+	//************************************************************************************
 
 	class SwizzledFloat
 	{
