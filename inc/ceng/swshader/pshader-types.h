@@ -3018,18 +3018,82 @@ namespace Ceng::Pshader
 		return LogicalOr(LogicalOr(LogicalOr(a._x != b._x, a._y != b._y), a._z != b._z), a._w != b._w);
 	}
 
+	//************************************************************************************
+
 	class alignas(16) Fixed_8_8
 	{
 	public:
 		SOAVecFixed_8_8 _x;
+
+	public:
+
+		Fixed_8_8(const Unbyte& source);
+
+		inline Fixed_8_8(const SOAVecFixed_8_8& x)
+			: _x(x)
+		{
+
+		}
+
+		inline Fixed_8_8(Fixedpoint_8_8 x)
+			: _x(x)
+		{
+
+		}
 	};
+
+	inline Fixed_8_8 operator + (const Fixed_8_8& x, const Fixed_8_8& y);
+
+	inline Fixed_8_8 operator - (const Fixed_8_8& x, const Fixed_8_8& y);
+
+	inline Fixed_8_8 operator * (const Fixed_8_8& x, const Fixed_8_8& y);
+
+	inline Fixed_8_8 operator / (const Fixed_8_8& x, const Fixed_8_8& y);
+
+	inline Bool operator == (const Fixed_8_8& a, const Fixed_8_8& b);
+
+	inline Bool operator != (const Fixed_8_8& a, const Fixed_8_8& b);
+
+
+	//********************************************************************************
 
 	class alignas(16) Fixed_8_8_vec2
 	{
 	public:
 		SOAVecFixed_8_8 _x;
 		SOAVecFixed_8_8 _y;
+
+	public:
+
+		Fixed_8_8_vec2(const Unbyte2& source);
+
+		inline Fixed_8_8_vec2(const SOAVecFixed_8_8& x, const SOAVecFixed_8_8& y)
+			: _x(x), _y(y)
+		{
+
+		}
+
+		inline Fixed_8_8_vec2(Fixedpoint_8_8 x, Fixedpoint_8_8 y)
+			: _x(x), _y(y)
+		{
+
+		}
+
 	};
+
+	inline Fixed_8_8_vec2 operator + (const Fixed_8_8_vec2& x, const Fixed_8_8_vec2& y);
+
+	inline Fixed_8_8_vec2 operator - (const Fixed_8_8_vec2& x, const Fixed_8_8_vec2& y);
+
+	inline Fixed_8_8_vec2 operator * (const Fixed_8_8_vec2& x, const Fixed_8_8_vec2& y);
+
+	inline Fixed_8_8_vec2 operator / (const Fixed_8_8_vec2& x, const Fixed_8_8_vec2& y);
+
+	inline Bool operator == (const Fixed_8_8_vec2& a, const Fixed_8_8_vec2& b);
+
+	inline Bool operator != (const Fixed_8_8_vec2& a, const Fixed_8_8_vec2& b);
+
+	//*************************************************************************************
 
 	class alignas(16) Fixed_8_8_vec3
 	{
@@ -3037,7 +3101,37 @@ namespace Ceng::Pshader
 		SOAVecFixed_8_8 _x;
 		SOAVecFixed_8_8 _y;
 		SOAVecFixed_8_8 _z;
+
+	public:
+
+		Fixed_8_8_vec3(const Unbyte3& source);
+
+		inline Fixed_8_8_vec3(const SOAVecFixed_8_8& x, const SOAVecFixed_8_8& y, const SOAVecFixed_8_8& z)
+			: _x(x), _y(y), _z(z)
+		{
+
+		}
+
+		inline Fixed_8_8_vec3(Fixedpoint_8_8 x, Fixedpoint_8_8 y, Fixedpoint_8_8 z)
+			: _x(x), _y(y), _z(z)
+		{
+
+		}
 	};
+
+	inline Fixed_8_8_vec3 operator + (const Fixed_8_8_vec3& x, const Fixed_8_8_vec3& y);
+
+	inline Fixed_8_8_vec3 operator - (const Fixed_8_8_vec3& x, const Fixed_8_8_vec3& y);
+
+	inline Fixed_8_8_vec3 operator * (const Fixed_8_8_vec3& x, const Fixed_8_8_vec3& y);
+
+	inline Fixed_8_8_vec3 operator / (const Fixed_8_8_vec3& x, const Fixed_8_8_vec3& y);
+
+	inline Bool operator == (const Fixed_8_8_vec3& a, const Fixed_8_8_vec3& b);
+
+	inline Bool operator != (const Fixed_8_8_vec3& a, const Fixed_8_8_vec3& b);
+
+	//******************************************************************************
 
 	class alignas(16) Fixed_8_8_vec4
 	{
@@ -3082,14 +3176,75 @@ namespace Ceng::Pshader
 	{
 	public:
 		SOAVecFixed_7_8 _x;
+
+	public:
+
+		inline Fixed_7_8(const Unbyte& source);
+
+		inline Fixed_7_8(const SOAVecFixed_7_8& x)
+			: _x(x)
+		{
+
+		}
+
+		inline Fixed_7_8(Fixedpoint_7_8 x)
+			: _x(x)
+		{
+
+		}
 	};
+
+
+	inline Fixed_7_8 operator + (const Fixed_7_8& x, const Fixed_7_8& y);
+
+	inline Fixed_7_8 operator - (const Fixed_7_8& x, const Fixed_7_8& y);
+
+	inline Fixed_7_8 operator * (const Fixed_7_8& x, const Fixed_7_8& y);
+
+	inline Fixed_7_8 operator / (const Fixed_7_8& x, const Fixed_7_8& y);
+
+	inline Bool operator == (const Fixed_7_8& a, const Fixed_7_8& b);
+
+	inline Bool operator != (const Fixed_7_8& a, const Fixed_7_8& b);
+
+	//********************************************************************************
 
 	class alignas(16) Fixed_7_8_vec2
 	{
 	public:
 		SOAVecFixed_7_8 _x;
 		SOAVecFixed_7_8 _y;
+
+	public:
+
+		inline Fixed_7_8_vec2(const Unbyte2& source);
+
+		inline Fixed_7_8_vec2(const SOAVecFixed_7_8& x, const SOAVecFixed_7_8& y)
+			: _x(x), _y(y)
+		{
+
+		}
+
+		inline Fixed_7_8_vec2(Fixedpoint_7_8 x, Fixedpoint_7_8 y)
+			: _x(x), _y(y)
+		{
+
+		}
 	};
+
+	inline Fixed_7_8_vec2 operator + (const Fixed_7_8_vec2& x, const Fixed_7_8_vec2& y);
+
+	inline Fixed_7_8_vec2 operator - (const Fixed_7_8_vec2& x, const Fixed_7_8_vec2& y);
+
+	inline Fixed_7_8_vec2 operator * (const Fixed_7_8_vec2& x, const Fixed_7_8_vec2& y);
+
+	inline Fixed_7_8_vec2 operator / (const Fixed_7_8_vec2& x, const Fixed_7_8_vec2& y);
+
+	inline Bool operator == (const Fixed_7_8_vec2& a, const Fixed_7_8_vec2& b);
+
+	inline Bool operator != (const Fixed_7_8_vec2& a, const Fixed_7_8_vec2& b);
+
+	//*******************************************************************************
 
 	class alignas(16) Fixed_7_8_vec3
 	{
@@ -3097,7 +3252,37 @@ namespace Ceng::Pshader
 		SOAVecFixed_7_8 _x;
 		SOAVecFixed_7_8 _y;
 		SOAVecFixed_7_8 _z;
+
+	public:
+
+		inline Fixed_7_8_vec3(const Unbyte3& source);
+
+		inline Fixed_7_8_vec3(const SOAVecFixed_7_8& x, const SOAVecFixed_7_8& y, const SOAVecFixed_7_8& z)
+			: _x(x), _y(y), _z(z)
+		{
+
+		}
+
+		inline Fixed_7_8_vec3(Fixedpoint_7_8 x, Fixedpoint_7_8 y, Fixedpoint_7_8 z)
+			: _x(x), _y(y), _z(z)
+		{
+
+		}
 	};
+
+	inline Fixed_7_8_vec3 operator + (const Fixed_7_8_vec3& x, const Fixed_7_8_vec3& y);
+
+	inline Fixed_7_8_vec3 operator - (const Fixed_7_8_vec3& x, const Fixed_7_8_vec3& y);
+
+	inline Fixed_7_8_vec3 operator * (const Fixed_7_8_vec3& x, const Fixed_7_8_vec3& y);
+
+	inline Fixed_7_8_vec3 operator / (const Fixed_7_8_vec3& x, const Fixed_7_8_vec3& y);
+
+	inline Bool operator == (const Fixed_7_8_vec3& a, const Fixed_7_8_vec3& b);
+
+	inline Bool operator != (const Fixed_7_8_vec3& a, const Fixed_7_8_vec3& b);
+
+	//*****************************************************************************************
 
 	class alignas(16) Fixed_7_8_vec4
 	{
@@ -3143,14 +3328,134 @@ namespace Ceng::Pshader
 	{
 	public:
 		SOAVecUnbyte _x;
+
+	public:
+		inline Unbyte()
+		{
+
+		}
+
+		inline Unbyte(const SOAVecUnbyte& x)
+			: _x(x)
+		{
+
+		}
+
+		inline Unbyte(Ceng::UINT8 x)
+			: _x(x)
+		{
+
+		}
+
+		inline Unbyte& operator= (const Unbyte& other)
+		{
+			_x = other._x;
+
+			return *this;
+		}
+
+		inline Unbyte& operator = (const Ceng::Pshader::InFloat& source)
+		{
+			source.MoveToFloat(&_x);
+			return *this;
+		}
+
+		inline Unbyte& operator += (const Unbyte& other) = delete;
+
+		inline Unbyte& operator -= (const Unbyte& other) = delete;
+
+		inline Unbyte& operator *= (const Unbyte& other)
+		{
+			_x *= other._x;
+
+			return *this;
+		}
+
+		inline Unbyte& operator /= (const Unbyte& other) = delete;
+
+		Unbyte& operator = (const SampleTexture2D& source);
 	};
+
+	inline Fixed_8_8 operator + (const Unbyte& x, const Unbyte& y);
+	inline Fixed_7_8 operator - (const Unbyte& x, const Unbyte& y);
+	inline Unbyte operator * (const Unbyte& x, const Unbyte& y);
+	inline Fixed_8_8 operator / (const Unbyte& x, const Unbyte& y);
+	inline Bool operator == (const Unbyte& a, const Unbyte& b);
+	inline Bool operator != (const Unbyte& a, const Unbyte& b);
+
+	//******************************************************************************
 
 	class alignas(16) Unbyte2
 	{
 	public:
 		SOAVecUnbyte _x;
 		SOAVecUnbyte _y;
+
+	public:
+		inline Unbyte2()
+		{
+
+		}
+
+		inline Unbyte2(const SOAVecUnbyte& x, const SOAVecUnbyte& y)
+			: _x(x), _y(y)
+		{
+
+		}
+
+		inline Unbyte2(Ceng::UINT8 x, Ceng::UINT8 y)
+			: _x(x), _y(y)
+		{
+
+		}
+
+		inline Unbyte2& operator= (const Unbyte& other)
+		{
+			_x = other._x;
+			_y = 0;
+
+			return *this;
+		}
+
+		inline Unbyte2& operator= (const Unbyte2& other)
+		{
+			_x = other._x;
+			_y = other._y;
+
+			return *this;
+		}
+
+		inline Unbyte2& operator = (const Ceng::Pshader::InFloat2& source)
+		{
+			source.MoveToFloat2(&_x);
+			return *this;
+		}
+
+		inline Unbyte2& operator += (const Unbyte2& other) = delete;
+
+		inline Unbyte2& operator -= (const Unbyte2& other) = delete;
+
+		inline Unbyte2& operator *= (const Unbyte2& other)
+		{
+			_x *= other._x;
+			_y *= other._y;
+		
+			return *this;
+		}
+
+		inline Unbyte2& operator /= (const Unbyte2& other) = delete;
+
+		Unbyte2& operator = (const SampleTexture2D& source);
 	};
+
+	inline Fixed_8_8_vec2 operator + (const Unbyte2& x, const Unbyte2& y);
+	inline Fixed_7_8_vec2 operator - (const Unbyte2& x, const Unbyte2& y);
+	inline Unbyte2 operator * (const Unbyte2& x, const Unbyte2& y);
+	inline Fixed_8_8_vec2 operator / (const Unbyte2& x, const Unbyte2& y);
+	inline Bool operator == (const Unbyte2& a, const Unbyte2& b);
+	inline Bool operator != (const Unbyte2& a, const Unbyte2& b);
+
+	//*************************************************************************************
 
 	class alignas(16) Unbyte3
 	{
@@ -3158,7 +3463,84 @@ namespace Ceng::Pshader
 		SOAVecUnbyte _x;
 		SOAVecUnbyte _y;
 		SOAVecUnbyte _z;
+
+	public:
+		inline Unbyte3()
+		{
+
+		}
+
+		inline Unbyte3(const SOAVecUnbyte& x, const SOAVecUnbyte& y, const SOAVecUnbyte& z)
+			: _x(x), _y(y), _z(z)
+		{
+
+		}
+
+		inline Unbyte3(Ceng::UINT8 x, Ceng::UINT8 y, Ceng::UINT8 z)
+			: _x(x), _y(y), _z(z)
+		{
+
+		}
+
+		inline Unbyte3& operator= (const Unbyte& other)
+		{
+			_x = other._x;
+			_y = 0;
+			_z = 0;
+
+			return *this;
+		}
+
+		inline Unbyte3& operator= (const Unbyte2& other)
+		{
+			_x = other._x;
+			_y = other._y;
+			_z = 0;
+
+			return *this;
+		}
+
+		inline Unbyte3& operator= (const Unbyte3& other)
+		{
+			_x = other._x;
+			_y = other._y;
+			_z = other._z;
+
+			return *this;
+		}
+
+		inline Unbyte3& operator = (const Ceng::Pshader::InFloat3& source)
+		{
+			source.MoveToFloat3(&_x);
+			return *this;
+		}
+
+		inline Unbyte3& operator += (const Unbyte3& other) = delete;
+
+		inline Unbyte3& operator -= (const Unbyte3& other) = delete;
+
+		inline Unbyte3& operator *= (const Unbyte3& other)
+		{
+			_x *= other._x;
+			_y *= other._y;
+			_z *= other._z;
+
+			return *this;
+		}
+
+		inline Unbyte3& operator /= (const Unbyte3& other) = delete;
+
+		Unbyte3& operator = (const SampleTexture2D& source);
 	};
+
+	inline Fixed_8_8_vec3 operator + (const Unbyte3& x, const Unbyte3& y);
+	inline Fixed_7_8_vec3 operator - (const Unbyte3& x, const Unbyte3& y);
+	inline Unbyte3 operator * (const Unbyte3& x, const Unbyte3& y);
+	inline Fixed_8_8_vec3 operator / (const Unbyte3& x, const Unbyte3& y);
+	inline Bool operator == (const Unbyte3& a, const Unbyte3& b);
+	inline Bool operator != (const Unbyte3& a, const Unbyte3& b);
+
+	//***********************************************************************************
 
 	class alignas(16) Unbyte4
 	{
@@ -3250,13 +3632,116 @@ namespace Ceng::Pshader
 		inline Unbyte4& operator /= (const Unbyte4& other) = delete;
 
 		Unbyte4& operator = (const SampleTexture2D& source);
-
-		/*
-		Unbyte4& operator = (const SwizzledUnByte4& source);
-
-		Unbyte4& operator = (const ConstSwizzledUnByte4& source);
-		*/
 	};
+
+	inline Fixed_8_8_vec4 operator + (const Unbyte4& x, const Unbyte4& y);
+	inline Fixed_7_8_vec4 operator - (const Unbyte4& x, const Unbyte4& y);
+	inline Unbyte4 operator * (const Unbyte4& x, const Unbyte4& y);
+	inline Fixed_8_8_vec4 operator / (const Unbyte4& x, const Unbyte4& y);
+	inline Bool operator == (const Unbyte4& a, const Unbyte4& b);
+	inline Bool operator != (const Unbyte4& a, const Unbyte4& b);
+
+	//*****************************************************************************************
+	// Unbyte methods
+
+	inline Fixed_8_8 operator + (const Unbyte& x, const Unbyte& y)
+	{
+		return Fixed_8_8(x) + Fixed_8_8(y);
+	}
+
+	inline Fixed_7_8 operator - (const Unbyte& x, const Unbyte& y)
+	{
+		return Fixed_7_8(x) - Fixed_7_8(y);
+	}
+
+	inline Unbyte operator * (const Unbyte& x, const Unbyte& y)
+	{
+		return { x._x * y._x};
+	}
+
+	inline Fixed_8_8 operator / (const Unbyte& x, const Unbyte& y)
+	{
+		return Fixed_8_8(x) / Fixed_8_8(y);
+	}
+
+	inline Bool operator == (const Unbyte& a, const Unbyte& b)
+	{
+		return a._x == b._x;
+	}
+
+	inline Bool operator != (const Unbyte& a, const Unbyte& b)
+	{
+		return a._x != b._x;
+	}
+
+	//*****************************************************************************************
+	// Unbyte2 methods
+
+	inline Fixed_8_8_vec2 operator + (const Unbyte2& x, const Unbyte2& y)
+	{
+		return Fixed_8_8_vec2(x) + Fixed_8_8_vec2(y);
+	}
+
+	inline Fixed_7_8_vec2 operator - (const Unbyte2& x, const Unbyte2& y)
+	{
+		return Fixed_7_8_vec2(x) - Fixed_7_8_vec2(y);
+	}
+
+	inline Unbyte2 operator * (const Unbyte2& x, const Unbyte2& y)
+	{
+		return { x._x * y._x, x._y * y._y};
+	}
+
+	inline Fixed_8_8_vec2 operator / (const Unbyte2& x, const Unbyte2& y)
+	{
+		return Fixed_8_8_vec2(x) / Fixed_8_8_vec2(y);
+	}
+
+	inline Bool operator == (const Unbyte2& a, const Unbyte2& b)
+	{
+		return LogicalAnd(a._x == b._x, a._y == b._y);
+	}
+
+	inline Bool operator != (const Unbyte2& a, const Unbyte2& b)
+	{
+		return LogicalOr(a._x != b._x, a._y != b._y);
+	}
+
+	//*****************************************************************************************
+	// Unbyte3 methods
+
+	inline Fixed_8_8_vec3 operator + (const Unbyte3& x, const Unbyte3& y)
+	{
+		return Fixed_8_8_vec3(x) + Fixed_8_8_vec3(y);
+	}
+
+	inline Fixed_7_8_vec3 operator - (const Unbyte3& x, const Unbyte3& y)
+	{
+		return Fixed_7_8_vec3(x) - Fixed_7_8_vec3(y);
+	}
+
+	inline Unbyte3 operator * (const Unbyte3& x, const Unbyte3& y)
+	{
+		return { x._x * y._x, x._y * y._y, x._z * y._z};
+	}
+
+	inline Fixed_8_8_vec3 operator / (const Unbyte3& x, const Unbyte3& y)
+	{
+		return Fixed_8_8_vec3(x) / Fixed_8_8_vec3(y);
+	}
+
+	inline Bool operator == (const Unbyte3& a, const Unbyte3& b)
+	{
+		return LogicalAnd(LogicalAnd(a._x == b._x, a._y == b._y), a._z == b._z);
+	}
+
+	inline Bool operator != (const Unbyte3& a, const Unbyte3& b)
+	{
+		return LogicalOr(LogicalOr(a._x != b._x, a._y != b._y), a._z != b._z);
+	}
+
+	//*****************************************************************************************
+	// Unbyte4 methods
 
 	inline Fixed_8_8_vec4 operator + (const Unbyte4& x, const Unbyte4& y)
 	{
@@ -3286,6 +3771,123 @@ namespace Ceng::Pshader
 	inline Bool operator != (const Unbyte4& a, const Unbyte4& b)
 	{
 		return LogicalOr(LogicalOr(LogicalOr(a._x != b._x, a._y != b._y), a._z != b._z), a._w != b._w);
+	}
+
+	//************************************************************************************
+	// Fixed_7_8 methods
+
+	inline Fixed_7_8::Fixed_7_8(const Unbyte& source)
+		: _x(source._x)
+	{
+
+	}
+
+	inline Fixed_7_8 operator + (const Fixed_7_8& x, const Fixed_7_8& y)
+	{
+		return { x._x + y._x };
+	}
+
+	inline Fixed_7_8 operator - (const Fixed_7_8& x, const Fixed_7_8& y)
+	{
+		return { x._x - y._x };
+	}
+
+	inline Fixed_7_8 operator * (const Fixed_7_8& x, const Fixed_7_8& y)
+	{
+		return { x._x * y._x };
+	}
+
+	inline Fixed_7_8 operator / (const Fixed_7_8& x, const Fixed_7_8& y)
+	{
+		return { x._x / y._x };
+	}
+
+	inline Bool operator == (const Fixed_7_8& a, const Fixed_7_8& b)
+	{
+		return a._x == b._x;
+	}
+
+	inline Bool operator != (const Fixed_7_8& a, const Fixed_7_8& b)
+	{
+		return a._x != b._x;
+	}
+
+	//************************************************************************************
+	// Fixed_7_8_vec2 methods
+
+	inline Fixed_7_8_vec2::Fixed_7_8_vec2(const Unbyte2& source)
+		: _x(source._x), _y(source._y)
+	{
+
+	}
+
+	inline Fixed_7_8_vec2 operator + (const Fixed_7_8_vec2& x, const Fixed_7_8_vec2& y)
+	{
+		return { x._x + y._x, x._y + y._y };
+	}
+
+	inline Fixed_7_8_vec2 operator - (const Fixed_7_8_vec2& x, const Fixed_7_8_vec2& y)
+	{
+		return { x._x - y._x, x._y - y._y };
+	}
+
+	inline Fixed_7_8_vec2 operator * (const Fixed_7_8_vec2& x, const Fixed_7_8_vec2& y)
+	{
+		return { x._x * y._x, x._y * y._y };
+	}
+
+	inline Fixed_7_8_vec2 operator / (const Fixed_7_8_vec2& x, const Fixed_7_8_vec2& y)
+	{
+		return { x._x / y._x, x._y / y._y };
+	}
+
+	inline Bool operator == (const Fixed_7_8_vec2& a, const Fixed_7_8_vec2& b)
+	{
+		return LogicalAnd(a._x == b._x, a._y == b._y);
+	}
+
+	inline Bool operator != (const Fixed_7_8_vec2& a, const Fixed_7_8_vec2& b)
+	{
+		return LogicalOr(a._x != b._x, a._y != b._y);
+	}
+
+	//************************************************************************************
+	// Fixed_7_8_vec3 methods
+
+	inline Fixed_7_8_vec3::Fixed_7_8_vec3(const Unbyte3& source)
+		: _x(source._x), _y(source._y), _z(source._z)
+	{
+
+	}
+
+	inline Fixed_7_8_vec3 operator + (const Fixed_7_8_vec3& x, const Fixed_7_8_vec3& y)
+	{
+		return { x._x + y._x, x._y + y._y, x._z + y._z };
+	}
+
+	inline Fixed_7_8_vec3 operator - (const Fixed_7_8_vec3& x, const Fixed_7_8_vec3& y)
+	{
+		return { x._x - y._x, x._y - y._y, x._z - y._z };
+	}
+
+	inline Fixed_7_8_vec3 operator * (const Fixed_7_8_vec3& x, const Fixed_7_8_vec3& y)
+	{
+		return { x._x * y._x, x._y * y._y, x._z * y._z };
+	}
+
+	inline Fixed_7_8_vec3 operator / (const Fixed_7_8_vec3& x, const Fixed_7_8_vec3& y)
+	{
+		return { x._x / y._x, x._y / y._y, x._z / y._z };
+	}
+
+	inline Bool operator == (const Fixed_7_8_vec3& a, const Fixed_7_8_vec3& b)
+	{
+		return LogicalAnd(LogicalAnd(a._x == b._x, a._y == b._y), a._z == b._z);
+	}
+
+	inline Bool operator != (const Fixed_7_8_vec3& a, const Fixed_7_8_vec3& b)
+	{
+		return LogicalOr(LogicalOr(a._x != b._x, a._y != b._y), a._z != b._z);
 	}
 
 	//************************************************************************************
@@ -3325,6 +3927,123 @@ namespace Ceng::Pshader
 	inline Bool operator != (const Fixed_7_8_vec4& a, const Fixed_7_8_vec4& b)
 	{
 		return LogicalOr(LogicalOr(LogicalOr(a._x != b._x, a._y != b._y), a._z != b._z), a._w != b._w);
+	}
+
+	//************************************************************************************
+	// Fixed_8_8 methods
+
+	inline Fixed_8_8::Fixed_8_8(const Unbyte& source)
+		: _x(source._x)
+	{
+
+	}
+
+	inline Fixed_8_8 operator + (const Fixed_8_8& x, const Fixed_8_8& y)
+	{
+		return { x._x + y._x};
+	}
+
+	inline Fixed_8_8 operator - (const Fixed_8_8& x, const Fixed_8_8& y)
+	{
+		return { x._x - y._x};
+	}
+
+	inline Fixed_8_8 operator * (const Fixed_8_8& x, const Fixed_8_8& y)
+	{
+		return { x._x * y._x};
+	}
+
+	inline Fixed_8_8 operator / (const Fixed_8_8& x, const Fixed_8_8& y)
+	{
+		return { x._x / y._x};
+	}
+
+	inline Bool operator == (const Fixed_8_8& a, const Fixed_8_8& b)
+	{
+		return a._x == b._x;
+	}
+
+	inline Bool operator != (const Fixed_8_8& a, const Fixed_8_8& b)
+	{
+		return a._x != b._x;
+	}
+
+	//************************************************************************************
+	// Fixed_8_8_vec2 methods
+
+	inline Fixed_8_8_vec2::Fixed_8_8_vec2(const Unbyte2& source)
+		: _x(source._x), _y(source._y)
+	{
+
+	}
+
+	inline Fixed_8_8_vec2 operator + (const Fixed_8_8_vec2& x, const Fixed_8_8_vec2& y)
+	{
+		return { x._x + y._x, x._y + y._y};
+	}
+
+	inline Fixed_8_8_vec2 operator - (const Fixed_8_8_vec2& x, const Fixed_8_8_vec2& y)
+	{
+		return { x._x - y._x, x._y - y._y};
+	}
+
+	inline Fixed_8_8_vec2 operator * (const Fixed_8_8_vec2& x, const Fixed_8_8_vec2& y)
+	{
+		return { x._x * y._x, x._y * y._y};
+	}
+
+	inline Fixed_8_8_vec2 operator / (const Fixed_8_8_vec2& x, const Fixed_8_8_vec2& y)
+	{
+		return { x._x / y._x, x._y / y._y};
+	}
+
+	inline Bool operator == (const Fixed_8_8_vec2& a, const Fixed_8_8_vec2& b)
+	{
+		return LogicalAnd(a._x == b._x, a._y == b._y);
+	}
+
+	inline Bool operator != (const Fixed_8_8_vec2& a, const Fixed_8_8_vec2& b)
+	{
+		return LogicalOr(a._x != b._x, a._y != b._y);
+	}
+
+	//************************************************************************************
+	// Fixed_8_8_vec3 methods
+
+	inline Fixed_8_8_vec3::Fixed_8_8_vec3(const Unbyte3& source)
+		: _x(source._x), _y(source._y), _z(source._z)
+	{
+
+	}
+
+	inline Fixed_8_8_vec3 operator + (const Fixed_8_8_vec3& x, const Fixed_8_8_vec3& y)
+	{
+		return { x._x + y._x, x._y + y._y, x._z + y._z};
+	}
+
+	inline Fixed_8_8_vec3 operator - (const Fixed_8_8_vec3& x, const Fixed_8_8_vec3& y)
+	{
+		return { x._x - y._x, x._y - y._y, x._z - y._z};
+	}
+
+	inline Fixed_8_8_vec3 operator * (const Fixed_8_8_vec3& x, const Fixed_8_8_vec3& y)
+	{
+		return { x._x * y._x, x._y * y._y, x._z * y._z};
+	}
+
+	inline Fixed_8_8_vec3 operator / (const Fixed_8_8_vec3& x, const Fixed_8_8_vec3& y)
+	{
+		return { x._x / y._x, x._y / y._y, x._z / y._z};
+	}
+
+	inline Bool operator == (const Fixed_8_8_vec3& a, const Fixed_8_8_vec3& b)
+	{
+		return LogicalAnd(LogicalAnd(a._x == b._x, a._y == b._y), a._z == b._z);
+	}
+
+	inline Bool operator != (const Fixed_8_8_vec3& a, const Fixed_8_8_vec3& b)
+	{
+		return LogicalOr(LogicalOr(a._x != b._x, a._y != b._y), a._z != b._z);
 	}
 
 	//************************************************************************************
