@@ -3040,6 +3040,34 @@ namespace Ceng::Pshader
 		{
 
 		}
+
+		inline Fixed_8_8& operator += (const Fixed_8_8& other)
+		{
+			_x += other._x;
+
+			return *this;
+		}
+
+		inline Fixed_8_8& operator -= (const Fixed_8_8& other)
+		{
+			_x -= other._x;
+
+			return *this;
+		}
+
+		inline Fixed_8_8& operator *= (const Fixed_8_8& other)
+		{
+			_x *= other._x;
+
+			return *this;
+		}
+
+		inline Fixed_8_8& operator /= (const Fixed_8_8& other)
+		{
+			_x /= other._x;
+
+			return *this;
+		}
 	};
 
 	inline Fixed_8_8 operator + (const Fixed_8_8& x, const Fixed_8_8& y);
@@ -3077,6 +3105,38 @@ namespace Ceng::Pshader
 			: _x(x), _y(y)
 		{
 
+		}
+
+		inline Fixed_8_8_vec2& operator += (const Fixed_8_8_vec2& other)
+		{
+			_x += other._x;
+			_y += other._y;
+
+			return *this;
+		}
+
+		inline Fixed_8_8_vec2& operator -= (const Fixed_8_8_vec2& other)
+		{
+			_x -= other._x;
+			_y -= other._y;
+
+			return *this;
+		}
+
+		inline Fixed_8_8_vec2& operator *= (const Fixed_8_8_vec2& other)
+		{
+			_x *= other._x;
+			_y *= other._y;
+
+			return *this;
+		}
+
+		inline Fixed_8_8_vec2& operator /= (const Fixed_8_8_vec2& other)
+		{
+			_x /= other._x;
+			_y /= other._y;
+
+			return *this;
 		}
 
 	};
@@ -3117,6 +3177,42 @@ namespace Ceng::Pshader
 		{
 
 		}
+
+		inline Fixed_8_8_vec3& operator += (const Fixed_8_8_vec3& other)
+		{
+			_x += other._x;
+			_y += other._y;
+			_z += other._z;
+
+			return *this;
+		}
+
+		inline Fixed_8_8_vec3& operator -= (const Fixed_8_8_vec3& other)
+		{
+			_x -= other._x;
+			_y -= other._y;
+			_z -= other._z;
+
+			return *this;
+		}
+
+		inline Fixed_8_8_vec3& operator *= (const Fixed_8_8_vec3& other)
+		{
+			_x *= other._x;
+			_y *= other._y;
+			_z *= other._z;
+
+			return *this;
+		}
+
+		inline Fixed_8_8_vec3& operator /= (const Fixed_8_8_vec3& other)
+		{
+			_x /= other._x;
+			_y /= other._y;
+			_z /= other._z;
+
+			return *this;
+		}
 	};
 
 	inline Fixed_8_8_vec3 operator + (const Fixed_8_8_vec3& x, const Fixed_8_8_vec3& y);
@@ -3156,6 +3252,46 @@ namespace Ceng::Pshader
 		{
 
 		}
+
+		inline Fixed_8_8_vec4& operator += (const Fixed_8_8_vec4& other)
+		{
+			_x += other._x;
+			_y += other._y;
+			_z += other._z;
+			_w += other._w;
+
+			return *this;
+		}
+
+		inline Fixed_8_8_vec4& operator -= (const Fixed_8_8_vec4& other)
+		{
+			_x -= other._x;
+			_y -= other._y;
+			_z -= other._z;
+			_w -= other._w;
+
+			return *this;
+		}
+
+		inline Fixed_8_8_vec4& operator *= (const Fixed_8_8_vec4& other)
+		{
+			_x *= other._x;
+			_y *= other._y;
+			_z *= other._z;
+			_w *= other._w;
+
+			return *this;
+		}
+
+		inline Fixed_8_8_vec4& operator /= (const Fixed_8_8_vec4& other)
+		{
+			_x /= other._x;
+			_y /= other._y;
+			_z /= other._z;
+			_w /= other._w;
+
+			return *this;
+		}
 	};
 
 	inline Fixed_8_8_vec4 operator + (const Fixed_8_8_vec4& x, const Fixed_8_8_vec4& y);
@@ -3191,6 +3327,34 @@ namespace Ceng::Pshader
 			: _x(x)
 		{
 
+		}
+
+		inline Fixed_7_8& operator += (const Fixed_7_8& other)
+		{
+			_x += other._x;
+
+			return *this;
+		}
+
+		inline Fixed_7_8& operator -= (const Fixed_7_8& other)
+		{
+			_x -= other._x;
+
+			return *this;
+		}
+
+		inline Fixed_7_8& operator *= (const Fixed_7_8& other)
+		{
+			_x *= other._x;
+
+			return *this;
+		}
+
+		inline Fixed_7_8& operator /= (const Fixed_7_8& other)
+		{
+			_x /= other._x;
+
+			return *this;
 		}
 	};
 
@@ -3230,6 +3394,38 @@ namespace Ceng::Pshader
 		{
 
 		}
+
+		inline Fixed_7_8_vec2& operator += (const Fixed_7_8_vec2& other)
+		{
+			_x += other._x;
+			_y += other._y;
+
+			return *this;
+		}
+
+		inline Fixed_7_8_vec2& operator -= (const Fixed_7_8_vec2& other)
+		{
+			_x -= other._x;
+			_y -= other._y;
+
+			return *this;
+		}
+
+		inline Fixed_7_8_vec2& operator *= (const Fixed_7_8_vec2& other)
+		{
+			_x *= other._x;
+			_y *= other._y;
+
+			return *this;
+		}
+
+		inline Fixed_7_8_vec2& operator /= (const Fixed_7_8_vec2& other)
+		{
+			_x /= other._x;
+			_y /= other._y;
+
+			return *this;
+		}
 	};
 
 	inline Fixed_7_8_vec2 operator + (const Fixed_7_8_vec2& x, const Fixed_7_8_vec2& y);
@@ -3268,6 +3464,43 @@ namespace Ceng::Pshader
 		{
 
 		}
+
+		inline Fixed_7_8_vec3& operator += (const Fixed_7_8_vec3& other)
+		{
+			_x += other._x;
+			_y += other._y;
+			_z += other._z;
+
+			return *this;
+		}
+
+		inline Fixed_7_8_vec3& operator -= (const Fixed_7_8_vec3& other)
+		{
+			_x -= other._x;
+			_y -= other._y;
+			_z -= other._z;
+
+			return *this;
+		}
+
+		inline Fixed_7_8_vec3& operator *= (const Fixed_7_8_vec3& other)
+		{
+			_x *= other._x;
+			_y *= other._y;
+			_z *= other._z;
+
+			return *this;
+		}
+
+		inline Fixed_7_8_vec3& operator /= (const Fixed_7_8_vec3& other)
+		{
+			_x /= other._x;
+			_y /= other._y;
+			_z /= other._z;
+
+			return *this;
+		}
+
 	};
 
 	inline Fixed_7_8_vec3 operator + (const Fixed_7_8_vec3& x, const Fixed_7_8_vec3& y);
@@ -3307,6 +3540,46 @@ namespace Ceng::Pshader
 		{
 
 		}
+
+		inline Fixed_7_8_vec4& operator += (const Fixed_7_8_vec4& other)
+		{
+			_x += other._x;
+			_y += other._y;
+			_z += other._z;
+			_w += other._w;
+
+			return *this;
+		}
+
+		inline Fixed_7_8_vec4& operator -= (const Fixed_7_8_vec4& other)
+		{
+			_x -= other._x;
+			_y -= other._y;
+			_z -= other._z;
+			_w -= other._w;
+
+			return *this;
+		}
+
+		inline Fixed_7_8_vec4& operator *= (const Fixed_7_8_vec4& other)
+		{
+			_x *= other._x;
+			_y *= other._y;
+			_z *= other._z;
+			_w *= other._w;
+
+			return *this;
+		}
+
+		inline Fixed_7_8_vec4& operator /= (const Fixed_7_8_vec4& other)
+		{
+			_x /= other._x;
+			_y /= other._y;
+			_z /= other._z;
+			_w /= other._w;
+
+			return *this;
+		}
 	};
 
 	inline Fixed_7_8_vec4 operator + (const Fixed_7_8_vec4& x, const Fixed_7_8_vec4& y);
@@ -3322,7 +3595,6 @@ namespace Ceng::Pshader
 	inline Bool operator != (const Fixed_7_8_vec4& a, const Fixed_7_8_vec4& b);
 
 	//********************************************************************************
-
 
 	class alignas(16) Unbyte
 	{
