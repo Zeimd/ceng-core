@@ -3020,6 +3020,566 @@ namespace Ceng::Pshader
 
 	//************************************************************************************
 
+	class alignas(16) Byte
+	{
+	public:
+		SOAVecByte _x;
+
+	public:
+
+		inline Byte(const SOAVecByte& x)
+			: _x(x)
+		{
+
+		}
+
+		inline Byte(Ceng::INT8 x)
+			: _x(x)
+		{
+
+		}
+
+		inline Byte& operator += (const Byte& other)
+		{
+			_x += other._x;
+
+			return *this;
+		}
+
+		inline Byte& operator -= (const Byte& other)
+		{
+			_x -= other._x;
+
+			return *this;
+		}
+
+		inline Byte& operator *= (const Byte& other)
+		{
+			_x *= other._x;
+
+			return *this;
+		}
+
+		inline Byte& operator /= (const Byte& other)
+		{
+			_x /= other._x;
+
+			return *this;
+		}
+	};
+
+	inline Byte operator + (const Byte& x, const Byte& y);
+
+	inline Byte operator - (const Byte& x, const Byte& y);
+
+	inline Byte operator * (const Byte& x, const Byte& y);
+
+	inline Byte operator / (const Byte& x, const Byte& y);
+
+	inline Bool operator == (const Byte& a, const Byte& b);
+
+	inline Bool operator != (const Byte& a, const Byte& b);
+
+
+	//********************************************************************************
+
+	class alignas(16) Byte2
+	{
+	public:
+		SOAVecByte _x;
+		SOAVecByte _y;
+
+	public:
+
+		inline Byte2(const SOAVecByte& x, const SOAVecByte& y)
+			: _x(x), _y(y)
+		{
+
+		}
+
+		inline Byte2(Ceng::INT8 x, Ceng::INT8 y)
+			: _x(x), _y(y)
+		{
+
+		}
+
+		inline Byte2& operator += (const Byte2& other)
+		{
+			_x += other._x;
+			_y += other._y;
+
+			return *this;
+		}
+
+		inline Byte2& operator -= (const Byte2& other)
+		{
+			_x -= other._x;
+			_y -= other._y;
+
+			return *this;
+		}
+
+		inline Byte2& operator *= (const Byte2& other)
+		{
+			_x *= other._x;
+			_y *= other._y;
+
+			return *this;
+		}
+
+		inline Byte2& operator /= (const Byte2& other)
+		{
+			_x /= other._x;
+			_y /= other._y;
+
+			return *this;
+		}
+
+	};
+
+	inline Byte2 operator + (const Byte2& x, const Byte2& y);
+
+	inline Byte2 operator - (const Byte2& x, const Byte2& y);
+
+	inline Byte2 operator * (const Byte2& x, const Byte2& y);
+
+	inline Byte2 operator / (const Byte2& x, const Byte2& y);
+
+	inline Bool operator == (const Byte2& a, const Byte2& b);
+
+	inline Bool operator != (const Byte2& a, const Byte2& b);
+
+	//*************************************************************************************
+
+	class alignas(16) Byte3
+	{
+	public:
+		SOAVecByte _x;
+		SOAVecByte _y;
+		SOAVecByte _z;
+
+	public:
+
+		inline Byte3(const SOAVecByte& x, const SOAVecByte& y, const SOAVecByte& z)
+			: _x(x), _y(y), _z(z)
+		{
+
+		}
+
+		inline Byte3(Ceng::INT8 x, Ceng::INT8 y, Ceng::INT8 z)
+			: _x(x), _y(y), _z(z)
+		{
+
+		}
+
+		inline Byte3& operator += (const Byte3& other)
+		{
+			_x += other._x;
+			_y += other._y;
+			_z += other._z;
+
+			return *this;
+		}
+
+		inline Byte3& operator -= (const Byte3& other)
+		{
+			_x -= other._x;
+			_y -= other._y;
+			_z -= other._z;
+
+			return *this;
+		}
+
+		inline Byte3& operator *= (const Byte3& other)
+		{
+			_x *= other._x;
+			_y *= other._y;
+			_z *= other._z;
+
+			return *this;
+		}
+
+		inline Byte3& operator /= (const Byte3& other)
+		{
+			_x /= other._x;
+			_y /= other._y;
+			_z /= other._z;
+
+			return *this;
+		}
+	};
+
+	inline Byte3 operator + (const Byte3& x, const Byte3& y);
+
+	inline Byte3 operator - (const Byte3& x, const Byte3& y);
+
+	inline Byte3 operator * (const Byte3& x, const Byte3& y);
+
+	inline Byte3 operator / (const Byte3& x, const Byte3& y);
+
+	inline Bool operator == (const Byte3& a, const Byte3& b);
+
+	inline Bool operator != (const Byte3& a, const Byte3& b);
+
+	//******************************************************************************
+
+	class alignas(16) Byte4
+	{
+	public:
+		SOAVecByte _x;
+		SOAVecByte _y;
+		SOAVecByte _z;
+		SOAVecByte _w;
+
+	public:
+
+		inline Byte4(const SOAVecByte& x, const SOAVecByte& y, const SOAVecByte& z, const SOAVecByte& w)
+			: _x(x), _y(y), _z(z), _w(w)
+		{
+
+		}
+
+		inline Byte4(Ceng::INT8 x, Ceng::INT8 y, Ceng::INT8 z, Ceng::INT8 w)
+			: _x(x), _y(y), _z(z), _w(w)
+		{
+
+		}
+
+		inline Byte4& operator += (const Byte4& other)
+		{
+			_x += other._x;
+			_y += other._y;
+			_z += other._z;
+			_w += other._w;
+
+			return *this;
+		}
+
+		inline Byte4& operator -= (const Byte4& other)
+		{
+			_x -= other._x;
+			_y -= other._y;
+			_z -= other._z;
+			_w -= other._w;
+
+			return *this;
+		}
+
+		inline Byte4& operator *= (const Byte4& other)
+		{
+			_x *= other._x;
+			_y *= other._y;
+			_z *= other._z;
+			_w *= other._w;
+
+			return *this;
+		}
+
+		inline Byte4& operator /= (const Byte4& other)
+		{
+			_x /= other._x;
+			_y /= other._y;
+			_z /= other._z;
+			_w /= other._w;
+
+			return *this;
+		}
+	};
+
+	inline Byte4 operator + (const Byte4& x, const Byte4& y);
+
+	inline Byte4 operator - (const Byte4& x, const Byte4& y);
+
+	inline Byte4 operator * (const Byte4& x, const Byte4& y);
+
+	inline Byte4 operator / (const Byte4& x, const Byte4& y);
+
+	inline Bool operator == (const Byte4& a, const Byte4& b);
+
+	inline Bool operator != (const Byte4& a, const Byte4& b);
+
+	//*************************************************************************************
+
+	class alignas(16) UByte
+	{
+	public:
+		SOAVecUbyte _x;
+
+	public:
+
+		inline UByte(const SOAVecUbyte& x)
+			: _x(x)
+		{
+
+		}
+
+		inline UByte(Ceng::UINT8 x)
+			: _x(x)
+		{
+
+		}
+
+		inline UByte& operator += (const UByte& other)
+		{
+			_x += other._x;
+
+			return *this;
+		}
+
+		inline UByte& operator -= (const UByte& other)
+		{
+			_x -= other._x;
+
+			return *this;
+		}
+
+		inline UByte& operator *= (const UByte& other)
+		{
+			_x *= other._x;
+
+			return *this;
+		}
+
+		inline UByte& operator /= (const UByte& other)
+		{
+			_x /= other._x;
+
+			return *this;
+		}
+	};
+
+	inline UByte operator + (const UByte& x, const UByte& y);
+
+	inline UByte operator - (const UByte& x, const UByte& y);
+
+	inline UByte operator * (const UByte& x, const UByte& y);
+
+	inline UByte operator / (const UByte& x, const UByte& y);
+
+	inline Bool operator == (const UByte& a, const UByte& b);
+
+	inline Bool operator != (const UByte& a, const UByte& b);
+
+
+	//********************************************************************************
+
+	class alignas(16) UByte2
+	{
+	public:
+		SOAVecUbyte _x;
+		SOAVecUbyte _y;
+
+	public:
+
+		inline UByte2(const SOAVecUbyte& x, const SOAVecUbyte& y)
+			: _x(x), _y(y)
+		{
+
+		}
+
+		inline UByte2(Ceng::UINT8 x, Ceng::UINT8 y)
+			: _x(x), _y(y)
+		{
+
+		}
+
+		inline UByte2& operator += (const UByte2& other)
+		{
+			_x += other._x;
+			_y += other._y;
+
+			return *this;
+		}
+
+		inline UByte2& operator -= (const UByte2& other)
+		{
+			_x -= other._x;
+			_y -= other._y;
+
+			return *this;
+		}
+
+		inline UByte2& operator *= (const UByte2& other)
+		{
+			_x *= other._x;
+			_y *= other._y;
+
+			return *this;
+		}
+
+		inline UByte2& operator /= (const UByte2& other)
+		{
+			_x /= other._x;
+			_y /= other._y;
+
+			return *this;
+		}
+
+	};
+
+	inline UByte2 operator + (const UByte2& x, const UByte2& y);
+
+	inline UByte2 operator - (const UByte2& x, const UByte2& y);
+
+	inline UByte2 operator * (const UByte2& x, const UByte2& y);
+
+	inline UByte2 operator / (const UByte2& x, const UByte2& y);
+
+	inline Bool operator == (const UByte2& a, const UByte2& b);
+
+	inline Bool operator != (const UByte2& a, const UByte2& b);
+
+	//*************************************************************************************
+
+	class alignas(16) UByte3
+	{
+	public:
+		SOAVecUbyte _x;
+		SOAVecUbyte _y;
+		SOAVecUbyte _z;
+
+	public:
+
+		inline UByte3(const SOAVecUbyte& x, const SOAVecUbyte& y, const SOAVecUbyte& z)
+			: _x(x), _y(y), _z(z)
+		{
+
+		}
+
+		inline UByte3(Ceng::UINT8 x, Ceng::UINT8 y, Ceng::UINT8 z)
+			: _x(x), _y(y), _z(z)
+		{
+
+		}
+
+		inline UByte3& operator += (const UByte3& other)
+		{
+			_x += other._x;
+			_y += other._y;
+			_z += other._z;
+
+			return *this;
+		}
+
+		inline UByte3& operator -= (const UByte3& other)
+		{
+			_x -= other._x;
+			_y -= other._y;
+			_z -= other._z;
+
+			return *this;
+		}
+
+		inline UByte3& operator *= (const UByte3& other)
+		{
+			_x *= other._x;
+			_y *= other._y;
+			_z *= other._z;
+
+			return *this;
+		}
+
+		inline UByte3& operator /= (const UByte3& other)
+		{
+			_x /= other._x;
+			_y /= other._y;
+			_z /= other._z;
+
+			return *this;
+		}
+	};
+
+	inline UByte3 operator + (const UByte3& x, const UByte3& y);
+
+	inline UByte3 operator - (const UByte3& x, const UByte3& y);
+
+	inline UByte3 operator * (const UByte3& x, const UByte3& y);
+
+	inline UByte3 operator / (const UByte3& x, const UByte3& y);
+
+	inline Bool operator == (const UByte3& a, const UByte3& b);
+
+	inline Bool operator != (const UByte3& a, const UByte3& b);
+
+	//******************************************************************************
+
+	class alignas(16) UByte4
+	{
+	public:
+		SOAVecUbyte _x;
+		SOAVecUbyte _y;
+		SOAVecUbyte _z;
+		SOAVecUbyte _w;
+
+	public:
+
+		inline UByte4(const SOAVecUbyte& x, const SOAVecUbyte& y, const SOAVecUbyte& z, const SOAVecUbyte& w)
+			: _x(x), _y(y), _z(z), _w(w)
+		{
+
+		}
+
+		inline UByte4(Ceng::UINT8 x, Ceng::UINT8 y, Ceng::UINT8 z, Ceng::UINT8 w)
+			: _x(x), _y(y), _z(z), _w(w)
+		{
+
+		}
+
+		inline UByte4& operator += (const UByte4& other)
+		{
+			_x += other._x;
+			_y += other._y;
+			_z += other._z;
+			_w += other._w;
+
+			return *this;
+		}
+
+		inline UByte4& operator -= (const UByte4& other)
+		{
+			_x -= other._x;
+			_y -= other._y;
+			_z -= other._z;
+			_w -= other._w;
+
+			return *this;
+		}
+
+		inline UByte4& operator *= (const UByte4& other)
+		{
+			_x *= other._x;
+			_y *= other._y;
+			_z *= other._z;
+			_w *= other._w;
+
+			return *this;
+		}
+
+		inline UByte4& operator /= (const UByte4& other)
+		{
+			_x /= other._x;
+			_y /= other._y;
+			_z /= other._z;
+			_w /= other._w;
+
+			return *this;
+		}
+	};
+
+	inline UByte4 operator + (const UByte4& x, const UByte4& y);
+
+	inline UByte4 operator - (const UByte4& x, const UByte4& y);
+
+	inline UByte4 operator * (const UByte4& x, const UByte4& y);
+
+	inline UByte4 operator / (const UByte4& x, const UByte4& y);
+
+	inline Bool operator == (const UByte4& a, const UByte4& b);
+
+	inline Bool operator != (const UByte4& a, const UByte4& b);
+
+	//************************************************************************************
+
 	class alignas(16) Fixed_8_8
 	{
 	public:
@@ -3912,6 +4472,270 @@ namespace Ceng::Pshader
 	inline Fixed_8_8_vec4 operator / (const Unbyte4& x, const Unbyte4& y);
 	inline Bool operator == (const Unbyte4& a, const Unbyte4& b);
 	inline Bool operator != (const Unbyte4& a, const Unbyte4& b);
+
+	//************************************************************************************
+	// Byte methods
+
+	inline Byte operator + (const Byte& x, const Byte& y)
+	{
+		return { x._x + y._x };
+	}
+
+	inline Byte operator - (const Byte& x, const Byte& y)
+	{
+		return { x._x - y._x };
+	}
+
+	inline Byte operator * (const Byte& x, const Byte& y)
+	{
+		return { x._x * y._x };
+	}
+
+	inline Byte operator / (const Byte& x, const Byte& y)
+	{
+		return { x._x / y._x };
+	}
+
+	inline Bool operator == (const Byte& a, const Byte& b)
+	{
+		return a._x == b._x;
+	}
+
+	inline Bool operator != (const Byte& a, const Byte& b)
+	{
+		return a._x != b._x;
+	}
+
+	//************************************************************************************
+	// Byte2 methods
+
+	inline Byte2 operator + (const Byte2& x, const Byte2& y)
+	{
+		return { x._x + y._x, x._y + y._y };
+	}
+
+	inline Byte2 operator - (const Byte2& x, const Byte2& y)
+	{
+		return { x._x - y._x, x._y - y._y };
+	}
+
+	inline Byte2 operator * (const Byte2& x, const Byte2& y)
+	{
+		return { x._x * y._x, x._y * y._y };
+	}
+
+	inline Byte2 operator / (const Byte2& x, const Byte2& y)
+	{
+		return { x._x / y._x, x._y / y._y };
+	}
+
+	inline Bool operator == (const Byte2& a, const Byte2& b)
+	{
+		return LogicalAnd(a._x == b._x, a._y == b._y);
+	}
+
+	inline Bool operator != (const Byte2& a, const Byte2& b)
+	{
+		return LogicalOr(a._x != b._x, a._y != b._y);
+	}
+
+	//************************************************************************************
+	// Byte3 methods
+
+	inline Byte3 operator + (const Byte3& x, const Byte3& y)
+	{
+		return { x._x + y._x, x._y + y._y, x._z + y._z };
+	}
+
+	inline Byte3 operator - (const Byte3& x, const Byte3& y)
+	{
+		return { x._x - y._x, x._y - y._y, x._z - y._z };
+	}
+
+	inline Byte3 operator * (const Byte3& x, const Byte3& y)
+	{
+		return { x._x * y._x, x._y * y._y, x._z * y._z };
+	}
+
+	inline Byte3 operator / (const Byte3& x, const Byte3& y)
+	{
+		return { x._x / y._x, x._y / y._y, x._z / y._z };
+	}
+
+	inline Bool operator == (const Byte3& a, const Byte3& b)
+	{
+		return LogicalAnd(LogicalAnd(a._x == b._x, a._y == b._y), a._z == b._z);
+	}
+
+	inline Bool operator != (const Byte3& a, const Byte3& b)
+	{
+		return LogicalOr(LogicalOr(a._x != b._x, a._y != b._y), a._z != b._z);
+	}
+
+	//************************************************************************************
+	// Byte4 methods
+
+	inline Byte4 operator + (const Byte4& x, const Byte4& y)
+	{
+		return { x._x + y._x, x._y + y._y, x._z + y._z, x._w + y._w };
+	}
+
+	inline Byte4 operator - (const Byte4& x, const Byte4& y)
+	{
+		return { x._x - y._x, x._y - y._y, x._z - y._z, x._w - y._w };
+	}
+
+	inline Byte4 operator * (const Byte4& x, const Byte4& y)
+	{
+		return { x._x * y._x, x._y * y._y, x._z * y._z, x._w * y._w };
+	}
+
+	inline Byte4 operator / (const Byte4& x, const Byte4& y)
+	{
+		return { x._x / y._x, x._y / y._y, x._z / y._z, x._w / y._w };
+	}
+
+	inline Bool operator == (const Byte4& a, const Byte4& b)
+	{
+		return LogicalAnd(LogicalAnd(LogicalAnd(a._x == b._x, a._y == b._y), a._z == b._z), a._w == b._w);
+	}
+
+	inline Bool operator != (const Byte4& a, const Byte4& b)
+	{
+		return LogicalOr(LogicalOr(LogicalOr(a._x != b._x, a._y != b._y), a._z != b._z), a._w != b._w);
+	}
+
+	//************************************************************************************
+	// UByte methods
+
+	inline UByte operator + (const UByte& x, const UByte& y)
+	{
+		return { x._x + y._x };
+	}
+
+	inline UByte operator - (const UByte& x, const UByte& y)
+	{
+		return { x._x - y._x };
+	}
+
+	inline UByte operator * (const UByte& x, const UByte& y)
+	{
+		return { x._x * y._x };
+	}
+
+	inline UByte operator / (const UByte& x, const UByte& y)
+	{
+		return { x._x / y._x };
+	}
+
+	inline Bool operator == (const UByte& a, const UByte& b)
+	{
+		return a._x == b._x;
+	}
+
+	inline Bool operator != (const UByte& a, const UByte& b)
+	{
+		return a._x != b._x;
+	}
+
+	//************************************************************************************
+	// UByte2 methods
+
+	inline UByte2 operator + (const UByte2& x, const UByte2& y)
+	{
+		return { x._x + y._x, x._y + y._y };
+	}
+
+	inline UByte2 operator - (const UByte2& x, const UByte2& y)
+	{
+		return { x._x - y._x, x._y - y._y };
+	}
+
+	inline UByte2 operator * (const UByte2& x, const UByte2& y)
+	{
+		return { x._x * y._x, x._y * y._y };
+	}
+
+	inline UByte2 operator / (const UByte2& x, const UByte2& y)
+	{
+		return { x._x / y._x, x._y / y._y };
+	}
+
+	inline Bool operator == (const UByte2& a, const UByte2& b)
+	{
+		return LogicalAnd(a._x == b._x, a._y == b._y);
+	}
+
+	inline Bool operator != (const UByte2& a, const UByte2& b)
+	{
+		return LogicalOr(a._x != b._x, a._y != b._y);
+	}
+
+	//************************************************************************************
+	// UByte3 methods
+
+	inline UByte3 operator + (const UByte3& x, const UByte3& y)
+	{
+		return { x._x + y._x, x._y + y._y, x._z + y._z };
+	}
+
+	inline UByte3 operator - (const UByte3& x, const UByte3& y)
+	{
+		return { x._x - y._x, x._y - y._y, x._z - y._z };
+	}
+
+	inline UByte3 operator * (const UByte3& x, const UByte3& y)
+	{
+		return { x._x * y._x, x._y * y._y, x._z * y._z };
+	}
+
+	inline UByte3 operator / (const UByte3& x, const UByte3& y)
+	{
+		return { x._x / y._x, x._y / y._y, x._z / y._z };
+	}
+
+	inline Bool operator == (const UByte3& a, const UByte3& b)
+	{
+		return LogicalAnd(LogicalAnd(a._x == b._x, a._y == b._y), a._z == b._z);
+	}
+
+	inline Bool operator != (const UByte3& a, const UByte3& b)
+	{
+		return LogicalOr(LogicalOr(a._x != b._x, a._y != b._y), a._z != b._z);
+	}
+
+	//************************************************************************************
+	// UByte4 methods
+
+	inline UByte4 operator + (const UByte4& x, const UByte4& y)
+	{
+		return { x._x + y._x, x._y + y._y, x._z + y._z, x._w + y._w };
+	}
+
+	inline UByte4 operator - (const UByte4& x, const UByte4& y)
+	{
+		return { x._x - y._x, x._y - y._y, x._z - y._z, x._w - y._w };
+	}
+
+	inline UByte4 operator * (const UByte4& x, const UByte4& y)
+	{
+		return { x._x * y._x, x._y * y._y, x._z * y._z, x._w * y._w };
+	}
+
+	inline UByte4 operator / (const UByte4& x, const UByte4& y)
+	{
+		return { x._x / y._x, x._y / y._y, x._z / y._z, x._w / y._w };
+	}
+
+	inline Bool operator == (const UByte4& a, const UByte4& b)
+	{
+		return LogicalAnd(LogicalAnd(LogicalAnd(a._x == b._x, a._y == b._y), a._z == b._z), a._w == b._w);
+	}
+
+	inline Bool operator != (const UByte4& a, const UByte4& b)
+	{
+		return LogicalOr(LogicalOr(LogicalOr(a._x != b._x, a._y != b._y), a._z != b._z), a._w != b._w);
+	}
 
 	//*****************************************************************************************
 	// Unbyte methods
