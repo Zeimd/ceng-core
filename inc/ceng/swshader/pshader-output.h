@@ -8,7 +8,6 @@
 #include "pshader-types.h"
 
 #include "pshader-uniform.h"
-#include "pshader-sampler.h"
 
 #include "PshaderTargetWriter.h"
 
