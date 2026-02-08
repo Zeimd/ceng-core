@@ -27,6 +27,10 @@ namespace Ceng::Pshader
 		}
 
 		void SampleToFloat4(void* destBuffer) const;
+		void SampleToUnbyte4(void* destBuffer) const;
+		void SampleToNbyte4(void* destBuffer) const;
+		void SampleToInt4(void* destBuffer) const;
+		void SampleToUint4(void* destBuffer) const;
 	};
 
 	//**********************************************************
@@ -34,7 +38,27 @@ namespace Ceng::Pshader
 
 	inline void DelayedSampler2D::SampleToFloat4(void* destBuffer) const
 	{
-		unit->Sample2d(*uv, (Ceng::FLOAT32*)destBuffer);
+		unit->Sample2d_Float(*uv, (Ceng::FLOAT32*)destBuffer);
+	}
+
+	inline void DelayedSampler2D::SampleToUnbyte4(void* destBuffer) const
+	{
+		unit->Sample2d_Unbyte(*uv, (Ceng::UINT8*)destBuffer);
+	}
+
+	inline void DelayedSampler2D::SampleToNbyte4(void* destBuffer) const
+	{
+		unit->Sample2d_Nbyte(*uv, (Ceng::INT8*)destBuffer);
+	}
+
+	inline void DelayedSampler2D::SampleToInt4(void* destBuffer) const
+	{
+		unit->Sample2d_Int(*uv, (Ceng::INT32*)destBuffer);
+	}
+
+	inline void DelayedSampler2D::SampleToUint4(void* destBuffer) const
+	{
+		unit->Sample2d_Uint(*uv, (Ceng::UINT32*)destBuffer);
 	}
 
 	inline DelayedSampler2D sample2d(Pshader::UniformSampler2d& sampler, Pshader::Float2& uv)

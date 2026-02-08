@@ -316,7 +316,7 @@ namespace Ceng::Pshader
 		{
 			_declspec(align(16)) Ceng::FLOAT32 writeBuffer[16];
 
-			source.SampleToFloat4(writeBuffer);
+			source.SampleToUnbyte4(writeBuffer);
 
 			POINTER* localWrite = (POINTER*)(inputAddress);
 

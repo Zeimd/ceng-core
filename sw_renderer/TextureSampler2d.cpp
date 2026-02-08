@@ -2,24 +2,24 @@
 
 using namespace Ceng::Pshader;
 
-TextureSampler2d::FilterFunction TextureSampler2d::minFilterTable[16] =
+TextureSampler2d::FilterFunction_unbyte TextureSampler2d::minFilterTable_unbyte[16] =
 {
-	&TextureSampler2d::Nearest_SSE2,
-	//&TextureSampler2d::Nearest_Port,
-	& TextureSampler2d::Linear_SSE2,
-	//&TextureSampler2d::Linear_Port,
-	& TextureSampler2d::Nearest_MipNearest_SSE2,
-	& TextureSampler2d::Nearest_MipLinear,
-	& TextureSampler2d::Linear_MipNearest_SSE2,
-	& TextureSampler2d::Linear_MipLinear,
+	&TextureSampler2d::Nearest_SSE2_unbyte,
+	//&TextureSampler2d::Nearest_Port_unbyte,
+	& TextureSampler2d::Linear_SSE2_unbyte,
+	//&TextureSampler2d::Linear_Port_unbyte,
+	& TextureSampler2d::Nearest_MipNearest_SSE2_unbyte,
+	& TextureSampler2d::Nearest_MipLinear_unbyte,
+	& TextureSampler2d::Linear_MipNearest_SSE2_unbyte,
+	& TextureSampler2d::Linear_MipLinear_unbyte,
 };
 
-TextureSampler2d::FilterFunction TextureSampler2d::magFilterTable[8] =
+TextureSampler2d::FilterFunction_unbyte TextureSampler2d::magFilterTable_unbyte[8] =
 {
-	&TextureSampler2d::Nearest_SSE2,
-	//&TextureSampler2d::Nearest_Port,
-	& TextureSampler2d::Linear_SSE2,
-	//&TextureSampler2d::Linear_Port,
+	&TextureSampler2d::Nearest_SSE2_unbyte,
+	//&TextureSampler2d::Nearest_Port_unbyte,
+	& TextureSampler2d::Linear_SSE2_unbyte,
+	//&TextureSampler2d::Linear_Port_unbyte,
 };
 
 TextureSampler2d::TextureSampler2d(CR_ShaderViewTex2D* view, CR_SamplerState* sampler)
@@ -53,9 +53,31 @@ _declspec(align(16)) const Ceng::FLOAT32 mulToFX16[] = { 65536.0f, 65536.0f, 655
 
 const Ceng::FLOAT32 distVal = 2.0f;
 
-void TextureSampler2d::Sample2d(const Pshader::Float2& uv, Ceng::FLOAT32* out_colorVecs)
+//**********************************
+
+void TextureSampler2d::Sample2d_Float(const Pshader::Float2& coords, Ceng::FLOAT32* destAddress)
 {
-	Ceng::FLOAT32* uvData = (Ceng::FLOAT32*)&uv._x;
+
+}
+
+void TextureSampler2d::Sample2d_Nbyte(const Pshader::Float2& coords, Ceng::INT8* destAddress)
+{
+
+}
+
+void TextureSampler2d::Sample2d_Int(const Pshader::Float2& coords, Ceng::INT32* destAddress)
+{
+
+}
+
+void TextureSampler2d::Sample2d_Uint(const Pshader::Float2& coords, Ceng::UINT32* destAddress)
+{
+
+}
+
+void TextureSampler2d::Sample2d_Unbyte(const Pshader::Float2& coords, Ceng::UINT8* destAddress)
+{
+	Ceng::FLOAT32* uvData = (Ceng::FLOAT32*)&coords._x;
 
 	_declspec(align(16)) Ceng::INT32 uFX[4], vFX[4];
 
@@ -199,13 +221,13 @@ void TextureSampler2d::Sample2d(const Pshader::Float2& uv, Ceng::FLOAT32* out_co
 	if (_mm_comigt_ss(vecBaseDist, distComp))
 		//if (baseDist > 2.00f) // NOTE: 1.5*1.5
 	{
-		(this->*minFilterTable[sampler->desc.minFilter])(uFX, vFX, 0, baseDist, out_colorVecs);
+		(this->*minFilterTable_unbyte[sampler->desc.minFilter])(uFX, vFX, 0, baseDist, destAddress);
 		//Linear_MipNearest_SSE2(uFX, vFX, 0, baseDist, out_colorVecs);
 	}
 	else
 	{
 		//Linear_SSE2(uFX, vFX, 0, baseDist, out_colorVecs);
-		(this->*magFilterTable[sampler->desc.magFilter])(uFX, vFX, 0, baseDist, out_colorVecs);
+		(this->*magFilterTable_unbyte[sampler->desc.magFilter])(uFX, vFX, 0, baseDist, destAddress);
 	}
 }
 
@@ -224,8 +246,8 @@ static const Ceng::UINT32 GetMipLevelInt(const Ceng::FLOAT32 mipFactor)
 	return Ceng::INT32(baseLevel >> 1);
 }
 
-void TextureSampler2d::Nearest_MipNearest_Port(const Ceng::INT32* uFX, const Ceng::INT32* vFX, Ceng::UINT32 mipLevel,
-	const Ceng::FLOAT32 mipFactor, Ceng::FLOAT32* out_color)
+void TextureSampler2d::Nearest_MipNearest_Port_unbyte(const Ceng::INT32* uFX, const Ceng::INT32* vFX, Ceng::UINT32 mipLevel,
+	const Ceng::FLOAT32 mipFactor, Ceng::UINT8* out_color)
 {
 	mipLevel = GetMipLevelInt(mipFactor);
 
@@ -235,11 +257,11 @@ void TextureSampler2d::Nearest_MipNearest_Port(const Ceng::INT32* uFX, const Cen
 		mipLevel = view->desc.mipLevels - 1;
 	}
 
-	Nearest_Port(uFX, vFX, mipLevel, mipFactor, out_color);
+	Nearest_Port_unbyte(uFX, vFX, mipLevel, mipFactor, out_color);
 }
 
-void TextureSampler2d::Nearest_MipNearest_SSE2(const Ceng::INT32* uFX, const Ceng::INT32* vFX, Ceng::UINT32 mipLevel,
-	const Ceng::FLOAT32 mipFactor, Ceng::FLOAT32* out_color)
+void TextureSampler2d::Nearest_MipNearest_SSE2_unbyte(const Ceng::INT32* uFX, const Ceng::INT32* vFX, Ceng::UINT32 mipLevel,
+	const Ceng::FLOAT32 mipFactor, Ceng::UINT8* out_color)
 {
 	mipLevel = GetMipLevelInt(mipFactor);
 
@@ -249,11 +271,11 @@ void TextureSampler2d::Nearest_MipNearest_SSE2(const Ceng::INT32* uFX, const Cen
 		mipLevel = view->desc.mipLevels - 1;
 	}
 
-	Nearest_SSE2(uFX, vFX, mipLevel, mipFactor, out_color);
+	Nearest_SSE2_unbyte(uFX, vFX, mipLevel, mipFactor, out_color);
 }
 
-void TextureSampler2d::Linear_MipNearest_Port(const Ceng::INT32* uFX, const Ceng::INT32* vFX, Ceng::UINT32 mipLevel,
-	const Ceng::FLOAT32 mipFactor, Ceng::FLOAT32* out_color)
+void TextureSampler2d::Linear_MipNearest_Port_unbyte(const Ceng::INT32* uFX, const Ceng::INT32* vFX, Ceng::UINT32 mipLevel,
+	const Ceng::FLOAT32 mipFactor, Ceng::UINT8* out_color)
 {
 	mipLevel = GetMipLevelInt(mipFactor);
 
@@ -263,12 +285,12 @@ void TextureSampler2d::Linear_MipNearest_Port(const Ceng::INT32* uFX, const Ceng
 		mipLevel = view->desc.mipLevels - 1;
 	}
 
-	Linear_Port(uFX, vFX, mipLevel, mipFactor, out_color);
+	Linear_Port_unbyte(uFX, vFX, mipLevel, mipFactor, out_color);
 }
 
 
-void TextureSampler2d::Linear_MipNearest_SSE2(const Ceng::INT32* uFX, const Ceng::INT32* vFX, Ceng::UINT32 mipLevel,
-	const Ceng::FLOAT32 mipFactor, Ceng::FLOAT32* out_color)
+void TextureSampler2d::Linear_MipNearest_SSE2_unbyte(const Ceng::INT32* uFX, const Ceng::INT32* vFX, Ceng::UINT32 mipLevel,
+	const Ceng::FLOAT32 mipFactor, Ceng::UINT8* out_color)
 {
 	mipLevel = GetMipLevelInt(mipFactor);
 
@@ -278,12 +300,12 @@ void TextureSampler2d::Linear_MipNearest_SSE2(const Ceng::INT32* uFX, const Ceng
 		mipLevel = view->desc.mipLevels - 1;
 	}
 
-	Linear_SSE2(uFX, vFX, mipLevel, mipFactor, out_color);
+	Linear_SSE2_unbyte(uFX, vFX, mipLevel, mipFactor, out_color);
 }
 
 
-void TextureSampler2d::Nearest_MipLinear(const Ceng::INT32* uFX, const Ceng::INT32* vFX, Ceng::UINT32 mipLevel,
-	const Ceng::FLOAT32 mipFactor, Ceng::FLOAT32* out_color)
+void TextureSampler2d::Nearest_MipLinear_unbyte(const Ceng::INT32* uFX, const Ceng::INT32* vFX, Ceng::UINT32 mipLevel,
+	const Ceng::FLOAT32 mipFactor, Ceng::UINT8* out_color)
 {
 	/*
 	// Calculate mipmap level
@@ -328,8 +350,8 @@ void TextureSampler2d::Nearest_MipLinear(const Ceng::INT32* uFX, const Ceng::INT
 	*/
 }
 
-void TextureSampler2d::Linear_MipLinear(const Ceng::INT32* uFX, const Ceng::INT32* vFX,
-	Ceng::UINT32 mipLevel, const Ceng::FLOAT32 mipFactor, Ceng::FLOAT32* out_color)
+void TextureSampler2d::Linear_MipLinear_unbyte(const Ceng::INT32* uFX, const Ceng::INT32* vFX,
+	Ceng::UINT32 mipLevel, const Ceng::FLOAT32 mipFactor, Ceng::UINT8* out_color)
 {
 	/*
 	// Calculate mipmap level
@@ -672,8 +694,8 @@ void TextureSampler2d::Nearest_SSE2(const Ceng::INT32 *uFX, const Ceng::INT32 *v
 
 #ifndef _WIN64
 
-void TextureSampler2d::Nearest_SSE2(const Ceng::INT32* uFX, const Ceng::INT32* vFX, Ceng::UINT32 mipLevel,
-	const Ceng::FLOAT32 mipFactor, Ceng::FLOAT32* out_color)
+void TextureSampler2d::Nearest_SSE2_unbyte(const Ceng::INT32* uFX, const Ceng::INT32* vFX, Ceng::UINT32 mipLevel,
+	const Ceng::FLOAT32 mipFactor, Ceng::UINT8* out_color)
 {
 	// Only works for textures with rowBytes < 65536. 
 	// This means a maximum width of 4096 for a float32 argb texture.
@@ -817,8 +839,8 @@ void TextureSampler2d::Nearest_SSE2(const Ceng::INT32* uFX, const Ceng::INT32* v
 
 #else
 
-void TextureSampler2d::Nearest_SSE2(const Ceng::INT32* uFX, const Ceng::INT32* vFX, Ceng::UINT32 mipLevel,
-	const Ceng::FLOAT32 mipFactor, Ceng::FLOAT32* out_color)
+void TextureSampler2d::Nearest_SSE2_unbyte(const Ceng::INT32* uFX, const Ceng::INT32* vFX, Ceng::UINT32 mipLevel,
+	const Ceng::FLOAT32 mipFactor, Ceng::UINT8* out_color)
 {
 	// Only works for textures with rowBytes < 65536. 
 	// This means a maximum width of 4096 for a float32 argb texture.
@@ -927,6 +949,10 @@ void TextureSampler2d::Nearest_SSE2(const Ceng::INT32* uFX, const Ceng::INT32* v
 	//////////////////////////////////////////////////////////////////////////////
 	// Convert to vertical layout and then to floating point
 
+	
+
+	// TODO: move to float output version
+
 	// blue = dword {b3,b2,b1,b0}
 	__m128i blue = _mm_slli_epi32(colorVec, 24);
 	blue = _mm_srli_epi32(blue, 24);
@@ -959,6 +985,7 @@ void TextureSampler2d::Nearest_SSE2(const Ceng::INT32* uFX, const Ceng::INT32* v
 	_mm_store_ps((float*) &out_color[4], greenF);
 	_mm_store_ps((float*) &out_color[8], redF);
 	_mm_store_ps((float*) &out_color[12], alphaVec);
+	
 }
 
 #endif // _WIN64
@@ -1587,8 +1614,8 @@ void CR_ShaderViewTex2D::Linear_SSE2(const Ceng::INT32* uFX, const Ceng::INT32* 
 
 #else
 
-void TextureSampler2d::Linear_SSE2(const Ceng::INT32* uFX, const Ceng::INT32* vFX, Ceng::UINT32 mipLevel,
-	const Ceng::FLOAT32 mipFactor, Ceng::FLOAT32* out_color)
+void TextureSampler2d::Linear_SSE2_unbyte(const Ceng::INT32* uFX, const Ceng::INT32* vFX, Ceng::UINT32 mipLevel,
+	const Ceng::FLOAT32 mipFactor, Ceng::UINT8* out_color)
 {
 
 	// Only works for textures with rowBytes < 32768. 
@@ -1987,7 +2014,7 @@ void TextureSampler2d::Linear_SSE2(const Ceng::INT32* uFX, const Ceng::INT32* vF
 	// writeColor = byte {a3,a2,a1,a0,r3,r2,r1,r0,g3,g2,g1,g0,b3,b2,b1,b0}
 	writeColor = _mm_unpacklo_epi8(colorTemp, writeColor);
 
-	_mm_store_ps(&out_color[0], *(__m128*) & writeColor);
+	_mm_store_ps((float*)& out_color[0], *(__m128*)& writeColor);
 
 	return;
 
@@ -2026,10 +2053,10 @@ void TextureSampler2d::Linear_SSE2(const Ceng::INT32* uFX, const Ceng::INT32* vF
 
 	// Write default alpha
 
-	_mm_store_ps(&out_color[0], blueF);
-	_mm_store_ps(&out_color[4], greenF);
-	_mm_store_ps(&out_color[8], redF);
-	_mm_store_ps(&out_color[12], alphaVec);
+	_mm_store_ps((float*) & out_color[0], blueF);
+	_mm_store_ps((float*) & out_color[4], greenF);
+	_mm_store_ps((float*) & out_color[8], redF);
+	_mm_store_ps((float*) & out_color[12], alphaVec);
 }
 
 #endif
@@ -2415,8 +2442,8 @@ void TextureSampler2d::Linear_SSE2(const Ceng::INT32 *uFX, const Ceng::INT32 *vF
 }
 */
 
-void TextureSampler2d::Nearest_Port(const Ceng::INT32* uFX, const Ceng::INT32* vFX, Ceng::UINT32 mipLevel,
-	const Ceng::FLOAT32 mipFactor, Ceng::FLOAT32* out_color)
+void TextureSampler2d::Nearest_Port_unbyte(const Ceng::INT32* uFX, const Ceng::INT32* vFX, Ceng::UINT32 mipLevel,
+	const Ceng::FLOAT32 mipFactor, Ceng::UINT8* out_color)
 {
 	Ceng::UINT32 k;
 
@@ -2521,8 +2548,8 @@ void TextureSampler2d::Nearest_Port(const Ceng::INT32* uFX, const Ceng::INT32* v
 	}
 }
 
-void TextureSampler2d::Linear_Port(const Ceng::INT32* uFX, const Ceng::INT32* vFX,
-	Ceng::UINT32 mipLevel, const Ceng::FLOAT32 mipFactor, Ceng::FLOAT32* out_color)
+void TextureSampler2d::Linear_Port_unbyte(const Ceng::INT32* uFX, const Ceng::INT32* vFX,
+	Ceng::UINT32 mipLevel, const Ceng::FLOAT32 mipFactor, Ceng::UINT8* out_color)
 {
 	Ceng::UINT32 k;
 
@@ -2736,28 +2763,132 @@ void TextureSampler2d::Linear_Port(const Ceng::INT32* uFX, const Ceng::INT32* vF
 	*/
 }
 
-void TextureSampler2d::Sample1d(const Pshader::Float& coords, Ceng::FLOAT32* destAddress)
+//*****************************************************************************
+// Samplers that aren't used for 2d texture
+
+void TextureSampler2d::Sample1d_Float(const Pshader::Float& coords, Ceng::FLOAT32* destAddress)
 {
 
 }
 
-void TextureSampler2d::Sample1dArray(const Pshader::Float2& coords, Ceng::FLOAT32* destAddress)
+void TextureSampler2d::Sample1dArray_Float(const Pshader::Float2& coords, Ceng::FLOAT32* destAddress)
 {
 
 }
 
-void TextureSampler2d::Sample2dArray(const Pshader::Float3& coords, Ceng::FLOAT32* destAddress)
+void TextureSampler2d::Sample2dArray_Float(const Pshader::Float3& coords, Ceng::FLOAT32* destAddress)
 {
 
 }
 
-void TextureSampler2d::Sample3d(const Pshader::Float3& coords, Ceng::FLOAT32* destAddress)
+void TextureSampler2d::Sample3d_Float(const Pshader::Float3& coords, Ceng::FLOAT32* destAddress)
 {
 
 }
 
-void TextureSampler2d::SampleCube(const Pshader::Float3& coords, Ceng::FLOAT32* destAddress)
+void TextureSampler2d::SampleCube_Float(const Pshader::Float3& coords, Ceng::FLOAT32* destAddress)
 {
 
 }
+
+void TextureSampler2d::Sample1d_Unbyte(const Pshader::Float& coords, Ceng::UINT8* destAddress)
+{
+
+}
+
+void TextureSampler2d::Sample1dArray_Unbyte(const Pshader::Float2& coords, Ceng::UINT8* destAddress)
+{
+
+}
+
+void TextureSampler2d::Sample2dArray_Unbyte(const Pshader::Float3& coords, Ceng::UINT8* destAddress)
+{
+
+}
+
+void TextureSampler2d::Sample3d_Unbyte(const Pshader::Float3& coords, Ceng::UINT8* destAddress)
+{
+
+}
+
+void TextureSampler2d::SampleCube_Unbyte(const Pshader::Float3& coords, Ceng::UINT8* destAddress)
+{
+
+}
+
+void TextureSampler2d::Sample1d_Nbyte(const Pshader::Float& coords, Ceng::INT8* destAddress)
+{
+
+}
+
+void TextureSampler2d::Sample1dArray_Nbyte(const Pshader::Float2& coords, Ceng::INT8* destAddress)
+{
+
+}
+
+void TextureSampler2d::Sample2dArray_Nbyte(const Pshader::Float3& coords, Ceng::INT8* destAddress)
+{
+
+}
+
+void TextureSampler2d::Sample3d_Nbyte(const Pshader::Float3& coords, Ceng::INT8* destAddress)
+{
+
+}
+
+void TextureSampler2d::SampleCube_Nbyte(const Pshader::Float3& coords, Ceng::INT8* destAddress)
+{
+
+}
+
+void TextureSampler2d::Sample1d_Uint(const Pshader::Float& coords, Ceng::UINT32* destAddress)
+{
+
+}
+
+void TextureSampler2d::Sample1dArray_Uint(const Pshader::Float2& coords, Ceng::UINT32* destAddress)
+{
+
+}
+
+void TextureSampler2d::Sample2dArray_Uint(const Pshader::Float3& coords, Ceng::UINT32* destAddress)
+{
+
+}
+
+void TextureSampler2d::Sample3d_Uint(const Pshader::Float3& coords, Ceng::UINT32* destAddress)
+{
+
+}
+
+void TextureSampler2d::SampleCube_Uint(const Pshader::Float3& coords, Ceng::UINT32* destAddress)
+{
+
+}
+
+void TextureSampler2d::Sample1d_Int(const Pshader::Float& coords, Ceng::INT32* destAddress)
+{
+
+}
+
+void TextureSampler2d::Sample1dArray_Int(const Pshader::Float2& coords, Ceng::INT32* destAddress)
+{
+
+}
+
+void TextureSampler2d::Sample2dArray_Int(const Pshader::Float3& coords, Ceng::INT32* destAddress)
+{
+
+}
+
+void TextureSampler2d::Sample3d_Int(const Pshader::Float3& coords, Ceng::INT32* destAddress)
+{
+
+}
+
+void TextureSampler2d::SampleCube_Int(const Pshader::Float3& coords, Ceng::INT32* destAddress)
+{
+
+}
+
 
