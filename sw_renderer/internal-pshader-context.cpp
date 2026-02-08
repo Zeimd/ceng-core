@@ -342,11 +342,12 @@ void InternalPixelShaderContext::ShaderFunction(const FLOAT32* perspective, cons
 	}
 	*/
 
-	//OUT_TARGET0->Write(color,coverageIndex);
+	//OUT_TARGET0 = sample2d(diffuseTex, uvDiffuse);
+	
+	Pshader::Float4 diffuseColor = sample2d(diffuseTex, uvDiffuse);
 
-	//OUT_TARGET0.Write(sample2d(diffuseTex, uvDiffuse), coverageIndex);
-
-	OUT_TARGET0 = sample2d(diffuseTex, uvDiffuse);
+	OUT_TARGET0 = diffuseColor;
+	
 }
 
 CRESULT InternalPixelShaderContext::ProcessQuads(Task_PixelShader* batch, const Ceng::INT32 threadId)

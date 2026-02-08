@@ -41,9 +41,9 @@ void TextureSampler2d::Release()
 }
 
 // NOTE: This is a debug value, dividend should be 1.0
-const Ceng::FLOAT32 colorScale = 0.6f / 255.0f;
+//const Ceng::FLOAT32 colorScale = 0.6f / 255.0f;
 
-//const Ceng::FLOAT32 colorScale = 1.0f / 255.0f;
+const Ceng::FLOAT32 colorScale = 1.0f / 255.0f;
 
 const Ceng::INT32 FIXED_HALF = 1 << (15);
 const Ceng::INT32 FIXED_ROUNDPOS = FIXED_HALF;
@@ -59,7 +59,60 @@ const Ceng::FLOAT32 distVal = 2.0f;
 
 void TextureSampler2d::Sample2d_Float(const Pshader::Float2& coords, Ceng::FLOAT32* destAddress)
 {
+	_declspec(align(16)) Ceng::UINT8 writeBuffer[16];
 
+	Sample2d_Unbyte(coords, writeBuffer);
+
+	// writeBuffer = {a3,a2,a1,a0},{r3,r2,r1,r0},{g3,g2,g1,g0},{b3,b2,b1,b0}
+
+	__m128i colorVec = _mm_load_si128((__m128i*)writeBuffer);
+
+	// Extract to words
+
+	__m128i zeroBytes = _mm_setzero_si128();
+
+	// wordGreenBlue = {0,g3,0,g1},{0,g1,0,g0},{0,b3,0,b2},{0,b1,0,b0}
+	__m128i wordGreenBlue = _mm_unpacklo_epi8(colorVec, zeroBytes);
+
+	// low = {0,a3,0,a2},{0,a1,0,a0},{0,r3,0,r2},{0,r1,0,r0}
+	__m128i wordAlphaRed = _mm_unpackhi_epi8(colorVec, zeroBytes);
+
+	// dwordBlue = {0,0,0,b3},{0,0,0,b2},{0,0,0,b1},{0,0,0,b0}
+	__m128i dwordBlue = _mm_unpacklo_epi16(wordGreenBlue, zeroBytes);
+
+	// dwordRed = {0,0,0,g3},{0,0,0,g2},{0,0,0,g1},{0,0,0,g0}
+	__m128i dwordGreen = _mm_unpackhi_epi16(wordGreenBlue, zeroBytes);
+
+	// dwordGreen = {0,0,0,r3},{0,0,0,r2},{0,0,0,r1},{0,0,0,r0}
+	__m128i dwordRed = _mm_unpacklo_epi16(wordAlphaRed, zeroBytes);
+
+	// dwordAlpha = {0,0,0,a3},{0,0,0,a2},{0,0,0,a1},{0,0,0,a0}
+	__m128i dwordAlpha = _mm_unpackhi_epi16(wordAlphaRed, zeroBytes);
+
+	__m128 blueF = _mm_cvtepi32_ps(dwordBlue);
+	__m128 greenF = _mm_cvtepi32_ps(dwordGreen);
+	__m128 redF = _mm_cvtepi32_ps(dwordRed);
+	__m128 alphaF = _mm_cvtepi32_ps(dwordAlpha);
+
+	__m128 colorScaleVec = _mm_load1_ps(&colorScale);
+
+	blueF = _mm_mul_ps(blueF, colorScaleVec);
+	greenF = _mm_mul_ps(greenF, colorScaleVec);
+	redF = _mm_mul_ps(redF, colorScaleVec);
+	alphaF = _mm_mul_ps(alphaF, colorScaleVec);
+
+	/*
+	// Write default alpha
+
+	const Ceng::FLOAT32 alpha = 1.0f;
+
+	__m128 alphaVec = _mm_load1_ps(&alpha);
+	*/
+
+	_mm_store_ps(&destAddress[0], blueF);
+	_mm_store_ps(&destAddress[4], greenF);
+	_mm_store_ps(&destAddress[8], redF);
+	_mm_store_ps(&destAddress[12], alphaF);
 }
 
 void TextureSampler2d::Sample2d_Nbyte(const Pshader::Float2& coords, Ceng::INT8* destAddress)
@@ -945,49 +998,6 @@ void TextureSampler2d::Nearest_SSE2_unbyte(const Ceng::INT32* uFX, const Ceng::I
 	writeColor = _mm_unpacklo_epi8(tempColor, writeColor);
 
 	_mm_store_ps((float*)& out_color[0], *(__m128*)& writeColor);
-
-	return;
-
-	//////////////////////////////////////////////////////////////////////////////
-	// Convert to vertical layout and then to floating point
-
-	
-
-	// TODO: move to float output version
-
-	// blue = dword {b3,b2,b1,b0}
-	__m128i blue = _mm_slli_epi32(colorVec, 24);
-	blue = _mm_srli_epi32(blue, 24);
-
-	// green = dword {g3,g2,g1,g0}
-	__m128i green = _mm_slli_epi32(colorVec, 16);
-	green = _mm_srli_epi32(green, 24);
-
-	// green = dword {r3,r2,r1,r0}
-	__m128i red = _mm_slli_epi32(colorVec, 8);
-	red = _mm_srli_epi32(red, 24);
-
-	__m128 blueF = _mm_cvtepi32_ps(blue);
-	__m128 greenF = _mm_cvtepi32_ps(green);
-	__m128 redF = _mm_cvtepi32_ps(red);
-
-	__m128 colorScaleVec = _mm_load1_ps(&colorScale);
-
-	blueF = _mm_mul_ps(blueF, colorScaleVec);
-	greenF = _mm_mul_ps(greenF, colorScaleVec);
-	redF = _mm_mul_ps(redF, colorScaleVec);
-
-	// Write default alpha
-
-	const Ceng::FLOAT32 alpha = 1.0f;
-
-	__m128 alphaVec = _mm_load1_ps(&alpha);
-
-	_mm_store_ps((float*) & out_color[0], blueF);
-	_mm_store_ps((float*) &out_color[4], greenF);
-	_mm_store_ps((float*) &out_color[8], redF);
-	_mm_store_ps((float*) &out_color[12], alphaVec);
-	
 }
 
 #endif // _WIN64
