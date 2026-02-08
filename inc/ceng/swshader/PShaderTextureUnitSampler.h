@@ -5,10 +5,13 @@
 
 #include "../interfaces/base-interface.h"
 
-#include "pshader-types.h"
-
 namespace Ceng::Pshader
 {
+	class Float;
+	class Float2;
+	class Float3;
+	class Float4;
+
 	class PShaderTextureUnitSampler : public BASE_INTERFACE
 	{
 	protected:

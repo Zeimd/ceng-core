@@ -1,5 +1,7 @@
 #include "TextureSampler2d.h"
 
+#include <ceng/swshader/pshader-types.h>
+
 using namespace Ceng::Pshader;
 
 TextureSampler2d::FilterFunction_unbyte TextureSampler2d::minFilterTable_unbyte[16] =

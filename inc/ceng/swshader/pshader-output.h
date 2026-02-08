@@ -14,30 +14,6 @@
 
 namespace Ceng::Pshader
 {
-	/*
-	const FLOAT32 colorScaleScalar = FLOAT32(255.0f);
-
-	_declspec(align(64)) const Ceng::INT8 coverageTable8[16][4] =
-	{
-		{ 0, 0, 0, 0 },
-		{ -1, 0, 0, 0 },
-		{ 0, -1, 0, 0 },
-		{ -1, -1, 0, 0 },
-		{ 0, 0, -1, 0 },
-		{ -1, 0, -1, 0 },
-		{ 0, -1, -1, 0 },
-		{ -1, -1, -1, 0 },
-		{ 0, 0, 0, -1 },
-		{ -1, 0, 0, -1 },
-		{ 0, -1, 0, -1 },
-		{ -1, -1, 0, -1 },
-		{ 0, 0, -1, -1 },
-		{ -1, 0, -1, -1 },
-		{ 0, -1, -1, -1 },
-		{ -1, -1, -1, -1 }
-	};
-	*/
-
 	class CR_psOutputRegister
 	{
 	public:

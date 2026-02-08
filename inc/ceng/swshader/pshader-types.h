@@ -20,6 +20,9 @@
 
 #include "pshader-input.h"
 
+#include "pshader-types.h"
+#include "pshader-uniform.h"
+
 namespace Ceng::Pshader
 {
 	class SOAVecByte;
@@ -41,6 +44,52 @@ namespace Ceng::Pshader
 
 	class SOAVecInt;
 	class SOAVecUint;
+
+	class Float2;
+	class Float3;
+	class Float4;
+
+	class Byte;
+	class Byte2;
+	class Byte3;
+	class Byte4;
+
+	class UByte;
+	class UByte2;
+	class UByte3;
+	class UByte4;
+
+	class Nbyte;
+	class Nbyte2;
+	class Nbyte3;
+	class Nbyte4;
+
+	class Unbyte;
+	class Unbyte2;
+	class Unbyte3;
+	class Unbyte4;
+
+	class Fixed_8_8;
+	class Fixed_8_8_vec2;
+	class Fixed_8_8_vec3;
+	class Fixed_8_8_vec4;
+
+	class Fixed_7_8;
+	class Fixed_7_8_vec2;
+	class Fixed_7_8_vec3;
+	class Fixed_7_8_vec4;
+
+	class SwizzledFloat;
+	class SwizzledFloat2;
+	class SwizzledFloat3;
+	class SwizzledFloat4;
+
+	class ConstSwizzledFloat;
+	class ConstSwizzledFloat2;
+	class ConstSwizzledFloat3;
+	class ConstSwizzledFloat4;
+
+	class DelayedSampler2D;
 
 	//**************************************************************************************
 
@@ -1893,53 +1942,6 @@ namespace Ceng::Pshader
 		return { left.x != right.x, left.y != right.y, left.z != right.z, left.w != right.w };
 	}
 
-
-	class Float2;
-	class Float3;
-	class Float4;
-
-	class Byte;
-	class Byte2;
-	class Byte3;
-	class Byte4;
-
-	class UByte;
-	class UByte2;
-	class UByte3;
-	class UByte4;
-
-	class Nbyte;
-	class Nbyte2;
-	class Nbyte3;
-	class Nbyte4;
-
-	class Unbyte;
-	class Unbyte2;
-	class Unbyte3;
-	class Unbyte4;
-
-	class Fixed_8_8;
-	class Fixed_8_8_vec2;
-	class Fixed_8_8_vec3;
-	class Fixed_8_8_vec4;
-
-	class Fixed_7_8;
-	class Fixed_7_8_vec2;
-	class Fixed_7_8_vec3;
-	class Fixed_7_8_vec4;
-
-	class SwizzledFloat;
-	class SwizzledFloat2;
-	class SwizzledFloat3;
-	class SwizzledFloat4;
-
-	class ConstSwizzledFloat;
-	class ConstSwizzledFloat2;
-	class ConstSwizzledFloat3;
-	class ConstSwizzledFloat4;
-
-	class SampleTexture2D;
-
 	class alignas(16) Float
 	{
 	public:
@@ -2440,6 +2442,8 @@ namespace Ceng::Pshader
 
 		}
 
+		inline Float4(const DelayedSampler2D& sampler);
+
 		inline Float4& operator= (const Float& other)
 		{
 			_x = other.x;
@@ -2527,7 +2531,7 @@ namespace Ceng::Pshader
 			return *this;
 		}
 
-		Float4& operator = (const SampleTexture2D& source);
+		Float4& operator = (const DelayedSampler2D& source);
 
 		Float4& operator = (const SwizzledFloat4& source);
 
@@ -4203,9 +4207,7 @@ namespace Ceng::Pshader
 			return *this;
 		}
 
-		inline Unbyte& operator /= (const Unbyte& other) = delete;
-
-		Unbyte& operator = (const SampleTexture2D& source);
+		inline Unbyte& operator /= (const Unbyte& other) = delete;		
 	};
 
 	inline Fixed_8_8 operator + (const Unbyte& x, const Unbyte& y);
@@ -4276,8 +4278,6 @@ namespace Ceng::Pshader
 		}
 
 		inline Unbyte2& operator /= (const Unbyte2& other) = delete;
-
-		Unbyte2& operator = (const SampleTexture2D& source);
 	};
 
 	inline Fixed_8_8_vec2 operator + (const Unbyte2& x, const Unbyte2& y);
@@ -4361,8 +4361,6 @@ namespace Ceng::Pshader
 		}
 
 		inline Unbyte3& operator /= (const Unbyte3& other) = delete;
-
-		Unbyte3& operator = (const SampleTexture2D& source);
 	};
 
 	inline Fixed_8_8_vec3 operator + (const Unbyte3& x, const Unbyte3& y);
@@ -4462,8 +4460,6 @@ namespace Ceng::Pshader
 		}
 
 		inline Unbyte4& operator /= (const Unbyte4& other) = delete;
-
-		Unbyte4& operator = (const SampleTexture2D& source);
 	};
 
 	inline Fixed_8_8_vec4 operator + (const Unbyte4& x, const Unbyte4& y);
@@ -6202,6 +6198,71 @@ namespace Ceng::Pshader
 	};
 
 	//**********************************************************
+	// DelayedSampler2D
+
+	class DelayedSampler2D
+	{
+	public:
+
+		Pshader::PShaderTextureUnitSampler* unit;
+		Pshader::Float2* uv;
+
+		void* dataAddress;
+
+	public:
+
+		DelayedSampler2D() : unit(nullptr), uv(nullptr), dataAddress(nullptr)
+		{
+		}
+
+		DelayedSampler2D(PShaderTextureUnitSampler* unit, Pshader::Float2* uv)
+			: unit(unit), uv(uv), dataAddress(nullptr)
+		{
+
+		}
+
+		void SampleToFloat4(void* destBuffer) const;
+		void SampleToUnbyte4(void* destBuffer) const;
+		void SampleToNbyte4(void* destBuffer) const;
+		void SampleToInt4(void* destBuffer) const;
+		void SampleToUint4(void* destBuffer) const;
+	};
+
+
+	//**********************************************************
+	// SampleTexture2D methods
+
+	inline void DelayedSampler2D::SampleToFloat4(void* destBuffer) const
+	{
+		unit->Sample2d_Float(*uv, (Ceng::FLOAT32*)destBuffer);
+	}
+
+	inline void DelayedSampler2D::SampleToUnbyte4(void* destBuffer) const
+	{
+		unit->Sample2d_Unbyte(*uv, (Ceng::UINT8*)destBuffer);
+	}
+
+	inline void DelayedSampler2D::SampleToNbyte4(void* destBuffer) const
+	{
+		unit->Sample2d_Nbyte(*uv, (Ceng::INT8*)destBuffer);
+	}
+
+	inline void DelayedSampler2D::SampleToInt4(void* destBuffer) const
+	{
+		unit->Sample2d_Int(*uv, (Ceng::INT32*)destBuffer);
+	}
+
+	inline void DelayedSampler2D::SampleToUint4(void* destBuffer) const
+	{
+		unit->Sample2d_Uint(*uv, (Ceng::UINT32*)destBuffer);
+	}
+
+	inline DelayedSampler2D sample2d(Pshader::UniformSampler2d& sampler, Pshader::Float2& uv)
+	{
+		return DelayedSampler2D(sampler.sampler, &uv);
+	}
+
+	//**********************************************************
 	// Shader::Float methods
 
 	inline Float& Float::operator= (const Float2& other)
@@ -6575,15 +6636,19 @@ namespace Ceng::Pshader
 	}
 
 	//**********************************************************
-	// Shader::Float4 methods		
-
-	/*
-	inline Float4& Float4::operator = (const SampleTexture2D& source)
+	// Shader::Float4 methods	
+	 
+	inline Float4::Float4 (const DelayedSampler2D& source)
 	{
-		(*call_mov_float4)((void*)&_x, (void*)source.dataAddress);
+		source.SampleToFloat4((Ceng::FLOAT32*)&_x);
+	}
+	
+	inline Float4& Float4::operator = (const DelayedSampler2D& source)
+	{
+		source.SampleToFloat4((Ceng::FLOAT32*)&_x);
+
 		return *this;
 	}
-	*/
 
 	inline Float4& Float4::operator = (const SwizzledFloat4& source)
 	{

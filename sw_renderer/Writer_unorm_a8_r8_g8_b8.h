@@ -17,13 +17,13 @@ namespace Ceng
 
 		void Release() override;
 
-		void WriteFloat(const Pshader::Float& source, void* targetAddress, Ceng::UINT32 coverage) override;
+		void WriteFloat(const Pshader::Float& source, void* targetAddress, Ceng::UINT32 coverageIndex) override;
 
-		void WriteFloat2(const Pshader::Float2& source, void* targetAddress, Ceng::UINT32 coverage) override;
+		void WriteFloat2(const Pshader::Float2& source, void* targetAddress, Ceng::UINT32 coverageIndex) override;
 
-		void WriteFloat3(const Pshader::Float3& source, void* targetAddress, Ceng::UINT32 coverage) override;
+		void WriteFloat3(const Pshader::Float3& source, void* targetAddress, Ceng::UINT32 coverageIndex) override;
 
-		void WriteFloat4(const Pshader::Float4& source, void* targetAddress, Ceng::UINT32 coverage) override;
+		void WriteFloat4(const Pshader::Float4& source, void* targetAddress, Ceng::UINT32 coverageIndex) override;
 
 		void WriteSampler2d(const Pshader::DelayedSampler2D& sampler, void* writeAddress, Ceng::INT32 coverageIndex) override;
 	};

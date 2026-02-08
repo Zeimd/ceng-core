@@ -432,8 +432,6 @@ namespace Ceng::Pshader
 	class ConstSwizzledFloat3;
 	class ConstSwizzledFloat4;
 
-	class SampleTexture2D;
-
 	class alignas(16) Float
 	{
 	public:
@@ -1546,29 +1544,6 @@ namespace Ceng::Pshader
 	{
 		return LogicalOr(LogicalOr(LogicalOr(a._x != b._x, a._y != b._y), a._z != b._z), a._w != b._w);
 	}
-
-	class SampleTexture2D
-	{
-	public:
-
-		Ceng::TextureUnit* unit;
-		Float2* uv;
-
-		void* dataAddress;
-
-		//std::vector<TextureUnit> *textureUnits;
-
-	public:
-
-		SampleTexture2D() : unit(nullptr), uv(nullptr), dataAddress(nullptr)
-		{
-		}
-
-		//SampleTexture2D& operator()(const Ceng::UINT32 index, Shader::Float2 &uv);
-		SampleTexture2D& operator()(TextureUnit& texture, Float2& uv);
-
-		void SampleToFloat4(void* destBuffer) const;
-	};
 
 	class SwizzledFloat
 	{
