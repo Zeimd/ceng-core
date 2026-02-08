@@ -14,6 +14,7 @@
 
 namespace Ceng::Pshader
 {
+	/*
 	const FLOAT32 colorScaleScalar = FLOAT32(255.0f);
 
 	_declspec(align(64)) const Ceng::INT8 coverageTable8[16][4] =
@@ -35,6 +36,7 @@ namespace Ceng::Pshader
 		{ 0, -1, -1, -1 },
 		{ -1, -1, -1, -1 }
 	};
+	*/
 
 	class CR_psOutputRegister
 	{
@@ -314,6 +316,7 @@ namespace Ceng::Pshader
 
 		inline void Write(const Pshader::DelayedSampler2D& source, const Ceng::INT32 coverageIndex)
 		{
+			/*
 			_declspec(align(16)) Ceng::FLOAT32 writeBuffer[16];
 
 			source.SampleToUnbyte4(writeBuffer);
@@ -349,6 +352,11 @@ namespace Ceng::Pshader
 			writeVec = _mm_or_si128(writeVec, destVec);
 
 			_mm_store_si128((__m128i*)dest, writeVec);
+			*/
+
+
+			// Step quad chain's target address to next quad on the right
+			//*localWrite += 16;
 
 			/*
 
@@ -394,18 +402,26 @@ namespace Ceng::Pshader
 			_mm_store_si128((__m128i*)dest, writeVec);
 			*/
 
-			// Step quad chain's target address to next quad on the right
-			*localWrite += 16;
 		}
 
 		inline OutFloat4& operator = (const Pshader::DelayedSampler2D &source)
 		{
-			POINTER *localWrite = (POINTER*)(inputAddress);
+			POINTER* localWrite = (POINTER*)(inputAddress);
+
+			void* dest = (void*)(*localWrite);
+
+			writer->WriteSampler2d(source, dest, *coverageMask);
+
+			*localWrite += 16;
+
+			return *this;
 
 			/*
-			(*call_from_Float4[bufferFormat]) ((void*)(*localWrite), (void*)source.dataAddress,
-				(void*)(*coverageAddress));
-				*/
+			_declspec(align(16)) Ceng::FLOAT32 writeBuffer[16];
+
+			source.SampleToUnbyte4(writeBuffer);
+
+			POINTER *localWrite = (POINTER*)(inputAddress);		
 
 			float *dest = (float*)(*localWrite);
 
@@ -413,12 +429,12 @@ namespace Ceng::Pshader
 
 			__m128 colorScaleVec = _mm_load1_ps(&colorScaleScalar);
 
-			float *sourcePtr = (float*)source.dataAddress;
+			//float *sourcePtr = (float*)source.dataAddress;
 
-			__m128 blueChannel = _mm_load_ps(&sourcePtr[0]);
-			__m128 greenChannel = _mm_load_ps(&sourcePtr[4]);
-			__m128 redChannel = _mm_load_ps(&sourcePtr[8]);
-			__m128 alphaChannel = _mm_load_ps(&sourcePtr[12]);
+			__m128 blueChannel = _mm_load_ps(&writeBuffer[0]);
+			__m128 greenChannel = _mm_load_ps(&writeBuffer[4]);
+			__m128 redChannel = _mm_load_ps(&writeBuffer[8]);
+			__m128 alphaChannel = _mm_load_ps(&writeBuffer[12]);
 
 			blueChannel = _mm_mul_ps(blueChannel, colorScaleVec);
 			greenChannel = _mm_mul_ps(greenChannel, colorScaleVec);
@@ -455,6 +471,7 @@ namespace Ceng::Pshader
 			// Step quad chain's target address to next quad on the right
 			*localWrite += 16;
 			return *this;
+			*/
 		}	
 	};
 };

@@ -24,6 +24,8 @@ namespace Ceng
 		void WriteFloat3(const Pshader::Float3& source, void* targetAddress, Ceng::UINT32 coverage) override;
 
 		void WriteFloat4(const Pshader::Float4& source, void* targetAddress, Ceng::UINT32 coverage) override;
+
+		void WriteSampler2d(const Pshader::DelayedSampler2D& sampler, void* writeAddress, Ceng::INT32 coverageIndex) override;
 	};
 }
 
