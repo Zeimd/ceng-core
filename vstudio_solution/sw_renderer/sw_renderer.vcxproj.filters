@@ -377,9 +377,6 @@
     <ClCompile Include="..\..\sw_renderer\shader-link.cpp">
       <Filter>Source Files\sw_renderer</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sw_renderer\shader-float4.cpp">
-      <Filter>Source Files\sw_renderer</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\sw_renderer\rtarget-depth-test.cpp">
       <Filter>Source Files\sw_renderer</Filter>
     </ClCompile>
