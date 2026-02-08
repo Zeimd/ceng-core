@@ -45,338 +45,112 @@ namespace Ceng::Pshader
 
 		inline OutFloat4& operator = (const Pshader::Float &source)
 		{
-			/*
-			POINTER *localWrite = (POINTER*)(inputAddress);
-
-			(*call_from_Float[bufferFormat])((void*)(*localWrite),(void*)&source.x,
-												(void*)(*coverageAddress));
-			*/
-			//POINTER* localWrite = (POINTER*)(inputAddress);
-
 			POINTER* localWrite = (POINTER*)(inputAddress);
 
 			writer->WriteFloat(source, (void*)(*localWrite), *coverageMask);
+
+			// TODO: use correct size of render target
 
 			*localWrite += 16;
 			return *this;			
 		}
 
-		inline OutFloat4& operator = (const Pshader::Float4 &source)
+		inline OutFloat4& operator = (const Pshader::Float2& source)
 		{
-			//POINTER *localWrite = (POINTER*)(inputAddress);			
+			POINTER* localWrite = (POINTER*)(inputAddress);
 
-			/*
-			(*call_from_Float4[bufferFormat]) ( (void*)(*localWrite),(void*)source.dataAddress,
-													(void*)(*coverageAddress));
-													*/
-													
-			
-			/*
-			// NOTE: use this code blob
+			writer->WriteFloat2(source, (void*)(*localWrite), *coverageMask);
 
-			float *dest = (float*)(*localWrite);
-
-			const INT8 *coverage = &coverageTable8[(INT32)(*coverageAddress)][0];
-
-			__m128 colorScaleVec = _mm_load1_ps(&colorScaleScalar);
-
-			float *sourcePtr = (float*)&source._x;
-
-			__m128 blueChannel = _mm_load_ps(&sourcePtr[0]);
-			__m128 greenChannel = _mm_load_ps(&sourcePtr[4]);
-			__m128 redChannel = _mm_load_ps(&sourcePtr[8]);
-			__m128 alphaChannel = _mm_load_ps(&sourcePtr[12]);
-
-			blueChannel = _mm_mul_ps(blueChannel, colorScaleVec);
-			greenChannel = _mm_mul_ps(greenChannel, colorScaleVec);
-			redChannel = _mm_mul_ps(redChannel, colorScaleVec);
-			alphaChannel = _mm_mul_ps(alphaChannel, colorScaleVec);
-
-			__m128i blueInt = _mm_cvtps_epi32(blueChannel);
-			__m128i greenInt = _mm_cvtps_epi32(greenChannel);
-			__m128i redInt = _mm_cvtps_epi32(redChannel);
-			__m128i alphaInt = _mm_cvtps_epi32(alphaChannel);
-
-			__m128i br_Word = _mm_packs_epi32(blueInt, redInt);
-			__m128i ga_Word = _mm_packs_epi32(greenInt, alphaInt);
-
-			__m128i writeVec = _mm_packs_epi16(br_Word, ga_Word);
-
-			__m128 coverageVecF = _mm_load1_ps((float*)coverage);
-
-			__m128i *coverageVec = (__m128i*)&coverageVecF;
-
-			__m128i destVec = _mm_load_si128((__m128i*)dest);
-
-			// Select pixels from render target that won't be overwritten
-			destVec = _mm_andnot_si128(*coverageVec, destVec);
-
-			// Select pixels from input that will be written
-			writeVec = _mm_and_si128(*coverageVec, writeVec);
-
-			// Combine pixels
-			writeVec = _mm_or_si128(writeVec, destVec);
-
-			_mm_store_si128((__m128i*)dest, writeVec);
-			*/
-
-			POINTER *localWrite = (POINTER*)(inputAddress);	
-
-			writer->WriteFloat4(source, (void*)*localWrite, *coverageMask);
+			// TODO: use correct size of render target
 
 			*localWrite += 16;
 			return *this;
 		}
 
-		/*
-		inline void Write(const Ceng::VectorF4 &source,const Ceng::INT32 coverageIndex)
+		inline OutFloat4& operator = (const Pshader::Float3& source)
 		{
-			POINTER *localWrite = (POINTER*)(inputAddress);
-
-			
-			//(*call_from_Float[bufferFormat])((void*)(*localWrite), (void*)source,
-				//(void*)(*coverageAddress));
-				
-
-			const INT8 *coverage = &coverageTable8[coverageIndex][0];
-
-			_declspec(align(16)) Ceng::UINT8 writeBuffer[16];
-
-			// blue
-			writeBuffer[0] = Ceng::UINT8(255.0f*source.x);
-			writeBuffer[1] = Ceng::UINT8(255.0f*source.x);
-			writeBuffer[2] = Ceng::UINT8(255.0f*source.x);
-			writeBuffer[3] = Ceng::UINT8(255.0f*source.x);
-
-			// green
-			writeBuffer[4] = Ceng::UINT8(255.0f*source.y);
-			writeBuffer[5] = Ceng::UINT8(255.0f*source.y);
-			writeBuffer[6] = Ceng::UINT8(255.0f*source.y);
-			writeBuffer[7] = Ceng::UINT8(255.0f*source.y);
-
-			// red
-			writeBuffer[8] = Ceng::UINT8(255.0f*source.z);
-			writeBuffer[9] = Ceng::UINT8(255.0f*source.z);
-			writeBuffer[10] = Ceng::UINT8(255.0f*source.z);
-			writeBuffer[11] = Ceng::UINT8(255.0f*source.z);
-
-			writeBuffer[12] = Ceng::UINT8(255.0f*source.w);
-			writeBuffer[13] = Ceng::UINT8(255.0f*source.w);
-			writeBuffer[14] = Ceng::UINT8(255.0f*source.w);
-			writeBuffer[15] = Ceng::UINT8(255.0f*source.w);
-
-			// Source is ubyte4
-
-			//float *sourcePtr = writeBuffer;
-			float *dest = (float*)(*localWrite);
-
-			__m128i writeVec;
-
-			__m128 *writeVecF = (__m128*)&writeVec;
-
-			*writeVecF = _mm_load_ps((float*)writeBuffer);
-
-			__m128 coverageVecF = _mm_load1_ps((float*)coverage);
-
-			__m128i *coverageVec = (__m128i*)&coverageVecF;
-
-			__m128i destVec = _mm_load_si128((__m128i*)dest);
-
-			// Select pixels from render target that won't be overwritten
-			destVec = _mm_andnot_si128(*coverageVec, destVec);
-
-			// Select pixels from input that will be written
-			writeVec = _mm_and_si128(*coverageVec, writeVec);
-
-			// Combine pixels
-			writeVec = _mm_or_si128(writeVec, destVec);
-
-			//_mm_adds_epu8(writeVec, destVec);
-
-			_mm_store_si128((__m128i*)dest, writeVec);
-
-
-			*localWrite += 16;
-
-		};
-		*/
-
-		/*
-		inline void Write(const Pshader::SampleTexture2D &source, const Ceng::INT32 coverageIndex)
-		{
-			_declspec(align(16)) Ceng::FLOAT32 writeBuffer[16];
-
-			source.SampleToFloat4(writeBuffer);
-
-			POINTER *localWrite = (POINTER*)(inputAddress);
-
-			float *sourcePtr = writeBuffer;
-			float *dest = (float*)(*localWrite);
-
-			const INT8 *coverage = &coverageTable8[coverageIndex][0];
-
-			// Source is ubyte4
-
-			__m128i writeVec;
-
-			__m128 *writeVecF = (__m128*)&writeVec;
-
-			*writeVecF = _mm_load_ps(sourcePtr);
-
-			__m128 coverageVecF = _mm_load1_ps((float*)coverage);
-
-			__m128i *coverageVec = (__m128i*)&coverageVecF;
-
-			__m128i destVec = _mm_load_si128((__m128i*)dest);
-
-			// Select pixels from render target that won't be overwritten
-			destVec = _mm_andnot_si128(*coverageVec, destVec);
-
-			// Select pixels from input that will be written
-			writeVec = _mm_and_si128(*coverageVec, writeVec);
-
-			// Combine pixels
-			writeVec = _mm_or_si128(writeVec, destVec);
-
-			_mm_store_si128((__m128i*)dest, writeVec);
-
-			/*
-
-			// Source is float4
-
-			__m128 colorScaleVec = _mm_load1_ps(&colorScaleScalar);
-		
-			__m128 blueChannel = _mm_load_ps(&sourcePtr[0]);
-			__m128 greenChannel = _mm_load_ps(&sourcePtr[4]);
-			__m128 redChannel = _mm_load_ps(&sourcePtr[8]);
-			__m128 alphaChannel = _mm_load_ps(&sourcePtr[12]);
-
-			blueChannel = _mm_mul_ps(blueChannel, colorScaleVec);
-			greenChannel = _mm_mul_ps(greenChannel, colorScaleVec);
-			redChannel = _mm_mul_ps(redChannel, colorScaleVec);
-			alphaChannel = _mm_mul_ps(alphaChannel, colorScaleVec);
-
-			__m128i blueInt = _mm_cvtps_epi32(blueChannel);
-			__m128i greenInt = _mm_cvtps_epi32(greenChannel);
-			__m128i redInt = _mm_cvtps_epi32(redChannel);
-			__m128i alphaInt = _mm_cvtps_epi32(alphaChannel);
-
-			__m128i br_Word = _mm_packs_epi32(blueInt, redInt);
-			__m128i ga_Word = _mm_packs_epi32(greenInt, alphaInt);
-
-			__m128i writeVec = _mm_packus_epi16(br_Word, ga_Word);
-
-			__m128 coverageVecF = _mm_load1_ps((float*)coverage);
-
-			__m128i *coverageVec = (__m128i*)&coverageVecF;
-
-			__m128i destVec = _mm_load_si128((__m128i*)dest);
-
-			// Select pixels from render target that won't be overwritten
-			destVec = _mm_andnot_si128(*coverageVec, destVec);
-
-			// Select pixels from input that will be written
-			writeVec = _mm_and_si128(*coverageVec, writeVec);
-
-			// Combine pixels
-			writeVec = _mm_or_si128(writeVec, destVec);
-
-			_mm_store_si128((__m128i*)dest, writeVec);
-			*/
-
-			// Step quad chain's target address to next quad on the right
-			//*localWrite += 16;
-		//}
-		
-
-		inline void Write(const Pshader::DelayedSampler2D& source, const Ceng::INT32 coverageIndex)
-		{
-			/*
-			_declspec(align(16)) Ceng::FLOAT32 writeBuffer[16];
-
-			source.SampleToUnbyte4(writeBuffer);
-
 			POINTER* localWrite = (POINTER*)(inputAddress);
 
-			float* sourcePtr = writeBuffer;
-			float* dest = (float*)(*localWrite);
+			writer->WriteFloat3(source, (void*)(*localWrite), *coverageMask);
 
-			const INT8* coverage = &coverageTable8[coverageIndex][0];
+			// TODO: use correct size of render target
 
-			// Source is ubyte4
+			*localWrite += 16;
+			return *this;
+		}
 
-			__m128i writeVec;
+		inline OutFloat4& operator = (const Pshader::Float4 &source)
+		{
+			POINTER *localWrite = (POINTER*)(inputAddress);	
 
-			__m128* writeVecF = (__m128*) & writeVec;
+			writer->WriteFloat4(source, (void*)*localWrite, *coverageMask);
 
-			*writeVecF = _mm_load_ps(sourcePtr);
+			// TODO: use correct size of render target
 
-			__m128 coverageVecF = _mm_load1_ps((float*)coverage);
+			*localWrite += 16;
+			return *this;
+		}
 
-			__m128i* coverageVec = (__m128i*) & coverageVecF;
+		inline OutFloat4& operator = (const Ceng::FLOAT32 source)
+		{
+			POINTER* localWrite = (POINTER*)(inputAddress);
 
-			__m128i destVec = _mm_load_si128((__m128i*)dest);
+			Float soaTemp;
 
-			// Select pixels from render target that won't be overwritten
-			destVec = _mm_andnot_si128(*coverageVec, destVec);
+			__m128 sourceVec = _mm_load1_ps(&source);
 
-			// Select pixels from input that will be written
-			writeVec = _mm_and_si128(*coverageVec, writeVec);
+			_mm_store_ps((float*) &soaTemp.x, sourceVec);
 
-			// Combine pixels
-			writeVec = _mm_or_si128(writeVec, destVec);
+			writer->WriteFloat(soaTemp, (void*)(*localWrite), *coverageMask);
 
-			_mm_store_si128((__m128i*)dest, writeVec);
-			*/
+			// TODO: use correct size of render target
 
+			*localWrite += 16;
+			return *this;
+		}
 
-			// Step quad chain's target address to next quad on the right
-			//*localWrite += 16;
+		inline OutFloat4& operator = (const Ceng::VectorF2& source)
+		{
+			POINTER* localWrite = (POINTER*)(inputAddress);
 
-			/*
+			Float2 soaTemp;
 
-			// Source is float4
+			__m128 sourceVecX = _mm_load1_ps(&source.x);
+			__m128 sourceVecY = _mm_load1_ps(&source.y);
 
-			__m128 colorScaleVec = _mm_load1_ps(&colorScaleScalar);
+			_mm_store_ps((float*)&soaTemp._x, sourceVecX);
+			_mm_store_ps((float*)&soaTemp._y, sourceVecY);
 
-			__m128 blueChannel = _mm_load_ps(&sourcePtr[0]);
-			__m128 greenChannel = _mm_load_ps(&sourcePtr[4]);
-			__m128 redChannel = _mm_load_ps(&sourcePtr[8]);
-			__m128 alphaChannel = _mm_load_ps(&sourcePtr[12]);
+			writer->WriteFloat2(soaTemp, (void*)(*localWrite), *coverageMask);
 
-			blueChannel = _mm_mul_ps(blueChannel, colorScaleVec);
-			greenChannel = _mm_mul_ps(greenChannel, colorScaleVec);
-			redChannel = _mm_mul_ps(redChannel, colorScaleVec);
-			alphaChannel = _mm_mul_ps(alphaChannel, colorScaleVec);
+			// TODO: use correct size of render target
 
-			__m128i blueInt = _mm_cvtps_epi32(blueChannel);
-			__m128i greenInt = _mm_cvtps_epi32(greenChannel);
-			__m128i redInt = _mm_cvtps_epi32(redChannel);
-			__m128i alphaInt = _mm_cvtps_epi32(alphaChannel);
+			*localWrite += 16;
+			return *this;
+		}
 
-			__m128i br_Word = _mm_packs_epi32(blueInt, redInt);
-			__m128i ga_Word = _mm_packs_epi32(greenInt, alphaInt);
+		inline OutFloat4& operator = (const Ceng::VectorF4& source)
+		{
+			POINTER* localWrite = (POINTER*)(inputAddress);
 
-			__m128i writeVec = _mm_packus_epi16(br_Word, ga_Word);
+			Float4 soaTemp;
 
-			__m128 coverageVecF = _mm_load1_ps((float*)coverage);
+			__m128 sourceVecX = _mm_load1_ps(&source.x);
+			__m128 sourceVecY = _mm_load1_ps(&source.y);
+			__m128 sourceVecZ = _mm_load1_ps(&source.z);
+			__m128 sourceVecW = _mm_load1_ps(&source.w);
 
-			__m128i *coverageVec = (__m128i*)&coverageVecF;
+			_mm_store_ps((float*)&soaTemp._x, sourceVecX);
+			_mm_store_ps((float*)&soaTemp._y, sourceVecY);
+			_mm_store_ps((float*)&soaTemp._z, sourceVecZ);
+			_mm_store_ps((float*)&soaTemp._w, sourceVecW);
 
-			__m128i destVec = _mm_load_si128((__m128i*)dest);
+			writer->WriteFloat4(soaTemp, (void*)(*localWrite), *coverageMask);
 
-			// Select pixels from render target that won't be overwritten
-			destVec = _mm_andnot_si128(*coverageVec, destVec);
+			// TODO: use correct size of render target
 
-			// Select pixels from input that will be written
-			writeVec = _mm_and_si128(*coverageVec, writeVec);
-
-			// Combine pixels
-			writeVec = _mm_or_si128(writeVec, destVec);
-
-			_mm_store_si128((__m128i*)dest, writeVec);
-			*/
-
+			*localWrite += 16;
+			return *this;
 		}
 
 		inline OutFloat4& operator = (const Pshader::DelayedSampler2D &source)
@@ -390,63 +164,6 @@ namespace Ceng::Pshader
 			*localWrite += 16;
 
 			return *this;
-
-			/*
-			_declspec(align(16)) Ceng::FLOAT32 writeBuffer[16];
-
-			source.SampleToUnbyte4(writeBuffer);
-
-			POINTER *localWrite = (POINTER*)(inputAddress);		
-
-			float *dest = (float*)(*localWrite);
-
-			const INT8 *coverage = &coverageTable8[*coverageMask][0];
-
-			__m128 colorScaleVec = _mm_load1_ps(&colorScaleScalar);
-
-			//float *sourcePtr = (float*)source.dataAddress;
-
-			__m128 blueChannel = _mm_load_ps(&writeBuffer[0]);
-			__m128 greenChannel = _mm_load_ps(&writeBuffer[4]);
-			__m128 redChannel = _mm_load_ps(&writeBuffer[8]);
-			__m128 alphaChannel = _mm_load_ps(&writeBuffer[12]);
-
-			blueChannel = _mm_mul_ps(blueChannel, colorScaleVec);
-			greenChannel = _mm_mul_ps(greenChannel, colorScaleVec);
-			redChannel = _mm_mul_ps(redChannel, colorScaleVec);
-			alphaChannel = _mm_mul_ps(alphaChannel, colorScaleVec);
-
-			__m128i blueInt = _mm_cvtps_epi32(blueChannel);
-			__m128i greenInt = _mm_cvtps_epi32(greenChannel);
-			__m128i redInt = _mm_cvtps_epi32(redChannel);
-			__m128i alphaInt = _mm_cvtps_epi32(alphaChannel);
-
-			__m128i br_Word = _mm_packs_epi32(blueInt, redInt);
-			__m128i ga_Word = _mm_packs_epi32(greenInt, alphaInt);
-
-			__m128i writeVec = _mm_packs_epi16(br_Word, ga_Word);
-
-			__m128 coverageVecF = _mm_load1_ps((float*)coverage);
-
-			__m128i *coverageVec = (__m128i*)&coverageVecF;
-
-			__m128i destVec = _mm_load_si128((__m128i*)dest);
-
-			// Select pixels from render target that won't be overwritten
-			destVec = _mm_andnot_si128(*coverageVec, destVec);
-
-			// Select pixels from input that will be written
-			writeVec = _mm_and_si128(*coverageVec, writeVec);
-
-			// Combine pixels
-			writeVec = _mm_or_si128(writeVec, destVec);
-
-			_mm_store_si128((__m128i*)dest, writeVec);
-
-			// Step quad chain's target address to next quad on the right
-			*localWrite += 16;
-			return *this;
-			*/
 		}	
 	};
 };
