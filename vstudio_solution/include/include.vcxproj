@@ -269,7 +269,6 @@
     <ClInclude Include="..\..\inc\ceng\platform.h" />
     <ClInclude Include="..\..\inc\ceng\swshader\pshader-input.h" />
     <ClInclude Include="..\..\inc\ceng\swshader\pshader-output.h" />
-    <ClInclude Include="..\..\inc\ceng\swshader\pshader-sampler.h" />
     <ClInclude Include="..\..\inc\ceng\swshader\pshader-types.h" />
     <ClInclude Include="..\..\inc\ceng\swshader\pshader-uniform.h" />
     <ClInclude Include="..\..\inc\ceng\swshader\pshader-util.h" />

@@ -507,9 +507,6 @@
     <ClInclude Include="..\..\inc\ceng\swshader\pshader-uniform.h">
       <Filter>Header Files\ceng\swshader</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\inc\ceng\swshader\pshader-sampler.h">
-      <Filter>Header Files\ceng\swshader</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\inc\ceng\swshader\PshaderTargetWriter.h">
       <Filter>Header Files\ceng\swshader</Filter>
     </ClInclude>
