@@ -18,8 +18,6 @@
 #include "../enums/shader-semantic.h"
 #include "../enums/shader-datatype.h"
 
-//#include "crender-base.h"
-
 namespace Ceng::Pshader
 {
 	class CR_PixelShaderInput
@@ -55,6 +53,11 @@ namespace Ceng::Pshader
 			return (void*)(*stepBuffer + variableStep);
 		}
 
+	};
+
+	struct PixelShaderInputRegister
+	{
+		CR_PixelShaderInput* variable;
 	};
 
 	class InFloat : public CR_PixelShaderInput

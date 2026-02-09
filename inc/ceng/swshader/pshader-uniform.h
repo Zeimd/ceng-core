@@ -21,6 +21,11 @@ namespace Ceng::Pshader
 		}
 	};
 
+	struct PixelShaderUniform
+	{
+		Pshader::UniformBase* variable;
+	};
+
 	class UniformFloat : public UniformBase
 	{
 

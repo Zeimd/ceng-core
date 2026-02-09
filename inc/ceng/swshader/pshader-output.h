@@ -30,6 +30,12 @@ namespace Ceng::Pshader
 
 	};
 
+	struct PixelShaderOutputRegister
+	{
+		CR_psOutputRegister* variable;
+		PSHADER_OUTPUT_SEMANTIC::value target;
+	};
+
 	class OutFloat : public CR_psOutputRegister
 	{
 	};

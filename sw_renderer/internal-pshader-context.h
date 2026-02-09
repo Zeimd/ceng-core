@@ -14,22 +14,6 @@
 
 namespace Ceng
 {
-	struct PixelShaderInputRegister
-	{
-		Pshader::CR_PixelShaderInput* variable;
-	};
-
-	struct PixelShaderOutputRegister
-	{
-		Pshader::CR_psOutputRegister* variable;
-		PSHADER_OUTPUT_SEMANTIC::value target;
-	};
-
-	struct PixelShaderUniform
-	{
-		Pshader::UniformBase* variable;
-	};
-
 	class InternalPixelShaderContext : public PixelShaderContext
 	{
 	public:
@@ -56,18 +40,18 @@ namespace Ceng
 		POINTER stepBufferPtr;
 
 		// Add input variables in the same order they appear in PixelShaderDeclaration.
-		std::array<PixelShaderInputRegister,4> inputRegisters;
+		std::array<Pshader::PixelShaderInputRegister,4> inputRegisters;
 
 		Pshader::InFloat4 normal;
 		Pshader::InFloat4 tangent;
 		Pshader::InFloat2 texCoord0;
 		Pshader::InFloat2 texCoord1;
 
-		std::array<PixelShaderUniform, 1> uniforms;
+		std::array<Pshader::PixelShaderUniform, 1> uniforms;
 
 		Pshader::UniformSampler2d diffuseTex;
 
-		std::array<PixelShaderOutputRegister, 10> outputRegisters;
+		std::array<Pshader::PixelShaderOutputRegister, 10> outputRegisters;
 
 		Pshader::OutFloat OUT_STENCIL;
 		Pshader::OutFloat OUT_DEPTH;
