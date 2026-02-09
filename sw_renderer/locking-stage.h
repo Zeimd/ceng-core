@@ -9,6 +9,9 @@
 #ifndef CENG_LOCKING_STAGE_H
 #define CENG_LOCKING_STAGE_H
 
+#include <vector>
+#include <memory>
+
 #include "locking-queue.h"
 #include "pipeline-stage.h"
 

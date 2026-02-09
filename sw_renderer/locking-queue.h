@@ -14,12 +14,15 @@
 
 #include <memory>
 
-#include "locking-task.h"
-
 #include <ceng/datatypes/ring-buffer.h>
 
 namespace Ceng
 {
+	class LockingTask;
+	class Pipeline;
+	class RenderTask;
+	class CriticalSection;
+
 	class LockingQueue
 	{
 		RingBuffer<std::shared_ptr<LockingTask>> queue;

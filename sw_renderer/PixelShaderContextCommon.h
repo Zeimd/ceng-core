@@ -15,8 +15,6 @@
 
 #include "UniformBufferInstance.h"
 
-#include <ceng/swshader/PshaderTargetWriter.h>
-
 namespace Ceng
 {
 	struct CombinedBlendState;
@@ -28,6 +26,11 @@ namespace Ceng
 	class ShaderLinkInstance;	
 
 	class UniformManager;
+
+	namespace Pshader
+	{
+		class PshaderTargetWriter;
+	}	
 
 	struct WriterData
 	{

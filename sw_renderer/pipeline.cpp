@@ -6,10 +6,10 @@
 *
 *****************************************************************************/
 
+#include <ceng/platform.h>
+
 #include "pipeline.h"
 #include "task-pshader.h"
-
-#include <ceng/platform.h>
 
 #include "render-thread.h"
 
@@ -17,6 +17,8 @@
 #include "task-rasterizer.h"
 #include "task-triangle-setup.h"
 #include "task-vshader.h"
+
+#include "task-scheduler.h"
 
 using namespace Ceng;
 

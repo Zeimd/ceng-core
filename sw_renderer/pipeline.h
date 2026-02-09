@@ -23,8 +23,6 @@
 #include "BucketStage.h"
 #include "SimpleGroupingStage.h"
 
-#include "task-scheduler.h"
-
 namespace Ceng
 {
 	class Thread;
@@ -39,6 +37,8 @@ namespace Ceng
 	class TriangleBatch;
 
 	class RenderTask;
+
+	class SchedulerTask;
 
 	typedef RingBuffer<std::shared_ptr<RasterizerBatch>> RasterizerQueue;
 

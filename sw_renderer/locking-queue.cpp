@@ -5,10 +5,12 @@
 * Created By Jari Korkala 2/2015
 *
 *****************************************************************************/
+#include <ceng/platform.h>
 
+#include "locking-task.h"
 #include "locking-queue.h"
 
-#include <ceng/platform.h>
+
 
 using namespace Ceng;
 

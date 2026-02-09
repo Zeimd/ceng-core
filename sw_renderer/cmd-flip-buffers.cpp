@@ -6,6 +6,8 @@
 *
 *****************************************************************************/
 
+#include <ceng/interfaces/graphics-2d.h>
+
 #include "api-command.h"
 
 #include "crender-context.h"
@@ -14,7 +16,7 @@
 
 #include "cr-image-buffer.h"
 
-#include <ceng/interfaces/graphics-2d.h>
+#include <ceng/datatypes/condition-variable.h>
 
 using namespace Ceng;
 
