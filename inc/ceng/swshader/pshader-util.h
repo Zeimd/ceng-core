@@ -1258,7 +1258,10 @@ namespace Ceng::Pshader
 	
 	inline SOAVecFloat Sign(const SOAVecFloat& x)
 	{
-		return { copysign(1.0f, x.a), copysign(1.0f, x.a), copysign(1.0f, x.a), copysign(1.0f, x.a) };
+		return { (Ceng::FLOAT32)copysign(1.0f, x.a), 
+			(Ceng::FLOAT32)copysign(1.0f, x.a), 
+			(Ceng::FLOAT32)copysign(1.0f, x.a), 
+			(Ceng::FLOAT32)copysign(1.0f, x.a) };
 	}
 
 	inline Float Sign(const Float& a)
