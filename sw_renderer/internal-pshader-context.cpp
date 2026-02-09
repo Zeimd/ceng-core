@@ -163,6 +163,7 @@ CRESULT InternalPixelShaderContext::Configure(std::vector<PixelShaderInputDesc>&
 			if (outputRegisters[k].target == common->targetHandles[j]->shaderSemantic)
 			{
 				outputRegisters[k].variable->writer = common->targetWriters[j].writer;
+				outputRegisters[k].variable->quadWriteStep = common->targetHandles[k]->bytesPerPixel * 4;
 
 				/*
 				if (common->targetHandles[j]->baseAddress == NULL)

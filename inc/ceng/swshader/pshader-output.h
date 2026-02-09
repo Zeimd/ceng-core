@@ -22,6 +22,9 @@ namespace Ceng::Pshader
 		// Location of render target address.
 		POINTER inputAddress;
 
+		// How much to step per write cycle
+		Ceng::UINT32 quadWriteStep;
+
 		// Pointer to quad coverage values
 		Ceng::UINT32* coverageMask;
 
@@ -51,7 +54,7 @@ namespace Ceng::Pshader
 
 			// TODO: use correct size of render target
 
-			*localWrite += 16;
+			*localWrite += quadWriteStep;
 			return *this;			
 		}
 
@@ -63,7 +66,7 @@ namespace Ceng::Pshader
 
 			// TODO: use correct size of render target
 
-			*localWrite += 16;
+			*localWrite += quadWriteStep;
 			return *this;
 		}
 
@@ -75,7 +78,7 @@ namespace Ceng::Pshader
 
 			// TODO: use correct size of render target
 
-			*localWrite += 16;
+			*localWrite += quadWriteStep;
 			return *this;
 		}
 
@@ -87,7 +90,7 @@ namespace Ceng::Pshader
 
 			// TODO: use correct size of render target
 
-			*localWrite += 16;
+			*localWrite += quadWriteStep;
 			return *this;
 		}
 
@@ -105,7 +108,7 @@ namespace Ceng::Pshader
 
 			// TODO: use correct size of render target
 
-			*localWrite += 16;
+			*localWrite += quadWriteStep;
 			return *this;
 		}
 
@@ -125,7 +128,7 @@ namespace Ceng::Pshader
 
 			// TODO: use correct size of render target
 
-			*localWrite += 16;
+			*localWrite += quadWriteStep;
 			return *this;
 		}
 
@@ -149,7 +152,7 @@ namespace Ceng::Pshader
 
 			// TODO: use correct size of render target
 
-			*localWrite += 16;
+			*localWrite += quadWriteStep;
 			return *this;
 		}
 
@@ -161,7 +164,7 @@ namespace Ceng::Pshader
 
 			writer->WriteSampler2d(source, dest, *coverageMask);
 
-			*localWrite += 16;
+			*localWrite += quadWriteStep;
 
 			return *this;
 		}	
