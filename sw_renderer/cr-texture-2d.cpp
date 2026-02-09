@@ -17,6 +17,8 @@
 
 #include "cr-shader-view-tex2d.h"
 
+#include "rtarget-data.h"
+
 using namespace Ceng;
 
 CR_Texture2D::CR_Texture2D()

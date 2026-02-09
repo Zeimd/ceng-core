@@ -10,21 +10,17 @@
 #define CENG_CR_TEXTURE_2D_H
 
 #include <memory>
+#include <vector>
 
 #include <ceng/datatypes/bufferdata-2d.h>
 #include <ceng/interfaces/texture-2d.h>
 #include <ceng/interfaces/render-target.h>
-
-#include "crender-base.h"
-
-#include "rtarget-data.h"
-
 #include <ceng/datatypes/tex2d-desc.h>
-
-#include "cr-resource.h"
 
 namespace Ceng
 {
+	class CR_NewTargetData;
+
 	typedef std::vector<std::shared_ptr<CR_NewTargetData>> TextureMipVector;
 
 	typedef std::vector<TextureMipVector> TextureArrayVector;

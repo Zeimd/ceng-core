@@ -12,8 +12,6 @@
 #define CENG_CRENDER_BASE_H
 
 #include <ceng/datatypes/basic-types.h>
-#include <ceng/datatypes/return-val.h>
-#include <ceng/datatypes/boolean.h>
 
 namespace Ceng
 {

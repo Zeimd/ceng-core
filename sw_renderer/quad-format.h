@@ -11,10 +11,11 @@
 
 #include <vector>
 
+#include <ceng/datatypes/basic-types.h>
+#include <ceng/datatypes/return-val.h>
+
 #include <ceng/enums/shader-datatype.h>
 #include <ceng/enums/shader-semantic.h>
-
-#include "crender-base.h"
 
 #include "quad-variable.h"
 

@@ -13,6 +13,10 @@
 
 #include "task-triangle-setup.h"
 
+#include "clipper-batch.h"
+#include "triangle-batch.h"
+#include "locking-stage.h"
+
 using namespace Ceng;
 
 CR_Clipper::CR_Clipper()

@@ -13,11 +13,10 @@
 
 #include <ceng/datatypes/shader-uniform-desc.h>
 
-#include "shader-wrapper.h"
-
 namespace Ceng
 {
 	class CR_ShaderProgram;
+	class ShaderWrapper;
 
 	class CR_ShaderConstant : public Ceng::ShaderConstant
 	{

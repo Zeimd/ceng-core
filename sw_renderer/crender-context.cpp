@@ -42,6 +42,8 @@
 
 #include "task-rtarget-clear.h"
 
+#include "vertex-stream.h"
+
 using namespace Ceng;
 
 static RenderTargetBlendDesc defaultTargetBlend

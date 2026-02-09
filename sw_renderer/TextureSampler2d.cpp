@@ -1,6 +1,7 @@
-#include "TextureSampler2d.h"
-
 #include <ceng/swshader/pshader-types.h>
+
+#include "TextureSampler2d.h"
+#include "rtarget-data.h"
 
 using namespace Ceng::Pshader;
 

@@ -5,10 +5,10 @@
 
 #include <array>
 
-#include "cr-blend-state.h"
-
 namespace Ceng
 {
+	class CR_BlendState;
+
 	struct CombinedBlendState
 	{
 		CR_BlendState* state;

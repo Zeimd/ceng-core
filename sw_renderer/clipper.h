@@ -16,10 +16,7 @@
 #include "crender-base.h"
 
 #include <ceng/datatypes/ring-buffer.h>
-#include "clipper-batch.h"
-#include "triangle-batch.h"
 
-#include "locking-stage.h"
 #include "future.h"
 
 #include "task-triangle-setup.h"
@@ -27,9 +24,16 @@
 
 namespace Ceng
 {
+	class ClipperBatch;
+	class TriangleBatch;
+
+	class LockingStage;
+
 	class CR_ShaderLink;
 
 	class ClipperState;
+
+	class CR_PrimitiveData;
 
 	class CR_Clipper
 	{

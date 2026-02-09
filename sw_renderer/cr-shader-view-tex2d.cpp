@@ -14,6 +14,8 @@
 
 #include "TextureSampler2d.h"
 
+#include "rtarget-data.h"
+
 using namespace Ceng;
 
 CR_ShaderViewTex2D::FilterFunction CR_ShaderViewTex2D::minFilterTable[16] =

@@ -5,11 +5,11 @@
 
 #include "cr-rendertargetview.h"
 
-#include "rtarget-data.h"
-
 namespace Ceng
 {
 	class CR_Texture2D;
+
+	class CR_NewTargetData;
 
 	class CR_TargetTexture2D : public CR_RenderTargetView
 	{

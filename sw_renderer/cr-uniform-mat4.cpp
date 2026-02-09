@@ -1,6 +1,8 @@
+#include <string.h>
+
 #include "cr-uniform-mat4.h"
 
-#include <string.h>
+#include "shader-wrapper.h"
 
 using namespace Ceng;
 

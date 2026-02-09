@@ -11,7 +11,7 @@
 
 #include <ceng/enums/primitive-type.h>
 
-#include "crender-base.h"
+#include <ceng/datatypes/boolean.h>
 
 namespace Ceng
 {

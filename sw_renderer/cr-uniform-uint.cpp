@@ -1,5 +1,7 @@
 #include "cr-uniform-uint.h"
 
+#include "shader-wrapper.h"
+
 using namespace Ceng;
 
 CR_UniformUint::CR_UniformUint() : CR_ShaderConstant(),value(0)
