@@ -19,10 +19,6 @@
 
 #include "crender-base.h"
 
-#include "vertex-stream.h"
-
-#include "vshader-instance.h"
-
 #include "rtarget-data.h"
 
 #include "pshader-context.h"
@@ -32,8 +28,6 @@
 
 #include "texture-unit.h"
 #include "ShaderLinkInstance.h"
-
-#include "cr-blend-state.h"
 
 #include "CombinedBlendState.h"
 
@@ -51,6 +45,11 @@ namespace Ceng
 	class CR_NewTargetData;
 
 	class CR_QuadGenerator;
+
+	class VertexStreamData;
+
+	class CR_VertexShaderInstance;
+	class PixelShaderContext;
 
 	typedef std::shared_ptr<CR_VertexShaderInstance> VshaderInstancePtr;
 	typedef std::shared_ptr<PixelShaderContext> PshaderInstancePtr;

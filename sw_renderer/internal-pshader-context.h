@@ -4,6 +4,7 @@
 #define CENG_SWR_INTERNAL_PSHADER_INSTANCE_H
 
 #include <array>
+#include <ceng/datatypes/aligned-buffer.h>
 
 #include "pshader-context.h"
 #include <ceng/swshader/pshader-uniform.h>

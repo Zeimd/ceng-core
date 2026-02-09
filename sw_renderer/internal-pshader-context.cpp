@@ -18,6 +18,8 @@
 #include <ceng/swshader/pshader-util.h>
 #include <ceng/datatypes/pshader-quad-batch.h>
 
+#include "PixelShaderContextCommon.h"
+
 using namespace Ceng;
 
 InternalPixelShaderContext::InternalPixelShaderContext(std::shared_ptr<PixelShaderContextCommon>& common)

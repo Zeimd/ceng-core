@@ -10,6 +10,8 @@
 #define CRENDER_CLIPPER_BATCH_H
 
 #include <memory>
+#include <vector>
+
 #include <ceng/datatypes/aligned-buffer.h>
 
 #include "pipeline-batch.h"
@@ -17,6 +19,8 @@
 
 namespace Ceng
 {
+	class DrawBatch;
+
 	class ClipperBatch : public PipelineBatch
 	{
 	public:

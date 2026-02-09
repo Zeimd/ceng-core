@@ -14,6 +14,7 @@
 #ifndef _CENG_CR_PSHADER_H
 #define _CENG_CR_PSHADER_H
 
+#include <vector>
 #include <memory>
 
 #include <ceng/interfaces/pixel-shader.h>

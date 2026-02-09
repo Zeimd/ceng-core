@@ -10,11 +10,11 @@
 #define CRENDER_PSHADER_INSTANCE_H
 
 #include <memory>
+#include <vector>
+
 #include <ceng/datatypes/pshader-input-desc.h>
 
 #include <ceng/datatypes/pshader-output-desc.h>
-
-#include "PixelShaderContextCommon.h"
 
 namespace Ceng::Experimental
 {
@@ -23,6 +23,8 @@ namespace Ceng::Experimental
 
 namespace Ceng
 {
+	class UniformManager;
+
 	class PixelShaderContextCommon;
 
 	class Task_PixelShader;

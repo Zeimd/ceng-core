@@ -1,6 +1,8 @@
 #include "task-vshader.h"
 #include "pipeline.h"
 
+#include "vshader-instance.h"
+
 using namespace Ceng;
 
 Task_VertexShader::Task_VertexShader()

@@ -2,6 +2,8 @@
 
 #include "internal-pshader-context.h"
 
+#include "PixelShaderContextCommon.h"
+
 using namespace Ceng;
 
 CRESULT InternalPixelShader::GetInstances(std::vector<std::shared_ptr<PixelShaderContext>>& instances,

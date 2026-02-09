@@ -17,6 +17,11 @@ namespace Ceng
 {
 	class Task_Clipper;
 
+	namespace Experimental
+	{
+		class Task_Clipper;
+	}
+
 	class Task_VertexShader : public Experimental::RenderTask
 	{
 	protected:

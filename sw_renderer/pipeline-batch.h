@@ -11,10 +11,12 @@
 
 #include <memory>
 
-#include "render-state.h"
+#include <ceng/datatypes/basic-types.h>
 
 namespace Ceng
 {
+	class RenderState;
+
 	class PipelineBatch
 	{
 	public:

@@ -19,6 +19,8 @@
 
 #include "clipper.h"
 
+#include "vertex-stream.h"
+
 using namespace Ceng;
 
 RenderState::RenderState(const Ceng::UINT32 maxVertexStreams,const Ceng::UINT32 maxTextureUnits)
