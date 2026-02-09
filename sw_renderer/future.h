@@ -4,6 +4,7 @@
 #define CENG_SWR_FUTURE_H
 
 #include <memory>
+#include <atomic>
 
 namespace Ceng::Experimental
 {

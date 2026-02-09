@@ -11,15 +11,16 @@
 
 #include <ceng/enums/image-formats.h>
 
-#include <vector>
-
-#include "buffer-channel.h"
+#include <ceng/datatypes/return-val.h>
 
 #include "buffer-tiling.h"
 
 namespace Ceng
 {
 	class CR_NewTargetData;
+	struct CR_ChannelData;
+
+	class Texture2dDesc;
 
 	class CR_BufferFactory
 	{

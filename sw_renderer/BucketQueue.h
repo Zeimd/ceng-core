@@ -4,6 +4,7 @@
 #define CENG_SWR_BUCKET_QUEUE_H
 
 #include <atomic>
+#include <memory>
 
 #include <ceng/datatypes/ring-buffer.h>
 

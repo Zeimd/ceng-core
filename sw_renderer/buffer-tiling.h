@@ -9,8 +9,6 @@
 #ifndef CRENDER_BUFFER_TILING_H
 #define CRENDER_BUFFER_TILING_H
 
-#include "crender-base.h"
-
 namespace Ceng
 {
 	//*************************************************************

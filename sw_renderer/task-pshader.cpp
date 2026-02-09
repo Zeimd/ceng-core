@@ -11,6 +11,8 @@
 
 #include "rasterizer-batch.h"
 
+#include "render-state.h"
+
 using namespace Ceng;
 
 Task_PixelShader::Task_PixelShader()

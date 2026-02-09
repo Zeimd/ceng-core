@@ -1,7 +1,11 @@
+#include <ceng/enums/pshader-output-semantic.h>
+
+#include <ceng/swshader/pshader-types.h>
+#include <ceng/swshader/pshader-util.h>
+#include <ceng/datatypes/pshader-quad-batch.h>
+
 #include "internal-pshader.h"
 #include "internal-pshader-context.h"
-
-#include <ceng/enums/pshader-output-semantic.h>
 
 #include "quad-format.h"
 
@@ -14,9 +18,7 @@
 
 #include "shader-link.h"
 
-#include <ceng/swshader/pshader-types.h>
-#include <ceng/swshader/pshader-util.h>
-#include <ceng/datatypes/pshader-quad-batch.h>
+#include "rtarget-data.h"
 
 #include "PixelShaderContextCommon.h"
 

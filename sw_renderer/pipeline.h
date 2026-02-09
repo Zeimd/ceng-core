@@ -14,11 +14,6 @@
 #include <vector>
 
 #include <ceng/datatypes/ring-buffer.h>
-#include <ceng/datatypes/array-atomic.h>
-#include <ceng/datatypes/thread.h>
-#include <ceng/interfaces/thread-task.h>
-
-#include <ceng/datatypes/condition-variable.h>
 
 #include "locking-stage.h"
 
@@ -32,12 +27,18 @@
 
 namespace Ceng
 {
+	class Thread;
+	class ThreadTask;
+	class ConditionVariable;
+
 	class RasterizerBatch;
 	class Task_PixelShader;
 
 	class DrawBatch;
 	class ClipperBatch;
 	class TriangleBatch;
+
+	class RenderTask;
 
 	typedef RingBuffer<std::shared_ptr<RasterizerBatch>> RasterizerQueue;
 

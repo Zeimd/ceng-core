@@ -10,11 +10,11 @@
 #define TASK_RASTERIZER_H
 
 #include <memory>
+#include <vector>
 
 #include "locking-task.h"
 
 #include "future.h"
-#include "task-pshader.h"
 
 namespace Ceng
 {

@@ -11,7 +11,8 @@
 
 #include <memory>
 
-#include "render-state.h"
+#include <ceng/datatypes/aligned-buffer.h>
+
 #include "triangle-data.h"
 #include "pipeline-batch.h"
 
