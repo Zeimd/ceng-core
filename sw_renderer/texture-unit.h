@@ -12,15 +12,19 @@
 #include <memory>
 
 #include <ceng/interfaces/shader-resource-view.h>
-#include "cr-sampler-state.h"
-#include "cr-shader-view.h"
-
-#include "cr-shader-view-tex2d.h"
-
-#include <ceng/swshader/PShaderTextureUnitSampler.h>
+#include <ceng/datatypes/return-val.h>
 
 namespace Ceng
 {
+	class CR_SamplerState;
+	class CR_ShaderResourceView;
+
+	namespace Pshader
+	{
+		class PShaderTextureUnitSampler;
+	}
+	
+
 	class TextureUnit
 	{
 	public:

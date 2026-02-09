@@ -1,6 +1,11 @@
 #include "PixelShaderContextCommon.h"
 
+#include "CombinedBlendState.h"
+#include "UniformManager.h"
+
 #include "cr-pixel-shader.h"
+
+#include "rtarget-data.h"
 
 using namespace Ceng;
 

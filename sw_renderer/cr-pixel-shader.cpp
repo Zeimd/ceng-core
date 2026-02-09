@@ -24,6 +24,8 @@
 
 #include "ShaderDatatypeMeta.h"
 
+#include "PixelShaderContextCommon.h"
+
 using namespace Ceng;
 
 CR_PixelShader::CR_PixelShader()

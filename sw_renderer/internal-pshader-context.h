@@ -8,6 +8,9 @@
 #include "pshader-context.h"
 #include <ceng/swshader/pshader-uniform.h>
 
+#include <ceng/swshader/pshader-input.h>
+#include <ceng/swshader/pshader-output.h>
+
 namespace Ceng
 {
 	struct PixelShaderInputRegister

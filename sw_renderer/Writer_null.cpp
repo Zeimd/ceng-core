@@ -1,7 +1,5 @@
 #include "Writer_null.h"
 
-#include <ceng/swshader/pshader-sampler.h>
-
 using namespace Ceng;
 
 Writer_null::~Writer_null()

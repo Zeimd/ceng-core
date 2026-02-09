@@ -7,15 +7,11 @@
 
 #include <ceng/datatypes/return-val.h>
 
+#include <ceng/datatypes/pshader-triangle-data.h>
+#include <ceng/datatypes/pshader-quad-batch.h>
+
 namespace Ceng
 {
-	namespace SWRender
-	{
-		struct PixelShaderQuadBatch;
-		class CR_FloatFragment;
-		class CR_DoubleFragment;
-	}
-
 	class CR_ShaderLink;
 
 	class ShaderLinkInstance

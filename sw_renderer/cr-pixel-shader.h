@@ -26,30 +26,24 @@
 
 #include "crender-base.h"
 
-#include "triangle-data.h"
-
-#include "cr-shader-const.h"
-
-
-#include <ceng/swshader/pshader-output.h>
-
-#include "pshader-context.h"
-
 #include "pshader-wrapper.h"
 
 #include "texture-unit.h"
 
-#include "PixelShaderContextCommon.h"
-
 #include "UniformManager.h"
-
-#include "CombinedBlendState.h"
 
 #include "Writer_null.h"
 
 namespace Ceng
 {
+	struct CombinedBlendState;
+
+	class PixelShaderContext;
+	class PixelShaderContextCommon;
+
 	class CR_NewTargetData;
+
+	class ShaderLinkInstance;
 
 	struct CR_QuadHeader;
 
@@ -68,7 +62,7 @@ namespace Ceng
 
 		std::vector<PixelShaderOutputDesc> renderTargets;
 
-		CR_NewTargetData *targetHandle[2+8];
+		CR_NewTargetData *targetHandle[2+ CRENDER_MAX_COLOR_TARGETS];
 
 		std::vector<ShaderUniformDesc> uniformList;
 

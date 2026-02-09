@@ -10,19 +10,9 @@
 #define CRENDER_PSHADER_INSTANCE_H
 
 #include <memory>
-#include <ceng/datatypes/aligned-buffer.h>
-
 #include <ceng/datatypes/pshader-input-desc.h>
-#include <ceng/swshader/pshader-input.h>
 
 #include <ceng/datatypes/pshader-output-desc.h>
-#include <ceng/swshader/pshader-output.h>
-
-#include "rtarget-data.h"
-
-#include "texture-unit.h"
-
-#include <ceng/datatypes/shader-uniform-desc.h>
 
 #include "PixelShaderContextCommon.h"
 
@@ -33,6 +23,8 @@ namespace Ceng::Experimental
 
 namespace Ceng
 {
+	class PixelShaderContextCommon;
+
 	class Task_PixelShader;
 
 	class CR_ShaderConstant;

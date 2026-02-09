@@ -5,24 +5,29 @@
 
 #include <vector>
 
+#include "crender-base.h"
+
 #include <ceng/datatypes/shader-uniform-desc.h>
 
 #include <ceng/datatypes/aligned-buffer.h>
 
 #include "texture-unit.h"
 
-#include "UniformManager.h"
 #include "UniformBufferInstance.h"
-
-#include "CombinedBlendState.h"
 
 #include <ceng/swshader/PshaderTargetWriter.h>
 
 namespace Ceng
 {
+	struct CombinedBlendState;
+
 	class CR_PixelShader;
 
+	class CR_NewTargetData;
+
 	class ShaderLinkInstance;	
+
+	class UniformManager;
 
 	struct WriterData
 	{

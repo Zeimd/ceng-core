@@ -8,6 +8,10 @@
 
 #include "texture-unit.h"
 
+#include <ceng/swshader/PShaderTextureUnitSampler.h>
+
+#include "cr-shader-view.h"
+
 using namespace Ceng;
 
 TextureUnit::TextureUnit()
