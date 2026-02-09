@@ -16,6 +16,10 @@
 
 #include "shader-link.h"
 
+#include "viewport-state.h"
+
+#include "render-state.h"
+
 using namespace Ceng;
 
 CR_Rasterizer::CR_Rasterizer()

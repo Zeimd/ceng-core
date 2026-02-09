@@ -17,6 +17,8 @@
 #include "triangle-batch.h"
 #include "locking-stage.h"
 
+#include "render-state.h"
+
 using namespace Ceng;
 
 CR_Clipper::CR_Clipper()

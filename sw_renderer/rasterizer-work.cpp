@@ -8,6 +8,8 @@
 *
 *****************************************************************************/
 
+#include <ceng/datatypes/pshader-quad-batch.h>
+
 #include "rasterizer-cr.h"
 
 #include "triangle-data.h"
@@ -24,7 +26,7 @@
 
 #include "CyclicCounter.h"
 
-#include <ceng/datatypes/pshader-quad-batch.h>
+#include "render-state.h"
 
 using namespace Ceng;
 

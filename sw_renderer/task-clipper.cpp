@@ -11,6 +11,7 @@
 #include "clipper-batch.h"
 #include "clipper.h"
 #include "pipeline.h"
+#include "render-state.h"
 
 using namespace Ceng;
 

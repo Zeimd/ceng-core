@@ -35,6 +35,10 @@
 
 namespace Ceng
 {
+	namespace Experimental
+	{
+		class Task_PixelShader;
+	}
 	
 	struct CR_PackedTargetStep
 	{

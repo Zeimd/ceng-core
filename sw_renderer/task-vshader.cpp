@@ -3,6 +3,8 @@
 
 #include "vshader-instance.h"
 
+#include "render-state.h"
+
 using namespace Ceng;
 
 Task_VertexShader::Task_VertexShader()

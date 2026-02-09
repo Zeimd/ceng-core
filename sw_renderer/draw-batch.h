@@ -10,6 +10,8 @@
 #define CRENDER_DRAW_BATCH_H
 
 #include <memory>
+#include <vector>
+
 #include <ceng/datatypes/aligned-buffer.h>
 
 #include "draw-call.h"

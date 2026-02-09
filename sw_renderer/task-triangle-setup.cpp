@@ -12,6 +12,8 @@
 #include "triangle-batch.h"
 #include "rasterizer-cr.h"
 
+#include "render-state.h"
+
 using namespace Ceng;
 
 Task_TriangleSetup::Task_TriangleSetup()

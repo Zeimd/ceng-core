@@ -13,6 +13,8 @@
 
 #include "rasterizer-cr.h"
 
+#include "render-state.h"
+
 using namespace Ceng;
 
 Task_Rasterizer::Task_Rasterizer()

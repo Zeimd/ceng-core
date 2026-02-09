@@ -12,8 +12,6 @@
 #include <ceng/datatypes/basic-types.h>
 #include <ceng/enums/primitive-type.h>
 
-#include "render-state.h"
-
 namespace Ceng
 {
 	class CR_PrimitiveData
