@@ -1,3 +1,5 @@
+#include <ceng/interfaces/pshader-instance.h>
+
 #include "extern-pshader-context.h"
 
 using namespace Ceng;

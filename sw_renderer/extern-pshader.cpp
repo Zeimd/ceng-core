@@ -1,5 +1,9 @@
+#include <ceng/interfaces/pshader-descriptor.h>
+
 #include "extern-pshader.h"
 #include "extern-pshader-context.h"
+
+#include "PixelShaderContextCommon.h"
 
 using namespace Ceng;
 

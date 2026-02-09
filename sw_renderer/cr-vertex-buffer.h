@@ -11,8 +11,6 @@
 
 #include <ceng/interfaces/vertex-buffer.h>
 
-#include "crender-base.h"
-
 namespace Ceng
 {
 	class CR_VertexBuffer : public Ceng::VertexBuffer

@@ -18,6 +18,13 @@
 
 #include <ceng/datatypes/aligned-buffer.h>
 
+#include <ceng/datatypes/vshader-input-desc.h>
+#include <ceng/datatypes/vshader-output-desc.h>
+
+#include <ceng/swshader/pshader-input.h>
+
+#include <ceng/datatypes/shader-uniform-desc.h>
+
 // Vertex shader interface declaration
 #include "crender-base.h"
 
@@ -27,18 +34,7 @@
 #include "vshader-input.h"
 #include "vshader-output.h"
 
-#include <ceng/datatypes/vshader-input-desc.h>
-#include <ceng/datatypes/vshader-output-desc.h>
-
-#include <ceng/swshader/pshader-input.h>
-
-#include "vshader-instance.h"
-
-#include <ceng/datatypes/shader-uniform-desc.h>
-
 #include "vshader-wrapper.h"
-
-#include "VertexShaderInstanceCommon.h"
 
 namespace Ceng
 {
@@ -58,6 +54,10 @@ namespace Ceng
 	class ShaderConstant;
 
 	class CR_ShaderConstant;
+
+	class VertexShaderInstanceCommon;
+
+	class CR_VertexShaderInstance;
 
 	class CR_VertexShader : public Ceng::VertexShader
 	{

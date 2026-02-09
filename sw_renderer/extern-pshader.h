@@ -4,37 +4,17 @@
 #define CENG_SWR_EXTERN_PSHADER_H
 
 #include <memory>
-
-#include <ceng/interfaces/pixel-shader.h>
-
-#include <ceng/datatypes/pshader-input-desc.h>
-#include <ceng/datatypes/pshader-output-desc.h>
-#include <ceng/datatypes/shader-uniform-desc.h>
-
-#include <ceng/interfaces/pshader-descriptor.h>
-
-#include "crender-base.h"
-
-#include "triangle-data.h"
-
-#include "cr-shader-const.h"
-
-#include <ceng/swshader/pshader-input.h>
-#include <ceng/swshader/pshader-output.h>
-
-#include "pshader-context.h"
-
-#include "pshader-wrapper.h"
-
-#include "texture-unit.h"
-
-#include "PixelShaderContextCommon.h"
+#include <vector>
 
 #include "cr-pixel-shader.h"
 
 namespace Ceng
 {
 	class CR_NewTargetData;
+
+	class PixelShaderDescriptor;
+
+	class PixelShaderContext;
 
 	struct CR_QuadHeader;
 

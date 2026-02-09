@@ -14,7 +14,6 @@
 
 #include "draw-call.h"
 
-#include "render-state.h"
 #include "pipeline-batch.h"
 
 #include "primitive-data.h"
@@ -23,6 +22,8 @@
 
 namespace Ceng
 {
+	class RenderState;
+
 	class DrawBatch : public PipelineBatch
 	{
 	public:
