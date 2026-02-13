@@ -15,8 +15,6 @@
 
 #include <ceng/math/ce-vector.h>
 
-#include "crender-base.h"
-
 namespace Ceng
 {
 	class CR_vsInputRegister
