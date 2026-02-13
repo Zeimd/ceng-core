@@ -14,8 +14,6 @@
 #include <ceng/enums/shader-semantic.h>
 #include <ceng/enums/vtx-datatype.h>
 
-#include "crender-base.h"
-
 namespace Ceng
 {
 	//*********************************************************************

@@ -14,8 +14,6 @@
 
 #include <ceng/datatypes/aligned-buffer.h>
 
-#include "draw-call.h"
-
 #include "pipeline-batch.h"
 
 #include "primitive-data.h"

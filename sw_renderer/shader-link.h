@@ -15,8 +15,6 @@
 
 #include "fragment-format.h"
 
-#include <ceng/lib/liblog.h>
-
 namespace Ceng
 {
 	class ShaderLinkInstance;

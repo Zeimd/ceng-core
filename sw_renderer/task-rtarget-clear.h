@@ -5,10 +5,14 @@
 
 #include "render-task.h"
 
-#include "rtarget-data.h"
+//#include "rtarget-data.h"
 
 namespace Ceng
 {
+	class CR_NewTargetData;
+	struct Rectangle;
+	class CE_Color;
+
 	class Task_RenderTargetClear : public Experimental::RenderTask
 	{
 	public:

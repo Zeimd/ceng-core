@@ -16,15 +16,17 @@
 #include "vshader-input.h"
 #include "vshader-output.h"
 
-#include <ceng/datatypes/shader-uniform-desc.h>
+#include <ceng/datatypes/vshader-input-desc.h>
 
-#include "SimpleStage.h"
-#include "task-clipper.h"
-
-#include "VertexShaderInstanceCommon.h"
+#include "future.h"
 
 namespace Ceng
 {
+	namespace Experimental
+	{
+		class Task_Clipper;
+	};
+
 	class DrawBatch;
 
 	class CR_vsInputSemantic;
@@ -38,6 +40,8 @@ namespace Ceng
 	class VertexStreamData;
 
 	class LockingStage;
+
+	class VertexShaderInstanceCommon;
 
 	class CR_VertexShaderInstance
 	{

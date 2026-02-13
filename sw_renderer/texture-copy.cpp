@@ -1,5 +1,10 @@
 #include "texture-copy.h"
 
+#include <ceng/datatypes/basic-types.h>
+#include <ceng/datatypes/sub-resource-data.h>
+
+#include "rtarget-data.h"
+
 using namespace Ceng;
 
 const CRESULT Ceng::To_unorm_a8_r8_g8_b8(CR_NewTargetData* texture, const SubResourceData* sourceData,

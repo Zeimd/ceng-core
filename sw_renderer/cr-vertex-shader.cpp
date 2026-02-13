@@ -16,6 +16,10 @@
 *
 *****************************************************************************/
 
+#include <ceng/math/ce-matrix.h>
+
+#include <ceng/lib/liblog.h>
+
 #include "cr-vertex-shader.h"
 
 #include "vshader-instance.h"
@@ -28,9 +32,7 @@
 
 #include "cr-shader-const.h"
 
-#include <ceng/math/ce-matrix.h>
-
-#include <ceng/lib/liblog.h>
+#include "VertexShaderInstanceCommon.h"
 
 using namespace Ceng;
 

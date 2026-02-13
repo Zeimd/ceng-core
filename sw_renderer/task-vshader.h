@@ -9,13 +9,14 @@
 
 #include "render-task.h"
 
-#include "draw-batch.h"
+//#include "draw-batch.h"
 
 #include "future.h"
 
 namespace Ceng
 {
 	class Task_Clipper;
+	class DrawBatch;
 
 	namespace Experimental
 	{

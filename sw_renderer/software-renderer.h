@@ -15,9 +15,15 @@
 #include <exception>
 #include <atomic>
 
+#include <ceng/lib/liblog.h>
+
 #include <ceng/interfaces/render-device.h>
 
-#include "crender-base.h"
+#include <ceng/interfaces/graphics-2d.h>
+
+#include <ceng/interfaces/display-mode.h>
+
+#include <ceng/datatypes/swap-chain-desc.h>
 
 // Include CE_Buffer declaration
 #include "buffer-factory.h"
@@ -29,16 +35,6 @@
 // Include CR_Rasterizer declaration
 
 #include "cr-image-buffer.h"
-
-
-
-#include <ceng/interfaces/graphics-2d.h>
-
-#include <ceng/interfaces/display-mode.h>
-
-#include <ceng/lib/liblog.h>
-
-#include <ceng/datatypes/swap-chain-desc.h>
 
 //*************************************************************************
 // Concept Renderer

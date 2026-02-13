@@ -5,9 +5,11 @@
 
 #include <ceng/swshader/PShaderTextureUnitSampler.h>
 
-#include "cr-sampler-state.h"
-#include "cr-shader-view-tex2d.h"
-
+namespace Ceng
+{
+	class CR_ShaderViewTex2D;
+	class CR_SamplerState;
+}
 
 namespace Ceng::Pshader
 {

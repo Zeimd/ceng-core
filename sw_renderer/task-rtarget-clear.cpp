@@ -1,5 +1,7 @@
 #include "task-rtarget-clear.h"
 
+#include "rtarget-data.h"
+
 #include "pipeline.h"
 
 using namespace Ceng;

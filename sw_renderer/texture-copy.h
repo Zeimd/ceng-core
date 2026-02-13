@@ -1,12 +1,14 @@
 #ifndef CENG_SWRENDER_TEXTURE_COPY_H
 #define CENG_SWRENDER_TEXTURE_COPY_H
 
-#include "rtarget-data.h"
-#include <ceng/datatypes/sub-resource-data.h>
+#include <ceng/enums/image-formats.h>
 #include <ceng/datatypes/return-val.h>
 
 namespace Ceng
 {
+	class CR_NewTargetData;
+	class SubResourceData;
+
 	const CRESULT To_unorm_a8_r8_g8_b8(CR_NewTargetData* texture, const SubResourceData* sourceData,
 		const Ceng::IMAGE_FORMAT::value sourceFormat);
 

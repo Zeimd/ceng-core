@@ -5,6 +5,8 @@
 
 #include "render-state.h"
 
+#include "draw-batch.h"
+
 using namespace Ceng;
 
 Task_VertexShader::Task_VertexShader()

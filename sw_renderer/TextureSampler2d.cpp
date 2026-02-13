@@ -3,6 +3,9 @@
 #include "TextureSampler2d.h"
 #include "rtarget-data.h"
 
+#include "cr-sampler-state.h"
+#include "cr-shader-view-tex2d.h"
+
 using namespace Ceng::Pshader;
 
 TextureSampler2d::FilterFunction_unbyte TextureSampler2d::minFilterTable_unbyte[16] =

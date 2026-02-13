@@ -12,6 +12,8 @@
 *
 *****************************************************************************/
 
+#include <ceng/lib/liblog.h>
+
 #include "shader-link.h"
 
 #include "cr-vertex-shader.h"

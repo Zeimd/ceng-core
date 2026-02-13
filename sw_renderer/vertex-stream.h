@@ -11,7 +11,7 @@
 #ifndef CRENDER_VERTEX_STREAM_H
 #define CRENDER_VERTEX_STREAM_H
 
-#include "crender-base.h"
+#include <ceng/datatypes/basic-types.h>
 
 namespace Ceng
 {

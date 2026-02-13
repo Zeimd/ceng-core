@@ -32,6 +32,8 @@
 
 #include "pipeline.h"
 
+#include "VertexShaderInstanceCommon.h"
+
 using namespace Ceng;
 
 CR_VertexShaderInstance::CR_VertexShaderInstance(std::shared_ptr<VertexShaderInstanceCommon>& common)
