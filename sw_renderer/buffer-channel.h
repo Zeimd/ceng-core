@@ -12,8 +12,8 @@
 #include <vector>
 
 #include <ceng/datatypes/abstract-data.h>
-
-#include "crender-base.h"
+#include <ceng/datatypes/boolean.h>
+#include <ceng//datatypes/return-val.h>
 
 namespace Ceng
 {

@@ -17,7 +17,6 @@
 
 #include "locking-stage.h"
 
-#include "future.h"
 #include "SimpleStage.h"
 #include "BucketQueue.h"
 #include "BucketStage.h"

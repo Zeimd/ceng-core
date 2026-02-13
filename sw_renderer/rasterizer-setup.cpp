@@ -20,6 +20,14 @@
 
 #include "render-state.h"
 
+#include "locking-stage.h"
+
+#include "triangle-batch.h"
+
+#include "rasterizer-batch.h"
+
+#include "rtarget-data.h"
+
 using namespace Ceng;
 
 CR_Rasterizer::CR_Rasterizer()

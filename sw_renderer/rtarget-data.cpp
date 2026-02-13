@@ -6,6 +6,8 @@
 *
 *****************************************************************************/
 
+#include <ceng/datatypes/bufferdata-2d.h>
+
 #include "buffer-clear.h"
 #include "rtarget-data.h"
 

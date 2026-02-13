@@ -13,25 +13,28 @@
 
 #include <vector>
 
-#include <ceng/datatypes/color-format.h>
+#include <ceng/enums/image-formats.h>
 #include <ceng/datatypes/rectangle.h>
-#include <ceng/datatypes/bufferdata-2d.h>
-
-#include <ceng/interfaces/image-buffer.h>
 #include <ceng/interfaces/depth-stencil-desc.h>
 
-#include "crender-base.h"
 #include "buffer-channel.h"
 
 #include "buffer-tiling.h"
 #include "buffer-layout.h"
 
-#include <ceng/swshader/PshaderTargetWriter.h>
-
-#include "CombinedBlendState.h"
-
 namespace Ceng
 {
+	struct BufferData2D;
+	class CE_Color;
+
+	struct BufferData;
+
+	namespace Pshader
+	{
+		class PshaderTargetWriter;
+	}
+
+	struct CombinedBlendState;
 	
 	
 	//***************************************************

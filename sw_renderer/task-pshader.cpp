@@ -13,6 +13,8 @@
 
 #include "render-state.h"
 
+#include "pshader-context.h"
+
 using namespace Ceng;
 
 Task_PixelShader::Task_PixelShader()

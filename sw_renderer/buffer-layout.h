@@ -9,7 +9,7 @@
 #ifndef CRENDER_BUFFER_LAYOUT_H
 #define CRENDER_BUFFER_LAYOUT_H
 
-#include "crender-base.h"
+#include <ceng/datatypes/basic-types.h>
 
 namespace Ceng
 {

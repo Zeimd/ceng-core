@@ -28,6 +28,10 @@
 
 #include "render-state.h"
 
+#include "rasterizer-batch.h"
+
+#include "locking-stage.h"
+
 using namespace Ceng;
 
 const CRESULT CR_Rasterizer::Rasterize(std::shared_ptr<RasterizerBatch> &batch,

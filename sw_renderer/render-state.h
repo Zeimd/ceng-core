@@ -11,6 +11,7 @@
 
 #include <memory>
 #include <array>
+#include <vector>
 
 #include <ceng/interfaces/rasterizer-state.h>
 #include <ceng/interfaces/depth-stencil-desc.h>
@@ -18,10 +19,6 @@
 #include <ceng/datatypes/rectangle.h>
 
 #include "crender-base.h"
-
-#include "rtarget-data.h"
-
-#include "pshader-context.h"
 
 #include "clipper-state.h"
 #include "viewport-state.h"

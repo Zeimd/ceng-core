@@ -9,6 +9,8 @@
 #ifndef CRENDER_BUFFER_TILING_H
 #define CRENDER_BUFFER_TILING_H
 
+#include <ceng/datatypes/basic-types.h>
+
 namespace Ceng
 {
 	//*************************************************************

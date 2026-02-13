@@ -9,6 +9,8 @@
 #include <xmmintrin.h>
 #include <emmintrin.h>
 
+#include <ceng/interfaces/image-buffer.h>
+
 #include "rtarget-data.h"
 
 using namespace Ceng;

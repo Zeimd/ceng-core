@@ -13,6 +13,7 @@
 #define _CONCEPT2_RASTERIZER_CR_H
 
 #include <memory>
+#include <vector>
 
 #include <ceng/interfaces/rasterizer-state.h>
 
@@ -22,22 +23,28 @@
 
 #include "crender-base.h"
 
-#include "cr-pixel-shader.h"
+//#include "cr-pixel-shader.h"
 
-#include "triangle-batch.h"
-#include "rasterizer-batch.h"
+//#include "triangle-batch.h"
+//#include "rasterizer-batch.h"
 
-#include "locking-stage.h"
+#include "primitive-data.h"
+
+#include "triangle-data.h"
+
+//#include "locking-stage.h"
 
 #include "future.h"
 
-#include "task-rasterizer.h"
+//#include "task-rasterizer.h"
 
 namespace Ceng
 {
 	namespace Experimental
 	{
 		class Task_PixelShader;
+		class Task_Rasterizer;
+		class RenderTask;
 	}
 	
 	struct CR_PackedTargetStep
@@ -57,6 +64,8 @@ namespace Ceng
 	struct CR_TriangleData;
 
 	class CR_NewTargetData;
+
+	class RasterizerBatch;
 	
 	//****************************************************************************
 	// Rasterizer interface
@@ -68,6 +77,12 @@ namespace Ceng
 	class PixelShaderQueue;
 
 	class Task_PixelShader;
+
+	class TriangleBatch;
+
+	class LockingStage;
+
+	class RenderState;
 
 	class CR_Rasterizer
 	{

@@ -15,12 +15,12 @@
 #include <ceng/datatypes/ring-buffer.h>
 
 #include <ceng/interfaces/thread-task.h>
-#include <ceng/datatypes/condition-variable.h>
-#include <ceng/datatypes/critical-section.h>
 
 namespace Ceng
 {
 	class Pipeline;
+	class ConditionVariable;
+	class CriticalSection;
 
 	class RenderThread : public ThreadTask
 	{
