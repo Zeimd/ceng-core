@@ -216,9 +216,6 @@
     <ClInclude Include="..\..\sw_renderer\vshader-input.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sw_renderer\vshader-input-semantic.h">
-      <Filter>Header Files\sw_renderer</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\sw_renderer\vshader-instance.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>

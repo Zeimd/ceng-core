@@ -276,7 +276,6 @@
     <ClInclude Include="..\..\sw_renderer\vertex-variable.h" />
     <ClInclude Include="..\..\sw_renderer\VertexShaderInstanceCommon.h" />
     <ClInclude Include="..\..\sw_renderer\viewport-state.h" />
-    <ClInclude Include="..\..\sw_renderer\vshader-input-semantic.h" />
     <ClInclude Include="..\..\sw_renderer\vshader-input.h" />
     <ClInclude Include="..\..\sw_renderer\vshader-instance.h" />
     <ClInclude Include="..\..\sw_renderer\vshader-output.h" />
