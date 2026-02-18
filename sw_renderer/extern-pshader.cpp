@@ -115,9 +115,8 @@ CRESULT ExternalPixelShader::GetInstances(std::vector<std::shared_ptr<PixelShade
 
 	for (Ceng::UINT32 k = 0; k < renderThreads; k++)
 	{
-		//CRESULT cresult = ExternalPixelShaderContext::GetInstance(currentInstance, instances[k]);
-
-		PixelShaderInstance* instance = desc->GetInstance();
+		PixelShaderInstance* instance = desc->GetInstance(currentInstance->shader->cacheLine,
+			&currentInstance->shader->nullInput);
 
 		if (instance == nullptr)
 		{

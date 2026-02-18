@@ -9,6 +9,8 @@
 #include "../datatypes/pshader-output-desc.h"
 #include "../datatypes/shader-uniform-desc.h"
 
+#include "../swshader/pshader-input.h"
+
 namespace Ceng
 {
 	class PixelShaderInstance;
@@ -36,7 +38,7 @@ namespace Ceng
 
 		virtual const PixelShaderOutputDesc* OutputArray() = 0;
 
-		virtual PixelShaderInstance* GetInstance() = 0;
+		virtual PixelShaderInstance* GetInstance(Ceng::UINT32 cacheLine, Pshader::CR_PixelShaderInput* nullInput) = 0;
 		
 	};
 }
