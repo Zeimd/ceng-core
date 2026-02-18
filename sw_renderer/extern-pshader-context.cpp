@@ -157,5 +157,17 @@ CRESULT ExternalPixelShaderContext::ProcessQuads(Task_PixelShader* batch, const 
 
 CRESULT ExternalPixelShaderContext::ProcessQuads(Experimental::Task_PixelShader* batch, const Ceng::INT32 threadId)
 {
+	instance->ProcessConfig(common->link->link->quadFormat.floatStart,
+		common->link->link->quadFormat.doubleStart,
+		common->link->link->quadFormat.targetStart,
+		common->link->link->quadFormat.floatBlocks,
+		common->link->link->quadFormat.doubleBlocks);
+
+	instance->SetRenderTargetService((Ceng::Pshader::RenderTargetService*)common->renderTargetService);
+
+	CR_TriangleData* triangle = batch->rasterizerBatch->triangle.get();
+
+	instance->ProcessQuads(&batch->quadList[0], batch->quadCount, &triangle->pshaderData, threadId);
+
 	return CE_OK;
 }
