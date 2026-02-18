@@ -1,3 +1,5 @@
+#include <memory>
+
 #include <ceng/interfaces/pshader-instance.h>
 
 #include "PixelShaderContextCommon.h"
@@ -143,6 +145,8 @@ CRESULT ExternalPixelShaderContext::ProcessQuads(Task_PixelShader* batch, const 
 		common->link->link->quadFormat.targetStart,
 		common->link->link->quadFormat.floatBlocks,
 		common->link->link->quadFormat.doubleBlocks);
+
+	instance->SetRenderTargetService((Ceng::Pshader::RenderTargetService*)common->renderTargetService);
 
 	CR_TriangleData* triangle = batch->rasterizerBatch->triangle.get();
 

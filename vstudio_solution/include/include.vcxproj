@@ -274,6 +274,7 @@
     <ClInclude Include="..\..\inc\ceng\swshader\pshader-util.h" />
     <ClInclude Include="..\..\inc\ceng\swshader\PshaderTargetWriter.h" />
     <ClInclude Include="..\..\inc\ceng\swshader\PShaderTextureUnitSampler.h" />
+    <ClInclude Include="..\..\inc\ceng\swshader\RenderTargetService.h" />
     <ClInclude Include="..\..\inc\deps\MurmurHash3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -27,6 +27,8 @@ namespace Ceng
 
 	class UniformManager;
 
+	class SW_RenderTargetService;
+
 	namespace Pshader
 	{
 		class PshaderTargetWriter;
@@ -61,6 +63,8 @@ namespace Ceng
 		std::shared_ptr<CR_NewTargetData> targetHandles[maxTargets];
 
 		WriterData targetWriters[maxTargets];
+
+		SW_RenderTargetService* renderTargetService;
 
 	public:
 

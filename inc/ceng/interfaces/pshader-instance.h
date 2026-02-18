@@ -18,6 +18,8 @@
 
 #include "../datatypes/pshader-triangle-data.h"
 
+#include "../swshader/RenderTargetService.h"
+
 namespace Ceng
 {
 	class PixelShaderInstance : public BASE_INTERFACE
@@ -49,6 +51,8 @@ namespace Ceng
 		virtual void* PerpectiveTemp() = 0;
 
 		virtual Ceng::UINT32* CoverageAddress() = 0;
+
+		virtual void SetRenderTargetService(Pshader::RenderTargetService* service) = 0;
 
 		virtual void ProcessConfig(
 			UINT32 quadFloatOffset,

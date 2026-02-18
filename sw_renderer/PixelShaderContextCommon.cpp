@@ -7,6 +7,8 @@
 
 #include "rtarget-data.h"
 
+#include "rtarget-service.h"
+
 using namespace Ceng;
 
 PixelShaderContextCommon::PixelShaderContextCommon(CR_PixelShader* shader)
@@ -23,6 +25,8 @@ PixelShaderContextCommon::PixelShaderContextCommon(CR_PixelShader* shader)
 	textureUnits = nullptr;
 
 	InitWriterData();
+
+	renderTargetService = new SW_RenderTargetService(this);
 }
 
 void PixelShaderContextCommon::InitWriterData()
@@ -44,6 +48,11 @@ PixelShaderContextCommon::~PixelShaderContextCommon()
 			targetWriters[k].writer->Release();
 		}		
 	}
+
+	if (renderTargetService != nullptr)
+	{
+		renderTargetService->Release();
+	}
 }
 
 PixelShaderContextCommon::PixelShaderContextCommon(const PixelShaderContextCommon& source)
@@ -63,6 +72,8 @@ PixelShaderContextCommon::PixelShaderContextCommon(const PixelShaderContextCommo
 	InitWriterData();
 
 	ConfigureRenderTargets(source.activeRenderTargets, source.targetHandles);
+
+	renderTargetService = new SW_RenderTargetService(this);
 }
 
 CRESULT PixelShaderContextCommon::ConfigureRenderTargets(Ceng::UINT32 amount, const std::shared_ptr<CR_NewTargetData> targets[])
