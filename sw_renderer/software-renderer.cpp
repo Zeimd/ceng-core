@@ -705,6 +705,8 @@ const Ceng::CRESULT SoftwareRenderer::CreatePixelShader(PixelShaderDescriptor* d
 		return cresult;
 	}
 
+	*shaderPtr = pixelShader;
+
 	return CE_OK;
 }
 
