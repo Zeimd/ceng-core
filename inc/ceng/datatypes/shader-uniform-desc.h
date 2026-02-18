@@ -24,6 +24,13 @@ namespace Ceng
 		UINT32 size;
 
 		ShaderUniformDesc()
+			: blockName(nullptr)
+		{
+			
+		}
+
+		ShaderUniformDesc(Ceng::SHADER_DATATYPE::value dataType, const char* name)
+			: dataType(dataType), name(name), bufferOffset(0), size(0)
 		{
 			blockName = nullptr;
 		}

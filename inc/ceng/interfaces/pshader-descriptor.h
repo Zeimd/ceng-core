@@ -26,15 +26,15 @@ namespace Ceng
 
 		virtual Ceng::UINT32 InputAmount() = 0;
 
-		virtual PixelShaderInputDesc* InputArray() = 0;
+		virtual const PixelShaderInputDesc* InputArray() = 0;
 
 		virtual Ceng::UINT32 UniformAmount() = 0;
 
-		virtual ShaderUniformDesc* UniformArray() = 0;
+		virtual const ShaderUniformDesc* UniformArray() = 0;
 
 		virtual Ceng::UINT32 OutputAmount() = 0;
 
-		virtual PixelShaderOutputDesc* OutputArray() = 0;
+		virtual const PixelShaderOutputDesc* OutputArray() = 0;
 
 		virtual PixelShaderInstance* GetInstance() = 0;
 		

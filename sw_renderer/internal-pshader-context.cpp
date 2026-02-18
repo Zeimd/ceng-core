@@ -79,13 +79,6 @@ InternalPixelShaderContext::InternalPixelShaderContext(std::shared_ptr<PixelShad
 	outputRegisters[9].variable = &OUT_TARGET7;
 	outputRegisters[9].target = PSHADER_OUTPUT_SEMANTIC::CR_SHADER_TARGET7;
 
-	/*
-	for (int k = 0; k < outputRegisters.size(); ++k)
-	{
-		*(outputRegisters[k].variable) = common->shader->nullOutput;
-	}
-	*/
-
 	uniforms[0].variable = &diffuseTex;
 }
 
@@ -259,10 +252,6 @@ _declspec(align(16)) const Ceng::FLOAT32 colorScaleVec[4] = { 255.0f,255.0f,255.
 void InternalPixelShaderContext::ShaderFunction(const FLOAT32* perspective, const FLOAT32* invertW,
 	const Ceng::INT32 coverageIndex, const Ceng::INT32 threadId)
 {
-	// ***** Constant setup
-
-	//const Ceng::UINT32 *diffuseTexture = (Ceng::UINT32*)uniformPtr[0];
-
 	// NOTE: Read input registers / write outputs only once because of
 	//       automatic pixel stepping
 

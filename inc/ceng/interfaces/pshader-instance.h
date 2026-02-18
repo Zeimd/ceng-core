@@ -10,10 +10,16 @@
 #include "../datatypes/pshader-input-desc.h"
 #include "../datatypes/pshader-output-desc.h"
 
+#include "../swshader/pshader-input.h"
+#include "../swshader/pshader-output.h"
+#include "../swshader/pshader-uniform.h"
+
+#include "../datatypes/pshader-quad-batch.h"
+
+#include "../datatypes/pshader-triangle-data.h"
+
 namespace Ceng
 {
-	class QuadData;
-
 	class PixelShaderInstance : public BASE_INTERFACE
 	{
 	protected:
@@ -25,18 +31,34 @@ namespace Ceng
 
 	public:
 
-		virtual CRESULT ConfigureInput(PixelShaderInputDesc* inputs, Ceng::UINT32 amount) = 0;
+		virtual CRESULT BasicConfig(Ceng::UINT32 quadSize, Ceng::UINT32 cacheLine, Ceng::POINTER quadTargetStart) = 0;
 
-		virtual CRESULT ConfigureOutput(PixelShaderOutputDesc* outputs, Ceng::UINT32 amount) = 0;
+		virtual Pshader::PixelShaderInputRegister* GetInputs() = 0;
+		virtual Ceng::UINT32 InputSize() = 0;
 
-		virtual CRESULT ConfigureLocals() = 0;
+		virtual Pshader::PixelShaderOutputRegister* GetOutputs() = 0;
+		virtual Ceng::UINT32 OutputSize() = 0;
 
-		virtual CRESULT SetFragmentFormat(const PixelShaderInputDesc* inputs, Ceng::UINT32 inputAmount,
-			const PixelShaderOutputDesc* outputs, Ceng::UINT32 outputAmount) = 0;
+		virtual Pshader::PixelShaderUniform* GetUniforms() = 0;
+		virtual Ceng::UINT32 UniformSize() = 0;
 
-		virtual CRESULT SetRenderTargets(const PixelShaderOutputDesc* outputs, Ceng::UINT32 amount) = 0;
+		virtual Ceng::UINT8* QuadBuffer() = 0;
 
-		virtual CRESULT ProcessQuads(QuadData* quads, Ceng::UINT32 amount) = 0;
+		virtual Ceng::POINTER* StepBufferPtr() = 0;
+
+		virtual void* PerpectiveTemp() = 0;
+
+		virtual Ceng::UINT32* CoverageAddress() = 0;
+
+		virtual void ProcessConfig(
+			UINT32 quadFloatOffset,
+			UINT32 quadDoubleOffset,
+			UINT32 quadTargetOffset,
+			UINT32 floatBlockSize,
+			UINT32 doubleBlockSize) = 0;
+				
+		virtual CRESULT ProcessQuads(SWRender::PixelShaderQuadBatch* batch, Ceng::UINT32 batchSize, 
+			SWRender::PixelShaderTriangleData* triangleData, Ceng::UINT32 threadId) = 0;
 	};
 }
 

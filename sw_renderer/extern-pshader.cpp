@@ -25,7 +25,7 @@ CRESULT ExternalPixelShader::Create(PixelShaderDescriptor* desc, ExternalPixelSh
 		return CE_ERR_NULL_PTR;
 	}
 
-	PixelShaderInputDesc* inputSource = desc->InputArray();
+	const PixelShaderInputDesc* inputSource = desc->InputArray();
 
 	if (inputSource == nullptr)
 	{
@@ -37,7 +37,7 @@ CRESULT ExternalPixelShader::Create(PixelShaderDescriptor* desc, ExternalPixelSh
 		return CE_ERR_INVALID_PARAM;
 	}
 
-	PixelShaderOutputDesc* outputSource = desc->OutputArray();
+	const PixelShaderOutputDesc* outputSource = desc->OutputArray();
 
 	if (outputSource == nullptr)
 	{
