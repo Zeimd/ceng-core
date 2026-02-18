@@ -111,9 +111,9 @@ CRESULT ExternalPixelShader::GetInstances(std::vector<std::shared_ptr<PixelShade
 
 	nextInstance = std::make_shared<PixelShaderContextCommon>(*currentInstance);
 
-	instances = std::vector<std::shared_ptr<PixelShaderContext>>(renderThreads);
+	instances = std::vector<std::shared_ptr<PixelShaderContext>>();
 
-	for (Ceng::UINT32 k = 0; k < instances.size(); k++)
+	for (Ceng::UINT32 k = 0; k < renderThreads; k++)
 	{
 		//CRESULT cresult = ExternalPixelShaderContext::GetInstance(currentInstance, instances[k]);
 
