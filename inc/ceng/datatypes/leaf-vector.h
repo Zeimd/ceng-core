@@ -21,12 +21,16 @@ namespace Ceng
 	template<class t_ElemType>
 	class LeafVector
 	{
+	public:
+
+		using LeafContainer = AlignedBuffer<t_ElemType>;
+
 	protected:
 
 		Ceng::UINT32 leafSize;
-		Ceng::UINT32 alignment;
+		Ceng::UINT32 alignment;		
 
-		std::vector<AlignedBuffer<t_ElemType>> leafList;
+		std::vector<LeafContainer> leafList;
 
 		Ceng::UINT32 elementCount;
 
@@ -86,6 +90,27 @@ namespace Ceng
 		const t_ElemType& Front() const;
 
 		t_ElemType& operator[] (const Ceng::UINT32 index);
+
+		// Returns total number of leaves allocated
+		inline Ceng::UINT32 LeafCount() const;
+
+		inline LeafContainer& GetLeaf(const Ceng::UINT32 index);
+
+		// Returns index of leaf where next element will be pushed
+		inline Ceng::UINT32 BackLeaf() const;
+
+		inline LeafContainer& GetBackLeaf();
+
+		// Returns index within back leaf where next element will be pushed.
+		// (Number of elements used in the back leaf.)
+		inline Ceng::UINT32 BackIndex() const;
+
+		// Number of elements in a full leaf
+		inline Ceng::UINT32 LeafCapacity() const;
+
+		// Number of full leaves
+		inline Ceng::UINT32 FullLeafCount() const;
+
 
 	protected:
 
@@ -417,6 +442,54 @@ namespace Ceng
 
 		return leafList[leaf][localIndex];
 	}
+
+	template<class t_ElemType>
+	inline Ceng::UINT32 LeafVector<t_ElemType>::LeafCount() const
+	{
+		return leafList.size();
+	}
+
+	template<class t_ElemType>
+	inline typename LeafVector<t_ElemType>::LeafContainer& LeafVector<t_ElemType>::GetLeaf(const Ceng::UINT32 index)
+	{
+		return leafList[index];
+	}
+
+	template<class t_ElemType>
+	inline Ceng::UINT32 LeafVector<t_ElemType>::BackLeaf() const
+	{
+		return backLeaf;
+	}
+
+	template<class t_ElemType>
+	inline Ceng::UINT32 LeafVector<t_ElemType>::BackIndex() const
+	{
+		return backIndex;
+	}
+
+	template<class t_ElemType>
+	inline Ceng::UINT32 LeafVector<t_ElemType>::LeafCapacity() const
+	{
+		return leafSize;
+	}
+
+	template<class t_ElemType>
+	inline Ceng::UINT32 LeafVector<t_ElemType>::FullLeafCount() const
+	{
+		if (backLeaf == 0)
+		{
+			return 0;
+		}
+		
+		return backLeaf - 1;
+	}
+
+	template<class t_ElemType>
+	inline typename LeafVector<t_ElemType>::LeafContainer& LeafVector<t_ElemType>::GetBackLeaf()
+	{
+		return leafList[backLeaf];
+	}
+
 }
 
 #endif
