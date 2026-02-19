@@ -33,7 +33,12 @@ CRESULT ExternalPixelShaderContext::Configure(std::vector<PixelShaderInputDesc>&
 	UniformManager& uniformManager)
 {
 	instance->BasicConfig(common->link->quadSize, common->shader->cacheLine,
-		common->link->link->quadFormat.targetStart);
+		common->link->link->quadFormat.floatStart,
+		common->link->link->quadFormat.doubleStart,
+		common->link->link->quadFormat.targetStart,
+		common->link->link->quadFormat.floatBlocks,
+		common->link->link->quadFormat.doubleBlocks,
+		(Ceng::Pshader::RenderTargetService*)common->renderTargetService);
 
 	Pshader::PixelShaderInputRegister* inputRegisters = instance->GetInputs();
 	Ceng::UINT32 inputSize = instance->InputSize();
@@ -140,14 +145,6 @@ CRESULT ExternalPixelShaderContext::Configure(std::vector<PixelShaderInputDesc>&
 
 CRESULT ExternalPixelShaderContext::ProcessQuads(Task_PixelShader* batch, const Ceng::INT32 threadId)
 {
-	instance->ProcessConfig(common->link->link->quadFormat.floatStart,
-		common->link->link->quadFormat.doubleStart,
-		common->link->link->quadFormat.targetStart,
-		common->link->link->quadFormat.floatBlocks,
-		common->link->link->quadFormat.doubleBlocks);
-
-	instance->SetRenderTargetService((Ceng::Pshader::RenderTargetService*)common->renderTargetService);
-
 	CR_TriangleData* triangle = batch->rasterizerBatch->triangle.get();
 
 	Ceng::UINT32 fullLeafCount = batch->quadList.FullLeafCount();
@@ -175,14 +172,6 @@ CRESULT ExternalPixelShaderContext::ProcessQuads(Task_PixelShader* batch, const 
 
 CRESULT ExternalPixelShaderContext::ProcessQuads(Experimental::Task_PixelShader* batch, const Ceng::INT32 threadId)
 {
-	instance->ProcessConfig(common->link->link->quadFormat.floatStart,
-		common->link->link->quadFormat.doubleStart,
-		common->link->link->quadFormat.targetStart,
-		common->link->link->quadFormat.floatBlocks,
-		common->link->link->quadFormat.doubleBlocks);
-
-	instance->SetRenderTargetService((Ceng::Pshader::RenderTargetService*)common->renderTargetService);
-
 	CR_TriangleData* triangle = batch->rasterizerBatch->triangle.get();
 
 	Ceng::UINT32 fullLeafCount = batch->quadList.FullLeafCount();

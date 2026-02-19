@@ -33,7 +33,9 @@ namespace Ceng
 
 	public:
 
-		virtual CRESULT BasicConfig(Ceng::UINT32 quadSize, Ceng::UINT32 cacheLine, Ceng::POINTER quadTargetStart) = 0;
+		virtual CRESULT BasicConfig(Ceng::UINT32 quadSize, Ceng::UINT32 cacheLine, UINT32 quadFloatOffset,
+			UINT32 quadDoubleOffset, UINT32 quadTargetOffset, UINT32 floatBlockSize, UINT32 doubleBlockSize,
+			Pshader::RenderTargetService* service) = 0;
 
 		virtual Pshader::PixelShaderInputRegister* GetInputs() = 0;
 		virtual Ceng::UINT32 InputSize() = 0;
@@ -52,15 +54,6 @@ namespace Ceng
 
 		virtual Ceng::UINT32* CoverageAddress() = 0;
 
-		virtual void SetRenderTargetService(Pshader::RenderTargetService* service) = 0;
-
-		virtual void ProcessConfig(
-			UINT32 quadFloatOffset,
-			UINT32 quadDoubleOffset,
-			UINT32 quadTargetOffset,
-			UINT32 floatBlockSize,
-			UINT32 doubleBlockSize) = 0;
-				
 		virtual CRESULT ProcessQuads(SWRender::PixelShaderQuadBatch* batch, Ceng::UINT32 batchSize, 
 			SWRender::PixelShaderTriangleData* triangleData, Ceng::UINT32 threadId) = 0;
 	};
