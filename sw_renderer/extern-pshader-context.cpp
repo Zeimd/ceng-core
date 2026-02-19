@@ -150,7 +150,25 @@ CRESULT ExternalPixelShaderContext::ProcessQuads(Task_PixelShader* batch, const 
 
 	CR_TriangleData* triangle = batch->rasterizerBatch->triangle.get();
 
-	instance->ProcessQuads(&batch->quadList[0], batch->quadCount, &triangle->pshaderData, threadId);
+	Ceng::UINT32 fullLeafCount = batch->quadList.FullLeafCount();
+
+	Ceng::UINT32 fullLeafSize = batch->quadList.LeafCapacity();
+
+	for (int k = 0; k < fullLeafCount; ++k)
+	{
+		auto& leaf = batch->quadList.GetLeaf(k);
+
+		instance->ProcessQuads(&leaf[0], fullLeafSize, &triangle->pshaderData, threadId);
+	}
+
+	Ceng::UINT32 remainderCount = batch->quadList.BackIndex();
+
+	if (remainderCount)
+	{
+		auto& leaf = batch->quadList.GetBackLeaf();
+
+		instance->ProcessQuads(&leaf[0], remainderCount, &triangle->pshaderData, threadId);
+	}
 	
 	return CE_OK;
 }
@@ -167,7 +185,25 @@ CRESULT ExternalPixelShaderContext::ProcessQuads(Experimental::Task_PixelShader*
 
 	CR_TriangleData* triangle = batch->rasterizerBatch->triangle.get();
 
-	instance->ProcessQuads(&batch->quadList[0], batch->quadCount, &triangle->pshaderData, threadId);
+	Ceng::UINT32 fullLeafCount = batch->quadList.FullLeafCount();
+
+	Ceng::UINT32 fullLeafSize = batch->quadList.LeafCapacity();
+
+	for (int k = 0; k < fullLeafCount; ++k)
+	{
+		auto& leaf = batch->quadList.GetLeaf(k);
+
+		instance->ProcessQuads(&leaf[0], fullLeafSize, &triangle->pshaderData, threadId);
+	}
+
+	Ceng::UINT32 remainderCount = batch->quadList.BackIndex();
+
+	if (remainderCount)
+	{
+		auto& leaf = batch->quadList.GetBackLeaf();
+
+		instance->ProcessQuads(&leaf[0], remainderCount, &triangle->pshaderData, threadId);
+	}	
 
 	return CE_OK;
 }
