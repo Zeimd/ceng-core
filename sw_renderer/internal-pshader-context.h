@@ -35,8 +35,6 @@ namespace Ceng
 		 */
 		Ceng::UINT32 coverageAddress;
 
-		POINTER inputBaseAddress;
-
 		POINTER stepBufferPtr;
 
 		// Add input variables in the same order they appear in PixelShaderDeclaration.

@@ -33,7 +33,6 @@ InternalPixelShaderContext::InternalPixelShaderContext(std::shared_ptr<PixelShad
 	perspectiveTemp = AlignedBuffer<Ceng::UINT8>(64, common->shader->cacheLine);
 
 	coverageAddress = NULL;
-	inputBaseAddress = NULL;
 	stepBufferPtr = NULL;
 
 	inputRegisters[0].variable = &normal;
@@ -348,11 +347,6 @@ CRESULT InternalPixelShaderContext::ProcessQuads(Task_PixelShader* batch, const 
 {
 	UINT32 k;
 
-	// Initialize pointer to current quad chain structure
-	// NOTE: Input & output registers access this value through a pointer
-
-	inputBaseAddress = (POINTER)((UINT8*)quadBuffer);
-
 	FLOAT32* localPerspective = (FLOAT32*)&perspectiveTemp[0];
 
 	UINT32 chainIndex;
@@ -579,11 +573,6 @@ CRESULT InternalPixelShaderContext::ProcessQuads(Task_PixelShader* batch, const 
 CRESULT InternalPixelShaderContext::ProcessQuads(Experimental::Task_PixelShader* batch, const Ceng::INT32 threadId)
 {
 	UINT32 k;
-
-	// Initialize pointer to current quad chain structure
-	// NOTE: Input & output registers access this value through a pointer
-
-	inputBaseAddress = (POINTER)((UINT8*)quadBuffer);
 
 	FLOAT32* localPerspective = (FLOAT32*)&perspectiveTemp[0];
 
