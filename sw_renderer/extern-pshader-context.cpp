@@ -59,7 +59,7 @@ CRESULT ExternalPixelShaderContext::Configure(std::vector<PixelShaderInputDesc>&
 
 	for (Ceng::UINT32 k = 0; k < inputSize; k++)
 	{
-		inputRegisters[k].variable->perspective = (void*)perspectiveTemp;
+		inputRegisters[k].variable->perspective = perspectiveTemp;
 
 		for (Ceng::UINT32 j = 0; j < common->link->link->quadFormat.variables.size(); j++)
 		{
@@ -89,7 +89,7 @@ CRESULT ExternalPixelShaderContext::Configure(std::vector<PixelShaderInputDesc>&
 	{
 		outputRegisters[k].variable->coverageMask = coverageAddress;
 
-		outputRegisters[k].variable->inputAddress = (POINTER)((UINT8*)quadBuffer) +
+		outputRegisters[k].variable->inputAddress = (POINTER)(quadBuffer) +
 			common->link->link->quadFormat.targetStart + outputRegisters[k].target * sizeof(POINTER);
 
 		Ceng::UINT32 j;
