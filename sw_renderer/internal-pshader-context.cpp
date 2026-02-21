@@ -51,9 +51,6 @@ InternalPixelShaderContext::InternalPixelShaderContext(std::shared_ptr<PixelShad
 	outputRegisters[1].variable = &OUT_STENCIL;
 	outputRegisters[1].target = PSHADER_OUTPUT_SEMANTIC::CR_SHADER_TARGET_STENCIL;
 
-	outputRegisters[1].variable = &OUT_TARGET0;
-	outputRegisters[1].target = PSHADER_OUTPUT_SEMANTIC::CR_SHADER_TARGET0;
-
 	outputRegisters[2].variable = &OUT_TARGET0;
 	outputRegisters[2].target = PSHADER_OUTPUT_SEMANTIC::CR_SHADER_TARGET0;
 
