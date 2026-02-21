@@ -15,9 +15,9 @@
 #include <immintrin.h>
 #include "vshader-input.h"
 
-using namespace Ceng;
+using namespace Ceng::Vshader;
 
-void (*CR_vsInputRegister::call_ToFloat[128])(void*,void*) =
+void (*InFloat::call_ToFloat[128])(void*,void*) =
 	{
 		// Indexed by source format
 
@@ -37,7 +37,7 @@ void (*CR_vsInputRegister::call_ToFloat[128])(void*,void*) =
 		NULL , // FP16_4
 	};
 
-void (*CR_vsInputRegister::call_ToFloat2[128])(void*,void*) =
+void (*InFloat2::call_ToFloat2[128])(void*,void*) =
 	{
 		// Indexed by source format
 
@@ -57,7 +57,7 @@ void (*CR_vsInputRegister::call_ToFloat2[128])(void*,void*) =
 		NULL , // FP16_4
 	};
 
-void (*CR_vsInputRegister::call_ToFloat4[128])(void*,void*) =
+void (*InFloat4::call_ToFloat4[128])(void*,void*) =
 	{
 		// Indexed by source format
 
@@ -77,7 +77,7 @@ void (*CR_vsInputRegister::call_ToFloat4[128])(void*,void*) =
 		NULL , // FP16_4
 	};
 
-namespace Ceng
+namespace Ceng::Vshader
 {
 	void VSIN_FLOAT_FLOAT_X86(void *dest,void *source)
 	{

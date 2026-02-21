@@ -99,7 +99,7 @@ namespace Ceng
 		 */
 		UINT32 inputFlags;
 
-		CR_vsInputRegister nullInput;
+		Vshader::CR_VertexShaderInput nullInput;
 		Vshader::CR_VertexShaderOutput nullOutput;
 
 	protected:

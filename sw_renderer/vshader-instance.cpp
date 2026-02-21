@@ -42,23 +42,17 @@ CR_VertexShaderInstance::CR_VertexShaderInstance(std::shared_ptr<VertexShaderIns
 
 	outputBaseAddress = 0;
 
-	IN_POSITION = &common->shader->nullInput;
+	inputRegisters[0].variable = &inPosition;
+	inputRegisters[1].variable = &inNormal;
+	inputRegisters[2].variable = &inTangent;
+	inputRegisters[3].variable = &inTexCoord0;
+	inputRegisters[4].variable = &inTexCoord1;
 
-	IN_NORMAL = &common->shader->nullInput;
-	IN_TANGENT = &common->shader->nullInput;
-	IN_BINORMAL = &common->shader->nullInput;
-
-	IN_COLOR0 = &common->shader->nullInput;
-	IN_COLOR1 = &common->shader->nullInput;
-
-	IN_TEXCOORD0 = &common->shader->nullInput;
-	IN_TEXCOORD1 = &common->shader->nullInput;
-	IN_TEXCOORD2 = &common->shader->nullInput;
-	IN_TEXCOORD3 = &common->shader->nullInput;
-	IN_TEXCOORD4 = &common->shader->nullInput;
-	IN_TEXCOORD5 = &common->shader->nullInput;
-	IN_TEXCOORD6 = &common->shader->nullInput;
-	IN_TEXCOORD7 = &common->shader->nullInput;
+	for (int k = 0; k < outputRegisters.size(); ++k)
+	{
+		inputRegisters[k].variable->sourceFormat = common->shader->nullInput.sourceFormat;
+		inputRegisters[k].variable->sourceAddress = common->shader->nullInput.sourceAddress;
+	}
 
 	outputRegisters[0].variable = &outPosition;
 	outputRegisters[1].variable = &outNormal;
@@ -68,7 +62,8 @@ CR_VertexShaderInstance::CR_VertexShaderInstance(std::shared_ptr<VertexShaderIns
 
 	for (int k = 0; k < outputRegisters.size(); ++k)
 	{
-		// TODO: write null output values
+		outputRegisters[k].variable->destAddress = common->shader->nullOutput.destAddress;
+		outputRegisters[k].variable->destOffset = common->shader->nullOutput.destOffset;
 	}
 }
 
@@ -78,70 +73,11 @@ CR_VertexShaderInstance::~CR_VertexShaderInstance()
 
 CRESULT CR_VertexShaderInstance::Configure(const std::vector<VertexShaderInputDesc>& inputSemantics)
 {
-	// TODO: Provide as input parameter
-
-	UINT32 k;
-
-	inputRegisters = AlignedBuffer<CR_vsInputRegister>(inputSemantics.size(), common->shader->cacheLine);
-
-	// Set up references to input variables
-	for (k = 0; k < inputSemantics.size(); k++)
-	{
-
-		switch (inputSemantics[k].semantic)
-		{
-		case Ceng::SHADER_SEMANTIC::POSITION:
-			IN_POSITION = &inputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::NORMAL:
-			IN_NORMAL = &inputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::BINORMAL:
-			IN_BINORMAL = &inputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::TANGENT:
-			IN_TANGENT = &inputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::COLOR_0:
-			IN_COLOR0 = &inputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::COLOR_1:
-			IN_COLOR1 = &inputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::TEXCOORD_0:
-			IN_TEXCOORD0 = &inputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::TEXCOORD_1:
-			IN_TEXCOORD1 = &inputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::TEXCOORD_2:
-			IN_TEXCOORD2 = &inputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::TEXCOORD_3:
-			IN_TEXCOORD3 = &inputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::TEXCOORD_4:
-			IN_TEXCOORD4 = &inputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::TEXCOORD_5:
-			IN_TEXCOORD5 = &inputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::TEXCOORD_6:
-			IN_TEXCOORD6 = &inputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::TEXCOORD_7:
-			IN_TEXCOORD7 = &inputRegisters[k];
-			break;
-		default:
-			break;
-		}
-	}
-
-	for (k = 0; k < inputRegisters.GetElements(); k++)
+	for (size_t k = 0; k < inputRegisters.size(); ++k)
 	{
 		Ceng::UINT32 source = common->sourceIndex[k];
 
-		inputRegisters[k].sourceFormat = common->vertexFormat->variables[source].dataType;
+		inputRegisters[k].variable->sourceFormat = common->vertexFormat->variables[source].dataType;
 	}
 
 	// Set up references to output blocks
@@ -166,7 +102,7 @@ const CRESULT CR_VertexShaderInstance::ProcessVertexBatch(std::shared_ptr<DrawBa
 {	
 //	return CE_OK;
 
-	INT32 inputCount = inputRegisters.GetElements();
+	INT32 inputCount = inputRegisters.size();
 	INT32 outputCount = common->fragmentFormat->variables.size();
 
 	outputBaseAddress = (POINTER)& (*(batch->fragmentCache))[0];
@@ -179,7 +115,7 @@ const CRESULT CR_VertexShaderInstance::ProcessVertexBatch(std::shared_ptr<DrawBa
 
 		for(Ceng::INT32 i=0;i<inputCount;i++)
 		{
-			inputRegisters[i].sourceAddress = common->inputBaseAddress[i]
+			inputRegisters[i].variable->sourceAddress = common->inputBaseAddress[i]
 				+ index*common->inputSteps[i];
 		}
 
@@ -203,7 +139,7 @@ const CRESULT CR_VertexShaderInstance::ProcessVertexBatch(std::shared_ptr<DrawBa
 {
 	//	return CE_OK;
 
-	INT32 inputCount = inputRegisters.GetElements();
+	INT32 inputCount = inputRegisters.size();
 	INT32 outputCount = common->fragmentFormat->variables.size();
 
 	outputBaseAddress = (POINTER) & (*(batch->fragmentCache))[0];
@@ -216,7 +152,7 @@ const CRESULT CR_VertexShaderInstance::ProcessVertexBatch(std::shared_ptr<DrawBa
 
 		for (Ceng::INT32 i = 0; i < inputCount; i++)
 		{
-			inputRegisters[i].sourceAddress = common->inputBaseAddress[i]
+			inputRegisters[i].variable->sourceAddress = common->inputBaseAddress[i]
 				+ index * common->inputSteps[i];
 		}
 
@@ -247,7 +183,7 @@ void CR_VertexShaderInstance::ShaderFunction()
 	// NOTE: Use IN_SEMANTIC pointers to obtain
 	//       correct variable from input stream
 
-	positionTemp = *IN_POSITION;
+	positionTemp = inPosition;
 	positionTemp.w = FLOAT32(1.0f);
 	
 	positionTemp = (*transform) * positionTemp;
@@ -269,11 +205,11 @@ void CR_VertexShaderInstance::ShaderFunction()
 	
 	_declspec(align(16)) VectorF2 v2Temp;
 
-	v2Temp = *IN_TEXCOORD0;
+	v2Temp = inTexCoord0;
 	outTexCoord0 = v2Temp;
 	
 	
-	v2Temp = *IN_TEXCOORD1;
+	v2Temp = inTexCoord1;
 	outTexCoord1 = v2Temp;
 
 	/*

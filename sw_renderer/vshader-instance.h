@@ -64,27 +64,13 @@ namespace Ceng
 		 * Semantic links to vertex buffer data. Used
 		 * in ShaderFunction().
 		 */
-		AlignedBuffer<CR_vsInputRegister> inputRegisters;
-		
+		std::array<Vshader::VertexShaderInputRegister, 5> inputRegisters;
 
-		// Input references
-		CR_vsInputRegister* IN_POSITION;
-
-		CR_vsInputRegister* IN_NORMAL;
-		CR_vsInputRegister* IN_BINORMAL;
-		CR_vsInputRegister* IN_TANGENT;
-
-		CR_vsInputRegister* IN_COLOR0;
-		CR_vsInputRegister* IN_COLOR1;
-
-		CR_vsInputRegister* IN_TEXCOORD0;
-		CR_vsInputRegister* IN_TEXCOORD1;
-		CR_vsInputRegister* IN_TEXCOORD2;
-		CR_vsInputRegister* IN_TEXCOORD3;
-		CR_vsInputRegister* IN_TEXCOORD4;
-		CR_vsInputRegister* IN_TEXCOORD5;
-		CR_vsInputRegister* IN_TEXCOORD6;
-		CR_vsInputRegister* IN_TEXCOORD7;
+		Vshader::InFloat4 inPosition;
+		Vshader::InFloat4 inNormal;
+		Vshader::InFloat4 inTangent;
+		Vshader::InFloat2 inTexCoord0;
+		Vshader::InFloat2 inTexCoord1;	
 
 		std::array<Vshader::VertexShaderOutputRegister, 5> outputRegisters;
 

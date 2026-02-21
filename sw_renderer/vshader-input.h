@@ -15,60 +15,76 @@
 
 #include <ceng/math/ce-vector.h>
 
-namespace Ceng
+namespace Ceng::Vshader
 {
-	class CR_vsInputRegister
+	class CR_VertexShaderInput
 	{
 	public:
 		POINTER sourceAddress;
 		Ceng::VTX_DATATYPE::value sourceFormat;
 	public:
-		CR_vsInputRegister() 
+		CR_VertexShaderInput()
 		{
 			sourceAddress = 0;
 			sourceFormat = VTX_DATATYPE::UNKNOWN;
 		}
-
-		operator VectorF4() const;
-		operator VectorF2() const;
-		operator FLOAT32() const;
-
-		
-	
-	public:
-
-		static void (*call_ToFloat[128])(void *dest,void *source);
-		static void (*call_ToFloat2[128])(void *dest,void *source);
-		static void (*call_ToFloat4[128])(void *dest,void *source);
-
 	};
 
-	//******************************************************
-	// Methods
-
-	inline CR_vsInputRegister::operator VectorF4 () const
+	struct VertexShaderInputRegister
 	{
-		_declspec(align(16)) VectorF4 temp;
+		CR_VertexShaderInput* variable;
+	};
 
-		(*call_ToFloat4[sourceFormat])(&temp,(void*)sourceAddress);										
-		return temp;
-	}
-
-	inline CR_vsInputRegister::operator VectorF2 () const
+	class InFloat : public CR_VertexShaderInput
 	{
-		_declspec(align(16)) VectorF2 temp;
+	public:
 
-		(*call_ToFloat2[sourceFormat])(&temp,(void*)sourceAddress);									
-		return temp;
-	}
+		operator FLOAT32() const
+		{
+			FLOAT32 temp;
 
-	inline CR_vsInputRegister::operator FLOAT32 () const
+			(*call_ToFloat[sourceFormat])(&temp, (void*)sourceAddress);
+			return temp;
+		}
+
+	protected:
+
+		static void (*call_ToFloat[128])(void *dest,void *source);
+	};
+
+	class InFloat2 : public CR_VertexShaderInput
 	{
-		FLOAT32 temp;
+	public:
 
-		(*call_ToFloat[sourceFormat])(&temp,(void*)sourceAddress);									
-		return temp;
-	}
+		operator VectorF2() const
+		{
+			_declspec(align(16)) VectorF2 temp;
+
+			(*call_ToFloat2[sourceFormat])(&temp, (void*)sourceAddress);
+			return temp;
+		}
+
+	protected:
+
+		static void (*call_ToFloat2[128])(void* dest, void* source);
+	};
+
+	class InFloat4 : public CR_VertexShaderInput
+	{
+	public:
+
+		operator VectorF4() const
+		{
+			_declspec(align(16)) VectorF4 temp;
+
+			(*call_ToFloat4[sourceFormat])(&temp, (void*)sourceAddress);
+			return temp;
+		}
+
+	protected:
+
+		static void (*call_ToFloat4[128])(void* dest, void* source);
+	};
 
 	// Callbacks
 
