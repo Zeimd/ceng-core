@@ -36,6 +36,8 @@
 
 #include "vshader-wrapper.h"
 
+#include "UniformManager.h"
+
 namespace Ceng
 {
 	//****************************************************************************
@@ -68,6 +70,8 @@ namespace Ceng
 		VertexShaderWrapper wrapper;
 
 		std::vector<ShaderUniformDesc> uniformList;
+
+		UniformManager uniformManager;
 
 		Ceng::UINT32 uniformBufferSize;
 

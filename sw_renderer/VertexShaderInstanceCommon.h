@@ -13,6 +13,8 @@
 
 #include <ceng/datatypes/vshader-input-desc.h>
 
+#include "UniformBufferInstance.h"
+
 namespace Ceng
 {
 	class CR_VertexShader;
@@ -20,6 +22,8 @@ namespace Ceng
 	class CR_FragmentFormat;
 
 	class VertexStreamData;
+
+	class UniformManager;
 
 	class VertexShaderInstanceCommon
 	{
@@ -33,9 +37,7 @@ namespace Ceng
 
 		VertexStreamData* vertexStreams;
 
-		AlignedBuffer<Ceng::UINT8*> uniformPtr;
-
-		AlignedBuffer<Ceng::UINT8> uniformBuffer;
+		UniformBufferInstance uniformBuffer;
 
 		CR_FragmentFormat* fragmentFormat;
 		Ceng::UINT32 fragmentSizeBytes;
@@ -59,8 +61,8 @@ namespace Ceng
 
 		const CRESULT ConfigureInput(const std::vector<VertexShaderInputDesc>& inputSemantics);
 
-		const CRESULT ConfigureUniforms(const std::vector<ShaderUniformDesc>& uniformList,
-			const Ceng::UINT32 bufferSize);
+		CRESULT ConfigureUniforms(const std::vector<ShaderUniformDesc>& uniformList,
+			UniformManager& uniformManager);
 	};
 }
 

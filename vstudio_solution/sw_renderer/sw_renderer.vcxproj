@@ -280,6 +280,7 @@
     <ClInclude Include="..\..\sw_renderer\vshader-input.h" />
     <ClInclude Include="..\..\sw_renderer\vshader-instance.h" />
     <ClInclude Include="..\..\sw_renderer\vshader-output.h" />
+    <ClInclude Include="..\..\sw_renderer\vshader-uniform.h" />
     <ClInclude Include="..\..\sw_renderer\vshader-wrapper.h" />
     <ClInclude Include="..\..\sw_renderer\WriterCommon.h" />
     <ClInclude Include="..\..\sw_renderer\Writer_null.h" />

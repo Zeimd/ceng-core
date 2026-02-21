@@ -114,28 +114,15 @@ Ceng::UINT32 CR_VertexShader::GetDataSize(const Ceng::SHADER_DATATYPE::value dat
 
 CRESULT CR_VertexShader::ConfigureConstants()
 {
-	UINT32 k;
-	UINT32 currentOffset = 0;
+	uniformManager.Build(uniformList);
 
-	for(k=0;k<uniformList.size();k++)
-	{
-		uniformList[k].bufferOffset = currentOffset;
-
-		uniformList[k].size = GetDataSize(uniformList[k].dataType);
-		currentOffset += GetDataSize(uniformList[k].dataType);
-	}
-
-	uniformBufferSize = currentOffset;
-
-	return nextInstance->ConfigureUniforms(uniformList,currentOffset);
+	return nextInstance->ConfigureUniforms(uniformList, uniformManager);
 }
 
 CRESULT CR_VertexShader::SetFragmentFormat(CR_FragmentFormat *format)
 {
 	nextInstance->fragmentFormat = format;
 	nextInstance->fragmentSizeBytes = format->size;
-
-	
 
 	return CE_OK;
 }
@@ -317,7 +304,7 @@ const CRESULT CR_VertexShader::GetInstances(std::vector<std::shared_ptr<CR_Verte
 
 const CRESULT CR_VertexShader::ReadUniform(const Ceng::UINT32 index,void *destBuffer)
 {
-	memcpy(destBuffer,nextInstance->uniformPtr[index],uniformList[index].size);
+	memcpy(destBuffer,nextInstance->uniformBuffer.uniformPtr[index],uniformManager.uniformAllocation[index].size);
 
 	return CE_OK;
 }
@@ -325,7 +312,7 @@ const CRESULT CR_VertexShader::ReadUniform(const Ceng::UINT32 index,void *destBu
 
 const CRESULT CR_VertexShader::WriteUniform(const Ceng::UINT32 index,void *sourceBuffer)
 {
-	memcpy(nextInstance->uniformPtr[index],sourceBuffer,uniformList[index].size);
+	memcpy(nextInstance->uniformBuffer.uniformPtr[index],sourceBuffer, uniformManager.uniformAllocation[index].size);
 
 	return CE_OK;
 }

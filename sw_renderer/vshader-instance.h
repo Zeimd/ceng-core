@@ -17,6 +17,7 @@
 
 #include "vshader-input.h"
 #include "vshader-output.h"
+#include "vshader-uniform.h"
 
 #include <ceng/datatypes/vshader-input-desc.h>
 
@@ -53,17 +54,8 @@ namespace Ceng
 
 		// Pointer to current output fragment. Output registers
 		// access this value through a pointer.
-
 		POINTER outputBaseAddress;
 
-		//************************************
-		// Input state
-
-
-		/**
-		 * Semantic links to vertex buffer data. Used
-		 * in ShaderFunction().
-		 */
 		std::array<Vshader::VertexShaderInputRegister, 5> inputRegisters;
 
 		Vshader::InFloat4 inPosition;
@@ -79,6 +71,10 @@ namespace Ceng
 		Vshader::OutFloat4 outTangent;
 		Vshader::OutFloat2 outTexCoord0;
 		Vshader::OutFloat2 outTexCoord1;
+
+		std::array<Vshader::VertexShaderUniform, 1> uniforms;
+
+		Vshader::UniformMat4x4 fullVertexTransform;
 
 	public:
 

@@ -39,13 +39,6 @@ VertexShaderInstanceCommon::VertexShaderInstanceCommon(const VertexShaderInstanc
 	
 	uniformBuffer = source.uniformBuffer;
 
-	uniformPtr = AlignedBuffer<UINT8*>(
-		Ceng::UINT32(shader->uniformList.size()), shader->cacheLine);
-
-	for (Ceng::UINT32 k = 0; k < shader->uniformList.size(); k++)
-	{
-		uniformPtr[k] = &uniformBuffer[shader->uniformList[k].bufferOffset];
-	}
 }
 
 const CRESULT VertexShaderInstanceCommon::ConfigureInput(const std::vector<VertexShaderInputDesc>& inputSemantics)
@@ -86,20 +79,10 @@ const CRESULT VertexShaderInstanceCommon::ConfigureInput(const std::vector<Verte
 	return CE_OK;
 }
 
-const CRESULT VertexShaderInstanceCommon::ConfigureUniforms(const std::vector<ShaderUniformDesc>& uniformList,
-	const Ceng::UINT32 bufferSize)
+CRESULT VertexShaderInstanceCommon::ConfigureUniforms(const std::vector<ShaderUniformDesc>& uniformList,
+	UniformManager& uniformManager)
 {
-	uniformBuffer = AlignedBuffer<UINT8>(shader->uniformBufferSize, shader->cacheLine);
-
-	uniformPtr = AlignedBuffer<UINT8*>(
-		Ceng::UINT32(shader->uniformList.size()), shader->cacheLine);
-
-	Ceng::UINT32 k;
-
-	for (k = 0; k < shader->uniformList.size(); k++)
-	{
-		uniformPtr[k] = &uniformBuffer[shader->uniformList[k].bufferOffset];
-	}
+	uniformBuffer.Configure(&uniformManager, shader->cacheLine);
 
 	return CE_OK;
 }

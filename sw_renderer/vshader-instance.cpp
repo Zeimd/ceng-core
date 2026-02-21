@@ -65,6 +65,8 @@ CR_VertexShaderInstance::CR_VertexShaderInstance(std::shared_ptr<VertexShaderIns
 		outputRegisters[k].variable->destAddress = common->shader->nullOutput.destAddress;
 		outputRegisters[k].variable->destOffset = common->shader->nullOutput.destOffset;
 	}
+
+	uniforms[0].variable = &fullVertexTransform;
 }
 
 CR_VertexShaderInstance::~CR_VertexShaderInstance()
@@ -94,13 +96,30 @@ CRESULT CR_VertexShaderInstance::Configure(const std::vector<VertexShaderInputDe
 		}
 	}
 
+	for (Ceng::UINT32 k = 0; k < uniforms.size(); ++k)
+	{
+		uniforms[k].variable->dataPtr = (void*)common->uniformBuffer.uniformPtr[k];
+
+		/*
+		switch (common->shader->uniformList[k].dataType)
+		{
+		case SHADER_DATATYPE::sampler2d:
+			Pshader::UniformSampler2d* ptr_sampler2d = (Pshader::UniformSampler2d*)uniforms[k].variable;
+
+			Ceng::UINT32* unitIndex = (Ceng::UINT32*)uniforms[k].variable->dataPtr;
+
+			ptr_sampler2d->sampler = (*(common->textureUnits))[*unitIndex].samplerObject;
+			break;
+		}
+		*/
+	}
+
 	return CE_OK;
 }
 
 const CRESULT CR_VertexShaderInstance::ProcessVertexBatch(std::shared_ptr<DrawBatch> batch,
 														  LockingStage *outputQueue)
 {	
-//	return CE_OK;
 
 	INT32 inputCount = inputRegisters.size();
 	INT32 outputCount = common->fragmentFormat->variables.size();
@@ -170,13 +189,6 @@ const CRESULT CR_VertexShaderInstance::ProcessVertexBatch(std::shared_ptr<DrawBa
 
 void CR_VertexShaderInstance::ShaderFunction()
 {
-
-	// ***** Constant setup
-
-	const Matrix4 *transform = (Matrix4*)common->uniformPtr[0];
-
-	// ***** Local variables
-
 	_declspec(align(16)) VectorF4 temp;
 	_declspec(align(16)) VectorF4 positionTemp;
 
@@ -186,7 +198,7 @@ void CR_VertexShaderInstance::ShaderFunction()
 	positionTemp = inPosition;
 	positionTemp.w = FLOAT32(1.0f);
 	
-	positionTemp = (*transform) * positionTemp;
+	positionTemp = fullVertexTransform * positionTemp;
 	
 	outPosition = positionTemp;
 
