@@ -100,11 +100,12 @@ namespace Ceng
 		UINT32 inputFlags;
 
 		CR_vsInputRegister nullInput;
-		CR_vsOutputRegister nullOutput;
+		Vshader::CR_VertexShaderOutput nullOutput;
 
 	protected:
 
 		AlignedBuffer<Ceng::UINT8> nullBuffer;
+		POINTER nullBufferPtr;
 
 	public:
 	

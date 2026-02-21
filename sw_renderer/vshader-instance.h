@@ -10,6 +10,8 @@
 #define CRENDER_VSHADER_INSTANCE_H
 
 #include <memory>
+#include <array>
+
 #include <ceng/datatypes/aligned-buffer.h>
 #include <ceng/datatypes/ring-buffer.h>
 
@@ -49,6 +51,11 @@ namespace Ceng
 
 		std::shared_ptr<VertexShaderInstanceCommon> common;
 
+		// Pointer to current output fragment. Output registers
+		// access this value through a pointer.
+
+		POINTER outputBaseAddress;
+
 		//************************************
 		// Input state
 
@@ -59,60 +66,33 @@ namespace Ceng
 		 */
 		AlignedBuffer<CR_vsInputRegister> inputRegisters;
 		
-	
-
-		//************************************
-		// Output state
-				
-		/**
-		 * Semantic links to fragment output buffer.
-		 * Used in ShaderFunction().
-		 */
-		AlignedBuffer<CR_vsOutputRegister> outputRegisters;
-
-		/**
-		 * Pointer to current output fragment. Output registers
-		 * access this value through pointers.
-		 */
-		POINTER outputBaseAddress;
 
 		// Input references
-		CR_vsInputRegister *IN_POSITION;
-	
-		CR_vsInputRegister *IN_NORMAL;
-		CR_vsInputRegister *IN_BINORMAL;
-		CR_vsInputRegister *IN_TANGENT;
+		CR_vsInputRegister* IN_POSITION;
 
-		CR_vsInputRegister *IN_COLOR0;
-		CR_vsInputRegister *IN_COLOR1;
-	
-		CR_vsInputRegister *IN_TEXCOORD0;
-		CR_vsInputRegister *IN_TEXCOORD1;
-		CR_vsInputRegister *IN_TEXCOORD2;
-		CR_vsInputRegister *IN_TEXCOORD3;
-		CR_vsInputRegister *IN_TEXCOORD4;
-		CR_vsInputRegister *IN_TEXCOORD5;
-		CR_vsInputRegister *IN_TEXCOORD6;
-		CR_vsInputRegister *IN_TEXCOORD7;
+		CR_vsInputRegister* IN_NORMAL;
+		CR_vsInputRegister* IN_BINORMAL;
+		CR_vsInputRegister* IN_TANGENT;
 
-		// Output references
-		CR_vsOutputRegister *OUT_POSITION;
+		CR_vsInputRegister* IN_COLOR0;
+		CR_vsInputRegister* IN_COLOR1;
 
-		CR_vsOutputRegister *OUT_NORMAL;
-		CR_vsOutputRegister *OUT_BINORMAL;
-		CR_vsOutputRegister *OUT_TANGENT;
+		CR_vsInputRegister* IN_TEXCOORD0;
+		CR_vsInputRegister* IN_TEXCOORD1;
+		CR_vsInputRegister* IN_TEXCOORD2;
+		CR_vsInputRegister* IN_TEXCOORD3;
+		CR_vsInputRegister* IN_TEXCOORD4;
+		CR_vsInputRegister* IN_TEXCOORD5;
+		CR_vsInputRegister* IN_TEXCOORD6;
+		CR_vsInputRegister* IN_TEXCOORD7;
 
-		CR_vsOutputRegister *OUT_COLOR0;
-		CR_vsOutputRegister *OUT_COLOR1;
+		std::array<Vshader::VertexShaderOutputRegister, 5> outputRegisters;
 
-		CR_vsOutputRegister *OUT_TEXCOORD0;
-		CR_vsOutputRegister *OUT_TEXCOORD1;
-		CR_vsOutputRegister *OUT_TEXCOORD2;
-		CR_vsOutputRegister *OUT_TEXCOORD3;
-		CR_vsOutputRegister *OUT_TEXCOORD4;
-		CR_vsOutputRegister *OUT_TEXCOORD5;
-		CR_vsOutputRegister *OUT_TEXCOORD6;
-		CR_vsOutputRegister *OUT_TEXCOORD7;		
+		Vshader::OutFloat4 outPosition;
+		Vshader::OutFloat4 outNormal;
+		Vshader::OutFloat4 outTangent;
+		Vshader::OutFloat2 outTexCoord0;
+		Vshader::OutFloat2 outTexCoord1;
 
 	public:
 
@@ -124,9 +104,7 @@ namespace Ceng
 
 		virtual ~CR_VertexShaderInstance();
 
-		const CRESULT ConfigureInput(const std::vector<VertexShaderInputDesc> &inputSemantics);
-		
-		const CRESULT SetFragmentFormat();
+		CRESULT Configure(const std::vector<VertexShaderInputDesc>& inputSemantics);
 
 		virtual const CRESULT ProcessVertexBatch(std::shared_ptr<DrawBatch> batch,
 												LockingStage *outputQueue);

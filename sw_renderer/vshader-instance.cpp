@@ -60,43 +60,35 @@ CR_VertexShaderInstance::CR_VertexShaderInstance(std::shared_ptr<VertexShaderIns
 	IN_TEXCOORD6 = &common->shader->nullInput;
 	IN_TEXCOORD7 = &common->shader->nullInput;
 
-	OUT_POSITION = &common->shader->nullOutput;
+	outputRegisters[0].variable = &outPosition;
+	outputRegisters[1].variable = &outNormal;
+	outputRegisters[2].variable = &outTangent;
+	outputRegisters[3].variable = &outTexCoord0;
+	outputRegisters[4].variable = &outTexCoord1;
 
-	OUT_NORMAL = &common->shader->nullOutput;
-	OUT_BINORMAL = &common->shader->nullOutput;
-	OUT_TANGENT = &common->shader->nullOutput;
-
-	OUT_COLOR0 = &common->shader->nullOutput;
-	OUT_COLOR1 = &common->shader->nullOutput;
-
-	OUT_TEXCOORD0 = &common->shader->nullOutput;
-	OUT_TEXCOORD1 = &common->shader->nullOutput;
-	OUT_TEXCOORD2 = &common->shader->nullOutput;
-	OUT_TEXCOORD3 = &common->shader->nullOutput;
-	OUT_TEXCOORD4 = &common->shader->nullOutput;
-	OUT_TEXCOORD5 = &common->shader->nullOutput;
-	OUT_TEXCOORD6 = &common->shader->nullOutput;
-	OUT_TEXCOORD7 = &common->shader->nullOutput;
-	
+	for (int k = 0; k < outputRegisters.size(); ++k)
+	{
+		// TODO: write null output values
+	}
 }
 
 CR_VertexShaderInstance::~CR_VertexShaderInstance()
 {
 }
 
-const CRESULT CR_VertexShaderInstance::ConfigureInput(const std::vector<VertexShaderInputDesc> &inputSemantics)
+CRESULT CR_VertexShaderInstance::Configure(const std::vector<VertexShaderInputDesc>& inputSemantics)
 {
 	// TODO: Provide as input parameter
 
 	UINT32 k;
 
-	inputRegisters = AlignedBuffer<CR_vsInputRegister>(inputSemantics.size(),common->shader->cacheLine);
+	inputRegisters = AlignedBuffer<CR_vsInputRegister>(inputSemantics.size(), common->shader->cacheLine);
 
 	// Set up references to input variables
-	for(k=0;k<inputSemantics.size();k++)
+	for (k = 0; k < inputSemantics.size(); k++)
 	{
-	
-		switch(inputSemantics[k].semantic)
+
+		switch (inputSemantics[k].semantic)
 		{
 		case Ceng::SHADER_SEMANTIC::POSITION:
 			IN_POSITION = &inputRegisters[k];
@@ -151,72 +143,18 @@ const CRESULT CR_VertexShaderInstance::ConfigureInput(const std::vector<VertexSh
 
 		inputRegisters[k].sourceFormat = common->vertexFormat->variables[source].dataType;
 	}
-	
-	return CE_OK;
-}
 
-const CRESULT CR_VertexShaderInstance::SetFragmentFormat()
-{
 	// Set up references to output blocks
 
-	outputRegisters = AlignedBuffer<CR_vsOutputRegister>(
-		common->fragmentFormat->variables.size(),common->shader->cacheLine);
-
-	for(size_t k=0;k<common->fragmentFormat->variables.size();k++)
+	for (size_t k = 0; k < outputRegisters.size(); ++k)
 	{
-		outputRegisters[k].destAddress = &outputBaseAddress;
-		outputRegisters[k].destFormat = common->fragmentFormat->variables[k].format;
-		outputRegisters[k].destOffset = common->fragmentFormat->variables[k].offset;
-	}
-
-	for(size_t k=0;k<common->fragmentFormat->variables.size();k++)
-	{
-		switch(common->fragmentFormat->variables[k].semantic)
+		for (size_t j = 0; j < common->fragmentFormat->variables.size(); ++j)
 		{
-		case Ceng::SHADER_SEMANTIC::POSITION:
-			OUT_POSITION = &outputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::NORMAL:
-			OUT_NORMAL = &outputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::BINORMAL:
-			OUT_BINORMAL = &outputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::TANGENT:
-			OUT_TANGENT = &outputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::COLOR_0:
-			OUT_COLOR0 = &outputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::COLOR_1:
-			OUT_COLOR1 = &outputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::TEXCOORD_0:
-			OUT_TEXCOORD0 = &outputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::TEXCOORD_1:
-			OUT_TEXCOORD1 = &outputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::TEXCOORD_2:
-			OUT_TEXCOORD2 = &outputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::TEXCOORD_3:
-			OUT_TEXCOORD3 = &outputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::TEXCOORD_4:
-			OUT_TEXCOORD4 = &outputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::TEXCOORD_5:
-			OUT_TEXCOORD5 = &outputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::TEXCOORD_6:
-			OUT_TEXCOORD6 = &outputRegisters[k];
-			break;
-		case Ceng::SHADER_SEMANTIC::TEXCOORD_7:
-			OUT_TEXCOORD7 = &outputRegisters[k];
-			break;
-		default:
-			break;
+			if (common->shader->inputSemantics[k].semantic == common->fragmentFormat->variables[j].semantic)
+			{
+				outputRegisters[k].variable->destAddress = &outputBaseAddress;
+				outputRegisters[k].variable->destOffset = common->fragmentFormat->variables[k].offset;
+			}
 		}
 	}
 
@@ -314,7 +252,7 @@ void CR_VertexShaderInstance::ShaderFunction()
 	
 	positionTemp = (*transform) * positionTemp;
 	
-	*OUT_POSITION = positionTemp;
+	outPosition = positionTemp;
 
 	// NOTE: Can't transfer directly from input to output
 	//       because the temporary Vector4 won't be
@@ -332,11 +270,11 @@ void CR_VertexShaderInstance::ShaderFunction()
 	_declspec(align(16)) VectorF2 v2Temp;
 
 	v2Temp = *IN_TEXCOORD0;
-	*OUT_TEXCOORD0 = v2Temp;
+	outTexCoord0 = v2Temp;
 	
 	
 	v2Temp = *IN_TEXCOORD1;
-	*OUT_TEXCOORD1 = v2Temp;
+	outTexCoord1 = v2Temp;
 
 	/*
 	tempFloat = *IN_TEXCOORD2;

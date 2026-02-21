@@ -47,12 +47,13 @@ CR_VertexShader::CR_VertexShader()
 	// of undefined semantic links
 
 	nullBuffer = AlignedBuffer<Ceng::UINT8>(64,64);
+	nullBufferPtr = (POINTER)&nullBuffer[0];
 
 	//nullInput.sourceFormat = Ceng::SHADER_DATATYPE::UINT;
 	nullInput.sourceAddress = (POINTER)&nullBuffer[0];
 
-	nullOutput.destFormat = Ceng::SHADER_DATATYPE::UINT;
-	//nullOutput.destAddress = (UINT32)&nullBuffer[0];
+	nullOutput.destAddress = &nullBufferPtr;
+	nullOutput.destOffset = 0;
 
 	nextInstance = std::make_shared<VertexShaderInstanceCommon>(this);
 }
@@ -308,9 +309,7 @@ const CRESULT CR_VertexShader::GetInstances(std::vector<std::shared_ptr<CR_Verte
 	{
 		instances[k] = std::make_shared<CR_VertexShaderInstance>(currentInstance);
 
-		instances[k]->ConfigureInput(inputSemantics);
-
-		instances[k]->SetFragmentFormat();
+		instances[k]->Configure(inputSemantics);
 	}
 
 	return CE_OK;

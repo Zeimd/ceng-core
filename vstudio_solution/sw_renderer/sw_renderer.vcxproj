@@ -366,7 +366,6 @@
     <ClCompile Include="..\..\sw_renderer\VertexShaderInstanceCommon.cpp" />
     <ClCompile Include="..\..\sw_renderer\vshader-input.cpp" />
     <ClCompile Include="..\..\sw_renderer\vshader-instance.cpp" />
-    <ClCompile Include="..\..\sw_renderer\vshader-output.cpp" />
     <ClCompile Include="..\..\sw_renderer\vshader-wrapper.cpp" />
     <ClCompile Include="..\..\sw_renderer\WriterCommon.cpp" />
     <ClCompile Include="..\..\sw_renderer\Writer_null.cpp" />

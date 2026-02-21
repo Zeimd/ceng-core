@@ -9,69 +9,68 @@
 #ifndef _CENG_CR_VSHADER_OUTPUT_H
 #define _CENG_CR_VSHADER_OUTPUT_H
 
+#include <immintrin.h>
+
 #include <ceng/enums/shader-datatype.h>
 #include <ceng/enums/shader-semantic.h>
 
 #include <ceng/math/ce-vector.h>
 
-namespace Ceng
+namespace Ceng::Vshader
 {
-	class CR_vsOutputRegister
+	class CR_VertexShaderOutput
 	{
 	public:
 		POINTER *destAddress;
 		POINTER destOffset;
-
-		Ceng::SHADER_DATATYPE::value destFormat;
-
-	public:
-
-		CR_vsOutputRegister() {}
-		~CR_vsOutputRegister() {}
-
-		CR_vsOutputRegister& operator = (const FLOAT32 &source);
-		CR_vsOutputRegister& operator = (const VectorF2 &source);
-		CR_vsOutputRegister& operator = (const VectorF4 &source);	
-
-	public:
-
-		static void (*call_from_Float[32])(void *dest,void *source);
-		static void (*call_from_Float2[32])(void *dest,void *source);
-		static void (*call_from_Float4[32])(void *dest,void *source);
 	};
 
-	inline CR_vsOutputRegister& CR_vsOutputRegister::operator = (const FLOAT32 &source)
+	struct VertexShaderOutputRegister
 	{
-		(*call_from_Float[destFormat])((void*)(*destAddress + destOffset),
-										(void*)&source);		
-		return *this;
-	}
-	
-	inline CR_vsOutputRegister& CR_vsOutputRegister::operator = (const VectorF2 &vector)
+		CR_VertexShaderOutput* variable;
+	};
+
+	class OutFloat : public CR_VertexShaderOutput
 	{
-		(*call_from_Float2[destFormat])((void*)(*destAddress + destOffset),
-										(void*)&vector);
-		return *this;
-	}
-	
-	inline CR_vsOutputRegister& CR_vsOutputRegister::operator = (const VectorF4 &vector)
+	public:
+
+		OutFloat& operator = (const FLOAT32 source)
+		{
+			Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)(*destAddress + destOffset);
+
+			*destPtr = source;
+
+			return *this;
+		}
+	};
+
+	class OutFloat2 : public CR_VertexShaderOutput
 	{
-		(*call_from_Float4[destFormat])((void*)(*destAddress + destOffset),
-										(void*)&vector);
-									
+	public:
 
-		return *this;
-	}
+		OutFloat2& operator = (const VectorF2& source)
+		{
+			__m128d temp = _mm_load_sd((double*)&source);
 
-	//********************************************
-	// Callbacks
+			_mm_store_sd((double*)(*destAddress + destOffset), temp);
 
-	extern void VSOUT_FLOAT_FLOAT_X86(void *dest,void *source);
+			return *this;
+		}
+	};
 
-	extern void VSOUT_FLOAT2_FLOAT2_X86_SSE2(void *dest,void *source);
-	extern void VSOUT_FLOAT4_FLOAT4_X86_SSE(void *dest,void *source);
-		
+	class OutFloat4 : public CR_VertexShaderOutput
+	{
+	public:
 
+		OutFloat4& operator = (const VectorF4& source)
+		{
+			__m128 temp = _mm_load_ps((float*)&source);
+
+			_mm_store_ps((float*)(*destAddress + destOffset), temp);
+
+			return *this;
+		}
+	};
 };
 
 #endif
