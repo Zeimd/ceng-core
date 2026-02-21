@@ -28,6 +28,11 @@
 
 using namespace Ceng;
 
+alignas(16) static Ceng::UINT8 nullInputBuffer[16];
+alignas(16) static Ceng::UINT8 nullStepBuffer[32];
+
+static Ceng::POINTER nullStepPtr = (Ceng::POINTER)nullInputBuffer;
+
 CR_PixelShader::CR_PixelShader()
 {
 	compiled = false;
@@ -44,8 +49,9 @@ CR_PixelShader::CR_PixelShader()
 	// to guard against exceptions from use
 	// of undefined semantic links
 
-	//nullInput.semantic = Ceng::SHADER_SEMANTIC::POSITION;
-	//nullInput.inputFormat = Ceng::SHADER_DATATYPE::UNKNOWN;
+	nullInput.inputAddress = (Ceng::POINTER)nullInputBuffer;
+	nullInput.stepBuffer = &nullStepPtr;
+	nullInput.variableStep = 0;
 
 	//nullOutput.target = CR_SHADER_TARGET0;
 	//nullOutput.bufferFormat = Ceng::IMAGE_FORMAT::UNKNOWN;

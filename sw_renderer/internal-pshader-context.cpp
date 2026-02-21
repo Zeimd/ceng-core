@@ -120,7 +120,6 @@ CRESULT InternalPixelShaderContext::Configure(std::vector<PixelShaderInputDesc>&
 
 	for (Ceng::UINT32 k = 0; k < inputRegisters.size(); k++)
 	{
-		inputRegisters[k].variable->stepBuffer = &stepBufferPtr;
 		inputRegisters[k].variable->perspective = (void*)perspectiveTemp;
 
 		for (Ceng::UINT32 j = 0; j < common->link->link->quadFormat.variables.size(); j++)
@@ -132,6 +131,8 @@ CRESULT InternalPixelShaderContext::Configure(std::vector<PixelShaderInputDesc>&
 
 			if (inputSemantics[k].semantic == common->link->link->quadFormat.variables[j].semantic)
 			{
+				inputRegisters[k].variable->stepBuffer = &stepBufferPtr;
+
 				inputRegisters[k].variable->inputAddress = (POINTER)((UINT8*)quadBuffer) +
 					common->link->link->quadFormat.variables[j].quadOffset;
 
