@@ -13,6 +13,7 @@
 #include "cr-vertex-format.h"
 
 #include "vshader-types.h"
+#include "vshader-util.h"
 
 #include "draw-batch.h"
 

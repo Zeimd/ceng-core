@@ -801,17 +801,17 @@ namespace Ceng::Vshader
 
 	inline Bool2 LessThan(const Float2& a, const Float2& b)
 	{
-		return  { a._x < b._x, a._y < b._y };
+		return  { a.x < b.x, a.y < b.y };
 	}
 
 	inline Bool3 LessThan(const Float3& a, const Float3& b)
 	{
-		return  { a._x < b._x, a._y < b._y, a._z < b._z };
+		return  { a.x < b.x, a.y < b.y, a.z < b.z };
 	}
 
 	inline Bool4 LessThan(const Float4& a, const Float4& b)
 	{
-		return  { a._x < b._x, a._y < b._y, a._z < b._z, a._w < b._w };
+		return  { a.x < b.x, a.y < b.y, a.z < b.z, a.w < b.w };
 	}
 
 	//**********************************
@@ -819,17 +819,17 @@ namespace Ceng::Vshader
 
 	inline Bool2 LessThanEqual(const Float2& a, const Float2& b)
 	{
-		return  { a._x <= b._x, a._y <= b._y };
+		return  { a.x <= b.x, a.y <= b.y };
 	}
 
 	inline Bool3 LessThanEqual(const Float3& a, const Float3& b)
 	{
-		return  { a._x <= b._x, a._y <= b._y, a._z <= b._z };
+		return  { a.x <= b.x, a.y <= b.y, a.z <= b.z };
 	}
 
 	inline Bool4 LessThanEqual(const Float4& a, const Float4& b)
 	{
-		return  { a._x <= b._x, a._y <= b._y, a._z <= b._z, a._w <= b._w };
+		return  { a.x <= b.x, a.y <= b.y, a.z <= b.z, a.w <= b.w };
 	}
 
 	//**********************************
@@ -837,17 +837,17 @@ namespace Ceng::Vshader
 
 	inline Bool2 GreaterThan(const Float2& a, const Float2& b)
 	{
-		return  { a._x > b._x, a._y > b._y };
+		return  { a.x > b.x, a.y > b.y };
 	}
 
 	inline Bool3 GreaterThan(const Float3& a, const Float3& b)
 	{
-		return  { a._x > b._x, a._y > b._y, a._z > b._z };
+		return  { a.x > b.x, a.y > b.y, a.z > b.z };
 	}
 
 	inline Bool4 GreaterThan(const Float4& a, const Float4& b)
 	{
-		return  { a._x > b._x, a._y > b._y, a._z > b._z, a._w > b._w };
+		return  { a.x > b.x, a.y > b.y, a.z > b.z, a.w > b.w };
 	}
 
 	//**********************************
@@ -855,17 +855,17 @@ namespace Ceng::Vshader
 
 	inline Bool2 GreaterThanEqual(const Float2& a, const Float2& b)
 	{
-		return  { a._x >= b._x, a._y >= b._y };
+		return  { a.x >= b.x, a.y >= b.y };
 	}
 
 	inline Bool3 GreaterThanEqual(const Float3& a, const Float3& b)
 	{
-		return  { a._x >= b._x, a._y >= b._y, a._z >= b._z };
+		return  { a.x >= b.x, a.y >= b.y, a.z >= b.z };
 	}
 
 	inline Bool4 GreaterThanEqual(const Float4& a, const Float4& b)
 	{
-		return  { a._x >= b._x, a._y >= b._y, a._z >= b._z, a._w >= b._w };
+		return  { a.x >= b.x, a.y >= b.y, a.z >= b.z, a.w >= b.w };
 	}
 
 	//**********************************
@@ -873,17 +873,17 @@ namespace Ceng::Vshader
 
 	inline Bool2 Equal(const Float2& a, const Float2& b)
 	{
-		return  { a._x == b._x, a._y == b._y };
+		return  { a.x == b.x, a.y == b.y };
 	}
 
 	inline Bool3 Equal(const Float3& a, const Float3& b)
 	{
-		return  { a._x == b._x, a._y == b._y, a._z == b._z };
+		return  { a.x == b.x, a.y == b.y, a.z == b.z };
 	}
 
 	inline Bool4 Equal(const Float4& a, const Float4& b)
 	{
-		return  { a._x == b._x, a._y == b._y, a._z == b._z, a._w == b._w };
+		return  { a.x == b.x, a.y == b.y, a.z == b.z, a.w == b.w };
 	}
 
 	//**********************************
@@ -891,17 +891,17 @@ namespace Ceng::Vshader
 
 	inline Bool2 NotEqual(const Float2& a, const Float2& b)
 	{
-		return  { a._x != b._x, a._y != b._y };
+		return  { a.x != b.x, a.y != b.y };
 	}
 
 	inline Bool3 NotEqual(const Float3& a, const Float3& b)
 	{
-		return  { a._x != b._x, a._y != b._y, a._z != b._z };
+		return  { a.x != b.x, a.y != b.y, a.z != b.z };
 	}
 
 	inline Bool4 NotEqual(const Float4& a, const Float4& b)
 	{
-		return  { a._x != b._x, a._y != b._y, a._z != b._z, a._w != b._w };
+		return  { a.x != b.x, a.y != b.y, a.z != b.z, a.w != b.w };
 	}
 
 	//**********************************
@@ -909,17 +909,17 @@ namespace Ceng::Vshader
 
 	inline Bool Any(const Bool2& a)
 	{
-		return LogicalOr(a.x, a.y);
+		return a.x || a.y;
 	}
 
 	inline Bool Any(const Bool3& a)
 	{
-		return LogicalOr(LogicalOr(a.x, a.y), a.z);
+		return a.x || a.y || a.z;
 	}
 
 	inline Bool Any(const Bool4& a)
 	{
-		return LogicalOr(LogicalOr(LogicalOr(a.x, a.y), a.z), a.w);
+		return a.x || a.y || a.z || a.w;
 	}
 
 	//**********************************
@@ -927,17 +927,17 @@ namespace Ceng::Vshader
 
 	inline Bool All(const Bool2& a)
 	{
-		return LogicalAnd(a.x, a.y);
+		return a.x && a.y;
 	}
 
 	inline Bool All(const Bool3& a)
 	{
-		return LogicalAnd(LogicalAnd(a.x, a.y), a.z);
+		return a.x && a.y && a.z;
 	}
 
 	inline Bool All(const Bool4& a)
 	{
-		return LogicalAnd(LogicalAnd(LogicalAnd(a.x, a.y), a.z), a.w);
+		return a.x && a.y && a.z && a.w;
 	}
 
 	//**********************************
@@ -945,48 +945,40 @@ namespace Ceng::Vshader
 
 	inline Bool2 Not(const Bool2& a)
 	{
-		return { LogicalNot(a.x),LogicalNot(a.y) };
+		return { !a.x, !a.y };
 	}
 
 	inline Bool3 Not(const Bool3& a)
 	{
-		return { LogicalNot(a.x),LogicalNot(a.y),LogicalNot(a.z) };
+		return { !a.x, !a.y, !a.z };
 	}
 
 	inline Bool4 Not(const Bool4& a)
 	{
-		return { LogicalNot(a.x),LogicalNot(a.y),LogicalNot(a.z),LogicalNot(a.w) };
+		return { !a.x, !a.y, !a.z, !a.w };
 	}
-
-
 
 	//*************************************
 	// Absolute value
 
-
-	inline SOAVecFloat Abs(const SOAVecFloat& x)
-	{
-		return { fabsf(x.a), fabsf(x.b), fabsf(x.c), fabsf(x.d) };
-	}
-
 	inline Float Abs(const Float& a)
 	{
-		return Abs(a.x);
+		return fabsf(a.x);
 	}
 
 	inline Float2 Abs(const Float2& a)
 	{
-		return { Abs(a._x), Abs(a._y) };
+		return { fabsf(a.x), fabsf(a.y) };
 	}
 
 	inline Float3 Abs(const Float3& a)
 	{
-		return { Abs(a._x), Abs(a._y), Abs(a._z) };
+		return { fabsf(a.x), fabsf(a.y), fabsf(a.z) };
 	}
 
 	inline Float4 Abs(const Float4& a)
 	{
-		return { Abs(a._x), Abs(a._y), Abs(a._z), Abs(a._w) };
+		return { fabsf(a.x), fabsf(a.y), fabsf(a.z), fabsf(a.w) };
 	}
 
 
@@ -994,62 +986,50 @@ namespace Ceng::Vshader
 	// Sign function
 
 
-	inline SOAVecFloat Sign(const SOAVecFloat& x)
-	{
-		return { (Ceng::FLOAT32)copysign(1.0f, x.a),
-			(Ceng::FLOAT32)copysign(1.0f, x.a),
-			(Ceng::FLOAT32)copysign(1.0f, x.a),
-			(Ceng::FLOAT32)copysign(1.0f, x.a) };
-	}
-
 	inline Float Sign(const Float& a)
 	{
-		return Sign(a.x);
+		return (Ceng::FLOAT32)copysign(1.0f, a.x);
 	}
 
 	inline Float2 Sign(const Float2& a)
 	{
-		return { Sign(a._x), Sign(a._y) };
+		return { (Ceng::FLOAT32)copysign(1.0f, a.x), (Ceng::FLOAT32)copysign(1.0f, a.y) };
 	}
 
 	inline Float3 Sign(const Float3& a)
 	{
-		return { Sign(a._x), Sign(a._y), Sign(a._z) };
+		return { (Ceng::FLOAT32)copysign(1.0f, a.x), (Ceng::FLOAT32)copysign(1.0f, a.y)
+		, (Ceng::FLOAT32)copysign(1.0f, a.z) };
 	}
 
 	inline Float4 Sign(const Float4& a)
 	{
-		return { Sign(a._x), Sign(a._y), Sign(a._z), Sign(a._w) };
+		return { (Ceng::FLOAT32)copysign(1.0f, a.x), (Ceng::FLOAT32)copysign(1.0f, a.y),
+		(Ceng::FLOAT32)copysign(1.0f, a.z), (Ceng::FLOAT32)copysign(1.0f, a.w) };
 	}
 
 
 	//*************************************
 	// Floor
 
-
-	inline SOAVecFloat Floor(const SOAVecFloat& x)
-	{
-		return { floorf(x.a), floorf(x.b), floorf(x.c), floorf(x.d) };
-	}
-
 	inline Float Floor(const Float& a)
 	{
-		return Floor(a.x);
+		return floorf(a.x);
 	}
 
 	inline Float2 Floor(const Float2& a)
 	{
-		return { Floor(a._x), Floor(a._y) };
+		return { floorf(a.x), floorf(a.y) };
 	}
 
 	inline Float3 Floor(const Float3& a)
 	{
-		return { Floor(a._x), Floor(a._y), Floor(a._z) };
+		return { floorf(a.x), floorf(a.y), floorf(a.z) };
 	}
 
 	inline Float4 Floor(const Float4& a)
 	{
-		return { Floor(a._x), Floor(a._y), Floor(a._z), Floor(a._w) };
+		return { floorf(a.x), floorf(a.y), floorf(a.z), floorf(a.w) };
 	}
 
 
@@ -1057,29 +1037,24 @@ namespace Ceng::Vshader
 	// Ceil
 
 
-	inline SOAVecFloat Ceil(const SOAVecFloat& x)
-	{
-		return { ceilf(x.a), ceilf(x.b), ceilf(x.c), ceilf(x.d) };
-	}
-
 	inline Float Ceil(const Float& a)
 	{
-		return Ceil(a.x);
+		return ceilf(a.x);
 	}
 
 	inline Float2 Ceil(const Float2& a)
 	{
-		return { Ceil(a._x), Ceil(a._y) };
+		return { ceilf(a.x), ceilf(a.y) };
 	}
 
 	inline Float3 Ceil(const Float3& a)
 	{
-		return { Ceil(a._x), Ceil(a._y), Ceil(a._z) };
+		return { ceilf(a.x), ceilf(a.y), ceilf(a.z) };
 	}
 
 	inline Float4 Ceil(const Float4& a)
 	{
-		return { Ceil(a._x), Ceil(a._y), Ceil(a._z), Ceil(a._w) };
+		return { ceilf(a.x), ceilf(a.y), ceilf(a.z), ceilf(a.w) };
 	}
 
 
@@ -1087,73 +1062,56 @@ namespace Ceng::Vshader
 	// Truncate
 
 
-	inline SOAVecFloat Trunc(const SOAVecFloat& x)
-	{
-		return { truncf(x.a), truncf(x.b), truncf(x.c), truncf(x.d) };
-	}
-
 	inline Float Trunc(const Float& a)
 	{
-		return Trunc(a.x);
+		return truncf(a.x);
 	}
 
 	inline Float2 Trunc(const Float2& a)
 	{
-		return { Trunc(a._x), Trunc(a._y) };
+		return { truncf(a.x), truncf(a.y) };
 	}
 
 	inline Float3 Trunc(const Float3& a)
 	{
-		return { Trunc(a._x), Trunc(a._y), Trunc(a._z) };
+		return { truncf(a.x), truncf(a.y), truncf(a.z) };
 	}
 
 	inline Float4 Trunc(const Float4& a)
 	{
-		return { Trunc(a._x), Trunc(a._y), Trunc(a._z), Trunc(a._w) };
+		return { truncf(a.x), truncf(a.y), truncf(a.z), truncf(a.w) };
 	}
 
 
 	//*************************************
 	// Round
 
-
-	inline SOAVecFloat Round(const SOAVecFloat& x)
-	{
-		return { roundf(x.a), roundf(x.b), roundf(x.c), roundf(x.d) };
-	}
-
 	inline Float Round(const Float& a)
 	{
-		return Round(a.x);
+		return roundf(a.x);
 	}
 
 	inline Float2 Round(const Float2& a)
 	{
-		return { Round(a._x), Round(a._y) };
+		return { roundf(a.x), roundf(a.y) };
 	}
 
 	inline Float3 Round(const Float3& a)
 	{
-		return { Round(a._x), Round(a._y), Round(a._z) };
+		return { roundf(a.x), roundf(a.y), roundf(a.z) };
 	}
 
 	inline Float4 Round(const Float4& a)
 	{
-		return { Round(a._x), Round(a._y), Round(a._z), Round(a._w) };
+		return { roundf(a.x), roundf(a.y), roundf(a.z), roundf(a.w) };
 	}
-
 
 	//*************************************
 	// Round half to even
 
-
-	inline SOAVecFloat RoundEven(const SOAVecFloat& x)
+	inline Ceng::FLOAT32 RoundEven(Ceng::FLOAT32 x)
 	{
-		return { roundf(x.a * 0.5f) * 2.0f,
-			roundf(x.b * 0.5f) * 2.0f,
-			roundf(x.c * 0.5f) * 2.0f,
-			roundf(x.d * 0.5f) * 2.0f };
-
+		return roundf(x * 0.5f) * 2.0f;
 	}
 
 	inline Float RoundEven(const Float& a)
@@ -1163,17 +1121,17 @@ namespace Ceng::Vshader
 
 	inline Float2 RoundEven(const Float2& a)
 	{
-		return { RoundEven(a._x), RoundEven(a._y) };
+		return { RoundEven(a.x), RoundEven(a.y) };
 	}
 
 	inline Float3 RoundEven(const Float3& a)
 	{
-		return { RoundEven(a._x), RoundEven(a._y), RoundEven(a._z) };
+		return { RoundEven(a.x), RoundEven(a.y), RoundEven(a.z) };
 	}
 
 	inline Float4 RoundEven(const Float4& a)
 	{
-		return { RoundEven(a._x), RoundEven(a._y), RoundEven(a._z), RoundEven(a._w) };
+		return { RoundEven(a.x), RoundEven(a.y), RoundEven(a.z), RoundEven(a.w) };
 	}
 
 
@@ -1181,9 +1139,9 @@ namespace Ceng::Vshader
 	// Fractional part
 
 
-	inline SOAVecFloat Fract(const SOAVecFloat& x)
+	inline Ceng::FLOAT32 Fract(Ceng::FLOAT32 x)
 	{
-		return x - Floor(x);
+		return x - floorf(x);
 	}
 
 	inline Float Fract(const Float& a)
@@ -1193,17 +1151,17 @@ namespace Ceng::Vshader
 
 	inline Float2 Fract(const Float2& a)
 	{
-		return { Fract(a._x), Fract(a._y) };
+		return { Fract(a.x), Fract(a.y) };
 	}
 
 	inline Float3 Fract(const Float3& a)
 	{
-		return { Fract(a._x), Fract(a._y), Fract(a._z) };
+		return { Fract(a.x), Fract(a.y), Fract(a.z) };
 	}
 
 	inline Float4 Fract(const Float4& a)
 	{
-		return { Fract(a._x), Fract(a._y), Fract(a._z), Fract(a._w) };
+		return { Fract(a.x), Fract(a.y), Fract(a.z), Fract(a.w) };
 	}
 
 
@@ -1211,9 +1169,9 @@ namespace Ceng::Vshader
 	// Modulus
 
 
-	inline SOAVecFloat Mod(const SOAVecFloat& a, const SOAVecFloat& b)
+	inline Ceng::FLOAT32 Mod(Ceng::FLOAT32 a, Ceng::FLOAT32 b)
 	{
-		return a - b * Floor(a / b);
+		return a - b * floorf(a / b);
 	}
 
 	inline Float Fract(const Float& a, const Float& b)
@@ -1223,32 +1181,32 @@ namespace Ceng::Vshader
 
 	inline Float2 Fract(const Float2& a, const Float& b)
 	{
-		return { Mod(a._x, b.x), Mod(a._y, b.x) };
+		return { Mod(a.x, b.x), Mod(a.y, b.x) };
 	}
 
 	inline Float3 Fract(const Float3& a, const Float& b)
 	{
-		return { Mod(a._x, b.x), Mod(a._y, b.x), Mod(a._z, b.x) };
+		return { Mod(a.x, b.x), Mod(a.y, b.x), Mod(a.z, b.x) };
 	}
 
 	inline Float4 Fract(const Float4& a, const Float& b)
 	{
-		return { Mod(a._x, b.x), Mod(a._y, b.x), Mod(a._z, b.x), Mod(a._w, b.x) };
+		return { Mod(a.x, b.x), Mod(a.y, b.x), Mod(a.z, b.x), Mod(a.w, b.x) };
 	}
 
 	inline Float2 Fract(const Float2& a, const Float2& b)
 	{
-		return { Mod(a._x, b._x), Mod(a._y, b._y) };
+		return { Mod(a.x, b.x), Mod(a.y, b.y) };
 	}
 
 	inline Float3 Fract(const Float3& a, const Float3& b)
 	{
-		return { Mod(a._x, b._x), Mod(a._y, b._y), Mod(a._z, b._z) };
+		return { Mod(a.x, b.x), Mod(a.y, b.y), Mod(a.z, b.z) };
 	}
 
 	inline Float4 Fract(const Float4& a, const Float4& b)
 	{
-		return { Mod(a._x, b._x), Mod(a._y, b._y), Mod(a._z, b._z), Mod(a._w, b._w) };
+		return { Mod(a.x, b.x), Mod(a.y, b.y), Mod(a.z, b.z), Mod(a.w, b.w) };
 	}
 
 
@@ -1258,96 +1216,86 @@ namespace Ceng::Vshader
 	//*************************************
 	// min
 
-
-	inline SOAVecFloat Min(const SOAVecFloat& x, const SOAVecFloat& y)
-	{
-		return { std::min(x.a, y.a), std::min(x.b, y.b), std::min(x.c, y.c), std::min(x.d, y.d) };
-	}
-
 	inline Float Min(const Float& a, const Float& b)
 	{
-		return Min(a.x, b.x);
+		return std::min(a.x, b.x);
 	}
 
 	inline Float2 Min(const Float2& a, const Float2& b)
 	{
-		return { Min(a._x, b._x), Min(a._y, b._y) };
+		return { std::min(a.x, b.x), std::min(a.y, b.y) };
 	}
 
 	inline Float3 Min(const Float3& a, const Float3& b)
 	{
-		return { Min(a._x, b._x), Min(a._y, b._y), Min(a._z, b._z) };
+		return { std::min(a.x, b.x), std::min(a.y, b.y), std::min(a.z, b.z) };
 	}
 
 	inline Float4 Min(const Float4& a, const Float4& b)
 	{
-		return { Min(a._x, b._x), Min(a._y, b._y), Min(a._z, b._z), Min(a._w, b._w) };
+		return { std::min(a.x, b.x), std::min(a.y, b.y), std::min(a.z, b.z), std::min(a.w, b.w) };
 	}
 
 	inline Float2 Min(const Float2& a, const Float& b)
 	{
-		return { Min(a._x, b.x), Min(a._y, b.x) };
+		return { std::min(a.x, b.x), std::min(a.y, b.x) };
 	}
 
 	inline Float3 Min(const Float3& a, const Float& b)
 	{
-		return { Min(a._x, b.x), Min(a._y, b.x), Min(a._z, b.x) };
+		return { std::min(a.x, b.x), std::min(a.y, b.x), std::min(a.z, b.x) };
 	}
 
 	inline Float4 Min(const Float4& a, const Float& b)
 	{
-		return { Min(a._x, b.x), Min(a._y, b.x), Min(a._z, b.x), Min(a._w, b.x) };
+		return { std::min(a.x, b.x), std::min(a.y, b.x), std::min(a.z, b.x), std::min(a.w, b.x) };
 	}
 
 	//*************************************
 	// max
 
-	inline SOAVecFloat Max(const SOAVecFloat& x, const SOAVecFloat& y)
-	{
-		return { std::max(x.a, y.a), std::max(x.b, y.b), std::max(x.c, y.c), std::max(x.d, y.d) };
-	}
 
 	inline Float Max(const Float& a, const Float& b)
 	{
-		return Max(a.x, b.x);
+		return std::max(a.x, b.x);
 	}
 
 	inline Float2 Max(const Float2& a, const Float2& b)
 	{
-		return { Max(a._x, b._x), Max(a._y, b._y) };
+		return { std::max(a.x, b.x), std::max(a.y, b.y) };
 	}
 
 	inline Float3 Max(const Float3& a, const Float3& b)
 	{
-		return { Max(a._x, b._x), Max(a._y, b._y), Max(a._z, b._z) };
+		return { std::max(a.x, b.x), std::max(a.y, b.y), std::max(a.z, b.z) };
 	}
 
 	inline Float4 Max(const Float4& a, const Float4& b)
 	{
-		return { Max(a._x, b._x), Max(a._y, b._y), Max(a._z, b._z), Max(a._w, b._w) };
+		return { std::max(a.x, b.x), std::max(a.y, b.y), std::max(a.z, b.z), std::max(a.w, b.w) };
 	}
 
 	inline Float2 Max(const Float2& a, const Float& b)
 	{
-		return { Max(a._x, b.x), Max(a._y, b.x) };
+		return { std::max(a.x, b.x), std::max(a.y, b.x) };
 	}
 
 	inline Float3 Max(const Float3& a, const Float& b)
 	{
-		return { Max(a._x, b.x), Max(a._y, b.x), Max(a._z, b.x) };
+		return { std::max(a.x, b.x), std::max(a.y, b.x), std::max(a.z, b.x) };
 	}
 
 	inline Float4 Max(const Float4& a, const Float& b)
 	{
-		return { Max(a._x, b.x), Max(a._y, b.x), Max(a._z, b.x), Max(a._w, b.x) };
+		return { std::max(a.x, b.x), std::max(a.y, b.x), std::max(a.z, b.x), std::max(a.w, b.x) };
 	}
 
 	//*************************************
 	// Clamp
 
-	inline SOAVecFloat Clamp(const SOAVecFloat& x, const SOAVecFloat& minVal, const SOAVecFloat& maxVal)
+	inline Ceng::FLOAT32 Clamp(Ceng::FLOAT32 x, Ceng::FLOAT32 minVal, Ceng::FLOAT32 maxVal)
 	{
-		return Min(Max(x, minVal), maxVal);
+		return std::min(std::max(x, minVal), maxVal);
 	}
 
 	inline Float Clamp(const Float& a, const Float& minVal, const Float& maxVal)
@@ -1357,46 +1305,46 @@ namespace Ceng::Vshader
 
 	inline Float2 Clamp(const Float2& a, const Float2& minVal, const Float2& maxVal)
 	{
-		return { Clamp(a._x, minVal._x, maxVal._x), Clamp(a._y, minVal._y, maxVal._y) };
+		return { Clamp(a.x, minVal.x, maxVal.x), Clamp(a.y, minVal.y, maxVal.y) };
 	}
 
 	inline Float3 Clamp(const Float3& a, const Float3& minVal, const Float3& maxVal)
 	{
-		return { Clamp(a._x, minVal._x, maxVal._x), Clamp(a._y, minVal._y, maxVal._y), Clamp(a._z, minVal._z, maxVal._z) };
+		return { Clamp(a.x, minVal.x, maxVal.x), Clamp(a.y, minVal.y, maxVal.y), Clamp(a.z, minVal.z, maxVal.z) };
 	}
 
 	inline Float4 Clamp(const Float4& a, const Float4& minVal, const Float4& maxVal)
 	{
-		return { Clamp(a._x, minVal._x, maxVal._x),
-				Clamp(a._y, minVal._y, maxVal._y),
-				Clamp(a._z, minVal._z, maxVal._z),
-				Clamp(a._w, minVal._w, maxVal._w) };
+		return { Clamp(a.x, minVal.x, maxVal.x),
+				Clamp(a.y, minVal.y, maxVal.y),
+				Clamp(a.z, minVal.z, maxVal.z),
+				Clamp(a.w, minVal.w, maxVal.w) };
 	}
 
 	inline Float2 Clamp(const Float2& a, const Float& minVal, const Float& maxVal)
 	{
-		return { Clamp(a._x, minVal.x, maxVal.x), Clamp(a._y, minVal.x, maxVal.x) };
+		return { Clamp(a.x, minVal.x, maxVal.x), Clamp(a.y, minVal.x, maxVal.x) };
 	}
 
 	inline Float3 Clamp(const Float3& a, const Float& minVal, const Float& maxVal)
 	{
-		return { Clamp(a._x, minVal.x, maxVal.x), Clamp(a._y, minVal.x, maxVal.x), Clamp(a._z, minVal.x, maxVal.x) };
+		return { Clamp(a.x, minVal.x, maxVal.x), Clamp(a.y, minVal.x, maxVal.x), Clamp(a.z, minVal.x, maxVal.x) };
 	}
 
 	inline Float4 Clamp(const Float4& a, const Float& minVal, const Float& maxVal)
 	{
-		return { Clamp(a._x, minVal.x, maxVal.x),
-				Clamp(a._y, minVal.x, maxVal.x),
-				Clamp(a._z, minVal.x, maxVal.x),
-				Clamp(a._w, minVal.x, maxVal.x) };
+		return { Clamp(a.x, minVal.x, maxVal.x),
+				Clamp(a.y, minVal.x, maxVal.x),
+				Clamp(a.z, minVal.x, maxVal.x),
+				Clamp(a.w, minVal.x, maxVal.x) };
 	}
 
 	//*************************************
 	// Mix
 
-	inline SOAVecFloat Mix(const SOAVecFloat& x, const SOAVecFloat& y, const SOAVecFloat& a)
+	inline Ceng::FLOAT32 Mix(Ceng::FLOAT32 x, Ceng::FLOAT32 y, Ceng::FLOAT32 a)
 	{
-		return x * (SOAVecFloat(1.0f) - a) + y * a;
+		return x * (1.0f - a) + y * a;
 	}
 
 	inline Float Mix(const Float& x, const Float& y, const Float& a)
@@ -1406,32 +1354,32 @@ namespace Ceng::Vshader
 
 	inline Float2 Mix(const Float2& x, const Float2& y, const Float2& a)
 	{
-		return { Mix(x._x, y._x, a._x), Mix(x._y, y._y, a._y) };
+		return { Mix(x.x, y.x, a.x), Mix(x.y, y.y, a.y) };
 	}
 
 	inline Float3 Mix(const Float3& x, const Float3& y, const Float3& a)
 	{
-		return { Mix(x._x, y._x, a._x), Mix(x._y, y._y, a._y), Mix(x._z, y._z, a._z) };
+		return { Mix(x.x, y.x, a.x), Mix(x.y, y.y, a.y), Mix(x.z, y.z, a.z) };
 	}
 
 	inline Float4 Mix(const Float4& x, const Float4& y, const Float4& a)
 	{
-		return { Mix(x._x, y._x, a._x), Mix(x._y, y._y, a._y), Mix(x._z, y._z, a._z), Mix(x._w, y._w, a._w) };
+		return { Mix(x.x, y.x, a.x), Mix(x.y, y.y, a.y), Mix(x.z, y.z, a.z), Mix(x.w, y.w, a.w) };
 	}
 
 	inline Float2 Mix(const Float2& x, const Float2& y, const Float& a)
 	{
-		return { Mix(x._x, y._x, a.x), Mix(x._y, y._y, a.x) };
+		return { Mix(x.x, y.x, a.x), Mix(x.y, y.y, a.x) };
 	}
 
 	inline Float3 Mix(const Float3& x, const Float3& y, const Float& a)
 	{
-		return { Mix(x._x, y._x, a.x), Mix(x._y, y._y, a.x), Mix(x._z, y._z, a.x) };
+		return { Mix(x.x, y.x, a.x), Mix(x.y, y.y, a.x), Mix(x.z, y.z, a.x) };
 	}
 
 	inline Float4 Mix(const Float4& x, const Float4& y, const Float& a)
 	{
-		return { Mix(x._x, y._x, a.x), Mix(x._y, y._y, a.x), Mix(x._z, y._z, a.x), Mix(x._w, y._w, a.x) };
+		return { Mix(x.x, y.x, a.x), Mix(x.y, y.y, a.x), Mix(x.z, y.z, a.x), Mix(x.w, y.w, a.x) };
 	}
 }
 
