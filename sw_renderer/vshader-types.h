@@ -598,6 +598,18 @@ namespace Ceng::Vshader
 		return (Ceng::VectorF2)a / b;
 	}
 
+	// Binary operators, Float2-Float
+
+	inline Float2 operator * (const Float2& a, const Float& b)
+	{
+		return a * b;
+	}
+
+	inline Float2 operator / (const Float2& a, const Float& b)
+	{
+		return a / b;
+	}
+
 	// Binary operators, Float2-FLOAT32
 
 	inline Float2 operator * (const Float2& a, Ceng::FLOAT32 b)
@@ -870,6 +882,18 @@ namespace Ceng::Vshader
 		return (Ceng::VectorF3)a / b;
 	}
 
+	// Binary operators, Float3-Float
+
+	inline Float3 operator * (const Float3& a, const Float& b)
+	{
+		return a * b;
+	}
+
+	inline Float3 operator / (const Float3& a, const Float& b)
+	{
+		return a / b;
+	}
+
 	// Binary operators, Float3-FLOAT32
 
 	inline Float3 operator * (const Float3& a, Ceng::FLOAT32 b)
@@ -1140,6 +1164,18 @@ namespace Ceng::Vshader
 		return temp /= b;
 	}
 
+	// Binary operators, Float4-Float
+
+	inline Float4 operator * (const Float4& a, const Float& b)
+	{
+		return a * b;
+	}
+
+	inline Float4 operator / (const Float4& a, const Float& b)
+	{
+		return a / b;
+	}
+
 	// Binary operators, InFloat4-FLOAT32
 
 	inline Float4 operator * (const Vshader::InFloat4& a, Ceng::FLOAT32 b)
@@ -1152,7 +1188,7 @@ namespace Ceng::Vshader
 		return (Ceng::VectorF4)a / b;
 	}
 
-	// Binary operators, Float2-FLOAT32
+	// Binary operators, Float4-FLOAT32
 
 	inline Float4 operator * (const Float4& a, Ceng::FLOAT32 b)
 	{
