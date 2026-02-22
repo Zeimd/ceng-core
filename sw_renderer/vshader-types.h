@@ -9,10 +9,174 @@
 
 namespace Ceng::Vshader
 {
+	class Bool;
+	class Bool2;
+	class Bool3;
+	class Bool4;
+
 	class Float;
 	class Float2;
 	class Float3;
 	class Float4;
+
+	//********************************************************************************
+
+	class Bool
+	{
+	public:
+		Ceng::BOOL x;
+
+	public:
+
+		inline Bool(const Bool& other)
+			: x(other.x)
+		{
+
+		}
+
+		inline Bool(bool x)
+			: x(x)
+		{
+
+		}
+
+		inline Bool(Ceng::BOOL x)
+			: x(x)
+		{
+
+		}
+	};
+
+	inline Bool operator == (const Bool& a, const Bool& b)
+	{
+		return a.x == b.x;
+	}
+
+	inline Bool operator != (const Bool& a, const Bool& b)
+	{
+		return a.x != b.x;
+	}
+
+	//********************************************************************************
+
+	class Bool2
+	{
+	public:
+		Ceng::BOOL x;
+		Ceng::BOOL y;
+
+	public:
+
+		inline Bool2(const Bool2& other)
+			: x(other.x), y(other.y)
+		{
+
+		}
+
+		inline Bool2(bool x, bool y)
+			: x(x), y(y)
+		{
+
+		}
+
+		inline Bool2(Ceng::BOOL x, Ceng::BOOL y)
+			: x(x), y(y)
+		{
+
+		}
+
+		inline Bool2 operator == (const Bool2& other)
+		{
+			return { x == other.x, y == other.y };
+		}
+
+		inline Bool2 operator != (const Bool2& other)
+		{
+			return { x != other.x, y != other.y };
+		}
+	};
+
+	//********************************************************************************
+
+	class Bool3
+	{
+	public:
+		Ceng::BOOL x;
+		Ceng::BOOL y;
+		Ceng::BOOL z;
+
+	public:
+
+		inline Bool3(const Bool3& other)
+			: x(other.x), y(other.y), z(other.z)
+		{
+
+		}
+
+		inline Bool3(bool x, bool y, bool z)
+			: x(x), y(y), z(z)
+		{
+
+		}
+
+		inline Bool3(Ceng::BOOL x, Ceng::BOOL y, Ceng::BOOL z)
+			: x(x), y(y),z(z)
+		{
+
+		}
+
+		inline Bool3 operator == (const Bool3& other)
+		{
+			return { x == other.x, y == other.y, z == other.z };
+		}
+
+		inline Bool3 operator != (const Bool3& other)
+		{
+			return { x != other.x, y != other.y, z != other.z };
+		}
+	};
+
+	//********************************************************************************
+
+	class Bool4
+	{
+	public:
+		Ceng::BOOL x;
+		Ceng::BOOL y;
+		Ceng::BOOL z;
+		Ceng::BOOL w;
+
+	public:
+
+		inline Bool4(const Bool4& other)
+			: x(other.x), y(other.y), z(other.z), w(other.w)
+		{
+
+		}
+
+		inline Bool4(bool x, bool y, bool z, bool w)
+			: x(x), y(y), z(z), w(w)
+		{
+
+		}
+
+		inline Bool4(Ceng::BOOL x, Ceng::BOOL y, Ceng::BOOL z, Ceng::BOOL w)
+			: x(x), y(y), z(z), w(w)
+		{
+
+		}
+
+		inline Bool4 operator == (const Bool4& other)
+		{
+			return { x == other.x, y == other.y, z == other.z, w == other.w };
+		}
+
+		inline Bool4 operator != (const Bool4& other)
+		{
+			return { x != other.x, y != other.y, z != other.z, w != other.w };
+		}
+	};
+
 
 	//********************************************************************************
 
