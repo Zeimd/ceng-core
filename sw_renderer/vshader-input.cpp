@@ -57,6 +57,26 @@ void (*InFloat2::call_ToFloat2[128])(void*,void*) =
 		NULL , // FP16_4
 	};
 
+void (*InFloat3::call_ToFloat3[128])(void*, void*) =
+{
+	// Indexed by source format
+
+	NULL , // UNKNOWN
+
+	NULL , // FLOAT
+	NULL , // FLOAT2
+	&VSIN_FLOAT3_FLOAT3_X86 , // FLOAT3
+	NULL , // FLOAT4
+
+	NULL , // DOUBLE
+	NULL , // DOUBLE2
+	NULL , // DOUBLE3
+	NULL , // DOUBLE4
+
+	NULL , // FP16_2
+	NULL , // FP16_4
+};
+
 void (*InFloat4::call_ToFloat4[128])(void*,void*) =
 	{
 		// Indexed by source format
@@ -92,6 +112,16 @@ namespace Ceng::Vshader
 		__m128d temp = _mm_load_sd((double*)source);
 
 		_mm_store_sd((double*)dest,temp);
+	}
+
+	void VSIN_FLOAT3_FLOAT3_X86(void* dest, void* source)
+	{
+		Ceng::UINT32* destPtr = (Ceng::UINT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		destPtr[0] = sourcePtr[0];
+		destPtr[1] = sourcePtr[1];
+		destPtr[2] = sourcePtr[2];
 	}
 
 	void VSIN_FLOAT4_FLOAT4_X86_SSE(void *dest,void *source)

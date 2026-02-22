@@ -69,6 +69,23 @@ namespace Ceng::Vshader
 		static void (*call_ToFloat2[128])(void* dest, void* source);
 	};
 
+	class InFloat3 : public CR_VertexShaderInput
+	{
+	public:
+
+		operator VectorF3() const
+		{
+			_declspec(align(16)) VectorF3 temp;
+
+			(*call_ToFloat3[sourceFormat])(&temp, (void*)sourceAddress);
+			return temp;
+		}
+
+	protected:
+
+		static void (*call_ToFloat3[128])(void* dest, void* source);
+	};
+
 	class InFloat4 : public CR_VertexShaderInput
 	{
 	public:
@@ -90,6 +107,7 @@ namespace Ceng::Vshader
 
 	extern void VSIN_FLOAT_FLOAT_X86(void *dest,void *source);
 	extern void VSIN_FLOAT2_FLOAT2_X86_SSE2(void *dest,void *source);
+	extern void VSIN_FLOAT3_FLOAT3_X86(void* dest, void* source);
 	extern void VSIN_FLOAT4_FLOAT4_X86_SSE(void *dest,void *source);
 };
 
