@@ -83,6 +83,78 @@ public:
 // Four component vector template
 
 template<class T>
+class MathVector3
+{
+public:
+	T x;
+	T y;
+	T z;
+
+public:
+	MathVector3();
+	~MathVector3();
+
+	MathVector3(const MathVector3& other);
+
+	MathVector3(const T nx, const T ny, const T nz);
+
+	MathVector3& operator = (const MathVector3& other);
+
+	// Arithmetic
+	MathVector3& operator += (const MathVector3& other);
+	const MathVector3 operator + (const MathVector3& other) const;
+
+	MathVector3& operator -= (const MathVector3& other);
+	const MathVector3 operator - (const MathVector3& other) const;
+
+	MathVector3& operator *= (const MathVector3& other);
+	const MathVector3 operator * (const MathVector3& other) const;
+
+	MathVector3& operator *= (const T& scalar);
+	const MathVector3 operator * (const T& scalar) const;
+
+	MathVector3& operator /= (const MathVector3& other);
+	const MathVector3 operator / (const MathVector3& other) const;
+
+	MathVector3& operator /= (const T& scalar);
+	const MathVector3 operator / (const T& scalar) const;
+
+	// Bitwise logic
+	MathVector3& operator &= (const MathVector3& other);
+	MathVector3& operator |= (const MathVector3& other);
+	MathVector3& operator ^= (const MathVector3& other);
+
+	const MathVector3 operator & (const MathVector3& other) const;
+	const MathVector3 operator | (const MathVector3& other) const;
+	const MathVector3 operator ^ (const MathVector3& other) const;
+
+	// Unary -
+	const MathVector3 operator -() const;
+
+	// Common vector operations
+	void Normalize();
+
+	const FLOAT32 Length() const;
+	const FLOAT32 HomogenLength() const;
+
+	const FLOAT32 Square() const;
+	const FLOAT32 HomogenSquare() const;
+
+	const FLOAT32 DotProduct(const MathVector3& other) const;
+
+	// Cross product = this x other
+	const MathVector3 CrossProduct(const MathVector3& other) const;
+
+	// Other
+
+	const UINT32 SignMask();
+};
+
+
+//********************************************************************
+// Four component vector template
+
+template<class T>
 class MathVector4
 {
 public:
@@ -516,6 +588,450 @@ inline const FLOAT32 MathVector2<T>::
 {
 	return x*other.x+y*other.y;
 }
+
+//**************************************************************
+// MathVector3 methods
+
+template<class T>
+inline MathVector3<T>::MathVector3()
+{
+}
+
+template<class T>
+inline MathVector3<T>::~MathVector3()
+{
+}
+
+template<class T>
+inline MathVector3<T>::MathVector3(const MathVector3& other)
+{
+	x = other.x;
+	y = other.y;
+	z = other.z;
+}
+
+template<class T>
+inline MathVector3<T>::MathVector3(T nx, T ny, T nz)
+{
+	x = nx;
+	y = ny;
+	z = nz;
+}
+
+template<class T>
+inline const UINT32 MathVector3<T>::SignMask()
+{
+	UINT32 temp = 0;
+
+	if (x < T(0.0f)) temp += 1;
+	if (y < T(0.0f)) temp += 2;
+	if (z < T(0.0f)) temp += 4;
+
+	/*
+	if (x < T(-0.0f)) temp += 1;
+	if (y < T(-0.0f)) temp += 2;
+	if (z < T(-0.0f)) temp += 4;
+	*/
+
+	return temp;
+}
+
+template<class T>
+inline const MathVector3<T> MathVector3<T>::operator -() const
+{
+	return MathVector3<T>(-x, -y, -z);
+}
+
+
+template<class T>
+inline MathVector3<T>& MathVector3<T>::operator =(const MathVector3& other)
+{
+	x = other.x;
+	y = other.y;
+	z = other.z;
+
+	return *this;
+}
+
+template<class T>
+inline MathVector3<T>& MathVector3<T>::operator += (const MathVector3& other)
+{
+	x += other.x;
+	y += other.y;
+	z += other.z;
+
+	return *this;
+}
+
+template<class T>
+inline MathVector3<T>& MathVector3<T>::operator -= (const MathVector3& other)
+{
+	x -= other.x;
+	y -= other.y;
+	z -= other.z;
+
+	return *this;
+}
+
+template<class T>
+inline MathVector3<T>& MathVector3<T>::operator *= (const MathVector3& other)
+{
+	x *= other.x;
+	y *= other.y;
+	z *= other.z;
+
+	return *this;
+}
+
+template<class T>
+inline MathVector3<T>& MathVector3<T>::operator *= (const T& scalar)
+{
+	x *= scalar;
+	y *= scalar;
+	z *= scalar;
+
+	return *this;
+}
+
+template<class T>
+inline MathVector3<T>& MathVector3<T>::operator /= (const MathVector3& other)
+{
+	x /= other.x;
+	y /= other.y;
+	z /= other.z;
+
+	return *this;
+}
+
+template<class T>
+inline MathVector3<T>& MathVector3<T>::operator /= (const T& scalar)
+{
+	x /= scalar;
+	y /= scalar;
+	z /= scalar;
+
+	return *this;
+}
+
+//****************************************************
+// Vector3 bitwise logic
+
+template<class T>
+inline MathVector3<T>& MathVector3<T>::operator &= (const MathVector3& other)
+{
+	// Force the compiler to interpret data as 
+	// an unsigned integer of same size, then operate bitwise logic
+	if (sizeof(T) == 4)
+	{
+		UINT32 temp;
+
+		temp = (*(UINT32*)&x) & (*(UINT32*)&other.x);
+		x = *(T*)&temp;
+
+		temp = (*(UINT32*)&y) & (*(UINT32*)&other.y);
+		y = *(T*)&temp;
+
+		temp = (*(UINT32*)&z) & (*(UINT32*)&other.z);
+		z = *(T*)&temp;
+	}
+	else if (sizeof(T) == 8)
+	{
+		UINT64 temp;
+
+		temp = (*(UINT64*)&x) & (*(UINT64*)&other.x);
+		x = *(T*)&temp;
+
+		temp = (*(UINT64*)&y) & (*(UINT64*)&other.y);
+		y = *(T*)&temp;
+
+		temp = (*(UINT64*)&z) & (*(UINT64*)&other.z);
+		z = *(T*)&temp;
+	}
+	else if (sizeof(T) == 2)
+	{
+		UINT16 temp;
+
+		temp = (*(UINT16*)&x) & (*(UINT16*)&other.x);
+		x = *(T*)&temp;
+
+		temp = (*(UINT16*)&y) & (*(UINT16*)&other.y);
+		y = *(T*)&temp;
+
+		temp = (*(UINT16*)&z) & (*(UINT16*)&other.z);
+		z = *(T*)&temp;
+	}
+	else if (sizeof(T) == 1)
+	{
+		UINT8 temp;
+
+		temp = (*(UINT8*)&x) & (*(UINT8*)&other.x);
+		x = *(T*)&temp;
+
+		temp = (*(UINT8*)&y) & (*(UINT8*)&other.y);
+		y = *(T*)&temp;
+
+		temp = (*(UINT8*)&z) & (*(UINT8*)&other.z);
+		z = *(T*)&temp;
+	}
+
+	return *this;
+}
+
+template<class T>
+inline MathVector3<T>& MathVector3<T>::operator |= (const MathVector3& other)
+{
+	// Force the compiler to interpret data as 
+		// an unsigned integer of same size, then operate bitwise logic
+	if (sizeof(T) == 4)
+	{
+		UINT32 temp;
+
+		temp = (*(UINT32*)&x) | (*(UINT32*)&other.x);
+		x = *(T*)&temp;
+
+		temp = (*(UINT32*)&y) | (*(UINT32*)&other.y);
+		y = *(T*)&temp;
+
+		temp = (*(UINT32*)&z) | (*(UINT32*)&other.z);
+		z = *(T*)&temp;
+	}
+	else if (sizeof(T) == 8)
+	{
+		UINT64 temp;
+
+		temp = (*(UINT64*)&x) | (*(UINT64*)&other.x);
+		x = *(T*)&temp;
+
+		temp = (*(UINT64*)&y) | (*(UINT64*)&other.y);
+		y = *(T*)&temp;
+
+		temp = (*(UINT64*)&z) | (*(UINT64*)&other.z);
+		z = *(T*)&temp;
+	}
+	else if (sizeof(T) == 2)
+	{
+		UINT16 temp;
+
+		temp = (*(UINT16*)&x) | (*(UINT16*)&other.x);
+		x = *(T*)&temp;
+
+		temp = (*(UINT16*)&y) | (*(UINT16*)&other.y);
+		y = *(T*)&temp;
+
+		temp = (*(UINT16*)&z) | (*(UINT16*)&other.z);
+		z = *(T*)&temp;
+	}
+	else if (sizeof(T) == 1)
+	{
+		UINT8 temp;
+
+		temp = (*(UINT8*)&x) | (*(UINT8*)&other.x);
+		x = *(T*)&temp;
+
+		temp = (*(UINT8*)&y) | (*(UINT8*)&other.y);
+		y = *(T*)&temp;
+
+		temp = (*(UINT8*)&z) | (*(UINT8*)&other.z);
+		z = *(T*)&temp;
+	}
+
+	return *this;
+}
+
+template<class T>
+inline MathVector3<T>& MathVector3<T>::operator ^= (const MathVector3& other)
+{
+	// Force the compiler to interpret data as 
+		// an unsigned integer of same size, then operate bitwise logic
+	if (sizeof(T) == 4)
+	{
+		UINT32 temp;
+
+		temp = (*(UINT32*)&x) ^ (*(UINT32*)&other.x);
+		x = *(T*)&temp;
+
+		temp = (*(UINT32*)&y) ^ (*(UINT32*)&other.y);
+		y = *(T*)&temp;
+
+		temp = (*(UINT32*)&z) ^ (*(UINT32*)&other.z);
+		z = *(T*)&temp;
+	}
+	else if (sizeof(T) == 8)
+	{
+		UINT64 temp;
+
+		temp = (*(UINT64*)&x) ^ (*(UINT64*)&other.x);
+		x = *(T*)&temp;
+
+		temp = (*(UINT64*)&y) ^ (*(UINT64*)&other.y);
+		y = *(T*)&temp;
+
+		temp = (*(UINT64*)&z) ^ (*(UINT64*)&other.z);
+		z = *(T*)&temp;
+	}
+	else if (sizeof(T) == 2)
+	{
+		UINT16 temp;
+
+		temp = (*(UINT16*)&x) ^ (*(UINT16*)&other.x);
+		x = *(T*)&temp;
+
+		temp = (*(UINT16*)&y) ^ (*(UINT16*)&other.y);
+		y = *(T*)&temp;
+
+		temp = (*(UINT16*)&z) ^ (*(UINT16*)&other.z);
+		z = *(T*)&temp;
+	}
+	else if (sizeof(T) == 1)
+	{
+		UINT8 temp;
+
+		temp = (*(UINT8*)&x) ^ (*(UINT8*)&other.x);
+		x = *(T*)&temp;
+
+		temp = (*(UINT8*)&y) ^ (*(UINT8*)&other.y);
+		y = *(T*)&temp;
+
+		temp = (*(UINT8*)&z) ^ (*(UINT8*)&other.z);
+		z = *(T*)&temp;
+	}
+
+	return *this;
+}
+
+template<class T>
+inline const MathVector3<T> MathVector3<T>::
+operator & (const MathVector3& other) const
+{
+	MathVector3 temp = MathVector3(*this);
+
+	temp &= other;
+	return temp;
+}
+
+template<class T>
+inline const MathVector3<T> MathVector3<T>::
+operator | (const MathVector3& other) const
+{
+	MathVector3 temp = MathVector3(*this);
+
+	temp |= other;
+	return temp;
+}
+
+template<class T>
+inline const MathVector3<T> MathVector3<T>::
+operator ^ (const MathVector3& other) const
+{
+	MathVector3 temp = MathVector3(*this);
+
+	temp ^= other;
+	return temp;
+}
+
+//*************************************************************
+// Vector3 two parameter arithmetic
+
+template<class T>
+__forceinline const MathVector3<T> MathVector3<T>::
+operator + (const MathVector3& other) const
+{
+	MathVector3 temp = MathVector3(*this);
+	temp += other;
+	return temp;
+
+}
+
+template<class T>
+inline const MathVector3<T> MathVector3<T>::
+operator - (const MathVector3& other) const
+{
+	MathVector3 temp = MathVector3(*this);
+	temp -= other;
+	return temp;
+}
+
+template<class T>
+inline const MathVector3<T> MathVector3<T>::
+operator * (const MathVector3& other) const
+{
+	MathVector3 temp = MathVector3(*this);
+	temp *= other;
+	return temp;
+}
+
+template<class T>
+inline const MathVector3<T> MathVector3<T>::
+operator * (const T& scalar) const
+{
+	MathVector3 temp = MathVector3(*this);
+	temp *= scalar;
+	return temp;
+}
+
+template<class T>
+inline const MathVector3<T> MathVector3<T>::
+operator / (const MathVector3& other) const
+{
+	MathVector3 temp = MathVector3(*this);
+	temp /= other;
+	return temp;
+}
+
+template<class T>
+inline const MathVector3<T> MathVector3<T>::
+operator / (const T& scalar) const
+{
+	MathVector3 temp = MathVector3(*this);
+	temp /= scalar;
+	return temp;
+}
+
+//**********************************************************************
+// Vector3 common operations
+
+template<class T>
+inline const FLOAT32 MathVector3<T>::Length() const
+{
+	return sqrt(x * x + y * y + z * z);
+}
+
+template<class T>
+inline const FLOAT32 MathVector3<T>::Square() const
+{
+	return x * x + y * y + z * z;
+}
+
+template<class T>
+inline void MathVector3<T>::Normalize()
+{
+	FLOAT32 div;
+	div = FLOAT32(1.0) / Length();
+
+	x *= div;
+	y *= div;
+	z *= div;
+}
+
+template<class T>
+inline const FLOAT32 MathVector3<T>::
+DotProduct(const MathVector3& other) const
+{
+	return x * other.x + y * other.y + z * other.z;
+}
+
+template<class T>
+inline const MathVector3<T> MathVector3<T>::
+CrossProduct(const MathVector3& other) const
+{
+	MathVector3 temp;
+	temp.x = y * other.z - z * other.y;
+	temp.y = z * other.x - x * other.z;
+	temp.z = x * other.y - y * other.x;
+
+	return temp;
+}
+
 
 //**************************************************************
 // MathVector4 methods
@@ -1068,18 +1584,23 @@ inline const MathVector4<T> MathVector4<T>::
 }
 
 typedef MathVector2<FLOAT32> VectorF2;
+typedef MathVector3<FLOAT32> VectorF3;
 typedef MathVector4<FLOAT32> VectorF4;
 
 typedef MathVector2<FLOAT64> VectorD2;
+typedef MathVector3<FLOAT64> VectorD3;
 typedef MathVector4<FLOAT64> VectorD4;
 
 typedef MathVector2<UINT32> VectorU2;
+typedef MathVector3<UINT32> VectorU3;
 typedef MathVector4<UINT32> VectorU4;
 
+typedef MathVector2<INT32> VectorI2;
 typedef MathVector2<INT32> VectorI2;
 typedef MathVector4<INT32> VectorI4;
 
 typedef MathVector2<Ceng::BOOL> VectorB2;
+typedef MathVector3<Ceng::BOOL> VectorB3;
 typedef MathVector4<Ceng::BOOL> VectorB4;
 
 // Euclidian (Cartesian) basis vectors
