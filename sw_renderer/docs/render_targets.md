@@ -4,64 +4,112 @@ Render targets
 --------------------------
 Datatype
 
-The following standard datatypes come in version with 1-4 components
+unorm = converts to float in range (0,1)
+uint = unsigned integer
+int = signed integer
 
-- signed normalized byte (converts to float in range [-1.0, 1.0] )
+fp32 = 32-bit floating point
+fp16 = 16-bit floating point
 
-- unsigned normalized byte (converts to float in range [0.0, 1.0] )
+gray = single channel, extracts to RGB with same value on each channel
 
-- signed normalized short
+alpha = alpha only format
 
-- unsigned normalized short
+a = alpha
+r = red
+g = green
+b = blue
 
-- int8 (converts to float in range [-128,127])
+Formats have 1-4 channels with different amounts of bits to represent the data
 
-- uint8 (converts to float in range [0,255])
+    unorm_r8 
+    uint_r8
+    int_r8
 
-- int16
+    unorm_r16
+    uint_r16
+    int_r16
 
-- uint16
+    fp32_r
+    fp16_r
 
-- int32
+    fp16_gray
 
-- uint32
+    gray_8
+    gray_16
+    gray_24
+    gray_32
 
-- float16
+    alpha_8
 
-- float32
+    unorm_r8_g8 
+    uint_r8_g8
+    int_r8_g8
 
-Total standard types: 12x4 = 48
+    unorm_g8_r8
+    uint_g8_r8
+    int_g8_r8
 
-Grayscale types have only one channel and set R,G,B to same value:
+    unorm_r16_g16
+    uint_r16_g16
+    int_r16_g16
 
-    gray_unorm8
-    gray_unorm16
-    gray_unorm24
-    gray_unorm32
+    unorm_g16_r16
+    uint_g16_r16
+    int_g16_r16
 
-    gray_fp16
+    fp32_gr
+    fp32_rg
 
-Total grayscale types = 5
+    fp16_gr
+    fp16_rg
 
-Alpha only types
+    unorm_r8_g8_b8
+    uint_r8_g8_b8
+    int_r8_g8_b8
 
-    alpha8
+    unorm_b8_g8_r8
+    uint_b8_g8_r8
+    int_b8_g8_r8
 
-Total alpha only types = 1
+    unorm_b32_g32_r32
 
-Complex types
+    fp32_bgr
+    fp32_rgb
+
+    unorm_a8_r8_g8_b8
+    uint_a8_r8_g8_b8
+    int_a8_r8_g8_b8
+
+    unorm_a8_b8_g8_r8
+    uint_a8_b8_g8_r8
+    int_a8_b8_g8_r8
+
+    unorm_a16_b16_g16_r16
+    uint_a16_b16_g16_r16
+    int_a16_b16_g16_r16
+
+    unorm_a16_r16_g16_b16
+
+    unorm_a32_b32_g32_r32
+
+    fp32_abgr
+    fp32_argb
+
+    fp16_abgr
+    fp16_argb 
 
     unorm_r5_g6_b5
     unorm_b5_g6_r5
 
     unorm_a1_r5_g5_b5
     unorm_a1_b5_g5_r5
-
+    
     unorm_a2_r10_g10_b10
-    unorm_a2_b10_g10_r10
+    unorm_a2_b10_g10_r10    
 
     unorm_r3_g3_b2
-    unorm_b2_g3_r3
+    unorm_b2_g3_r3 
 
     unorm_x8_r8_g8_b8
     unorm_x8_b8_g8_r8
@@ -70,15 +118,18 @@ Complex types
 
     unorm_a4_r4_g4_b4
     unorm_a4_b4_g4_r4
+
     unorm_x4_r4_g4_b4
     unorm_x4_b4_g4_r4
 
     unorm_a8_r3_g3_b2
     unorm_a8_b2_g3_r3
 
-Total complex types: 17
+Total = 71 formats
 
-Total datatypes = 71
+In practice some of these will be too inefficient to support in a software renderer.
+
+
 
 Layouts
 --------------------------
@@ -138,13 +189,24 @@ alpha group
 
 Unique states
 
-all states which have blend disabled are the same, so that leaves us with 4_176_050 combinations.
+all states which have blend disabled are the same, so that leaves us with 2*17*17*5*17*17*5 = 4_176_050 combinations.
 
 Total combinations
 --------------------
 
-Combining all of the above, 2_371_996_400 unique render target writer variants are needed. 
+Combining all of the above, 2_371_996_400 unique render target writer variants are needed. But since color and alpha are processed separately,
+there are in practice two different functions with 2 * 17 * 17 * 5 * 71 * 8 = 1_641_520 variants each.
 
 
+Blend implementation details
+-------------------
+Smallest possible format is used for blending. For example, unorm_a8_b8_g8_r8 would use 16-bit integers, since that is the smallest
+type for which SSE allows multiplication. Value written by pixel shader is first converted to this format. Similarly, current value from
+render target is loaded and converted to this format.
+
+If data is held in SOA, it is trivial to apply different operations to color and alpha. In case of AOS, it is necessary to separate alpha
+and color with shifts or masking. Otherwise it is not possible to merge all blend operation variants to be performed at the same time.
+
+NOTE: for unsigned integers, inversion can also be computed in another manner: 255-x = x XOR 255
 
 
