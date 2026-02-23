@@ -57,7 +57,7 @@ static RenderTargetBlendDesc defaultTargetBlend
 	BlendType::zero,
 	BlendOp::add,
 
-	RenderTargetBlendDesc::WRITE_ENABLE_ALL,
+	ColorWriteMask::all,
 
 };
 

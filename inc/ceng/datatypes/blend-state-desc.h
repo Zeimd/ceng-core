@@ -91,6 +91,18 @@ namespace Ceng
 		};
 	}
 
+	namespace ColorWriteMask
+	{
+		enum value
+		{
+			red = 1,
+			green = 2,
+			blue = 4,
+			alpha = 8,
+			all = red | green | blue | alpha,
+		};
+	}
+
 	class RenderTargetBlendDesc
 	{
 	public:
@@ -126,9 +138,8 @@ namespace Ceng
 		*/
 		Ceng::BlendOp::value blendAlphaOp;
 
+		// Combination of ColorWriteMask flags
 		Ceng::UINT8 writeMask;
-
-		static const Ceng::UINT32 WRITE_ENABLE_ALL = 255;
 	};
 
 	class BlendStateDesc
