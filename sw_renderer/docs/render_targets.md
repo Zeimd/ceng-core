@@ -189,7 +189,10 @@ alpha group
 
 Unique states
 
-all states which have blend disabled are the same, so that leaves us with 2*17*17*5*17*17*5 = 4_176_050 combinations.
+all states which have blend disabled are the same, which leaves us with 2*17*17*5*17*17*5 = 4_176_050 combinations.
+But if both 
+
+
 
 Total combinations
 --------------------
@@ -200,6 +203,9 @@ there are in practice two different functions with 2 * 17 * 17 * 5 * 71 * 8 = 1_
 
 Blend implementation details
 -------------------
+For current design that doesn't use runtime shader compiler, using a sequence of callbacks is the only sane way to handle the massive amount of
+blending variants. For compiled shaders, segments of handcrafted machine code can be spliced together to get any variant.
+
 Smallest possible format is used for blending. For example, unorm_a8_b8_g8_r8 would use 16-bit integers, since that is the smallest
 type for which SSE allows multiplication. Value written by pixel shader is first converted to this format. Similarly, current value from
 render target is loaded and converted to this format.
