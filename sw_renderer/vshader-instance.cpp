@@ -59,7 +59,6 @@ CR_VertexShaderInstance::CR_VertexShaderInstance(std::shared_ptr<VertexShaderIns
 
 	for (int k = 0; k < outputRegisters.size(); ++k)
 	{
-		//inputRegisters[k].variable->sourceFormat = common->shader->nullInput.sourceFormat;
 		inputRegisters[k].variable->callBack = &Vshader::NullVertexReader;
 		inputRegisters[k].variable->sourceAddress = common->shader->nullInput.sourceAddress;
 	}
@@ -88,8 +87,6 @@ CRESULT CR_VertexShaderInstance::Configure(const std::vector<VertexShaderInputDe
 	for (size_t k = 0; k < inputRegisters.size(); ++k)
 	{
 		Ceng::UINT32 source = common->sourceIndex[k];
-
-		//inputRegisters[k].variable->sourceFormat = common->vertexFormat->variables[source].dataType;
 
 		inputRegisters[k].variable->callBack = Vshader::GetReadCallback(inputRegisters[k].type,
 			common->vertexFormat->variables[source].dataType);
