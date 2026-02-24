@@ -43,14 +43,24 @@ CR_VertexShaderInstance::CR_VertexShaderInstance(std::shared_ptr<VertexShaderIns
 	outputBaseAddress = 0;
 
 	inputRegisters[0].variable = &inPosition;
+	inputRegisters[0].type = Ceng::SHADER_DATATYPE::FLOAT4;
+
 	inputRegisters[1].variable = &inNormal;
+	inputRegisters[1].type = Ceng::SHADER_DATATYPE::FLOAT4;
+
 	inputRegisters[2].variable = &inTangent;
+	inputRegisters[2].type = Ceng::SHADER_DATATYPE::FLOAT4;
+
 	inputRegisters[3].variable = &inTexCoord0;
+	inputRegisters[3].type = Ceng::SHADER_DATATYPE::FLOAT2;
+
 	inputRegisters[4].variable = &inTexCoord1;
+	inputRegisters[4].type = Ceng::SHADER_DATATYPE::FLOAT2;
 
 	for (int k = 0; k < outputRegisters.size(); ++k)
 	{
-		inputRegisters[k].variable->sourceFormat = common->shader->nullInput.sourceFormat;
+		//inputRegisters[k].variable->sourceFormat = common->shader->nullInput.sourceFormat;
+		inputRegisters[k].variable->callBack = &Vshader::NullVertexReader;
 		inputRegisters[k].variable->sourceAddress = common->shader->nullInput.sourceAddress;
 	}
 
@@ -79,7 +89,10 @@ CRESULT CR_VertexShaderInstance::Configure(const std::vector<VertexShaderInputDe
 	{
 		Ceng::UINT32 source = common->sourceIndex[k];
 
-		inputRegisters[k].variable->sourceFormat = common->vertexFormat->variables[source].dataType;
+		//inputRegisters[k].variable->sourceFormat = common->vertexFormat->variables[source].dataType;
+
+		inputRegisters[k].variable->callBack = Vshader::GetReadCallback(inputRegisters[k].type,
+			common->vertexFormat->variables[source].dataType);
 	}
 
 	// Set up references to output blocks
