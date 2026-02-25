@@ -1,38 +1,8 @@
-/*****************************************************************************
-*
-* cr-vertex-shader.cpp
-*
-* --------------------------------------------------
-* Jari Korkala 8/2014
-*
-* - Renamed to cr-vertex-shader.cpp
-*
-* --------------------------------------------------
-*
-* Created By Jari Korkala 9/2011
-*
-* Implements CR_VertexShader
-*
-*
-*****************************************************************************/
-
-#include <ceng/math/ce-matrix.h>
-
-#include <ceng/lib/liblog.h>
-
 #include "cr-vertex-shader.h"
 
-#include "vshader-instance.h"
-
-#include "cr-vertex-format.h"
-
-#include "vertex-stream.h"
-
-#include "draw-batch.h"
-
-#include "cr-shader-const.h"
-
 #include "VertexShaderInstanceCommon.h"
+#include "fragment-format.h"
+#include "cr-vertex-format.h"
 
 using namespace Ceng;
 
@@ -46,7 +16,7 @@ CR_VertexShader::CR_VertexShader()
 	// to guard against exceptions from use
 	// of undefined semantic links
 
-	nullBuffer = AlignedBuffer<Ceng::UINT8>(64,64);
+	nullBuffer = AlignedBuffer<Ceng::UINT8>(64, 64);
 	nullBufferPtr = (POINTER)&nullBuffer[0];
 
 	//nullInput.sourceFormat = Ceng::SHADER_DATATYPE::UINT;
@@ -77,13 +47,13 @@ const Ceng::BOOL CR_VertexShader::Compiled()
 	return compiled;
 }
 
-CRESULT CR_VertexShader::GetConstant(const char *variableName,
-	Ceng::UINT32 &out_index, Ceng::SHADER_DATATYPE::value &out_type)
+CRESULT CR_VertexShader::GetConstant(const char* variableName,
+	Ceng::UINT32& out_index, Ceng::SHADER_DATATYPE::value& out_type)
 {
 	size_t k;
-	for(k=0;k<uniformList.size();k++)
+	for (k = 0; k < uniformList.size(); k++)
 	{
-		if (strcmp(uniformList[k].name,variableName) == 0)
+		if (strcmp(uniformList[k].name, variableName) == 0)
 		{
 			out_index = Ceng::UINT32(k);
 			out_type = uniformList[k].dataType;
@@ -97,7 +67,7 @@ CRESULT CR_VertexShader::GetConstant(const char *variableName,
 
 Ceng::UINT32 CR_VertexShader::GetDataSize(const Ceng::SHADER_DATATYPE::value datatype)
 {
-	switch(datatype)
+	switch (datatype)
 	{
 	case Ceng::SHADER_DATATYPE::FLOAT:
 		return 4;
@@ -119,7 +89,7 @@ CRESULT CR_VertexShader::ConfigureConstants()
 	return nextInstance->ConfigureUniforms(uniformList, uniformManager);
 }
 
-CRESULT CR_VertexShader::SetFragmentFormat(CR_FragmentFormat *format)
+CRESULT CR_VertexShader::SetFragmentFormat(CR_FragmentFormat* format)
 {
 	nextInstance->fragmentFormat = format;
 	nextInstance->fragmentSizeBytes = format->size;
@@ -138,7 +108,7 @@ CRESULT CR_VertexShader::ConfigureInput()
 
 	Ceng::UINT32 k;
 
-	for(k=0;k<inputSemantics.size();k++)
+	for (k = 0; k < inputSemantics.size(); k++)
 	{
 		// Mark semantic as required
 		inputFlags |= inputSemantics[k].semantic;
@@ -147,7 +117,7 @@ CRESULT CR_VertexShader::ConfigureInput()
 	return CE_OK;
 }
 
-CRESULT CR_VertexShader::SetVertexFormat(CR_VertexFormat *vertexDecl)
+CRESULT CR_VertexShader::SetVertexFormat(CR_VertexFormat* vertexDecl)
 {
 	if (vertexDecl == nullptr)
 	{
@@ -166,7 +136,7 @@ CRESULT CR_VertexShader::SetVertexFormat(CR_VertexFormat *vertexDecl)
 	// Link each register to the variable with matching semantic
 	// NOTE: multiple shader inputs can be linked to same input variable
 
-	
+
 
 	/*
 	Log::Print("\nVertexShader.SetVertexFormat: input indices\n");
@@ -209,9 +179,9 @@ CRESULT CR_VertexShader::SetVertexFormat(CR_VertexFormat *vertexDecl)
 }
 
 CRESULT CR_VertexShader::SetVertexStreams(Ceng::UINT32 streamCount,
-										  VertexStreamData *streamList)
+	VertexStreamData* streamList)
 {
-	
+
 	if (streamList == nullptr)
 	{
 		return CE_ERR_NULL_PTR;
@@ -220,7 +190,7 @@ CRESULT CR_VertexShader::SetVertexStreams(Ceng::UINT32 streamCount,
 	nextInstance->streamCount = streamCount;
 	nextInstance->vertexStreams = streamList;
 
-	
+
 	/*
 	Log::Print("\nVertexShader.SetVertexStreams: input streams\n");
 
@@ -241,7 +211,7 @@ CRESULT CR_VertexShader::SetVertexStreams(Ceng::UINT32 streamCount,
 	}
 
 	Log::Print("\nVertexShader.SetVertexStreams: semantic source address\n");
-	
+
 	for(k=0;k<inputSemantics.size();k++)
 	{
 		switch(inputSemantics[k].semantic)
@@ -279,40 +249,17 @@ CRESULT CR_VertexShader::SetVertexStreams(Ceng::UINT32 streamCount,
 	return CE_OK;
 }
 
-const CRESULT CR_VertexShader::GetInstances(std::vector<std::shared_ptr<CR_VertexShaderInstance>>& instances,
-	const Ceng::UINT32 renderThreads)
+const CRESULT CR_VertexShader::ReadUniform(const Ceng::UINT32 index, void* destBuffer)
 {
-	// Create an instance using *nextState*
-
-	nextInstance->ConfigureInput(inputSemantics);
-
-	currentInstance = nextInstance;
-
-	nextInstance = std::make_shared<VertexShaderInstanceCommon>(*currentInstance);
-		
-	instances = std::vector<std::shared_ptr<CR_VertexShaderInstance>>(renderThreads);
-
-	for (Ceng::UINT32 k = 0; k < instances.size(); k++)
-	{
-		instances[k] = std::make_shared<CR_VertexShaderInstance>(currentInstance);
-
-		instances[k]->Configure(inputSemantics);
-	}
-
-	return CE_OK;
-}
-
-const CRESULT CR_VertexShader::ReadUniform(const Ceng::UINT32 index,void *destBuffer)
-{
-	memcpy(destBuffer,nextInstance->uniformBuffer.uniformPtr[index],uniformManager.uniformAllocation[index].size);
+	memcpy(destBuffer, nextInstance->uniformBuffer.uniformPtr[index], uniformManager.uniformAllocation[index].size);
 
 	return CE_OK;
 }
 
 
-const CRESULT CR_VertexShader::WriteUniform(const Ceng::UINT32 index,void *sourceBuffer)
+const CRESULT CR_VertexShader::WriteUniform(const Ceng::UINT32 index, void* sourceBuffer)
 {
-	memcpy(nextInstance->uniformBuffer.uniformPtr[index],sourceBuffer, uniformManager.uniformAllocation[index].size);
+	memcpy(nextInstance->uniformBuffer.uniformPtr[index], sourceBuffer, uniformManager.uniformAllocation[index].size);
 
 	return CE_OK;
 }

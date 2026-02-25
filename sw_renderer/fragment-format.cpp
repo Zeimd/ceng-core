@@ -12,9 +12,9 @@
 *
 *****************************************************************************/
 
-#include "cr-vertex-shader.h"
-
 #include <ceng/lib/liblog.h>
+
+#include "fragment-format.h"
 
 using namespace Ceng;
 

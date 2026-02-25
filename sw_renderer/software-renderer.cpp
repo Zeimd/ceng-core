@@ -35,7 +35,7 @@
 
 #include "cr-vertex-buffer.h"
 
-#include "cr-vertex-shader.h"
+#include "InternalVertexShader.h"
 
 #include "cr-depthstencil-state.h"
 
@@ -517,7 +517,7 @@ const Ceng::CRESULT SoftwareRenderer::CreateVertexShader(const Ceng::StringUtf8&
 
 	try
 	{
-		vertexShader = new CR_VertexShader();
+		vertexShader = new InternalVertexShader();
 	}
 	catch (std::bad_alloc&)
 	{
