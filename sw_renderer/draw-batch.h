@@ -14,10 +14,9 @@
 
 #include <ceng/datatypes/aligned-buffer.h>
 #include <ceng/datatypes/primitive-data.h>
+#include <ceng/datatypes/fragment-cache-tag.h>
 
 #include "pipeline-batch.h"
-
-#include "cache-tag.h"
 
 namespace Ceng
 {

@@ -11,7 +11,7 @@
 #ifndef CENG_CACHE_TAG_H
 #define CENG_CACHE_TAG_H
 
-#include <ceng/datatypes/basic-types.h>
+#include "../datatypes/basic-types.h"
 
 namespace Ceng
 {

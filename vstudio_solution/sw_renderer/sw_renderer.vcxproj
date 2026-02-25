@@ -190,7 +190,6 @@
     <ClInclude Include="..\..\sw_renderer\buffer-factory.h" />
     <ClInclude Include="..\..\sw_renderer\buffer-layout.h" />
     <ClInclude Include="..\..\sw_renderer\buffer-tiling.h" />
-    <ClInclude Include="..\..\sw_renderer\cache-tag.h" />
     <ClInclude Include="..\..\sw_renderer\clipper-batch.h" />
     <ClInclude Include="..\..\sw_renderer\clipper-state.h" />
     <ClInclude Include="..\..\sw_renderer\clipper.h" />

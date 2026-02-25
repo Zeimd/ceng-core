@@ -45,9 +45,6 @@
     <ClInclude Include="..\..\sw_renderer\buffer-tiling.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sw_renderer\cache-tag.h">
-      <Filter>Header Files\sw_renderer</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\sw_renderer\clipper.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>

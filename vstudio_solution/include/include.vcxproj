@@ -129,6 +129,7 @@
     <ClInclude Include="..\..\inc\ceng\datatypes\blend-state-desc.h" />
     <ClInclude Include="..\..\inc\ceng\datatypes\boolean.h" />
     <ClInclude Include="..\..\inc\ceng\datatypes\bufferdata-2d.h" />
+    <ClInclude Include="..\..\inc\ceng\datatypes\fragment-cache-tag.h" />
     <ClInclude Include="..\..\inc\ceng\datatypes\ce-string.h" />
     <ClInclude Include="..\..\inc\ceng\datatypes\color-format.h" />
     <ClInclude Include="..\..\inc\ceng\datatypes\condition-variable.h" />

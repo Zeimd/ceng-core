@@ -534,5 +534,8 @@
     <ClInclude Include="..\..\inc\ceng\datatypes\primitive-data.h">
       <Filter>Header Files\ceng\datatypes</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\fragment-cache-tag.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
