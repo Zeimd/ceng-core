@@ -5,6 +5,12 @@
 
 #include "base-interface.h"
 
+#include "../datatypes/vshader-input-desc.h"
+#include "../datatypes/vshader-output-desc.h"
+#include "../datatypes/shader-uniform-desc.h"
+
+#include "../swshader/vshader-input.h"
+
 namespace Ceng
 {
 	class VertexShaderInstance;
@@ -20,7 +26,19 @@ namespace Ceng
 
 	public:
 
-		virtual VertexShaderInstance* GetInstance() = 0;
+		virtual Ceng::UINT32 InputAmount() = 0;
+
+		virtual const VertexShaderInputDesc* InputArray() = 0;
+
+		virtual Ceng::UINT32 UniformAmount() = 0;
+
+		virtual const ShaderUniformDesc* UniformArray() = 0;
+
+		virtual Ceng::UINT32 OutputAmount() = 0;
+
+		virtual const VertexShaderOutputDesc* OutputArray() = 0;
+
+		virtual VertexShaderInstance* GetInstance(Ceng::UINT32 cacheLine, Vshader::CR_VertexShaderInput* nullInput) = 0;
 	};
 }
 
