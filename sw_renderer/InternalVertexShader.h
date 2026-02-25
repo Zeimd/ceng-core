@@ -36,7 +36,7 @@
 
 namespace Ceng
 {
-	class CR_VertexShaderInstance;
+	class VertexShaderContext;
 
 	class InternalVertexShader : public CR_VertexShader
 	{
@@ -58,11 +58,8 @@ namespace Ceng
 
 	public:		
 
-		CRESULT GetInstances(std::vector<std::shared_ptr<CR_VertexShaderInstance>>& instances,
+		CRESULT GetInstances(std::vector<std::shared_ptr<VertexShaderContext>>& instances,
 			const Ceng::UINT32 renderThreads) override;
-
-	protected:
-
 	};
 
 } // Namespace end

@@ -216,7 +216,7 @@
     <ClInclude Include="..\..\sw_renderer\vshader-input.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sw_renderer\vshader-instance.h">
+    <ClInclude Include="..\..\sw_renderer\vshader-context.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\..\sw_renderer\vshader-output.h">
@@ -345,6 +345,9 @@
     <ClInclude Include="..\..\sw_renderer\cr-vertex-shader.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\InternalVshaderContext.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -354,9 +357,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\sw_renderer\vshader-wrapper.cpp">
-      <Filter>Source Files\sw_renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\sw_renderer\vshader-instance.cpp">
       <Filter>Source Files\sw_renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\..\sw_renderer\vshader-input.cpp">
@@ -600,6 +600,9 @@
       <Filter>Source Files\sw_renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\..\sw_renderer\cr-vertex-shader.cpp">
+      <Filter>Source Files\sw_renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw_renderer\InternalVshaderContext.cpp">
       <Filter>Source Files\sw_renderer</Filter>
     </ClCompile>
   </ItemGroup>

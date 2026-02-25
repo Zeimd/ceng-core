@@ -1,7 +1,7 @@
 #include "task-vshader.h"
 #include "pipeline.h"
 
-#include "vshader-instance.h"
+#include "vshader-context.h"
 
 #include "render-state.h"
 

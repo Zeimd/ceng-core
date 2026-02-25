@@ -22,7 +22,7 @@
 namespace Ceng
 {
 	class VertexShaderInstanceCommon;
-	class CR_VertexShaderInstance;
+	class VertexShaderContext;
 	class CR_VertexFormat;
 	class VertexStreamData;
 	class CR_FragmentFormat;
@@ -95,7 +95,7 @@ namespace Ceng
 
 		const Ceng::BOOL Compiled() override;
 
-		virtual CRESULT GetInstances(std::vector<std::shared_ptr<CR_VertexShaderInstance>>& instances,
+		virtual CRESULT GetInstances(std::vector<std::shared_ptr<VertexShaderContext>>& instances,
 			const Ceng::UINT32 renderThreads) = 0;
 	};
 }

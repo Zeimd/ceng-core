@@ -45,10 +45,10 @@ namespace Ceng
 
 	class VertexStreamData;
 
-	class CR_VertexShaderInstance;
+	class VertexShaderContext;
 	class PixelShaderContext;
 
-	typedef std::shared_ptr<CR_VertexShaderInstance> VshaderInstancePtr;
+	typedef std::shared_ptr<VertexShaderContext> VshaderInstancePtr;
 	typedef std::shared_ptr<PixelShaderContext> PshaderInstancePtr;
 
 	class RenderState
