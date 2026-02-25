@@ -15,8 +15,6 @@
 
 #include "fragment-var.h"
 
-#include "vshader-output.h"
-
 #include <ceng/datatypes/pshader-input-desc.h>
 
 namespace Ceng

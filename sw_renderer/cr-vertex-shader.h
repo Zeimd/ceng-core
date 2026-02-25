@@ -17,7 +17,7 @@
 #include "UniformManager.h"
 
 #include <ceng/swshader/vshader-input.h>
-#include "vshader-output.h"
+#include <ceng/swshader/vshader-output.h>
 
 namespace Ceng
 {

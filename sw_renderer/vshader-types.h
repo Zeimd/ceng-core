@@ -5,7 +5,7 @@
 
 #include <ceng/datatypes/basic-types.h>
 
-#include "vshader-input.h"
+#include <ceng/swshader/vshader-input.h>
 
 namespace Ceng::Vshader
 {

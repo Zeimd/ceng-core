@@ -8,7 +8,7 @@
 #include "vshader-context.h"
 
 #include <ceng/swshader/vshader-input.h>
-#include "vshader-output.h"
+#include <ceng/swshader/vshader-output.h>
 #include "vshader-uniform.h"
 
 namespace Ceng

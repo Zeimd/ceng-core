@@ -216,9 +216,6 @@
     <ClInclude Include="..\..\sw_renderer\vshader-context.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sw_renderer\vshader-output.h">
-      <Filter>Header Files\sw_renderer</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\sw_renderer\vshader-wrapper.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
