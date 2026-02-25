@@ -147,6 +147,7 @@
     <ClInclude Include="..\..\inc\ceng\datatypes\multisample-desc.h" />
     <ClInclude Include="..\..\inc\ceng\datatypes\mutex.h" />
     <ClInclude Include="..\..\inc\ceng\datatypes\platform\vstudio-win32.h" />
+    <ClInclude Include="..\..\inc\ceng\datatypes\primitive-data.h" />
     <ClInclude Include="..\..\inc\ceng\datatypes\promise.h" />
     <ClInclude Include="..\..\inc\ceng\datatypes\pshader-input-desc.h" />
     <ClInclude Include="..\..\inc\ceng\datatypes\pshader-output-desc.h" />

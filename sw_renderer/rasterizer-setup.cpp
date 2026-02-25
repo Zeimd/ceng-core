@@ -130,7 +130,7 @@ void CR_Rasterizer::TriangleSetup_DiscardBatch(BatchVector &outputBatch)
 	}
 }
 
-const CRESULT CR_Rasterizer::TriangleSetup(CR_PrimitiveData &primitive,
+const CRESULT CR_Rasterizer::TriangleSetup(PrimitiveData &primitive,
 										   std::shared_ptr<RenderState> &renderState,
 										   BatchVector &outputBatch,
 										   Ceng::UINT32 &buckets)

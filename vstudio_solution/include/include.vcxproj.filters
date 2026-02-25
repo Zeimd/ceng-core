@@ -531,5 +531,8 @@
     <ClInclude Include="..\..\inc\ceng\swshader\vshader-util.h">
       <Filter>Header Files\ceng\swshader</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\datatypes\primitive-data.h">
+      <Filter>Header Files\ceng\datatypes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

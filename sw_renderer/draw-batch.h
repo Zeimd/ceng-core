@@ -13,10 +13,9 @@
 #include <vector>
 
 #include <ceng/datatypes/aligned-buffer.h>
+#include <ceng/datatypes/primitive-data.h>
 
 #include "pipeline-batch.h"
-
-#include "primitive-data.h"
 
 #include "cache-tag.h"
 
@@ -34,7 +33,7 @@ namespace Ceng
 
 		std::vector<FragmentCacheTag> fragmentIndex;
 
-		std::vector<CR_PrimitiveData> primitiveList;
+		std::vector<PrimitiveData> primitiveList;
 
 		std::shared_ptr<AlignedBuffer<Ceng::UINT8>> fragmentCache;
 

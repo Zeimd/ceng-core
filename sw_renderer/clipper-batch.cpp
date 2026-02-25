@@ -25,7 +25,7 @@ ClipperBatch::~ClipperBatch()
 
 ClipperBatch::ClipperBatch(const Ceng::UINT32 apiCallId,const Ceng::UINT32 batchSize,
 						   std::shared_ptr<RenderState> &renderState,
-						   std::vector<CR_PrimitiveData> &&primitiveList,
+						   std::vector<PrimitiveData> &&primitiveList,
 						   std::shared_ptr<AlignedBuffer<Ceng::UINT8>> &fragmentCache) :
 	PipelineBatch(apiCallId,batchSize,renderState),fragmentCache(fragmentCache),primitiveList(primitiveList)
 {

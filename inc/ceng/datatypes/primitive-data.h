@@ -9,12 +9,12 @@
 #ifndef CRENDER_PRIMITIVE_DATA_H
 #define CRENDER_PRIMITIVE_DATA_H
 
-#include <ceng/datatypes/basic-types.h>
-#include <ceng/enums/primitive-type.h>
+#include "../datatypes/basic-types.h"
+#include "../enums/primitive-type.h"
 
 namespace Ceng
 {
-	class CR_PrimitiveData
+	class PrimitiveData
 	{
 	public:
 

@@ -141,9 +141,6 @@
     <ClInclude Include="..\..\sw_renderer\pipeline-stage.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sw_renderer\primitive-data.h">
-      <Filter>Header Files\sw_renderer</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\sw_renderer\pshader-context.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>

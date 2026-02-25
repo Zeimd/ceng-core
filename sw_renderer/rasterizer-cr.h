@@ -21,22 +21,13 @@
 
 #include <ceng/datatypes/ring-buffer.h>
 
+#include <ceng/datatypes/primitive-data.h>
+
 #include "crender-base.h"
-
-//#include "cr-pixel-shader.h"
-
-//#include "triangle-batch.h"
-//#include "rasterizer-batch.h"
-
-#include "primitive-data.h"
 
 #include "triangle-data.h"
 
-//#include "locking-stage.h"
-
 #include "future.h"
-
-//#include "task-rasterizer.h"
 
 namespace Ceng
 {
@@ -102,7 +93,7 @@ namespace Ceng
 		const CRESULT TriangleSetup(std::shared_ptr<TriangleBatch>& batch,
 			std::vector< Experimental::Future<std::shared_ptr<Experimental::Task_Rasterizer>>* >& futures, Ceng::UINT32 outputBuckets);
 
-		const CRESULT TriangleSetup(CR_PrimitiveData &primitive,
+		const CRESULT TriangleSetup(PrimitiveData &primitive,
 								std::shared_ptr<RenderState> &renderState,
 								BatchVector &outputBatch,
 								Ceng::UINT32 &buckets);

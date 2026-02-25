@@ -13,9 +13,10 @@
 #include <vector>
 
 #include <ceng/datatypes/aligned-buffer.h>
+#include <ceng/datatypes/primitive-data.h>
 
 #include "pipeline-batch.h"
-#include "primitive-data.h"
+
 
 namespace Ceng
 {
@@ -32,7 +33,7 @@ namespace Ceng
 		 */
 		std::shared_ptr<AlignedBuffer<Ceng::UINT8>> fragmentCache;
 
-		std::vector<CR_PrimitiveData> primitiveList;
+		std::vector<PrimitiveData> primitiveList;
 
 		/**
 		 * First clipper cache. Takes turns with cacheB as in/out when
@@ -48,7 +49,7 @@ namespace Ceng
 
 		ClipperBatch(const Ceng::UINT32 apiCallId,const Ceng::UINT32 batchSize,
 						std::shared_ptr<RenderState> &renderState,
-						std::vector<CR_PrimitiveData> &&primitiveList,
+						std::vector<PrimitiveData> &&primitiveList,
 						std::shared_ptr<AlignedBuffer<Ceng::UINT8>> &fragmentCache);
 
 		virtual ~ClipperBatch();
