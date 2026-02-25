@@ -17,6 +17,17 @@ namespace Ceng
 		Ceng::INT32 sourceIndex;
 
 		Ceng::UINT32 options;
+
+		VertexShaderInputDesc()
+		{
+
+		}
+
+		VertexShaderInputDesc(Ceng::SHADER_SEMANTIC::value semantic)
+			: semantic(semantic), sourceIndex(-1), options(0)
+		{
+
+		}
 	};
 }
 

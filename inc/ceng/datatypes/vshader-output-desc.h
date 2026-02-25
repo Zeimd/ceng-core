@@ -43,6 +43,17 @@ namespace Ceng
 		Ceng::SHADER_SEMANTIC::value semantic;
 		Ceng::SHADER_DATATYPE::value dataType;
 		UINT32 options;
+
+		VertexShaderOutputDesc()
+		{
+
+		}
+
+		VertexShaderOutputDesc(Ceng::SHADER_SEMANTIC::value semantic, Ceng::SHADER_DATATYPE::value dataType)
+			: semantic(semantic), dataType(dataType), options(0)
+		{
+
+		}
 	};
 }
 

@@ -15,8 +15,6 @@
 
 namespace Ceng
 {
-	class VertexShaderInputDesc;
-
 	class VertexShaderInstance : public BASE_INTERFACE
 	{
 	protected:
@@ -37,7 +35,8 @@ namespace Ceng
 		virtual Vshader::VertexShaderUniform* GetUniforms() = 0;
 		virtual Ceng::UINT32 UniformSize() = 0;
 
-		virtual CRESULT Configure(const VertexShaderInputDesc* inputSemantics, Ceng::UINT32 inputCount, Ceng::UINT32 fragmentSizeBytes,
+		virtual CRESULT Configure(const VertexShaderInputDesc* inputSemantics, 
+			Ceng::UINT32 inputCount, Ceng::UINT32 fragmentSizeBytes,
 			POINTER inputBaseAddress, POINTER inputSteps) = 0;
 
 		virtual CRESULT ProcessVertexBatch(Ceng::UINT32 vertexCount,
