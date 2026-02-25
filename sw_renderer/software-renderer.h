@@ -104,7 +104,7 @@ namespace Ceng
 
 		const Ceng::CRESULT CreateVertexShader(const Ceng::StringUtf8& shaderText, Ceng::VertexShader** shaderPtr) override;
 
-		const Ceng::CRESULT CreateVertexShader(const VertexShaderDescriptor* desc, Ceng::PixelShader** shaderPtr) override;
+		const Ceng::CRESULT CreateVertexShader(VertexShaderDescriptor* desc, Ceng::VertexShader** shaderPtr) override;
 
 		CRESULT CreateVertexFormat(const std::vector<Ceng::VertexDeclData>
 			& vertexDecl,

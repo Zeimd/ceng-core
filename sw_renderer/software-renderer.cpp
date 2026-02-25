@@ -614,7 +614,7 @@ const Ceng::CRESULT SoftwareRenderer::CreateVertexShader(const Ceng::StringUtf8&
 
 }
 
-const Ceng::CRESULT SoftwareRenderer::CreateVertexShader(const VertexShaderDescriptor* desc, Ceng::PixelShader** shaderPtr)
+const Ceng::CRESULT SoftwareRenderer::CreateVertexShader(VertexShaderDescriptor* desc, Ceng::VertexShader** shaderPtr)
 {
 	return CE_ERR_NOT_SUPPORTED;
 }

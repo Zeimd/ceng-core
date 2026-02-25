@@ -96,7 +96,7 @@ namespace Ceng
 
 		// Create vertex shader for software rendering.
 		// Other implementations can ignore this.
-		virtual const Ceng::CRESULT CreateVertexShader(const VertexShaderDescriptor* desc, Ceng::PixelShader** shaderPtr) = 0;
+		virtual const Ceng::CRESULT CreateVertexShader(VertexShaderDescriptor* desc, Ceng::VertexShader** shaderPtr) = 0;
 		
 		virtual CRESULT CreateVertexFormat(const std::vector<Ceng::VertexDeclData> 
 											&vertexDecl,

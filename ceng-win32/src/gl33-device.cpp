@@ -62,7 +62,7 @@ const Ceng::CRESULT GL33_RenderDevice::CreateVertexShader(const Ceng::StringUtf8
 	return CE_OK;
 }
 
-const Ceng::CRESULT GL33_RenderDevice::CreateVertexShader(const VertexShaderDescriptor* desc, Ceng::PixelShader** shaderPtr)
+const Ceng::CRESULT GL33_RenderDevice::CreateVertexShader(VertexShaderDescriptor* desc, Ceng::VertexShader** shaderPtr)
 {
 	return CE_ERR_NOT_SUPPORTED;
 }
