@@ -9,7 +9,7 @@
 
 #include <ceng/swshader/vshader-input.h>
 #include <ceng/swshader/vshader-output.h>
-#include "vshader-uniform.h"
+#include <ceng/swshader/vshader-uniform.h>
 
 namespace Ceng
 {

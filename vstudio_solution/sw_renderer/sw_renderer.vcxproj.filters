@@ -327,15 +327,6 @@
     <ClInclude Include="..\..\sw_renderer\rtarget-service.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sw_renderer\vshader-uniform.h">
-      <Filter>Header Files\sw_renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\sw_renderer\vshader-types.h">
-      <Filter>Header Files\sw_renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\sw_renderer\vshader-util.h">
-      <Filter>Header Files\sw_renderer</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\sw_renderer\cr-vertex-shader.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>

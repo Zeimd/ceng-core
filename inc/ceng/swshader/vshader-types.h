@@ -3,9 +3,9 @@
 #ifndef CENG_SWRENDER_VSHADER_TYPES_H
 #define CENG_SWRENDER_VSHADER_TYPES_H
 
-#include <ceng/datatypes/basic-types.h>
+#include "../datatypes/basic-types.h"
 
-#include <ceng/swshader/vshader-input.h>
+#include "../swshader/vshader-input.h"
 
 namespace Ceng::Vshader
 {

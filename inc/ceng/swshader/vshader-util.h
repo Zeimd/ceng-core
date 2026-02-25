@@ -5,7 +5,7 @@
 
 #include <math.h>
 
-#include <ceng/datatypes/basic-types.h>
+#include "../datatypes/basic-types.h"
 
 #include "vshader-types.h"
 

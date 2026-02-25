@@ -522,5 +522,14 @@
     <ClInclude Include="..\..\inc\ceng\swshader\vshader-output.h">
       <Filter>Header Files\ceng\swshader</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\swshader\vshader-uniform.h">
+      <Filter>Header Files\ceng\swshader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\swshader\vshader-types.h">
+      <Filter>Header Files\ceng\swshader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\ceng\swshader\vshader-util.h">
+      <Filter>Header Files\ceng\swshader</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

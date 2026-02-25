@@ -3,7 +3,7 @@
 #ifndef CENG_SWRENDER_VSHADER_UNIFORM_H
 #define CENG_SWRENDER_VSHADER_UNIFORM_H
 
-#include <ceng/math/ce-matrix.h>
+#include "../math/ce-matrix.h"
 
 namespace Ceng::Vshader
 {
