@@ -19,6 +19,7 @@
 #include <ceng/datatypes/aligned-buffer.h>
 
 #include <ceng/swshader/pshader-input.h>
+#include <ceng/swshader/vshader-input.h>
 
 #include "cr-vertex-shader.h"
 
@@ -27,7 +28,6 @@
 #include "fragment-var.h"
 #include "fragment-format.h"
 
-#include "vshader-input.h"
 #include "vshader-output.h"
 
 #include "vshader-wrapper.h"

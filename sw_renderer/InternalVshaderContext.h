@@ -7,7 +7,7 @@
 
 #include "vshader-context.h"
 
-#include "vshader-input.h"
+#include <ceng/swshader/vshader-input.h>
 #include "vshader-output.h"
 #include "vshader-uniform.h"
 

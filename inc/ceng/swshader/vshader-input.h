@@ -11,10 +11,10 @@
 #ifndef _CENG_CR_VSHADER_INPUT_H
 #define _CENG_CR_VSHADER_INPUT_H
 
-#include <ceng/interfaces/vertex-decl.h>
-#include <ceng/enums/shader-datatype.h>
+#include "../interfaces/vertex-decl.h"
+#include "../enums/shader-datatype.h"
 
-#include <ceng/math/ce-vector.h>
+#include "../math/ce-vector.h"
 
 namespace Ceng::Vshader
 {
@@ -92,11 +92,6 @@ namespace Ceng::Vshader
 			return temp;
 		}
 	};
-
-	extern void NullVertexReader(void* dest, void* source);
-
-	extern VertexShaderInputReader GetReadCallback(Ceng::SHADER_DATATYPE::value destFormat, 
-		Ceng::VTX_DATATYPE::value sourceFormat);
 };
 
 #endif

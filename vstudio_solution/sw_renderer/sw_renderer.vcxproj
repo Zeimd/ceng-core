@@ -279,8 +279,8 @@
     <ClInclude Include="..\..\sw_renderer\vertex-variable.h" />
     <ClInclude Include="..\..\sw_renderer\VertexShaderInstanceCommon.h" />
     <ClInclude Include="..\..\sw_renderer\viewport-state.h" />
-    <ClInclude Include="..\..\sw_renderer\vshader-input.h" />
     <ClInclude Include="..\..\sw_renderer\vshader-context.h" />
+    <ClInclude Include="..\..\sw_renderer\vshader-input-reader.h" />
     <ClInclude Include="..\..\sw_renderer\vshader-output.h" />
     <ClInclude Include="..\..\sw_renderer\vshader-types.h" />
     <ClInclude Include="..\..\sw_renderer\vshader-uniform.h" />
@@ -371,7 +371,7 @@
     <ClCompile Include="..\..\sw_renderer\UniformBufferInstance.cpp" />
     <ClCompile Include="..\..\sw_renderer\UniformManager.cpp" />
     <ClCompile Include="..\..\sw_renderer\VertexShaderInstanceCommon.cpp" />
-    <ClCompile Include="..\..\sw_renderer\vshader-input.cpp" />
+    <ClCompile Include="..\..\sw_renderer\vshader-input-reader.cpp" />
     <ClCompile Include="..\..\sw_renderer\vshader-wrapper.cpp" />
     <ClCompile Include="..\..\sw_renderer\WriterCommon.cpp" />
     <ClCompile Include="..\..\sw_renderer\Writer_null.cpp" />

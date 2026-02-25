@@ -11,6 +11,8 @@
 #include "locking-stage.h"
 #include "task-clipper.h"
 
+#include "vshader-input-reader.h"
+
 using namespace Ceng;
 
 InternalVshaderContext::InternalVshaderContext(std::shared_ptr<VertexShaderInstanceCommon>& common)

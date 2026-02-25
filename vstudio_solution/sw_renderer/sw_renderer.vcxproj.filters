@@ -213,9 +213,6 @@
     <ClInclude Include="..\..\sw_renderer\viewport-state.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sw_renderer\vshader-input.h">
-      <Filter>Header Files\sw_renderer</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\sw_renderer\vshader-context.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
@@ -348,6 +345,9 @@
     <ClInclude Include="..\..\sw_renderer\InternalVshaderContext.h">
       <Filter>Header Files\sw_renderer</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\sw_renderer\vshader-input-reader.h">
+      <Filter>Header Files\sw_renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -359,7 +359,7 @@
     <ClCompile Include="..\..\sw_renderer\vshader-wrapper.cpp">
       <Filter>Source Files\sw_renderer</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sw_renderer\vshader-input.cpp">
+    <ClCompile Include="..\..\sw_renderer\vshader-input-reader.cpp">
       <Filter>Source Files\sw_renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\..\sw_renderer\triangle-batch.cpp">

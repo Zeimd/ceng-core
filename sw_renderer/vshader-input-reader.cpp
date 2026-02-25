@@ -13,11 +13,10 @@
 *****************************************************************************/
 
 #include <immintrin.h>
-#include "vshader-input.h"
+#include "vshader-input-reader.h"
 
 namespace Ceng::Vshader
 {
-
 	void NullVertexReader(void* dest, void* source)
 	{
 
