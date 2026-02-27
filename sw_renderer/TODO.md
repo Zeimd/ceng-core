@@ -44,6 +44,26 @@ Pipeline
 - [ ] Use render target specific bucket amounts to prevent scanning unused buckets if maximum allocation is higher
 
 -------------------------------------------------------------------
+Vertex shader
+
+- [ ] remove channel sharing dual pixel color formats from vertex variable types
+
+- [ ] validate vertex format when it is created by comparing against shader program / vertex shader
+
+-------------------------------------------------------------------
+sRGB color space
+
+- [ ] after reading texture, convert to linear before passing data to shader.
+
+- [ ] if render target is sRGB, convert from linear to sRGB after pixel shader writes to it
+
+        TBC: how to handle blending if target is sRGB?
+
+- [ ] convert sRGB to linear color before calculating mip-maps. Convert back to non-linear afterwards
+
+- [ ] If possible, ensure linear color data is never stored in uint8 (with the exception of normal map textures?)
+
+-------------------------------------------------------------------
 Pixel shader
 
 - [ ] Implement Shader::Float3. It is needed for most vector math.
