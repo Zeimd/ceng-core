@@ -626,7 +626,7 @@ const CRESULT CR_RenderContext::Execute_DrawPrimitive(const Ceng::UINT32 apiCall
 	Ceng::INT32 first = firstVertex;
 	Ceng::INT32 primitives = primitiveCount; // -1 = debug
 
-	CR_PrimitiveData primitiveData;
+	PrimitiveData primitiveData;
 
 	Ceng::INT32 index;
 

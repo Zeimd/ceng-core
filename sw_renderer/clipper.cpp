@@ -6,6 +6,8 @@
 *
 *****************************************************************************/
 
+#include <ceng/datatypes/primitive-data.h>
+
 #include "clipper.h"
 #include "clipper-state.h"
 
@@ -139,7 +141,7 @@ const CRESULT CR_Clipper::ClipPrimitives(std::shared_ptr<ClipperBatch>& batch,
 	return CE_OK;
 }
 
-const CRESULT CR_Clipper::HomogeneousClipTriangle(CR_PrimitiveData &primitive,
+const CRESULT CR_Clipper::HomogeneousClipTriangle(PrimitiveData &primitive,
 												  Ceng::UINT32 *newFragmentCount,
 												  std::shared_ptr<TriangleBatch> &outputBatch)
 {
@@ -623,7 +625,7 @@ const CRESULT CR_Clipper::HomogeneousClipTriangle(CR_PrimitiveData &primitive,
 	
 	Ceng::UINT32 triangles = finalSize - 2;
 
-	CR_PrimitiveData outPrimitive;
+	PrimitiveData outPrimitive;
 
 	outPrimitive.primitiveType = PRIMITIVE_TYPE::TRIANGLE_LIST;
 	outPrimitive.fragmentPtr[0] = finalOutput[0];

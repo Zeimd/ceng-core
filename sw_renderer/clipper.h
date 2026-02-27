@@ -33,7 +33,7 @@ namespace Ceng
 
 	class ClipperState;
 
-	class CR_PrimitiveData;
+	class PrimitiveData;
 
 	class CR_Clipper
 	{
@@ -59,7 +59,7 @@ namespace Ceng
 
 
 
-		const CRESULT HomogeneousClipTriangle(CR_PrimitiveData &primitive,
+		const CRESULT HomogeneousClipTriangle(PrimitiveData &primitive,
 											Ceng::UINT32 *cacheIndex,
 											std::shared_ptr<TriangleBatch> &outputBatch);
 
