@@ -102,48 +102,105 @@ const Ceng::CRESULT GL32_BlendState::GetInstance(BlendStateDesc *desc, GL32_Blen
 	return CE_OK;
 }
 
-const Ceng::CRESULT GL32_BlendState::BlendFactor(const BlendType::value type, GLenum *gl_blendFactor)
+const Ceng::CRESULT GL32_BlendState::BlendFactor(const ColorBlendFactor::value type, GLenum *gl_blendFactor)
 {
 	switch (type)
 	{
-	case BlendType::zero:
+	case ColorBlendFactor::zero:
 		*gl_blendFactor = GL_ZERO;
 		break;
-	case BlendType::one:
+	case ColorBlendFactor::one:
 		*gl_blendFactor = GL_ONE;
 		break;
-	case BlendType::source_color:
+	case ColorBlendFactor::source_color:
 		*gl_blendFactor = GL_SRC_COLOR;
 		break;
-	case BlendType::invert_source_color:
+	case ColorBlendFactor::invert_source_color:
 		*gl_blendFactor = GL_ONE_MINUS_SRC_COLOR;
 		break;
-	case BlendType::dest_color:
+	case ColorBlendFactor::dest_color:
 		*gl_blendFactor = GL_DST_COLOR;
 		break;
-	case BlendType::invert_dest_color:
+	case ColorBlendFactor::invert_dest_color:
 		*gl_blendFactor = GL_ONE_MINUS_DST_COLOR;
 		break;
-	case BlendType::source_alpha:
+	case ColorBlendFactor::source_alpha:
 		*gl_blendFactor = GL_SRC_ALPHA;
 		break;
-	case BlendType::invert_source_alpha:
+	case ColorBlendFactor::invert_source_alpha:
 		*gl_blendFactor = GL_ONE_MINUS_SRC_ALPHA;
 		break;
-	case BlendType::dest_alpha:
+	case ColorBlendFactor::dest_alpha:
 		*gl_blendFactor = GL_DST_ALPHA;
 		break;
-	case BlendType::invert_dest_alpha:
+	case ColorBlendFactor::invert_dest_alpha:
 		*gl_blendFactor = GL_ONE_MINUS_DST_ALPHA;
 		break;
-	case BlendType::source_alpha_saturate:
+	case ColorBlendFactor::source_alpha_saturate:
 		*gl_blendFactor = GL_SRC_ALPHA_SATURATE;
 		break;
-	case BlendType::blend_factor:
+	case ColorBlendFactor::blend_factor:
 		*gl_blendFactor = GL_CONSTANT_COLOR;
 		break;
-	case BlendType::invert_blend_factor:
+	case ColorBlendFactor::invert_blend_factor:
 		*gl_blendFactor = GL_ONE_MINUS_CONSTANT_COLOR;
+		break;
+	case ColorBlendFactor::second_source_color:
+		*gl_blendFactor = GL_SRC1_COLOR;
+		break;
+	case ColorBlendFactor::invert_second_source_color:
+		*gl_blendFactor = GL_ONE_MINUS_SRC1_COLOR;
+		break;
+	case ColorBlendFactor::second_source_alpha:
+		*gl_blendFactor = GL_SRC1_ALPHA;
+		break;
+	case ColorBlendFactor::invert_second_source_alpha:
+		*gl_blendFactor = GL_ONE_MINUS_SRC1_ALPHA;
+		break;
+
+	default:
+		return CE_ERR_NOT_SUPPORTED;
+	}
+
+	return CE_OK;
+}
+
+const Ceng::CRESULT GL32_BlendState::BlendFactor(const AlphaBlendFactor::value type, GLenum* gl_blendFactor)
+{
+	switch (type)
+	{
+	case AlphaBlendFactor::zero:
+		*gl_blendFactor = GL_ZERO;
+		break;
+	case AlphaBlendFactor::one:
+		*gl_blendFactor = GL_ONE;
+		break;
+	case AlphaBlendFactor::source_alpha:
+		*gl_blendFactor = GL_SRC_ALPHA;
+		break;
+	case AlphaBlendFactor::invert_source_alpha:
+		*gl_blendFactor = GL_ONE_MINUS_SRC_ALPHA;
+		break;
+	case AlphaBlendFactor::dest_alpha:
+		*gl_blendFactor = GL_DST_ALPHA;
+		break;
+	case AlphaBlendFactor::invert_dest_alpha:
+		*gl_blendFactor = GL_ONE_MINUS_DST_ALPHA;
+		break;
+	case AlphaBlendFactor::source_alpha_saturate:
+		*gl_blendFactor = GL_SRC_ALPHA_SATURATE;
+		break;
+	case AlphaBlendFactor::blend_factor:
+		*gl_blendFactor = GL_CONSTANT_COLOR;
+		break;
+	case AlphaBlendFactor::invert_blend_factor:
+		*gl_blendFactor = GL_ONE_MINUS_CONSTANT_COLOR;
+		break;
+	case AlphaBlendFactor::second_source_alpha:
+		*gl_blendFactor = GL_SRC1_ALPHA;
+		break;
+	case AlphaBlendFactor::invert_second_source_alpha:
+		*gl_blendFactor = GL_ONE_MINUS_SRC1_ALPHA;
 		break;
 	default:
 		return CE_ERR_NOT_SUPPORTED;

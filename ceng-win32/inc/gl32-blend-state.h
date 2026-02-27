@@ -57,7 +57,9 @@ namespace Ceng
 
 		static const Ceng::CRESULT BlendEquation(const BlendOp::value op, GLenum *gl_blendEquation);
 
-		static const Ceng::CRESULT BlendFactor(const BlendType::value type, GLenum *gl_blendFactor);
+		static const Ceng::CRESULT BlendFactor(const ColorBlendFactor::value type, GLenum *gl_blendFactor);
+
+		static const Ceng::CRESULT BlendFactor(const AlphaBlendFactor::value type, GLenum* gl_blendFactor);
 
 		void GL_SetState(const GLenum gl_state, const Ceng::BOOL enable);
 

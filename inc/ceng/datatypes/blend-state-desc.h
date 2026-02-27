@@ -13,7 +13,7 @@
 
 namespace Ceng
 {
-	namespace BlendType
+	namespace ColorBlendFactor
 	{
 		enum value
 		{
@@ -70,6 +70,45 @@ namespace Ceng
 		};
 	}
 
+	namespace AlphaBlendFactor
+	{
+		enum value
+		{
+			// blend factor = (0,0,0,0)
+			zero = 1,
+
+			// blend factor = (1,1,1,1)
+			one = 2,
+
+			// blend factor = (sourceA, sourceA, sourceA, sourceA)
+			source_alpha = 3,
+
+			// blend factor = (1 - sourceA, 1 - sourceA, 1 - sourceA, 1 - sourceA)
+			invert_source_alpha = 4,
+
+			// blend factor = (destA, destA, destA, destA)
+			dest_alpha = 5,
+
+			// blend factor = (1 - destA, 1 - destA, 1 - destA, 1 - destA)
+			invert_dest_alpha = 6,
+
+			// blend factor = (1, f, f, f), f = min(sourceA, 1 - destA). Data clamped to [0,1]
+			source_alpha_saturate = 7,
+
+			// blend factor set via API function SetBlendState()
+			blend_factor = 8,
+
+			// blend factor set via API function SetBlendState(), but inverted 1-x.
+			invert_blend_factor = 9,
+
+			// blend factor = (secA, secA, secA, secA)
+			second_source_alpha = 10,
+
+			// blend factor = (1 - secA, 1 - secA, 1 - secA, 1 - secA)
+			invert_second_source_alpha = 11,
+		};
+	}
+
 	namespace BlendOp
 	{
 		enum value
@@ -111,12 +150,12 @@ namespace Ceng
 		/**
 		 * Operation done on the color value written by pixel shader.
 		 */
-		Ceng::BlendType::value sourceBlend;
+		Ceng::ColorBlendFactor::value sourceBlend;
 
 		/**
 		 * Operation done on the color value read from render target.
 		 */
-		Ceng::BlendType::value destBlend;
+		Ceng::ColorBlendFactor::value destBlend;
 
 		/**
 		 * How to combine source color and destination color.
@@ -126,12 +165,12 @@ namespace Ceng
 		/**
 		 * Operation done on the alpha value written by pixel shader.
 		 */
-		Ceng::BlendType::value sourceBlendAlpha;
+		Ceng::AlphaBlendFactor::value sourceBlendAlpha;
 
 		/**
 		* Operation done on the alpha value read from render target.
 		*/
-		Ceng::BlendType::value destBlendAlpha;
+		Ceng::AlphaBlendFactor::value destBlendAlpha;
 
 		/**
 		* How to combine source alpha and destination alpha.

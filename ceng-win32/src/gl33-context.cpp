@@ -383,12 +383,12 @@ GL33_RenderContext::GL33_RenderContext(PlatformWindow *window, ::HDC deviceHandl
 
 	targetBlend.blendEnable = false;
 	
-	targetBlend.sourceBlend = BlendType::one;
-	targetBlend.destBlend = BlendType::zero;
+	targetBlend.sourceBlend = ColorBlendFactor::one;
+	targetBlend.destBlend = ColorBlendFactor::zero;
 	targetBlend.blendOp = BlendOp::add;
 
-	targetBlend.sourceBlendAlpha = BlendType::one;
-	targetBlend.destBlendAlpha = BlendType::zero;
+	targetBlend.sourceBlendAlpha = AlphaBlendFactor::one;
+	targetBlend.destBlendAlpha = AlphaBlendFactor::zero;
 	targetBlend.blendAlphaOp = BlendOp::add;
 
 	defaultBlendState = nullptr;
