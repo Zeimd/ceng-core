@@ -10,6 +10,7 @@
 #include "../datatypes/shader-uniform-desc.h"
 
 #include "../swshader/vshader-input.h"
+#include "../swshader/vshader-output.h"
 
 namespace Ceng
 {
@@ -38,7 +39,9 @@ namespace Ceng
 
 		virtual const VertexShaderOutputDesc* OutputArray() = 0;
 
-		virtual VertexShaderInstance* GetInstance(Ceng::UINT32 cacheLine, Vshader::CR_VertexShaderInput* nullInput) = 0;
+		virtual VertexShaderInstance* GetInstance(Ceng::UINT32 cacheLine, 
+			Vshader::CR_VertexShaderInput* nullInput,
+			Vshader::CR_VertexShaderOutput* nullOutput) = 0;
 	};
 }
 

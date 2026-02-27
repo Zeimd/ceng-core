@@ -46,7 +46,7 @@ namespace Ceng
 
 		~InternalVshaderContext() override;
 
-		CRESULT Configure(const std::vector<VertexShaderInputDesc>& inputSemantics) override;
+		CRESULT Configure() override;
 
 		CRESULT ProcessVertexBatch(std::shared_ptr<DrawBatch> batch,
 			LockingStage* outputQueue) override;

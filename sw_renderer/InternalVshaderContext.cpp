@@ -61,7 +61,7 @@ InternalVshaderContext::~InternalVshaderContext()
 {
 }
 
-CRESULT InternalVshaderContext::Configure(const std::vector<VertexShaderInputDesc>& inputSemantics)
+CRESULT InternalVshaderContext::Configure()
 {
 	for (size_t k = 0; k < inputRegisters.size(); ++k)
 	{

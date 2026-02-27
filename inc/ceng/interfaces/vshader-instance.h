@@ -7,6 +7,8 @@
 
 #include "../datatypes/return-val.h"
 
+#include "../datatypes/vshader-input-desc.h"
+
 #include "../swshader/vshader-input.h"
 #include "../swshader/vshader-output.h"
 #include "../swshader/vshader-uniform.h"
@@ -35,9 +37,10 @@ namespace Ceng
 		virtual Vshader::VertexShaderUniform* GetUniforms() = 0;
 		virtual Ceng::UINT32 UniformSize() = 0;
 
-		virtual CRESULT Configure(const VertexShaderInputDesc* inputSemantics, 
-			Ceng::UINT32 inputCount, Ceng::UINT32 fragmentSizeBytes,
-			POINTER inputBaseAddress, POINTER inputSteps) = 0;
+		virtual POINTER* OutputBaseAddress() = 0;
+
+		virtual CRESULT BasicConfig(Ceng::UINT32 fragmentSizeBytes,
+			Ceng::POINTER* inputBaseAddress, Ceng::POINTER* inputSteps) = 0;
 
 		virtual CRESULT ProcessVertexBatch(Ceng::UINT32 vertexCount,
 			FragmentCacheTag* vertexIndex, 			

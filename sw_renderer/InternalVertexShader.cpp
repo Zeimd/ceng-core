@@ -44,7 +44,7 @@ CRESULT InternalVertexShader::GetInstances(std::vector<std::shared_ptr<VertexSha
 	{
 		instances[k] = std::make_shared<InternalVshaderContext>(currentInstance);
 
-		instances[k]->Configure(inputSemantics);
+		instances[k]->Configure();
 	}
 
 	return CE_OK;

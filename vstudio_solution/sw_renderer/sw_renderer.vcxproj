@@ -216,6 +216,8 @@
     <ClInclude Include="..\..\sw_renderer\cr-vertex-buffer.h" />
     <ClInclude Include="..\..\sw_renderer\cr-vertex-format.h" />
     <ClInclude Include="..\..\sw_renderer\cr-vertex-shader.h" />
+    <ClInclude Include="..\..\sw_renderer\extern-vshader-context.h" />
+    <ClInclude Include="..\..\sw_renderer\extern-vshader.h" />
     <ClInclude Include="..\..\sw_renderer\InternalVertexShader.h" />
     <ClInclude Include="..\..\sw_renderer\crender-base.h" />
     <ClInclude Include="..\..\sw_renderer\crender-context.h" />
@@ -311,6 +313,8 @@
     <ClCompile Include="..\..\sw_renderer\cr-vertex-shader.cpp" />
     <ClCompile Include="..\..\sw_renderer\extern-pshader-context.cpp" />
     <ClCompile Include="..\..\sw_renderer\extern-pshader.cpp" />
+    <ClCompile Include="..\..\sw_renderer\extern-vshader-context.cpp" />
+    <ClCompile Include="..\..\sw_renderer\extern-vshader.cpp" />
     <ClCompile Include="..\..\sw_renderer\internal-pshader-context.cpp" />
     <ClCompile Include="..\..\sw_renderer\internal-pshader.cpp" />
     <ClCompile Include="..\..\sw_renderer\InternalVshaderContext.cpp" />

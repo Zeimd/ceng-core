@@ -52,7 +52,7 @@ namespace Ceng
 
 		}
 
-		virtual CRESULT Configure(const std::vector<VertexShaderInputDesc>& inputSemantics) = 0;
+		virtual CRESULT Configure() = 0;
 
 		virtual CRESULT ProcessVertexBatch(std::shared_ptr<DrawBatch> batch,
 												LockingStage *outputQueue) = 0;

@@ -47,6 +47,7 @@
 
 #include "internal-pshader.h"
 #include "extern-pshader.h"
+#include "extern-vshader.h"
 
 using namespace Ceng;
 
@@ -616,7 +617,20 @@ const Ceng::CRESULT SoftwareRenderer::CreateVertexShader(const Ceng::StringUtf8&
 
 const Ceng::CRESULT SoftwareRenderer::CreateVertexShader(VertexShaderDescriptor* desc, Ceng::VertexShader** shaderPtr)
 {
-	return CE_ERR_NOT_SUPPORTED;
+	ExternalVertexShader* vertexShader;
+
+	*shaderPtr = nullptr;
+
+	CRESULT cresult = ExternalVertexShader::Create(desc, &vertexShader);
+
+	if (cresult != Ceng::CE_OK)
+	{
+		return cresult;
+	}
+
+	*shaderPtr = vertexShader;
+
+	return CE_OK;
 }
 
 const Ceng::CRESULT SoftwareRenderer::CreateIndexBuffer(const Ceng::UINT32 elementSize, const Ceng::UINT32 elements,
