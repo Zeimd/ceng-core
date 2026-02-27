@@ -1,0 +1,156 @@
+#pragma once
+
+#ifndef CENG_SWRENDER_CONVERSION_UTIL_H
+#define CENG_SWRENDER_CONVERSION_UTIL_H
+
+#include <ceng/datatypes/basic-types.h>
+
+namespace Ceng
+{
+	const Ceng::FLOAT32 scaleNormalizeUNfx4 = 1.0f / 15.0f;
+	const Ceng::FLOAT32 scaleNormalizeUNfx5 = 1.0f / 31.0f;
+	const Ceng::FLOAT32 scaleNormalizeUNfx6 = 1.0f / 63.0f;
+	const Ceng::FLOAT32 scaleNormalizeUNfx8 = 1.0f / 255.0f;
+	const Ceng::FLOAT32 scaleNormalizeUNfx9 = 1.0f / 511.0f;
+	const Ceng::FLOAT32 scaleNormalizeUNfx10 = 1.0f / 1023.0f;
+
+	const Ceng::FLOAT32 scaleNormalizeUint8 = 1.0f / 255.0f;
+	const Ceng::FLOAT32 scaleNormalizeInt8 = 1.0f / 128.0f;
+
+	const Ceng::FLOAT32 scaleNormalizeUint16 = 1.0f / 65535.0f;
+	const Ceng::FLOAT32 scaleNormalizeInt16 = 1.0f / 32768.0f;
+
+	struct Color3_Int32
+	{
+		Ceng::UINT32 r;
+		Ceng::UINT32 g;
+		Ceng::UINT32 b;
+	};
+
+	struct Color3_Float
+	{
+		Ceng::FLOAT32 r;
+		Ceng::FLOAT32 g;
+		Ceng::FLOAT32 b;
+	};
+
+	struct Color4_Int32
+	{
+		Ceng::UINT32 r;
+		Ceng::UINT32 g;
+		Ceng::UINT32 b;
+		Ceng::UINT32 a;
+	};
+
+	inline Ceng::FLOAT32 SrgbToLinear(Ceng::FLOAT32)
+	{
+		return 0.0f;
+	}
+
+	inline Ceng::FLOAT32 HalfToFloat(Ceng::UINT16 source)
+	{
+		return 0.0f;
+	}
+
+	inline Ceng::UINT16 FloatToHalf(Ceng::FLOAT32 source)
+	{
+		return 0;
+	}
+
+	inline Color3_Float Fp10_11_10_ToFloat(Ceng::UINT32 source)
+	{
+		return Color3_Float();
+	}
+
+	inline Color3_Float SharedExpToFloat(Ceng::UINT32 source)
+	{
+		return Color3_Float();
+	}
+
+	inline Color3_Int32 Extract_B5_G6_R5(Ceng::UINT16 source)
+	{
+		return Color3_Int32();
+	}
+
+	inline Color3_Int32 Extract_R5_G6_B5(Ceng::UINT16 source)
+	{
+		return Color3_Int32();
+	}
+
+	inline Color4_Int32 Extract_A1_R5_G6_B5(Ceng::UINT16 source)
+	{
+		return Color4_Int32();
+	}
+
+	inline Color4_Int32 Extract_A1_B5_G6_R5(Ceng::UINT16 source)
+	{
+		return Color4_Int32();
+	}
+
+	inline Color3_Int32 Extract_R5_G5_B5(Ceng::UINT16 source)
+	{
+		return Color3_Int32();
+	}
+
+	inline Color3_Int32 Extract_B5_G5_R5(Ceng::UINT16 source)
+	{
+		return Color3_Int32();
+	}
+
+	inline Color4_Int32 Extract_A4_R4_G4_B4(Ceng::UINT16 source)
+	{
+		return Color4_Int32();
+	}
+
+	inline Color4_Int32 Extract_A4_B4_G4_R4(Ceng::UINT16 source)
+	{
+		return Color4_Int32();
+	}
+
+	inline Color4_Int32 Extract_A6_R6_G6_B6(Ceng::UINT32 source)
+	{
+		return Color4_Int32();
+	}
+
+	inline Color4_Int32 Extract_A6_B6_G6_R6(Ceng::UINT32 source)
+	{
+		return Color4_Int32();
+	}
+
+	inline Color3_Int32 Extract_X6_R6_G6_B6(Ceng::UINT32 source)
+	{
+		return Color3_Int32();
+	}
+
+	inline Color3_Int32 Extract_X6_B6_G6_R6(Ceng::UINT32 source)
+	{
+		return Color3_Int32();
+	}
+
+	inline Color4_Int32 Extract_A8_R8_G8_B8(Ceng::UINT32 source)
+	{
+		return Color4_Int32();
+	}
+
+	inline Color4_Int32 Extract_A8_B8_G8_R8(Ceng::UINT32 source)
+	{
+		return Color4_Int32();
+	}
+	
+	inline Color3_Int32 Extract_X8_B8_G8_R8(Ceng::UINT32 source)
+	{
+		return Color3_Int32();
+	}
+
+	inline Color3_Int32 Extract_X8_R8_G8_B8(Ceng::UINT32 source)
+	{
+		return Color3_Int32();
+	}
+
+	inline Color4_Int32 Extract_A2_B10_G10_R10(Ceng::UINT32 source)
+	{
+		return Color4_Int32();
+	}
+}
+
+#endif

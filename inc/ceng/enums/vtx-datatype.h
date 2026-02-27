@@ -203,7 +203,7 @@ namespace Ceng
 
 			// 18-bit color, no alpha (stored in 32 bits)
 			// normalized to (0,1) float
-			UNORM_X6_B6_G6_R7 = 60 , 
+			UNORM_X6_B6_G6_R6 = 60 , 
 
 			// Blue in least significant byte (Direct3D)
 			UNORM_SRGB_A8_R8_G8_B8 = 61,

@@ -14,6 +14,7 @@
 
 #include <immintrin.h>
 #include "vshader-input-reader.h"
+#include "conversion_util.h"
 
 namespace Ceng::Vshader
 {
@@ -101,7 +102,7 @@ namespace Ceng::Vshader
 	void VSIN_FLOAT_UNORM_A6_B6_G6_R6(void* dest, void* source);
 		
 	void VSIN_FLOAT_UNORM_X6_R6_G6_B6(void* dest, void* source);
-	void VSIN_FLOAT_UNORM_X6_B6_G6_R7(void* dest, void* source);
+	void VSIN_FLOAT_UNORM_X6_B6_G6_R6(void* dest, void* source);
 		
 	void VSIN_FLOAT_UNORM_SRGB_A8_R8_G8_B8(void* dest, void* source);
 	void VSIN_FLOAT_UNORM_SRGB_A8_B8_G8_R8(void* dest, void* source);	
@@ -199,7 +200,7 @@ namespace Ceng::Vshader
 	void VSIN_FLOAT2_UNORM_A6_B6_G6_R6(void* dest, void* source);
 
 	void VSIN_FLOAT2_UNORM_X6_R6_G6_B6(void* dest, void* source);
-	void VSIN_FLOAT2_UNORM_X6_B6_G6_R7(void* dest, void* source);
+	void VSIN_FLOAT2_UNORM_X6_B6_G6_R6(void* dest, void* source);
 
 	void VSIN_FLOAT2_UNORM_SRGB_A8_R8_G8_B8(void* dest, void* source);
 	void VSIN_FLOAT2_UNORM_SRGB_A8_B8_G8_R8(void* dest, void* source);
@@ -297,7 +298,7 @@ namespace Ceng::Vshader
 	void VSIN_FLOAT3_UNORM_A6_B6_G6_R6(void* dest, void* source);
 
 	void VSIN_FLOAT3_UNORM_X6_R6_G6_B6(void* dest, void* source);
-	void VSIN_FLOAT3_UNORM_X6_B6_G6_R7(void* dest, void* source);
+	void VSIN_FLOAT3_UNORM_X6_B6_G6_R6(void* dest, void* source);
 
 	void VSIN_FLOAT3_UNORM_SRGB_A8_R8_G8_B8(void* dest, void* source);
 	void VSIN_FLOAT3_UNORM_SRGB_A8_B8_G8_R8(void* dest, void* source);
@@ -395,7 +396,7 @@ namespace Ceng::Vshader
 	void VSIN_FLOAT4_UNORM_A6_B6_G6_R6(void* dest, void* source);
 
 	void VSIN_FLOAT4_UNORM_X6_R6_G6_B6(void* dest, void* source);
-	void VSIN_FLOAT4_UNORM_X6_B6_G6_R7(void* dest, void* source);
+	void VSIN_FLOAT4_UNORM_X6_B6_G6_R6(void* dest, void* source);
 
 	void VSIN_FLOAT4_UNORM_SRGB_A8_R8_G8_B8(void* dest, void* source);
 	void VSIN_FLOAT4_UNORM_SRGB_A8_B8_G8_R8(void* dest, void* source);
@@ -635,8 +636,8 @@ Ceng::Vshader::VertexShaderInputReader GetReadCallbackFloat(Ceng::VTX_DATATYPE::
 
 	case Ceng::VTX_DATATYPE::UNORM_X6_R6_G6_B6:
 		return &Ceng::Vshader::VSIN_FLOAT_UNORM_X6_R6_G6_B6;
-	case Ceng::VTX_DATATYPE::UNORM_X6_B6_G6_R7:
-		return &Ceng::Vshader::VSIN_FLOAT_UNORM_X6_B6_G6_R7;
+	case Ceng::VTX_DATATYPE::UNORM_X6_B6_G6_R6:
+		return &Ceng::Vshader::VSIN_FLOAT_UNORM_X6_B6_G6_R6;
 
 	case Ceng::VTX_DATATYPE::UNORM_SRGB_A8_R8_G8_B8:
 		return &Ceng::Vshader::VSIN_FLOAT_UNORM_SRGB_A8_R8_G8_B8;
@@ -812,8 +813,8 @@ Ceng::Vshader::VertexShaderInputReader GetReadCallbackFloat2(Ceng::VTX_DATATYPE:
 
 	case Ceng::VTX_DATATYPE::UNORM_X6_R6_G6_B6:
 		return &Ceng::Vshader::VSIN_FLOAT2_UNORM_X6_R6_G6_B6;
-	case Ceng::VTX_DATATYPE::UNORM_X6_B6_G6_R7:
-		return &Ceng::Vshader::VSIN_FLOAT2_UNORM_X6_B6_G6_R7;
+	case Ceng::VTX_DATATYPE::UNORM_X6_B6_G6_R6:
+		return &Ceng::Vshader::VSIN_FLOAT2_UNORM_X6_B6_G6_R6;
 
 	case Ceng::VTX_DATATYPE::UNORM_SRGB_A8_R8_G8_B8:
 		return &Ceng::Vshader::VSIN_FLOAT2_UNORM_SRGB_A8_R8_G8_B8;
@@ -989,8 +990,8 @@ Ceng::Vshader::VertexShaderInputReader GetReadCallbackFloat3(Ceng::VTX_DATATYPE:
 
 	case Ceng::VTX_DATATYPE::UNORM_X6_R6_G6_B6:
 		return &Ceng::Vshader::VSIN_FLOAT3_UNORM_X6_R6_G6_B6;
-	case Ceng::VTX_DATATYPE::UNORM_X6_B6_G6_R7:
-		return &Ceng::Vshader::VSIN_FLOAT3_UNORM_X6_B6_G6_R7;
+	case Ceng::VTX_DATATYPE::UNORM_X6_B6_G6_R6:
+		return &Ceng::Vshader::VSIN_FLOAT3_UNORM_X6_B6_G6_R6;
 
 	case Ceng::VTX_DATATYPE::UNORM_SRGB_A8_R8_G8_B8:
 		return &Ceng::Vshader::VSIN_FLOAT3_UNORM_SRGB_A8_R8_G8_B8;
@@ -1166,8 +1167,8 @@ Ceng::Vshader::VertexShaderInputReader GetReadCallbackFloat4(Ceng::VTX_DATATYPE:
 
 	case Ceng::VTX_DATATYPE::UNORM_X6_R6_G6_B6:
 		return &Ceng::Vshader::VSIN_FLOAT4_UNORM_X6_R6_G6_B6;
-	case Ceng::VTX_DATATYPE::UNORM_X6_B6_G6_R7:
-		return &Ceng::Vshader::VSIN_FLOAT4_UNORM_X6_B6_G6_R7;
+	case Ceng::VTX_DATATYPE::UNORM_X6_B6_G6_R6:
+		return &Ceng::Vshader::VSIN_FLOAT4_UNORM_X6_B6_G6_R6;
 
 	case Ceng::VTX_DATATYPE::UNORM_SRGB_A8_R8_G8_B8:
 		return &Ceng::Vshader::VSIN_FLOAT4_UNORM_SRGB_A8_R8_G8_B8;
@@ -1284,96 +1285,9 @@ Ceng::Vshader::VertexShaderInputReader GetReadCallbackBool4(Ceng::VTX_DATATYPE::
 	return &Ceng::Vshader::NullVertexReader;
 }
 
-/*
-void (*InFloat::call_ToFloat[128])(void*,void*) =
-	{
-		// Indexed by source format
-
-		NULL , // UNKNOWN
-
-		&VSIN_FLOAT_FLOAT_X86 , // FLOAT
-		NULL , // FLOAT2
-		NULL , // FLOAT3
-		NULL , // FLOAT4
-
-		NULL , // DOUBLE
-		NULL , // DOUBLE2
-		NULL , // DOUBLE3
-		NULL , // DOUBLE4
-
-		NULL , // FP16_2
-		NULL , // FP16_4
-	};
-*/
-
-/*
-void (*InFloat2::call_ToFloat2[128])(void*,void*) =
-	{
-		// Indexed by source format
-
-		NULL , // UNKNOWN
-
-		NULL , // FLOAT
-		&VSIN_FLOAT2_FLOAT2_X86_SSE2 , // FLOAT2
-		NULL , // FLOAT3
-		NULL , // FLOAT4
-
-		NULL , // DOUBLE
-		NULL , // DOUBLE2
-		NULL , // DOUBLE3
-		NULL , // DOUBLE4
-
-		NULL , // FP16_2
-		NULL , // FP16_4
-	};
-*/
-
-/*
-void (*InFloat3::call_ToFloat3[128])(void*, void*) =
-{
-	// Indexed by source format
-
-	NULL , // UNKNOWN
-
-	NULL , // FLOAT
-	NULL , // FLOAT2
-	&VSIN_FLOAT3_FLOAT3_X86 , // FLOAT3
-	NULL , // FLOAT4
-
-	NULL , // DOUBLE
-	NULL , // DOUBLE2
-	NULL , // DOUBLE3
-	NULL , // DOUBLE4
-
-	NULL , // FP16_2
-	NULL , // FP16_4
-};
-*/
-
-/*
-void (*InFloat4::call_ToFloat4[128])(void*,void*) =
-	{
-		// Indexed by source format
-
-		NULL , // UNKNOWN
-
-		NULL , // FLOAT
-		NULL , // FLOAT2
-		NULL , // FLOAT3
-		&VSIN_FLOAT4_FLOAT4_X86_SSE , // FLOAT4
-
-		NULL , // DOUBLE
-		NULL , // DOUBLE2
-		NULL , // DOUBLE3
-		NULL , // DOUBLE4
-
-		NULL , // FP16_2
-		NULL , // FP16_4
-	};
-*/
-
 namespace Ceng::Vshader
 {
+	/*
 	void VSIN_FLOAT_FLOAT_X86(void *dest,void *source)
 	{
 		Ceng::UINT32 *destPtr = (Ceng::UINT32*)dest;
@@ -1405,9 +1319,10 @@ namespace Ceng::Vshader
 
 		_mm_store_ps((float*)dest, temp);
 	}
+	*/
 
 	//*************************************************
-	// Destination is float
+	// From FLOAT
 
 	void VSIN_FLOAT_FLOAT(void* dest, void* source)
 	{
@@ -1417,367 +1332,15 @@ namespace Ceng::Vshader
 		*destPtr = *sourcePtr;
 	}
 
+	//*************************************************
+	// From FLOAT2
+
 	void VSIN_FLOAT_FLOAT2(void* dest, void* source)
 	{
+		Ceng::UINT32* destPtr = (Ceng::UINT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
 
-	}
-
-	void VSIN_FLOAT_FLOAT3(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_FLOAT4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_DOUBLE(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_DOUBLE2(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_DOUBLE3(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_DOUBLE4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_FP16(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_FP16_2(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_FP16_3(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_FP16_4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_INT(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_INT2(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_INT3(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_INT4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UINT(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UINT2(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UINT3(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UINT4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_SHORT(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_SHORT2(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_SHORT3(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_SHORT4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_USHORT(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_USHORT2(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_USHORT3(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_USHORT4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UNSHORT(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UNSHORT2(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UNSHORT3(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UNSHORT4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_NSHORT(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_NSHORT2(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_NSHORT3(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_NSHORT4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_BYTE(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_BYTE2(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_BYTE3(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_BYTE4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UBYTE(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UBYTE2(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UBYTE3(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UBYTE4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UNBYTE(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UNBYTE2(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UNBYTE3(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UNBYTE4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UNORM_B5_G6_R5(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UNORM_R5_G6_B5(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UNORM_A1_R5_G5_B5(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UNORM_A1_B5_G5_R5(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UNORM_R5_G5_B5(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UNORM_B5_G5_R5(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UNORM_A4_R4_G4_B4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UNORM_A4_B4_G4_R4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UNORM_A6_R6_G6_B6(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UNORM_A6_B6_G6_R6(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UNORM_X6_R6_G6_B6(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UNORM_X6_B6_G6_R7(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UNORM_SRGB_A8_R8_G8_B8(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UNORM_SRGB_A8_B8_G8_R8(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UNORM_SRGB_X8_B8_G8_R8(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UNORM_SRGB_X8_R8_G8_B8(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UNORM_A2_B10_G10_R10(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UINT_A2_B10_G10_R10(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UNORM_A8(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UNORM_R1(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_FLOAT_B10_G11_R11(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_SHAREDEXP_E5_B9_G9_R9(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UNORM_G8_B8_G8_R8(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT_UNORM_B8_G8_R8_G8(void* dest, void* source)
-	{
-
-	}
-
-	//*************************************************
-	// Destination is float2
-
-	void VSIN_FLOAT2_FLOAT(void* dest, void* source)
-	{
-
+		*destPtr = *sourcePtr;
 	}
 
 	void VSIN_FLOAT2_FLOAT2(void* dest, void* source)
@@ -1787,367 +1350,15 @@ namespace Ceng::Vshader
 		_mm_store_sd((double*)dest, temp);
 	}
 
-	void VSIN_FLOAT2_FLOAT3(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_FLOAT4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_DOUBLE(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_DOUBLE2(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_DOUBLE3(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_DOUBLE4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_FP16(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_FP16_2(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_FP16_3(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_FP16_4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_INT(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_INT2(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_INT3(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_INT4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UINT(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UINT2(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UINT3(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UINT4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_SHORT(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_SHORT2(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_SHORT3(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_SHORT4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_USHORT(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_USHORT2(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_USHORT3(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_USHORT4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UNSHORT(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UNSHORT2(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UNSHORT3(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UNSHORT4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_NSHORT(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_NSHORT2(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_NSHORT3(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_NSHORT4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_BYTE(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_BYTE2(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_BYTE3(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_BYTE4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UBYTE(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UBYTE2(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UBYTE3(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UBYTE4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UNBYTE(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UNBYTE2(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UNBYTE3(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UNBYTE4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UNORM_B5_G6_R5(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UNORM_R5_G6_B5(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UNORM_A1_R5_G5_B5(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UNORM_A1_B5_G5_R5(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UNORM_R5_G5_B5(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UNORM_B5_G5_R5(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UNORM_A4_R4_G4_B4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UNORM_A4_B4_G4_R4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UNORM_A6_R6_G6_B6(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UNORM_A6_B6_G6_R6(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UNORM_X6_R6_G6_B6(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UNORM_X6_B6_G6_R7(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UNORM_SRGB_A8_R8_G8_B8(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UNORM_SRGB_A8_B8_G8_R8(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UNORM_SRGB_X8_B8_G8_R8(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UNORM_SRGB_X8_R8_G8_B8(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UNORM_A2_B10_G10_R10(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UINT_A2_B10_G10_R10(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UNORM_A8(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UNORM_R1(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_FLOAT_B10_G11_R11(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_SHAREDEXP_E5_B9_G9_R9(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UNORM_G8_B8_G8_R8(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT2_UNORM_B8_G8_R8_G8(void* dest, void* source)
-	{
-
-	}
-
 	//*************************************************
-	// Destination is float3
+	// From FLOAT3
 
-	void VSIN_FLOAT3_FLOAT(void* dest, void* source) 
+	void VSIN_FLOAT_FLOAT3(void* dest, void* source)
 	{
+		Ceng::UINT32* destPtr = (Ceng::UINT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
 
-	}
-
-	void VSIN_FLOAT3_FLOAT2(void* dest, void* source)
-	{
-
+		*destPtr = *sourcePtr;
 	}
 
 	void VSIN_FLOAT3_FLOAT3(void* dest, void* source)
@@ -2159,715 +1370,804 @@ namespace Ceng::Vshader
 		destPtr[1] = sourcePtr[1];
 		destPtr[2] = sourcePtr[2];
 	}
-	void VSIN_FLOAT3_FLOAT4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_DOUBLE(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_DOUBLE2(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_DOUBLE3(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_DOUBLE4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_FP16(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_FP16_2(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_FP16_3(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_FP16_4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_INT(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_INT2(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_INT3(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_INT4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UINT(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UINT2(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UINT3(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UINT4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_SHORT(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_SHORT2(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_SHORT3(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_SHORT4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_USHORT(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_USHORT2(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_USHORT3(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_USHORT4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UNSHORT(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UNSHORT2(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UNSHORT3(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UNSHORT4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_NSHORT(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_NSHORT2(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_NSHORT3(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_NSHORT4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_BYTE(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_BYTE2(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_BYTE3(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_BYTE4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UBYTE(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UBYTE2(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UBYTE3(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UBYTE4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UNBYTE(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UNBYTE2(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UNBYTE3(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UNBYTE4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UNORM_R5_G6_B5(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UNORM_B5_G6_R5(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UNORM_A1_R5_G5_B5(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UNORM_A1_B5_G5_R5(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UNORM_R5_G5_B5(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UNORM_B5_G5_R5(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UNORM_A4_R4_G4_B4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UNORM_A4_B4_G4_R4(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UNORM_A6_R6_G6_B6(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UNORM_A6_B6_G6_R6(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UNORM_X6_R6_G6_B6(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UNORM_X6_B6_G6_R7(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UNORM_SRGB_A8_R8_G8_B8(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UNORM_SRGB_A8_B8_G8_R8(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UNORM_SRGB_X8_B8_G8_R8(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UNORM_SRGB_X8_R8_G8_B8(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UNORM_A2_B10_G10_R10(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UINT_A2_B10_G10_R10(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UNORM_A8(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UNORM_R1(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_FLOAT_B10_G11_R11(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_SHAREDEXP_E5_B9_G9_R9(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UNORM_G8_B8_G8_R8(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT3_UNORM_B8_G8_R8_G8(void* dest, void* source)
-	{
-
-	}
 
 	//*************************************************
-	// Destination is float4
+	// From FLOAT4
 
-	void VSIN_FLOAT4_FLOAT(void* dest, void* source)
+	void VSIN_FLOAT_FLOAT4(void* dest, void* source)
 	{
+		Ceng::UINT32* destPtr = (Ceng::UINT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
 
+		*destPtr = *sourcePtr;
 	}
 
-	void VSIN_FLOAT4_FLOAT2(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT4_FLOAT3(void* dest, void* source)
-	{
-
-	}
-
-	void VSIN_FLOAT4_FLOAT4(void* dest, void* source) 
+	void VSIN_FLOAT4_FLOAT4(void* dest, void* source)
 	{
 		__m128 temp = _mm_load_ps((float*)source);
 
 		_mm_store_ps((float*)dest, temp);
 	}
 
-	void VSIN_FLOAT4_DOUBLE(void* dest, void* source)
+	//*************************************************
+	// From DOUBLE
+
+	void VSIN_FLOAT_DOUBLE(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::FLOAT64* sourcePtr = (Ceng::FLOAT64*)source;
 
+		*destPtr = (Ceng::FLOAT32)*sourcePtr;
 	}
+
+	//*************************************************
+	// From DOUBLE2
 
-	void VSIN_FLOAT4_DOUBLE2(void* dest, void* source)
+	void VSIN_FLOAT_DOUBLE2(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::FLOAT64* sourcePtr = (Ceng::FLOAT64*)source;
 
+		*destPtr = (Ceng::FLOAT32)*sourcePtr;
 	}
 
-	void VSIN_FLOAT4_DOUBLE3(void* dest, void* source)
+	//*************************************************
+	// From DOUBLE3
+
+	void VSIN_FLOAT_DOUBLE3(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::FLOAT64* sourcePtr = (Ceng::FLOAT64*)source;
 
+		*destPtr = (Ceng::FLOAT32)*sourcePtr;
 	}
 
-	void VSIN_FLOAT4_DOUBLE4(void* dest, void* source)
+	//*************************************************
+	// From DOUBLE4
+
+	void VSIN_FLOAT_DOUBLE4(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::FLOAT64* sourcePtr = (Ceng::FLOAT64*)source;
 
+		*destPtr = (Ceng::FLOAT32)*sourcePtr;
 	}
+
+	//*************************************************
+	// From FP16
 
-	void VSIN_FLOAT4_FP16(void* dest, void* source)
+	void VSIN_FLOAT_FP16(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
 
+		*destPtr = HalfToFloat(*sourcePtr);
 	}
 
-	void VSIN_FLOAT4_FP16_2(void* dest, void* source)
+	//*************************************************
+	// From FP16_2
+
+	void VSIN_FLOAT_FP16_2(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
 
+		*destPtr = HalfToFloat(*sourcePtr);
 	}
 
-	void VSIN_FLOAT4_FP16_3(void* dest, void* source)
+	//*************************************************
+	// From FP16_3
+
+	void VSIN_FLOAT_FP16_3(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
 
+		*destPtr = HalfToFloat(*sourcePtr);
 	}
+
+	//*************************************************
+	// From FP16_4
 
-	void VSIN_FLOAT4_FP16_4(void* dest, void* source)
+	void VSIN_FLOAT_FP16_4(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
 
+		*destPtr = HalfToFloat(*sourcePtr);
 	}
 
-	void VSIN_FLOAT4_INT(void* dest, void* source)
+	//*************************************************
+	// From INT
+
+	void VSIN_FLOAT_INT(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT32* sourcePtr = (Ceng::INT32*)source;
 
+		*destPtr = Ceng::FLOAT32(*sourcePtr);
 	}
 
-	void VSIN_FLOAT4_INT2(void* dest, void* source)
+	//*************************************************
+	// From INT2
+
+	void VSIN_FLOAT_INT2(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT32* sourcePtr = (Ceng::INT32*)source;
 
+		*destPtr = Ceng::FLOAT32(*sourcePtr);
 	}
+
+	//*************************************************
+	// From INT3
 
-	void VSIN_FLOAT4_INT3(void* dest, void* source)
+	void VSIN_FLOAT_INT3(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT32* sourcePtr = (Ceng::INT32*)source;
 
+		*destPtr = Ceng::FLOAT32(*sourcePtr);
 	}
 
-	void VSIN_FLOAT4_INT4(void* dest, void* source)
+	//*************************************************
+	// From INT4
+
+	void VSIN_FLOAT_INT4(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT32* sourcePtr = (Ceng::INT32*)source;
 
+		*destPtr = Ceng::FLOAT32(*sourcePtr);
 	}
+
+	//*************************************************
+	// From UINT
 
-	void VSIN_FLOAT4_UINT(void* dest, void* source)
+	void VSIN_FLOAT_UINT(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
 
+		*destPtr = Ceng::FLOAT32(*sourcePtr);
 	}
 
-	void VSIN_FLOAT4_UINT2(void* dest, void* source)
+	//*************************************************
+	// From UINT2
+
+	void VSIN_FLOAT_UINT2(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
 
+		*destPtr = Ceng::FLOAT32(*sourcePtr);
 	}
 
-	void VSIN_FLOAT4_UINT3(void* dest, void* source)
+	//*************************************************
+	// From UINT3
+
+	void VSIN_FLOAT_UINT3(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
 
+		*destPtr = Ceng::FLOAT32(*sourcePtr);
 	}
+
+	//*************************************************
+	// From UINT4
 
-	void VSIN_FLOAT4_UINT4(void* dest, void* source)
+	void VSIN_FLOAT_UINT4(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
 
+		*destPtr = Ceng::FLOAT32(*sourcePtr);
 	}
 
-	void VSIN_FLOAT4_SHORT(void* dest, void* source)
+	//*************************************************
+	// From SHORT
+
+	void VSIN_FLOAT_SHORT(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT16* sourcePtr = (Ceng::INT16*)source;
 
+		*destPtr = Ceng::FLOAT32(*sourcePtr);
 	}
 
-	void VSIN_FLOAT4_SHORT2(void* dest, void* source)
+	//*************************************************
+	// From SHORT2
+
+	void VSIN_FLOAT_SHORT2(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT16* sourcePtr = (Ceng::INT16*)source;
 
+		*destPtr = Ceng::FLOAT32(*sourcePtr);
 	}
+
+	//*************************************************
+	// From SHORT3
 
-	void VSIN_FLOAT4_SHORT3(void* dest, void* source)
+	void VSIN_FLOAT_SHORT3(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT16* sourcePtr = (Ceng::INT16*)source;
 
+		*destPtr = Ceng::FLOAT32(*sourcePtr);
 	}
 
-	void VSIN_FLOAT4_SHORT4(void* dest, void* source)
+	//*************************************************
+	// From SHORT4
+
+	void VSIN_FLOAT_SHORT4(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT16* sourcePtr = (Ceng::INT16*)source;
 
+		*destPtr = Ceng::FLOAT32(*sourcePtr);
 	}
 
-	void VSIN_FLOAT4_USHORT(void* dest, void* source)
+	//*************************************************
+	// From USHORT
+
+	void VSIN_FLOAT_USHORT(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
 
+		*destPtr = Ceng::FLOAT32(*sourcePtr);
 	}
+
+	//*************************************************
+	// From USHORT2
 
-	void VSIN_FLOAT4_USHORT2(void* dest, void* source)
+	void VSIN_FLOAT_USHORT2(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
 
+		*destPtr = Ceng::FLOAT32(*sourcePtr);
 	}
 
-	void VSIN_FLOAT4_USHORT3(void* dest, void* source)
+	//*************************************************
+	// From USHORT3
+
+	void VSIN_FLOAT_USHORT3(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
 
+		*destPtr = Ceng::FLOAT32(*sourcePtr);
 	}
+
+	//*************************************************
+	// From USHORT4
 
-	void VSIN_FLOAT4_USHORT4(void* dest, void* source)
+	void VSIN_FLOAT_USHORT4(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
 
+		*destPtr = Ceng::FLOAT32(*sourcePtr);
 	}
 
-	void VSIN_FLOAT4_UNSHORT(void* dest, void* source)
+	//*************************************************
+	// From UNSHORT
+
+	void VSIN_FLOAT_UNSHORT(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
 
+		*destPtr = Ceng::FLOAT32(*sourcePtr) * scaleNormalizeUint16;
 	}
 
-	void VSIN_FLOAT4_UNSHORT2(void* dest, void* source)
+	//*************************************************
+	// From UNSHORT2
+
+	void VSIN_FLOAT_UNSHORT2(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
 
+		*destPtr = Ceng::FLOAT32(*sourcePtr) * scaleNormalizeUint16;
 	}
+
+	//*************************************************
+	// From UNSHORT3
 
-	void VSIN_FLOAT4_UNSHORT3(void* dest, void* source)
+	void VSIN_FLOAT_UNSHORT3(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
 
+		*destPtr = Ceng::FLOAT32(*sourcePtr) * scaleNormalizeUint16;
 	}
 
-	void VSIN_FLOAT4_UNSHORT4(void* dest, void* source)
+	//*************************************************
+	// From UNSHORT4
+
+	void VSIN_FLOAT_UNSHORT4(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
 
+		*destPtr = Ceng::FLOAT32(*sourcePtr) * scaleNormalizeUint16;
 	}
 
-	void VSIN_FLOAT4_NSHORT(void* dest, void* source)
+	//*************************************************
+	// From NSHORT
+
+	void VSIN_FLOAT_NSHORT(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT16* sourcePtr = (Ceng::INT16*)source;
 
+		*destPtr = Ceng::FLOAT32(*sourcePtr) * scaleNormalizeInt16;
 	}
+
+	//*************************************************
+	// From NSHORT2
 
-	void VSIN_FLOAT4_NSHORT2(void* dest, void* source)
+	void VSIN_FLOAT_NSHORT2(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT16* sourcePtr = (Ceng::INT16*)source;
 
+		*destPtr = Ceng::FLOAT32(*sourcePtr) * scaleNormalizeInt16;
 	}
 
-	void VSIN_FLOAT4_NSHORT3(void* dest, void* source)
+	//*************************************************
+	// From NSHORT3
+
+	void VSIN_FLOAT_NSHORT3(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT16* sourcePtr = (Ceng::INT16*)source;
 
+		*destPtr = Ceng::FLOAT32(*sourcePtr) * scaleNormalizeInt16;
 	}
 
-	void VSIN_FLOAT4_NSHORT4(void* dest, void* source)
+	//*************************************************
+	// From NSHORT4
+
+	void VSIN_FLOAT_NSHORT4(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT16* sourcePtr = (Ceng::INT16*)source;
 
+		*destPtr = Ceng::FLOAT32(*sourcePtr) * scaleNormalizeInt16;
 	}
+
+	//*************************************************
+	// From BYTE
 
-	void VSIN_FLOAT4_BYTE(void* dest, void* source)
+	void VSIN_FLOAT_BYTE(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT8* sourcePtr = (Ceng::INT8*)source;
 
+		*destPtr = Ceng::FLOAT32(*sourcePtr);
 	}
 
-	void VSIN_FLOAT4_BYTE2(void* dest, void* source)
+	//*************************************************
+	// From BYTE2
+
+	void VSIN_FLOAT_BYTE2(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT8* sourcePtr = (Ceng::INT8*)source;
 
+		*destPtr = Ceng::FLOAT32(*sourcePtr);
 	}
+
+	//*************************************************
+	// From BYTE3
 
-	void VSIN_FLOAT4_BYTE3(void* dest, void* source)
+	void VSIN_FLOAT_BYTE3(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT8* sourcePtr = (Ceng::INT8*)source;
 
+		*destPtr = Ceng::FLOAT32(*sourcePtr);
 	}
 
-	void VSIN_FLOAT4_BYTE4(void* dest, void* source)
+	//*************************************************
+	// From BYTE4
+
+	void VSIN_FLOAT_BYTE4(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT8* sourcePtr = (Ceng::INT8*)source;
 
+		*destPtr = Ceng::FLOAT32(*sourcePtr);
 	}
 
-	void VSIN_FLOAT4_UBYTE(void* dest, void* source)
+	//*************************************************
+	// From UBYTE
+
+	void VSIN_FLOAT_UBYTE(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT8* sourcePtr = (Ceng::UINT8*)source;
 
+		*destPtr = Ceng::FLOAT32(*sourcePtr);
 	}
+
+	//*************************************************
+	// From UBYTE2
 
-	void VSIN_FLOAT4_UBYTE2(void* dest, void* source)
+	void VSIN_FLOAT_UBYTE2(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT8* sourcePtr = (Ceng::UINT8*)source;
 
+		*destPtr = Ceng::FLOAT32(*sourcePtr);
 	}
 
-	void VSIN_FLOAT4_UBYTE3(void* dest, void* source)
+	//*************************************************
+	// From UBYTE3
+
+	void VSIN_FLOAT_UBYTE3(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT8* sourcePtr = (Ceng::UINT8*)source;
 
+		*destPtr = Ceng::FLOAT32(*sourcePtr);
 	}
 
-	void VSIN_FLOAT4_UBYTE4(void* dest, void* source)
+	//*************************************************
+	// From UBYTE4
+
+	void VSIN_FLOAT_UBYTE4(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT8* sourcePtr = (Ceng::UINT8*)source;
 
+		*destPtr = Ceng::FLOAT32(*sourcePtr);
 	}
+
+	//*************************************************
+	// From UNBYTE
 
-	void VSIN_FLOAT4_UNBYTE(void* dest, void* source)
+	void VSIN_FLOAT_UNBYTE(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT8* sourcePtr = (Ceng::UINT8*)source;
 
+		*destPtr = Ceng::FLOAT32(*sourcePtr) * scaleNormalizeUint8;
 	}
 
-	void VSIN_FLOAT4_UNBYTE2(void* dest, void* source)
+	//*************************************************
+	// From UNBYTE2
+
+	void VSIN_FLOAT_UNBYTE2(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT8* sourcePtr = (Ceng::UINT8*)source;
 
+		*destPtr = Ceng::FLOAT32(*sourcePtr) * scaleNormalizeUint8;
 	}
 
-	void VSIN_FLOAT4_UNBYTE3(void* dest, void* source)
+	//*************************************************
+	// From UNBYTE3
+
+	void VSIN_FLOAT_UNBYTE3(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT8* sourcePtr = (Ceng::UINT8*)source;
 
+		*destPtr = Ceng::FLOAT32(*sourcePtr) * scaleNormalizeUint8;
 	}
+
+	//*************************************************
+	// From UNBYTE4
 
-	void VSIN_FLOAT4_UNBYTE4(void* dest, void* source)
+	void VSIN_FLOAT_UNBYTE4(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT8* sourcePtr = (Ceng::UINT8*)source;
 
+		*destPtr = Ceng::FLOAT32(*sourcePtr) * scaleNormalizeUint8;
 	}
 
-	void VSIN_FLOAT4_UNORM_R5_G6_B5(void* dest, void* source)
+	//*************************************************
+	// From UNORM_B5_G6_R5
+
+	void VSIN_FLOAT_UNORM_B5_G6_R5(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		Color3_Int32 color = Extract_B5_G6_R5(*sourcePtr);
 
+		*destPtr = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx5;
 	}
 
-	void VSIN_FLOAT4_UNORM_B5_G6_R5(void* dest, void* source)
+	//*************************************************
+	// From UNORM_R5_G6_B5
+
+	void VSIN_FLOAT_UNORM_R5_G6_B5(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
 
+		Color3_Int32 color = Extract_R5_G6_B5(*sourcePtr);
+
+		*destPtr = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx5;
 	}
+
+	//*************************************************
+	// From UNORM_A1_R5_G5_B5
 
-	void VSIN_FLOAT4_UNORM_A1_R5_G5_B5(void* dest, void* source)
+	void VSIN_FLOAT_UNORM_A1_R5_G5_B5(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
 
+		Color4_Int32 color = Extract_A1_R5_G6_B5(*sourcePtr);
+
+		*destPtr = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx5;
 	}
 
-	void VSIN_FLOAT4_UNORM_A1_B5_G5_R5(void* dest, void* source)
+	//*************************************************
+	// From UNORM_A1_B5_G5_R5
+
+	void VSIN_FLOAT_UNORM_A1_B5_G5_R5(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		Color4_Int32 color = Extract_A1_B5_G6_R5(*sourcePtr);
 
+		*destPtr = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx5;
 	}
 
-	void VSIN_FLOAT4_UNORM_R5_G5_B5(void* dest, void* source)
+	//*************************************************
+	// From UNORM_R5_G5_B5
+
+	void VSIN_FLOAT_UNORM_R5_G5_B5(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
 
+		Color3_Int32 color = Extract_R5_G5_B5(*sourcePtr);
+
+		*destPtr = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx5;
 	}
+
+	//*************************************************
+	// From UNORM_B5_G5_R5
 
-	void VSIN_FLOAT4_UNORM_B5_G5_R5(void* dest, void* source)
+	void VSIN_FLOAT_UNORM_B5_G5_R5(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
 
+		Color3_Int32 color = Extract_B5_G5_R5(*sourcePtr);
+
+		*destPtr = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx5;
 	}
+
+	//*************************************************
+	// From UNORM_A4_R4_G4_B4
 
-	void VSIN_FLOAT4_UNORM_A4_R4_G4_B4(void* dest, void* source)
+	void VSIN_FLOAT_UNORM_A4_R4_G4_B4(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
 
+		Color4_Int32 color = Extract_A4_R4_G4_B4(*sourcePtr);
+
+		*destPtr = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx4;
 	}
 
-	void VSIN_FLOAT4_UNORM_A4_B4_G4_R4(void* dest, void* source)
+	//*************************************************
+	// From UNORM_A4_B4_G4_R4
+
+	void VSIN_FLOAT_UNORM_A4_B4_G4_R4(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		Color4_Int32 color = Extract_A4_B4_G4_R4(*sourcePtr);
 
+		*destPtr = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx4;
 	}
 
-	void VSIN_FLOAT4_UNORM_A6_R6_G6_B6(void* dest, void* source)
+	//*************************************************
+	// From UNORM_A6_R6_G6_B6
+
+	void VSIN_FLOAT_UNORM_A6_R6_G6_B6(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
 
+		Color4_Int32 color = Extract_A6_R6_G6_B6(*sourcePtr);
+
+		*destPtr = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx6;
 	}
+
+	//*************************************************
+	// From UNORM_A6_B6_G6_R6
 
-	void VSIN_FLOAT4_UNORM_A6_B6_G6_R6(void* dest, void* source)
+	void VSIN_FLOAT_UNORM_A6_B6_G6_R6(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
 
+		Color4_Int32 color = Extract_A6_B6_G6_R6(*sourcePtr);
+
+		*destPtr = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx6;
 	}
 
-	void VSIN_FLOAT4_UNORM_X6_R6_G6_B6(void* dest, void* source)
+	//*************************************************
+	// From UNORM_X6_R6_G6_B6
+
+	void VSIN_FLOAT_UNORM_X6_R6_G6_B6(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color3_Int32 color = Extract_X6_R6_G6_B6(*sourcePtr);
 
+		*destPtr = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx6;
 	}
 
-	void VSIN_FLOAT4_UNORM_X6_B6_G6_R7(void* dest, void* source)
+	//*************************************************
+	// From UNORM_X6_B6_G6_R6
+
+	void VSIN_FLOAT_UNORM_X6_B6_G6_R6(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color3_Int32 color = Extract_X6_B6_G6_R6(*sourcePtr);
 
+		*destPtr = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx6;
 	}
 
-	void VSIN_FLOAT4_UNORM_SRGB_A8_R8_G8_B8(void* dest, void* source)
+	//*************************************************
+	// From UNORM_X6_B6_G6_R7
+
+	void VSIN_FLOAT_UNORM_SRGB_A8_R8_G8_B8(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
 
+		Color4_Int32 color = Extract_A8_R8_G8_B8(*sourcePtr);
+
+		*destPtr = SrgbToLinear(Ceng::FLOAT32(color.r) * scaleNormalizeUint8);
 	}
+
+	//*************************************************
+	// From UNORM_SRGB_A8_B8_G8_R8
 
-	void VSIN_FLOAT4_UNORM_SRGB_A8_B8_G8_R8(void* dest, void* source)
+	void VSIN_FLOAT_UNORM_SRGB_A8_B8_G8_R8(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
 
+		Color4_Int32 color = Extract_A8_B8_G8_R8(*sourcePtr);
+
+		*destPtr = SrgbToLinear(Ceng::FLOAT32(color.r) * scaleNormalizeUint8);
 	}
 
-	void VSIN_FLOAT4_UNORM_SRGB_X8_B8_G8_R8(void* dest, void* source)
+	//*************************************************
+	// From UNORM_SRGB_X8_B8_G8_R8
+
+	void VSIN_FLOAT_UNORM_SRGB_X8_B8_G8_R8(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color3_Int32 color = Extract_X8_B8_G8_R8(*sourcePtr);
 
+		*destPtr = SrgbToLinear(Ceng::FLOAT32(color.r) * scaleNormalizeUint8);
 	}
 
-	void VSIN_FLOAT4_UNORM_SRGB_X8_R8_G8_B8(void* dest, void* source)
+	//*************************************************
+	// From UNORM_SRGB_X8_R8_G8_B8
+
+	void VSIN_FLOAT_UNORM_SRGB_X8_R8_G8_B8(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
 
+		Color3_Int32 color = Extract_X8_R8_G8_B8(*sourcePtr);
+
+		*destPtr = SrgbToLinear(Ceng::FLOAT32(color.r) * scaleNormalizeUint8);
 	}
+
+	//*************************************************
+	// From UNORM_A2_B10_G10_R10
 
-	void VSIN_FLOAT4_UNORM_A2_B10_G10_R10(void* dest, void* source)
+	void VSIN_FLOAT_UNORM_A2_B10_G10_R10(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
 
+		Color4_Int32 color = Extract_A2_B10_G10_R10(*sourcePtr);
+
+		*destPtr = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx10;
 	}
 
-	void VSIN_FLOAT4_UINT_A2_B10_G10_R10(void* dest, void* source)
+	//*************************************************
+	// From UINT_A2_B10_G10_R10
+
+	void VSIN_FLOAT_UINT_A2_B10_G10_R10(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color4_Int32 color = Extract_A2_B10_G10_R10(*sourcePtr);
 
+		*destPtr = Ceng::FLOAT32(color.r);
 	}
 
-	void VSIN_FLOAT4_UNORM_A8(void* dest, void* source)
+	//*************************************************
+	// From UNORM_A8
+
+	void VSIN_FLOAT_UNORM_A8(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
 
+		destPtr[0] = 0.0f;
 	}
 
-	void VSIN_FLOAT4_UNORM_R1(void* dest, void* source)
+	//*************************************************
+	// From UNORM_R1
+
+	void VSIN_FLOAT_UNORM_R1(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
 
+		*destPtr = ceilf(Ceng::FLOAT32(*sourcePtr));
 	}
+
+	//*************************************************
+	// From FLOAT_B10_G11_R11
 
-	void VSIN_FLOAT4_FLOAT_B10_G11_R11(void* dest, void* source)
+	void VSIN_FLOAT_FLOAT_B10_G11_R11(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
 
+		Color3_Float temp = Fp10_11_10_ToFloat(*sourcePtr);
+
+		*destPtr = temp.r;
 	}
 
-	void VSIN_FLOAT4_SHAREDEXP_E5_B9_G9_R9(void* dest, void* source)
+	//*************************************************
+	// From SHAREDEXP_E5_B9_G9_R9
+
+	void VSIN_FLOAT_SHAREDEXP_E5_B9_G9_R9(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color3_Float temp = SharedExpToFloat(*sourcePtr);
 
+		*destPtr = temp.r;
 	}
 
-	void VSIN_FLOAT4_UNORM_G8_B8_G8_R8(void* dest, void* source)
+	//*************************************************
+	// From UNORM_G8_B8_G8_R8
+
+	void VSIN_FLOAT_UNORM_G8_B8_G8_R8(void* dest, void* source)
 	{
 
 	}
 
-	void VSIN_FLOAT4_UNORM_B8_G8_R8_G8(void* dest, void* source)
+	//*************************************************
+	// From UNORM_B8_G8_R8_G8
+
+	void VSIN_FLOAT_UNORM_B8_G8_R8_G8(void* dest, void* source)
 	{
 
 	}
-
 };
 
