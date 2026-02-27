@@ -65,23 +65,6 @@ CRESULT CR_VertexShader::GetConstant(const char* variableName,
 	return CE_ERR_FAIL;
 }
 
-Ceng::UINT32 CR_VertexShader::GetDataSize(const Ceng::SHADER_DATATYPE::value datatype)
-{
-	switch (datatype)
-	{
-	case Ceng::SHADER_DATATYPE::FLOAT:
-		return 4;
-	case Ceng::SHADER_DATATYPE::FLOAT2:
-		return 8;
-	case Ceng::SHADER_DATATYPE::FLOAT3:
-	case Ceng::SHADER_DATATYPE::FLOAT4:
-		return 16;
-	case Ceng::SHADER_DATATYPE::FLOAT4x4:
-		return 64;
-	}
-	return 0;
-}
-
 CRESULT CR_VertexShader::ConfigureConstants()
 {
 	uniformManager.Build(uniformList);

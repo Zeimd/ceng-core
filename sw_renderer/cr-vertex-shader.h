@@ -83,8 +83,6 @@ namespace Ceng
 
 		CRESULT SetFragmentFormat(CR_FragmentFormat* format);
 
-		UINT32 GetDataSize(const Ceng::SHADER_DATATYPE::value datatype);
-
 		CRESULT ConfigureConstants();
 		CRESULT ConfigureInput();
 
