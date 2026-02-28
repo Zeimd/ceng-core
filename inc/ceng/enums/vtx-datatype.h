@@ -242,14 +242,6 @@ namespace Ceng
 			// 3 unsigned mini floating point values. All fields share the same 5 bit biased exponent.
 			// Each channel has unique 9 bit mantissa.
 			SHAREDEXP_E5_B9_G9_R9 = 70,
-
-			// Gives two color values that share red and blue channels.
-			// normalized to (0,1) float 
-			UNORM_G8_B8_G8_R8 = 71,
-
-			// Gives two color values that share red and blue channels.
-			// normalized to (0,1) float 
-			UNORM_B8_G8_R8_G8 = 72,
 		
 			FORMAT_END = 1 << 30,
 		};

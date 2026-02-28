@@ -7,6 +7,7 @@
 
 namespace Ceng
 {
+	const Ceng::FLOAT32 scaleNormalizeUNfx2 = 1.0f / 3.0f;
 	const Ceng::FLOAT32 scaleNormalizeUNfx4 = 1.0f / 15.0f;
 	const Ceng::FLOAT32 scaleNormalizeUNfx5 = 1.0f / 31.0f;
 	const Ceng::FLOAT32 scaleNormalizeUNfx6 = 1.0f / 63.0f;

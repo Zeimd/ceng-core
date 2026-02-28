@@ -664,11 +664,6 @@ Ceng::Vshader::VertexShaderInputReader GetReadCallbackFloat(Ceng::VTX_DATATYPE::
 
 	case Ceng::VTX_DATATYPE::SHAREDEXP_E5_B9_G9_R9:
 		return &Ceng::Vshader::VSIN_FLOAT_SHAREDEXP_E5_B9_G9_R9;
-
-	case Ceng::VTX_DATATYPE::UNORM_G8_B8_G8_R8:
-		return &Ceng::Vshader::VSIN_FLOAT_UNORM_G8_B8_G8_R8;
-	case Ceng::VTX_DATATYPE::UNORM_B8_G8_R8_G8:
-		return &Ceng::Vshader::VSIN_FLOAT_UNORM_B8_G8_R8_G8;
 	default:
 		return &Ceng::Vshader::NullVertexReader;
 	}
@@ -842,10 +837,6 @@ Ceng::Vshader::VertexShaderInputReader GetReadCallbackFloat2(Ceng::VTX_DATATYPE:
 	case Ceng::VTX_DATATYPE::SHAREDEXP_E5_B9_G9_R9:
 		return &Ceng::Vshader::VSIN_FLOAT2_SHAREDEXP_E5_B9_G9_R9;
 
-	case Ceng::VTX_DATATYPE::UNORM_G8_B8_G8_R8:
-		return &Ceng::Vshader::VSIN_FLOAT2_UNORM_G8_B8_G8_R8;
-	case Ceng::VTX_DATATYPE::UNORM_B8_G8_R8_G8:
-		return &Ceng::Vshader::VSIN_FLOAT2_UNORM_B8_G8_R8_G8;
 	default:
 		return &Ceng::Vshader::NullVertexReader;
 	}
@@ -1019,10 +1010,6 @@ Ceng::Vshader::VertexShaderInputReader GetReadCallbackFloat3(Ceng::VTX_DATATYPE:
 	case Ceng::VTX_DATATYPE::SHAREDEXP_E5_B9_G9_R9:
 		return &Ceng::Vshader::VSIN_FLOAT3_SHAREDEXP_E5_B9_G9_R9;
 
-	case Ceng::VTX_DATATYPE::UNORM_G8_B8_G8_R8:
-		return &Ceng::Vshader::VSIN_FLOAT3_UNORM_G8_B8_G8_R8;
-	case Ceng::VTX_DATATYPE::UNORM_B8_G8_R8_G8:
-		return &Ceng::Vshader::VSIN_FLOAT3_UNORM_B8_G8_R8_G8;
 	default:
 		return &Ceng::Vshader::NullVertexReader;
 	}
@@ -1196,10 +1183,6 @@ Ceng::Vshader::VertexShaderInputReader GetReadCallbackFloat4(Ceng::VTX_DATATYPE:
 	case Ceng::VTX_DATATYPE::SHAREDEXP_E5_B9_G9_R9:
 		return &Ceng::Vshader::VSIN_FLOAT4_SHAREDEXP_E5_B9_G9_R9;
 
-	case Ceng::VTX_DATATYPE::UNORM_G8_B8_G8_R8:
-		return &Ceng::Vshader::VSIN_FLOAT4_UNORM_G8_B8_G8_R8;
-	case Ceng::VTX_DATATYPE::UNORM_B8_G8_R8_G8:
-		return &Ceng::Vshader::VSIN_FLOAT4_UNORM_B8_G8_R8_G8;
 	default:
 		return &Ceng::Vshader::NullVertexReader;
 	}
@@ -3587,7 +3570,43 @@ namespace Ceng::Vshader
 
 		Color4_Int32 color = Extract_A4_R4_G4_B4(*sourcePtr);
 
-		*destPtr = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx4;
+		*destPtr = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx4;
+	}
+
+	void VSIN_FLOAT2_UNORM_A4_R4_G4_B4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		Color4_Int32 color = Extract_A4_R4_G4_B4(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx4;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx4;
+	}
+
+	void VSIN_FLOAT3_UNORM_A4_R4_G4_B4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		Color4_Int32 color = Extract_A4_R4_G4_B4(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx4;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx4;
+		destPtr[2] = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx4;
+	}
+
+	void VSIN_FLOAT4_UNORM_A4_R4_G4_B4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		Color4_Int32 color = Extract_A4_R4_G4_B4(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx4;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx4;
+		destPtr[2] = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx4;
+		destPtr[3] = Ceng::FLOAT32(color.a) * scaleNormalizeUNfx4;
 	}
 
 	//*************************************************
@@ -3603,6 +3622,42 @@ namespace Ceng::Vshader
 		*destPtr = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx4;
 	}
 
+	void VSIN_FLOAT2_UNORM_A4_B4_G4_R4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		Color4_Int32 color = Extract_A4_B4_G4_R4(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx4;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx4;
+	}
+
+	void VSIN_FLOAT3_UNORM_A4_B4_G4_R4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		Color4_Int32 color = Extract_A4_B4_G4_R4(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx4;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx4;
+		destPtr[2] = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx4;
+	}
+
+	void VSIN_FLOAT4_UNORM_A4_B4_G4_R4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		Color4_Int32 color = Extract_A4_B4_G4_R4(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx4;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx4;
+		destPtr[2] = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx4;
+		destPtr[3] = Ceng::FLOAT32(color.a) * scaleNormalizeUNfx4;
+	}
+
 	//*************************************************
 	// From UNORM_A6_R6_G6_B6
 
@@ -3613,7 +3668,43 @@ namespace Ceng::Vshader
 
 		Color4_Int32 color = Extract_A6_R6_G6_B6(*sourcePtr);
 
-		*destPtr = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx6;
+		*destPtr = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx6;
+	}
+
+	void VSIN_FLOAT2_UNORM_A6_R6_G6_B6(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color4_Int32 color = Extract_A6_R6_G6_B6(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx6;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx6;
+	}
+
+	void VSIN_FLOAT3_UNORM_A6_R6_G6_B6(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color4_Int32 color = Extract_A6_R6_G6_B6(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx6;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx6;
+		destPtr[2] = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx6;
+	}
+
+	void VSIN_FLOAT4_UNORM_A6_R6_G6_B6(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color4_Int32 color = Extract_A6_R6_G6_B6(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx6;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx6;
+		destPtr[2] = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx6;
+		destPtr[3] = Ceng::FLOAT32(color.a) * scaleNormalizeUNfx6;
 	}
 
 	//*************************************************
@@ -3629,6 +3720,42 @@ namespace Ceng::Vshader
 		*destPtr = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx6;
 	}
 
+	void VSIN_FLOAT2_UNORM_A6_B6_G6_R6(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color4_Int32 color = Extract_A6_B6_G6_R6(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx6;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx6;
+	}
+
+	void VSIN_FLOAT3_UNORM_A6_B6_G6_R6(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color4_Int32 color = Extract_A6_B6_G6_R6(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx6;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx6;
+		destPtr[2] = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx6;
+	}
+
+	void VSIN_FLOAT4_UNORM_A6_B6_G6_R6(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color4_Int32 color = Extract_A6_B6_G6_R6(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx6;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx6;
+		destPtr[2] = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx6;
+		destPtr[3] = Ceng::FLOAT32(color.a) * scaleNormalizeUNfx6;
+	}
+
 	//*************************************************
 	// From UNORM_X6_R6_G6_B6
 
@@ -3639,7 +3766,43 @@ namespace Ceng::Vshader
 
 		Color3_Int32 color = Extract_X6_R6_G6_B6(*sourcePtr);
 
-		*destPtr = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx6;
+		*destPtr = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx6;
+	}
+
+	void VSIN_FLOAT2_UNORM_X6_R6_G6_B6(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color3_Int32 color = Extract_X6_R6_G6_B6(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx6;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx6;
+	}
+
+	void VSIN_FLOAT3_UNORM_X6_R6_G6_B6(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color3_Int32 color = Extract_X6_R6_G6_B6(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx6;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx6;
+		destPtr[2] = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx6;
+	}
+
+	void VSIN_FLOAT4_UNORM_X6_R6_G6_B6(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color3_Int32 color = Extract_X6_R6_G6_B6(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx6;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx6;
+		destPtr[2] = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx6;
+		destPtr[3] = 1.0f;
 	}
 
 	//*************************************************
@@ -3655,8 +3818,43 @@ namespace Ceng::Vshader
 		*destPtr = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx6;
 	}
 
+	void VSIN_FLOAT2_UNORM_X6_B6_G6_R6(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color3_Int32 color = Extract_X6_B6_G6_R6(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx6;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx6;
+	}
+
+	void VSIN_FLOAT3_UNORM_X6_B6_G6_R6(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color3_Int32 color = Extract_X6_B6_G6_R6(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx6;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx6;
+		destPtr[2] = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx6;
+	}
+
+	void VSIN_FLOAT4_UNORM_X6_B6_G6_R6(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color3_Int32 color = Extract_X6_B6_G6_R6(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx6;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx6;
+		destPtr[2] = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx6;
+		destPtr[3] = 1.0f;
+	}
 	//*************************************************
-	// From UNORM_X6_B6_G6_R7
+	// From UNORM_SRGB_A8_R8_G8_B8
 
 	void VSIN_FLOAT_UNORM_SRGB_A8_R8_G8_B8(void* dest, void* source)
 	{
@@ -3665,7 +3863,43 @@ namespace Ceng::Vshader
 
 		Color4_Int32 color = Extract_A8_R8_G8_B8(*sourcePtr);
 
-		*destPtr = SrgbToLinear(Ceng::FLOAT32(color.r) * scaleNormalizeUint8);
+		*destPtr = SrgbToLinear(Ceng::FLOAT32(color.b) * scaleNormalizeUint8);
+	}
+
+	void VSIN_FLOAT2_UNORM_SRGB_A8_R8_G8_B8(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color4_Int32 color = Extract_A8_R8_G8_B8(*sourcePtr);
+
+		destPtr[0] = SrgbToLinear(Ceng::FLOAT32(color.b) * scaleNormalizeUint8);
+		destPtr[1] = SrgbToLinear(Ceng::FLOAT32(color.g) * scaleNormalizeUint8);
+	}
+
+	void VSIN_FLOAT3_UNORM_SRGB_A8_R8_G8_B8(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color4_Int32 color = Extract_A8_R8_G8_B8(*sourcePtr);
+
+		destPtr[0] = SrgbToLinear(Ceng::FLOAT32(color.b) * scaleNormalizeUint8);
+		destPtr[1] = SrgbToLinear(Ceng::FLOAT32(color.g) * scaleNormalizeUint8);
+		destPtr[2] = SrgbToLinear(Ceng::FLOAT32(color.r) * scaleNormalizeUint8);
+	}
+
+	void VSIN_FLOAT4_UNORM_SRGB_A8_R8_G8_B8(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color4_Int32 color = Extract_A8_R8_G8_B8(*sourcePtr);
+
+		destPtr[0] = SrgbToLinear(Ceng::FLOAT32(color.b) * scaleNormalizeUint8);
+		destPtr[1] = SrgbToLinear(Ceng::FLOAT32(color.g) * scaleNormalizeUint8);
+		destPtr[2] = SrgbToLinear(Ceng::FLOAT32(color.r) * scaleNormalizeUint8);
+		destPtr[3] = SrgbToLinear(Ceng::FLOAT32(color.a) * scaleNormalizeUint8);
 	}
 
 	//*************************************************
@@ -3681,6 +3915,41 @@ namespace Ceng::Vshader
 		*destPtr = SrgbToLinear(Ceng::FLOAT32(color.r) * scaleNormalizeUint8);
 	}
 
+	void VSIN_FLOAT2_UNORM_SRGB_A8_B8_G8_R8(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color4_Int32 color = Extract_A8_B8_G8_R8(*sourcePtr);
+
+		destPtr[0] = SrgbToLinear(Ceng::FLOAT32(color.r) * scaleNormalizeUint8);
+		destPtr[1] = SrgbToLinear(Ceng::FLOAT32(color.g) * scaleNormalizeUint8);
+	}
+
+	void VSIN_FLOAT3_UNORM_SRGB_A8_B8_G8_R8(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color4_Int32 color = Extract_A8_B8_G8_R8(*sourcePtr);
+
+		destPtr[0] = SrgbToLinear(Ceng::FLOAT32(color.r) * scaleNormalizeUint8);
+		destPtr[1] = SrgbToLinear(Ceng::FLOAT32(color.g) * scaleNormalizeUint8);
+		destPtr[2] = SrgbToLinear(Ceng::FLOAT32(color.b) * scaleNormalizeUint8);
+	}
+
+	void VSIN_FLOAT4_UNORM_SRGB_A8_B8_G8_R8(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color4_Int32 color = Extract_A8_B8_G8_R8(*sourcePtr);
+
+		destPtr[0] = SrgbToLinear(Ceng::FLOAT32(color.r) * scaleNormalizeUint8);
+		destPtr[1] = SrgbToLinear(Ceng::FLOAT32(color.g) * scaleNormalizeUint8);
+		destPtr[2] = SrgbToLinear(Ceng::FLOAT32(color.b) * scaleNormalizeUint8);
+		destPtr[3] = SrgbToLinear(Ceng::FLOAT32(color.a) * scaleNormalizeUint8);
+	}
 	//*************************************************
 	// From UNORM_SRGB_X8_B8_G8_R8
 
@@ -3694,6 +3963,42 @@ namespace Ceng::Vshader
 		*destPtr = SrgbToLinear(Ceng::FLOAT32(color.r) * scaleNormalizeUint8);
 	}
 
+	void VSIN_FLOAT2_UNORM_SRGB_X8_B8_G8_R8(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color3_Int32 color = Extract_X8_B8_G8_R8(*sourcePtr);
+
+		destPtr[0] = SrgbToLinear(Ceng::FLOAT32(color.r) * scaleNormalizeUint8);
+		destPtr[1] = SrgbToLinear(Ceng::FLOAT32(color.g) * scaleNormalizeUint8);
+	}
+
+	void VSIN_FLOAT3_UNORM_SRGB_X8_B8_G8_R8(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color3_Int32 color = Extract_X8_B8_G8_R8(*sourcePtr);
+
+		destPtr[0] = SrgbToLinear(Ceng::FLOAT32(color.r) * scaleNormalizeUint8);
+		destPtr[1] = SrgbToLinear(Ceng::FLOAT32(color.g) * scaleNormalizeUint8);
+		destPtr[2] = SrgbToLinear(Ceng::FLOAT32(color.b) * scaleNormalizeUint8);
+	}
+
+	void VSIN_FLOAT4_UNORM_SRGB_X8_B8_G8_R8(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color3_Int32 color = Extract_X8_B8_G8_R8(*sourcePtr);
+
+		destPtr[0] = SrgbToLinear(Ceng::FLOAT32(color.r) * scaleNormalizeUint8);
+		destPtr[1] = SrgbToLinear(Ceng::FLOAT32(color.g) * scaleNormalizeUint8);
+		destPtr[2] = SrgbToLinear(Ceng::FLOAT32(color.b) * scaleNormalizeUint8);
+		destPtr[3] = 1.0f;
+	}
+
 	//*************************************************
 	// From UNORM_SRGB_X8_R8_G8_B8
 
@@ -3704,7 +4009,43 @@ namespace Ceng::Vshader
 
 		Color3_Int32 color = Extract_X8_R8_G8_B8(*sourcePtr);
 
-		*destPtr = SrgbToLinear(Ceng::FLOAT32(color.r) * scaleNormalizeUint8);
+		*destPtr = SrgbToLinear(Ceng::FLOAT32(color.b) * scaleNormalizeUint8);
+	}
+
+	void VSIN_FLOAT2_UNORM_SRGB_X8_R8_G8_B8(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color3_Int32 color = Extract_X8_R8_G8_B8(*sourcePtr);
+
+		destPtr[0] = SrgbToLinear(Ceng::FLOAT32(color.b) * scaleNormalizeUint8);
+		destPtr[1] = SrgbToLinear(Ceng::FLOAT32(color.g) * scaleNormalizeUint8);
+	}
+
+	void VSIN_FLOAT3_UNORM_SRGB_X8_R8_G8_B8(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color3_Int32 color = Extract_X8_R8_G8_B8(*sourcePtr);
+
+		destPtr[0] = SrgbToLinear(Ceng::FLOAT32(color.b) * scaleNormalizeUint8);
+		destPtr[1] = SrgbToLinear(Ceng::FLOAT32(color.g) * scaleNormalizeUint8);
+		destPtr[2] = SrgbToLinear(Ceng::FLOAT32(color.r) * scaleNormalizeUint8);
+	}
+
+	void VSIN_FLOAT4_UNORM_SRGB_X8_R8_G8_B8(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color3_Int32 color = Extract_X8_R8_G8_B8(*sourcePtr);
+
+		destPtr[0] = SrgbToLinear(Ceng::FLOAT32(color.b) * scaleNormalizeUint8);
+		destPtr[1] = SrgbToLinear(Ceng::FLOAT32(color.g) * scaleNormalizeUint8);
+		destPtr[2] = SrgbToLinear(Ceng::FLOAT32(color.r) * scaleNormalizeUint8);
+		destPtr[3] = 1.0f;
 	}
 
 	//*************************************************
@@ -3720,6 +4061,42 @@ namespace Ceng::Vshader
 		*destPtr = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx10;
 	}
 
+	void VSIN_FLOAT2_UNORM_A2_B10_G10_R10(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color4_Int32 color = Extract_A2_B10_G10_R10(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx10;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx10;
+	}
+
+	void VSIN_FLOAT3_UNORM_A2_B10_G10_R10(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color4_Int32 color = Extract_A2_B10_G10_R10(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx10;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx10;
+		destPtr[2] = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx10;
+	}
+
+	void VSIN_FLOAT4_UNORM_A2_B10_G10_R10(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color4_Int32 color = Extract_A2_B10_G10_R10(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx10;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx10;
+		destPtr[2] = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx10;
+		destPtr[3] = Ceng::FLOAT32(color.a) * scaleNormalizeUNfx2;
+	}
+
 	//*************************************************
 	// From UINT_A2_B10_G10_R10
 
@@ -3733,6 +4110,42 @@ namespace Ceng::Vshader
 		*destPtr = Ceng::FLOAT32(color.r);
 	}
 
+	void VSIN_FLOAT2_UINT_A2_B10_G10_R10(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color4_Int32 color = Extract_A2_B10_G10_R10(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.r);
+		destPtr[1] = Ceng::FLOAT32(color.g);
+	}
+
+	void VSIN_FLOAT3_UINT_A2_B10_G10_R10(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color4_Int32 color = Extract_A2_B10_G10_R10(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.r);
+		destPtr[1] = Ceng::FLOAT32(color.g);
+		destPtr[2] = Ceng::FLOAT32(color.b);
+	}
+
+	void VSIN_FLOAT4_UINT_A2_B10_G10_R10(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color4_Int32 color = Extract_A2_B10_G10_R10(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.r);
+		destPtr[1] = Ceng::FLOAT32(color.g);
+		destPtr[2] = Ceng::FLOAT32(color.b);
+		destPtr[3] = Ceng::FLOAT32(color.a);
+	}
+
 	//*************************************************
 	// From UNORM_A8
 
@@ -3741,6 +4154,34 @@ namespace Ceng::Vshader
 		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
 
 		destPtr[0] = 0.0f;
+	}
+
+	void VSIN_FLOAT2_UNORM_A8(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+
+		destPtr[0] = 0.0f;
+		destPtr[1] = 0.0f;
+	}
+
+	void VSIN_FLOAT3_UNORM_A8(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+
+		destPtr[0] = 0.0f;
+		destPtr[1] = 0.0f;
+		destPtr[2] = 0.0f;
+	}
+
+	void VSIN_FLOAT4_UNORM_A8(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::FLOAT32* sourcePtr = (Ceng::FLOAT32*)source;
+
+		destPtr[0] = 0.0f;
+		destPtr[1] = 0.0f;
+		destPtr[2] = 0.0f;
+		destPtr[3] = sourcePtr[0];
 	}
 
 	//*************************************************
@@ -3752,6 +4193,36 @@ namespace Ceng::Vshader
 		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
 
 		*destPtr = ceilf(Ceng::FLOAT32(*sourcePtr));
+	}
+
+	void VSIN_FLOAT2_UNORM_R1(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		destPtr[0] = ceilf(Ceng::FLOAT32(*sourcePtr));
+		destPtr[1] = 0.0f;
+	}
+
+	void VSIN_FLOAT3_UNORM_R1(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		destPtr[0] = ceilf(Ceng::FLOAT32(*sourcePtr));
+		destPtr[1] = 0.0f;
+		destPtr[2] = 0.0f;
+	}
+
+	void VSIN_FLOAT4_UNORM_R1(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		destPtr[0] = ceilf(Ceng::FLOAT32(*sourcePtr));
+		destPtr[1] = 0.0f;
+		destPtr[2] = 0.0f;
+		destPtr[3] = 1.0f;
 	}
 
 	//*************************************************
@@ -3767,6 +4238,42 @@ namespace Ceng::Vshader
 		*destPtr = temp.r;
 	}
 
+	void VSIN_FLOAT2_FLOAT_B10_G11_R11(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color3_Float temp = Fp10_11_10_ToFloat(*sourcePtr);
+
+		destPtr[0] = temp.r;
+		destPtr[1] = temp.g;
+	}
+
+	void VSIN_FLOAT3_FLOAT_B10_G11_R11(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color3_Float temp = Fp10_11_10_ToFloat(*sourcePtr);
+
+		destPtr[0] = temp.r;
+		destPtr[1] = temp.g;
+		destPtr[2] = temp.b;
+	}
+
+	void VSIN_FLOAT4_FLOAT_B10_G11_R11(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color3_Float temp = Fp10_11_10_ToFloat(*sourcePtr);
+
+		destPtr[0] = temp.r;
+		destPtr[1] = temp.g;
+		destPtr[2] = temp.b;
+		destPtr[3] = 1.0f;
+	}
+
 	//*************************************************
 	// From SHAREDEXP_E5_B9_G9_R9
 
@@ -3780,20 +4287,40 @@ namespace Ceng::Vshader
 		*destPtr = temp.r;
 	}
 
-	//*************************************************
-	// From UNORM_G8_B8_G8_R8
-
-	void VSIN_FLOAT_UNORM_G8_B8_G8_R8(void* dest, void* source)
+	void VSIN_FLOAT2_SHAREDEXP_E5_B9_G9_R9(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
 
+		Color3_Float temp = SharedExpToFloat(*sourcePtr);
+
+		destPtr[0] = temp.r;
+		destPtr[1] = temp.g;
 	}
 
-	//*************************************************
-	// From UNORM_B8_G8_R8_G8
-
-	void VSIN_FLOAT_UNORM_B8_G8_R8_G8(void* dest, void* source)
+	void VSIN_FLOAT3_SHAREDEXP_E5_B9_G9_R9(void* dest, void* source)
 	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
 
+		Color3_Float temp = SharedExpToFloat(*sourcePtr);
+
+		destPtr[0] = temp.r;
+		destPtr[1] = temp.g;
+		destPtr[2] = temp.b;
+	}
+
+	void VSIN_FLOAT4_SHAREDEXP_E5_B9_G9_R9(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		Color3_Float temp = SharedExpToFloat(*sourcePtr);
+
+		destPtr[0] = temp.r;
+		destPtr[1] = temp.g;
+		destPtr[2] = temp.b;
+		destPtr[3] = 1.0f;
 	}
 };
 
