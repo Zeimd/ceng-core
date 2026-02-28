@@ -44,9 +44,12 @@ void Writer_unorm_a8_r8_g8_b8::WriteFloat4(const Pshader::Float4& source, void* 
 
 	__m128 colorScaleVec = _mm_load1_ps(&colorScale8);
 
-	__m128 blueChannel = _mm_load_ps(&sourcePtr[0]);
+	// Pixel shader always writes ABGR, but this render target is ARGB,
+	// so swap red and blue
+
+	__m128 redChannel = _mm_load_ps(&sourcePtr[0]);
 	__m128 greenChannel = _mm_load_ps(&sourcePtr[4]);
-	__m128 redChannel = _mm_load_ps(&sourcePtr[8]);
+	__m128 blueChannel = _mm_load_ps(&sourcePtr[8]);
 	__m128 alphaChannel = _mm_load_ps(&sourcePtr[12]);
 
 	blueChannel = _mm_mul_ps(blueChannel, colorScaleVec);
@@ -104,6 +107,11 @@ void Writer_unorm_a8_r8_g8_b8::WriteSampler2d(const Pshader::DelayedSampler2D& s
 	__m128* writeVecF = (__m128*) & writeVec;
 
 	*writeVecF = _mm_load_ps(sourcePtr);
+
+	// Pixel shader always writes ABGR, but this render target is ARGB,
+	// so swap red and blue
+
+	writeVec = _mm_shuffle_epi32(writeVec, 0b11000110);
 
 	__m128 coverageVecF = _mm_load1_ps((float*)coverage);
 
