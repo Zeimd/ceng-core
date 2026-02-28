@@ -70,87 +70,177 @@ namespace Ceng
 
 	inline Color3_Int32 Extract_B5_G6_R5(Ceng::UINT16 source)
 	{
-		return Color3_Int32();
+		return Color3_Int32{ Ceng::UINT32(source & 31),
+			Ceng::UINT32((source >> 5) & 63),
+			Ceng::UINT32(source >> 10)
+		};
 	}
 
 	inline Color3_Int32 Extract_R5_G6_B5(Ceng::UINT16 source)
 	{
-		return Color3_Int32();
+		return Color3_Int32{ Ceng::UINT32(source >> 10) ,
+			Ceng::UINT32((source >> 5) & 63),
+			Ceng::UINT32(source & 31)
+		};
 	}
 
-	inline Color4_Int32 Extract_A1_R5_G6_B5(Ceng::UINT16 source)
+	inline Color4_Int32 Extract_A1_R5_G5_B5(Ceng::UINT16 source)
 	{
-		return Color4_Int32();
+		return Color4_Int32
+		{
+			Ceng::UINT32((source >> 9) & 63),
+			Ceng::UINT32((source >> 5) & 31),
+			Ceng::UINT32((source & 31)),
+			Ceng::UINT32((source >> 14)),
+		};
 	}
 
-	inline Color4_Int32 Extract_A1_B5_G6_R5(Ceng::UINT16 source)
+	inline Color4_Int32 Extract_A1_B5_G5_R5(Ceng::UINT16 source)
 	{
-		return Color4_Int32();
+		return Color4_Int32
+		{
+			Ceng::UINT32((source & 31)),
+			Ceng::UINT32((source >> 5) & 31),
+			Ceng::UINT32((source >> 9) & 63),			
+			Ceng::UINT32((source >> 14)),
+		};
 	}
 
 	inline Color3_Int32 Extract_R5_G5_B5(Ceng::UINT16 source)
 	{
-		return Color3_Int32();
+		return Color3_Int32
+		{
+			Ceng::UINT32((source >> 9) & 63),
+			Ceng::UINT32((source >> 5) & 31),
+			Ceng::UINT32((source & 31))			
+		};
 	}
 
 	inline Color3_Int32 Extract_B5_G5_R5(Ceng::UINT16 source)
 	{
-		return Color3_Int32();
+		return Color3_Int32
+		{
+			Ceng::UINT32((source & 31)),
+			Ceng::UINT32((source >> 5) & 31),			
+			Ceng::UINT32((source >> 9) & 63),
+		};
 	}
 
 	inline Color4_Int32 Extract_A4_R4_G4_B4(Ceng::UINT16 source)
 	{
-		return Color4_Int32();
+		return Color4_Int32
+		{
+			Ceng::UINT32((source >> 8) & 15),
+			Ceng::UINT32((source >> 4) & 15),
+			Ceng::UINT32(source & 15),
+			Ceng::UINT32((source >> 12))
+		};
 	}
 
 	inline Color4_Int32 Extract_A4_B4_G4_R4(Ceng::UINT16 source)
 	{
-		return Color4_Int32();
+		return Color4_Int32
+		{
+			Ceng::UINT32(source & 15),			
+			Ceng::UINT32((source >> 4) & 15),
+			Ceng::UINT32((source >> 8) & 15),
+			Ceng::UINT32((source >> 12))
+		};
 	}
 
 	inline Color4_Int32 Extract_A6_R6_G6_B6(Ceng::UINT32 source)
 	{
-		return Color4_Int32();
+		return Color4_Int32
+		{
+			Ceng::UINT32( (source >> 12) & 63),
+			Ceng::UINT32( (source >> 6) & 63),
+			Ceng::UINT32( (source & 63) ),
+			Ceng::UINT32( (source >> 18))
+		};
 	}
 
 	inline Color4_Int32 Extract_A6_B6_G6_R6(Ceng::UINT32 source)
 	{
-		return Color4_Int32();
+		return Color4_Int32
+		{
+			Ceng::UINT32((source & 63)),
+			Ceng::UINT32((source >> 6) & 63),
+			Ceng::UINT32((source >> 12) & 63),			
+			Ceng::UINT32((source >> 18))
+		};
 	}
 
 	inline Color3_Int32 Extract_X6_R6_G6_B6(Ceng::UINT32 source)
 	{
-		return Color3_Int32();
+		return Color3_Int32
+		{
+			Ceng::UINT32((source >> 12) & 63),
+			Ceng::UINT32((source >> 6) & 63),
+			Ceng::UINT32((source & 63))			
+		};
 	}
 
 	inline Color3_Int32 Extract_X6_B6_G6_R6(Ceng::UINT32 source)
 	{
-		return Color3_Int32();
+		return Color3_Int32
+		{
+			Ceng::UINT32((source & 63)),
+			Ceng::UINT32((source >> 6) & 63),
+			Ceng::UINT32((source >> 12) & 63),			
+		};
 	}
 
 	inline Color4_Int32 Extract_A8_R8_G8_B8(Ceng::UINT32 source)
 	{
-		return Color4_Int32();
+		return Color4_Int32
+		{
+			Ceng::UINT32((source >> 16) & 255),
+			Ceng::UINT32((source >> 8) & 255),
+			Ceng::UINT32((source >> 0) & 255),
+			Ceng::UINT32((source >> 24)),
+		};
 	}
 
 	inline Color4_Int32 Extract_A8_B8_G8_R8(Ceng::UINT32 source)
 	{
-		return Color4_Int32();
+		return Color4_Int32
+		{
+			Ceng::UINT32((source >> 0) & 255),
+			Ceng::UINT32((source >> 8) & 255),
+			Ceng::UINT32((source >> 16) & 255),			
+			Ceng::UINT32((source >> 24)),
+		};
 	}
 	
 	inline Color3_Int32 Extract_X8_B8_G8_R8(Ceng::UINT32 source)
 	{
-		return Color3_Int32();
+		return Color3_Int32
+		{
+			Ceng::UINT32((source >> 0) & 255),
+			Ceng::UINT32((source >> 8) & 255),
+			Ceng::UINT32((source >> 16) & 255),			
+		};
 	}
 
 	inline Color3_Int32 Extract_X8_R8_G8_B8(Ceng::UINT32 source)
 	{
-		return Color3_Int32();
+		return Color3_Int32
+		{
+			Ceng::UINT32((source >> 16) & 255),
+			Ceng::UINT32((source >> 8) & 255),
+			Ceng::UINT32((source >> 0) & 255),			
+		};
 	}
 
 	inline Color4_Int32 Extract_A2_B10_G10_R10(Ceng::UINT32 source)
 	{
-		return Color4_Int32();
+		return Color4_Int32
+		{
+			Ceng::UINT32((source >> 0) & 1023),
+			Ceng::UINT32((source >> 10) & 1023),
+			Ceng::UINT32((source >> 20) & 1023),
+			Ceng::UINT32((source >> 30)),
+		};
 	}
 }
 

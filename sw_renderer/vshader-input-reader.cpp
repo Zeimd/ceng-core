@@ -3372,7 +3372,7 @@ namespace Ceng::Vshader
 		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
 		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
 
-		Color4_Int32 color = Extract_A1_R5_G6_B5(*sourcePtr);
+		Color4_Int32 color = Extract_A1_R5_G5_B5(*sourcePtr);
 
 		*destPtr = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx5;
 	}
@@ -3382,7 +3382,7 @@ namespace Ceng::Vshader
 		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
 		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
 
-		Color4_Int32 color = Extract_A1_R5_G6_B5(*sourcePtr);
+		Color4_Int32 color = Extract_A1_R5_G5_B5(*sourcePtr);
 
 		destPtr[0] = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx5;
 		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx6;
@@ -3393,7 +3393,7 @@ namespace Ceng::Vshader
 		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
 		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
 
-		Color4_Int32 color = Extract_A1_R5_G6_B5(*sourcePtr);
+		Color4_Int32 color = Extract_A1_R5_G5_B5(*sourcePtr);
 
 		destPtr[0] = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx5;
 		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx6;
@@ -3405,7 +3405,7 @@ namespace Ceng::Vshader
 		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
 		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
 
-		Color4_Int32 color = Extract_A1_R5_G6_B5(*sourcePtr);
+		Color4_Int32 color = Extract_A1_R5_G5_B5(*sourcePtr);
 
 		destPtr[0] = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx5;
 		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx6;
@@ -3421,7 +3421,7 @@ namespace Ceng::Vshader
 		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
 		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
 
-		Color4_Int32 color = Extract_A1_B5_G6_R5(*sourcePtr);
+		Color4_Int32 color = Extract_A1_B5_G5_R5(*sourcePtr);
 
 		*destPtr = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx5;
 	}
@@ -3431,7 +3431,7 @@ namespace Ceng::Vshader
 		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
 		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
 
-		Color4_Int32 color = Extract_A1_B5_G6_R5(*sourcePtr);
+		Color4_Int32 color = Extract_A1_B5_G5_R5(*sourcePtr);
 
 		destPtr[0] = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx5;
 		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx6;
@@ -3442,7 +3442,7 @@ namespace Ceng::Vshader
 		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
 		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
 
-		Color4_Int32 color = Extract_A1_B5_G6_R5(*sourcePtr);
+		Color4_Int32 color = Extract_A1_B5_G5_R5(*sourcePtr);
 
 		destPtr[0] = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx5;
 		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx6;
@@ -3454,7 +3454,7 @@ namespace Ceng::Vshader
 		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
 		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
 
-		Color4_Int32 color = Extract_A1_B5_G6_R5(*sourcePtr);
+		Color4_Int32 color = Extract_A1_B5_G5_R5(*sourcePtr);
 
 		destPtr[0] = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx5;
 		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx6;
