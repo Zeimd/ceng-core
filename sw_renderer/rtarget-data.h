@@ -143,7 +143,7 @@ namespace Ceng
 		const CRESULT UpdateBucketAreas(const Ceng::UINT32 maxBucketCount,
 										const Ceng::UINT32 tileSize);
 
-		Pshader::PshaderTargetWriter* GetWriter(CombinedBlendState* blendState);
+		Pshader::PshaderTargetWriter* GetWriter(Ceng::UINT32 targetIndex, CombinedBlendState* blendState);
 
 	protected:
 

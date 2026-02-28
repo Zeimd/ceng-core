@@ -17,9 +17,9 @@ namespace Ceng
 
 		BlendStateDesc state;
 
-		std::vector< RenderTargetBlendDesc > targetState;
-
 	protected:
+
+		std::vector< RenderTargetBlendDesc > targetState;
 
 		~CR_BlendState() override;
 

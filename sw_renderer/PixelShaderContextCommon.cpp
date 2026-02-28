@@ -95,7 +95,7 @@ CRESULT PixelShaderContextCommon::ConfigureRenderTargets(Ceng::UINT32 amount, co
 
 		if (targetHandles[k] != nullptr)
 		{
-			Pshader::PshaderTargetWriter* writer = targets[k]->GetWriter(blendState);
+			Pshader::PshaderTargetWriter* writer = targets[k]->GetWriter(k, blendState);
 
 			if (writer != nullptr)
 			{

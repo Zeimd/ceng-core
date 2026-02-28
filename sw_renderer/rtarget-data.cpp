@@ -11,6 +11,9 @@
 #include "buffer-clear.h"
 #include "rtarget-data.h"
 
+#include "CombinedBlendState.h"
+#include "cr-blend-state.h"
+
 #include "Writer_unorm_a8_r8_g8_b8.h"
 
 using namespace Ceng;
@@ -239,8 +242,18 @@ POINTER CR_NewTargetData::GetTileAddress(const Ceng::UINT32 tileSize,const Ceng:
 	return 0;
 }
 
-Pshader::PshaderTargetWriter* CR_NewTargetData::GetWriter(CombinedBlendState* blendState)
+Pshader::PshaderTargetWriter* CR_NewTargetData::GetWriter(Ceng::UINT32 targetIndex, CombinedBlendState* blendState)
 {
+	Ceng::RenderTargetBlendDesc* activeBlend = &blendState->state->state.descList[0];
+
+	if (blendState->state->state.independentBlend)
+	{
+		if (targetIndex < blendState->state->state.targets)
+		{
+			activeBlend = &blendState->state->state.descList[targetIndex];
+		}		
+	}
+
 	switch (bufferFormat)
 	{
 	case IMAGE_FORMAT::D16:
@@ -382,7 +395,18 @@ Pshader::PshaderTargetWriter* CR_NewTargetData::GetWriter(CombinedBlendState* bl
 	case IMAGE_FORMAT::fp32_rgb:
 		return nullptr;
 	case IMAGE_FORMAT::unorm_a8_r8_g8_b8:
-		return new Writer_unorm_a8_r8_g8_b8();
+
+		if (activeBlend->blendEnable == false)
+		{
+			return new Writer_unorm_a8_r8_g8_b8_noblend();
+		}
+		else
+		{
+			return new Writer_unorm_a8_r8_g8_b8();
+		}
+
+		break;
+		
 	case IMAGE_FORMAT::uint_a8_r8_g8_b8:
 		return nullptr;
 	case IMAGE_FORMAT::int_a8_r8_g8_b8:
