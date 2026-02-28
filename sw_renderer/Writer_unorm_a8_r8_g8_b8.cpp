@@ -221,10 +221,10 @@ void Writer_unorm_a8_r8_g8_b8::WriteFloat4(const Pshader::Float4& source, void* 
 	__m128i redInt = _mm_cvtps_epi32(redChannel);
 	__m128i alphaInt = _mm_cvtps_epi32(alphaChannel);
 
-	// br_word = {r3,r2,r1,r0} {b3,b2,b1,b0}
+	// gb_word = {g3,g2,g1,g0} {b3,b2,b1,b0}
 	__m128i gb_Word = _mm_packus_epi32(blueInt, greenInt);
 
-	// ga_word = {a3,a2,a1,a0} {g3,g2,g1,g0}
+	// ar_word = {a3,a2,a1,a0} {r3,r2,r1,r0}
 	__m128i ar_Word = _mm_packus_epi32(redInt, alphaInt);
 
 	// writeVec =  {a3,a2,a1,a0} {g3,g2,g1,g0} {r3,r2,r1,r0} {b3,b2,b1,b0}
@@ -274,11 +274,36 @@ void Writer_unorm_a8_r8_g8_b8::WriteSampler2d(const Pshader::DelayedSampler2D& s
 
 	writeVec = _mm_shuffle_epi32(writeVec, 0b11000110);
 
+	__m128i destVec = _mm_load_si128((__m128i*)dest);
+
+	__m128i preparedSource[2];
+	__m128i preparedDest[2];
+
+	(*prepareSource)(preparedSource, &writeVec, &destVec, apiBlendFactors);
+	(*prepareDest)(preparedDest, &writeVec, &destVec, apiBlendFactors);
+
+	(*prepareSourceAlpha)(preparedSource, &writeVec, &destVec, apiBlendFactors);
+	(*prepareDestAlpha)(preparedDest, &writeVec, &destVec, apiBlendFactors);
+
+	__m128i blendResult[2];
+
+	(*colorOp)(blendResult, preparedSource, preparedDest);
+	(*alphaOp)(blendResult, preparedSource, preparedDest);
+
+	// Now
+	// blendResult[0] = word { {g3,g2,g1,g0}, {b3,b2,b1,b0} }
+	// blendResult[1] = word { {a3,a2,a1,a0}, {r3,r2,r1,r0} }
+
+	// writeVec =  {a3,a2,a1,a0} {g3,g2,g1,g0} {r3,r2,r1,r0} {b3,b2,b1,b0}
+	writeVec = _mm_packus_epi16(blendResult[0], blendResult[1]);
+
+	__m128i writeMaskVec = _mm_load_si128((__m128i*)blendWriteMask);
+
 	__m128 coverageVecF = _mm_load1_ps((float*)coverage);
 
 	__m128i* coverageVec = (__m128i*) & coverageVecF;
 
-	__m128i destVec = _mm_load_si128((__m128i*)dest);
+	*coverageVec = _mm_and_epi32(*coverageVec, writeMaskVec);
 
 	// Select pixels from render target that won't be overwritten
 	destVec = _mm_andnot_si128(*coverageVec, destVec);

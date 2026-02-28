@@ -30,6 +30,10 @@ namespace Ceng
 		void WriteSampler2d(const Pshader::DelayedSampler2D& sampler, void* writeAddress, Ceng::INT32 coverageIndex) override;
 	};
 
+	typedef void (*BlendPrepareCallback)(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors);
+
+	typedef void (*BlendOpCallback)(__m128i* out, __m128i* source, __m128i* dest);
+
 	class Writer_unorm_a8_r8_g8_b8 : public Pshader::PshaderTargetWriter
 	{
 	protected:
@@ -40,6 +44,17 @@ namespace Ceng
 		Ceng::UINT16 apiBlendFactors[16];
 
 		Ceng::UINT32 writeMask;
+
+		BlendPrepareCallback prepareSource;
+
+		BlendPrepareCallback prepareDest;
+
+		BlendPrepareCallback prepareSourceAlpha;
+
+		BlendPrepareCallback prepareDestAlpha;
+
+		BlendOpCallback colorOp;
+		BlendOpCallback alphaOp;
 
 	public:
 
