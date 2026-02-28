@@ -199,6 +199,8 @@ void Writer_unorm_a8_r8_g8_b8::WriteFloat4(const Pshader::Float4& source, void* 
 
 	const INT8* coverage = &coverageTable8[coverageIndex][0];
 
+	const INT8* blendWriteMask = &blendWriteMaskTable8_abgr_soa[writeMask][0][0];
+
 	__m128 colorScaleVec = _mm_load1_ps(&colorScale8);
 
 	// Pixel shader always writes ABGR, but this render target is ARGB,
@@ -256,6 +258,8 @@ void Writer_unorm_a8_r8_g8_b8::WriteSampler2d(const Pshader::DelayedSampler2D& s
 	float* dest = (float*)writeAddress;
 
 	const INT8* coverage = &coverageTable8[coverageIndex][0];
+
+	const INT8* blendWriteMask = &blendWriteMaskTable8_abgr_soa[writeMask][0][0];
 
 	// Source is ubyte4
 
