@@ -3,6 +3,9 @@
 #ifndef CENG_SWRENDER_CONVERSION_UTIL_H
 #define CENG_SWRENDER_CONVERSION_UTIL_H
 
+#include <limits>
+#include <math.h>
+
 #include <ceng/datatypes/basic-types.h>
 
 namespace Ceng
@@ -43,14 +46,104 @@ namespace Ceng
 		Ceng::UINT32 a;
 	};
 
-	inline Ceng::FLOAT32 SrgbToLinear(Ceng::FLOAT32)
+	const Ceng::FLOAT32  srgbSmallDivisor = 1.0f / 12.92f;
+	const Ceng::FLOAT32  srgbLargeDivisor = 1.0f / 1.055f;
+	const Ceng::FLOAT32  srgbReverseExp = 1.0f / 2.4f;
+
+	inline Ceng::FLOAT32 SrgbToLinear(Ceng::FLOAT32 source)
 	{
-		return 0.0f;
+		if (source <= 0.04045f)
+		{
+			return source * srgbSmallDivisor;
+		}
+
+		Ceng::FLOAT32 x = (source + 0.055f) * srgbLargeDivisor;
+
+		return powf(x, 2.4f);
 	}
+
+	inline Ceng::FLOAT32 LinearToSrgb(Ceng::FLOAT32 source)
+	{
+		if (source <= 0.0031308f)
+		{
+			return source * 12.92f;
+		}
+
+		return 1.055f * powf(source, srgbReverseExp) - 0.055f;
+	}
+
+	const Ceng::FLOAT32 fp16_subnormal_pow = powf(2.0f, -14.0f);
+	const Ceng::FLOAT32 fp16_mantissa_scale = 1.0f / powf(2.0f, 11.0f);
 
 	inline Ceng::FLOAT32 HalfToFloat(Ceng::UINT16 source)
 	{
-		return 0.0f;
+		Ceng::UINT32 mantissa = source & ((1 << 11) - 1);
+		Ceng::INT32 expField = (source >> 10) & 31;
+		Ceng::INT32 sign = source >> 15;
+
+		if (expField == 0)
+		{
+			if (mantissa == 0)
+			{
+				return 0.0f;
+			}
+			else
+			{
+				// subnormal number
+
+				Ceng::FLOAT32 output = fp16_subnormal_pow * Ceng::FLOAT32(mantissa) * fp16_mantissa_scale;
+
+				Ceng::UINT32* ptr = (Ceng::UINT32*)&output;
+
+				*ptr |= (sign << 31);
+
+				return output;
+			}			
+		}
+		else if (expField == 15)
+		{
+			if (mantissa == 0)
+			{
+				Ceng::FLOAT32 output = std::numeric_limits<Ceng::FLOAT32>::infinity();
+
+				Ceng::UINT32* ptr = (Ceng::UINT32*)&output;
+
+				*ptr |= (sign << 31);
+
+				return output;
+			}
+			else
+			{
+				Ceng::UINT32 signal = mantissa >> 9;
+
+				if (signal)
+				{
+					return std::numeric_limits<Ceng::FLOAT32>::signaling_NaN();
+				}
+				else
+				{
+					return std::numeric_limits<Ceng::FLOAT32>::quiet_NaN();
+				}
+			}
+		}
+
+		// normal number
+
+		Ceng::FLOAT32 output;
+
+		Ceng::UINT32* ptr = (Ceng::UINT32*)&output;
+
+		*ptr = (sign << 31);
+
+		Ceng::INT32 exponent = expField - 15;
+
+		exponent += 127;
+
+		*ptr |= (exponent << 23);
+
+		*ptr |= (mantissa << 13);
+
+		return output;
 	}
 
 	inline Ceng::UINT16 FloatToHalf(Ceng::FLOAT32 source)
