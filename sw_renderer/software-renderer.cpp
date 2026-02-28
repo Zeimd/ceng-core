@@ -1149,7 +1149,7 @@ Ceng::UINT32 SoftwareRenderer::VertexVariableSize(Ceng::VTX_DATATYPE::value data
 		return 4;
 	case Ceng::VTX_DATATYPE::UNORM_X6_R6_G6_B6:
 		return 4;
-	case Ceng::VTX_DATATYPE::UNORM_X6_B6_G6_R7:
+	case Ceng::VTX_DATATYPE::UNORM_X6_B6_G6_R6:
 		return 4;
 	case Ceng::VTX_DATATYPE::UNORM_SRGB_A8_R8_G8_B8:
 		return 4;
@@ -1170,10 +1170,6 @@ Ceng::UINT32 SoftwareRenderer::VertexVariableSize(Ceng::VTX_DATATYPE::value data
 	case Ceng::VTX_DATATYPE::FLOAT_B10_G11_R11:
 		return 4;		
 	case Ceng::VTX_DATATYPE::SHAREDEXP_E5_B9_G9_R9:
-		return 4;
-	case Ceng::VTX_DATATYPE::UNORM_G8_B8_G8_R8:
-		return 4;
-	case Ceng::VTX_DATATYPE::UNORM_B8_G8_R8_G8:
 		return 4;
 	default:
 		return 0;
