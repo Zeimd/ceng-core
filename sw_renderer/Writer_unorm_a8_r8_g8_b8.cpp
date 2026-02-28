@@ -137,6 +137,35 @@ void Writer_unorm_a8_r8_g8_b8_noblend::WriteSampler2d(const Pshader::DelayedSamp
 //******************************************************************************
 // Writer_unorm_a8_r8_g8_b8_noblend
 
+Writer_unorm_a8_r8_g8_b8::Writer_unorm_a8_r8_g8_b8(Ceng::UINT32 writeMask, std::array<Ceng::FLOAT32, 4>& blendFactors)
+	: writeMask(writeMask)
+{
+	Ceng::UINT16 red = Ceng::UINT16(blendFactors[0] * 256.0f);
+	Ceng::UINT16 green = Ceng::UINT16(blendFactors[1] * 256.0f);
+	Ceng::UINT16 blue = Ceng::UINT16(blendFactors[2] * 256.0f);
+	Ceng::UINT16 alpha = Ceng::UINT16(blendFactors[3] * 256.0f);
+
+	this->apiBlendFactors[0] = blue;
+	this->apiBlendFactors[1] = blue;
+	this->apiBlendFactors[2] = blue;
+	this->apiBlendFactors[3] = blue;
+
+	this->apiBlendFactors[4] = green;
+	this->apiBlendFactors[5] = green;
+	this->apiBlendFactors[6] = green;
+	this->apiBlendFactors[7] = green;
+
+	this->apiBlendFactors[8] = red;
+	this->apiBlendFactors[9] = red;
+	this->apiBlendFactors[10] = red;
+	this->apiBlendFactors[11] = red;
+
+	this->apiBlendFactors[12] = alpha;
+	this->apiBlendFactors[13] = alpha;
+	this->apiBlendFactors[14] = alpha;
+	this->apiBlendFactors[15] = alpha;
+}
+
 Writer_unorm_a8_r8_g8_b8::~Writer_unorm_a8_r8_g8_b8()
 {
 

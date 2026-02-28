@@ -3,6 +3,8 @@
 #ifndef CENG_SWRENDER_WRITER_R8G8B8A8
 #define CENG_SWRENDER_WRITER_R8G8B8A8
 
+#include <array>
+
 #include <ceng/swshader/PshaderTargetWriter.h>
 
 namespace Ceng
@@ -34,7 +36,14 @@ namespace Ceng
 
 		~Writer_unorm_a8_r8_g8_b8() override;
 
+		// Blend factors provided by SetBlendState() API function. Stored in 8.8 fixed point.
+		Ceng::UINT16 apiBlendFactors[16];
+
+		Ceng::UINT32 writeMask;
+
 	public:
+
+		Writer_unorm_a8_r8_g8_b8(Ceng::UINT32 writeMask, std::array<Ceng::FLOAT32, 4>& blendFactors);
 
 		void Release() override;
 

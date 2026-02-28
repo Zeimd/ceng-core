@@ -402,7 +402,7 @@ Pshader::PshaderTargetWriter* CR_NewTargetData::GetWriter(Ceng::UINT32 targetInd
 		}
 		else
 		{
-			return new Writer_unorm_a8_r8_g8_b8();
+			return new Writer_unorm_a8_r8_g8_b8(activeBlend->writeMask, blendState->factors);
 		}
 
 		break;
