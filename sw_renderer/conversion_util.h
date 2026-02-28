@@ -85,7 +85,13 @@ namespace Ceng
 		{
 			if (mantissa == 0)
 			{
-				return 0.0f;
+				Ceng::FLOAT32 output = 0.0f;
+
+				Ceng::UINT32* ptr = (Ceng::UINT32*)&output;
+
+				*ptr |= (sign << 31);
+
+				return output;
 			}
 			else
 			{
