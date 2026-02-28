@@ -1332,6 +1332,36 @@ namespace Ceng::Vshader
 		*destPtr = *sourcePtr;
 	}
 
+	void VSIN_FLOAT2_FLOAT(void* dest, void* source)
+	{
+		Ceng::UINT32* destPtr = (Ceng::UINT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		destPtr[0] = *sourcePtr;
+		destPtr[1] = 0.0f;
+	}
+
+	void VSIN_FLOAT3_FLOAT(void* dest, void* source)
+	{
+		Ceng::UINT32* destPtr = (Ceng::UINT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		destPtr[0] = *sourcePtr;
+		destPtr[1] = 0.0f;
+		destPtr[2] = 0.0f;
+	}
+
+	void VSIN_FLOAT4_FLOAT(void* dest, void* source)
+	{
+		Ceng::UINT32* destPtr = (Ceng::UINT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		destPtr[0] = *sourcePtr;
+		destPtr[1] = 0.0f;
+		destPtr[2] = 0.0f;
+		destPtr[3] = 1.0f;
+	}
+
 	//*************************************************
 	// From FLOAT2
 
@@ -1350,6 +1380,27 @@ namespace Ceng::Vshader
 		_mm_store_sd((double*)dest, temp);
 	}
 
+	void VSIN_FLOAT3_FLOAT2(void* dest, void* source)
+	{
+		Ceng::UINT32* destPtr = (Ceng::UINT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		destPtr[0] = sourcePtr[0];
+		destPtr[1] = sourcePtr[1];
+		destPtr[2] = 0.0f;
+	}
+
+	void VSIN_FLOAT4_FLOAT2(void* dest, void* source)
+	{
+		Ceng::UINT32* destPtr = (Ceng::UINT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		destPtr[0] = sourcePtr[0];
+		destPtr[1] = sourcePtr[1];
+		destPtr[2] = 0.0f;
+		destPtr[3] = 1.0f;
+	}
+
 	//*************************************************
 	// From FLOAT3
 
@@ -1359,6 +1410,15 @@ namespace Ceng::Vshader
 		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
 
 		*destPtr = *sourcePtr;
+	}
+
+	void VSIN_FLOAT2_FLOAT3(void* dest, void* source)
+	{
+		Ceng::UINT32* destPtr = (Ceng::UINT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		destPtr[0] = sourcePtr[0];
+		destPtr[1] = sourcePtr[1];
 	}
 
 	void VSIN_FLOAT3_FLOAT3(void* dest, void* source)
@@ -1371,6 +1431,17 @@ namespace Ceng::Vshader
 		destPtr[2] = sourcePtr[2];
 	}
 
+	void VSIN_FLOAT4_FLOAT3(void* dest, void* source)
+	{
+		Ceng::UINT32* destPtr = (Ceng::UINT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		destPtr[0] = sourcePtr[0];
+		destPtr[1] = sourcePtr[1];
+		destPtr[2] = sourcePtr[2];
+		destPtr[3] = 1.0f;
+	}
+
 	//*************************************************
 	// From FLOAT4
 
@@ -1380,6 +1451,25 @@ namespace Ceng::Vshader
 		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
 
 		*destPtr = *sourcePtr;
+	}
+
+	void VSIN_FLOAT2_FLOAT4(void* dest, void* source)
+	{
+		Ceng::UINT32* destPtr = (Ceng::UINT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		destPtr[0] = sourcePtr[0];
+		destPtr[1] = sourcePtr[1];
+	}
+
+	void VSIN_FLOAT3_FLOAT4(void* dest, void* source)
+	{
+		Ceng::UINT32* destPtr = (Ceng::UINT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		destPtr[0] = sourcePtr[0];
+		destPtr[1] = sourcePtr[1];
+		destPtr[2] = sourcePtr[2];
 	}
 
 	void VSIN_FLOAT4_FLOAT4(void* dest, void* source)
@@ -1400,6 +1490,36 @@ namespace Ceng::Vshader
 		*destPtr = (Ceng::FLOAT32)*sourcePtr;
 	}
 
+	void VSIN_FLOAT2_DOUBLE(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::FLOAT64* sourcePtr = (Ceng::FLOAT64*)source;
+
+		destPtr[0] = (Ceng::FLOAT32)*sourcePtr;
+		destPtr[1] = 0.0f;
+	}
+
+	void VSIN_FLOAT3_DOUBLE(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::FLOAT64* sourcePtr = (Ceng::FLOAT64*)source;
+
+		destPtr[0] = (Ceng::FLOAT32)*sourcePtr;
+		destPtr[1] = 0.0f;
+		destPtr[2] = 0.0f;
+	}
+
+	void VSIN_FLOAT4_DOUBLE(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::FLOAT64* sourcePtr = (Ceng::FLOAT64*)source;
+
+		destPtr[0] = (Ceng::FLOAT32)*sourcePtr;
+		destPtr[1] = 0.0f;
+		destPtr[2] = 0.0f;
+		destPtr[3] = 1.0f;
+	}
+
 	//*************************************************
 	// From DOUBLE2
 
@@ -1409,6 +1529,36 @@ namespace Ceng::Vshader
 		Ceng::FLOAT64* sourcePtr = (Ceng::FLOAT64*)source;
 
 		*destPtr = (Ceng::FLOAT32)*sourcePtr;
+	}
+
+	void VSIN_FLOAT2_DOUBLE2(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::FLOAT64* sourcePtr = (Ceng::FLOAT64*)source;
+
+		destPtr[0] = (Ceng::FLOAT32)sourcePtr[0];
+		destPtr[1] = (Ceng::FLOAT32)sourcePtr[1];
+	}
+
+	void VSIN_FLOAT3_DOUBLE2(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::FLOAT64* sourcePtr = (Ceng::FLOAT64*)source;
+
+		destPtr[0] = (Ceng::FLOAT32)sourcePtr[0];
+		destPtr[1] = (Ceng::FLOAT32)sourcePtr[1];
+		destPtr[2] = 0.0f;
+	}
+
+	void VSIN_FLOAT4_DOUBLE2(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::FLOAT64* sourcePtr = (Ceng::FLOAT64*)source;
+
+		destPtr[0] = (Ceng::FLOAT32)sourcePtr[0];
+		destPtr[1] = (Ceng::FLOAT32)sourcePtr[1];
+		destPtr[2] = 0.0f;
+		destPtr[3] = 1.0f;
 	}
 
 	//*************************************************
@@ -1422,6 +1572,36 @@ namespace Ceng::Vshader
 		*destPtr = (Ceng::FLOAT32)*sourcePtr;
 	}
 
+	void VSIN_FLOAT2_DOUBLE3(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::FLOAT64* sourcePtr = (Ceng::FLOAT64*)source;
+
+		destPtr[0] = (Ceng::FLOAT32)sourcePtr[0];
+		destPtr[1] = (Ceng::FLOAT32)sourcePtr[1];
+	}
+
+	void VSIN_FLOAT3_DOUBLE3(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::FLOAT64* sourcePtr = (Ceng::FLOAT64*)source;
+
+		destPtr[0] = (Ceng::FLOAT32)sourcePtr[0];
+		destPtr[1] = (Ceng::FLOAT32)sourcePtr[1];
+		destPtr[2] = (Ceng::FLOAT32)sourcePtr[2];
+	}
+
+	void VSIN_FLOAT4_DOUBLE3(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::FLOAT64* sourcePtr = (Ceng::FLOAT64*)source;
+
+		destPtr[0] = (Ceng::FLOAT32)sourcePtr[0];
+		destPtr[1] = (Ceng::FLOAT32)sourcePtr[1];
+		destPtr[2] = (Ceng::FLOAT32)sourcePtr[2];
+		destPtr[3] = 1.0f;
+	}
+
 	//*************************************************
 	// From DOUBLE4
 
@@ -1431,6 +1611,36 @@ namespace Ceng::Vshader
 		Ceng::FLOAT64* sourcePtr = (Ceng::FLOAT64*)source;
 
 		*destPtr = (Ceng::FLOAT32)*sourcePtr;
+	}
+
+	void VSIN_FLOAT2_DOUBLE4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::FLOAT64* sourcePtr = (Ceng::FLOAT64*)source;
+
+		destPtr[0] = (Ceng::FLOAT32)sourcePtr[0];
+		destPtr[1] = (Ceng::FLOAT32)sourcePtr[1];
+	}
+
+	void VSIN_FLOAT3_DOUBLE4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::FLOAT64* sourcePtr = (Ceng::FLOAT64*)source;
+
+		destPtr[0] = (Ceng::FLOAT32)sourcePtr[0];
+		destPtr[1] = (Ceng::FLOAT32)sourcePtr[1];
+		destPtr[2] = (Ceng::FLOAT32)sourcePtr[2];
+	}
+
+	void VSIN_FLOAT4_DOUBLE4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::FLOAT64* sourcePtr = (Ceng::FLOAT64*)source;
+
+		destPtr[0] = (Ceng::FLOAT32)sourcePtr[0];
+		destPtr[1] = (Ceng::FLOAT32)sourcePtr[1];
+		destPtr[2] = (Ceng::FLOAT32)sourcePtr[2];
+		destPtr[3] = (Ceng::FLOAT32)sourcePtr[3];
 	}
 
 	//*************************************************
@@ -1444,6 +1654,36 @@ namespace Ceng::Vshader
 		*destPtr = HalfToFloat(*sourcePtr);
 	}
 
+	void VSIN_FLOAT2_FP16(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		destPtr[0] = HalfToFloat(sourcePtr[0]);
+		destPtr[1] = 0.0f;
+	}
+
+	void VSIN_FLOAT3_FP16(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		destPtr[0] = HalfToFloat(sourcePtr[0]);
+		destPtr[1] = 0.0f;
+		destPtr[2] = 0.0f;
+	}
+
+	void VSIN_FLOAT4_FP16(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		destPtr[0] = HalfToFloat(sourcePtr[0]);
+		destPtr[1] = 0.0f;
+		destPtr[2] = 0.0f;
+		destPtr[3] = 1.0f;
+	}
+
 	//*************************************************
 	// From FP16_2
 
@@ -1453,6 +1693,36 @@ namespace Ceng::Vshader
 		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
 
 		*destPtr = HalfToFloat(*sourcePtr);
+	}
+
+	void VSIN_FLOAT2_FP16_2(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		destPtr[0] = HalfToFloat(sourcePtr[0]);
+		destPtr[1] = HalfToFloat(sourcePtr[1]);
+	}
+
+	void VSIN_FLOAT3_FP16_2(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		destPtr[0] = HalfToFloat(sourcePtr[0]);
+		destPtr[1] = HalfToFloat(sourcePtr[1]);
+		destPtr[2] = 0.0f;
+	}
+
+	void VSIN_FLOAT4_FP16_2(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		destPtr[0] = HalfToFloat(sourcePtr[0]);
+		destPtr[1] = HalfToFloat(sourcePtr[1]);
+		destPtr[2] = 0.0f;
+		destPtr[3] = 1.0f;
 	}
 
 	//*************************************************
@@ -1466,6 +1736,36 @@ namespace Ceng::Vshader
 		*destPtr = HalfToFloat(*sourcePtr);
 	}
 
+	void VSIN_FLOAT2_FP16_3(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		destPtr[0] = HalfToFloat(sourcePtr[0]);
+		destPtr[1] = HalfToFloat(sourcePtr[1]);
+	}
+
+	void VSIN_FLOAT3_FP16_3(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		destPtr[0] = HalfToFloat(sourcePtr[0]);
+		destPtr[1] = HalfToFloat(sourcePtr[1]);
+		destPtr[2] = HalfToFloat(sourcePtr[2]);
+	}
+
+	void VSIN_FLOAT4_FP16_3(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		destPtr[0] = HalfToFloat(sourcePtr[0]);
+		destPtr[1] = HalfToFloat(sourcePtr[1]);
+		destPtr[2] = HalfToFloat(sourcePtr[2]);
+		destPtr[3] = 1.0f;
+	}
+
 	//*************************************************
 	// From FP16_4
 
@@ -1475,6 +1775,36 @@ namespace Ceng::Vshader
 		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
 
 		*destPtr = HalfToFloat(*sourcePtr);
+	}
+
+	void VSIN_FLOAT2_FP16_4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		destPtr[0] = HalfToFloat(sourcePtr[0]);
+		destPtr[1] = HalfToFloat(sourcePtr[1]);
+	}
+
+	void VSIN_FLOAT3_FP16_4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		destPtr[0] = HalfToFloat(sourcePtr[0]);
+		destPtr[1] = HalfToFloat(sourcePtr[1]);
+		destPtr[2] = HalfToFloat(sourcePtr[2]);
+	}
+
+	void VSIN_FLOAT4_FP16_4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		destPtr[0] = HalfToFloat(sourcePtr[0]);
+		destPtr[1] = HalfToFloat(sourcePtr[1]);
+		destPtr[2] = HalfToFloat(sourcePtr[2]);
+		destPtr[3] = HalfToFloat(sourcePtr[3]);
 	}
 
 	//*************************************************
@@ -1488,6 +1818,36 @@ namespace Ceng::Vshader
 		*destPtr = Ceng::FLOAT32(*sourcePtr);
 	}
 
+	void VSIN_FLOAT2_INT(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT32* sourcePtr = (Ceng::INT32*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = 0.0f;
+	}
+
+	void VSIN_FLOAT3_INT(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT32* sourcePtr = (Ceng::INT32*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = 0.0f;
+		destPtr[2] = 0.0f;
+	}
+
+	void VSIN_FLOAT4_INT(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT32* sourcePtr = (Ceng::INT32*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = 0.0f;
+		destPtr[2] = 0.0f;
+		destPtr[3] = 1.0f;
+	}
+
 	//*************************************************
 	// From INT2
 
@@ -1497,6 +1857,36 @@ namespace Ceng::Vshader
 		Ceng::INT32* sourcePtr = (Ceng::INT32*)source;
 
 		*destPtr = Ceng::FLOAT32(*sourcePtr);
+	}
+
+	void VSIN_FLOAT2_INT2(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT32* sourcePtr = (Ceng::INT32*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+	}
+
+	void VSIN_FLOAT3_INT2(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT32* sourcePtr = (Ceng::INT32*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+		destPtr[2] = 0.0f;
+	}
+
+	void VSIN_FLOAT4_INT2(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT32* sourcePtr = (Ceng::INT32*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+		destPtr[2] = 0.0f;
+		destPtr[3] = 1.0f;
 	}
 
 	//*************************************************
@@ -1510,6 +1900,36 @@ namespace Ceng::Vshader
 		*destPtr = Ceng::FLOAT32(*sourcePtr);
 	}
 
+	void VSIN_FLOAT2_INT3(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT32* sourcePtr = (Ceng::INT32*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+	}
+
+	void VSIN_FLOAT3_INT3(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT32* sourcePtr = (Ceng::INT32*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+		destPtr[2] = Ceng::FLOAT32(sourcePtr[2]);
+	}
+
+	void VSIN_FLOAT4_INT3(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT32* sourcePtr = (Ceng::INT32*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+		destPtr[2] = Ceng::FLOAT32(sourcePtr[2]);
+		destPtr[3] = 1.0f;
+	}
+
 	//*************************************************
 	// From INT4
 
@@ -1519,6 +1939,36 @@ namespace Ceng::Vshader
 		Ceng::INT32* sourcePtr = (Ceng::INT32*)source;
 
 		*destPtr = Ceng::FLOAT32(*sourcePtr);
+	}
+
+	void VSIN_FLOAT2_INT4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT32* sourcePtr = (Ceng::INT32*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+	}
+
+	void VSIN_FLOAT3_INT4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT32* sourcePtr = (Ceng::INT32*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+		destPtr[2] = Ceng::FLOAT32(sourcePtr[2]);
+	}
+
+	void VSIN_FLOAT4_INT4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT32* sourcePtr = (Ceng::INT32*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+		destPtr[2] = Ceng::FLOAT32(sourcePtr[2]);
+		destPtr[3] = Ceng::FLOAT32(sourcePtr[3]);
 	}
 
 	//*************************************************
@@ -1532,6 +1982,36 @@ namespace Ceng::Vshader
 		*destPtr = Ceng::FLOAT32(*sourcePtr);
 	}
 
+	void VSIN_FLOAT2_UINT(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = 0.0f;
+	}
+
+	void VSIN_FLOAT3_UINT(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = 0.0f;
+		destPtr[2] = 0.0f;
+	}
+
+	void VSIN_FLOAT4_UINT(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = 0.0f;
+		destPtr[2] = 0.0f;
+		destPtr[3] = 1.0f;
+	}
+
 	//*************************************************
 	// From UINT2
 
@@ -1541,6 +2021,36 @@ namespace Ceng::Vshader
 		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
 
 		*destPtr = Ceng::FLOAT32(*sourcePtr);
+	}
+
+	void VSIN_FLOAT2_UINT2(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+	}
+
+	void VSIN_FLOAT3_UINT2(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+		destPtr[2] = 0.0f;
+	}
+
+	void VSIN_FLOAT4_UINT2(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+		destPtr[2] = 0.0f;
+		destPtr[3] = 1.0f;
 	}
 
 	//*************************************************
@@ -1554,6 +2064,36 @@ namespace Ceng::Vshader
 		*destPtr = Ceng::FLOAT32(*sourcePtr);
 	}
 
+	void VSIN_FLOAT2_UINT3(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+	}
+
+	void VSIN_FLOAT3_UINT3(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+		destPtr[2] = Ceng::FLOAT32(sourcePtr[2]);
+	}
+
+	void VSIN_FLOAT4_UINT3(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+		destPtr[2] = Ceng::FLOAT32(sourcePtr[2]);
+		destPtr[3] = 1.0f;
+	}
+
 	//*************************************************
 	// From UINT4
 
@@ -1563,6 +2103,36 @@ namespace Ceng::Vshader
 		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
 
 		*destPtr = Ceng::FLOAT32(*sourcePtr);
+	}
+
+	void VSIN_FLOAT2_UINT4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+	}
+
+	void VSIN_FLOAT3_UINT4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+		destPtr[2] = Ceng::FLOAT32(sourcePtr[2]);
+	}
+
+	void VSIN_FLOAT4_UINT4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT32* sourcePtr = (Ceng::UINT32*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+		destPtr[2] = Ceng::FLOAT32(sourcePtr[2]);
+		destPtr[3] = Ceng::FLOAT32(sourcePtr[3]);
 	}
 
 	//*************************************************
@@ -1576,6 +2146,36 @@ namespace Ceng::Vshader
 		*destPtr = Ceng::FLOAT32(*sourcePtr);
 	}
 
+	void VSIN_FLOAT2_SHORT(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT16* sourcePtr = (Ceng::INT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = 0.0f;
+	}
+
+	void VSIN_FLOAT3_SHORT(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT16* sourcePtr = (Ceng::INT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = 0.0f;
+		destPtr[2] = 0.0f;
+	}
+
+	void VSIN_FLOAT4_SHORT(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT16* sourcePtr = (Ceng::INT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = 0.0f;
+		destPtr[2] = 0.0f;
+		destPtr[3] = 1.0f;
+	}
+
 	//*************************************************
 	// From SHORT2
 
@@ -1585,6 +2185,36 @@ namespace Ceng::Vshader
 		Ceng::INT16* sourcePtr = (Ceng::INT16*)source;
 
 		*destPtr = Ceng::FLOAT32(*sourcePtr);
+	}
+
+	void VSIN_FLOAT2_SHORT2(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT16* sourcePtr = (Ceng::INT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+	}
+
+	void VSIN_FLOAT3_SHORT2(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT16* sourcePtr = (Ceng::INT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+		destPtr[2] = 0.0f;
+	}
+
+	void VSIN_FLOAT4_SHORT2(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT16* sourcePtr = (Ceng::INT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+		destPtr[2] = 0.0f;
+		destPtr[3] = 1.0f;
 	}
 
 	//*************************************************
@@ -1598,6 +2228,36 @@ namespace Ceng::Vshader
 		*destPtr = Ceng::FLOAT32(*sourcePtr);
 	}
 
+	void VSIN_FLOAT2_SHORT3(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT16* sourcePtr = (Ceng::INT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+	}
+
+	void VSIN_FLOAT3_SHORT3(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT16* sourcePtr = (Ceng::INT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+		destPtr[2] = Ceng::FLOAT32(sourcePtr[2]);
+	}
+
+	void VSIN_FLOAT4_SHORT3(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT16* sourcePtr = (Ceng::INT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+		destPtr[2] = Ceng::FLOAT32(sourcePtr[2]);
+		destPtr[3] = 1.0f;
+	}
+
 	//*************************************************
 	// From SHORT4
 
@@ -1607,6 +2267,36 @@ namespace Ceng::Vshader
 		Ceng::INT16* sourcePtr = (Ceng::INT16*)source;
 
 		*destPtr = Ceng::FLOAT32(*sourcePtr);
+	}
+
+	void VSIN_FLOAT2_SHORT4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT16* sourcePtr = (Ceng::INT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+	}
+
+	void VSIN_FLOAT3_SHORT4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT16* sourcePtr = (Ceng::INT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+		destPtr[2] = Ceng::FLOAT32(sourcePtr[2]);
+	}
+
+	void VSIN_FLOAT4_SHORT4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT16* sourcePtr = (Ceng::INT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+		destPtr[2] = Ceng::FLOAT32(sourcePtr[2]);
+		destPtr[3] = Ceng::FLOAT32(sourcePtr[3]);
 	}
 
 	//*************************************************
@@ -1620,6 +2310,36 @@ namespace Ceng::Vshader
 		*destPtr = Ceng::FLOAT32(*sourcePtr);
 	}
 
+	void VSIN_FLOAT2_USHORT(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = 0.0f;
+	}
+
+	void VSIN_FLOAT3_USHORT(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = 0.0f;
+		destPtr[2] = 0.0f;
+	}
+
+	void VSIN_FLOAT4_USHORT(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = 0.0f;
+		destPtr[2] = 0.0f;
+		destPtr[3] = 1.0f;
+	}
+
 	//*************************************************
 	// From USHORT2
 
@@ -1629,6 +2349,36 @@ namespace Ceng::Vshader
 		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
 
 		*destPtr = Ceng::FLOAT32(*sourcePtr);
+	}
+
+	void VSIN_FLOAT2_USHORT2(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+	}
+
+	void VSIN_FLOAT3_USHORT2(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+		destPtr[2] = 0.0f;
+	}
+
+	void VSIN_FLOAT4_USHORT2(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+		destPtr[2] = 0.0f;
+		destPtr[3] = 1.0f;
 	}
 
 	//*************************************************
@@ -1642,6 +2392,36 @@ namespace Ceng::Vshader
 		*destPtr = Ceng::FLOAT32(*sourcePtr);
 	}
 
+	void VSIN_FLOAT2_USHORT3(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+	}
+
+	void VSIN_FLOAT3_USHORT3(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+		destPtr[2] = Ceng::FLOAT32(sourcePtr[2]);
+	}
+
+	void VSIN_FLOAT4_USHORT3(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+		destPtr[2] = Ceng::FLOAT32(sourcePtr[2]);
+		destPtr[3] = 1.0f;
+	}
+
 	//*************************************************
 	// From USHORT4
 
@@ -1651,6 +2431,36 @@ namespace Ceng::Vshader
 		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
 
 		*destPtr = Ceng::FLOAT32(*sourcePtr);
+	}
+
+	void VSIN_FLOAT2_USHORT4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+	}
+
+	void VSIN_FLOAT3_USHORT4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+		destPtr[2] = Ceng::FLOAT32(sourcePtr[2]);
+	}
+
+	void VSIN_FLOAT4_USHORT4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+		destPtr[2] = Ceng::FLOAT32(sourcePtr[2]);
+		destPtr[3] = Ceng::FLOAT32(sourcePtr[3]);
 	}
 
 	//*************************************************
@@ -1664,6 +2474,36 @@ namespace Ceng::Vshader
 		*destPtr = Ceng::FLOAT32(*sourcePtr) * scaleNormalizeUint16;
 	}
 
+	void VSIN_FLOAT2_UNSHORT(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]) * scaleNormalizeUint16;
+		destPtr[1] = 0.0f;
+	}
+
+	void VSIN_FLOAT3_UNSHORT(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]) * scaleNormalizeUint16;
+		destPtr[1] = 0.0f;
+		destPtr[2] = 0.0f;
+	}
+
+	void VSIN_FLOAT4_UNSHORT(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]) * scaleNormalizeUint16;
+		destPtr[1] = 0.0f;
+		destPtr[2] = 0.0f;
+		destPtr[3] = 1.0f;
+	}
+
 	//*************************************************
 	// From UNSHORT2
 
@@ -1673,6 +2513,36 @@ namespace Ceng::Vshader
 		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
 
 		*destPtr = Ceng::FLOAT32(*sourcePtr) * scaleNormalizeUint16;
+	}
+
+	void VSIN_FLOAT2_UNSHORT2(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]) * scaleNormalizeUint16;
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]) * scaleNormalizeUint16;
+	}
+
+	void VSIN_FLOAT3_UNSHORT2(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]) * scaleNormalizeUint16;
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]) * scaleNormalizeUint16;
+		destPtr[2] = 0.0f;
+	}
+
+	void VSIN_FLOAT4_UNSHORT2(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]) * scaleNormalizeUint16;
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]) * scaleNormalizeUint16;
+		destPtr[2] = 0.0f;
+		destPtr[3] = 1.0f;
 	}
 
 	//*************************************************
@@ -1686,6 +2556,36 @@ namespace Ceng::Vshader
 		*destPtr = Ceng::FLOAT32(*sourcePtr) * scaleNormalizeUint16;
 	}
 
+	void VSIN_FLOAT2_UNSHORT3(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]) * scaleNormalizeUint16;
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]) * scaleNormalizeUint16;
+	}
+
+	void VSIN_FLOAT3_UNSHORT3(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]) * scaleNormalizeUint16;
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]) * scaleNormalizeUint16;
+		destPtr[2] = Ceng::FLOAT32(sourcePtr[2]) * scaleNormalizeUint16;
+	}
+
+	void VSIN_FLOAT4_UNSHORT3(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]) * scaleNormalizeUint16;
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]) * scaleNormalizeUint16;
+		destPtr[2] = Ceng::FLOAT32(sourcePtr[2]) * scaleNormalizeUint16;
+		destPtr[3] = 1.0f;
+	}
+
 	//*************************************************
 	// From UNSHORT4
 
@@ -1695,6 +2595,36 @@ namespace Ceng::Vshader
 		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
 
 		*destPtr = Ceng::FLOAT32(*sourcePtr) * scaleNormalizeUint16;
+	}
+
+	void VSIN_FLOAT2_UNSHORT4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]) * scaleNormalizeUint16;
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]) * scaleNormalizeUint16;
+	}
+
+	void VSIN_FLOAT3_UNSHORT4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]) * scaleNormalizeUint16;
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]) * scaleNormalizeUint16;
+		destPtr[2] = Ceng::FLOAT32(sourcePtr[2]) * scaleNormalizeUint16;
+	}
+
+	void VSIN_FLOAT4_UNSHORT4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]) * scaleNormalizeUint16;
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]) * scaleNormalizeUint16;
+		destPtr[2] = Ceng::FLOAT32(sourcePtr[2]) * scaleNormalizeUint16;
+		destPtr[3] = Ceng::FLOAT32(sourcePtr[3]) * scaleNormalizeUint16;
 	}
 
 	//*************************************************
@@ -1708,6 +2638,36 @@ namespace Ceng::Vshader
 		*destPtr = Ceng::FLOAT32(*sourcePtr) * scaleNormalizeInt16;
 	}
 
+	void VSIN_FLOAT2_NSHORT(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT16* sourcePtr = (Ceng::INT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]) * scaleNormalizeInt16;
+		destPtr[1] = 0.0f;
+	}
+
+	void VSIN_FLOAT3_NSHORT(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT16* sourcePtr = (Ceng::INT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]) * scaleNormalizeInt16;
+		destPtr[1] = 0.0f;
+		destPtr[2] = 0.0f;
+	}
+
+	void VSIN_FLOAT4_NSHORT(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT16* sourcePtr = (Ceng::INT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]) * scaleNormalizeInt16;
+		destPtr[1] = 0.0f;
+		destPtr[2] = 0.0f;
+		destPtr[3] = 1.0f;
+	}
+
 	//*************************************************
 	// From NSHORT2
 
@@ -1717,6 +2677,36 @@ namespace Ceng::Vshader
 		Ceng::INT16* sourcePtr = (Ceng::INT16*)source;
 
 		*destPtr = Ceng::FLOAT32(*sourcePtr) * scaleNormalizeInt16;
+	}
+
+	void VSIN_FLOAT2_NSHORT2(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT16* sourcePtr = (Ceng::INT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]) * scaleNormalizeInt16;
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]) * scaleNormalizeInt16;
+	}
+
+	void VSIN_FLOAT3_NSHORT2(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT16* sourcePtr = (Ceng::INT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]) * scaleNormalizeInt16;
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]) * scaleNormalizeInt16;
+		destPtr[2] = 0.0f;
+	}
+
+	void VSIN_FLOAT4_NSHORT2(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT16* sourcePtr = (Ceng::INT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]) * scaleNormalizeInt16;
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]) * scaleNormalizeInt16;
+		destPtr[2] = 0.0f;
+		destPtr[3] = 1.0f;
 	}
 
 	//*************************************************
@@ -1730,6 +2720,36 @@ namespace Ceng::Vshader
 		*destPtr = Ceng::FLOAT32(*sourcePtr) * scaleNormalizeInt16;
 	}
 
+	void VSIN_FLOAT2_NSHORT3(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT16* sourcePtr = (Ceng::INT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]) * scaleNormalizeInt16;
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]) * scaleNormalizeInt16;
+	}
+
+	void VSIN_FLOAT3_NSHORT3(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT16* sourcePtr = (Ceng::INT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]) * scaleNormalizeInt16;
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]) * scaleNormalizeInt16;
+		destPtr[2] = Ceng::FLOAT32(sourcePtr[2]) * scaleNormalizeInt16;
+	}
+
+	void VSIN_FLOAT4_NSHORT3(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT16* sourcePtr = (Ceng::INT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]) * scaleNormalizeInt16;
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]) * scaleNormalizeInt16;
+		destPtr[2] = Ceng::FLOAT32(sourcePtr[2]) * scaleNormalizeInt16;
+		destPtr[3] = 1.0f;
+	}
+
 	//*************************************************
 	// From NSHORT4
 
@@ -1739,6 +2759,36 @@ namespace Ceng::Vshader
 		Ceng::INT16* sourcePtr = (Ceng::INT16*)source;
 
 		*destPtr = Ceng::FLOAT32(*sourcePtr) * scaleNormalizeInt16;
+	}
+
+	void VSIN_FLOAT2_NSHORT4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT16* sourcePtr = (Ceng::INT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]) * scaleNormalizeInt16;
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]) * scaleNormalizeInt16;
+	}
+
+	void VSIN_FLOAT3_NSHORT4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT16* sourcePtr = (Ceng::INT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]) * scaleNormalizeInt16;
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]) * scaleNormalizeInt16;
+		destPtr[2] = Ceng::FLOAT32(sourcePtr[2]) * scaleNormalizeInt16;
+	}
+
+	void VSIN_FLOAT4_NSHORT4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT16* sourcePtr = (Ceng::INT16*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]) * scaleNormalizeInt16;
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]) * scaleNormalizeInt16;
+		destPtr[2] = Ceng::FLOAT32(sourcePtr[2]) * scaleNormalizeInt16;
+		destPtr[3] = Ceng::FLOAT32(sourcePtr[3]) * scaleNormalizeInt16;
 	}
 
 	//*************************************************
@@ -1752,6 +2802,36 @@ namespace Ceng::Vshader
 		*destPtr = Ceng::FLOAT32(*sourcePtr);
 	}
 
+	void VSIN_FLOAT2_BYTE(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT8* sourcePtr = (Ceng::INT8*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = 0.0f;
+	}
+
+	void VSIN_FLOAT3_BYTE(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT8* sourcePtr = (Ceng::INT8*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = 0.0f;
+		destPtr[2] = 0.0f;
+	}
+
+	void VSIN_FLOAT4_BYTE(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT8* sourcePtr = (Ceng::INT8*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = 0.0f;
+		destPtr[2] = 0.0f;
+		destPtr[3] = 1.0f;
+	}
+
 	//*************************************************
 	// From BYTE2
 
@@ -1761,6 +2841,36 @@ namespace Ceng::Vshader
 		Ceng::INT8* sourcePtr = (Ceng::INT8*)source;
 
 		*destPtr = Ceng::FLOAT32(*sourcePtr);
+	}
+
+	void VSIN_FLOAT2_BYTE2(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT8* sourcePtr = (Ceng::INT8*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+	}
+
+	void VSIN_FLOAT3_BYTE2(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT8* sourcePtr = (Ceng::INT8*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+		destPtr[2] = 0.0f;
+	}
+
+	void VSIN_FLOAT4_BYTE2(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT8* sourcePtr = (Ceng::INT8*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+		destPtr[2] = 0.0f;
+		destPtr[3] = 1.0f;
 	}
 
 	//*************************************************
@@ -1774,6 +2884,36 @@ namespace Ceng::Vshader
 		*destPtr = Ceng::FLOAT32(*sourcePtr);
 	}
 
+	void VSIN_FLOAT2_BYTE3(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT8* sourcePtr = (Ceng::INT8*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+	}
+
+	void VSIN_FLOAT3_BYTE3(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT8* sourcePtr = (Ceng::INT8*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+		destPtr[2] = Ceng::FLOAT32(sourcePtr[2]);
+	}
+
+	void VSIN_FLOAT4_BYTE3(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT8* sourcePtr = (Ceng::INT8*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+		destPtr[2] = Ceng::FLOAT32(sourcePtr[2]);
+		destPtr[3] = 1.0f;
+	}
+
 	//*************************************************
 	// From BYTE4
 
@@ -1783,6 +2923,36 @@ namespace Ceng::Vshader
 		Ceng::INT8* sourcePtr = (Ceng::INT8*)source;
 
 		*destPtr = Ceng::FLOAT32(*sourcePtr);
+	}
+
+	void VSIN_FLOAT2_BYTE4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT8* sourcePtr = (Ceng::INT8*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+	}
+
+	void VSIN_FLOAT3_BYTE4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT8* sourcePtr = (Ceng::INT8*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+		destPtr[2] = Ceng::FLOAT32(sourcePtr[2]);
+	}
+
+	void VSIN_FLOAT4_BYTE4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::INT8* sourcePtr = (Ceng::INT8*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+		destPtr[2] = Ceng::FLOAT32(sourcePtr[2]);
+		destPtr[3] = Ceng::FLOAT32(sourcePtr[3]);
 	}
 
 	//*************************************************
@@ -1796,6 +2966,36 @@ namespace Ceng::Vshader
 		*destPtr = Ceng::FLOAT32(*sourcePtr);
 	}
 
+	void VSIN_FLOAT2_UBYTE(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT8* sourcePtr = (Ceng::UINT8*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = 0.0f;
+	}
+
+	void VSIN_FLOAT3_UBYTE(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT8* sourcePtr = (Ceng::UINT8*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = 0.0f;
+		destPtr[2] = 0.0f;
+	}
+
+	void VSIN_FLOAT4_UBYTE(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT8* sourcePtr = (Ceng::UINT8*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = 0.0f;
+		destPtr[2] = 0.0f;
+		destPtr[3] = 1.0f;
+	}
+
 	//*************************************************
 	// From UBYTE2
 
@@ -1805,6 +3005,36 @@ namespace Ceng::Vshader
 		Ceng::UINT8* sourcePtr = (Ceng::UINT8*)source;
 
 		*destPtr = Ceng::FLOAT32(*sourcePtr);
+	}
+
+	void VSIN_FLOAT2_UBYTE2(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT8* sourcePtr = (Ceng::UINT8*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+	}
+
+	void VSIN_FLOAT3_UBYTE2(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT8* sourcePtr = (Ceng::UINT8*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+		destPtr[2] = 0.0f;
+	}
+
+	void VSIN_FLOAT4_UBYTE2(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT8* sourcePtr = (Ceng::UINT8*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+		destPtr[2] = 0.0f;
+		destPtr[3] = 1.0f;
 	}
 
 	//*************************************************
@@ -1818,6 +3048,36 @@ namespace Ceng::Vshader
 		*destPtr = Ceng::FLOAT32(*sourcePtr);
 	}
 
+	void VSIN_FLOAT2_UBYTE3(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT8* sourcePtr = (Ceng::UINT8*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+	}
+
+	void VSIN_FLOAT3_UBYTE3(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT8* sourcePtr = (Ceng::UINT8*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+		destPtr[2] = Ceng::FLOAT32(sourcePtr[2]);
+	}
+
+	void VSIN_FLOAT4_UBYTE3(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT8* sourcePtr = (Ceng::UINT8*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+		destPtr[2] = Ceng::FLOAT32(sourcePtr[2]);
+		destPtr[3] = 1.0f;
+	}
+
 	//*************************************************
 	// From UBYTE4
 
@@ -1827,6 +3087,36 @@ namespace Ceng::Vshader
 		Ceng::UINT8* sourcePtr = (Ceng::UINT8*)source;
 
 		*destPtr = Ceng::FLOAT32(*sourcePtr);
+	}
+
+	void VSIN_FLOAT2_UBYTE4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT8* sourcePtr = (Ceng::UINT8*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+	}
+
+	void VSIN_FLOAT3_UBYTE4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT8* sourcePtr = (Ceng::UINT8*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+		destPtr[2] = Ceng::FLOAT32(sourcePtr[2]);
+	}
+
+	void VSIN_FLOAT4_UBYTE4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT8* sourcePtr = (Ceng::UINT8*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]);
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]);
+		destPtr[2] = Ceng::FLOAT32(sourcePtr[2]);
+		destPtr[3] = Ceng::FLOAT32(sourcePtr[3]);
 	}
 
 	//*************************************************
@@ -1840,6 +3130,36 @@ namespace Ceng::Vshader
 		*destPtr = Ceng::FLOAT32(*sourcePtr) * scaleNormalizeUint8;
 	}
 
+	void VSIN_FLOAT2_UNBYTE(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT8* sourcePtr = (Ceng::UINT8*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]) * scaleNormalizeUint8;
+		destPtr[1] = 0.0f;
+	}
+
+	void VSIN_FLOAT3_UNBYTE(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT8* sourcePtr = (Ceng::UINT8*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]) * scaleNormalizeUint8;
+		destPtr[1] = 0.0f;
+		destPtr[2] = 0.0f;
+	}
+
+	void VSIN_FLOAT4_UNBYTE(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT8* sourcePtr = (Ceng::UINT8*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]) * scaleNormalizeUint8;
+		destPtr[1] = 0.0f;
+		destPtr[2] = 0.0f;
+		destPtr[3] = 1.0f;
+	}
+
 	//*************************************************
 	// From UNBYTE2
 
@@ -1849,6 +3169,36 @@ namespace Ceng::Vshader
 		Ceng::UINT8* sourcePtr = (Ceng::UINT8*)source;
 
 		*destPtr = Ceng::FLOAT32(*sourcePtr) * scaleNormalizeUint8;
+	}
+
+	void VSIN_FLOAT2_UNBYTE2(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT8* sourcePtr = (Ceng::UINT8*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]) * scaleNormalizeUint8;
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]) * scaleNormalizeUint8;
+	}
+
+	void VSIN_FLOAT3_UNBYTE2(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT8* sourcePtr = (Ceng::UINT8*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]) * scaleNormalizeUint8;
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]) * scaleNormalizeUint8;
+		destPtr[2] = 0.0f;
+	}
+
+	void VSIN_FLOAT4_UNBYTE2(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT8* sourcePtr = (Ceng::UINT8*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]) * scaleNormalizeUint8;
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]) * scaleNormalizeUint8;
+		destPtr[2] = 0.0f;
+		destPtr[3] = 1.0f;
 	}
 
 	//*************************************************
@@ -1862,6 +3212,36 @@ namespace Ceng::Vshader
 		*destPtr = Ceng::FLOAT32(*sourcePtr) * scaleNormalizeUint8;
 	}
 
+	void VSIN_FLOAT2_UNBYTE3(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT8* sourcePtr = (Ceng::UINT8*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]) * scaleNormalizeUint8;
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]) * scaleNormalizeUint8;
+	}
+
+	void VSIN_FLOAT3_UNBYTE3(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT8* sourcePtr = (Ceng::UINT8*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]) * scaleNormalizeUint8;
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]) * scaleNormalizeUint8;
+		destPtr[2] = Ceng::FLOAT32(sourcePtr[2]) * scaleNormalizeUint8;
+	}
+
+	void VSIN_FLOAT4_UNBYTE3(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT8* sourcePtr = (Ceng::UINT8*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]) * scaleNormalizeUint8;
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]) * scaleNormalizeUint8;
+		destPtr[2] = Ceng::FLOAT32(sourcePtr[2]) * scaleNormalizeUint8;
+		destPtr[3] = 1.0f;
+	}
+
 	//*************************************************
 	// From UNBYTE4
 
@@ -1871,6 +3251,36 @@ namespace Ceng::Vshader
 		Ceng::UINT8* sourcePtr = (Ceng::UINT8*)source;
 
 		*destPtr = Ceng::FLOAT32(*sourcePtr) * scaleNormalizeUint8;
+	}
+
+	void VSIN_FLOAT2_UNBYTE4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT8* sourcePtr = (Ceng::UINT8*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]) * scaleNormalizeUint8;
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]) * scaleNormalizeUint8;
+	}
+
+	void VSIN_FLOAT3_UNBYTE4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT8* sourcePtr = (Ceng::UINT8*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]) * scaleNormalizeUint8;
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]) * scaleNormalizeUint8;
+		destPtr[2] = Ceng::FLOAT32(sourcePtr[2]) * scaleNormalizeUint8;
+	}
+
+	void VSIN_FLOAT4_UNBYTE4(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT8* sourcePtr = (Ceng::UINT8*)source;
+
+		destPtr[0] = Ceng::FLOAT32(sourcePtr[0]) * scaleNormalizeUint8;
+		destPtr[1] = Ceng::FLOAT32(sourcePtr[1]) * scaleNormalizeUint8;
+		destPtr[2] = Ceng::FLOAT32(sourcePtr[2]) * scaleNormalizeUint8;
+		destPtr[3] = Ceng::FLOAT32(sourcePtr[3]) * scaleNormalizeUint8;
 	}
 
 	//*************************************************
@@ -1886,6 +3296,42 @@ namespace Ceng::Vshader
 		*destPtr = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx5;
 	}
 
+	void VSIN_FLOAT2_UNORM_B5_G6_R5(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		Color3_Int32 color = Extract_B5_G6_R5(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx5;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx6;
+	}
+
+	void VSIN_FLOAT3_UNORM_B5_G6_R5(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		Color3_Int32 color = Extract_B5_G6_R5(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx5;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx6;
+		destPtr[2] = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx5;
+	}
+
+	void VSIN_FLOAT4_UNORM_B5_G6_R5(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		Color3_Int32 color = Extract_B5_G6_R5(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx5;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx6;
+		destPtr[2] = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx5;
+		destPtr[3] = 1.0f;
+	}
+
 	//*************************************************
 	// From UNORM_R5_G6_B5
 
@@ -1896,7 +3342,43 @@ namespace Ceng::Vshader
 
 		Color3_Int32 color = Extract_R5_G6_B5(*sourcePtr);
 
-		*destPtr = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx5;
+		*destPtr = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx5;
+	}
+
+	void VSIN_FLOAT2_UNORM_R5_G6_B5(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		Color3_Int32 color = Extract_R5_G6_B5(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx5;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx6;
+	}
+
+	void VSIN_FLOAT3_UNORM_R5_G6_B5(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		Color3_Int32 color = Extract_R5_G6_B5(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx5;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx6;
+		destPtr[2] = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx5;
+	}
+
+	void VSIN_FLOAT4_UNORM_R5_G6_B5(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		Color3_Int32 color = Extract_R5_G6_B5(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx5;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx6;
+		destPtr[2] = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx5;
+		destPtr[3] = 1.0f;
 	}
 
 	//*************************************************
@@ -1909,7 +3391,43 @@ namespace Ceng::Vshader
 
 		Color4_Int32 color = Extract_A1_R5_G6_B5(*sourcePtr);
 
-		*destPtr = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx5;
+		*destPtr = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx5;
+	}
+
+	void VSIN_FLOAT2_UNORM_A1_R5_G5_B5(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		Color4_Int32 color = Extract_A1_R5_G6_B5(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx5;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx6;
+	}
+
+	void VSIN_FLOAT3_UNORM_A1_R5_G5_B5(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		Color4_Int32 color = Extract_A1_R5_G6_B5(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx5;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx6;
+		destPtr[2] = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx5;
+	}
+
+	void VSIN_FLOAT4_UNORM_A1_R5_G5_B5(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		Color4_Int32 color = Extract_A1_R5_G6_B5(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx5;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx6;
+		destPtr[2] = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx5;
+		destPtr[3] = Ceng::FLOAT32(color.a);
 	}
 
 	//*************************************************
@@ -1925,6 +3443,42 @@ namespace Ceng::Vshader
 		*destPtr = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx5;
 	}
 
+	void VSIN_FLOAT2_UNORM_A1_B5_G5_R5(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		Color4_Int32 color = Extract_A1_B5_G6_R5(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx5;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx6;
+	}
+
+	void VSIN_FLOAT3_UNORM_A1_B5_G5_R5(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		Color4_Int32 color = Extract_A1_B5_G6_R5(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx5;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx6;
+		destPtr[2] = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx5;
+	}
+
+	void VSIN_FLOAT4_UNORM_A1_B5_G5_R5(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		Color4_Int32 color = Extract_A1_B5_G6_R5(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx5;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx6;
+		destPtr[2] = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx5;
+		destPtr[3] = Ceng::FLOAT32(color.a);
+	}
+
 	//*************************************************
 	// From UNORM_R5_G5_B5
 
@@ -1935,7 +3489,43 @@ namespace Ceng::Vshader
 
 		Color3_Int32 color = Extract_R5_G5_B5(*sourcePtr);
 
-		*destPtr = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx5;
+		*destPtr = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx5;
+	}
+
+	void VSIN_FLOAT2_UNORM_R5_G5_B5(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		Color3_Int32 color = Extract_R5_G5_B5(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx5;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx6;
+	}
+
+	void VSIN_FLOAT3_UNORM_R5_G5_B5(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		Color3_Int32 color = Extract_R5_G5_B5(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx5;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx6;
+		destPtr[2] = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx5;
+	}
+
+	void VSIN_FLOAT4_UNORM_R5_G5_B5(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		Color3_Int32 color = Extract_R5_G5_B5(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx5;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx6;
+		destPtr[2] = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx5;
+		destPtr[4] = 1.0f;
 	}
 
 	//*************************************************
@@ -1949,6 +3539,42 @@ namespace Ceng::Vshader
 		Color3_Int32 color = Extract_B5_G5_R5(*sourcePtr);
 
 		*destPtr = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx5;
+	}
+
+	void VSIN_FLOAT2_UNORM_B5_G5_R5(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		Color3_Int32 color = Extract_B5_G5_R5(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx5;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx6;
+	}
+
+	void VSIN_FLOAT3_UNORM_B5_G5_R5(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		Color3_Int32 color = Extract_B5_G5_R5(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx5;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx6;
+		destPtr[2] = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx5;
+	}
+
+	void VSIN_FLOAT4_UNORM_B5_G5_R5(void* dest, void* source)
+	{
+		Ceng::FLOAT32* destPtr = (Ceng::FLOAT32*)dest;
+		Ceng::UINT16* sourcePtr = (Ceng::UINT16*)source;
+
+		Color3_Int32 color = Extract_B5_G5_R5(*sourcePtr);
+
+		destPtr[0] = Ceng::FLOAT32(color.r) * scaleNormalizeUNfx5;
+		destPtr[1] = Ceng::FLOAT32(color.g) * scaleNormalizeUNfx6;
+		destPtr[2] = Ceng::FLOAT32(color.b) * scaleNormalizeUNfx5;
+		destPtr[4] = 1.0f;
 	}
 
 	//*************************************************
