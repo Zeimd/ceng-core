@@ -7,13 +7,15 @@
 
 #include <ceng/swshader/PshaderTargetWriter.h>
 
+#include <ceng/datatypes/blend-state-desc.h>
+
 namespace Ceng
 {
-	class Writer_unorm_a8_r8_g8_b8_noblend : public Pshader::PshaderTargetWriter
+	class Writer_unbyte_argb_noblend : public Pshader::PshaderTargetWriter
 	{
 	protected:
 
-		~Writer_unorm_a8_r8_g8_b8_noblend() override;
+		~Writer_unbyte_argb_noblend() override;
 
 	public:
 
@@ -34,13 +36,13 @@ namespace Ceng
 
 	typedef void (*BlendOpCallback)(__m128i* out, __m128i* source, __m128i* dest);
 
-	class Writer_unorm_a8_r8_g8_b8 : public Pshader::PshaderTargetWriter
+	class Writer_unbyte_argb : public Pshader::PshaderTargetWriter
 	{
 	protected:
 
-		~Writer_unorm_a8_r8_g8_b8() override;
+		~Writer_unbyte_argb() override;
 
-		// Blend factors provided by SetBlendState() API function. Stored in 8.8 fixed point.
+		// Blend factors provided by SetBlendState() API function. Stored in 16 bit integers as 0.8 fixed point.
 		Ceng::UINT16 apiBlendFactors[16];
 
 		Ceng::UINT32 writeMask;
@@ -58,7 +60,7 @@ namespace Ceng
 
 	public:
 
-		Writer_unorm_a8_r8_g8_b8(Ceng::UINT32 writeMask, std::array<Ceng::FLOAT32, 4>& blendFactors);
+		Writer_unbyte_argb(Ceng::RenderTargetBlendDesc& desc, std::array<Ceng::FLOAT32, 4>& blendFactors);
 
 		void Release() override;
 

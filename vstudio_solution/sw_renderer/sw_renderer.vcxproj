@@ -285,7 +285,7 @@
     <ClInclude Include="..\..\sw_renderer\vshader-wrapper.h" />
     <ClInclude Include="..\..\sw_renderer\WriterCommon.h" />
     <ClInclude Include="..\..\sw_renderer\Writer_null.h" />
-    <ClInclude Include="..\..\sw_renderer\Writer_unorm_a8_r8_g8_b8.h" />
+    <ClInclude Include="..\..\sw_renderer\Writer_unbyte_argb.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
@@ -374,7 +374,7 @@
     <ClCompile Include="..\..\sw_renderer\vshader-wrapper.cpp" />
     <ClCompile Include="..\..\sw_renderer\WriterCommon.cpp" />
     <ClCompile Include="..\..\sw_renderer\Writer_null.cpp" />
-    <ClCompile Include="..\..\sw_renderer\Writer_unorm_a8_r8_g8_b8.cpp" />
+    <ClCompile Include="..\..\sw_renderer\Writer_unbyte_argb.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

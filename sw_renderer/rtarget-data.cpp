@@ -14,7 +14,7 @@
 #include "CombinedBlendState.h"
 #include "cr-blend-state.h"
 
-#include "Writer_unorm_a8_r8_g8_b8.h"
+#include "Writer_unbyte_argb.h"
 
 using namespace Ceng;
 
@@ -398,11 +398,11 @@ Pshader::PshaderTargetWriter* CR_NewTargetData::GetWriter(Ceng::UINT32 targetInd
 
 		if (activeBlend->blendEnable == false)
 		{
-			return new Writer_unorm_a8_r8_g8_b8_noblend();
+			return new Writer_unbyte_argb_noblend();
 		}
 		else
 		{
-			return new Writer_unorm_a8_r8_g8_b8(activeBlend->writeMask, blendState->factors);
+			return new Writer_unbyte_argb(*activeBlend, blendState->factors);
 		}
 
 		break;

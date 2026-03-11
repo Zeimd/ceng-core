@@ -1,4 +1,4 @@
-#include "Writer_unorm_a8_r8_g8_b8.h"
+#include "Writer_unbyte_argb.h"
 
 #include "WriterCommon.h"
 
@@ -10,35 +10,35 @@
 using namespace Ceng;
 
 //******************************************************************************
-// Writer_unorm_a8_r8_g8_b8_noblend
+// Writer_unbyte_argb_noblend
 
-Writer_unorm_a8_r8_g8_b8_noblend::~Writer_unorm_a8_r8_g8_b8_noblend()
+Writer_unbyte_argb_noblend::~Writer_unbyte_argb_noblend()
 {
 
 }
 
 
-void Writer_unorm_a8_r8_g8_b8_noblend::Release()
+void Writer_unbyte_argb_noblend::Release()
 {
 	delete this;
 }
 
-void Writer_unorm_a8_r8_g8_b8_noblend::WriteFloat(const Pshader::Float& source, void* targetAddress, Ceng::UINT32 coverageIndex)
+void Writer_unbyte_argb_noblend::WriteFloat(const Pshader::Float& source, void* targetAddress, Ceng::UINT32 coverageIndex)
 {
 
 }
 
-void Writer_unorm_a8_r8_g8_b8_noblend::WriteFloat2(const Pshader::Float2& source, void* targetAddress, Ceng::UINT32 coverageIndex)
+void Writer_unbyte_argb_noblend::WriteFloat2(const Pshader::Float2& source, void* targetAddress, Ceng::UINT32 coverageIndex)
 {
 
 }
 
-void Writer_unorm_a8_r8_g8_b8_noblend::WriteFloat3(const Pshader::Float3& source, void* targetAddress, Ceng::UINT32 coverageIndex)
+void Writer_unbyte_argb_noblend::WriteFloat3(const Pshader::Float3& source, void* targetAddress, Ceng::UINT32 coverageIndex)
 {
 
 }
 
-void Writer_unorm_a8_r8_g8_b8_noblend::WriteFloat4(const Pshader::Float4& source, void* targetAddress, Ceng::UINT32 coverageIndex)
+void Writer_unbyte_argb_noblend::WriteFloat4(const Pshader::Float4& source, void* targetAddress, Ceng::UINT32 coverageIndex)
 {
 	float* sourcePtr = (float*) & source._x;
 	float* dest = (float*)targetAddress;
@@ -92,7 +92,7 @@ void Writer_unorm_a8_r8_g8_b8_noblend::WriteFloat4(const Pshader::Float4& source
 	_mm_store_si128((__m128i*)dest, writeVec);
 }
 
-void Writer_unorm_a8_r8_g8_b8_noblend::WriteSampler2d(const Pshader::DelayedSampler2D& sampler, void* writeAddress, Ceng::INT32 coverageIndex)
+void Writer_unbyte_argb_noblend::WriteSampler2d(const Pshader::DelayedSampler2D& sampler, void* writeAddress, Ceng::INT32 coverageIndex)
 {
 	_declspec(align(16)) Ceng::FLOAT32 writeBuffer[16];
 
@@ -135,15 +135,15 @@ void Writer_unorm_a8_r8_g8_b8_noblend::WriteSampler2d(const Pshader::DelayedSamp
 }
 
 //******************************************************************************
-// Writer_unorm_a8_r8_g8_b8_noblend
+// Writer_unorm_a8_r8_g8_b8
 
-Writer_unorm_a8_r8_g8_b8::Writer_unorm_a8_r8_g8_b8(Ceng::UINT32 writeMask, std::array<Ceng::FLOAT32, 4>& blendFactors)
+Writer_unbyte_argb::Writer_unbyte_argb(Ceng::RenderTargetBlendDesc& desc, std::array<Ceng::FLOAT32, 4>& blendFactors)
 	: writeMask(writeMask)
 {
-	Ceng::UINT16 red = Ceng::UINT16(blendFactors[0] * 256.0f);
-	Ceng::UINT16 green = Ceng::UINT16(blendFactors[1] * 256.0f);
-	Ceng::UINT16 blue = Ceng::UINT16(blendFactors[2] * 256.0f);
-	Ceng::UINT16 alpha = Ceng::UINT16(blendFactors[3] * 256.0f);
+	Ceng::UINT16 red = Ceng::UINT16(blendFactors[0] * 255.0f);
+	Ceng::UINT16 green = Ceng::UINT16(blendFactors[1] * 255.0f);
+	Ceng::UINT16 blue = Ceng::UINT16(blendFactors[2] * 255.0f);
+	Ceng::UINT16 alpha = Ceng::UINT16(blendFactors[3] * 255.0f);
 
 	this->apiBlendFactors[0] = blue;
 	this->apiBlendFactors[1] = blue;
@@ -164,36 +164,41 @@ Writer_unorm_a8_r8_g8_b8::Writer_unorm_a8_r8_g8_b8(Ceng::UINT32 writeMask, std::
 	this->apiBlendFactors[13] = alpha;
 	this->apiBlendFactors[14] = alpha;
 	this->apiBlendFactors[15] = alpha;
+
+	
 }
 
-Writer_unorm_a8_r8_g8_b8::~Writer_unorm_a8_r8_g8_b8()
+Writer_unbyte_argb::~Writer_unbyte_argb()
 {
 
 }
 
 
-void Writer_unorm_a8_r8_g8_b8::Release()
+void Writer_unbyte_argb::Release()
 {
 	delete this;
 }
 
-void Writer_unorm_a8_r8_g8_b8::WriteFloat(const Pshader::Float& source, void* targetAddress, Ceng::UINT32 coverageIndex)
+void Writer_unbyte_argb::WriteFloat(const Pshader::Float& source, void* targetAddress, Ceng::UINT32 coverageIndex)
 {
 
 }
 
-void Writer_unorm_a8_r8_g8_b8::WriteFloat2(const Pshader::Float2& source, void* targetAddress, Ceng::UINT32 coverageIndex)
+void Writer_unbyte_argb::WriteFloat2(const Pshader::Float2& source, void* targetAddress, Ceng::UINT32 coverageIndex)
 {
 
 }
 
-void Writer_unorm_a8_r8_g8_b8::WriteFloat3(const Pshader::Float3& source, void* targetAddress, Ceng::UINT32 coverageIndex)
+void Writer_unbyte_argb::WriteFloat3(const Pshader::Float3& source, void* targetAddress, Ceng::UINT32 coverageIndex)
 {
 
 }
 
-void Writer_unorm_a8_r8_g8_b8::WriteFloat4(const Pshader::Float4& source, void* targetAddress, Ceng::UINT32 coverageIndex)
+void Writer_unbyte_argb::WriteFloat4(const Pshader::Float4& source, void* targetAddress, Ceng::UINT32 coverageIndex)
 {
+	// TODO
+
+	/*
 	float* sourcePtr = (float*)&source._x;
 	float* dest = (float*)targetAddress;
 
@@ -246,9 +251,10 @@ void Writer_unorm_a8_r8_g8_b8::WriteFloat4(const Pshader::Float4& source, void* 
 	writeVec = _mm_or_si128(writeVec, destVec);
 
 	_mm_store_si128((__m128i*)dest, writeVec);
+	*/
 }
 
-void Writer_unorm_a8_r8_g8_b8::WriteSampler2d(const Pshader::DelayedSampler2D& sampler, void* writeAddress, Ceng::INT32 coverageIndex)
+void Writer_unbyte_argb::WriteSampler2d(const Pshader::DelayedSampler2D& sampler, void* writeAddress, Ceng::INT32 coverageIndex)
 {
 	_declspec(align(16)) Ceng::FLOAT32 writeBuffer[16];
 
