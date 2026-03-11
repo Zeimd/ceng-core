@@ -135,6 +135,475 @@ void Writer_unbyte_argb_noblend::WriteSampler2d(const Pshader::DelayedSampler2D&
 }
 
 //******************************************************************************
+
+void unbyte_argb_ColorBlend_zero(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors)
+{
+	out[0] = _mm_setzero_si128();
+	out[1] = _mm_setzero_si128();
+}
+
+static alignas(16) Ceng::UINT8 uint8_max[4][4] =
+{
+	{255, 255, 255, 255},
+	{255, 255, 255, 255},
+	{255, 255, 255, 255},
+	{255, 255, 255, 255},
+};
+
+static alignas(16) Ceng::UINT16 fx_0_8_max[] = { 255, 255, 255, 255, 255,255,255,255 };
+
+void unbyte_argb_ColorBlend_one(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors)
+{
+	out[0] = _mm_load_si128((__m128i*)fx_0_8_max);
+	out[1] = _mm_load_si128((__m128i*)fx_0_8_max);
+}
+
+void unbyte_argb_ColorBlend_source_color(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors)
+{
+	// source = byte { {a3,a2,a1,a0} , {r3,r2,r1,r0}, {g3,g2,g1,g0} , {b3,b2,b1,b0}
+
+	// Convert to uint16 with zero extension
+
+	__m128i allZeroes = _mm_setzero_si128();
+
+	// out[0] = word { {g3, g2, g1, g0} , {b3,b2,b1,b0} }
+	out[0] = _mm_unpacklo_epi8(*source, allZeroes);
+
+	// out[1] = word { {a3, a2, a1, a0} , {r3,r2,r1,r0} }
+	out[1] = _mm_unpackhi_epi8(*source, allZeroes);
+}
+
+void unbyte_argb_ColorBlend_invert_source_color(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors)
+{
+	// source = byte { {a3,a2,a1,a0} , {r3,r2,r1,r0}, {g3,g2,g1,g0} , {b3,b2,b1,b0}
+
+	__m128i maxValues = _mm_load_si128((__m128i*)uint8_max);
+
+	// source = byte { {255-a3,255-a2,255-a1,255-a0} , ...
+
+	__m128i invertedSource = _mm_xor_si128(maxValues, *source);
+
+	// Convert to uint16 with zero extension
+
+	__m128i allZeroes = _mm_setzero_si128();
+
+	out[0] = _mm_unpacklo_epi8(invertedSource, allZeroes);
+	out[1] = _mm_unpackhi_epi8(invertedSource, allZeroes);
+}
+
+void unbyte_argb_ColorBlend_source_alpha(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors)
+{
+	// source = byte { {a3,a2,a1,a0} , {r3,r2,r1,r0}, {g3,g2,g1,g0} , {b3,b2,b1,b0}
+
+	// allAlpha = byte { {a3,a2,a1,a0} , {a3,a2,a1,a0}, {a3,a2,a1,a0} , {a3,a2,a1,a0}
+	__m128i allAlpha = _mm_shuffle_epi32(*source, 0b11111111);
+
+	// Convert to uint16 with zero extension
+
+	__m128i allZeroes = _mm_setzero_si128();
+
+	// out[0] = word { {a3, a2, a1, a0} , {a3, a2, a1, a0} }
+	out[0] = _mm_unpacklo_epi8(allAlpha, allZeroes);
+
+	// out[1] = word { {a3, a2, a1, a0} , {a3, a2, a1, a0} }
+	out[1] = _mm_unpackhi_epi8(allAlpha, allZeroes);
+}
+
+void unbyte_argb_ColorBlend_invert_source_alpha(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors)
+{
+	// source = byte { {a3,a2,a1,a0} , {r3,r2,r1,r0}, {g3,g2,g1,g0} , {b3,b2,b1,b0}
+
+	// allAlpha = byte { {a3,a2,a1,a0} , {a3,a2,a1,a0}, {a3,a2,a1,a0} , {a3,a2,a1,a0}
+	__m128i allAlpha = _mm_shuffle_epi32(*source, 0b11111111);
+
+	__m128i maxValues = _mm_load_si128((__m128i*)uint8_max);
+
+	// source = byte { {255-a3,255-a2,255-a1,255-a0} , ...
+
+	__m128i invertedAlpha = _mm_xor_si128(maxValues, allAlpha);
+
+	// Convert to uint16 with zero extension
+
+	__m128i allZeroes = _mm_setzero_si128();
+
+	out[0] = _mm_unpacklo_epi8(invertedAlpha, allZeroes);
+	out[1] = _mm_unpackhi_epi8(invertedAlpha, allZeroes);
+}
+
+void unbyte_argb_ColorBlend_dest_alpha(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors)
+{
+	// dest = byte { {a3,a2,a1,a0} , {r3,r2,r1,r0}, {g3,g2,g1,g0} , {b3,b2,b1,b0}
+
+	// allAlpha = byte { {a3,a2,a1,a0} , {a3,a2,a1,a0}, {a3,a2,a1,a0} , {a3,a2,a1,a0}
+	__m128i allAlpha = _mm_shuffle_epi32(*dest, 0b11111111);
+
+	// Convert to uint16 with zero extension
+
+	__m128i allZeroes = _mm_setzero_si128();
+
+	// out[0] = word { {a3, a2, a1, a0} , {a3, a2, a1, a0} }
+	out[0] = _mm_unpacklo_epi8(allAlpha, allZeroes);
+
+	// out[1] = word { {a3, a2, a1, a0} , {a3, a2, a1, a0} }
+	out[1] = _mm_unpackhi_epi8(allAlpha, allZeroes);
+}
+
+void unbyte_argb_ColorBlend_invert_dest_alpha(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors)
+{
+	// dest = byte { {a3,a2,a1,a0} , {r3,r2,r1,r0}, {g3,g2,g1,g0} , {b3,b2,b1,b0}
+
+	// allAlpha = byte { {a3,a2,a1,a0} , {a3,a2,a1,a0}, {a3,a2,a1,a0} , {a3,a2,a1,a0}
+	__m128i allAlpha = _mm_shuffle_epi32(*dest, 0b11111111);
+
+	__m128i maxValues = _mm_load_si128((__m128i*)uint8_max);
+
+	// source = byte { {255-a3,255-a2,255-a1,255-a0} , ...
+
+	__m128i invertedAlpha = _mm_xor_si128(maxValues, allAlpha);
+
+	// Convert to uint16 with zero extension
+
+	__m128i allZeroes = _mm_setzero_si128();
+
+	out[0] = _mm_unpacklo_epi8(invertedAlpha, allZeroes);
+	out[1] = _mm_unpackhi_epi8(invertedAlpha, allZeroes);
+}
+
+void unbyte_argb_ColorBlend_dest_color(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors)
+{
+	// dest = byte { {a3,a2,a1,a0} , {r3,r2,r1,r0}, {g3,g2,g1,g0} , {b3,b2,b1,b0}
+
+	// Convert to uint16 with zero extension
+
+	__m128i allZeroes = _mm_setzero_si128();
+
+	// out[0] = word { {g3, g2, g1, g0} , {b3,b2,b1,b0} }
+	out[0] = _mm_unpacklo_epi8(*dest, allZeroes);
+
+	// out[1] = word { {a3, a2, a1, a0} , {r3,r2,r1,r0} }
+	out[1] = _mm_unpackhi_epi8(*dest, allZeroes);
+}
+
+void unbyte_argb_ColorBlend_invert_dest_color(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors)
+{
+	// dest = byte { {a3,a2,a1,a0} , {r3,r2,r1,r0}, {g3,g2,g1,g0} , {b3,b2,b1,b0}
+
+	__m128i maxValues = _mm_load_si128((__m128i*)uint8_max);
+
+	// source = byte { {255-a3,255-a2,255-a1,255-a0} , ...
+
+	__m128i invertedSource = _mm_xor_si128(maxValues, *dest);
+
+	// Convert to uint16 with zero extension
+
+	__m128i allZeroes = _mm_setzero_si128();
+
+	out[0] = _mm_unpacklo_epi8(invertedSource, allZeroes);
+	out[1] = _mm_unpackhi_epi8(invertedSource, allZeroes);
+}
+
+void unbyte_argb_ColorBlend_source_alpha_saturate(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors)
+{
+
+}
+
+void unbyte_argb_ColorBlend_blend_factor(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors)
+{
+	out[0] = _mm_load_si128((__m128i*)&apiBlendFactors[0]);
+	out[1] = _mm_load_si128((__m128i*) & apiBlendFactors[8]);
+}
+
+void unbyte_argb_ColorBlend_invert_blend_factor(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors)
+{
+	__m128i base = _mm_load_si128((__m128i*)fx_0_8_max);
+
+	__m128i factorA = _mm_load_si128((__m128i*) & apiBlendFactors[0]);
+	__m128i factorB = _mm_load_si128((__m128i*) & apiBlendFactors[8]);
+
+	out[0] = _mm_subs_epu16(base, factorA);
+	out[1] = _mm_subs_epu16(base, factorB);
+}
+
+void unbyte_argb_ColorBlend_second_source_color(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors)
+{
+	// TODO: needs to be implemented completely differently
+}
+
+void unbyte_argb_ColorBlend_invert_second_source_color(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors)
+{
+	// TODO: needs to be implemented completely differently
+}
+
+void unbyte_argb_ColorBlend_second_source_alpha(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors)
+{
+	// TODO: needs to be implemented completely differently
+}
+
+void unbyte_argb_ColorBlend_invert_second_source_alpha(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors)
+{
+	// TODO: needs to be implemented completely differently
+}
+
+static BlendPrepareColorCallback prepareCallbacks[] =
+{
+	&unbyte_argb_ColorBlend_zero,
+	&unbyte_argb_ColorBlend_one,
+
+	&unbyte_argb_ColorBlend_source_color,
+	&unbyte_argb_ColorBlend_invert_source_color,
+
+	& unbyte_argb_ColorBlend_source_alpha,
+	& unbyte_argb_ColorBlend_invert_source_alpha,
+
+	& unbyte_argb_ColorBlend_dest_alpha,
+	& unbyte_argb_ColorBlend_invert_dest_alpha,
+
+	& unbyte_argb_ColorBlend_dest_color,
+	& unbyte_argb_ColorBlend_invert_dest_color,
+
+	& unbyte_argb_ColorBlend_source_alpha_saturate,
+
+	& unbyte_argb_ColorBlend_blend_factor,
+	& unbyte_argb_ColorBlend_invert_blend_factor,
+
+	& unbyte_argb_ColorBlend_second_source_color,
+	& unbyte_argb_ColorBlend_invert_second_source_color,
+
+	& unbyte_argb_ColorBlend_second_source_alpha,
+	& unbyte_argb_ColorBlend_invert_second_source_alpha,
+};
+
+//************************************************************************
+// Blend operation callbacks
+
+// color blend operation = add
+// alpha blend = add
+void unbyte_argb_BlendOp_add_add(__m128i* out, __m128i* source, __m128i* dest)
+{
+
+}
+
+// color blend operation = add
+// alpha blend = sub
+void unbyte_argb_BlendOp_add_sub(__m128i* out, __m128i* source, __m128i* dest)
+{
+
+}
+
+// color blend operation = add
+// alpha blend = reverse sub
+void unbyte_argb_BlendOp_add_rsub(__m128i* out, __m128i* source, __m128i* dest)
+{
+
+}
+
+// color blend operation = add
+// alpha blend = min
+void unbyte_argb_BlendOp_add_min(__m128i* out, __m128i* source, __m128i* dest)
+{
+
+}
+
+// color blend operation = add
+// alpha blend = max
+void unbyte_argb_BlendOp_add_max(__m128i* out, __m128i* source, __m128i* dest)
+{
+
+}
+
+//*****************************
+
+
+// color blend operation = sub
+// alpha blend = add
+void unbyte_argb_BlendOp_sub_add(__m128i* out, __m128i* source, __m128i* dest)
+{
+
+}
+
+// color blend operation = sub
+// alpha blend = sub
+void unbyte_argb_BlendOp_sub_sub(__m128i* out, __m128i* source, __m128i* dest)
+{
+
+}
+
+// color blend operation = sub
+// alpha blend = reverse sub
+void unbyte_argb_BlendOp_sub_rsub(__m128i* out, __m128i* source, __m128i* dest)
+{
+
+}
+
+// color blend operation = sub
+// alpha blend = min
+void unbyte_argb_BlendOp_sub_min(__m128i* out, __m128i* source, __m128i* dest)
+{
+
+}
+
+// color blend operation = sub
+// alpha blend = max
+void unbyte_argb_BlendOp_sub_max(__m128i* out, __m128i* source, __m128i* dest)
+{
+
+}
+
+//*****************************
+
+// color blend operation = reverse sub
+// alpha blend = add
+void unbyte_argb_BlendOp_rsub_add(__m128i* out, __m128i* source, __m128i* dest)
+{
+
+}
+
+// color blend operation = reverse sub
+// // alpha blend = sub
+void unbyte_argb_BlendOp_rsub_sub(__m128i* out, __m128i* source, __m128i* dest)
+{
+
+}
+
+// color blend operation = reverse sub
+// alpha blend = reverse sub
+void unbyte_argb_BlendOp_rsub_rsub(__m128i* out, __m128i* source, __m128i* dest)
+{
+
+}
+
+// color blend operation = reverse sub
+// alpha blend = min
+void unbyte_argb_BlendOp_rsub_min(__m128i* out, __m128i* source, __m128i* dest)
+{
+
+}
+
+// color blend operation = reverse sub
+// alpha blend = max
+void unbyte_argb_BlendOp_rsub_max(__m128i* out, __m128i* source, __m128i* dest)
+{
+
+}
+
+//*****************************
+
+// color blend operation = min
+// alpha blend = add
+void unbyte_argb_BlendOp_min_add(__m128i* out, __m128i* source, __m128i* dest)
+{
+
+}
+
+// color blend operation = min
+// alpha blend = sub
+void unbyte_argb_BlendOp_min_sub(__m128i* out, __m128i* source, __m128i* dest)
+{
+
+}
+
+// color blend operation = min
+// alpha blend = reverse sub
+void unbyte_argb_BlendOp_min_rsub(__m128i* out, __m128i* source, __m128i* dest)
+{
+
+}
+
+// color blend operation = min
+// alpha blend = min
+void unbyte_argb_BlendOp_min_min(__m128i* out, __m128i* source, __m128i* dest)
+{
+
+}
+
+// color blend operation = min
+// alpha blend = max
+void unbyte_argb_BlendOp_min_max(__m128i* out, __m128i* source, __m128i* dest)
+{
+
+}
+
+//*****************************
+
+// color blend operation = max
+// alpha blend = add
+void unbyte_argb_BlendOp_max_add(__m128i* out, __m128i* source, __m128i* dest)
+{
+
+}
+
+// color blend operation = max
+// alpha blend = sub
+void unbyte_argb_BlendOp_max_sub(__m128i* out, __m128i* source, __m128i* dest)
+{
+
+}
+
+// color blend operation = max
+// alpha blend = reverse sub
+void unbyte_argb_BlendOp_max_rsub(__m128i* out, __m128i* source, __m128i* dest)
+{
+
+}
+
+// color blend operation = max
+// alpha blend = min
+void unbyte_argb_BlendOp_max_min(__m128i* out, __m128i* source, __m128i* dest)
+{
+
+}
+
+// color blend operation = max
+// alpha blend = max
+void unbyte_argb_BlendOp_max_max(__m128i* out, __m128i* source, __m128i* dest)
+{
+
+}
+
+static BlendOpCallback opCallbacks[5][5] =
+{
+	{
+		&unbyte_argb_BlendOp_add_add,
+		&unbyte_argb_BlendOp_add_sub,
+		&unbyte_argb_BlendOp_add_rsub,
+		&unbyte_argb_BlendOp_add_min,
+		&unbyte_argb_BlendOp_add_max,
+	},
+
+	{
+		&unbyte_argb_BlendOp_sub_add,
+		&unbyte_argb_BlendOp_sub_sub,
+		&unbyte_argb_BlendOp_sub_rsub,
+		&unbyte_argb_BlendOp_sub_min,
+		&unbyte_argb_BlendOp_sub_max,
+	},
+
+	{
+		&unbyte_argb_BlendOp_rsub_add,
+		&unbyte_argb_BlendOp_rsub_sub,
+		&unbyte_argb_BlendOp_rsub_rsub,
+		&unbyte_argb_BlendOp_rsub_min,
+		&unbyte_argb_BlendOp_rsub_max,
+	},
+
+	{
+		&unbyte_argb_BlendOp_min_add,
+		&unbyte_argb_BlendOp_min_sub,
+		&unbyte_argb_BlendOp_min_rsub,
+		&unbyte_argb_BlendOp_min_min,
+		&unbyte_argb_BlendOp_min_max,
+	},
+
+	{
+		&unbyte_argb_BlendOp_max_add,
+		&unbyte_argb_BlendOp_max_sub,
+		&unbyte_argb_BlendOp_max_rsub,
+		&unbyte_argb_BlendOp_max_min,
+		&unbyte_argb_BlendOp_max_max,
+	}
+};
+
+//******************************************************************************
 // Writer_unorm_a8_r8_g8_b8
 
 Writer_unbyte_argb::Writer_unbyte_argb(Ceng::RenderTargetBlendDesc& desc, std::array<Ceng::FLOAT32, 4>& blendFactors)
@@ -165,6 +634,10 @@ Writer_unbyte_argb::Writer_unbyte_argb(Ceng::RenderTargetBlendDesc& desc, std::a
 	this->apiBlendFactors[14] = alpha;
 	this->apiBlendFactors[15] = alpha;
 
+	prepareSource = prepareCallbacks[desc.sourceBlend];
+	prepareDest = prepareCallbacks[desc.destBlend];
+
+	blendOperation = opCallbacks[desc.blendOp][desc.blendAlphaOp];
 	
 }
 
@@ -293,8 +766,7 @@ void Writer_unbyte_argb::WriteSampler2d(const Pshader::DelayedSampler2D& sampler
 
 	__m128i blendResult[2];
 
-	(*colorOp)(blendResult, preparedSource, preparedDest);
-	(*alphaOp)(blendResult, preparedSource, preparedDest);
+	(*blendOperation)(blendResult, preparedSource, preparedDest);
 
 	// Now
 	// blendResult[0] = word { {g3,g2,g1,g0}, {b3,b2,b1,b0} }

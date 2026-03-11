@@ -32,7 +32,9 @@ namespace Ceng
 		void WriteSampler2d(const Pshader::DelayedSampler2D& sampler, void* writeAddress, Ceng::INT32 coverageIndex) override;
 	};
 
-	typedef void (*BlendPrepareCallback)(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors);
+	typedef void (*BlendPrepareColorCallback)(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors);
+
+	typedef void (*BlendPrepareAlphaCallback)(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors);
 
 	typedef void (*BlendOpCallback)(__m128i* out, __m128i* source, __m128i* dest);
 
@@ -47,16 +49,13 @@ namespace Ceng
 
 		Ceng::UINT32 writeMask;
 
-		BlendPrepareCallback prepareSource;
+		BlendPrepareColorCallback prepareSource;
+		BlendPrepareColorCallback prepareDest;
 
-		BlendPrepareCallback prepareDest;
+		BlendPrepareAlphaCallback prepareSourceAlpha;
+		BlendPrepareAlphaCallback prepareDestAlpha;
 
-		BlendPrepareCallback prepareSourceAlpha;
-
-		BlendPrepareCallback prepareDestAlpha;
-
-		BlendOpCallback colorOp;
-		BlendOpCallback alphaOp;
+		BlendOpCallback blendOperation;
 
 	public:
 
