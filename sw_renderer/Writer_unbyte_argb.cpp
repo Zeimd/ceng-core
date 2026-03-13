@@ -325,35 +325,72 @@ static BlendPrepareColorCallback prepareCallbacks[] =
 // alpha blend = add
 void unbyte_argb_BlendOp_add_add(__m128i* out, __m128i* source, __m128i* dest)
 {
-
+	out[0] = _mm_add_epi16(source[0], dest[0]);
+	out[1] = _mm_add_epi16(source[1], dest[1]);
 }
 
 // color blend operation = add
 // alpha blend = sub
 void unbyte_argb_BlendOp_add_sub(__m128i* out, __m128i* source, __m128i* dest)
 {
+	// lower input only contains color channels
+	out[0] = _mm_add_epi16(source[0], dest[0]);
 
+	// separate operations for red and alpha
+
+	__m128i red = _mm_add_epi16(source[1], dest[1]);
+
+	__m128i alpha = _mm_sub_epi16(source[1], dest[1]);	
+
+	out[1] = _mm_blend_epi16(red, alpha, 0b11110000);
 }
 
 // color blend operation = add
 // alpha blend = reverse sub
 void unbyte_argb_BlendOp_add_rsub(__m128i* out, __m128i* source, __m128i* dest)
 {
+	// lower input only contains color channels
+	out[0] = _mm_add_epi16(source[0], dest[0]);
 
+	// separate operations for red and alpha
+
+	__m128i red = _mm_add_epi16(source[1], dest[1]);
+
+	__m128i alpha = _mm_sub_epi16(dest[1], source[1]);	
+
+	out[1] = _mm_blend_epi16(red, alpha, 0b11110000);
 }
 
 // color blend operation = add
 // alpha blend = min
 void unbyte_argb_BlendOp_add_min(__m128i* out, __m128i* source, __m128i* dest)
 {
+	// lower input only contains color channels
+	out[0] = _mm_add_epi16(source[0], dest[0]);
 
+	// separate operations for red and alpha
+
+	__m128i red = _mm_add_epi16(source[1], dest[1]);
+
+	__m128i alpha = _mm_min_epi16(source[1], dest[1]);
+
+	out[1] = _mm_blend_epi16(red, alpha, 0b11110000);
 }
 
 // color blend operation = add
 // alpha blend = max
 void unbyte_argb_BlendOp_add_max(__m128i* out, __m128i* source, __m128i* dest)
 {
+	// lower input only contains color channels
+	out[0] = _mm_add_epi16(source[0], dest[0]);
 
+	// separate operations for red and alpha
+
+	__m128i red = _mm_add_epi16(source[1], dest[1]);
+
+	__m128i alpha = _mm_max_epi16(source[1], dest[1]);
+
+	out[1] = _mm_blend_epi16(red, alpha, 0b11110000);
 }
 
 //*****************************
@@ -363,35 +400,72 @@ void unbyte_argb_BlendOp_add_max(__m128i* out, __m128i* source, __m128i* dest)
 // alpha blend = add
 void unbyte_argb_BlendOp_sub_add(__m128i* out, __m128i* source, __m128i* dest)
 {
+	// lower input only contains color channels
+	out[0] = _mm_sub_epi16(source[0], dest[0]);
 
+	// separate operations for red and alpha
+
+	__m128i red = _mm_sub_epi16(source[1], dest[1]);
+
+	__m128i alpha = _mm_add_epi16(source[1], dest[1]);
+
+	out[1] = _mm_blend_epi16(red, alpha, 0b11110000);
 }
 
 // color blend operation = sub
 // alpha blend = sub
 void unbyte_argb_BlendOp_sub_sub(__m128i* out, __m128i* source, __m128i* dest)
 {
-
+	out[0] = _mm_sub_epi16(source[0], dest[0]);
+	out[1] = _mm_sub_epi16(source[1], dest[1]);
 }
 
 // color blend operation = sub
 // alpha blend = reverse sub
 void unbyte_argb_BlendOp_sub_rsub(__m128i* out, __m128i* source, __m128i* dest)
 {
+	// lower input only contains color channels
+	out[0] = _mm_sub_epi16(source[0], dest[0]);
 
+	// separate operations for red and alpha
+
+	__m128i red = _mm_sub_epi16(source[1], dest[1]);
+
+	__m128i alpha = _mm_sub_epi16(dest[1], source[1]);
+
+	out[1] = _mm_blend_epi16(red, alpha, 0b11110000);
 }
 
 // color blend operation = sub
 // alpha blend = min
 void unbyte_argb_BlendOp_sub_min(__m128i* out, __m128i* source, __m128i* dest)
 {
+	// lower input only contains color channels
+	out[0] = _mm_sub_epi16(source[0], dest[0]);
 
+	// separate operations for red and alpha
+
+	__m128i red = _mm_sub_epi16(source[1], dest[1]);
+
+	__m128i alpha = _mm_min_epi16(source[1], dest[1]);
+
+	out[1] = _mm_blend_epi16(red, alpha, 0b11110000);
 }
 
 // color blend operation = sub
 // alpha blend = max
 void unbyte_argb_BlendOp_sub_max(__m128i* out, __m128i* source, __m128i* dest)
 {
+	// lower input only contains color channels
+	out[0] = _mm_sub_epi16(source[0], dest[0]);
 
+	// separate operations for red and alpha
+
+	__m128i red = _mm_sub_epi16(source[1], dest[1]);
+
+	__m128i alpha = _mm_max_epi16(source[1], dest[1]);
+
+	out[1] = _mm_blend_epi16(red, alpha, 0b11110000);
 }
 
 //*****************************
@@ -400,35 +474,80 @@ void unbyte_argb_BlendOp_sub_max(__m128i* out, __m128i* source, __m128i* dest)
 // alpha blend = add
 void unbyte_argb_BlendOp_rsub_add(__m128i* out, __m128i* source, __m128i* dest)
 {
+	// lower input only contains color channels
+	out[0] = _mm_sub_epi16(dest[0], source[0]);
 
+	// separate operations for red and alpha
+
+	__m128i red = _mm_sub_epi16(dest[1], source[1]);
+
+	__m128i alpha = _mm_add_epi16(source[1], dest[1]);
+
+	out[1] = _mm_blend_epi16(red, alpha, 0b11110000);
 }
 
 // color blend operation = reverse sub
 // // alpha blend = sub
 void unbyte_argb_BlendOp_rsub_sub(__m128i* out, __m128i* source, __m128i* dest)
 {
+	// lower input only contains color channels
+	out[0] = _mm_sub_epi16(dest[0], source[0]);
 
+	// separate operations for red and alpha
+
+	__m128i red = _mm_sub_epi16(dest[1], source[1]);
+
+	__m128i alpha = _mm_sub_epi16(source[1], dest[1]);
+
+	out[1] = _mm_blend_epi16(red, alpha, 0b11110000);
 }
 
 // color blend operation = reverse sub
 // alpha blend = reverse sub
 void unbyte_argb_BlendOp_rsub_rsub(__m128i* out, __m128i* source, __m128i* dest)
 {
+	// lower input only contains color channels
+	out[0] = _mm_sub_epi16(dest[0], source[0]);
 
+	// separate operations for red and alpha
+
+	__m128i red = _mm_sub_epi16(dest[1], source[1]);
+
+	__m128i alpha = _mm_sub_epi16(dest[1], source[1]);
+
+	out[1] = _mm_blend_epi16(red, alpha, 0b11110000);
 }
 
 // color blend operation = reverse sub
 // alpha blend = min
 void unbyte_argb_BlendOp_rsub_min(__m128i* out, __m128i* source, __m128i* dest)
 {
+	// lower input only contains color channels
+	out[0] = _mm_sub_epi16(dest[0], source[0]);
 
+	// separate operations for red and alpha
+
+	__m128i red = _mm_sub_epi16(dest[1], source[1]);
+
+	__m128i alpha = _mm_min_epi16(source[1], dest[1]);
+
+	out[1] = _mm_blend_epi16(red, alpha, 0b11110000);
 }
 
 // color blend operation = reverse sub
 // alpha blend = max
 void unbyte_argb_BlendOp_rsub_max(__m128i* out, __m128i* source, __m128i* dest)
 {
+	// lower input only contains color channels
+	out[0] = _mm_sub_epi16(dest[0], source[0]);
 
+	// separate operations for red and alpha
+
+	__m128i red = _mm_sub_epi16(dest[1], source[1]);
+
+	__m128i alpha = _mm_max_epi16(source[1], dest[1]);
+
+	out[1] = _mm_blend_epi16(red, alpha, 0b11110000);
 }
 
 //*****************************
@@ -437,35 +556,72 @@ void unbyte_argb_BlendOp_rsub_max(__m128i* out, __m128i* source, __m128i* dest)
 // alpha blend = add
 void unbyte_argb_BlendOp_min_add(__m128i* out, __m128i* source, __m128i* dest)
 {
+	// lower input only contains color channels
+	out[0] = _mm_min_epi16(source[0], dest[0]);
 
+	// separate operations for red and alpha
+
+	__m128i red = _mm_min_epi16(source[1], dest[1]);
+
+	__m128i alpha = _mm_add_epi16(source[1], dest[1]);
+
+	out[1] = _mm_blend_epi16(red, alpha, 0b11110000);
 }
 
 // color blend operation = min
 // alpha blend = sub
 void unbyte_argb_BlendOp_min_sub(__m128i* out, __m128i* source, __m128i* dest)
 {
+	// lower input only contains color channels
+	out[0] = _mm_min_epi16(source[0], dest[0]);
 
+	// separate operations for red and alpha
+
+	__m128i red = _mm_min_epi16(source[1], dest[1]);
+
+	__m128i alpha = _mm_sub_epi16(source[1], dest[1]);
+
+	out[1] = _mm_blend_epi16(red, alpha, 0b11110000);
 }
 
 // color blend operation = min
 // alpha blend = reverse sub
 void unbyte_argb_BlendOp_min_rsub(__m128i* out, __m128i* source, __m128i* dest)
 {
+	// lower input only contains color channels
+	out[0] = _mm_min_epi16(source[0], dest[0]);
 
+	// separate operations for red and alpha
+
+	__m128i red = _mm_min_epi16(source[1], dest[1]);
+
+	__m128i alpha = _mm_sub_epi16(dest[1], source[1]);
+
+	out[1] = _mm_blend_epi16(red, alpha, 0b11110000);
 }
 
 // color blend operation = min
 // alpha blend = min
 void unbyte_argb_BlendOp_min_min(__m128i* out, __m128i* source, __m128i* dest)
 {
-
+	out[0] = _mm_min_epi16(source[0], dest[0]);
+	out[1] = _mm_min_epi16(source[1], dest[1]);
 }
 
 // color blend operation = min
 // alpha blend = max
 void unbyte_argb_BlendOp_min_max(__m128i* out, __m128i* source, __m128i* dest)
 {
+	// lower input only contains color channels
+	out[0] = _mm_min_epi16(source[0], dest[0]);
 
+	// separate operations for red and alpha
+
+	__m128i red = _mm_min_epi16(source[1], dest[1]);
+
+	__m128i alpha = _mm_max_epi16(source[1], dest[1]);
+
+	out[1] = _mm_blend_epi16(red, alpha, 0b11110000);
 }
 
 //*****************************
@@ -474,35 +630,72 @@ void unbyte_argb_BlendOp_min_max(__m128i* out, __m128i* source, __m128i* dest)
 // alpha blend = add
 void unbyte_argb_BlendOp_max_add(__m128i* out, __m128i* source, __m128i* dest)
 {
+	// lower input only contains color channels
+	out[0] = _mm_max_epi16(source[0], dest[0]);
 
+	// separate operations for red and alpha
+
+	__m128i red = _mm_max_epi16(source[1], dest[1]);
+
+	__m128i alpha = _mm_add_epi16(source[1], dest[1]);
+
+	out[1] = _mm_blend_epi16(red, alpha, 0b11110000);
 }
 
 // color blend operation = max
 // alpha blend = sub
 void unbyte_argb_BlendOp_max_sub(__m128i* out, __m128i* source, __m128i* dest)
 {
+	// lower input only contains color channels
+	out[0] = _mm_max_epi16(source[0], dest[0]);
 
+	// separate operations for red and alpha
+
+	__m128i red = _mm_max_epi16(source[1], dest[1]);
+
+	__m128i alpha = _mm_sub_epi16(source[1], dest[1]);
+
+	out[1] = _mm_blend_epi16(red, alpha, 0b11110000);
 }
 
 // color blend operation = max
 // alpha blend = reverse sub
 void unbyte_argb_BlendOp_max_rsub(__m128i* out, __m128i* source, __m128i* dest)
 {
+	// lower input only contains color channels
+	out[0] = _mm_max_epi16(source[0], dest[0]);
 
+	// separate operations for red and alpha
+
+	__m128i red = _mm_max_epi16(source[1], dest[1]);
+
+	__m128i alpha = _mm_sub_epi16(dest[1], source[1]);
+
+	out[1] = _mm_blend_epi16(red, alpha, 0b11110000);
 }
 
 // color blend operation = max
 // alpha blend = min
 void unbyte_argb_BlendOp_max_min(__m128i* out, __m128i* source, __m128i* dest)
 {
+	// lower input only contains color channels
+	out[0] = _mm_max_epi16(source[0], dest[0]);
 
+	// separate operations for red and alpha
+
+	__m128i red = _mm_max_epi16(source[1], dest[1]);
+
+	__m128i alpha = _mm_min_epi16(source[1], dest[1]);
+
+	out[1] = _mm_blend_epi16(red, alpha, 0b11110000);
 }
 
 // color blend operation = max
 // alpha blend = max
 void unbyte_argb_BlendOp_max_max(__m128i* out, __m128i* source, __m128i* dest)
 {
-
+	out[0] = _mm_max_epi16(source[0], dest[0]);
+	out[1] = _mm_max_epi16(source[1], dest[1]);
 }
 
 static BlendOpCallback opCallbacks[5][5] =
