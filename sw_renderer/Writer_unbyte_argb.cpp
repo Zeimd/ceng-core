@@ -136,12 +136,6 @@ void Writer_unbyte_argb_noblend::WriteSampler2d(const Pshader::DelayedSampler2D&
 
 //******************************************************************************
 
-void unbyte_argb_ColorBlend_zero(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors)
-{
-	out[0] = _mm_setzero_si128();
-	out[1] = _mm_setzero_si128();
-}
-
 static alignas(16) Ceng::UINT8 uint8_max[4][4] =
 {
 	{255, 255, 255, 255},
@@ -152,64 +146,45 @@ static alignas(16) Ceng::UINT8 uint8_max[4][4] =
 
 static alignas(16) Ceng::UINT16 fx_0_8_max[] = { 255, 255, 255, 255, 255,255,255,255 };
 
-void unbyte_argb_ColorBlend_one(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors)
+void unbyte_argb_ColorBlend_zero(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT8* apiBlendFactors)
 {
-	out[0] = _mm_load_si128((__m128i*)fx_0_8_max);
-	out[1] = _mm_load_si128((__m128i*)fx_0_8_max);
+	*out = _mm_setzero_si128();
 }
 
-void unbyte_argb_ColorBlend_source_color(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors)
+void unbyte_argb_ColorBlend_one(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT8* apiBlendFactors)
 {
-	// source = byte { {a3,a2,a1,a0} , {r3,r2,r1,r0}, {g3,g2,g1,g0} , {b3,b2,b1,b0}
-
-	// Convert to uint16 with zero extension
-
-	__m128i allZeroes = _mm_setzero_si128();
-
-	// out[0] = word { {g3, g2, g1, g0} , {b3,b2,b1,b0} }
-	out[0] = _mm_unpacklo_epi8(*source, allZeroes);
-
-	// out[1] = word { {a3, a2, a1, a0} , {r3,r2,r1,r0} }
-	out[1] = _mm_unpackhi_epi8(*source, allZeroes);
+	*out = _mm_load_si128((__m128i*)uint8_max);
 }
 
-void unbyte_argb_ColorBlend_invert_source_color(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors)
+void unbyte_argb_ColorBlend_source_color(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT8* apiBlendFactors)
+{
+	*out = *source;
+}
+
+void unbyte_argb_ColorBlend_invert_source_color(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT8* apiBlendFactors)
 {
 	// source = byte { {a3,a2,a1,a0} , {r3,r2,r1,r0}, {g3,g2,g1,g0} , {b3,b2,b1,b0}
 
 	__m128i maxValues = _mm_load_si128((__m128i*)uint8_max);
 
-	// source = byte { {255-a3,255-a2,255-a1,255-a0} , ...
+	// invertedSource = byte { {255-a3,255-a2,255-a1,255-a0} , ...
 
 	__m128i invertedSource = _mm_xor_si128(maxValues, *source);
 
-	// Convert to uint16 with zero extension
-
-	__m128i allZeroes = _mm_setzero_si128();
-
-	out[0] = _mm_unpacklo_epi8(invertedSource, allZeroes);
-	out[1] = _mm_unpackhi_epi8(invertedSource, allZeroes);
+	*out = invertedSource;
 }
 
-void unbyte_argb_ColorBlend_source_alpha(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors)
+void unbyte_argb_ColorBlend_source_alpha(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT8* apiBlendFactors)
 {
 	// source = byte { {a3,a2,a1,a0} , {r3,r2,r1,r0}, {g3,g2,g1,g0} , {b3,b2,b1,b0}
 
 	// allAlpha = byte { {a3,a2,a1,a0} , {a3,a2,a1,a0}, {a3,a2,a1,a0} , {a3,a2,a1,a0}
 	__m128i allAlpha = _mm_shuffle_epi32(*source, 0b11111111);
 
-	// Convert to uint16 with zero extension
-
-	__m128i allZeroes = _mm_setzero_si128();
-
-	// out[0] = word { {a3, a2, a1, a0} , {a3, a2, a1, a0} }
-	out[0] = _mm_unpacklo_epi8(allAlpha, allZeroes);
-
-	// out[1] = word { {a3, a2, a1, a0} , {a3, a2, a1, a0} }
-	out[1] = _mm_unpackhi_epi8(allAlpha, allZeroes);
+	*out = allAlpha;
 }
 
-void unbyte_argb_ColorBlend_invert_source_alpha(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors)
+void unbyte_argb_ColorBlend_invert_source_alpha(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT8* apiBlendFactors)
 {
 	// source = byte { {a3,a2,a1,a0} , {r3,r2,r1,r0}, {g3,g2,g1,g0} , {b3,b2,b1,b0}
 
@@ -218,37 +193,24 @@ void unbyte_argb_ColorBlend_invert_source_alpha(__m128i* out, __m128i* source, _
 
 	__m128i maxValues = _mm_load_si128((__m128i*)uint8_max);
 
-	// source = byte { {255-a3,255-a2,255-a1,255-a0} , ...
+	// invertedAlpha = byte { {255-a3,255-a2,255-a1,255-a0} , ...
 
 	__m128i invertedAlpha = _mm_xor_si128(maxValues, allAlpha);
 
-	// Convert to uint16 with zero extension
-
-	__m128i allZeroes = _mm_setzero_si128();
-
-	out[0] = _mm_unpacklo_epi8(invertedAlpha, allZeroes);
-	out[1] = _mm_unpackhi_epi8(invertedAlpha, allZeroes);
+	*out = invertedAlpha;
 }
 
-void unbyte_argb_ColorBlend_dest_alpha(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors)
+void unbyte_argb_ColorBlend_dest_alpha(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT8* apiBlendFactors)
 {
 	// dest = byte { {a3,a2,a1,a0} , {r3,r2,r1,r0}, {g3,g2,g1,g0} , {b3,b2,b1,b0}
 
 	// allAlpha = byte { {a3,a2,a1,a0} , {a3,a2,a1,a0}, {a3,a2,a1,a0} , {a3,a2,a1,a0}
 	__m128i allAlpha = _mm_shuffle_epi32(*dest, 0b11111111);
 
-	// Convert to uint16 with zero extension
-
-	__m128i allZeroes = _mm_setzero_si128();
-
-	// out[0] = word { {a3, a2, a1, a0} , {a3, a2, a1, a0} }
-	out[0] = _mm_unpacklo_epi8(allAlpha, allZeroes);
-
-	// out[1] = word { {a3, a2, a1, a0} , {a3, a2, a1, a0} }
-	out[1] = _mm_unpackhi_epi8(allAlpha, allZeroes);
+	*out = allAlpha;
 }
 
-void unbyte_argb_ColorBlend_invert_dest_alpha(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors)
+void unbyte_argb_ColorBlend_invert_dest_alpha(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT8* apiBlendFactors)
 {
 	// dest = byte { {a3,a2,a1,a0} , {r3,r2,r1,r0}, {g3,g2,g1,g0} , {b3,b2,b1,b0}
 
@@ -257,89 +219,72 @@ void unbyte_argb_ColorBlend_invert_dest_alpha(__m128i* out, __m128i* source, __m
 
 	__m128i maxValues = _mm_load_si128((__m128i*)uint8_max);
 
-	// source = byte { {255-a3,255-a2,255-a1,255-a0} , ...
+	// invertedAlpha = byte { {255-a3,255-a2,255-a1,255-a0} , ...
 
 	__m128i invertedAlpha = _mm_xor_si128(maxValues, allAlpha);
 
-	// Convert to uint16 with zero extension
-
-	__m128i allZeroes = _mm_setzero_si128();
-
-	out[0] = _mm_unpacklo_epi8(invertedAlpha, allZeroes);
-	out[1] = _mm_unpackhi_epi8(invertedAlpha, allZeroes);
+	*out = invertedAlpha;
 }
 
-void unbyte_argb_ColorBlend_dest_color(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors)
+void unbyte_argb_ColorBlend_dest_color(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT8* apiBlendFactors)
 {
 	// dest = byte { {a3,a2,a1,a0} , {r3,r2,r1,r0}, {g3,g2,g1,g0} , {b3,b2,b1,b0}
 
-	// Convert to uint16 with zero extension
-
-	__m128i allZeroes = _mm_setzero_si128();
-
-	// out[0] = word { {g3, g2, g1, g0} , {b3,b2,b1,b0} }
-	out[0] = _mm_unpacklo_epi8(*dest, allZeroes);
-
-	// out[1] = word { {a3, a2, a1, a0} , {r3,r2,r1,r0} }
-	out[1] = _mm_unpackhi_epi8(*dest, allZeroes);
+	*out = *dest;	
 }
 
-void unbyte_argb_ColorBlend_invert_dest_color(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors)
+void unbyte_argb_ColorBlend_invert_dest_color(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT8* apiBlendFactors)
 {
 	// dest = byte { {a3,a2,a1,a0} , {r3,r2,r1,r0}, {g3,g2,g1,g0} , {b3,b2,b1,b0}
 
 	__m128i maxValues = _mm_load_si128((__m128i*)uint8_max);
 
-	// source = byte { {255-a3,255-a2,255-a1,255-a0} , ...
+	// invertedSource = byte { {255-a3,255-a2,255-a1,255-a0} , ...
 
 	__m128i invertedSource = _mm_xor_si128(maxValues, *dest);
 
-	// Convert to uint16 with zero extension
-
-	__m128i allZeroes = _mm_setzero_si128();
-
-	out[0] = _mm_unpacklo_epi8(invertedSource, allZeroes);
-	out[1] = _mm_unpackhi_epi8(invertedSource, allZeroes);
+	*out = invertedSource;
 }
 
-void unbyte_argb_ColorBlend_source_alpha_saturate(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors)
+void unbyte_argb_ColorBlend_source_alpha_saturate(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT8* apiBlendFactors)
 {
 
 }
 
-void unbyte_argb_ColorBlend_blend_factor(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors)
+void unbyte_argb_ColorBlend_blend_factor(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT8* apiBlendFactors)
 {
-	out[0] = _mm_load_si128((__m128i*)&apiBlendFactors[0]);
-	out[1] = _mm_load_si128((__m128i*) & apiBlendFactors[8]);
+	*out = _mm_load_si128((__m128i*)&apiBlendFactors[0]);
 }
 
-void unbyte_argb_ColorBlend_invert_blend_factor(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors)
+void unbyte_argb_ColorBlend_invert_blend_factor(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT8* apiBlendFactors)
 {
-	__m128i base = _mm_load_si128((__m128i*)fx_0_8_max);
+	__m128i factors = _mm_load_si128((__m128i*) & apiBlendFactors[0]);
 
-	__m128i factorA = _mm_load_si128((__m128i*) & apiBlendFactors[0]);
-	__m128i factorB = _mm_load_si128((__m128i*) & apiBlendFactors[8]);
+	__m128i maxValues = _mm_load_si128((__m128i*)uint8_max);
 
-	out[0] = _mm_subs_epu16(base, factorA);
-	out[1] = _mm_subs_epu16(base, factorB);
+	// invertedSource = byte { {255-a3,255-a2,255-a1,255-a0} , ...
+
+	__m128i invertedSource = _mm_xor_si128(maxValues, factors);
+
+	*out = invertedSource;
 }
 
-void unbyte_argb_ColorBlend_second_source_color(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors)
+void unbyte_argb_ColorBlend_second_source_color(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT8* apiBlendFactors)
 {
 	// TODO: needs to be implemented completely differently
 }
 
-void unbyte_argb_ColorBlend_invert_second_source_color(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors)
+void unbyte_argb_ColorBlend_invert_second_source_color(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT8* apiBlendFactors)
 {
 	// TODO: needs to be implemented completely differently
 }
 
-void unbyte_argb_ColorBlend_second_source_alpha(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors)
+void unbyte_argb_ColorBlend_second_source_alpha(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT8* apiBlendFactors)
 {
 	// TODO: needs to be implemented completely differently
 }
 
-void unbyte_argb_ColorBlend_invert_second_source_alpha(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors)
+void unbyte_argb_ColorBlend_invert_second_source_alpha(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT8* apiBlendFactors)
 {
 	// TODO: needs to be implemented completely differently
 }
@@ -609,10 +554,10 @@ static BlendOpCallback opCallbacks[5][5] =
 Writer_unbyte_argb::Writer_unbyte_argb(Ceng::RenderTargetBlendDesc& desc, std::array<Ceng::FLOAT32, 4>& blendFactors)
 	: writeMask(writeMask)
 {
-	Ceng::UINT16 red = Ceng::UINT16(blendFactors[0] * 255.0f);
-	Ceng::UINT16 green = Ceng::UINT16(blendFactors[1] * 255.0f);
-	Ceng::UINT16 blue = Ceng::UINT16(blendFactors[2] * 255.0f);
-	Ceng::UINT16 alpha = Ceng::UINT16(blendFactors[3] * 255.0f);
+	Ceng::UINT8 red = Ceng::UINT8(blendFactors[0] * 255.0f);
+	Ceng::UINT8 green = Ceng::UINT8(blendFactors[1] * 255.0f);
+	Ceng::UINT8 blue = Ceng::UINT8(blendFactors[2] * 255.0f);
+	Ceng::UINT8 alpha = Ceng::UINT8(blendFactors[3] * 255.0f);
 
 	this->apiBlendFactors[0] = blue;
 	this->apiBlendFactors[1] = blue;
@@ -755,18 +700,81 @@ void Writer_unbyte_argb::WriteSampler2d(const Pshader::DelayedSampler2D& sampler
 
 	__m128i destVec = _mm_load_si128((__m128i*)dest);
 
-	__m128i preparedSource[2];
-	__m128i preparedDest[2];
+	// We are operating in SOA, so both source and dest are in the following format:
+	// byte{ {a3,a2,a1,a0} , {r3,r2,r1,r0}, {g3,g2,g1,g0} , {b3,b2,b1,b0}
 
-	(*prepareSource)(preparedSource, &writeVec, &destVec, apiBlendFactors);
-	(*prepareDest)(preparedDest, &writeVec, &destVec, apiBlendFactors);
+	__m128i sourceFactors;
+	__m128i destFactors;
 
-	(*prepareSourceAlpha)(preparedSource, &writeVec, &destVec, apiBlendFactors);
-	(*prepareDestAlpha)(preparedDest, &writeVec, &destVec, apiBlendFactors);
+	(*prepareSource)(&sourceFactors, &writeVec, &destVec, apiBlendFactors);
+	(*prepareSourceAlpha)(&sourceFactors, &writeVec, &destVec, apiBlendFactors);
+
+	(*prepareDest)(&destFactors, &writeVec, &destVec, apiBlendFactors);
+	(*prepareDestAlpha)(&destFactors, &writeVec, &destVec, apiBlendFactors);
+
+	// Convert source to 8.8 fixed point (using 255 ~ 1.0f)
+
+	__m128i allZeroes = _mm_setzero_si128();
+
+	// sourceLow = word { {g3, g2, g1, g0} , {b3, b2, b1, b0} }
+	__m128i sourceLow = _mm_unpacklo_epi8(writeVec, allZeroes);
+
+	// sourceLow = word { {a3, a2, a1, a0} , {r3, r2, r1, r0} }
+	__m128i sourceHigh = _mm_unpackhi_epi8(writeVec, allZeroes);
+
+	// Convert source factors to 8.8 fixed point (using 255 ~ 1.0f)
+
+	// sourceLow = word { {g3, g2, g1, g0} , {b3, b2, b1, b0} }
+	__m128i sourceFactorLow = _mm_unpacklo_epi8(sourceFactors, allZeroes);
+
+	// sourceLow = word { {a3, a2, a1, a0} , {r3, r2, r1, r0} }
+	__m128i sourceFactorHigh = _mm_unpackhi_epi8(sourceFactors, allZeroes);
+
+	// Multiply source values with source factors
+
+	__m128i sourceMul[2];
+
+	sourceMul[0] = _mm_mullo_epi16(sourceFactorLow, sourceLow);
+
+	sourceMul[0] = _mm_srli_epi16(sourceMul[0], 8);
+
+	sourceMul[1] = _mm_mullo_epi16(sourceFactorHigh, sourceHigh);
+
+	sourceMul[1] = _mm_srli_epi16(sourceMul[1], 8);
+
+	//***************************************************************
+
+	// Convert destination values to 8.8 fixed point (using 255 ~ 1.0f)
+
+	// destLow = word { {g3, g2, g1, g0} , {b3, b2, b1, b0} }
+	__m128i destLow = _mm_unpacklo_epi8(destVec, allZeroes);
+
+	// destHigh = word { {a3, a2, a1, a0} , {r3, r2, r1, r0} }
+	__m128i destHigh = _mm_unpackhi_epi8(destVec, allZeroes);
+
+	// Convert destination factors to 8.8 fixed point (using 255 ~ 1.0f)
+
+	// sourceLow = word { {g3, g2, g1, g0} , {b3, b2, b1, b0} }
+	__m128i destFactorLow = _mm_unpacklo_epi8(destFactors, allZeroes);
+
+	// sourceLow = word { {a3, a2, a1, a0} , {r3, r2, r1, r0} }
+	__m128i destFactorHigh = _mm_unpackhi_epi8(destFactors, allZeroes);
+
+	// Multiply source values with source factors
+
+	__m128i destMul[2];
+
+	destMul[0] = _mm_mullo_epi16(destFactorLow, destLow);
+
+	destMul[0] = _mm_srli_epi16(destMul[0], 8);
+
+	destMul[1] = _mm_mullo_epi16(destFactorHigh, destHigh);
+
+	destMul[1] = _mm_srli_epi16(destMul[1], 8);
 
 	__m128i blendResult[2];
 
-	(*blendOperation)(blendResult, preparedSource, preparedDest);
+	(*blendOperation)(blendResult, sourceMul, destMul);
 
 	// Now
 	// blendResult[0] = word { {g3,g2,g1,g0}, {b3,b2,b1,b0} }

@@ -32,9 +32,9 @@ namespace Ceng
 		void WriteSampler2d(const Pshader::DelayedSampler2D& sampler, void* writeAddress, Ceng::INT32 coverageIndex) override;
 	};
 
-	typedef void (*BlendPrepareColorCallback)(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors);
+	typedef void (*BlendPrepareColorCallback)(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT8* apiBlendFactors);
 
-	typedef void (*BlendPrepareAlphaCallback)(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT16* apiBlendFactors);
+	typedef void (*BlendPrepareAlphaCallback)(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT8* apiBlendFactors);
 
 	typedef void (*BlendOpCallback)(__m128i* out, __m128i* source, __m128i* dest);
 
@@ -44,8 +44,8 @@ namespace Ceng
 
 		~Writer_unbyte_argb() override;
 
-		// Blend factors provided by SetBlendState() API function. Stored in 16 bit integers as 0.8 fixed point.
-		Ceng::UINT16 apiBlendFactors[16];
+		// Blend factors provided by SetBlendState() API function. Stored in 0.8 fixed point.
+		alignas(16) Ceng::UINT8 apiBlendFactors[16];
 
 		Ceng::UINT32 writeMask;
 
