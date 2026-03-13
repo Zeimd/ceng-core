@@ -289,7 +289,7 @@ void unbyte_argb_ColorBlend_invert_second_source_alpha(__m128i* out, __m128i* so
 	// TODO: needs to be implemented completely differently
 }
 
-static BlendPrepareColorCallback prepareCallbacks[] =
+static BlendPrepareColorCallback colorFactorCallbacks[] =
 {
 	&unbyte_argb_ColorBlend_zero,
 	&unbyte_argb_ColorBlend_one,
@@ -316,6 +316,126 @@ static BlendPrepareColorCallback prepareCallbacks[] =
 
 	& unbyte_argb_ColorBlend_second_source_alpha,
 	& unbyte_argb_ColorBlend_invert_second_source_alpha,
+};
+
+//************************************************************************
+// Alpha prepare callbacks
+
+void unbyte_argb_AlphaBlend_zero(__m128i* inout_factors, __m128i* source, __m128i* dest, Ceng::UINT8* apiBlendFactors)
+{
+	__m128i color = *inout_factors;
+
+	__m128i alpha = _mm_setzero_si128();
+
+	*inout_factors = _mm_blend_epi16(color, alpha, 0b11000000);
+}
+
+void unbyte_argb_AlphaBlend_one(__m128i* inout_factors, __m128i* source, __m128i* dest, Ceng::UINT8* apiBlendFactors)
+{
+	__m128i color = *inout_factors;
+
+	__m128i alpha = _mm_load_si128((__m128i*)uint8_max);
+
+	*inout_factors = _mm_blend_epi16(color, alpha, 0b11000000);
+}
+
+void unbyte_argb_AlphaBlend_source_alpha(__m128i* inout_factors, __m128i* source, __m128i* dest, Ceng::UINT8* apiBlendFactors)
+{
+	__m128i color = *inout_factors;
+
+	*inout_factors = _mm_blend_epi16(color, *source, 0b11000000);
+}
+
+void unbyte_argb_AlphaBlend_invert_source_alpha(__m128i* inout_factors, __m128i* source, __m128i* dest, Ceng::UINT8* apiBlendFactors)
+{
+	__m128i color = *inout_factors;
+
+	__m128i maxValues = _mm_load_si128((__m128i*)uint8_max);
+
+	// invertedSource = byte { {255-a3,255-a2,255-a1,255-a0} , ...
+
+	__m128i invertedSource = _mm_xor_si128(maxValues, *source);
+
+	*inout_factors = _mm_blend_epi16(color, invertedSource, 0b11000000);
+}
+
+void unbyte_argb_AlphaBlend_dest_alpha(__m128i* inout_factors, __m128i* source, __m128i* dest, Ceng::UINT8* apiBlendFactors)
+{
+	__m128i color = *inout_factors;
+
+	*inout_factors = _mm_blend_epi16(color, *dest, 0b11000000);
+}
+
+void unbyte_argb_AlphaBlend_invert_dest_alpha(__m128i* inout_factors, __m128i* source, __m128i* dest, Ceng::UINT8* apiBlendFactors)
+{
+	__m128i color = *inout_factors;
+
+	__m128i maxValues = _mm_load_si128((__m128i*)uint8_max);
+
+	// invertedDest = byte { {255-a3,255-a2,255-a1,255-a0} , ...
+
+	__m128i invertedDest = _mm_xor_si128(maxValues, *dest);
+
+	*inout_factors = _mm_blend_epi16(color, invertedDest, 0b11000000);
+}
+
+void unbyte_argb_AlphaBlend_source_alpha_saturate(__m128i* inout_factors, __m128i* source, __m128i* dest, Ceng::UINT8* apiBlendFactors)
+{
+	
+}
+
+void unbyte_argb_AlphaBlend_blend_factor(__m128i* inout_factors, __m128i* source, __m128i* dest, Ceng::UINT8* apiBlendFactors)
+{
+	__m128i color = *inout_factors;
+
+	__m128i factors = _mm_load_si128((__m128i*) & apiBlendFactors[0]);
+
+	*inout_factors = _mm_blend_epi16(color, factors, 0b11000000);
+}
+
+void unbyte_argb_AlphaBlend_invert_blend_factor(__m128i* inout_factors, __m128i* source, __m128i* dest, Ceng::UINT8* apiBlendFactors)
+{
+	__m128i color = *inout_factors;
+
+	__m128i factors = _mm_load_si128((__m128i*) & apiBlendFactors[0]);
+
+	__m128i maxValues = _mm_load_si128((__m128i*)uint8_max);
+
+	// invertedFactors = byte { {255-a3,255-a2,255-a1,255-a0} , ...
+
+	__m128i invertedFactors = _mm_xor_si128(maxValues, factors);
+
+	*inout_factors = _mm_blend_epi16(color, invertedFactors, 0b11000000);
+}
+
+void unbyte_argb_AlphaBlend_second_source_alpha(__m128i* inout_factors, __m128i* source, __m128i* dest, Ceng::UINT8* apiBlendFactors)
+{
+	// TODO: needs to be implemented completely differently
+}
+
+void unbyte_argb_AlphaBlend_invert_second_source_alpha(__m128i* inout_factors, __m128i* source, __m128i* dest, Ceng::UINT8* apiBlendFactors)
+{
+	// TODO: needs to be implemented completely differently
+}
+
+static BlendPrepareAlphaCallback alphaFactorCallbacks[] =
+{
+	&unbyte_argb_AlphaBlend_zero,
+	&unbyte_argb_AlphaBlend_one,
+
+	&unbyte_argb_AlphaBlend_source_alpha,
+	&unbyte_argb_AlphaBlend_invert_source_alpha,
+
+	&unbyte_argb_AlphaBlend_dest_alpha,
+	&unbyte_argb_AlphaBlend_invert_dest_alpha,
+
+	&unbyte_argb_AlphaBlend_source_alpha_saturate,
+
+	&unbyte_argb_AlphaBlend_blend_factor,
+	&unbyte_argb_AlphaBlend_invert_blend_factor,
+
+	&unbyte_argb_AlphaBlend_second_source_alpha,
+	&unbyte_argb_AlphaBlend_invert_second_source_alpha,
 };
 
 //************************************************************************
@@ -745,7 +865,7 @@ static BlendOpCallback opCallbacks[5][5] =
 // Writer_unorm_a8_r8_g8_b8
 
 Writer_unbyte_argb::Writer_unbyte_argb(Ceng::RenderTargetBlendDesc& desc, std::array<Ceng::FLOAT32, 4>& blendFactors)
-	: writeMask(writeMask)
+	: writeMask(desc.writeMask)
 {
 	Ceng::UINT8 red = Ceng::UINT8(blendFactors[0] * 255.0f);
 	Ceng::UINT8 green = Ceng::UINT8(blendFactors[1] * 255.0f);
@@ -772,8 +892,11 @@ Writer_unbyte_argb::Writer_unbyte_argb(Ceng::RenderTargetBlendDesc& desc, std::a
 	this->apiBlendFactors[14] = alpha;
 	this->apiBlendFactors[15] = alpha;
 
-	prepareSource = prepareCallbacks[desc.sourceBlend];
-	prepareDest = prepareCallbacks[desc.destBlend];
+	prepareSource = colorFactorCallbacks[desc.sourceBlend];
+	prepareDest = colorFactorCallbacks[desc.destBlend];
+
+	prepareSourceAlpha = alphaFactorCallbacks[desc.sourceBlendAlpha];
+	prepareDestAlpha = alphaFactorCallbacks[desc.destBlendAlpha];
 
 	blendOperation = opCallbacks[desc.blendOp][desc.blendAlphaOp];
 	

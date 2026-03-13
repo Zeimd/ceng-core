@@ -34,7 +34,7 @@ namespace Ceng
 
 	typedef void (*BlendPrepareColorCallback)(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT8* apiBlendFactors);
 
-	typedef void (*BlendPrepareAlphaCallback)(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT8* apiBlendFactors);
+	typedef void (*BlendPrepareAlphaCallback)(__m128i* inout_factors, __m128i* source, __m128i* dest, Ceng::UINT8* apiBlendFactors);
 
 	typedef void (*BlendOpCallback)(__m128i* out, __m128i* source, __m128i* dest);
 
