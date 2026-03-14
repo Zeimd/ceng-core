@@ -1,6 +1,20 @@
 sw_renderer
 
 TODO
+----------------
+API
+
+- [ ] Ensure that it's not possible to assign a render target view to multiple slots at the same time
+
+------------------------------------------------------------------
+Pipeline
+
+- [X] BUG: crashes if issuing more than 25 rectangle draw calls per frame
+
+            REASON: Render state instantiation of fragment format wasn't thread safe
+
+- [ ] Use render target specific bucket amounts to prevent scanning unused buckets if maximum allocation is higher
+
 -------------------------------------------------------------------
 Rasterizer
 
@@ -29,24 +43,74 @@ Rasterizer
 
             Found hard-coded assumption that number of output buckets is 3 instead of the 4 possible for rasterizer tile size of 8.
 
+- [ ] Add a variant of rasterizer that skips depth-stencil test entirely instead of spamming an empty callback
+
+- [ ] TBC: Move early depth test to a separate phase after rasterizer to minimize amount of tested pixels outside the triangle
+
+            NOTE: In current design depth-stencil test is done at 8x8 pixel granularity
+
+            NOTE: Depth-stencil buffer layout would change to lquads
+
+------------------------------------------------------------------
+Render targets
+
+- [ ] unbyte abgr writer
+
+        NOTE: lquads layout
+
+        NOTE: for gbuffer
+
+        NOTE: for d3d10 compatibility
+
+- [ ] fp32 abgr writer 
+
+        NOTE: lquads layout
+
+        NOTE: needed for gbuffer position
+
+        NOTE: needed for deferred rendering light accumulator for those CPU that don't have F16C
+
+- [ ] fp16 abgr writer 
+
+        NOTE: lquads layout
+
+        NOTE: needed for deferred rendering light accumulator
+
+- [ ] Writer variants for scanlined targets
+
+        NOTE: This is suboptimal performance, but needed for targets that are directly read or written by user
+
+------------------------------------------------------------------
+Textures
+
+- [ ] Reader variants for lquads layout
+
+- [ ] Reader variants for scanlined layout
+
+------------------------------------------------------------------
+Blend operations
+
+- [X] Integrated to render target writer
+
+- [X] A sequence of callbacks is used to allow configuration of blend functionality
+
+- [X] A version of the writer without callbacks provided to get performance boost when blending is disabled
+
+- [X] Simple blend for unbyte_argb target
+
+- [ ] Dual source blend for unbyte_argb target
+
 ------------------------------------------------------------------
 Depth-stencil test
 
 - [ ] BUG: depth test is not skipped in code if disabled in state vector
 
-------------------------------------------------------------------
-Pipeline
-
-- [X] BUG: crashes if issuing more than 25 rectangle draw calls per frame
-
-            REASON: Render state instantiation of fragment format wasn't thread safe
-
-- [ ] Use render target specific bucket amounts to prevent scanning unused buckets if maximum allocation is higher
+- [ ] To handle the vast amount of possible variants, introduce callback sequence similar to how blending is implemented
 
 -------------------------------------------------------------------
 Vertex shader
 
-- [ ] remove channel sharing dual pixel color formats from vertex variable types
+- [X] remove channel sharing dual pixel color formats from vertex variable types
 
 - [ ] validate vertex format when it is created by comparing against shader program / vertex shader
 
@@ -146,9 +210,12 @@ what is enough, they are available for optimization.
 
 - [ ] Multiplication of fixed point types
 
-- [ ] For complicated math functions, such as trig, exp, sqrt, convert integer types to floating point
+- [ ] TBC: For complicated math functions, such as trig, exp, sqrt, convert integer types to floating point
 
             TBC: convert back or promote type?
+
+            TBC: for fixed point, polynomial approximations that don't require division might be possible to do directly
+                 instead of converting to float first
 
 - [ ] Implement division of 8 and 16 bit integer types (incl. fixed point) by converting to float, 
       which can represent entire 16 bit integer exactly in the mantissa. This allows division to be vectorized.
@@ -164,10 +231,13 @@ what is enough, they are available for optimization.
 ------------------------------------------------------------------
 External shaders
 
-Many issues caused by fact that shader instance is now created on client side but needs to communicate with pipeline on the DLL side.
+- [X] Vertex shader and pixel shader can be provided via externally defined C++ code
 
-- [ ] How to handle common data when instancing? 
+- [X] Overhauled the way inputs and outputs are defined in shader classes to minimize pointer chasing in shader function
 
-- [ ] How to handle texture unit access?
+- [X] Vertex shader: input reader callbacks
 
-- [ ] How to provide batch data for processing quads?
+- [X] Texture sampler interface
+
+- [X] Pixel shader: render target writer interface
+
