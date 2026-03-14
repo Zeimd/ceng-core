@@ -248,7 +248,17 @@ void unbyte_argb_ColorBlend_invert_dest_color(__m128i* out, __m128i* source, __m
 
 void unbyte_argb_ColorBlend_source_alpha_saturate(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT8* apiBlendFactors)
 {
+	__m128i maxValues = _mm_load_si128((__m128i*)uint8_max);
 
+	// 255 - dest
+	__m128i invertedDest = _mm_xor_si128(maxValues, *dest);
+
+	__m128i minimum = _mm_min_epu8(*source, invertedDest);
+
+	// allAlpha = byte { {a3,a2,a1,a0} , {a3,a2,a1,a0}, {a3,a2,a1,a0} , {a3,a2,a1,a0}
+	__m128i allAlpha = _mm_shuffle_epi32(minimum, 0b11111111);
+
+	*out = allAlpha;
 }
 
 void unbyte_argb_ColorBlend_blend_factor(__m128i* out, __m128i* source, __m128i* dest, Ceng::UINT8* apiBlendFactors)
@@ -381,7 +391,11 @@ void unbyte_argb_AlphaBlend_invert_dest_alpha(__m128i* inout_factors, __m128i* s
 
 void unbyte_argb_AlphaBlend_source_alpha_saturate(__m128i* inout_factors, __m128i* source, __m128i* dest, Ceng::UINT8* apiBlendFactors)
 {
-	
+	__m128i color = *inout_factors;
+
+	__m128i maxValues = _mm_load_si128((__m128i*)uint8_max);
+
+	*inout_factors = _mm_blend_epi16(color, maxValues, 0b11000000);
 }
 
 void unbyte_argb_AlphaBlend_blend_factor(__m128i* inout_factors, __m128i* source, __m128i* dest, Ceng::UINT8* apiBlendFactors)
